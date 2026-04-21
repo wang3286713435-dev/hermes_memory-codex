@@ -1,0 +1,46 @@
+[project]
+name = "hermes-memory"
+version = "0.1.0"
+description = "Enterprise memory and retrieval backbone for Hermes AI Agent."
+requires-python = ">=3.11"
+dependencies = [
+    "alembic>=1.13.0",
+    "beautifulsoup4>=4.12.0",
+    "celery>=5.3.0",
+    "fastapi>=0.110.0",
+    "httpx>=0.27.0",
+    "minio>=7.2.0",
+    "openpyxl>=3.1.0",
+    "opensearch-py>=2.5.0",
+    "pdfplumber>=0.11.0",
+    "psycopg[binary]>=3.1.0",
+    "pydantic>=2.6.0",
+    "pydantic-settings>=2.2.0",
+    "pymupdf>=1.24.0",
+    "python-docx>=1.1.0",
+    "python-multipart>=0.0.9",
+    "python-pptx>=0.6.23",
+    "redis>=5.0.0",
+    "sqlalchemy>=2.0.0",
+    "uvicorn[standard]>=0.27.0",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.4.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
