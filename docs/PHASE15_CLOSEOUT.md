@@ -57,6 +57,22 @@ Hermes_memory remote：
 
 `git@github.com:wang3286713435-dev/hermes_memory-codex.git`
 
+当前执行结果：
+
+- 本地 Git 基线提交已完成。
+- remote 已配置完成。
+- GitHub push 已完成。
+- Hermes_memory 以正常 Git 历史推送到 `main`。
+- Hermes 主仓库推送到 `phase-1.5-memory-kernel-baseline`。
+
+说明：
+
+Hermes 主仓库本地历史在推送完整分支时触发 GitHub remote unpack 错误：
+
+`remote: fatal: did not receive expected object e1b29c474e8a6029198325e9631b5cf1be37ebd6`
+
+该对象不在当前本地对象库中，疑似当前 Hermes checkout 缺少部分历史对象。为保证本阶段基线可备份、可回退且不混入无关 dirty files，本次对 Hermes 主仓库采用当前 `HEAD` 文件树的孤立快照提交推送到备份仓库。该快照不包含未提交的向量实验 dirty files。
+
 ## 4. Tag 规划
 
 Hermes 主仓库：
@@ -80,6 +96,39 @@ Hermes_memory：
 - context merge policy 已从临时顺序收口为最小稳定策略。
 - AIAgent 级无模型集成测试已覆盖实际注入顺序、降级行为与 result payload。
 - Hermes_memory 数据库 fallback 已具备最小长问句关键词降级能力。
+
+本地提交结果：
+
+Hermes 主仓库：
+
+- `9a36e7e feat(memory-kernel): integrate enterprise memory kernel into Hermes flow`
+- `5a2d6b3 test(memory-kernel): add phase 1.5b request context integration tests`
+- GitHub backup snapshot: `490f894d snapshot: phase 1.5 memory kernel baseline`
+
+Hermes_memory：
+
+- `995eb8b chore: initialize Hermes_memory repository`
+- `c325552 feat: add phase 1 memory and retrieval foundation`
+- `5ff12dd test: add retrieval fallback simplification tests`
+- `aa78955 docs: add phase 0 analysis and phase 1.5 baseline closeout`
+- `HEAD docs: record phase 1.5 GitHub backup status`
+
+GitHub 推送结果：
+
+Hermes 主仓库：
+
+- Branch: `phase-1.5-memory-kernel-baseline`
+- Tags:
+  - `phase-1.5-memory-kernel-baseline`
+  - `phase-1.5b-closed`
+
+Hermes_memory：
+
+- Branch: `main`
+- Tags:
+  - `phase-0-complete`
+  - `phase-1.5-baseline`
+  - `phase-1.5b-closed`
 
 ## 6. 进入 Phase 2 的条件
 
