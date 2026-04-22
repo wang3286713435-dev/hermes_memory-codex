@@ -48,6 +48,11 @@ class MemoryKernel:
                 "governance_reason": governance.reason,
                 "backend": context.backend,
                 "dense_retrieval_status": context.dense_retrieval_status,
+                "sparse_retrieval_status": context.sparse_retrieval_status,
+                "retrieval_mode": context.retrieval_mode,
+                "applied_filters": context.applied_filters,
+                "ignored_filters": context.ignored_filters,
+                "retrieval_trace": search_response.trace,
                 "context_items": len(context.items),
                 "citations": len(context.citations),
             },
@@ -66,4 +71,3 @@ class MemoryKernel:
         if context.backend == "opensearch" and len(context.citations) >= 2:
             return "medium"
         return "low"
-

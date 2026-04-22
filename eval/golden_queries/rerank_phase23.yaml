@@ -1,0 +1,335 @@
+- id: rq-001
+  query: "智慧园区项目背景里提到哪些核心能力？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1011111-1111-1111-1111-111111111111"
+  expected_key_terms: ["统一身份认证", "知识检索", "权限治理"]
+  notes: "招标资料 / 项目背景"
+
+- id: rq-002
+  query: "这个园区项目是否强调统一身份认证？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1011111-1111-1111-1111-111111111111"
+  expected_key_terms: ["统一身份认证"]
+  notes: "招标资料 / 项目背景"
+
+- id: rq-003
+  query: "智慧园区招标资料的建设周期是多久？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1011111-1111-1111-1111-111111111111"
+  expected_key_terms: ["建设周期", "6个月"]
+  notes: "招标资料 / 项目背景"
+
+- id: rq-004
+  query: "智慧园区项目有哪些资质要求？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1022222-2222-2222-2222-222222222222"
+  expected_key_terms: ["软件开发能力", "项目实施经验", "信息安全管理能力"]
+  notes: "招标资料 / 资质要求"
+
+- id: rq-005
+  query: "投标方需要具备哪些能力？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1022222-2222-2222-2222-222222222222"
+  expected_key_terms: ["软件开发能力", "项目实施经验"]
+  notes: "招标资料 / 资质要求"
+
+- id: rq-006
+  query: "园区项目要求 ISO9001 吗？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1022222-2222-2222-2222-222222222222"
+  expected_key_terms: ["ISO9001"]
+  notes: "招标资料 / 资质要求"
+
+- id: rq-007
+  query: "投标截止日期是什么时候？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1033333-3333-3333-3333-333333333333"
+  expected_key_terms: ["2026年5月20日17时"]
+  notes: "招标资料 / 时间安排"
+
+- id: rq-008
+  query: "这次招标的答疑截止到几点？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1033333-3333-3333-3333-333333333333"
+  expected_key_terms: ["2026年5月15日18时"]
+  notes: "招标资料 / 时间安排"
+
+- id: rq-009
+  query: "开标时间安排在什么时候？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1033333-3333-3333-3333-333333333333"
+  expected_key_terms: ["2026年5月21日09时30分"]
+  notes: "招标资料 / 时间安排"
+
+- id: rq-010
+  query: "投标保证金是多少？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1044444-4444-4444-4444-444444444444"
+  expected_key_terms: ["20万元"]
+  notes: "招标资料 / 商务条款"
+
+- id: rq-011
+  query: "投标有效期是多久？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1044444-4444-4444-4444-444444444444"
+  expected_key_terms: ["90天"]
+  notes: "招标资料 / 商务条款"
+
+- id: rq-012
+  query: "重大故障多长时间内要提交整改报告？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1044444-4444-4444-4444-444444444444"
+  expected_key_terms: ["24小时"]
+  notes: "招标资料 / 商务条款"
+
+- id: rq-013
+  query: "评分标准里技术部分占多少分？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1055555-5555-5555-5555-555555555555"
+  expected_key_terms: ["45分"]
+  notes: "招标资料 / 评分标准"
+
+- id: rq-014
+  query: "商务部分和价格部分分别多少分？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1055555-5555-5555-5555-555555555555"
+  expected_key_terms: ["商务部分25分", "价格部分30分"]
+  notes: "招标资料 / 评分标准"
+
+- id: rq-015
+  query: "技术方案必须覆盖哪三项能力？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1055555-5555-5555-5555-555555555555"
+  expected_key_terms: ["统一身份认证", "知识检索", "权限治理"]
+  notes: "招标资料 / 评分标准"
+
+- id: rq-016
+  query: "公司通过了哪些认证？"
+  expected_document_id: "doc-company-qualification"
+  expected_chunk_id: "c1066666-6666-6666-6666-666666666666"
+  expected_key_terms: ["ISO9001", "ISO27001", "CMMI3"]
+  notes: "公司文档 / 资质手册"
+
+- id: rq-017
+  query: "公司有没有 ISO27001 和 CMMI3？"
+  expected_document_id: "doc-company-qualification"
+  expected_chunk_id: "c1066666-6666-6666-6666-666666666666"
+  expected_key_terms: ["ISO27001", "CMMI3"]
+  notes: "公司文档 / 资质手册"
+
+- id: rq-018
+  query: "公司具备什么级别的安防资质？"
+  expected_document_id: "doc-company-qualification"
+  expected_chunk_id: "c1066666-6666-6666-6666-666666666666"
+  expected_key_terms: ["安防工程企业一级资质"]
+  notes: "公司文档 / 资质手册"
+
+- id: rq-019
+  query: "公众号哪篇文章提到知识上线周期缩短到 7 天？"
+  expected_document_id: "doc-wechat-cityline"
+  expected_chunk_id: "c1077777-7777-7777-7777-777777777777"
+  expected_key_terms: ["7天", "AI知识助手"]
+  notes: "公众号文章 / 城市生命线案例"
+
+- id: rq-020
+  query: "城市生命线案例里，方案知识上线用了多久？"
+  expected_document_id: "doc-wechat-cityline"
+  expected_chunk_id: "c1077777-7777-7777-7777-777777777777"
+  expected_key_terms: ["7天"]
+  notes: "公众号文章 / 城市生命线案例"
+
+- id: rq-021
+  query: "哪篇文章说沉淀了巡检问答模板？"
+  expected_document_id: "doc-wechat-cityline"
+  expected_chunk_id: "c1077777-7777-7777-7777-777777777777"
+  expected_key_terms: ["巡检问答模板"]
+  notes: "公众号文章 / 城市生命线案例"
+
+- id: rq-022
+  query: "公众号有没有写过等保三级要求？"
+  expected_document_id: "doc-wechat-security"
+  expected_chunk_id: "c1088888-8888-8888-8888-888888888888"
+  expected_key_terms: ["等保三级"]
+  notes: "公众号文章 / 安全运营实践"
+
+- id: rq-023
+  query: "安全运营实践文章提到哪些联动能力？"
+  expected_document_id: "doc-wechat-security"
+  expected_chunk_id: "c1088888-8888-8888-8888-888888888888"
+  expected_key_terms: ["视频监控", "周界报警", "门禁联动"]
+  notes: "公众号文章 / 安全运营实践"
+
+- id: rq-024
+  query: "应急演练的频次是多久一次？"
+  expected_document_id: "doc-wechat-security"
+  expected_chunk_id: "c1088888-8888-8888-8888-888888888888"
+  expected_key_terms: ["每月一次"]
+  notes: "公众号文章 / 安全运营实践"
+
+- id: rq-025
+  query: "员工满 6 年可以休多少天年假？"
+  expected_document_id: "doc-policy-hr"
+  expected_chunk_id: "c1099999-9999-9999-9999-999999999999"
+  expected_key_terms: ["5天"]
+  notes: "制度文件 / 年假制度"
+
+- id: rq-026
+  query: "工龄 12 年的员工年假多少天？"
+  expected_document_id: "doc-policy-hr"
+  expected_chunk_id: "c1099999-9999-9999-9999-999999999999"
+  expected_key_terms: ["10天"]
+  notes: "制度文件 / 年假制度"
+
+- id: rq-027
+  query: "没休完的年假最晚能顺延到什么时候？"
+  expected_document_id: "doc-policy-hr"
+  expected_chunk_id: "c1099999-9999-9999-9999-999999999999"
+  expected_key_terms: ["次年第一季度末"]
+  notes: "制度文件 / 年假制度"
+
+- id: rq-028
+  query: "合同预付款比例是多少？"
+  expected_document_id: "doc-contract-payment"
+  expected_chunk_id: "c1101010-1010-1010-1010-101010101010"
+  expected_key_terms: ["30%预付款"]
+  notes: "合同条款 / 付款安排"
+
+- id: rq-029
+  query: "项目验收通过后支付多少？"
+  expected_document_id: "doc-contract-payment"
+  expected_chunk_id: "c1101010-1010-1010-1010-101010101010"
+  expected_key_terms: ["40%"]
+  notes: "合同条款 / 付款安排"
+
+- id: rq-030
+  query: "质保金什么时候支付？"
+  expected_document_id: "doc-contract-payment"
+  expected_chunk_id: "c1101010-1010-1010-1010-101010101010"
+  expected_key_terms: ["12个月质保期结束后"]
+  notes: "合同条款 / 付款安排"
+
+- id: rq-031
+  query: "星河项目是什么时候上线的？"
+  expected_document_id: "doc-project-xinghe"
+  expected_chunk_id: "c1111112-1112-1112-1112-111211121112"
+  expected_key_terms: ["2025年11月18日"]
+  notes: "项目文档 / 上线与运行"
+
+- id: rq-032
+  query: "星河项目接入了多少个站点？"
+  expected_document_id: "doc-project-xinghe"
+  expected_chunk_id: "c1111112-1112-1112-1112-111211121112"
+  expected_key_terms: ["120个站点"]
+  notes: "项目文档 / 上线与运行"
+
+- id: rq-033
+  query: "告警和工单同步时延控制在多少分钟以内？"
+  expected_document_id: "doc-project-xinghe"
+  expected_chunk_id: "c1111112-1112-1112-1112-111211121112"
+  expected_key_terms: ["5分钟以内"]
+  notes: "项目文档 / 上线与运行"
+
+- id: rq-034
+  query: "多租户方案的数据怎么隔离？"
+  expected_document_id: "doc-proposal-multitenant"
+  expected_chunk_id: "c1121212-1212-1212-1212-121212121212"
+  expected_key_terms: ["按租户逻辑隔离"]
+  notes: "方案文档 / 数据与审计"
+
+- id: rq-035
+  query: "操作日志保留多少天？"
+  expected_document_id: "doc-proposal-multitenant"
+  expected_chunk_id: "c1121212-1212-1212-1212-121212121212"
+  expected_key_terms: ["180天"]
+  notes: "方案文档 / 数据与审计"
+
+- id: rq-036
+  query: "审计日志支持按哪些维度查询？"
+  expected_document_id: "doc-proposal-multitenant"
+  expected_chunk_id: "c1121212-1212-1212-1212-121212121212"
+  expected_key_terms: ["项目", "部门", "用户"]
+  notes: "方案文档 / 数据与审计"
+
+- id: rq-037
+  query: "招标文件里有没有要求信息安全管理能力？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1022222-2222-2222-2222-222222222222"
+  expected_key_terms: ["信息安全管理能力"]
+  notes: "招标资料 / 资质要求"
+
+- id: rq-038
+  query: "答疑截止日期是 5 月 15 日吗？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1033333-3333-3333-3333-333333333333"
+  expected_key_terms: ["2026年5月15日18时"]
+  notes: "招标资料 / 时间安排"
+
+- id: rq-039
+  query: "故障响应时限有没有写 2 小时？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1044444-4444-4444-4444-444444444444"
+  expected_key_terms: ["2小时"]
+  notes: "招标资料 / 商务条款"
+
+- id: rq-040
+  query: "评分标准中价格部分占多少？"
+  expected_document_id: "doc-tender-park"
+  expected_chunk_id: "c1055555-5555-5555-5555-555555555555"
+  expected_key_terms: ["30分"]
+  notes: "招标资料 / 评分标准"
+
+- id: rq-041
+  query: "公司能承接智慧园区类项目吗？"
+  expected_document_id: "doc-company-qualification"
+  expected_chunk_id: "c1066666-6666-6666-6666-666666666666"
+  expected_key_terms: ["智慧园区", "安防工程企业一级资质"]
+  notes: "公司文档 / 资质手册"
+
+- id: rq-042
+  query: "哪篇公众号文章写了 AI 知识助手缩短上线周期？"
+  expected_document_id: "doc-wechat-cityline"
+  expected_chunk_id: "c1077777-7777-7777-7777-777777777777"
+  expected_key_terms: ["AI知识助手", "7天"]
+  notes: "公众号文章 / 城市生命线案例"
+
+- id: rq-043
+  query: "安全运营实践里每月组织什么活动？"
+  expected_document_id: "doc-wechat-security"
+  expected_chunk_id: "c1088888-8888-8888-8888-888888888888"
+  expected_key_terms: ["每月组织一次应急演练"]
+  notes: "公众号文章 / 安全运营实践"
+
+- id: rq-044
+  query: "年假没有休完能顺延吗？"
+  expected_document_id: "doc-policy-hr"
+  expected_chunk_id: "c1099999-9999-9999-9999-999999999999"
+  expected_key_terms: ["顺延至次年第一季度末"]
+  notes: "制度文件 / 年假制度"
+
+- id: rq-045
+  query: "合同尾款是不是在质保期结束后支付？"
+  expected_document_id: "doc-contract-payment"
+  expected_chunk_id: "c1101010-1010-1010-1010-101010101010"
+  expected_key_terms: ["12个月质保期结束后"]
+  notes: "合同条款 / 付款安排"
+
+- id: rq-046
+  query: "星河项目告警工单同步延迟控制目标是多少？"
+  expected_document_id: "doc-project-xinghe"
+  expected_chunk_id: "c1111112-1112-1112-1112-111211121112"
+  expected_key_terms: ["5分钟以内"]
+  notes: "项目文档 / 上线与运行"
+
+- id: rq-047
+  query: "多租户方案有没有提到日志按项目和部门查询？"
+  expected_document_id: "doc-proposal-multitenant"
+  expected_chunk_id: "c1121212-1212-1212-1212-121212121212"
+  expected_key_terms: ["项目", "部门", "用户"]
+  notes: "方案文档 / 数据与审计"
+
+- id: rq-048
+  query: "多租户平台是不是按租户逻辑隔离数据？"
+  expected_document_id: "doc-proposal-multitenant"
+  expected_chunk_id: "c1121212-1212-1212-1212-121212121212"
+  expected_key_terms: ["按租户逻辑隔离"]
+  notes: "方案文档 / 数据与审计"

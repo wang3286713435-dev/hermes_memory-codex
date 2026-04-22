@@ -1,0 +1,43 @@
+# DEV_LOG
+
+- [Phase 2.1] 固化 dense backend `/search` 请求格式，传递 query、top_k、filters 与 1024 维约束，状态：完成。
+- [Phase 2.1] 增强 dense result 规范化，支持 snippet、metadata、embedding 与 dense 来源标记，状态：验证通过。
+- [Phase 2.1] 新增本地 HTTP vector backend 集成测试，覆盖 dense 与 hybrid 合并链路，状态：完成。
+- [Phase 2.1] 验证 dense backend 异常时 hybrid fail-open，sparse 结果不受影响，状态：验证通过。
+- [Phase 2.1-gate] 检查真实 VECTOR_STORE_URL，当前环境未配置，无法执行外部 dense/hybrid 实测，已列入 TODO。
+- [Phase 2.1-gate] 核查 context_builder 与 citation 统一字段依赖，dense/sparse/hybrid 消费一致，状态：代码检查通过。
+- [Phase 2.1-gate] 复核 memory trace 字段，route、retrieval_mode、dense/sparse 与 filters 均可诊断，状态：通过。
+- [Phase 2.1-Qdrant] 将 dense backend 主路线切换为 Qdrant，新增 collection、upsert、search 与 filter 映射，状态：代码完成。
+- [Phase 2.1-Qdrant] 接入阿里云 text-embedding-v3 查询向量客户端，支持 1024 维校验，真实 API key 待配置验证。
+- [Phase 2.1-Qdrant] 完成 fake Qdrant dense 与 hybrid 测试，context/citation 消费一致，真实容器验证待执行。
+- [Phase 2.1-Qdrant-real-gate] 本机无 docker 且出网受限，无法连通真实 Qdrant/阿里云；已补齐待办并待换环境实测。
+- [Phase 2.1-Qdrant-real-gate] 接通本地 Qdrant+OpenSearch，完成真实 dense-only/hybrid/fail-open 实测（query_vector 路径），embedding 仍待验证。
+- [Phase 2.1-Qdrant-real-gate] Hermes 主仓库 hermes-agent 已能消费真实 dense/hybrid 结果并注入 context block（query_vector 路径），状态：通过。
+- [Phase 2.1-Qdrant-real-gate] 复跑阿里云 text-embedding-v3 真调用成功，返回 1024 维向量；dense-only 与 hybrid embedding 路径均通过。
+- [Phase 2.2] Codex C 完成文档/代码阅读与现状复述要点整理，状态：完成。
+- [Phase 2.2] Codex C 输出 Phase 2.2（rerank 前置）结构与 contract 方案，状态：完成。
+- [Phase 2.2] 引入 candidate pool 与 rerank hook，固定 rerank 在候选合并后、final results 前执行，状态：完成。
+- [Phase 2.2] 定义 RerankRequest/RerankOutcome，NoopReranker 返回可诊断 trace，真实模型仍未接入。
+- [Phase 2.2] 增加 rerank fail-open、candidate pool trace 与最小评测入口测试，状态：验证通过。
+- [Phase 2.2] 补齐 rerank/candidate pool 诊断字段，覆盖 elapsed、fail-open 与候选计数别名，状态：完成。
+- [Phase 2.2-closeout] 完成 rerank 前置结构收口，新增真实 reranker adapter 前置方案，明确仍未接入真实模型。
+- [Phase 2.3] 选定阿里云 Text Rerank API 作为真实 reranker spike 主路线，完成边界与验证方案设计。
+- [Phase 2.3] 实现阿里云 Text Rerank 最小 adapter，默认关闭，完成 mock 排序映射与 fail-open 测试。
+- [Phase 2.3] 补充阿里云 rerank key 回退逻辑，优先专用 key，缺省复用 embedding key，保留分离能力。
+- [Phase 2.3-real-gate] 执行真实 smoke test，当前环境缺少 rerank/embedding key，adapter 按预期 failed_open。
+- [Phase 2.3-real-gate] 复测确认 rerank 已回退读取 embedding key，但真实请求在网络/DNS 阶段失败，未拿到 provider 响应。
+- [Phase 2.3-real-gate] 修正 rerank base_url/endpoint 诊断链路，真实请求已命中 DashScope 并返回 200，gate 通过。
+- [Phase 2.6-gray-env] 恢复 Docker/Qdrant/OpenSearch 并复跑灰度脚本，环境已通；当前未命中 rerank 为 local_default_enablement_not_matched。
+- [Phase 2.3-real-gate] 补 6 条 gate 样本黄金 query 并完成 baseline/experiment，top-1 从 0.8333 提升到 1.0。
+- [Phase 2.3b] 扩充 36 条脱敏近真实黄金 query，复用原 spike 路径完成 baseline/experiment；top-1 从 0.9444 提升到 1.0，暂无回归。
+- [Phase 2.4] 扩样到 48 条并完成默认启用策略评估；收益仍集中在招标资质/条款类 query，建议进入局部默认启用实施评估。
+- [Phase 2.5] 落地局部默认启用灰度规则，仅对招标资料高收益 query 启用 rerank；补齐全局关闭、fail-open 与策略 trace 验证。
+- [Phase 2.6] 完成灰度脚本与回滚演练验证；当前 Qdrant/OpenSearch 不可用，真实灰度闭环被环境阻塞，trace 与关闭路径已确认。
+- [Phase 2.6] 修正灰度脚本 request 上下文传递，招标类 query 已可命中局部默认启用；灰度开启、关闭与 timeout fail-open 均完成真实脚本验证。
+- [Phase 2.6] 连续三轮观察命中率与回退率稳定，但发现少量非招标误命中；根因是 candidate_source_types 参与放行，当前不宜直接进入更长期灰度运行。
+- [Phase 2.6] 收紧局部默认启用到 request 侧 source_type/route_type 命中，连续三轮复跑后误命中清零，目标招标 query 仍稳定命中。
+- [Phase 2.6] 延长灰度观察到 4 次完整运行，命中集与回退链路保持稳定，误命中未再出现，当前适合继续小流量长期观察但不扩大范围。
+- [Phase 2.6] 继续延长到 5 次完整真实灰度观察，命中集仍未漂移、误命中持续为零；当前重点转为继续盯 p95/p99 长尾延迟，而不是扩大启用范围。
+- [Phase 2.6] 新增观察窗口里出现一次 dense 全量失败，48 条 query 全部落到 candidate_pool_below_min_threshold；下一轮已恢复正常，当前需继续观察后端瞬时波动。
+- [Phase 2.6] 将后端瞬时失败窗口正式纳入长期观察项；累计 9 次完整观察中正常窗口命中集仍稳定，当前主要风险已转为后端瞬时波动而非规则漂移。
+- [Phase 2.6] 完成退出标准与最后 3 次完整观察判定：规则层与回退机制稳定，延迟满足当前阶段标准，异常窗口未重复出现，Phase 2.6 可正式收口。

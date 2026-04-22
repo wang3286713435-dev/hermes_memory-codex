@@ -1,6 +1,7 @@
 from typing import Protocol
 
 from app.schemas.retrieval import SearchRequest, SearchResult
+from app.services.retrieval.rerank import RerankOutcome, RerankRequest
 
 
 class DenseRetriever(Protocol):
@@ -14,6 +15,5 @@ class SparseRetriever(Protocol):
 
 
 class Reranker(Protocol):
-    def rerank(self, query: str, candidates: list[SearchResult], top_k: int) -> list[SearchResult]:
+    def rerank(self, request: RerankRequest) -> RerankOutcome:
         """Rerank retrieval candidates."""
-

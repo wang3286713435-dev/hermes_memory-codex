@@ -9,12 +9,11 @@ class QueryRouter:
         if any(term in normalized for term in ["多少", "数量", "金额", "日期", "截止", "状态"]):
             return QueryRoute(
                 route_type="document_first_structured_aware",
-                retrieval_mode="hybrid_bm25_first",
+                retrieval_mode="hybrid",
                 reason="Query may contain structured facts; Phase 1 uses document-first retrieval.",
             )
         return QueryRoute(
             route_type="document_knowledge",
-            retrieval_mode="hybrid_bm25_first",
+            retrieval_mode="hybrid",
             reason="Phase 1 routes enterprise knowledge questions through document memory.",
         )
-

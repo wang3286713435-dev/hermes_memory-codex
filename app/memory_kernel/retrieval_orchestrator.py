@@ -22,15 +22,26 @@ class RetrievalOrchestrator:
                 query=request.query,
                 results=[],
                 backend="governance_denied",
+                retrieval_mode=request.retrieval_mode,
                 dense_retrieval_status="not_executed",
+                dense_status="not_executed",
+                sparse_status="not_executed",
+                applied_filters=governance.filters.model_dump(exclude_none=True),
+                trace={"reason": governance.reason},
             )
         return self.retrieval.search(
             SearchRequest(
                 query=request.query,
+                route_type=route.route_type,
+                retrieval_mode=request.retrieval_mode,  # type: ignore[arg-type]
                 user_id=request.user_id,
                 top_k=request.top_k,
                 filters=governance.filters,
+                enable_dense=request.enable_dense,
+                enable_sparse=request.enable_sparse,
+                enable_hybrid=request.enable_hybrid,
                 include_citations=request.citation_required,
+                debug=request.debug,
+                query_vector=request.query_vector,
             )
         )
-

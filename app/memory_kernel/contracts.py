@@ -11,6 +11,13 @@ class MemoryKernelRequest:
     session_id: str | None
     filters: RetrievalFilter
     top_k: int = 10
+    route_type: str | None = None
+    retrieval_mode: str = "hybrid"
+    enable_dense: bool = True
+    enable_sparse: bool = True
+    enable_hybrid: bool = True
+    debug: bool = False
+    query_vector: list[float] | None = None
     citation_required: bool = True
 
 
@@ -48,6 +55,10 @@ class MemoryContext:
     citations: list[Citation]
     backend: str
     dense_retrieval_status: str
+    sparse_retrieval_status: str = "not_executed"
+    retrieval_mode: str = "hybrid"
+    applied_filters: dict = field(default_factory=dict)
+    ignored_filters: dict = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -57,4 +68,3 @@ class MemoryKernelResult:
     answer_basis: str
     confidence: str
     trace: dict
-

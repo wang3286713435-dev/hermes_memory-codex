@@ -333,3 +333,80 @@ Ingestion 可以保持为独立服务或后台 worker，但其查询侧必须由
 6. Hermes_memory 当前能力逐步迁入或被 kernel adapter 调用。
 7. Phase 1.5 前暂停新增 dense/rerank/facts/复杂权限实现，先完成内核接入框架和主链路稳定性。
 8. 在进入下一阶段前，必须完成 context 注入顺序专项检查并形成稳定合并规范。
+
+## 12. Phase 2 检索契约与双路召回边界
+
+Phase 2 第一小阶段的目标不是完整 RAG 能力升级，而是固化检索契约并建立可观测的 dense + sparse 双路召回骨架。
+
+本阶段 contract 结论：
+
+- Hermes 主仓库与 Hermes_memory 之间通过显式 request / filter / result contract 传递检索参数。
+- request 必须包含 `query`、`retrieval_mode`、`top_k`、`filters`、`enable_dense`、`enable_sparse`、`enable_hybrid` 和 `debug`。
+- filter 当前支持 `source_type`、`document_id`、`document_type`、`is_latest`。
+- unsupported filter 字段必须回传到 `ignored_filters`。
+- result 必须包含 `backend`、`retrieval_mode`、`dense_status`、`sparse_status`、`applied_filters`、`ignored_filters` 和 `trace`。
+
+Dense adapter 当前状态：
+
+- 通过现有 1024 维向量库 adapter 接入。
+- adapter 使用 `vector_store_url` 访问外部向量检索后端。
+- 若未配置向量后端，则明确返回 `unavailable`，不得伪装 dense retrieval 已完成。
+- 本阶段不新增 embedding pipeline。
+
+Hybrid 当前边界：
+
+- 执行 dense + sparse 双路召回。
+- 以 `chunk_id` 去重。
+- 使用简单 per-source score sum 融合。
+- trace 中保留 dense、sparse、hybrid merge 信息。
+
+本阶段仍不实现：
+
+- rerank
+- facts 联查
+- OCR
+- 多 agent
+- 复杂权限策略
+- citation 文本渲染增强
+
+## 13. Phase 2.1 Dense Backend 接通状态
+
+Phase 2.1 已将 dense backend 固化为 HTTP `/search` adapter contract：
+
+- request 发送 `query`、可选 `query_vector`、`top_k`、`filters`、`vector_dimension=1024`
+- response 接受 `results` 或 `items`
+- result 规范化为 `chunk_id`、`score`、`text/snippet/content`、`metadata` 与 `retrieval_sources=["dense"]`
+- `embedding` 如返回，仅作为可选 metadata 保留
+- 无 `chunk_id` 的结果会被跳过并进入 trace 统计
+
+当前验证状态：
+
+- 已用本地 HTTP vector backend 测试服务验证 dense-only contract
+- 已验证 dense + sparse hybrid 去重和 score merge
+- 已验证 dense backend 异常时 fail-open，不阻断 sparse/fallback
+- 尚未配置生产级 `VECTOR_STORE_URL`，外部真实向量库端到端验证仍是 TODO
+
+Phase 2.1 不改变 Hermes 主链路的 context merge policy，不实现 rerank，不扩展 facts/OCR/多 agent/复杂权限。
+
+## 14. Phase 2.1-Qdrant 集成状态
+
+Phase 2.1-Qdrant 将企业 dense retrieval 的真实后端路线固化为 Qdrant：
+
+- Qdrant 通过 `QdrantDenseRetriever` 接入 Hermes_memory retrieval service。
+- Hermes memory kernel 不直接感知 Qdrant，仅消费统一 `SearchResponse` / `SearchResult`。
+- Qdrant point payload 映射到 `chunk_id`、`document_id`、`version_id`、`text`、`source_type`、`heading_path`、`page_range` 等统一字段。
+- metadata filter 映射为 Qdrant `must` match 条件，当前支持 `source_type`、`document_id`、`document_type`、`is_latest`。
+- 阿里云 `text-embedding-v3` 负责生成 1024 维 query vector；若 request 已提供 `query_vector`，则直接使用。
+- Qdrant dense 异常或 embedding 不可用时，hybrid 检索保持 fail-open，不阻断 sparse。
+
+2.1-gate 一致性结论：
+
+- `context_builder` 对 dense-only、sparse-only、hybrid 均只依赖统一 contract。
+- `citation` 生成不依赖 Qdrant 或 OpenSearch 特有字段。
+- trace 已包含 route、retrieval_mode、backend、dense/sparse status、applied/ignored filters、dense/sparse/hybrid 子 trace。
+
+当前限制：
+
+- 当前执行环境未安装 `docker`，未完成真实 Qdrant 容器验证。
+- 当前执行环境未配置 `ALIYUN_EMBEDDING_API_KEY`，未完成真实阿里云 embedding 调用。
+- 真实 Qdrant + OpenSearch hybrid 端到端验证仍需在具备环境后补验。

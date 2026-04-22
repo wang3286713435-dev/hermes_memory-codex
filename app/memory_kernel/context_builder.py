@@ -33,5 +33,8 @@ class ContextBuilder:
             citations=citations,
             backend=search_response.backend,
             dense_retrieval_status=search_response.dense_retrieval_status,
+            sparse_retrieval_status=search_response.sparse_status,
+            retrieval_mode=search_response.retrieval_mode,
+            applied_filters=search_response.applied_filters,
+            ignored_filters=search_response.ignored_filters,
         )
-
