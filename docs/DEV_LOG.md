@@ -71,3 +71,7 @@
 - [Phase 2.11b] 同步 Hermes 主仓库 session-level 文件别名最小实现完成状态，Hermes_memory 仍保持无状态。
 - [Phase 2.11b] 同步 alias 真实终端修复状态：会话层绑定已打通，Hermes_memory 不改契约。
 - [Phase 2.11b] 同步真实终端验收通过结论，文件别名可绑定、使用、对比并抑制 missing 检索。
+- [Phase 2.11c] 同步基础信息召回规划，metadata snapshot 仅作检索辅助和引用导航。
+- [Phase 2.11c] 完成 tender metadata snapshot 最小实现，真实大标书工程地点、建设单位、代建单位 query 已锚定目标 chunk。
+- [Phase 2.11c] 补强 snapshot trace 回归测试，确认 OpenSearch 与 DB fallback 路径均不把 snapshot 当作 answer evidence。
+- [Phase 2.11c] 真实终端复验通过，基础信息召回 evidence 正确且 snapshot_as_answer 保持 false。

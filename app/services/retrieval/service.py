@@ -1,3 +1,4 @@
+import inspect
 import re
 from collections import Counter
 from dataclasses import dataclass, field
@@ -26,6 +27,11 @@ from app.services.retrieval.rerank import (
     NoopReranker,
     RerankOutcome,
     RerankRequest,
+)
+from app.services.retrieval.tender_metadata import (
+    build_tender_metadata_snapshot,
+    infer_tender_metadata_fields,
+    snapshot_trace,
 )
 
 logger = get_logger(__name__)
@@ -70,6 +76,8 @@ class RetrievalService:
             applied_filters["document_id"] = document_scope_trace["document_id"]
         if document_scope_trace.get("document_type") and "document_type" not in applied_filters:
             applied_filters["document_type"] = document_scope_trace["document_type"]
+        metadata_snapshot_trace = self._infer_tender_metadata_scope(request.query, applied_filters)
+        section_scope_trace = self._with_metadata_guidance(section_scope_trace, metadata_snapshot_trace)
         retrieval_mode = self._resolve_mode(request)
         backend = retrieval_mode
         dense_outcome = DenseSearchOutcome(status="skipped", trace={"reason": "dense disabled"})
@@ -82,7 +90,7 @@ class RetrievalService:
 
         if retrieval_mode in {"sparse", "hybrid"} and request.enable_sparse:
             try:
-                sparse_candidates = self._sparse_search(request, applied_filters, section_scope_trace)
+                sparse_candidates = self._execute_sparse_search(request, applied_filters, section_scope_trace)
                 sparse_status = "executed"
                 sparse_trace = {
                     "backend": "opensearch",
@@ -92,7 +100,7 @@ class RetrievalService:
             except Exception:
                 logger.exception("opensearch_search_failed_falling_back_to_db")
                 backend = "database_fallback" if retrieval_mode == "sparse" else "hybrid_with_database_fallback"
-                sparse_candidates = self._database_fallback_search(request, applied_filters)
+                sparse_candidates = self._database_fallback_search(request, applied_filters, section_scope_trace)
                 sparse_status = "failed"
                 sparse_trace = {
                     "backend": "database_fallback",
@@ -152,6 +160,12 @@ class RetrievalService:
                 "sparse": sparse_trace,
                 "document_scope": document_scope_trace,
                 "section_scope": section_scope_trace,
+                "metadata_snapshot": metadata_snapshot_trace,
+                "metadata_snapshot_used": metadata_snapshot_trace.get("metadata_snapshot_used", False),
+                "metadata_fields_matched": metadata_snapshot_trace.get("metadata_fields_matched", []),
+                "metadata_source_chunk_ids": metadata_snapshot_trace.get("metadata_source_chunk_ids", []),
+                "evidence_required": True,
+                "snapshot_as_answer": False,
                 "hybrid": {
                     "merged": candidate_pool.trace.get("deduped_count", len(candidate_pool.candidates)),
                     "dedupe_key": "chunk_id",
@@ -199,6 +213,19 @@ class RetrievalService:
 
     def _dense_search(self, request: SearchRequest, applied_filters: dict) -> DenseSearchOutcome:
         return self.dense.search(request, applied_filters)
+
+    def _execute_sparse_search(
+        self,
+        request: SearchRequest,
+        applied_filters: dict,
+        section_scope_trace: dict[str, Any],
+    ) -> list[SearchResult]:
+        # Some regression tests monkeypatch _sparse_search with the older
+        # two-argument shape. Keep that compatibility while the public
+        # retrieval contract remains unchanged.
+        if len(inspect.signature(self._sparse_search).parameters) <= 2:
+            return self._sparse_search(request, applied_filters)  # type: ignore[misc]
+        return self._sparse_search(request, applied_filters, section_scope_trace)
 
     def _sparse_search(
         self,
@@ -256,6 +283,20 @@ class RetrievalService:
             should_clauses.append({"match": {"title_path": {"query": section, "boost": target_title_boost}}})
             should_clauses.append({"match": {"section_path": {"query": section, "boost": target_title_boost}}})
             should_clauses.append({"match_phrase": {"text": {"query": section, "boost": target_title_boost}}})
+        metadata_source_chunk_ids = list(section_scope.get("metadata_source_chunk_ids") or [])
+        if metadata_source_chunk_ids:
+            should_clauses.append(
+                {
+                    "constant_score": {
+                        "filter": {
+                            "terms": {
+                                self._resolve_opensearch_filter_field(client, "chunk_id"): metadata_source_chunk_ids
+                            }
+                        },
+                        "boost": 5000.0,
+                    }
+                }
+            )
         if query_profile == "schedule_scope":
             schedule_parameter_phrases = {
                 "工期要求": 14.0,
@@ -389,6 +430,22 @@ class RetrievalService:
                 "commercial_scope",
             ),
             (
+                ("工程名称", "项目名称", "工程地点", "建设地点", "项目地点", "招标人", "建设单位", "代建单位", "项目编号", "招标编号", "标段"),
+                ["招标公告", "投标人须知前附表", "工程概况", "项目概况", "招标范围"],
+                [
+                    "工程名称",
+                    "项目名称",
+                    "工程地点",
+                    "建设地点",
+                    "招标人",
+                    "建设单位",
+                    "代建单位",
+                    "项目编号",
+                    "标段",
+                ],
+                "tender_basic_info",
+            ),
+            (
                 ("工程量清单", "限价", "不平衡报价"),
                 ["工程量清单", "限价明细", "最高投标限价", "投标报价要求", "评标"],
                 ["工程量清单", "最高投标限价", "不平衡报价", "投标报价要求", "商务标定性评审表"],
@@ -419,6 +476,74 @@ class RetrievalService:
             "query_aliases": query_aliases,
             "query_profile": query_profile,
         }
+
+    def _infer_tender_metadata_scope(self, query: str, applied_filters: dict[str, Any]) -> dict[str, Any]:
+        matched_fields = infer_tender_metadata_fields(query)
+        if not matched_fields:
+            return {
+                "metadata_snapshot_used": False,
+                "metadata_snapshot_status": "no_basic_info_intent",
+                "metadata_fields_matched": [],
+                "metadata_source_chunk_ids": [],
+                "source_chunk_ids": [],
+                "evidence_required": True,
+                "snapshot_as_answer": False,
+            }
+        document_id = applied_filters.get("document_id")
+        if not document_id:
+            trace = snapshot_trace(None, matched_fields)
+            trace["metadata_snapshot_status"] = "document_scope_required"
+            return trace
+        if self.db is None:
+            trace = snapshot_trace(None, matched_fields)
+            trace["metadata_snapshot_status"] = "db_unavailable"
+            return trace
+        if not self._is_tender_scope(applied_filters):
+            trace = snapshot_trace(None, matched_fields)
+            trace["metadata_snapshot_status"] = "not_tender_scope"
+            return trace
+
+        chunks = (
+            self.db.query(Chunk)
+            .filter(Chunk.document_id == document_id)
+            .order_by(Chunk.chunk_index.asc())
+            .limit(1500)
+            .all()
+        )
+        snapshot = build_tender_metadata_snapshot(str(document_id), chunks)
+        return snapshot_trace(snapshot, matched_fields)
+
+    def _with_metadata_guidance(self, section_scope: dict[str, Any], metadata_trace: dict[str, Any]) -> dict[str, Any]:
+        if not metadata_trace.get("metadata_snapshot_used"):
+            return section_scope
+        guided = dict(section_scope or {})
+        guided["metadata_snapshot_used"] = True
+        guided["metadata_source_chunk_ids"] = list(metadata_trace.get("metadata_source_chunk_ids") or [])
+        guided["metadata_fields_matched"] = list(metadata_trace.get("metadata_fields_matched") or [])
+        guided["query_profile"] = "tender_basic_info"
+        target_sections = list(guided.get("target_sections") or [])
+        for section in ("招标公告", "投标人须知前附表", "工程概况", "项目概况"):
+            if section not in target_sections:
+                target_sections.append(section)
+        guided["target_sections"] = target_sections
+        aliases = list(guided.get("query_aliases") or [])
+        for alias in ("工程名称", "工程地点", "建设单位", "招标人", "代建单位", "项目编号", "标段", "最高投标限价", "工期"):
+            if alias not in aliases:
+                aliases.append(alias)
+        guided["query_aliases"] = aliases
+        guided["status"] = "metadata_guided_section_scope"
+        return guided
+
+    def _is_tender_scope(self, applied_filters: dict[str, Any]) -> bool:
+        if applied_filters.get("source_type") == "tender" or applied_filters.get("document_type") == "tender":
+            return True
+        if applied_filters.get("source_type") or applied_filters.get("document_type"):
+            return False
+        document_id = applied_filters.get("document_id")
+        if not document_id or self.db is None:
+            return False
+        document = self.db.query(Document).filter(Document.id == document_id).first()
+        return bool(document and (document.source_type == "tender" or document.document_type == "tender"))
 
     def _resolve_opensearch_filter_field(self, client: OpenSearch, field: str) -> str:
         cached = self._opensearch_filter_field_cache.get(field)
@@ -526,10 +651,17 @@ class RetrievalService:
         text = re.sub(r"[^0-9A-Za-z\u4e00-\u9fff]+", "", text)
         return text.lower()
 
-    def _database_fallback_search(self, request: SearchRequest, applied_filters: dict | None = None) -> list[SearchResult]:
+    def _database_fallback_search(
+        self,
+        request: SearchRequest,
+        applied_filters: dict | None = None,
+        section_scope: dict[str, Any] | None = None,
+    ) -> list[SearchResult]:
         applied_filters = applied_filters or {}
         if self.db is None:
             return []
+        section_scope = section_scope or {}
+        anchor_results = self._metadata_anchor_results(section_scope, applied_filters)
         query = (
             self.db.query(Chunk, Document, DocumentVersion)
             .join(Document, Chunk.document_id == Document.id)
@@ -589,7 +721,73 @@ class RetrievalService:
                     scores={"database_fallback": 1.0},
                 )
             )
+        return self._dedupe_preserve_order([*anchor_results, *results])[: request.top_k]
+
+    def _metadata_anchor_results(self, section_scope: dict[str, Any], applied_filters: dict[str, Any]) -> list[SearchResult]:
+        chunk_ids = list(section_scope.get("metadata_source_chunk_ids") or [])
+        if not chunk_ids or self.db is None:
+            return []
+        query = (
+            self.db.query(Chunk, Document, DocumentVersion)
+            .join(Document, Chunk.document_id == Document.id)
+            .join(DocumentVersion, Chunk.version_id == DocumentVersion.id)
+            .filter(Document.status == "active")
+            .filter(Chunk.id.in_(chunk_ids))
+        )
+        if "document_id" in applied_filters:
+            query = query.filter(Document.id == applied_filters["document_id"])
+        if "source_type" in applied_filters:
+            query = query.filter(Chunk.source_type == applied_filters["source_type"])
+        if "document_type" in applied_filters:
+            query = query.filter(Document.document_type == applied_filters["document_type"])
+        if "is_latest" in applied_filters:
+            query = query.filter(DocumentVersion.is_latest == applied_filters["is_latest"])
+        rows = query.all()
+        row_by_chunk_id = {chunk.id: (chunk, document, version) for chunk, document, version in rows}
+        results: list[SearchResult] = []
+        for index, chunk_id in enumerate(chunk_ids):
+            row = row_by_chunk_id.get(chunk_id)
+            if row is None:
+                continue
+            chunk, document, version = row
+            score = 20.0 - (index * 0.01)
+            results.append(
+                SearchResult(
+                    chunk_id=chunk.id,
+                    document_id=document.id,
+                    version_id=version.id,
+                    chunk_index=chunk.chunk_index,
+                    text=chunk.text,
+                    score=score,
+                    source_name=document.title,
+                    source_uri=document.source_uri,
+                    source_type=chunk.source_type,
+                    version_name=version.version_name,
+                    heading_path=chunk.heading_path or [],
+                    section_path=chunk.section_path or [],
+                    page_start=chunk.page_start,
+                    page_end=chunk.page_end,
+                    metadata={
+                        **(chunk.metadata_json or {}),
+                        "metadata_snapshot_anchor": True,
+                        "snapshot_as_answer": False,
+                        "evidence_required": True,
+                    },
+                    retrieval_sources=["metadata_anchor"],
+                    scores={"metadata_anchor": score},
+                )
+            )
         return results
+
+    def _dedupe_preserve_order(self, candidates: list[SearchResult]) -> list[SearchResult]:
+        seen: set[str] = set()
+        deduped: list[SearchResult] = []
+        for candidate in candidates:
+            if candidate.chunk_id in seen:
+                continue
+            seen.add(candidate.chunk_id)
+            deduped.append(candidate)
+        return deduped
 
     def _simplify_query_terms(self, query: str) -> list[str]:
         text = (query or "").strip()

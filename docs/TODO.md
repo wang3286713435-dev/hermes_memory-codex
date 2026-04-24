@@ -81,3 +81,7 @@
 11. Phase 2.11b 已在 Hermes 主仓库完成 session-level 企业文件别名最小实现：alias 绑定 `document_id`，支持使用与对比；Hermes_memory 继续保持 stateless，不改 retrieval contract。
 12. Phase 2.11b 已修复真实终端 alias 绑定路径：绑定在 Hermes 会话层完成，不依赖模型工具；Hermes_memory 侧无需变更。
 13. Phase 2.11b 真实终端验收已通过：`@主标书` / `@交付标准` 绑定、使用、对比与 missing alias 抑制均通过；基础信息召回质量尾项不属于 alias 功能失败。
+14. Phase 2.11c 已完成规划：优先用轻量 tender metadata snapshot 辅助基础信息召回，再配合 query profile / section boost；snapshot 不替代 evidence。
+15. Phase 2.11c 最小实现已完成：Hermes_memory 新增轻量 `tender_metadata_snapshot` 导航，基础信息 query 可锚定工程地点、建设单位、代建单位等来源 chunk；真实大标书复测中三类 query 均返回目标 `document_id`，top1 不再落到第八章工程量清单。
+16. Phase 2.11c 真实终端验收已通过：`@主标书` 绑定到 `869d4684-0a98-4825-bc72-ada65c15cfc9`，工程地点 / 建设单位 / 代建单位均由 metadata snapshot 导航到目标 evidence chunk。
+17. Phase 2.11c trace 语义已验收：`metadata_snapshot_used=true`、`evidence_required=true`、`snapshot_as_answer=false`，最终答案由 retrieval evidence 支撑，`contamination_flags=[]`。
