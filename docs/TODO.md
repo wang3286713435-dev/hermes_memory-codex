@@ -14,6 +14,8 @@
 - 复杂权限策略
 - 大规模 ingestion 改造
 
+说明：上述事项并非长期放弃，而是不进入当前收口阶段。多模态企业资料、会议音频记忆和更完整企业级 Agent 能力应在记忆底座、会话文档作用域和基础检索稳定后分阶段推进。
+
 ## 3. Phase 2.2 后续待办
 
 1. 真实 reranker 模型尚未接入。当前仅完成 `NoopReranker` 与 rerank hook 结构，不能视为排序质量增强已完成；需在后续 rerank 实现阶段处理。
@@ -55,3 +57,24 @@
 15. Windows 高可信灰度补证已完成：长窗口 `20/20` 成功，连续真实工作流 `60/60` 成功；`OpenSearch timeout = 0`、`dense_failed_count = 0`、`sparse_failed_count = 0`、命中集漂移 `0`、后端异常窗口 `0`、document_id / 标题收敛失败 `0`、错误文档命中 `0`。Aliyun embedding / rerank 因缺 secret 未真实调用，继续作为非阻塞尾项。
 16. Phase 2.9d 非阻塞尾项已完成首轮收敛：Aliyun embedding 真调用返回 `executed` 与 `1024` 维向量；Aliyun rerank 使用 `ALIYUN_EMBEDDING_API_KEY` fallback 真调用 `gte-rerank-v2` 返回 `executed`，top chunk 正确；大型标书 `总工期 / 关键节点` 10 条真实问法扩样全部命中 `工期要求` 目标 chunk。后续若要求专用 rerank key，需单独补 `ALIYUN_RERANK_API_KEY` 专用 key smoke。
 17. Phase 2.9d 文档基线已固化：Phase 2.9c 已收口，Phase 2.9d 首轮尾项已完成；当前仍不进入生产级 rollout。PRD 核心缺口继续保留为未完成：dense ingestion、结构化事实层、会话记忆层、权限治理层、增量更新闭环、审计日志闭环、完整评测系统、版本治理增强、知识管理员后台、人工校验机制。
+
+## 6. Phase 2.10+ 企业级 Agent 长期能力候选
+
+1. Phase 2.10 优先处理 Enterprise Session Document Scope：同一 Hermes 会话内维护 active document scope，支持文件切换、上下文防污染和多文件对比，不再依赖新开会话作为产品方案。
+2. Phase 2.11 进入规划阶段：企业会话上下文治理继续增强，并规划 Excel、PowerPoint、图片、扫描件和会议音频的企业级摄取策略；当前只明确数据模型、解析 provider、引用格式、权限、审计和评测方式，不直接实现完整 multimodal ingestion。
+3. 后续候选 Phase 2.12：Excel / PowerPoint ingestion MVP。Excel 应保留 sheet、行列坐标、表头、公式、金额和单位；PowerPoint 应保留页码、标题、正文、备注、图表说明和图片 OCR。
+4. 后续候选 Phase 2.13：Meeting Audio Memory MVP。支持会议录音转写、发言人、议题、决策点、行动项、风险和后续跟进事项沉淀，并与项目、客户、合同和结构化事实关联。
+5. 长期目标是将 Hermes 从文档检索器升级为企业级 Agent 中枢，但所有高风险动作仍需人工确认；会议、经营、投标、财务和法务相关结论必须保留来源、引用、权限与审计。
+
+## 7. Phase 2.11 当前待办
+
+1. 企业上下文治理详细设计已补齐：明确 active document、project scope、compare scope、history memory 的优先级和防污染规则。
+2. Excel / PPTX 摄取验收样本已补齐：覆盖 sheet/cell、slide/page、备注、图表说明、引用位置和权限标签。
+3. 会议音频记忆验收样本已补齐：覆盖转写、说话人、时间戳、议题、决策、行动项、风险和人工确认边界。
+4. Phase 2.11a 最小切口已评审：建议优先选择企业上下文治理增强，而不是 Excel/PPTX ingestion MVP。
+5. Phase 2.11a 最小实现边界：project scope / task scope / active document / compare scope / history memory 优先级、evidence source trace、history memory 不得替代本轮 retrieval evidence、上下文污染诊断规则。
+6. Phase 2.11a 最小实现已在 Hermes 主仓库完成；Hermes_memory 保持 stateless，未改 retrieval contract。
+7. Phase 2.11a 已修复 `history_memory_as_evidence` 语义错误：历史记忆可作为提示，但不得替代本轮 retrieval evidence。
+8. Phase 2.11a 真实终端验收已通过：A 锁定、刚才文件延续、A/B 对比均无历史记忆伪 evidence 或第三文件污染。
+9. Phase 2.11a 非目标：不实现 Excel/PPTX parser，不实现 OCR/ASR，不推进 facts、权限大改或 rollout。
+10. 保留 dirty 声明：Hermes 主仓库 `uv.lock` 不处理；`tests/agent/test_memory_kernel_adapter_reload.py` 作为后续候选回归测试确认。

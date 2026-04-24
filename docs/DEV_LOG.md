@@ -60,3 +60,10 @@
 - [Phase 2.9c] Codex C 完成 Windows + WSL2 高可信补证：长窗口 20/20 成功，连续真实工作流 60/60 成功，OpenSearch/dense/sparse/漂移/后端异常均为零；Phase 2.9c 稳定性收口证据已补齐，建议收口，Aliyun provider smoke 作为非阻塞尾项保留。
 - [Phase 2.9d] 完成非阻塞尾项首轮收敛：Aliyun embedding 与 rerank provider smoke 真调用通过，rerank 使用 embedding key fallback；大型标书工期类 10 条真实问法扩样全部命中工期要求目标 chunk。
 - [Phase 2.9d] 完成文档基线固化：Phase 2.9c 收口与 2.9d 首轮尾项完成已统一写入 TODO/readiness；专用 rerank key smoke 可选保留，不进入生产级 rollout，PRD 核心缺口继续建账。
+- [Vision] 将企业级全功能 Agent 愿景写入 PRD/Roadmap/技术设计，明确多模态资料、会议记忆和经营辅助分析为后续阶段能力，不打断当前记忆底座主线。
+- [Phase 2.11] 新增企业上下文治理与多模态规划文档，明确本阶段只做架构与验收标准，不直接实现完整摄取或会议记忆。
+- [Phase 2.11] 补齐上下文治理、Excel、PPTX、会议音频四块详细设计与验收样本，仍不进入功能实现。
+- [Phase 2.11a] 完成 MVP 最小切口评审，建议优先做企业上下文治理增强，Excel/PPTX ingestion 后置。
+- [Phase 2.11a] Hermes 主仓库完成最小上下文治理实现，Hermes_memory 保持无状态，仅同步阶段状态。
+- [Phase 2.11a] 同步 history_memory_as_evidence 语义修复结论，历史记忆不得作为本轮 evidence。
+- [Phase 2.11a] 同步真实终端验收通过结论：文件延续与 A/B 对比均未出现历史记忆伪 evidence。
