@@ -1,6 +1,7 @@
 import re
 from collections import Counter
 from dataclasses import dataclass, field
+from pathlib import Path
 from time import perf_counter
 from typing import Any
 from uuid import uuid4
@@ -44,10 +45,11 @@ class RerankPolicyDecision:
 
 
 class RetrievalService:
-    def __init__(self, db: Session) -> None:
+    def __init__(self, db: Session | None) -> None:
         self.db = db
         self.dense = self._build_dense_retriever()
         self.reranker = self._build_reranker()
+        self._opensearch_filter_field_cache: dict[str, str] = {}
 
     def _build_dense_retriever(self):
         if settings.vector_store_provider == "qdrant":
@@ -62,6 +64,12 @@ class RetrievalService:
     def search(self, request: SearchRequest) -> SearchResponse:
         trace_id = str(uuid4())
         applied_filters, ignored_filters = self._normalize_filters(request)
+        document_scope_trace = self._infer_document_scope(request.query, applied_filters)
+        section_scope_trace = self._infer_section_scope(request.query)
+        if document_scope_trace.get("document_id"):
+            applied_filters["document_id"] = document_scope_trace["document_id"]
+        if document_scope_trace.get("document_type") and "document_type" not in applied_filters:
+            applied_filters["document_type"] = document_scope_trace["document_type"]
         retrieval_mode = self._resolve_mode(request)
         backend = retrieval_mode
         dense_outcome = DenseSearchOutcome(status="skipped", trace={"reason": "dense disabled"})
@@ -74,9 +82,13 @@ class RetrievalService:
 
         if retrieval_mode in {"sparse", "hybrid"} and request.enable_sparse:
             try:
-                sparse_candidates = self._sparse_search(request, applied_filters)
+                sparse_candidates = self._sparse_search(request, applied_filters, section_scope_trace)
                 sparse_status = "executed"
-                sparse_trace = {"backend": "opensearch", "returned": len(sparse_candidates)}
+                sparse_trace = {
+                    "backend": "opensearch",
+                    "returned": len(sparse_candidates),
+                    "query_profile": section_scope_trace.get("query_profile", "default"),
+                }
             except Exception:
                 logger.exception("opensearch_search_failed_falling_back_to_db")
                 backend = "database_fallback" if retrieval_mode == "sparse" else "hybrid_with_database_fallback"
@@ -138,6 +150,8 @@ class RetrievalService:
                 "retrieval_mode": retrieval_mode,
                 "dense": dense_outcome.trace,
                 "sparse": sparse_trace,
+                "document_scope": document_scope_trace,
+                "section_scope": section_scope_trace,
                 "hybrid": {
                     "merged": candidate_pool.trace.get("deduped_count", len(candidate_pool.candidates)),
                     "dedupe_key": "chunk_id",
@@ -186,26 +200,84 @@ class RetrievalService:
     def _dense_search(self, request: SearchRequest, applied_filters: dict) -> DenseSearchOutcome:
         return self.dense.search(request, applied_filters)
 
-    def _sparse_search(self, request: SearchRequest, applied_filters: dict) -> list[SearchResult]:
+    def _sparse_search(
+        self,
+        request: SearchRequest,
+        applied_filters: dict,
+        section_scope: dict[str, Any] | None = None,
+    ) -> list[SearchResult]:
         client = OpenSearch(settings.opensearch_url, timeout=5)
-        filters: list[dict] = [{"term": {"status": "active"}}]
+        filters: list[dict] = [{"term": {self._resolve_opensearch_filter_field(client, "status"): "active"}}]
         if "source_type" in applied_filters:
-            filters.append({"term": {"source_type": applied_filters["source_type"]}})
+            filters.append(
+                {"term": {self._resolve_opensearch_filter_field(client, "source_type"): applied_filters["source_type"]}}
+            )
         if "document_id" in applied_filters:
-            filters.append({"term": {"document_id": applied_filters["document_id"]}})
+            filters.append(
+                {"term": {self._resolve_opensearch_filter_field(client, "document_id"): applied_filters["document_id"]}}
+            )
         if "document_type" in applied_filters:
-            filters.append({"term": {"document_type": applied_filters["document_type"]}})
+            filters.append(
+                {"term": {self._resolve_opensearch_filter_field(client, "document_type"): applied_filters["document_type"]}}
+            )
         if "is_latest" in applied_filters:
             filters.append({"term": {"is_latest": applied_filters["is_latest"]}})
+
+        section_scope = section_scope or {"status": "no_section_signal"}
+        query_profile = section_scope.get("query_profile", "default")
+        alias_text_boost = 1.6
+        alias_heading_boost = 3.5
+        target_heading_boost = 6.0
+        target_title_boost = 5.0
+        if query_profile == "commercial_scope":
+            alias_text_boost = 4.0
+            alias_heading_boost = 6.0
+            target_heading_boost = 10.0
+            target_title_boost = 8.0
+        elif query_profile == "schedule_scope":
+            alias_text_boost = 2.0
+            alias_heading_boost = 4.0
+            target_heading_boost = 7.0
+            target_title_boost = 6.0
+
+        should_clauses = [
+            {"match": {"text": {"query": request.query, "boost": 1.0}}},
+            {"match": {"source_name": {"query": request.query, "boost": 1.5}}},
+            {"match": {"heading_path": {"query": request.query, "boost": 2.0}}},
+        ]
+        for alias in section_scope.get("query_aliases", []):
+            should_clauses.append({"match": {"text": {"query": alias, "boost": alias_text_boost}}})
+            should_clauses.append({"match_phrase": {"text": {"query": alias, "boost": alias_text_boost + 2.5}}})
+            should_clauses.append({"match": {"heading_path": {"query": alias, "boost": alias_heading_boost}}})
+            should_clauses.append({"match": {"title_path": {"query": alias, "boost": alias_heading_boost - 0.5}}})
+            should_clauses.append({"match": {"section_path": {"query": alias, "boost": alias_heading_boost - 0.5}}})
+        for section in section_scope.get("target_sections", []):
+            should_clauses.append({"match": {"heading_path": {"query": section, "boost": target_heading_boost}}})
+            should_clauses.append({"match": {"title_path": {"query": section, "boost": target_title_boost}}})
+            should_clauses.append({"match": {"section_path": {"query": section, "boost": target_title_boost}}})
+            should_clauses.append({"match_phrase": {"text": {"query": section, "boost": target_title_boost}}})
+        if query_profile == "schedule_scope":
+            schedule_parameter_phrases = {
+                "工期要求": 14.0,
+                "总工期": 10.0,
+                "计划开工日期": 9.0,
+                "计划竣工日期": 9.0,
+                "合同工期": 8.0,
+                "日历天": 6.0,
+                "竣工验收合格": 4.0,
+            }
+            for phrase, boost in schedule_parameter_phrases.items():
+                should_clauses.append({"match_phrase": {"text": {"query": phrase, "boost": boost}}})
 
         response = client.search(
             index=settings.opensearch_index_chunks,
             body={
-                "size": request.top_k,
+                "size": max(request.top_k, request.top_k * 2 if section_scope.get("target_sections") else request.top_k),
                 "query": {
                     "bool": {
-                        "must": [{"match": {"text": request.query}}],
+                        "should": should_clauses,
                         "filter": filters,
+                        "minimum_should_match": 1,
                     }
                 },
             },
@@ -227,7 +299,7 @@ class RetrievalService:
                     source_type=source.get("source_type"),
                     version_name=source.get("version_name"),
                     heading_path=source.get("heading_path") or [],
-                    section_path=source.get("heading_path") or [],
+                    section_path=source.get("section_path") or source.get("title_path") or source.get("heading_path") or [],
                     page_start=source.get("page_start"),
                     page_end=source.get("page_end"),
                     metadata=source.get("metadata_json") or {},
@@ -237,8 +309,227 @@ class RetrievalService:
             )
         return results
 
+    def _infer_section_scope(self, query: str) -> dict[str, Any]:
+        normalized = self._normalize_document_reference(query)
+        if not normalized:
+            return {"status": "no_section_signal", "target_sections": [], "query_aliases": [], "query_profile": "default"}
+
+        section_rules = [
+            (
+                ("资质", "资格", "项目经理", "建造师", "b证", "安全考核", "项目负责人"),
+                ["投标人须知前附表", "资格审查", "资信标", "资格后审", "项目管理机构"],
+                [
+                    "资质要求",
+                    "资格条件",
+                    "项目经理",
+                    "项目负责人",
+                    "注册建造师",
+                    "安全考核证",
+                    "资格审查文件",
+                ],
+                "qualification_scope",
+            ),
+            (
+                ("工期", "工期天数", "关键节点", "关键工期节点", "里程碑", "计划开工日期", "计划竣工日期", "竣工日期"),
+                [
+                    "投标人须知前附表",
+                    "合同专用条款",
+                    "施工工期",
+                    "工期要求",
+                    "计划开工日期",
+                    "计划竣工日期",
+                    "竣工日期",
+                    "关键工期节点",
+                    "招标人对招标文件及合同范本的补充/修改",
+                ],
+                [
+                    "计划工期",
+                    "关键节点",
+                    "关键工期节点",
+                    "里程碑",
+                    "总工期",
+                    "施工工期",
+                    "工期要求",
+                    "计划开工日期",
+                    "计划竣工日期",
+                    "工期延误",
+                ],
+                "schedule_scope",
+            ),
+            (
+                ("付款", "支付比例", "结算", "质保金", "保留金", "缺陷责任期", "误期", "赔偿", "违约"),
+                [
+                    "合同专用条款",
+                    "工程款支付",
+                    "进度款支付",
+                    "竣工结算",
+                    "最终结清",
+                    "质量保证金",
+                    "缺陷责任期",
+                    "违约责任",
+                    "工期延误",
+                    "招标人对招标文件及合同范本的补充/修改",
+                ],
+                [
+                    "付款",
+                    "工程款支付",
+                    "进度款支付",
+                    "支付比例",
+                    "结算",
+                    "竣工结算",
+                    "最终结清",
+                    "质保金",
+                    "质量保证金",
+                    "保留金",
+                    "缺陷责任期",
+                    "误期赔偿",
+                    "违约责任",
+                    "工期延误",
+                ],
+                "commercial_scope",
+            ),
+            (
+                ("工程量清单", "限价", "不平衡报价"),
+                ["工程量清单", "限价明细", "最高投标限价", "投标报价要求", "评标"],
+                ["工程量清单", "最高投标限价", "不平衡报价", "投标报价要求", "商务标定性评审表"],
+                "pricing_scope",
+            ),
+        ]
+
+        matched_sections: list[str] = []
+        query_aliases: list[str] = []
+        query_profile = "default"
+        for triggers, sections, aliases, profile in section_rules:
+            if any(trigger in query for trigger in triggers):
+                for section in sections:
+                    if section not in matched_sections:
+                        matched_sections.append(section)
+                for alias in aliases:
+                    if alias not in query_aliases:
+                        query_aliases.append(alias)
+                if query_profile == "default":
+                    query_profile = profile
+
+        if not matched_sections:
+            return {"status": "no_section_signal", "target_sections": [], "query_aliases": [], "query_profile": "default"}
+
+        return {
+            "status": "section_scope_inferred",
+            "target_sections": matched_sections,
+            "query_aliases": query_aliases,
+            "query_profile": query_profile,
+        }
+
+    def _resolve_opensearch_filter_field(self, client: OpenSearch, field: str) -> str:
+        cached = self._opensearch_filter_field_cache.get(field)
+        if cached:
+            return cached
+        try:
+            mapping = client.indices.get_mapping(index=settings.opensearch_index_chunks)
+            props = ((mapping.get(settings.opensearch_index_chunks) or {}).get("mappings") or {}).get("properties") or {}
+            field_def = props.get(field) or {}
+            if field_def.get("type") == "text" and (field_def.get("fields") or {}).get("keyword"):
+                resolved = f"{field}.keyword"
+            else:
+                resolved = field
+        except Exception:
+            resolved = field
+        self._opensearch_filter_field_cache[field] = resolved
+        return resolved
+
+    def _infer_document_scope(self, query: str, applied_filters: dict[str, Any]) -> dict[str, Any]:
+        if applied_filters.get("document_id"):
+            return {
+                "status": "explicit_document_id",
+                "document_id": applied_filters["document_id"],
+            }
+
+        normalized_query = self._normalize_document_reference(query)
+        if not normalized_query:
+            return {"status": "no_query_signal"}
+
+        if self.db is None:
+            return {
+                "status": "db_unavailable",
+                "reason": "document_scope_requires_db",
+            }
+
+        doc_query = self.db.query(Document).filter(Document.status == "active")
+        if "source_type" in applied_filters:
+            doc_query = doc_query.filter(Document.source_type == applied_filters["source_type"])
+        if "document_type" in applied_filters:
+            doc_query = doc_query.filter(Document.document_type == applied_filters["document_type"])
+
+        candidates = doc_query.all()
+        matches: list[tuple[Document, int]] = []
+        for document in candidates:
+            aliases = self._document_reference_aliases(document)
+            matched_aliases = [alias for alias in aliases if alias and alias in normalized_query]
+            if matched_aliases:
+                matches.append((document, max(len(alias) for alias in matched_aliases)))
+
+        if not matches:
+            return {
+                "status": "no_unique_document_match",
+                "candidate_count": len(candidates),
+                "matched_count": 0,
+            }
+
+        matches.sort(
+            key=lambda item: (
+                item[1],
+                getattr(item[0], "created_at", None) or 0,
+                getattr(item[0], "updated_at", None) or 0,
+            ),
+            reverse=True,
+        )
+        top_score = matches[0][1]
+        top_matches = [document for document, score in matches if score == top_score]
+        matched = sorted(
+            top_matches,
+            key=lambda document: (
+                getattr(document, "created_at", None) or 0,
+                getattr(document, "updated_at", None) or 0,
+            ),
+            reverse=True,
+        )[0]
+        status = "inferred_from_query"
+        if len(matches) > 1:
+            status = "inferred_from_query_latest_match"
+        return {
+            "status": status,
+            "document_id": matched.id,
+            "document_type": matched.document_type,
+            "source_name": matched.title,
+            "matched_count": len(matches),
+        }
+
+    def _document_reference_aliases(self, document: Document) -> list[str]:
+        aliases = [
+            self._normalize_document_reference(document.title),
+            self._normalize_document_reference(Path(document.source_uri or "").stem),
+            self._normalize_document_reference(document.source_uri or ""),
+        ]
+        deduped: list[str] = []
+        for alias in aliases:
+            if alias and alias not in deduped:
+                deduped.append(alias)
+        return deduped
+
+    def _normalize_document_reference(self, value: str) -> str:
+        text = (value or "").strip()
+        if not text:
+            return ""
+        text = re.sub(r"\.(docx?|pdf|txt|md)$", "", text, flags=re.IGNORECASE)
+        text = text.replace("围绕", " ").replace("回答", " ").replace("文件", " ")
+        text = re.sub(r"[《》\"'“”‘’（）()【】\[\]\s]+", "", text)
+        text = re.sub(r"[^0-9A-Za-z\u4e00-\u9fff]+", "", text)
+        return text.lower()
+
     def _database_fallback_search(self, request: SearchRequest, applied_filters: dict | None = None) -> list[SearchResult]:
         applied_filters = applied_filters or {}
+        if self.db is None:
+            return []
         query = (
             self.db.query(Chunk, Document, DocumentVersion)
             .join(Document, Chunk.document_id == Document.id)

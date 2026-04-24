@@ -15,6 +15,7 @@ class OpenSearchChunkIndexer:
 
     def ensure_index(self) -> None:
         if self.client.indices.exists(index=self.index_name):
+            self._ensure_mapping_fields()
             return
         self.client.indices.create(
             index=self.index_name,
@@ -40,6 +41,8 @@ class OpenSearchChunkIndexer:
                         "document_type": {"type": "keyword"},
                         "version_name": {"type": "keyword"},
                         "heading_path": {"type": "keyword"},
+                        "title_path": {"type": "keyword"},
+                        "section_path": {"type": "keyword"},
                         "page_start": {"type": "integer"},
                         "page_end": {"type": "integer"},
                         "is_latest": {"type": "boolean"},
@@ -50,6 +53,17 @@ class OpenSearchChunkIndexer:
                 },
             },
         )
+        self._ensure_mapping_fields()
+
+    def _ensure_mapping_fields(self) -> None:
+        mapping = self.client.indices.get_mapping(index=self.index_name)
+        props = ((mapping.get(self.index_name) or {}).get("mappings") or {}).get("properties") or {}
+        missing: dict[str, dict] = {}
+        for field in ("title_path", "section_path"):
+            if field not in props:
+                missing[field] = {"type": "keyword"}
+        if missing:
+            self.client.indices.put_mapping(index=self.index_name, body={"properties": missing})
 
     def index_chunk(self, chunk: Chunk, document: Document, version: DocumentVersion) -> bool:
         self.ensure_index()
@@ -65,6 +79,8 @@ class OpenSearchChunkIndexer:
             "document_type": document.document_type,
             "version_name": version.version_name,
             "heading_path": chunk.heading_path or [],
+            "title_path": chunk.title_path or [],
+            "section_path": chunk.section_path or [],
             "page_start": chunk.page_start,
             "page_end": chunk.page_end,
             "is_latest": version.is_latest,
@@ -75,4 +91,3 @@ class OpenSearchChunkIndexer:
         self.client.index(index=self.index_name, id=chunk.id, body=body, refresh=True)
         logger.info("chunk_indexed", extra={"chunk_id": chunk.id})
         return True
-
