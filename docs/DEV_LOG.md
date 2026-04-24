@@ -67,3 +67,7 @@
 - [Phase 2.11a] Hermes 主仓库完成最小上下文治理实现，Hermes_memory 保持无状态，仅同步阶段状态。
 - [Phase 2.11a] 同步 history_memory_as_evidence 语义修复结论，历史记忆不得作为本轮 evidence。
 - [Phase 2.11a] 同步真实终端验收通过结论：文件延续与 A/B 对比均未出现历史记忆伪 evidence。
+- [Phase 2.11b] 同步企业文件别名规划状态，alias 绑定 document_id，暂不改检索契约。
+- [Phase 2.11b] 同步 Hermes 主仓库 session-level 文件别名最小实现完成状态，Hermes_memory 仍保持无状态。
+- [Phase 2.11b] 同步 alias 真实终端修复状态：会话层绑定已打通，Hermes_memory 不改契约。
+- [Phase 2.11b] 同步真实终端验收通过结论，文件别名可绑定、使用、对比并抑制 missing 检索。

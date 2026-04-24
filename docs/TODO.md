@@ -78,3 +78,6 @@
 8. Phase 2.11a 真实终端验收已通过：A 锁定、刚才文件延续、A/B 对比均无历史记忆伪 evidence 或第三文件污染。
 9. Phase 2.11a 非目标：不实现 Excel/PPTX parser，不实现 OCR/ASR，不推进 facts、权限大改或 rollout。
 10. 保留 dirty 声明：Hermes 主仓库 `uv.lock` 不处理；`tests/agent/test_memory_kernel_adapter_reload.py` 作为后续候选回归测试确认。
+11. Phase 2.11b 已在 Hermes 主仓库完成 session-level 企业文件别名最小实现：alias 绑定 `document_id`，支持使用与对比；Hermes_memory 继续保持 stateless，不改 retrieval contract。
+12. Phase 2.11b 已修复真实终端 alias 绑定路径：绑定在 Hermes 会话层完成，不依赖模型工具；Hermes_memory 侧无需变更。
+13. Phase 2.11b 真实终端验收已通过：`@主标书` / `@交付标准` 绑定、使用、对比与 missing alias 抑制均通过；基础信息召回质量尾项不属于 alias 功能失败。
