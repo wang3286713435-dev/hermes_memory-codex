@@ -4,7 +4,9 @@ from app.services.parsing.base import DocumentParser
 from app.services.parsing.docx_parser import DocxParser
 from app.services.parsing.html_parser import HtmlParser
 from app.services.parsing.pdf_parser import PdfParser
+from app.services.parsing.pptx_parser import PptxParser
 from app.services.parsing.text_parser import TextParser
+from app.services.parsing.xlsx_parser import XlsxParser
 
 
 class ParserRegistry:
@@ -16,6 +18,8 @@ class ParserRegistry:
             ".pdf": PdfParser(),
             ".txt": TextParser(),
             ".docx": DocxParser(),
+            ".xlsx": XlsxParser(),
+            ".pptx": PptxParser(),
         }
 
     def get_parser(self, source_path: Path) -> DocumentParser:

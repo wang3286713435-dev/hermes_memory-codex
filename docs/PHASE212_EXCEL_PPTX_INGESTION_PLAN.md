@@ -190,12 +190,44 @@ Phase 2.12 MVP 不做：
 
 ## 8. 建议结论
 
-建议进入 Phase 2.12 MVP 实现前，先完成依赖治理小任务。
+Phase 2.12 前置依赖治理已完成，`uv.lock` 已纳入依赖基线。
 
-若依赖策略明确，Phase 2.12 的实现顺序建议为：
+Phase 2.12 MVP 最小实现已完成首轮 live 验证：
 
-1. Excel parser MVP。
-2. Excel citation / retrieval 验收。
-3. PPTX parser MVP。
-4. PPTX citation / retrieval 验收。
-5. 再决定是否进入 OCR 或更复杂多模态能力。
+1. Excel parser MVP 支持 `.xlsx` 上传解析，保留 sheet、cell range、row/column、headers、公式、数值和单位 metadata。
+2. PPTX parser MVP 支持 `.pptx` 上传解析，保留 slide number、slide title、body text、notes 可用性、chart caption 与 image placeholder 计数。
+3. chunk metadata 与 retrieval result 均可返回 `citation_label`，用于定位 sheet/cell 或 slide。
+4. 不改 retrieval contract，不改 memory kernel 主架构。
+5. OCR、ASR、facts、权限大改和 rollout 均未进入本轮。
+
+Phase 2.12a Hermes CLI structured citation 消费与展示收口也已通过：
+
+1. 根因定位为 Hermes 主仓库消费层丢失 structured citation metadata，不是 Hermes_memory parser 根本失败。
+2. Hermes 主仓库已补齐 `sheet_name` / `cell_range` / `slide_number` / `slide_title` 的 citation normalization 与 CLI context 展示。
+3. 真实终端复验 `5/5` 通过：Excel 文件锁定、Excel 单项检索、PPTX 文件锁定、PPTX 单页信息、跨类型防污染均通过。
+4. retrieval contract 与 memory kernel 主架构均未改动。
+
+## 9. 真实样本 live 验证结果
+
+### 9.1 Excel 样本
+
+| title | document_id | version_id | chunks | indexed | parser | retrieval |
+| --- | --- | --- | ---: | ---: | --- | --- |
+| 总体工程斯维尔产品解决清单-phase212-fixed | `976d7376-6fd1-4285-9e8f-5772210d6558` | `55d6170b-da5b-467f-b3a1-82300f9b32e2` | 347 | 347 | xlsx | 通过，返回 `sheet_name=0301-54.15 (2)`、`cell_range=A21:S40` |
+| 硬件清单 | `402657e8-2ea8-48b7-8266-85aab45bbc41` | `f1c43bfd-6b1b-4ec1-99a6-c0650e2e2e14` | 5 | 5 | xlsx | 通过，返回 `sheet_name=开始`、`cell_range=H25:M27` |
+| 顺德妇幼医院-BIM结算第三期-2026.4.24 | `52b6c9d1-999d-412b-8b73-5041e51b19ca` | `3051bad0-892f-4d61-9c50-e60e97ffe354` | 31 | 31 | xlsx | 通过，返回 `sheet_name=附表1.2 分供方月度结算工程量清单明细表`、`cell_range=A1:R24` |
+
+### 9.2 PPTX 样本
+
+| title | document_id | version_id | chunks | indexed | parser | retrieval |
+| --- | --- | --- | ---: | ---: | --- | --- |
+| 数字化交付平台核心逻辑-完善版 | `112b14cd-e9c6-411c-be56-302c39fa55e5` | `82ef9cd8-7f8a-4a35-9115-7d1c589d775b` | 8 | 8 | pptx | 通过，返回 `slide_number=2`、`slide_title=核心逻辑：数据进 → 数据管 → 数据用` |
+| C塔建设整体方案-原构优化 | `a52e75b3-fec9-4e08-8c0d-03b0e55cf21d` | `2e0adc17-f8ea-4ac3-b944-a788c1980616` | 13 | 13 | pptx | 通过，返回 `slide_number=3`、`slide_title=建设蓝图` |
+| 智慧建筑脑机20250426 | `ecf7583c-0180-46f9-a013-88480bbcdc3e` | `0e8c3598-df39-42c2-8aaa-0f6ef1baa683` | 13 | 13 | pptx | 通过，返回 `slide_number=1`、`slide_title=智慧建筑脑机系统` |
+
+### 9.3 修复与降级项
+
+1. live 验证中发现 Excel `numeric_values.value` 在 OpenSearch 动态 mapping 下会因 int/float 混用触发类型冲突；已最小修复为字符串化数值 metadata。
+2. 图表深层数据还原未做；当前仅保留 chart title/caption。
+3. 图片 OCR 未做；当前仅记录 image placeholder 数量与 `ocr_status=not_run`。
+4. dense ingestion 仍不属于本轮目标；本轮检索验证基于 OpenSearch sparse。

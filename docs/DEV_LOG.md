@@ -81,3 +81,6 @@
 - [Phase 2.11e] 完成 repo hygiene 收口：.run 作为本地运行产物忽略，uv.lock 保留为依赖治理尾项。
 - [Phase 2.12] 完成 Excel/PPTX ingestion MVP 立项评审草案，先定依赖治理、样本需求与 citation 验收边界。
 - [Phase 2.12] 完成 uv.lock 依赖治理裁决，lockfile 校验通过且无敏感路径，纳入依赖基线。
+- [Phase 2.12] 完成 Excel/PPTX ingestion 最小闭环，6 个真实样本均完成上传、索引与 sheet/cell 或 slide citation 检索验证。
+- [Phase 2.12a] Hermes 主仓库已补 structured citation 消费与展示最小修复；Hermes_memory 本轮仅同步阶段状态，不改 parser、retrieval contract 或 memory kernel 架构。
+- [Phase 2.12] 真实 Hermes 终端验收收口：Excel/PPTX structured citation 5 条复验全部通过，跨类型切换无污染，Phase 2.12 进入 Git baseline 固化。

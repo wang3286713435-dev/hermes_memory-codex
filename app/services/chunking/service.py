@@ -35,17 +35,36 @@ class ChunkingService:
             pages = [block.page_number for block in buffer if block.page_number is not None]
             page_start = min(pages) if pages else None
             page_end = max(pages) if pages else None
-            chunks.extend(self._chunk_text(text, heading_path, page_start, page_end))
+            metadata = self._merged_metadata(buffer)
+            chunks.extend(self._chunk_text(text, heading_path, page_start, page_end, metadata))
             buffer.clear()
 
         for block in parsed_document.blocks:
             if block.block_type == "heading":
                 flush_buffer()
                 continue
+            if block.metadata.get("chunk_boundary"):
+                flush_buffer()
+                chunks.extend(
+                    self._chunk_text(
+                        block.text,
+                        block.title_path,
+                        block.page_number,
+                        block.page_number,
+                        block.metadata,
+                    )
+                )
+                continue
             if len(block.text) > self.target_chars:
                 flush_buffer()
                 chunks.extend(
-                    self._chunk_text(block.text, block.title_path, block.page_number, block.page_number)
+                    self._chunk_text(
+                        block.text,
+                        block.title_path,
+                        block.page_number,
+                        block.page_number,
+                        block.metadata,
+                    )
                 )
                 continue
             projected_size = sum(len(item.text) for item in buffer) + len(block.text)
@@ -61,6 +80,7 @@ class ChunkingService:
         title_path: list[str],
         page_start: int | None,
         page_end: int | None,
+        metadata: dict | None = None,
     ) -> list[ChunkCandidate]:
         normalized = text.strip()
         if not normalized:
@@ -80,10 +100,28 @@ class ChunkingService:
                         section_path=title_path,
                         page_start=page_start,
                         page_end=page_end,
-                        metadata={"chunking_strategy": "heading_paragraph_length"},
+                        metadata={
+                            **(metadata or {}),
+                            "chunking_strategy": "heading_paragraph_length",
+                        },
                     )
                 )
             if end == len(normalized):
                 break
             start = max(end - self.overlap_chars, start + 1)
         return chunks
+
+    def _merged_metadata(self, blocks: list[ParsedBlock]) -> dict:
+        if not blocks:
+            return {}
+        if len(blocks) == 1:
+            return dict(blocks[0].metadata)
+        shared: dict = {}
+        keys = set().union(*(block.metadata.keys() for block in blocks))
+        for key in keys:
+            values = [block.metadata.get(key) for block in blocks if key in block.metadata]
+            if values and all(value == values[0] for value in values):
+                shared[key] = values[0]
+        if any(block.metadata for block in blocks):
+            shared["source_block_count"] = len(blocks)
+        return shared
