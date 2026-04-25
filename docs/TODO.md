@@ -90,3 +90,4 @@
 20. Phase 2.11d 新增文件已完成入库：香港中文大学医学院智能化工程标书 `613` chunks、3-1 数字化交付标准 `20` chunks、会议纪要汇编 `17` chunks，均完成 OpenSearch 索引。
 21. Phase 2.11d 综合回归已执行 15/15 通过；当前未发现大标书、交付标准、会议纪要之间的 document scope 污染。
 22. Phase 2.11d 非阻塞尾项：multi-document compare 顶层 trace 暂不聚合每份文档的 metadata snapshot 字段；当前不影响 retrieval evidence 与防污染结论。
+23. Phase 2.11e 已完成边界规划：PRD / Roadmap / Technical Design 建议单独纳入文档基线，Linear 协作文档单独纳入协作基线，`scripts/run_local_api.sh` 单独纳入 DX 工具，`.run/` 建议删除或忽略，`uv.lock` 保留到依赖治理阶段。
