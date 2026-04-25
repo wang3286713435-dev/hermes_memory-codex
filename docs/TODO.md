@@ -92,3 +92,5 @@
 22. Phase 2.11d 非阻塞尾项：multi-document compare 顶层 trace 暂不聚合每份文档的 metadata snapshot 字段；当前不影响 retrieval evidence 与防污染结论。
 23. Phase 2.11e 已完成边界规划：PRD / Roadmap / Technical Design 建议单独纳入文档基线，Linear 协作文档单独纳入协作基线，`scripts/run_local_api.sh` 单独纳入 DX 工具，`.run/` 建议删除或忽略，`uv.lock` 保留到依赖治理阶段。
 24. Phase 2.11e hygiene 收口：`.run/` 已确认为本地 API 日志与 pid 运行产物并加入 `.gitignore`；`uv.lock` 当前为未跟踪依赖解析产物，暂不纳入提交，后续应单独做依赖治理与 lockfile 策略确认。
+25. Phase 2.12 已完成立项评审草案：Excel / PPTX ingestion MVP 应先完成依赖治理与样本确认；当前 `uv.lock` 不建议直接纳入基线，需独立裁决是否正式采用 `uv` lockfile。实现前需准备 2-3 个真实 Excel 与 2-3 个真实 PPTX，并以 sheet/cell range、slide citation 为最小验收边界。
+26. Phase 2.12 前置依赖治理已裁决：`uv lock --check` 通过，`uv.lock` 未发现敏感信息或本地绝对路径，适合作为项目依赖锁定文件纳入基线；后续新增解析依赖必须同步更新 `pyproject.toml` 与 `uv.lock`。

@@ -79,3 +79,5 @@
 - [Phase 2.11d] 完成三份新增真实文件入库与索引，并通过 15 条上下文治理综合回归。
 - [Phase 2.11e] 同步遗留 dirty 治理规划，文档、协作、DX、运行产物与 lockfile 分开处理。
 - [Phase 2.11e] 完成 repo hygiene 收口：.run 作为本地运行产物忽略，uv.lock 保留为依赖治理尾项。
+- [Phase 2.12] 完成 Excel/PPTX ingestion MVP 立项评审草案，先定依赖治理、样本需求与 citation 验收边界。
+- [Phase 2.12] 完成 uv.lock 依赖治理裁决，lockfile 校验通过且无敏感路径，纳入依赖基线。
