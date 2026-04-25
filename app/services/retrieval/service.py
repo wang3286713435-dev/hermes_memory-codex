@@ -17,6 +17,7 @@ from app.models.chunk import Chunk
 from app.models.document import Document, DocumentVersion
 from app.models.retrieval import RetrievalLog
 from app.schemas.retrieval import SearchRequest, SearchResponse, SearchResult
+from app.services.meeting_transcript import enrich_meeting_metadata, meeting_trace
 from app.services.retrieval.dense import (
     DenseSearchOutcome,
     ExistingVectorStoreDenseRetriever,
@@ -140,6 +141,7 @@ class RetrievalService:
             candidates=candidate_pool.candidates,
         )
         final_results = rerank_outcome.results[: request.top_k]
+        meeting_transcript_trace = meeting_trace(final_results)
         self._write_log(trace_id, request, len(final_results), backend, "success")
         return SearchResponse(
             query=request.query,
@@ -164,6 +166,7 @@ class RetrievalService:
                 "metadata_snapshot_used": metadata_snapshot_trace.get("metadata_snapshot_used", False),
                 "metadata_fields_matched": metadata_snapshot_trace.get("metadata_fields_matched", []),
                 "metadata_source_chunk_ids": metadata_snapshot_trace.get("metadata_source_chunk_ids", []),
+                **meeting_transcript_trace,
                 "evidence_required": True,
                 "snapshot_as_answer": False,
                 "hybrid": {
@@ -309,6 +312,8 @@ class RetrievalService:
             }
             for phrase, boost in schedule_parameter_phrases.items():
                 should_clauses.append({"match_phrase": {"text": {"query": phrase, "boost": boost}}})
+        for phrase, boost in self._meeting_query_boosts(request.query, applied_filters).items():
+            should_clauses.append({"match_phrase": {"text": {"query": phrase, "boost": boost}}})
 
         response = client.search(
             index=settings.opensearch_index_chunks,
@@ -343,7 +348,18 @@ class RetrievalService:
                     section_path=source.get("section_path") or source.get("title_path") or source.get("heading_path") or [],
                     page_start=source.get("page_start"),
                     page_end=source.get("page_end"),
-                    metadata=source.get("metadata_json") or {},
+                    metadata=self._result_metadata(
+                        text=source.get("text", ""),
+                        metadata=source.get("metadata_json") or {},
+                        source_type=source.get("source_type"),
+                        document_type=source.get("document_type"),
+                        source_name=source.get("source_name"),
+                        source_uri=source.get("source_uri"),
+                        source_location=" > ".join(
+                            source.get("section_path") or source.get("title_path") or source.get("heading_path") or []
+                        ),
+                        source_chunk_id=source.get("chunk_id"),
+                    ),
                     retrieval_sources=["sparse"],
                     scores={"sparse": score},
                 )
@@ -545,6 +561,19 @@ class RetrievalService:
         document = self.db.query(Document).filter(Document.id == document_id).first()
         return bool(document and (document.source_type == "tender" or document.document_type == "tender"))
 
+    def _meeting_query_boosts(self, query: str, applied_filters: dict[str, Any]) -> dict[str, float]:
+        if applied_filters.get("source_type") != "meeting" and applied_filters.get("document_type") != "meeting":
+            return {}
+        normalized = self._normalize_document_reference(query)
+        boosts: dict[str, float] = {}
+        if any(token in normalized for token in ("行动项", "待办", "负责人", "跟进", "截止")):
+            boosts.update({"行动计划": 16.0, "行动项": 14.0, "负责": 10.0, "跟进": 8.0, "截止": 8.0})
+        if any(token in normalized for token in ("决策", "决定", "结论", "确认")):
+            boosts.update({"会议结论": 16.0, "决定": 12.0, "确认": 10.0, "结论": 10.0, "核心逻辑": 6.0})
+        if any(token in normalized for token in ("风险", "隐患", "问题", "待确认")):
+            boosts.update({"风险": 16.0, "隐患": 14.0, "待确认": 12.0, "问题一": 11.0, "问题二": 11.0, "合规": 8.0, "监管": 8.0})
+        return boosts
+
     def _resolve_opensearch_filter_field(self, client: OpenSearch, field: str) -> str:
         cached = self._opensearch_filter_field_cache.get(field)
         if cached:
@@ -716,7 +745,17 @@ class RetrievalService:
                     section_path=chunk.section_path or [],
                     page_start=chunk.page_start,
                     page_end=chunk.page_end,
-                    metadata=chunk.metadata_json or {},
+                    metadata=self._result_metadata(
+                        text=chunk.text,
+                        metadata=chunk.metadata_json or {},
+                        source_type=chunk.source_type,
+                        document_type=document.document_type,
+                        source_name=document.title,
+                        source_uri=document.source_uri,
+                        source_location=" > ".join(chunk.section_path or chunk.title_path or chunk.heading_path or [])
+                        or f"chunk_index={chunk.chunk_index}",
+                        source_chunk_id=chunk.id,
+                    ),
                     retrieval_sources=["database_fallback"],
                     scores={"database_fallback": 1.0},
                 )
@@ -768,7 +807,17 @@ class RetrievalService:
                     page_start=chunk.page_start,
                     page_end=chunk.page_end,
                     metadata={
-                        **(chunk.metadata_json or {}),
+                        **self._result_metadata(
+                            text=chunk.text,
+                            metadata=chunk.metadata_json or {},
+                            source_type=chunk.source_type,
+                            document_type=document.document_type,
+                            source_name=document.title,
+                            source_uri=document.source_uri,
+                            source_location=" > ".join(chunk.section_path or chunk.title_path or chunk.heading_path or [])
+                            or f"chunk_index={chunk.chunk_index}",
+                            source_chunk_id=chunk.id,
+                        ),
                         "metadata_snapshot_anchor": True,
                         "snapshot_as_answer": False,
                         "evidence_required": True,
@@ -778,6 +827,29 @@ class RetrievalService:
                 )
             )
         return results
+
+    def _result_metadata(
+        self,
+        *,
+        text: str,
+        metadata: dict[str, Any],
+        source_type: str | None,
+        document_type: str | None,
+        source_name: str | None,
+        source_uri: str | None,
+        source_location: str | None,
+        source_chunk_id: str | None,
+    ) -> dict[str, Any]:
+        return enrich_meeting_metadata(
+            text=text,
+            metadata=metadata,
+            source_type=source_type,
+            document_type=document_type,
+            source_name=source_name,
+            source_uri=source_uri,
+            source_location=source_location,
+            source_chunk_id=source_chunk_id,
+        )
 
     def _dedupe_preserve_order(self, candidates: list[SearchResult]) -> list[SearchResult]:
         seen: set[str] = set()

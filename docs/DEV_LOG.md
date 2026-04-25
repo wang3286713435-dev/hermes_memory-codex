@@ -86,3 +86,6 @@
 - [Phase 2.12] 真实 Hermes 终端验收收口：Excel/PPTX structured citation 5 条复验全部通过，跨类型切换无污染，Phase 2.12 进入 Git baseline 固化。
 - [Phase 2.12] 完成后置 Git 核对：主仓库 origin 为上游 HTTPS，backup2 为当前有效可写基线远端，Phase 2.12 branch/tag 已在 backup2 固化。
 - [Phase 2.13] 新增会议纪要 / 转写文本 ingestion MVP 规划，建议先处理 docx/txt/md 会议资料，不直接进入原始音频 ASR。
+- [Phase 2.13] 完成会议纪要 / 转写文本 ingestion 首轮最小实现，真实会议纪要行动项、决策、风险检索通过，未污染主标书 evidence。
+- [Phase 2.13] 修复会议纪要 trace 语义，transcript_as_fact 恒为 false，会议内容只作 retrieval evidence。
+- [Phase 2.13] 真实终端验收通过：会议纪要绑定、行动项/决策/风险提取、主标书对比防污染均收口。

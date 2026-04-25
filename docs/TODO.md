@@ -99,3 +99,6 @@
 29. Phase 2.12 真实终端验收已收口：Excel 文件锁定、Excel 单项检索、PPTX 文件锁定、PPTX 单页信息、跨类型防污染 `5/5` 通过；当前可进入 Git baseline，不再阻塞 Phase 2.12 收口。
 30. Phase 2.12 后置 Git 核对完成：Hermes 主仓库 `origin` 是上游 HTTPS 远端，推送失败原因是 GitHub HTTPS 凭证不可读；`backup2` 是当前可写备份远端，Phase 2.12 branch/tag 已在 `backup2` 固化，不需要把 primary remote 对齐混入功能阶段。
 31. Phase 2.13 建议优先规划会议纪要 / 转写文本 ingestion MVP：先支持 `.docx` / `.txt` / `.md` 会议资料的 speaker、timestamp、action item、decision、risk 抽取与 citation，不直接进入原始音频 ASR。
+32. Phase 2.13 首轮最小实现已完成：复用现有 docx/txt/md parser，新增会议文本 metadata 提取与 retrieval-time 动态补齐；真实样本 `会议纪要汇编 (2)` 未重复上传，行动项 / 决策 / 风险 query 均可命中会议 evidence，主标书查询未被会议 metadata 污染。
+33. Phase 2.13 trace 语义已修正：会议纪要可作为 retrieval evidence，但 `transcript_as_fact` 必须恒为 `false`；行动项 / 决策 / 风险不会被误标为已确认 facts。
+34. Phase 2.13 真实终端验收已通过：`@主标书` 与 `@会议纪要` 均可绑定，行动项 / 决策 / 风险提取命中会议 evidence；会议纪要与主标书对比无 evidence 混用，会议内容不会被当作招标文件条款引用。

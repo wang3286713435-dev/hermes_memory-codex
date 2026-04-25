@@ -127,3 +127,61 @@ Phase 2.13 MVP 不做：
 建议进入 Phase 2.13 最小规划与样本确认。
 
 优先切口为会议纪要 / 转写文本 ingestion MVP，而不是原始音频 ASR。这样可以复用当前文档 ingestion、chunk、OpenSearch、citation 和 Hermes 上层 evidence 治理能力，同时避免过早引入 ASR、说话人分离和音频质量问题。
+
+## 8. 首轮最小实现结果
+
+Phase 2.13 首轮最小实现已完成：
+
+1. 新增轻量会议文本 metadata 提取层，复用现有 `.docx` / `.txt` / `.md` parser，不重写 docx parser。
+2. ingestion 时对会议类文档写入 `meeting_transcript` metadata，包含 speaker、timestamp、topic、decision、action_item、owner、deadline、risk、source_location、source_chunk_id、confidence。
+3. retrieval 时对历史已入库会议纪要动态补齐 meeting metadata，因此无需重复上传既有真实样本。
+4. trace 增加 `meeting_transcript_used`、`meeting_fields_matched`、`speaker_detected`、`timestamp_detected`、`action_items_detected`、`decisions_detected`、`risks_detected`、`transcript_as_fact=false`、`evidence_required=true`。
+5. snapshot / metadata 仅作为检索导航与诊断，不替代 retrieval evidence。
+
+### 8.1 真实样本验证
+
+已使用既有真实样本验证，未重复上传：
+
+- title: `会议纪要汇编 (2)`
+- document_id: `92051cc6-56b5-4930-bdf0-119163c83a75`
+- source_type: `meeting`
+- document_type: `meeting`
+- chunks: `17`
+
+验证结果：
+
+1. `会议里有哪些行动项？` 命中会议纪要，`meeting_transcript_used=true`，`action_items_detected > 0`。
+2. `会议里形成了哪些决策？` 命中会议纪要，`decisions_detected > 0`。
+3. `会议中提到哪些风险？` 命中会议纪要问题 / 风险相关 chunk，`risks_detected > 0`。
+4. 对比会议纪要与主标书时，会议作用域只返回会议 document_id，主标书作用域只返回主标书 document_id，未出现证据混用。
+
+### 8.2 降级项
+
+1. 本轮不做原始音频 ASR。
+2. 不做 speaker diarization 模型，仅基于文本模式识别 speaker。
+3. 未将会议结论写入 facts；`transcript_as_fact=false`。
+4. 对历史已入库会议纪要采用 retrieval-time metadata 动态补齐，不做数据迁移。
+
+## 9. 真实终端 trace 语义修正
+
+Phase 2.13 真实终端验收曾发现：会议纪要检索 evidence 可用，但输出中多次出现 `transcript_as_fact=true`。
+
+当前已修正为：
+
+1. `meeting_transcript_used=true` 只表示本轮 retrieval 命中了会议纪要 / 转写文本 evidence。
+2. `transcript_as_fact` 必须恒为 `false`，行动项、决策、风险命中不会改变该语义。
+3. 会议纪要 answer evidence 必须来自 `retrieval_evidence_document_ids` / `meeting_source_chunk_ids` 对应 chunk。
+4. 会议纪要内容进入 facts 或长期承诺前仍需人工确认；本阶段不做 facts 写入。
+
+## 10. 真实终端验收收口
+
+Phase 2.13 真实终端复验已通过：
+
+1. `@主标书` 绑定通过，`document_id=869d4684-0a98-4825-bc72-ada65c15cfc9`，retrieval evidence 仅来自主标书，`contamination_flags=[]`。
+2. `@会议纪要` 绑定通过，`document_id=92051cc6-56b5-4930-bdf0-119163c83a75`，`meeting_transcript_used=true`、`transcript_as_fact=false`、`evidence_required=true`。
+3. 行动项 / 决策 / 风险提取通过：`action_items_detected=4`、`decisions_detected=3`、`risks_detected=2`，且 `transcript_as_fact=false`。
+4. `@会议纪要` 与 `@主标书` 对比通过，`compare_document_ids` 同时包含会议纪要与主标书，retrieval evidence 同时包含两份文件。
+5. 对比场景中的 `topicmismatch` / `mutualunawareness` 属于合理隔离诊断，不视为失败。
+6. 会议内容不得当标书条款已通过：主标书检索未混入会议纪要，未把“真实族库 / 推动行业标准 / 认证体系”等会议内容误引用为招标条款。
+
+当前 Phase 2.13 可收口为：会议纪要 / 转写文本 ingestion MVP 已完成最小闭环，但仍不包含原始音频 ASR、speaker diarization 模型、facts 写入或生产级 rollout。

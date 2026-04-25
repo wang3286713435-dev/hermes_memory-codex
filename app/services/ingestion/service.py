@@ -11,6 +11,7 @@ from app.models.ingestion import IngestionJob
 from app.schemas.documents import DocumentIngestRequest
 from app.services.chunking.service import ChunkingService
 from app.services.indexing.opensearch import OpenSearchChunkIndexer
+from app.services.meeting_transcript import enrich_meeting_metadata, is_meeting_document
 from app.services.parsing.registry import ParserRegistry
 from app.services.storage.service import StoredFile
 
@@ -82,7 +83,25 @@ class DocumentIngestionService:
             job.stage = "chunk"
             chunk_candidates = self.chunker.chunk(parsed)
             chunks: list[Chunk] = []
+            is_meeting_scope = is_meeting_document(
+                source_type=document.source_type,
+                document_type=document.document_type,
+                title=document.title,
+                source_uri=document.source_uri,
+            )
             for index, candidate in enumerate(chunk_candidates):
+                metadata = candidate.metadata
+                if is_meeting_scope:
+                    metadata = enrich_meeting_metadata(
+                        text=candidate.text,
+                        metadata=candidate.metadata,
+                        source_type=document.source_type,
+                        document_type=document.document_type,
+                        source_name=document.title,
+                        source_uri=document.source_uri,
+                        source_location=" > ".join(candidate.title_path or candidate.section_path or [])
+                        or f"chunk_index={index}",
+                    )
                 chunk = Chunk(
                     document_id=document.id,
                     version_id=version.id,
@@ -97,12 +116,20 @@ class DocumentIngestionService:
                     token_count=len(candidate.text),
                     content_hash=candidate.content_hash,
                     source_type=document.source_type,
-                    metadata_json=candidate.metadata,
+                    metadata_json=metadata,
                     permission_tags=request.permission_tags,
                 )
                 self.db.add(chunk)
                 chunks.append(chunk)
             self.db.flush()
+
+            if is_meeting_scope:
+                for chunk in chunks:
+                    chunk.metadata_json = {
+                        **(chunk.metadata_json or {}),
+                        "source_chunk_id": chunk.id,
+                    }
+                self.db.flush()
 
             for chunk in chunks:
                 self.db.add(
