@@ -75,3 +75,5 @@
 - [Phase 2.11c] 完成 tender metadata snapshot 最小实现，真实大标书工程地点、建设单位、代建单位 query 已锚定目标 chunk。
 - [Phase 2.11c] 补强 snapshot trace 回归测试，确认 OpenSearch 与 DB fallback 路径均不把 snapshot 当作 answer evidence。
 - [Phase 2.11c] 真实终端复验通过，基础信息召回 evidence 正确且 snapshot_as_answer 保持 false。
+- [Phase 2.11d] 同步综合回归规划，后续需新增第二份大型标书与制度/合同文件验证跨文件防污染。
+- [Phase 2.11d] 完成三份新增真实文件入库与索引，并通过 15 条上下文治理综合回归。

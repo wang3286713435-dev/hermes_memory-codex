@@ -85,3 +85,8 @@
 15. Phase 2.11c 最小实现已完成：Hermes_memory 新增轻量 `tender_metadata_snapshot` 导航，基础信息 query 可锚定工程地点、建设单位、代建单位等来源 chunk；真实大标书复测中三类 query 均返回目标 `document_id`，top1 不再落到第八章工程量清单。
 16. Phase 2.11c 真实终端验收已通过：`@主标书` 绑定到 `869d4684-0a98-4825-bc72-ada65c15cfc9`，工程地点 / 建设单位 / 代建单位均由 metadata snapshot 导航到目标 evidence chunk。
 17. Phase 2.11c trace 语义已验收：`metadata_snapshot_used=true`、`evidence_required=true`、`snapshot_as_answer=false`，最终答案由 retrieval evidence 支撑，`contamination_flags=[]`。
+18. Phase 2.11d 已进入规划：需要用 15 条综合回归 prompt 验证 active document、alias、compare、metadata snapshot、history memory 非 evidence 与 missing alias suppress retrieval 的组合稳定性。
+19. Phase 2.11d 新数据需求：第二份大型标书、一份企业制度 / 合同类文件；Hermes_memory 侧需配合确认入库、索引与文件级检索可用。
+20. Phase 2.11d 新增文件已完成入库：香港中文大学医学院智能化工程标书 `613` chunks、3-1 数字化交付标准 `20` chunks、会议纪要汇编 `17` chunks，均完成 OpenSearch 索引。
+21. Phase 2.11d 综合回归已执行 15/15 通过；当前未发现大标书、交付标准、会议纪要之间的 document scope 污染。
+22. Phase 2.11d 非阻塞尾项：multi-document compare 顶层 trace 暂不聚合每份文档的 metadata snapshot 字段；当前不影响 retrieval evidence 与防污染结论。
