@@ -97,3 +97,5 @@
 27. Phase 2.12 Excel/PPTX ingestion MVP 已完成首轮最小闭环：3 个 Excel 与 3 个 PPTX 均完成上传、解析、chunk、OpenSearch 索引与带 document_id 的 sparse 检索验证。后续尾项：真实 Hermes 终端验收、图表深层数据还原、图片 OCR、dense ingestion 仍需单独推进。
 28. Phase 2.12a Hermes 主仓库 structured citation 消费层已完成最小修复：Excel/PPTX retrieval 结果在 CLI 层可稳定展示结构化 citation；Hermes_memory 本轮无 parser/contract 变更，仅记录阶段联调状态。
 29. Phase 2.12 真实终端验收已收口：Excel 文件锁定、Excel 单项检索、PPTX 文件锁定、PPTX 单页信息、跨类型防污染 `5/5` 通过；当前可进入 Git baseline，不再阻塞 Phase 2.12 收口。
+30. Phase 2.12 后置 Git 核对完成：Hermes 主仓库 `origin` 是上游 HTTPS 远端，推送失败原因是 GitHub HTTPS 凭证不可读；`backup2` 是当前可写备份远端，Phase 2.12 branch/tag 已在 `backup2` 固化，不需要把 primary remote 对齐混入功能阶段。
+31. Phase 2.13 建议优先规划会议纪要 / 转写文本 ingestion MVP：先支持 `.docx` / `.txt` / `.md` 会议资料的 speaker、timestamp、action item、decision、risk 抽取与 citation，不直接进入原始音频 ASR。

@@ -84,3 +84,5 @@
 - [Phase 2.12] 完成 Excel/PPTX ingestion 最小闭环，6 个真实样本均完成上传、索引与 sheet/cell 或 slide citation 检索验证。
 - [Phase 2.12a] Hermes 主仓库已补 structured citation 消费与展示最小修复；Hermes_memory 本轮仅同步阶段状态，不改 parser、retrieval contract 或 memory kernel 架构。
 - [Phase 2.12] 真实 Hermes 终端验收收口：Excel/PPTX structured citation 5 条复验全部通过，跨类型切换无污染，Phase 2.12 进入 Git baseline 固化。
+- [Phase 2.12] 完成后置 Git 核对：主仓库 origin 为上游 HTTPS，backup2 为当前有效可写基线远端，Phase 2.12 branch/tag 已在 backup2 固化。
+- [Phase 2.13] 新增会议纪要 / 转写文本 ingestion MVP 规划，建议先处理 docx/txt/md 会议资料，不直接进入原始音频 ASR。
