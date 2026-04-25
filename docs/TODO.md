@@ -102,3 +102,5 @@
 32. Phase 2.13 首轮最小实现已完成：复用现有 docx/txt/md parser，新增会议文本 metadata 提取与 retrieval-time 动态补齐；真实样本 `会议纪要汇编 (2)` 未重复上传，行动项 / 决策 / 风险 query 均可命中会议 evidence，主标书查询未被会议 metadata 污染。
 33. Phase 2.13 trace 语义已修正：会议纪要可作为 retrieval evidence，但 `transcript_as_fact` 必须恒为 `false`；行动项 / 决策 / 风险不会被误标为已确认 facts。
 34. Phase 2.13 真实终端验收已通过：`@主标书` 与 `@会议纪要` 均可绑定，行动项 / 决策 / 风险提取命中会议 evidence；会议纪要与主标书对比无 evidence 混用，会议内容不会被当作招标文件条款引用。
+35. Phase 2.14 已完成边界规划：先建设 API-level deterministic regression eval，再补少量 Hermes CLI smoke；覆盖 document scope、alias、compare、metadata snapshot、Excel/PPTX citation、meeting transcript 与 evidence policy。
+36. Phase 2.14 最小 API eval runner 已完成：内置 11 条 case，真实本地运行 `10 passed / 0 failed / 1 skipped`；missing alias suppress 保持 CLI-only skipped，后续应补少量 Hermes CLI smoke。
