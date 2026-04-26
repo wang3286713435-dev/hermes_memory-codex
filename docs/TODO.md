@@ -166,3 +166,14 @@
 6. Phase 2.20a full eval 已复跑通过：`16 passed / 0 failed / 1 skipped`，`p50/p95=11.146ms/539.376ms`。
 7. 环境注意事项：dense / hybrid eval 必须使用 `QDRANT_COLLECTION=hermes_chunks`；若本机 ignored `.env` 指向旧 `hermes_gate_chunks`，会造成 core dense `dense_returned=0` 假失败。
 8. 本轮未回填、未放宽 eval 断言、未改治理功能；`missing_alias_suppress_cli_only` 继续由 CLI smoke 覆盖。
+
+## 14. Phase 2.21 facts 路线裁决
+
+1. Phase 2.21 已完成候选路线评审：增量治理、facts、原始音频 ASR、完整 RBAC/ABAC、生产级 rollout 均仍有价值，但下一阶段建议优先进入结构化 facts 最小闭环。
+2. 推荐 Phase 2.21a 的原因：当前 retrieval evidence、version_id、access/audit 与 eval 已具备 facts 的可信来源基础，适合从文档检索助手推进到企业长期记忆系统。
+3. Phase 2.21a 最小 facts 必须包含 `fact_type`、`subject`、`predicate`、`value`、`source_document_id`、`source_version_id`、`source_chunk_id`、`confidence`、`verification_status`、`created_by`、`confirmed_by`、`audit_event_id`。
+4. facts 必须来源于 retrieval evidence + version_id + audit；未经人工确认或显式确认的 facts 必须标记 `unverified`，不得当作已确认企业事实使用。
+5. Phase 2.21a 非目标：不自动把所有文档转 facts、不做复杂知识图谱、不做自动决策、不进入 rollout、不改 retrieval contract、不改 memory kernel 主架构。
+6. Phase 2.21a 最小实现已完成：新增 evidence-backed facts service/API，创建 fact 必须绑定 source chunk，并保留 source document/version/chunk、confidence、verification_status、created_by、confirmed_by、audit_event_id。
+7. Phase 2.21a live smoke 已通过：会议纪要 action item 与主标书建设单位各创建 1 条 `unverified` fact，by document / by subject 查询均能返回来源字段。
+8. 后续尾项：facts 暂不参与 answer generation；如要进入真实业务，应先补 facts eval、权限过滤查询、人工确认工作流和 stale source 处理策略。

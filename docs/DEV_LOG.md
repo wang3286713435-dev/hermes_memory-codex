@@ -111,3 +111,5 @@
 - [Phase 2.20] 完成治理类 eval 扩展规划：access/audit/version 进入 API deterministic eval，alias stale version 保持 CLI smoke。
 - [Phase 2.20a] 完成治理类 eval 最小实现：API governance 5/5 通过，CLI stale alias smoke 5/5 通过；全量 core dense 失败另列尾项。
 - [Phase 2.20a] 定位 full eval dense 假失败为本机 .env 指向旧 Qdrant collection；改回 hermes_chunks 后 full eval 16/16 通过。
+- [Phase 2.21] 完成下一阶段路线裁决，建议优先进入 evidence-backed 结构化 facts 最小闭环。
+- [Phase 2.21a] 完成 evidence-backed facts 最小实现，fact 必须绑定 source chunk/version/audit，默认 unverified。
