@@ -333,3 +333,13 @@
 14. Nightly Sprint 初始队列：Phase 2.27b audit preview / dry-run、Phase 2.27b baseline、Phase 2.27c route planning。
 15. Yellow Lane 完成后必须停止等待 Codex B；Red Lane 夜间禁止，包括 repair executor、migration、rollout、facts 自动抽取、contract / 主架构修改与生产 cron。
 16. `reports/nightly_runs/*.json` 是 ignored 本地状态文件，不入 Git；只提交 README / `.gitignore` 策略。
+
+## 26. Phase 2.27c review audit write 路线规划
+
+1. Phase 2.27c 已通过 Nightly Sprint Green Lane 完成路线规划：评审是否将 report review 事件真实写入 `audit_logs`。
+2. 当前建议：可以进入后续最小实现，但仅限 report-level sanitized audit 写入；默认仍保持 preview-only。
+3. 后续实现必须显式 opt-in，例如 `--write-audit`；不得在夜间自动执行真实 DB 写入。
+4. audit payload 只能包含 review_id、report_hash、report_type、review_status、reviewer、reviewed_at、summary counts 与 `executable=false`。
+5. 必须继续排除 notes、reason、approved_action、完整 item_decisions、本机绝对路径和 fact_id / document_id 等 item-level entity details。
+6. `approved_for_manual_action` 仍不等于 executed；repair executor、item-level audit summary、完整 review record 入库继续后置。
+7. 下一阶段候选：`Phase 2.27d report-level review audit write MVP`，但属于 Yellow Lane，必须等待 Codex B 审核与用户显式授权。

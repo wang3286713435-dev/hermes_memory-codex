@@ -2,15 +2,15 @@
 
 ## 当前优先级
 
-1. Phase 2.27b Git baseline：sanitized audit payload preview / dry-run。
-2. Phase 2.27c 候选：真实写 `audit_logs` 的独立规划。
+1. Phase 2.27c 路线规划审核：确认是否允许后续 report-level sanitized audit 写入。
+2. Phase 2.27d 候选：真实写 `audit_logs` 的最小实现，仅限显式 opt-in 与 report-level summary。
 3. Phase 2.28c 后续：Nightly Sprint 队列继续保持，但不自动执行 Yellow Lane。
 
 ## 后置项
 
 1. repair executor：后置，必须经过单独 Phase 规划、人工确认和显式指令。
 2. item-level audit summary：后置，避免过早暴露 fact_id / document_id 等实体信息。
-3. report review 写业务 DB：后置，当前只允许 sanitized preview / dry-run。
+3. report review 写业务 DB：后置到 Yellow Lane；仅允许 Codex B 审核后显式 opt-in 的 report-level sanitized audit 写入。
 4. rollout readiness：后置，当前仍不进入生产 rollout。
 5. production cron / scheduler：后置，Nightly Sprint 只做本地协作协议，不创建系统定时任务。
 

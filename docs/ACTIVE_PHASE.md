@@ -1,41 +1,36 @@
 # Active Phase
 
-- 当前 phase：Phase 2.27b Review Audit Payload Preview / Dry-run
-- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，实现 review record 的 sanitized audit payload preview；不写 `audit_logs`、不写业务 DB、不执行 repair。
+- 当前 phase：Phase 2.27c Review Audit Write Route Planning baseline
+- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.27c 路线规划 Git baseline；不实现 Phase 2.27d。
 - 修改文件：
-  - `scripts/phase227b_review_audit_preview.py`
-  - `tests/test_phase227b_review_audit_preview.py`
-  - `docs/PHASE227B_REVIEW_AUDIT_PLAN.md`
+  - `docs/PHASE227C_REVIEW_AUDIT_WRITE_ROUTE_PLAN.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
   - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
 - 完成内容：
-  - 新增 sanitized audit payload preview runner。
-  - 输入 Phase 2.27a review record JSON，输出 report-level audit payload。
-  - payload 固定 `dry_run=true`、`executable=false`、`would_write_audit_logs=false`。
-  - 排除 notes、reason、approved_action、完整 item_decisions、report 原文、本机绝对路径与 item-level entity details。
-  - unsafe review record 会被拒绝：`executable=true`、`dry_run=false`、`destructive_actions` 非空均失败。
+  - Phase 2.27c 规划文档已纳入 baseline 范围。
+  - 规划结论保持：后续可进入 report-level sanitized audit 写入 MVP，但必须显式 opt-in。
+  - 真实写 `audit_logs` 属于 Yellow Lane，不允许夜间自动实现。
+  - 本轮未实现 Phase 2.27d，未写 `audit_logs`，未写业务 DB。
 - 测试结果：
-  - `uv run python -m py_compile scripts/phase227b_review_audit_preview.py`：通过。
-  - `uv run pytest tests/test_phase227b_review_audit_preview.py -q`：`10 passed`。
+  - 未运行测试；本轮只做规划 baseline。
 - live smoke 结果：
-  - 使用临时目录 fake review record 执行 preview 通过。
-  - stdout payload 未包含 notes / reason / approved_action / item_decisions / 本机绝对路径 / entity id / executed。
-  - 未生成真实 audit payload 文件；未写 DB。
+  - 未执行 live smoke；本轮不写 DB、不写 `audit_logs`、不执行 repair。
 - 当前结论：
-  - Phase 2.27b 最小实现已完成。
-  - 当前仍只是 audit preview / dry-run，不代表已写入 `audit_logs`。
+  - Phase 2.27c planning 已完成并进入 Git baseline 流程。
+  - Phase 2.27d 只能在 Codex B 审核与用户显式授权后启动。
 - 阻塞点 / 风险点：
-  - 真实写 `audit_logs` 仍未实现，必须独立规划。
-  - item-level audit summary 仍后置，避免泄露 fact_id / document_id 等实体细节。
-  - repair executor、真实数据修改、rollout 仍禁止。
-- 是否建议 baseline：是，建议 Codex B 审核后进入 Phase 2.27b Git baseline。
-- 是否建议进入下一阶段：否，先做 Phase 2.27b baseline；随后再规划是否进入真实 audit_logs 写入。
+  - notes、reason、approved_action、完整 item_decisions 与 item-level entity details 仍必须硬排除。
+  - `approved_for_manual_action` 仍不等于 executed。
+  - repair executor、rollout、DB schema 扩大仍禁止。
+- 是否建议 baseline：已按本轮执行。
+- 是否建议进入下一阶段：是，但仅建议进入用户显式授权后的 Phase 2.27d；不建议夜间自动实现真实 DB 写入。
 - 下一轮建议：
-  - 优先：Phase 2.27b Git baseline。
-  - 后续候选：Phase 2.27c 真实写 `audit_logs` 规划，或继续保持 preview-only。
+  - Codex B 审核本 baseline。
+  - 若通过，由用户显式授权 Phase 2.27d：report-level sanitized audit 写入 MVP。
 - 是否需要 Codex B 审核：是。
 - 是否需要 Codex C 真实终端验收：否。

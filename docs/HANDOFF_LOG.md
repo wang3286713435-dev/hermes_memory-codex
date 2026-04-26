@@ -99,3 +99,48 @@
 - risks: `reports/agent_runs/latest.json` 为 ignored 本地状态文件，不应提交；baseline 前仍需 Codex A 复跑 py_compile 与 pytest。
 - next: Codex A 只需执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.27b baseline。
 - commit/tag if any: 无。
+
+## 2026-04-27 02:40 Phase 2.27c
+- goal: Nightly Sprint Green Lane 执行 Phase 2.27c route planning，评审是否真实写 `audit_logs`。
+- changed_files:
+  - `docs/PHASE227C_REVIEW_AUDIT_WRITE_ROUTE_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+  - `reports/nightly_runs/20260427_024050.json`
+- tests: 未运行；本轮只做规划与文档同步。
+- validation: 已明确建议后续仅做 report-level sanitized audit 写入，必须显式 opt-in；真实 DB 写入属于 Yellow Lane，不允许夜间自动实现。
+- risks: notes、reason、approved_action、完整 item_decisions 与 item-level entity details 仍须硬排除；repair executor、rollout、DB schema 扩大继续禁止。
+- next: Codex B 审核 Phase 2.27c 规划；若通过，由用户显式授权 Phase 2.27d report-level review audit write MVP。
+- commit/tag if any: 无。
+
+## 2026-04-27 02:55 Phase 2.27c
+- goal: Codex B 通过文件交接系统写入 Phase 2.27c Git baseline prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；本轮只更新下一轮 Codex A 文件化执行入口。
+- validation: `NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27c planning baseline 任务；仍禁止写 audit_logs、写 DB、repair、rollout。
+- risks: `reports/agent_runs/latest.json` 与 `reports/nightly_runs/*.json` 为 ignored 本地状态文件，不应提交；Phase 2.27d 真实写 audit_logs 必须后续显式授权。
+- next: Codex A 只需执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.27c planning baseline。
+- commit/tag if any: 无。
+
+## 2026-04-27 03:05 Phase 2.27c
+- goal: 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.27c route planning Git baseline。
+- changed_files:
+  - `docs/PHASE227C_REVIEW_AUDIT_WRITE_ROUTE_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；本轮只做规划 baseline。
+- validation: 已复核 ignored 状态；`latest.json` 与 nightly run JSON 不提交；未写 audit_logs、未写业务 DB、未执行 repair。
+- risks: Phase 2.27d 真实写 audit_logs 属 Yellow Lane，必须 Codex B 审核与用户显式授权；repair executor 与 rollout 继续禁止。
+- next: Codex B 审核本 baseline；如通过，由用户授权 Phase 2.27d report-level sanitized audit 写入 MVP。
+- commit/tag if any: 待本轮 Git commit / tag 写入。

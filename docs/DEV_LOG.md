@@ -140,3 +140,4 @@
 - [Phase 2.28b] 新增 NEXT_CODEX_A_PROMPT 固定任务入口，后续 Codex A 可直接读取文件执行下一轮任务。
 - [Phase 2.28c] 新增 Nightly Sprint 协议与队列，限定夜间只执行 bounded Green Lane 任务，禁止 repair 和 rollout。
 - [Phase 2.27b] 按 NEXT_CODEX_A_PROMPT 完成 sanitized audit payload preview，单测与临时 smoke 均通过，未写 audit_logs。
+- [Phase 2.27c] 夜间 Green Lane 完成真实写 audit_logs 路线规划，建议仅 report-level sanitized 写入且需显式授权。
