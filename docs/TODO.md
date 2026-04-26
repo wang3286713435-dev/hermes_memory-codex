@@ -238,3 +238,22 @@
 13. 复验未出现 E/C chunks 写入 `facts_context_fact_ids`、fact-only query 检索无关文档或 facts 替代 retrieval evidence。
 14. 复验注意：`@会议纪要` 必须在同一会话内先绑定，避免新会话 alias_missing。
 15. 当前仍未做：facts 进入 Agent final answer、自动抽取、知识图谱、UI 管理后台与 rollout。
+
+## 19. Phase 2.25 项目状态审计与下一阶段路线裁决
+
+1. Phase 2.25 已完成路线评审：当前 Hermes_memory 处于企业长期记忆底座 MVP 后段，核心检索、上下文、治理、facts 与评测均已有最小闭环。
+2. 当前不建议直接进入生产 rollout、facts 自动抽取、facts 更深层 Agent reasoning、管理后台或 OCR / 原始音频 ASR。
+3. 推荐下一阶段进入 `Phase 2.25a Enterprise Readiness Audit + 数据维护诊断小工具`。
+4. Phase 2.25a 最小边界：环境配置、migration、索引健康、API 健康、eval 入口、备份恢复清单的 readiness audit / smoke。
+5. 数据维护诊断建议只做 dry-run：重复 / 近似同名 document、latest/superseded 状态、OpenSearch/Qdrant count、一致性和 stale facts 检查。
+6. 非目标：不自动修复、不默认全库重写、不做物理删除、不自动确认 facts、不改 retrieval contract 或 memory kernel 主架构。
+
+## 20. Phase 2.25a readiness audit / 数据维护诊断
+
+1. 已新增 `scripts/phase225_readiness_audit.py`，默认 dry-run，只输出诊断 JSON，不修改任何业务数据。
+2. 已覆盖服务健康、版本治理、OpenSearch 一致性、Qdrant dense 一致性、facts 治理、audit logs 与 eval readiness。
+3. `destructive_actions` 固定为空；light eval 默认不执行，避免 Phase 2.14 fixture 写入破坏只读语义。
+4. 单元测试已覆盖 summary 聚合、warning/fail 判定、Qdrant collection 错误诊断与 stale facts 格式。
+5. 本机默认 `.env` 指向容器主机名时会清晰失败；本机直跑需覆写 `DATABASE_URL` / `OPENSEARCH_URL` / `QDRANT_URL` / `QDRANT_COLLECTION`。
+6. 使用 127.0.0.1 覆写后 live dry-run 结果为 `status=warn`，`22 passed / 1 warning / 0 failed`；warning 为已知 stale confirmed fact。
+7. 后续可考虑 Git baseline，并将该 runner 纳入定期 smoke；当前仍不进入生产 rollout。
