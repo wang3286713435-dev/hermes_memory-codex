@@ -153,3 +153,5 @@
 6. Phase 2.19a live smoke 已复验：默认 sparse / dense-only / hybrid 只返回 latest v2，显式旧 `version_id` 只返回 v1，audit 默认 latest 只记录 v2。
 7. 当前非目标：不做复杂 diff、不做完整文档生命周期后台、不做全库重建、不物理删除旧 chunk、不做 facts 主线。
 8. 尾项：Hermes 主仓库 alias store 若要绑定 version_id，需要后续联调 stale_version 诊断；审计 eval 纳入 Phase 2.14 可作为配套小任务。
+9. Phase 2.19b 已进入 Hermes 主仓库边界规划：alias stale version 联调优先于审计 eval 扩展；Hermes_memory 继续保持现有 retrieval trace，不改 contract。
+10. Phase 2.19b 主仓库最小实现已完成并完成 live smoke；Hermes_memory 继续只提供 `version_scope` / `latest_version_id` trace，不新增 contract。

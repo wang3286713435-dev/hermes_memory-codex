@@ -106,3 +106,5 @@
 - [Phase 2.19a] 完成版本治理最小闭环：同名上传生成新版本，旧版本 superseded，默认检索 latest，显式 version_id 可查历史。
 - [Phase 2.19a] 修复 OpenSearch 旧版本同步问题，supersede 时按 document_id+version_id 限定更新 is_latest=false，避免 sparse 泄露旧版本。
 - [Phase 2.19a] 完成 live smoke 复验：默认 sparse/dense/hybrid 只返回 latest v2，显式旧 version_id 返回 v1，audit 默认 latest 只记录 v2。
+- [Phase 2.19b] 同步 alias stale version 联调规划，Hermes_memory 保持版本治理 trace 输出，主仓库负责 alias 侧诊断与用户提示。
+- [Phase 2.19b] 同步主仓库最小实现完成状态，alias stale version live smoke 已通过；Hermes_memory 不改 retrieval contract。
