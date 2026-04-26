@@ -257,3 +257,16 @@
 5. 本机默认 `.env` 指向容器主机名时会清晰失败；本机直跑需覆写 `DATABASE_URL` / `OPENSEARCH_URL` / `QDRANT_URL` / `QDRANT_COLLECTION`。
 6. 使用 127.0.0.1 覆写后 live dry-run 结果为 `status=warn`，`22 passed / 1 warning / 0 failed`；warning 为已知 stale confirmed fact。
 7. 后续可考虑 Git baseline，并将该 runner 纳入定期 smoke；当前仍不进入生产 rollout。
+
+## 21. Phase 2.26 stale facts / 数据一致性 repair plan dry-run
+
+1. Phase 2.26 已完成边界规划：下一步优先做 repair plan dry-run，而不是直接修复数据。
+2. Phase 2.26a 建议新增只读脚本 `scripts/phase226_repair_plan_dry_run.py`，输出结构化 repair plan。
+3. 覆盖项：stale confirmed facts、source missing facts、version index inconsistency、duplicate / near-duplicate documents 初步诊断、audit gap 说明。
+4. 所有 plan item 必须 `executable=false`；全局 `dry_run=true` 且 `destructive_actions=[]`。
+5. 默认 recommended_action 必须保守：`keep_with_warning`、`revalidate_against_latest`、`mark_needs_review`、`reject_if_source_missing`、`reindex_version_payload`、`rerun_dense_backfill`。
+6. 硬边界：不修改 facts、document_versions、OpenSearch、Qdrant，不删除数据，不自动确认 facts，不执行 repair。
+7. Phase 2.26b 或后续再考虑 readiness audit 定期 smoke / 报告归档；自动 repair 必须等 dry-run 稳定并经过人工确认。
+8. Phase 2.26a 最小实现已完成：新增 repair plan dry-run runner 与 6 条单元测试，输出只读 JSON plan。
+9. live dry-run 已检出已知 stale confirmed fact `9f98384b-5053-4a8f-9b83-35983b28b38e`，无 critical failure。
+10. 当前仍不执行 repair / reindex / backfill；下一步可做 Git baseline 后规划人工审核或定期报告。

@@ -129,3 +129,5 @@
 - [Phase 2.24a] 同步 Codex C 真实终端复验通过结论，5 条验收全过，stale fact 检出且 facts_as_answer 恒 false。
 - [Phase 2.25] 完成项目状态审计与路线裁决，建议下一阶段做 readiness audit 与数据维护诊断 dry-run，不直接 rollout 或自动抽取 facts。
 - [Phase 2.25a] 新增只读 readiness audit runner，覆盖服务、版本、索引、dense、facts、audit 与 eval readiness；本机覆写 127 后 dry-run 为 warn，无失败。
+- [Phase 2.26] 完成 repair plan dry-run 边界规划，下一步只生成不可执行修复计划，不修改 facts、索引或版本数据。
+- [Phase 2.26a] 完成 repair plan dry-run 最小实现，已检出已知 stale fact，输出不可执行计划且无破坏动作。
