@@ -14,6 +14,9 @@ class FactCreateFromEvidenceRequest(BaseModel):
 
 class FactStatusUpdateRequest(BaseModel):
     actor_id: str | None = None
+    confirmed_by: str | None = None
+    rejected_by: str | None = None
+    rejection_reason: str | None = None
 
 
 class FactResponse(BaseModel):
@@ -29,6 +32,10 @@ class FactResponse(BaseModel):
     verification_status: str
     created_by: str | None = None
     confirmed_by: str | None = None
+    confirmed_at: str | None = None
+    rejected_by: str | None = None
+    rejected_at: str | None = None
+    rejection_reason: str | None = None
     audit_event_id: str | None = None
     stale_source_version: bool
     source_version_is_latest: bool

@@ -90,10 +90,113 @@ def test_list_facts_by_subject_and_confirm_reject(tmp_path):
     confirmed = service.confirm_fact(fact.id, actor_id="reviewer")
     assert confirmed.verification_status == "confirmed"
     assert confirmed.confirmed_by == "reviewer"
+    assert confirmed.confirmed_at is not None
 
-    rejected = service.mark_fact_rejected(fact.id, actor_id="reviewer")
+    rejected = service.mark_fact_rejected(fact.id, actor_id="reviewer", rejection_reason="证据不足")
     assert rejected.verification_status == "rejected"
     assert rejected.confirmed_by is None
+    assert rejected.confirmed_at is None
+    assert rejected.rejected_by == "reviewer"
+    assert rejected.rejected_at is not None
+    assert rejected.rejection_reason == "证据不足"
+
+
+def test_fact_confirm_requires_confirmed_by_and_writes_audit(tmp_path):
+    db = _db_session(tmp_path)
+    chunk = _seed_document_chunk(db)
+    service = FactService(db)
+    fact = service.create_fact_from_evidence(
+        fact_type="meeting_action_item",
+        subject="确认测试",
+        predicate="负责",
+        value="复核",
+        source_chunk_id=chunk.id,
+    )
+
+    try:
+        service.confirm_fact(fact.id)
+    except FactValidationError as exc:
+        assert str(exc) == "confirmed_by_required"
+    else:  # pragma: no cover
+        raise AssertionError("confirm without confirmed_by should fail")
+
+    confirmed = service.confirm_fact(fact.id, confirmed_by="reviewer-a")
+
+    assert confirmed.verification_status == "confirmed"
+    assert confirmed.confirmed_by == "reviewer-a"
+    assert confirmed.confirmed_at is not None
+    event = _last_fact_status_audit(db, "fact.confirm")
+    assert event.user_id == "reviewer-a"
+    assert event.result_json["confirmed_by"] == "reviewer-a"
+    assert event.result_json["confirmed_at"] is not None
+
+
+def test_fact_reject_writes_reviewer_reason_and_audit(tmp_path):
+    db = _db_session(tmp_path)
+    chunk = _seed_document_chunk(db)
+    service = FactService(db)
+    fact = service.create_fact_from_evidence(
+        fact_type="meeting_action_item",
+        subject="拒绝测试",
+        predicate="负责",
+        value="复核",
+        source_chunk_id=chunk.id,
+    )
+
+    rejected = service.reject_fact(fact.id, rejected_by="reviewer-b", rejection_reason="来源不足")
+
+    assert rejected.verification_status == "rejected"
+    assert rejected.rejected_by == "reviewer-b"
+    assert rejected.rejected_at is not None
+    assert rejected.rejection_reason == "来源不足"
+    event = _last_fact_status_audit(db, "fact.reject")
+    assert event.user_id == "reviewer-b"
+    assert event.result_json["rejected_by"] == "reviewer-b"
+    assert event.result_json["rejected_at"] is not None
+    assert event.result_json["rejection_reason"] == "来源不足"
+
+
+def test_fact_reject_requires_rejected_by_and_defaults_reason(tmp_path):
+    db = _db_session(tmp_path)
+    chunk = _seed_document_chunk(db)
+    service = FactService(db)
+    fact = service.create_fact_from_evidence(
+        fact_type="meeting_action_item",
+        subject="拒绝默认原因",
+        predicate="负责",
+        value="复核",
+        source_chunk_id=chunk.id,
+    )
+
+    try:
+        service.reject_fact(fact.id)
+    except FactValidationError as exc:
+        assert str(exc) == "rejected_by_required"
+    else:  # pragma: no cover
+        raise AssertionError("reject without rejected_by should fail")
+
+    rejected = service.reject_fact(fact.id, rejected_by="reviewer-c")
+
+    assert rejected.rejection_reason == "not_specified"
+
+
+def test_rejected_fact_query_still_returns_when_policy_allows(tmp_path):
+    db = _db_session(tmp_path)
+    chunk = _seed_document_chunk(db)
+    service = FactService(db)
+    fact = service.create_fact_from_evidence(
+        fact_type="meeting_action_item",
+        subject="已拒绝仍可查",
+        predicate="负责",
+        value="复核",
+        source_chunk_id=chunk.id,
+    )
+    service.reject_fact(fact.id, rejected_by="reviewer", rejection_reason="人工否决")
+
+    views = service.list_facts_by_subject("已拒绝仍可查")
+
+    assert [view.fact.id for view in views] == [fact.id]
+    assert views[0].fact.verification_status == "rejected"
 
 
 def test_fact_query_no_acl_defaults_not_configured_allow_and_audits(tmp_path):
@@ -309,6 +412,15 @@ def _last_fact_query_audit(db) -> AuditLog:
     return (
         db.query(AuditLog)
         .filter(AuditLog.action == "fact.query")
+        .order_by(AuditLog.created_at.desc())
+        .first()
+    )
+
+
+def _last_fact_status_audit(db, action: str) -> AuditLog:
+    return (
+        db.query(AuditLog)
+        .filter(AuditLog.action == action)
         .order_by(AuditLog.created_at.desc())
         .first()
     )

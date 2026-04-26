@@ -116,3 +116,4 @@
 - [Phase 2.21b] 完成 facts governance 边界规划，下一步只推进 facts eval、查询权限过滤与人工确认工作流，不让 facts 参与回答生成。
 - [Phase 2.21b] 完成 facts eval 第一阶段实现，Phase 2.14 runner 新增 facts group，live eval 5/5 通过，full eval 21/21 执行通过。
 - [Phase 2.21b] 完成 facts 查询权限过滤与 audit，source document ACL 可控制 fact 返回，denied fact 不泄露，full eval 无回归。
+- [Phase 2.21b] 完成人工确认字段增强，confirm/reject 写入操作者、时间、拒绝原因与 audit，建议 Git baseline 后收口。

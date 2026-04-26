@@ -1,4 +1,6 @@
-from sqlalchemy import Float, ForeignKey, Index, String, Text
+from datetime import datetime
+
+from sqlalchemy import DateTime, Float, ForeignKey, Index, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base, IdMixin, TimestampMixin
@@ -22,4 +24,8 @@ class Fact(IdMixin, TimestampMixin, Base):
     verification_status: Mapped[str] = mapped_column(String(32), default="unverified", index=True)
     created_by: Mapped[str | None] = mapped_column(String(128), index=True)
     confirmed_by: Mapped[str | None] = mapped_column(String(128), index=True)
+    confirmed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    rejected_by: Mapped[str | None] = mapped_column(String(128), index=True)
+    rejected_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    rejection_reason: Mapped[str | None] = mapped_column(Text)
     audit_event_id: Mapped[str | None] = mapped_column(ForeignKey("audit_logs.id"), index=True)

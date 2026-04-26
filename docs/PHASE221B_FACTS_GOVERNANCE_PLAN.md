@@ -180,3 +180,49 @@ Phase 2.21b 不做：
 3. 未做复杂知识图谱。
 4. 未做 UI / 管理后台。
 5. 人工确认工作流字段增强仍留后续。
+
+## 11. Phase 2.21b 第三阶段实现结果：人工确认工作流字段增强
+
+已完成：
+
+1. facts 模型新增 `confirmed_at`、`rejected_by`、`rejected_at`、`rejection_reason`。
+2. 新增兼容 migration：`0003_phase221b_fact_review_fields.py`。
+3. `confirm_fact()` 要求必须提供确认人，缺失时返回 `confirmed_by_required`。
+4. `reject_fact()` 要求必须提供拒绝人，缺失时返回 `rejected_by_required`。
+5. reject 支持 `rejection_reason`；如未提供，默认写入 `not_specified`。
+6. 状态流转支持：
+   - `unverified -> confirmed`
+   - `unverified -> rejected`
+   - `confirmed -> rejected`
+   - `rejected -> confirmed`
+7. 状态变更写入 audit：
+   - `fact.confirm`
+   - `fact.reject`
+8. rejected fact 在 policy allow 时仍可查询，但 `verification_status=rejected` 明确可见。
+
+测试结果：
+
+1. `uv run pytest tests/test_phase221_facts.py -q`：`12 passed`。
+2. `uv run python -m py_compile app/models/fact.py app/services/facts.py app/api/routes/facts.py app/schemas/facts.py`：通过。
+3. `uv run pytest tests/test_phase214_regression_eval.py tests/test_phase221_facts.py -q`：`25 passed`。
+4. local DB `alembic upgrade head` 已验证通过；注意 revision id 已缩短为 `0003_phase221b_review`，避免超过 `alembic_version.version_num` 长度。
+5. live smoke：`phase221b:review:*` 测试 fact confirm / reject 均成功，字段与 audit 均写入。
+6. full Phase 2.14 eval：`21 passed / 0 failed / 1 skipped`，`p50/p95 = 10.391 ms / 637.154 ms`。
+
+边界：
+
+1. facts 仍不参与 retrieval 或 answer generation。
+2. 未做自动 facts 抽取。
+3. 未做复杂知识图谱。
+4. 未做 UI / 管理后台。
+5. 仍不进入 rollout。
+
+## 12. Phase 2.21b 收口判断
+
+Phase 2.21b 已完成三项最小目标：
+
+1. facts eval 纳入 deterministic eval。
+2. facts 查询权限过滤 + fact query audit。
+3. facts 人工确认工作流字段增强。
+
+建议 Phase 2.21b 在 Git baseline 后收口。

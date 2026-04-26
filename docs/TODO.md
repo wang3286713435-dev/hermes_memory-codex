@@ -191,4 +191,7 @@
 9. 后续仍需实现 facts 查询权限过滤、fact query audit 与人工确认工作流字段增强。
 10. Phase 2.21b 第二阶段已完成 facts 查询权限过滤与 fact query audit：facts 查询继承 source document 的 tenant / requester / role soft policy，deny 后不返回 fact。
 11. facts query audit 已记录 requester、tenant、role、filter、returned_fact_ids、denied_fact_ids、source_document_ids 与 policy_decision；audit 写入失败 fail-open。
-12. 当前仍未完成：人工确认工作流字段增强、facts 权限 eval 纳入 deterministic eval、facts 是否参与回答生成的独立设计。
+12. 当前仍未完成：facts 权限 eval 纳入 deterministic eval、facts 是否参与回答生成的独立设计。
+13. Phase 2.21b 第三阶段已完成人工确认工作流字段增强：新增 confirmed_at、rejected_by、rejected_at、rejection_reason，confirm/reject 均写入 audit。
+14. `confirm_fact` 不允许缺失确认人；`reject_fact` 不允许缺失拒绝人，缺失 rejection_reason 时默认写入 `not_specified`。
+15. Phase 2.21b 三项最小目标已完成，建议在 Git baseline 后收口；facts 参与回答生成、自动抽取、复杂知识图谱仍后置。

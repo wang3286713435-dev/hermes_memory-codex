@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
+from datetime import datetime
 from typing import Any
 
 from sqlalchemy.orm import Session
@@ -86,6 +87,10 @@ class FactService:
             verification_status="unverified",
             created_by=created_by,
             confirmed_by=None,
+            confirmed_at=None,
+            rejected_by=None,
+            rejected_at=None,
+            rejection_reason=None,
             audit_event_id=audit_event_id,
         )
         self.db.add(fact)
@@ -144,22 +149,70 @@ class FactService:
             identity=self._identity(requester_id=requester_id, tenant_id=tenant_id, role=role),
         )
 
-    def confirm_fact(self, fact_id: str, *, actor_id: str | None = None) -> Fact:
-        return self._set_status(fact_id, "confirmed", actor_id=actor_id)
+    def confirm_fact(
+        self,
+        fact_id: str,
+        *,
+        confirmed_by: str | None = None,
+        actor_id: str | None = None,
+    ) -> Fact:
+        actor = confirmed_by or actor_id
+        if not actor:
+            raise FactValidationError("confirmed_by_required")
+        return self._set_status(fact_id, "confirmed", actor_id=actor)
 
-    def mark_fact_rejected(self, fact_id: str, *, actor_id: str | None = None) -> Fact:
-        return self._set_status(fact_id, "rejected", actor_id=actor_id)
+    def reject_fact(
+        self,
+        fact_id: str,
+        *,
+        rejected_by: str | None = None,
+        rejection_reason: str | None = None,
+        actor_id: str | None = None,
+    ) -> Fact:
+        actor = rejected_by or actor_id
+        if not actor:
+            raise FactValidationError("rejected_by_required")
+        reason = rejection_reason or "not_specified"
+        return self._set_status(fact_id, "rejected", actor_id=actor, rejection_reason=reason)
 
-    def _set_status(self, fact_id: str, status: str, *, actor_id: str | None = None) -> Fact:
+    def mark_fact_rejected(
+        self,
+        fact_id: str,
+        *,
+        actor_id: str | None = None,
+        rejection_reason: str | None = None,
+    ) -> Fact:
+        return self.reject_fact(fact_id, rejected_by=actor_id, rejection_reason=rejection_reason)
+
+    def _set_status(
+        self,
+        fact_id: str,
+        status: str,
+        *,
+        actor_id: str | None = None,
+        rejection_reason: str | None = None,
+    ) -> Fact:
         if status not in self.VALID_STATUSES:
             raise FactValidationError("invalid_verification_status")
         fact = self.db.get(Fact, fact_id)
         if fact is None:
             raise FactValidationError("fact_not_found")
+        now = datetime.utcnow()
         fact.verification_status = status
-        fact.confirmed_by = actor_id if status == "confirmed" else None
+        if status == "confirmed":
+            fact.confirmed_by = actor_id
+            fact.confirmed_at = now
+            fact.rejected_by = None
+            fact.rejected_at = None
+            fact.rejection_reason = None
+        elif status == "rejected":
+            fact.confirmed_by = None
+            fact.confirmed_at = None
+            fact.rejected_by = actor_id
+            fact.rejected_at = now
+            fact.rejection_reason = rejection_reason or "not_specified"
         self._add_audit_event(
-            action=f"fact.{status}",
+            action="fact.confirm" if status == "confirmed" else "fact.reject",
             fact=fact,
             actor_id=actor_id,
             status=status,
@@ -186,6 +239,11 @@ class FactService:
                     "subject": fact.subject,
                     "predicate": fact.predicate,
                     "verification_status": status,
+                    "confirmed_by": fact.confirmed_by,
+                    "confirmed_at": fact.confirmed_at.isoformat() if fact.confirmed_at else None,
+                    "rejected_by": fact.rejected_by,
+                    "rejected_at": fact.rejected_at.isoformat() if fact.rejected_at else None,
+                    "rejection_reason": fact.rejection_reason,
                     "audit_event_id": fact.audit_event_id,
                 },
             )

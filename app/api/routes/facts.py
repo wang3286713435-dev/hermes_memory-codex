@@ -72,7 +72,7 @@ def confirm_fact(
 ) -> FactResponse:
     service = FactService(db)
     try:
-        fact = service.confirm_fact(fact_id, actor_id=request.actor_id)
+        fact = service.confirm_fact(fact_id, confirmed_by=request.confirmed_by, actor_id=request.actor_id)
         version = db.get(DocumentVersion, fact.source_version_id)
         return _to_response(FactView(fact=fact, source_version_is_latest=bool(version and version.is_latest)))
     except FactValidationError as exc:
@@ -87,7 +87,12 @@ def reject_fact(
 ) -> FactResponse:
     service = FactService(db)
     try:
-        fact = service.mark_fact_rejected(fact_id, actor_id=request.actor_id)
+        fact = service.reject_fact(
+            fact_id,
+            rejected_by=request.rejected_by,
+            rejection_reason=request.rejection_reason,
+            actor_id=request.actor_id,
+        )
         version = db.get(DocumentVersion, fact.source_version_id)
         return _to_response(FactView(fact=fact, source_version_is_latest=bool(version and version.is_latest)))
     except FactValidationError as exc:
@@ -109,6 +114,10 @@ def _to_response(view: FactView) -> FactResponse:
         verification_status=fact.verification_status,
         created_by=fact.created_by,
         confirmed_by=fact.confirmed_by,
+        confirmed_at=fact.confirmed_at.isoformat() if fact.confirmed_at else None,
+        rejected_by=fact.rejected_by,
+        rejected_at=fact.rejected_at.isoformat() if fact.rejected_at else None,
+        rejection_reason=fact.rejection_reason,
         audit_event_id=fact.audit_event_id,
         stale_source_version=view.stale_source_version,
         source_version_is_latest=view.source_version_is_latest,
