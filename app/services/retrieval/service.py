@@ -13,6 +13,7 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.core.logging import get_logger
+from app.models.audit import AuditLog
 from app.models.chunk import Chunk
 from app.models.document import Document, DocumentVersion
 from app.models.retrieval import RetrievalLog
@@ -133,6 +134,11 @@ class RetrievalService:
             if backend == "hybrid":
                 backend = "hybrid"
 
+        candidate_pool, access_policy_trace = self._apply_access_policy(
+            request=request,
+            trace_id=trace_id,
+            candidate_pool=candidate_pool,
+        )
         rerank_outcome = self._rerank_candidates(
             request=request,
             trace_id=trace_id,
@@ -142,7 +148,20 @@ class RetrievalService:
         )
         final_results = rerank_outcome.results[: request.top_k]
         meeting_transcript_trace = meeting_trace(final_results)
-        self._write_log(trace_id, request, len(final_results), backend, "success")
+        access_policy_trace = {
+            **access_policy_trace,
+            "returned_document_ids": self._unique(result.document_id for result in final_results),
+            "evidence_chunk_ids": self._unique(result.chunk_id for result in final_results),
+        }
+        self._write_log(
+            trace_id,
+            request,
+            len(final_results),
+            backend,
+            "success",
+            access_policy_trace=access_policy_trace,
+            results=final_results,
+        )
         return SearchResponse(
             query=request.query,
             results=final_results,
@@ -174,6 +193,7 @@ class RetrievalService:
                     "dedupe_key": "chunk_id",
                     "fusion": "score_sum_by_source",
                 } if retrieval_mode == "hybrid" else {},
+                "access_policy": access_policy_trace,
                 "candidate_pool": candidate_pool.trace,
                 "rerank_policy": rerank_outcome.trace.get("policy", {}),
                 "rerank": rerank_outcome.trace,
@@ -956,6 +976,165 @@ class RetrievalService:
             },
         )
 
+    def _apply_access_policy(
+        self,
+        *,
+        request: SearchRequest,
+        trace_id: str,
+        candidate_pool: CandidatePool,
+    ) -> tuple[CandidatePool, dict[str, Any]]:
+        identity = self._resolve_request_identity(request)
+        if not candidate_pool.candidates:
+            trace = {
+                **identity,
+                "trace_id": trace_id,
+                "access_policy_mode": "soft_acl_placeholder",
+                "policy_decision": "not_configured_allow",
+                "policy_reason": "no_candidates",
+                "denied_document_ids": [],
+                "returned_document_ids": [],
+                "evidence_chunk_ids": [],
+                "permission_trace_missing": self.db is None,
+                "document_decisions": {},
+            }
+            return candidate_pool, trace
+
+        document_ids = self._unique(candidate.document_id for candidate in candidate_pool.candidates)
+        document_acl = self._load_document_acl(document_ids)
+        allowed_candidates: list[SearchResult] = []
+        denied_document_ids: list[str] = []
+        document_decisions: dict[str, dict[str, Any]] = {}
+
+        for document_id in document_ids:
+            decision = self._decide_document_access(document_acl.get(document_id), identity)
+            document_decisions[document_id] = decision
+            if decision["decision"] == "deny":
+                denied_document_ids.append(document_id)
+
+        denied = set(denied_document_ids)
+        for candidate in candidate_pool.candidates:
+            if candidate.document_id in denied:
+                continue
+            allowed_candidates.append(candidate)
+
+        policy_decision = self._aggregate_policy_decision(document_decisions, bool(candidate_pool.candidates))
+        trace = {
+            **identity,
+            "trace_id": trace_id,
+            "access_policy_mode": "soft_acl_placeholder",
+            "policy_decision": policy_decision,
+            "policy_reason": self._access_policy_reason(document_decisions, policy_decision),
+            "candidate_document_ids": document_ids,
+            "denied_document_ids": denied_document_ids,
+            "returned_document_ids": [],
+            "evidence_chunk_ids": [],
+            "permission_trace_missing": any(
+                decision.get("reason") in {"acl_not_configured", "acl_metadata_missing"}
+                for decision in document_decisions.values()
+            ),
+            "document_decisions": document_decisions,
+        }
+        filtered_trace = {
+            **candidate_pool.trace,
+            "access_before_filter": len(candidate_pool.candidates),
+            "access_after_filter": len(allowed_candidates),
+            "access_denied_document_ids": denied_document_ids,
+        }
+        return CandidatePool(candidates=allowed_candidates, trace=filtered_trace), trace
+
+    def _resolve_request_identity(self, request: SearchRequest) -> dict[str, Any]:
+        extra = self._request_metadata(request)
+        requester_id = request.user_id or extra.get("requester_id") or extra.get("user_id") or "local_dev"
+        tenant_id = extra.get("tenant_id") or "local_dev"
+        role = extra.get("role") or extra.get("requester_role") or extra.get("user_role") or "local_dev"
+        return {
+            "requester_id": str(requester_id),
+            "tenant_id": str(tenant_id),
+            "requester_role": str(role),
+        }
+
+    def _request_metadata(self, request: SearchRequest) -> dict[str, Any]:
+        filters = request.filters
+        metadata: dict[str, Any] = {}
+        metadata.update(filters.extra or {})
+        metadata.update(getattr(filters, "model_extra", None) or {})
+        return metadata
+
+    def _load_document_acl(self, document_ids: list[str]) -> dict[str, dict[str, Any] | None]:
+        if not document_ids or self.db is None:
+            return {document_id: None for document_id in document_ids}
+        rows = self.db.query(Document).filter(Document.id.in_(document_ids)).all()
+        metadata_by_id = {document.id: document.metadata_json or {} for document in rows}
+        return {document_id: metadata_by_id.get(document_id) for document_id in document_ids}
+
+    def _decide_document_access(
+        self,
+        metadata: dict[str, Any] | None,
+        identity: dict[str, Any],
+    ) -> dict[str, Any]:
+        if metadata is None:
+            return {"decision": "allow", "reason": "acl_metadata_missing", "policy_decision": "not_configured_allow"}
+
+        allowed_requester_ids = self._as_list(metadata.get("allowed_requester_ids"))
+        allowed_roles = self._as_list(metadata.get("allowed_roles"))
+        tenant_id = metadata.get("tenant_id")
+        acl_configured = bool(allowed_requester_ids or allowed_roles or tenant_id)
+
+        if not acl_configured:
+            return {"decision": "allow", "reason": "acl_not_configured", "policy_decision": "not_configured_allow"}
+
+        if tenant_id and str(tenant_id) != identity["tenant_id"]:
+            return {"decision": "deny", "reason": "tenant_mismatch", "policy_decision": "deny"}
+
+        if allowed_requester_ids and identity["requester_id"] in allowed_requester_ids:
+            return {"decision": "allow", "reason": "requester_id_allowed", "policy_decision": "allow"}
+
+        if allowed_roles and identity["requester_role"] in allowed_roles:
+            return {"decision": "allow", "reason": "role_allowed", "policy_decision": "allow"}
+
+        if allowed_requester_ids or allowed_roles:
+            return {"decision": "deny", "reason": "acl_no_match", "policy_decision": "deny"}
+
+        return {"decision": "allow", "reason": "tenant_match", "policy_decision": "allow"}
+
+    def _aggregate_policy_decision(self, document_decisions: dict[str, dict[str, Any]], had_candidates: bool) -> str:
+        if not had_candidates:
+            return "not_configured_allow"
+        if document_decisions and all(decision["decision"] == "deny" for decision in document_decisions.values()):
+            return "deny"
+        if any(decision.get("policy_decision") == "allow" for decision in document_decisions.values()):
+            return "allow"
+        return "not_configured_allow"
+
+    def _access_policy_reason(self, document_decisions: dict[str, dict[str, Any]], policy_decision: str) -> str:
+        reasons = sorted({decision.get("reason", "unknown") for decision in document_decisions.values()})
+        if not reasons:
+            return "no_candidates"
+        if policy_decision == "deny":
+            return ",".join(reasons)
+        if any(reason not in {"acl_not_configured", "acl_metadata_missing"} for reason in reasons):
+            return ",".join(reasons)
+        return "acl_not_configured"
+
+    def _as_list(self, value: Any) -> list[str]:
+        if value in (None, "", [], {}):
+            return []
+        if isinstance(value, list):
+            return [str(item) for item in value if item not in (None, "")]
+        if isinstance(value, (tuple, set)):
+            return [str(item) for item in value if item not in (None, "")]
+        return [str(value)]
+
+    def _unique(self, values) -> list[str]:
+        seen: set[str] = set()
+        unique_values: list[str] = []
+        for value in values:
+            if value is None or value in seen:
+                continue
+            seen.add(value)
+            unique_values.append(value)
+        return unique_values
+
     def _rerank_candidates(
         self,
         request: SearchRequest,
@@ -1199,17 +1378,77 @@ class RetrievalService:
         result_count: int,
         backend: str,
         status: str,
+        access_policy_trace: dict[str, Any] | None = None,
+        results: list[SearchResult] | None = None,
     ) -> None:
-        self.db.add(
-            RetrievalLog(
+        if self.db is None:
+            return
+        access_policy_trace = access_policy_trace or {}
+        results = results or []
+        try:
+            self.db.add(
+                RetrievalLog(
+                    trace_id=trace_id,
+                    user_id=access_policy_trace.get("requester_id") or request.user_id,
+                    query=request.query,
+                    top_k=request.top_k,
+                    filters_json=request.filters.model_dump(),
+                    result_count=result_count,
+                    backend=backend,
+                    status=status,
+                )
+            )
+            self._add_audit_event(
                 trace_id=trace_id,
-                user_id=request.user_id,
-                query=request.query,
-                top_k=request.top_k,
-                filters_json=request.filters.model_dump(),
-                result_count=result_count,
+                request=request,
                 backend=backend,
                 status=status,
+                access_policy_trace=access_policy_trace,
+                results=results,
+            )
+            self.db.commit()
+        except Exception:
+            logger.warning("retrieval_audit_log_write_failed", exc_info=True)
+            self.db.rollback()
+
+    def _add_audit_event(
+        self,
+        *,
+        trace_id: str,
+        request: SearchRequest,
+        backend: str,
+        status: str,
+        access_policy_trace: dict[str, Any],
+        results: list[SearchResult],
+    ) -> None:
+        if self.db is None:
+            return
+        requester_id = access_policy_trace.get("requester_id") or request.user_id or "local_dev"
+        self.db.add(
+            AuditLog(
+                trace_id=trace_id,
+                user_id=requester_id,
+                action="retrieval.query",
+                resource_type="retrieval",
+                resource_id=trace_id,
+                request_json={
+                    "query": request.query,
+                    "filters": request.filters.model_dump(),
+                    "top_k": request.top_k,
+                    "retrieval_mode": request.retrieval_mode,
+                    "requester_id": requester_id,
+                    "tenant_id": access_policy_trace.get("tenant_id"),
+                    "role": access_policy_trace.get("requester_role"),
+                },
+                result_json={
+                    "backend": backend,
+                    "status": status,
+                    "returned_document_ids": access_policy_trace.get("returned_document_ids", []),
+                    "evidence_chunk_ids": access_policy_trace.get("evidence_chunk_ids", []),
+                    "policy_decision": access_policy_trace.get("policy_decision"),
+                    "policy_reason": access_policy_trace.get("policy_reason"),
+                    "denied_document_ids": access_policy_trace.get("denied_document_ids", []),
+                    "result_count": len(results),
+                },
             )
         )
-        self.db.commit()

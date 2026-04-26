@@ -99,3 +99,6 @@
 - [Phase 2.16] 完成 6 文件真实池 dense backfill，1360/1360 成功；hybrid smoke 全部命中目标文件，Phase 2.14 eval 复跑无回归。
 - [Phase 2.17] 完成 Rerank Smoke Audit 与 dense/hybrid eval 扩展规划，下一步只验证可观测性和无污染，不改策略。
 - [Phase 2.17] 完成 Rerank Smoke Audit runner 与 Phase 2.14 dense/hybrid eval 扩展；live smoke 5/5 通过，API eval 11/11 执行通过，未发现污染。
+- [Phase 2.18] 完成下一阶段路线评审，建议优先进入权限与审计最小闭环；facts、增量更新、音频 ASR 与 rerank 质量评测后置。
+- [Phase 2.18a] 完成权限与审计最小闭环：soft ACL 可过滤 evidence，audit log 写入可 fail-open，当前不做完整 RBAC/ABAC。
+- [Phase 2.18a] 完成 live smoke：无 ACL、requester allow、tenant mismatch deny 与 audit_logs 三条写入均通过，可进入 Git baseline。

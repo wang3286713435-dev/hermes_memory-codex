@@ -132,3 +132,13 @@
 4. Phase 2.17 已扩展 Phase 2.14 eval，增加 `dense_status`、`dense_returned`、`sparse_status`、`candidate_pool` 检查；本地 live eval `11 passed / 0 failed / 1 skipped`，dense/hybrid 链路执行且 returned document_ids 未污染。
 5. Phase 2.17 非目标：不调 rerank 策略、不改排序权重、不做 query rewrite、不进入 rollout。
 6. 后续尾项：若要判断 rerank 排序收益，需要另起排序质量评测阶段；本阶段只确认真实调用、合理跳过、fail-open 与 dense/hybrid 可观测。
+
+## 11. Phase 2.18 权限与审计路线待办
+
+1. Phase 2.18 已完成路线评审：权限 / 审计的企业落地价值最高，且当前检索、上下文、多模态、dense、rerank、eval 底座已足以支撑最小治理闭环。
+2. Phase 2.18a 最小实现已完成：支持 requester / tenant / role placeholder、document ACL metadata placeholder、allow / deny / not_configured_allow policy decision、retrieval trace 与 audit log。
+3. 当前 policy 默认行为：无 ACL 本地默认 allow，并标记 `not_configured_allow`；显式 tenant mismatch 或 ACL 不匹配时 deny，且 denied document 不进入 results / evidence。
+4. Audit 存储复用现有 `audit_logs` 表；audit 写入失败 fail-open，不阻断 retrieval。
+5. Phase 2.18a live smoke 已通过：无 ACL 默认 allow、requester allow、tenant mismatch deny 与三条 audit log 写入均验证通过，测试文档 metadata 已恢复。
+6. Phase 2.18a 非目标：不做完整 RBAC/ABAC、不接企业 IAM/SSO、不做管理后台、不做 facts、不做原始音频 ASR、不进入 rollout。
+7. 下一步建议做 Git baseline；facts、增量更新 / 版本治理、原始音频 ASR、rerank 质量评测均保留为后续阶段。
