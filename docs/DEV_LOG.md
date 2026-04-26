@@ -131,3 +131,5 @@
 - [Phase 2.25a] 新增只读 readiness audit runner，覆盖服务、版本、索引、dense、facts、audit 与 eval readiness；本机覆写 127 后 dry-run 为 warn，无失败。
 - [Phase 2.26] 完成 repair plan dry-run 边界规划，下一步只生成不可执行修复计划，不修改 facts、索引或版本数据。
 - [Phase 2.26a] 完成 repair plan dry-run 最小实现，已检出已知 stale fact，输出不可执行计划且无破坏动作。
+- [Phase 2.26b] 完成报告归档路线规划，建议先沉淀 readiness 与 repair plan JSON 留痕，不进入 repair executor。
+- [Phase 2.26b] 完成报告归档最小实现，临时目录 smoke 通过；真实 reports JSON 默认忽略，不入 Git。

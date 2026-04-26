@@ -270,3 +270,17 @@
 8. Phase 2.26a 最小实现已完成：新增 repair plan dry-run runner 与 6 条单元测试，输出只读 JSON plan。
 9. live dry-run 已检出已知 stale confirmed fact `9f98384b-5053-4a8f-9b83-35983b28b38e`，无 critical failure。
 10. 当前仍不执行 repair / reindex / backfill；下一步可做 Git baseline 后规划人工审核或定期报告。
+
+## 22. Phase 2.26b readiness audit 报告归档规划
+
+1. Phase 2.26b 已完成路线规划：下一步建议做 readiness audit / repair plan dry-run 报告归档，而不是 repair executor。
+2. 最小边界：保存 readiness JSON、repair plan JSON，生成 manifest，并支持只读 trend diff。
+3. 报告文件名应包含 timestamp、status、git commit，便于人工追踪。
+4. 真实 `reports/**/*.json` 与 `latest.json` 默认不提交 Git；如需目录结构，只提交 README / `.gitkeep` / `.gitignore` 策略。
+5. 默认不使用 symlink；最新报告指针优先规划为 ignored 的 `latest.json`。
+6. 不创建系统 cron，不接生产 scheduler，不默认跑昂贵 full eval，不触发写 fixture 的 eval。
+7. 硬边界：不修改 facts、document_versions、OpenSearch、Qdrant，不执行 repair/backfill/reindex，不进入 rollout。
+8. 后续实现前需优先明确 reports 目录 ignore 策略与 fake report 单元测试。
+9. Phase 2.26b 最小实现已完成：新增报告归档脚本、trend diff、reports ignore 策略与 6 条单元测试。
+10. live smoke 已在临时目录归档 fake readiness / repair plan JSON，并生成 manifest/latest；未生成真实仓库 reports JSON。
+11. 下一步建议先做 Git baseline，再规划定期 smoke runbook 或报告人工审阅流程；仍不进入 repair executor。

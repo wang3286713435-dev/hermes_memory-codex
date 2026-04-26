@@ -1,0 +1,6 @@
+# Phase 2.26b runtime reports are local artifacts.
+# Keep real audit / repair-plan JSON out of Git by default.
+**/*.json
+manifest.json
+latest.json
+
