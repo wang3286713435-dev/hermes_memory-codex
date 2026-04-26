@@ -68,3 +68,34 @@
 - risks: Nightly Sprint 不等于生产 cron；baseline / tag / push 属 Yellow Lane；repair、migration、rollout 仍为 Red Lane。
 - next: 建议 Codex B 审核后 baseline Phase 2.28c，再启动第一个 Green Lane queue item。
 - commit/tag if any: 无。
+
+## 2026-04-27 02:20 Phase 2.27b
+- goal: 按 `docs/NEXT_CODEX_A_PROMPT.md` 实现 review record sanitized audit payload preview / dry-run。
+- changed_files:
+  - `scripts/phase227b_review_audit_preview.py`
+  - `tests/test_phase227b_review_audit_preview.py`
+  - `docs/PHASE227B_REVIEW_AUDIT_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `uv run python -m py_compile scripts/phase227b_review_audit_preview.py`：通过。
+  - `uv run pytest tests/test_phase227b_review_audit_preview.py -q`：`10 passed`。
+- validation: 临时目录 fake review record preview 通过；payload 未包含 notes、reason、approved_action、item_decisions、本机绝对路径、entity id 或 executed。
+- risks: 真实写 `audit_logs` 仍后置；item-level audit summary 仍后置；repair executor 与 rollout 仍禁止。
+- next: 建议 Codex B 审核后进入 Phase 2.27b Git baseline。
+- commit/tag if any: 无。
+
+## 2026-04-27 02:35 Phase 2.27b
+- goal: Codex B 通过文件交接系统写入 Phase 2.27b Git baseline prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；本轮只更新下一轮 Codex A 文件化执行入口。
+- validation: `NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27b baseline 任务；仍禁止写 audit_logs、写 DB、repair、rollout。
+- risks: `reports/agent_runs/latest.json` 为 ignored 本地状态文件，不应提交；baseline 前仍需 Codex A 复跑 py_compile 与 pytest。
+- next: Codex A 只需执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.27b baseline。
+- commit/tag if any: 无。

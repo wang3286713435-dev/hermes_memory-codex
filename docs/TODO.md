@@ -313,6 +313,7 @@
 10. preview payload 固定 `dry_run=true`、`executable=false`、`would_write_audit_logs=false`，不写 DB、不写 audit_logs。
 11. 已通过单元测试与临时目录 live smoke，确认 notes、reason、approved_action、完整 item_decisions、本机绝对路径和 item-level entity details 不进入 payload。
 12. 后续如需真实写 `audit_logs`，必须另开小阶段评审，不得把 preview 结果误认为已写入审计。
+13. 本轮按 `NEXT_CODEX_A_PROMPT.md` 完成实现；未启用 Nightly Sprint，未提交 Git。
 
 ## 25. Phase 2.28 Agent Operating Protocol / 文件化交接机制
 

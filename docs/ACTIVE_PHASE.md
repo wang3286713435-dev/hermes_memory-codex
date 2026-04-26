@@ -1,36 +1,41 @@
 # Active Phase
 
-- 当前 phase：Phase 2.28c Nightly Sprint Protocol
-- 本轮目标：建立夜间 bounded autonomous sprint 机制；只更新协议、队列、reports ignore / README 与交接状态。
+- 当前 phase：Phase 2.27b Review Audit Payload Preview / Dry-run
+- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，实现 review record 的 sanitized audit payload preview；不写 `audit_logs`、不写业务 DB、不执行 repair。
 - 修改文件：
-  - `docs/NIGHTLY_SPRINT_PROTOCOL.md`
-  - `docs/NIGHTLY_SPRINT_QUEUE.md`
-  - `reports/nightly_runs/.gitignore`
-  - `reports/nightly_runs/README.md`
-  - `docs/AGENT_OPERATING_PROTOCOL.md`
+  - `scripts/phase227b_review_audit_preview.py`
+  - `tests/test_phase227b_review_audit_preview.py`
+  - `docs/PHASE227B_REVIEW_AUDIT_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
   - `docs/PHASE_BACKLOG.md`
-  - `docs/TODO.md`
-  - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
 - 完成内容：
-  - 已新增 Nightly Sprint 协议，明确 60-120 分钟、每晚 1-3 个 queue item、Green / Yellow / Red Lane。
-  - 已新增 Nightly Sprint 队列，初始队列为 Phase 2.27b audit preview、Phase 2.27b baseline、Phase 2.27c route planning。
-  - 已新增 `reports/nightly_runs` ignore / README 策略，真实 nightly run JSON 默认不入 Git。
-  - 已同步 `AGENT_OPERATING_PROTOCOL.md`，将 Nightly Sprint 纳入主协作协议。
-- 测试结果：未运行；本轮只做协议、队列与状态文件。
-- live smoke 结果：未运行。
+  - 新增 sanitized audit payload preview runner。
+  - 输入 Phase 2.27a review record JSON，输出 report-level audit payload。
+  - payload 固定 `dry_run=true`、`executable=false`、`would_write_audit_logs=false`。
+  - 排除 notes、reason、approved_action、完整 item_decisions、report 原文、本机绝对路径与 item-level entity details。
+  - unsafe review record 会被拒绝：`executable=true`、`dry_run=false`、`destructive_actions` 非空均失败。
+- 测试结果：
+  - `uv run python -m py_compile scripts/phase227b_review_audit_preview.py`：通过。
+  - `uv run pytest tests/test_phase227b_review_audit_preview.py -q`：`10 passed`。
+- live smoke 结果：
+  - 使用临时目录 fake review record 执行 preview 通过。
+  - stdout payload 未包含 notes / reason / approved_action / item_decisions / 本机绝对路径 / entity id / executed。
+  - 未生成真实 audit payload 文件；未写 DB。
 - 当前结论：
-  - Phase 2.28c Nightly Sprint Protocol 已完成文档化。
-  - 夜间自动推进仅允许 bounded task，且遇到 Yellow / Red Lane 或硬停止条件必须停下。
+  - Phase 2.27b 最小实现已完成。
+  - 当前仍只是 audit preview / dry-run，不代表已写入 `audit_logs`。
 - 阻塞点 / 风险点：
-  - 本轮未实现 Phase 2.27b audit preview。
-  - Nightly Sprint 不是生产 cron，也不应自动执行 baseline / tag / push。
-  - `reports/agent_runs/latest.json` 与 `reports/nightly_runs/*.json` 均为 ignored 本地状态文件。
-- 是否建议 baseline：是，建议 Codex B 审核后进行 Phase 2.28c 协议基线。
-- 是否建议进入下一阶段：否，先完成 Phase 2.28c baseline；随后可启动第一个 Green Lane queue item。
+  - 真实写 `audit_logs` 仍未实现，必须独立规划。
+  - item-level audit summary 仍后置，避免泄露 fact_id / document_id 等实体细节。
+  - repair executor、真实数据修改、rollout 仍禁止。
+- 是否建议 baseline：是，建议 Codex B 审核后进入 Phase 2.27b Git baseline。
+- 是否建议进入下一阶段：否，先做 Phase 2.27b baseline；随后再规划是否进入真实 audit_logs 写入。
 - 下一轮建议：
-  - 执行 `NIGHTLY_SPRINT_QUEUE.md` 的第一个 Green Lane 任务：Phase 2.27b audit preview / dry-run 最小实现。
+  - 优先：Phase 2.27b Git baseline。
+  - 后续候选：Phase 2.27c 真实写 `audit_logs` 规划，或继续保持 preview-only。
 - 是否需要 Codex B 审核：是。
 - 是否需要 Codex C 真实终端验收：否。

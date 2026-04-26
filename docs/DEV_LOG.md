@@ -139,3 +139,4 @@
 - [Phase 2.28] 固化 Codex A/B/C 文件化交接协议，明确每轮读写状态文件、硬停止条件与 baseline 节奏。
 - [Phase 2.28b] 新增 NEXT_CODEX_A_PROMPT 固定任务入口，后续 Codex A 可直接读取文件执行下一轮任务。
 - [Phase 2.28c] 新增 Nightly Sprint 协议与队列，限定夜间只执行 bounded Green Lane 任务，禁止 repair 和 rollout。
+- [Phase 2.27b] 按 NEXT_CODEX_A_PROMPT 完成 sanitized audit payload preview，单测与临时 smoke 均通过，未写 audit_logs。

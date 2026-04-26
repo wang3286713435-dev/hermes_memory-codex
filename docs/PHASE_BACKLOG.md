@@ -2,9 +2,9 @@
 
 ## 当前优先级
 
-1. Phase 2.28c baseline：Nightly Sprint Protocol / Queue 协议基线。
-2. Nightly Sprint Queue item 1：Phase 2.27b audit preview / dry-run 最小实现。
-3. Phase 2.27c 候选：真实写 `audit_logs` 的独立规划。
+1. Phase 2.27b Git baseline：sanitized audit payload preview / dry-run。
+2. Phase 2.27c 候选：真实写 `audit_logs` 的独立规划。
+3. Phase 2.28c 后续：Nightly Sprint 队列继续保持，但不自动执行 Yellow Lane。
 
 ## 后置项
 

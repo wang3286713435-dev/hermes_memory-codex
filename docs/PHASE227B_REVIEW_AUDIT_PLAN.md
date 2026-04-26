@@ -216,3 +216,29 @@ Phase 2.27b 不做：
 3. 单元测试确认 notes / reasons / full item decisions 不进入 payload。
 
 不建议直接写 `audit_logs`；真实写入应等 preview 稳定后另行裁决。
+
+## 12. 最小实现结果
+
+Phase 2.27b 最小实现已完成：
+
+1. 新增 `scripts/phase227b_review_audit_preview.py`。
+2. 新增 `tests/test_phase227b_review_audit_preview.py`。
+3. CLI 读取本地 review record JSON，输出 sanitized audit payload。
+4. 输出固定为 `dry_run=true`、`executable=false`、`would_write_audit_logs=false`。
+5. payload 仅保留 report-level summary，不包含 notes、reason、approved_action、完整 item_decisions、report 原文、本机绝对路径或 item-level entity details。
+6. unsafe review record 会被拒绝：`executable=true`、`dry_run=false` 或 `destructive_actions` 非空均失败。
+7. `approved_for_manual_action` 继续只表示人工判断，不表示 executed。
+
+验证结果：
+
+1. `uv run python -m py_compile scripts/phase227b_review_audit_preview.py` 通过。
+2. `uv run pytest tests/test_phase227b_review_audit_preview.py -q` 通过，`10 passed`。
+3. 临时目录 fake review record live smoke 通过；stdout payload 未包含 notes / reason / approved_action / item_decisions / 本机绝对路径 / entity id / executed。
+
+本阶段仍未做：
+
+1. 不写 `audit_logs`。
+2. 不写业务 DB。
+3. 不修改 facts / document_versions / OpenSearch / Qdrant。
+4. 不执行 repair / backfill / reindex。
+5. 不进入 rollout。
