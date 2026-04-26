@@ -92,3 +92,8 @@
 - [Phase 2.14] 完成企业记忆回归评测规划，建议先做 API 确定性评测，再补少量 Hermes CLI smoke。
 - [Phase 2.14] 完成 API 级回归评测 runner 首轮实现，真实本地评测 10/10 通过，1 条 alias 用例跳过。
 - [Phase 2.14b] 同步 CLI smoke 收口状态：Hermes 主仓库 live runner 4/4 通过，Hermes_memory 保持无状态。
+- [Phase 2.15] 完成项目状态审计与路线裁决，建议下一阶段优先补 dense ingestion 与 hybrid 闭环。
+- [Phase 2.16] 完成 dense ingestion 边界规划：上传链路当前未写 Qdrant，下一步限定为新上传 dense upsert 与显式文件池回填。
+- [Phase 2.16] 完成新上传 dense ingestion 与显式 backfill 最小实现；答疑文件 12/12 回填成功，dense-only retrieval 已返回真实候选。
+- [Phase 2.16] 登记 Rerank Smoke Audit 为后续独立尾项，本轮 dense ingestion 不混入 rerank 策略修改。
+- [Phase 2.16] 完成 6 文件真实池 dense backfill，1360/1360 成功；hybrid smoke 全部命中目标文件，Phase 2.14 eval 复跑无回归。

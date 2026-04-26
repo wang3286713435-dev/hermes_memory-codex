@@ -105,3 +105,21 @@
 35. Phase 2.14 已完成边界规划：先建设 API-level deterministic regression eval，再补少量 Hermes CLI smoke；覆盖 document scope、alias、compare、metadata snapshot、Excel/PPTX citation、meeting transcript 与 evidence policy。
 36. Phase 2.14 最小 API eval runner 已完成：内置 11 条 case，真实本地运行 `10 passed / 0 failed / 1 skipped`；missing alias suppress 保持 CLI-only skipped，后续应补少量 Hermes CLI smoke。
 37. Phase 2.14b CLI smoke 已在 Hermes 主仓库收口；Hermes_memory 本轮不改 retrieval contract 或业务代码。真实 runner `4/4` 通过，覆盖 missing alias、session alias bind/use、A/B compare 与 meeting transcript 非 fact 语义。
+
+## 8. Phase 2.15 状态审计与下一阶段路线
+
+1. Phase 2.15 已完成项目状态审计：企业文档检索底座、企业上下文治理、Excel/PPTX、会议纪要文本、API eval、CLI smoke 均已形成阶段闭环。
+2. 当前 PRD 核心缺口仍包括：dense ingestion、结构化事实层、权限治理、审计日志、增量更新、知识管理员后台、人工校验机制、完整 OCR / ASR 与生产级 rollout。
+3. 推荐下一阶段进入 `Phase 2.16 dense ingestion 与 hybrid 检索闭环补齐`，先让真实上传文件进入 Qdrant dense 索引，再评估权限 / 审计 / facts。
+
+## 9. Phase 2.16 dense ingestion 与 hybrid 闭环待办
+
+1. 已完成新上传文件 dense ingestion 最小实现：chunk 落库后生成 Aliyun `text-embedding-v3` 1024 维向量，并 upsert 到 Qdrant `hermes_chunks`。
+2. 已完成 dense fail-open：Qdrant 或 embedding 失败不阻断 PostgreSQL / OpenSearch sparse ingestion，并在 `DocumentVersion.metadata_json.dense_ingestion` 记录状态、成功数、失败数和原因。
+3. 已新增显式 backfill 脚本 `scripts/phase216_dense_backfill.py`；脚本必须传入 `--document-id`，不允许默认全库扫描。
+4. 已完成 smoke：新上传小文件 sparse + dense 均完成；答疑文件 `1db84714-d49f-48a2-8fa9-c6f73424dd32` dense backfill `12/12` 成功，dense-only retrieval 可返回真实候选。
+5. 后续待办：按显式 document_id 分批回填 6 文件真实池 / Excel / PPTX 样本，并复跑 Phase 2.14 API eval 与关键 hybrid smoke。
+6. Rerank Smoke Audit 作为非阻塞尾项单独登记：后续需验证 rerank provider 是否启用、真实模型调用是否发生、触发条件、fail-open / latency / error trace 可观测性，以及是否纳入 Phase 2.14 eval 或后续 Phase 2.17 质量评测；本轮 dense ingestion 不混入 rerank 策略修改。
+7. Phase 2.16 真实文件池 dense backfill 已完成：6 文件共 `1360` chunks，attempted `1360`、succeeded `1360`、failed `0`；两份大标书分别耗时约 `287.230s` 与 `243.877s`。
+8. Phase 2.16 hybrid smoke 已完成：6 文件均 `dense_status=executed`、`sparse_status=executed`，结果 document_id 均收敛到目标文件；Phase 2.14 API eval 复跑 `10 passed / 0 failed / 1 skipped`，`p50/p95=38.416ms/271.507ms`。
+9. Phase 2.16 可进入收口判断；后续如继续推进，应优先将 dense/hybrid smoke 结构化纳入评测集，并单独处理 Rerank Smoke Audit。

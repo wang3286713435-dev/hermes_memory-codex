@@ -10,6 +10,7 @@ from app.models.document import Document, DocumentVersion
 from app.models.ingestion import IngestionJob
 from app.schemas.documents import DocumentIngestRequest
 from app.services.chunking.service import ChunkingService
+from app.services.indexing.dense import DenseChunkIndexer, DenseIndexingSummary
 from app.services.indexing.opensearch import OpenSearchChunkIndexer
 from app.services.meeting_transcript import enrich_meeting_metadata, is_meeting_document
 from app.services.parsing.registry import ParserRegistry
@@ -150,6 +151,11 @@ class DocumentIngestionService:
             indexed_count = self._index_chunks(chunks, document, version)
             for chunk in chunks[:indexed_count]:
                 chunk.sparse_id = chunk.id
+            dense_summary = self._index_dense_chunks(chunks, document, version)
+            version.metadata_json = {
+                **(version.metadata_json or {}),
+                "dense_ingestion": dense_summary.as_dict(),
+            }
 
             version.parse_status = "completed"
             job.status = "completed"
@@ -186,6 +192,33 @@ class DocumentIngestionService:
         except Exception:
             logger.exception("opensearch_indexing_failed_falling_back_to_db_only")
             return 0
+
+    def _index_dense_chunks(
+        self,
+        chunks: list[Chunk],
+        document: Document,
+        version: DocumentVersion,
+    ) -> DenseIndexingSummary:
+        try:
+            return DenseChunkIndexer().index_chunks(chunks, document, version)
+        except Exception as exc:  # noqa: BLE001 - dense indexing must fail open.
+            logger.exception(
+                "dense_indexing_failed_falling_back_to_sparse_only",
+                extra={
+                    "document_id": document.id,
+                    "version_id": version.id,
+                    "dense_ingestion_status": "failed",
+                    "dense_failed_count": len(chunks),
+                },
+            )
+            return DenseIndexingSummary(
+                status="failed",
+                failed_count=len(chunks),
+                embedding_model=None,
+                embedding_dimension=None,
+                qdrant_collection=None,
+                errors=[{"reason": "dense_indexer_exception", "error": str(exc)}],
+            )
 
     def _document_type_from_path(self, path: Path) -> str:
         suffix = path.suffix.lower().lstrip(".")

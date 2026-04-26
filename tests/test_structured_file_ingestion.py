@@ -12,6 +12,7 @@ from app.models.chunk import Chunk
 from app.schemas.documents import DocumentIngestRequest
 from app.schemas.retrieval import RetrievalFilter, SearchRequest
 from app.services.chunking.service import ChunkingService
+from app.services.indexing.dense import DenseIndexingSummary
 from app.services.ingestion.service import DocumentIngestionService
 from app.services.parsing.pptx_parser import PptxParser
 from app.services.parsing.registry import ParserRegistry
@@ -23,6 +24,11 @@ from app.services.storage.service import StoredFile
 class FakeOpenSearchChunkIndexer:
     def index_chunk(self, chunk, document, version) -> bool:
         return True
+
+
+class FakeDenseChunkIndexer:
+    def index_chunks(self, chunks, document, version) -> DenseIndexingSummary:
+        return DenseIndexingSummary(status="skipped", skipped_count=len(chunks), qdrant_collection="test")
 
 
 @pytest.fixture()
@@ -52,6 +58,10 @@ def test_xlsx_parser_and_ingestion_preserve_sheet_cell_metadata(
     monkeypatch.setattr(
         "app.services.ingestion.service.OpenSearchChunkIndexer",
         lambda: FakeOpenSearchChunkIndexer(),
+    )
+    monkeypatch.setattr(
+        "app.services.ingestion.service.DenseChunkIndexer",
+        lambda: FakeDenseChunkIndexer(),
     )
 
     job = DocumentIngestionService(db_session).ingest_uploaded_file(
@@ -102,6 +112,10 @@ def test_pptx_parser_and_ingestion_preserve_slide_metadata(
     monkeypatch.setattr(
         "app.services.ingestion.service.OpenSearchChunkIndexer",
         lambda: FakeOpenSearchChunkIndexer(),
+    )
+    monkeypatch.setattr(
+        "app.services.ingestion.service.DenseChunkIndexer",
+        lambda: FakeDenseChunkIndexer(),
     )
 
     job = DocumentIngestionService(db_session).ingest_uploaded_file(

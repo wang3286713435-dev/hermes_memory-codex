@@ -9,6 +9,7 @@ from app.db.base import Base
 from app.models.chunk import Chunk
 from app.schemas.documents import DocumentIngestRequest
 from app.schemas.retrieval import RetrievalFilter, SearchRequest
+from app.services.indexing.dense import DenseIndexingSummary
 from app.services.ingestion.service import DocumentIngestionService
 from app.services.meeting_transcript import enrich_meeting_metadata, extract_meeting_fields, meeting_trace
 from app.services.retrieval.service import RetrievalService
@@ -20,6 +21,11 @@ class FakeOpenSearchChunkIndexer:
         return True
 
 
+class FakeDenseChunkIndexer:
+    def index_chunks(self, chunks, document, version) -> DenseIndexingSummary:
+        return DenseIndexingSummary(status="skipped", skipped_count=len(chunks), qdrant_collection="test")
+
+
 def test_meeting_docx_ingestion_preserves_structured_metadata(tmp_path: Path, monkeypatch):
     db_session = _db_session()
     try:
@@ -28,6 +34,10 @@ def test_meeting_docx_ingestion_preserves_structured_metadata(tmp_path: Path, mo
         monkeypatch.setattr(
             "app.services.ingestion.service.OpenSearchChunkIndexer",
             lambda: FakeOpenSearchChunkIndexer(),
+        )
+        monkeypatch.setattr(
+            "app.services.ingestion.service.DenseChunkIndexer",
+            lambda: FakeDenseChunkIndexer(),
         )
 
         job = DocumentIngestionService(db_session).ingest_uploaded_file(
@@ -67,6 +77,10 @@ def test_meeting_retrieval_returns_evidence_metadata(tmp_path: Path, monkeypatch
         monkeypatch.setattr(
             "app.services.ingestion.service.OpenSearchChunkIndexer",
             lambda: FakeOpenSearchChunkIndexer(),
+        )
+        monkeypatch.setattr(
+            "app.services.ingestion.service.DenseChunkIndexer",
+            lambda: FakeDenseChunkIndexer(),
         )
         job = DocumentIngestionService(db_session).ingest_uploaded_file(
             DocumentIngestRequest(
