@@ -189,3 +189,6 @@
 7. Phase 2.21b 第一阶段已完成 facts eval：Phase 2.14 runner 新增 `facts` group，5 条 facts case 覆盖来源字段、默认 unverified、confirmed/rejected 与 stale source version。
 8. 当前 live eval 结果：facts group `5 passed / 0 failed / 0 skipped`，full Phase 2.14 eval `21 passed / 0 failed / 1 skipped`。
 9. 后续仍需实现 facts 查询权限过滤、fact query audit 与人工确认工作流字段增强。
+10. Phase 2.21b 第二阶段已完成 facts 查询权限过滤与 fact query audit：facts 查询继承 source document 的 tenant / requester / role soft policy，deny 后不返回 fact。
+11. facts query audit 已记录 requester、tenant、role、filter、returned_fact_ids、denied_fact_ids、source_document_ids 与 policy_decision；audit 写入失败 fail-open。
+12. 当前仍未完成：人工确认工作流字段增强、facts 权限 eval 纳入 deterministic eval、facts 是否参与回答生成的独立设计。

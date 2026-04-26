@@ -150,3 +150,33 @@ Phase 2.21b 不做：
 3. 未扩展人工确认工作流字段。
 4. facts 仍不参与 retrieval 或 answer generation。
 5. 未做自动 facts 抽取。
+
+## 10. Phase 2.21b 第二阶段实现结果：facts query policy / audit
+
+已完成：
+
+1. `FactService.list_facts_by_document()` 与 `list_facts_by_subject()` 支持 requester / tenant / role soft policy。
+2. facts 查询继承 source document metadata 中的 `tenant_id`、`allowed_requester_ids`、`allowed_roles`。
+3. 无 ACL 时默认 `not_configured_allow`，与 retrieval policy 保持一致。
+4. requester / role 命中时返回 fact，tenant mismatch 或 ACL 不匹配时 deny。
+5. denied fact 不返回，也不泄露为返回结果。
+6. facts query 写入 `audit_logs`，action 为 `fact.query`。
+7. audit 记录 `requester_id`、`tenant_id`、`role`、query/filter、`returned_fact_ids`、`denied_fact_ids`、`source_document_ids`、`denied_document_ids` 与 `policy_decision`。
+8. audit 写入失败 fail-open，只记录 warning，不阻断 facts 查询。
+9. Facts API 查询接口支持 `X-Requester-Id`、`X-Tenant-Id`、`X-Requester-Role` headers。
+
+测试结果：
+
+1. `uv run pytest tests/test_phase221_facts.py -q`：`8 passed`。
+2. `uv run python -m py_compile app/services/facts.py app/api/routes/facts.py`：通过。
+3. `uv run pytest tests/test_phase214_regression_eval.py tests/test_phase221_facts.py -q`：`21 passed`。
+4. live smoke：`phase221b:acl:*` 测试 facts 验证 no ACL / requester allow / role allow / tenant deny 均符合预期。
+5. full Phase 2.14 eval：`21 passed / 0 failed / 1 skipped`，`p50/p95 = 12.115 ms / 650.397 ms`。
+
+边界：
+
+1. 本轮未让 facts 参与回答生成。
+2. 未做自动 facts 抽取。
+3. 未做复杂知识图谱。
+4. 未做 UI / 管理后台。
+5. 人工确认工作流字段增强仍留后续。

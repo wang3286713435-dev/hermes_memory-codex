@@ -115,3 +115,4 @@
 - [Phase 2.21a] 完成 evidence-backed facts 最小实现，fact 必须绑定 source chunk/version/audit，默认 unverified。
 - [Phase 2.21b] 完成 facts governance 边界规划，下一步只推进 facts eval、查询权限过滤与人工确认工作流，不让 facts 参与回答生成。
 - [Phase 2.21b] 完成 facts eval 第一阶段实现，Phase 2.14 runner 新增 facts group，live eval 5/5 通过，full eval 21/21 执行通过。
+- [Phase 2.21b] 完成 facts 查询权限过滤与 audit，source document ACL 可控制 fact 返回，denied fact 不泄露，full eval 无回归。

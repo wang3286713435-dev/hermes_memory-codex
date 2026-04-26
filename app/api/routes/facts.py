@@ -1,4 +1,7 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi import Header
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
@@ -24,13 +27,41 @@ def create_fact_from_evidence(
 
 
 @router.get("/by-document/{document_id}", response_model=list[FactResponse])
-def list_facts_by_document(document_id: str, db: Session = Depends(get_db)) -> list[FactResponse]:
-    return [_to_response(view) for view in FactService(db).list_facts_by_document(document_id)]
+def list_facts_by_document(
+    document_id: str,
+    db: Session = Depends(get_db),
+    x_requester_id: Annotated[str | None, Header(alias="X-Requester-Id")] = None,
+    x_tenant_id: Annotated[str | None, Header(alias="X-Tenant-Id")] = None,
+    x_requester_role: Annotated[str | None, Header(alias="X-Requester-Role")] = None,
+) -> list[FactResponse]:
+    return [
+        _to_response(view)
+        for view in FactService(db).list_facts_by_document(
+            document_id,
+            requester_id=x_requester_id,
+            tenant_id=x_tenant_id,
+            role=x_requester_role,
+        )
+    ]
 
 
 @router.get("/by-subject/{subject}", response_model=list[FactResponse])
-def list_facts_by_subject(subject: str, db: Session = Depends(get_db)) -> list[FactResponse]:
-    return [_to_response(view) for view in FactService(db).list_facts_by_subject(subject)]
+def list_facts_by_subject(
+    subject: str,
+    db: Session = Depends(get_db),
+    x_requester_id: Annotated[str | None, Header(alias="X-Requester-Id")] = None,
+    x_tenant_id: Annotated[str | None, Header(alias="X-Tenant-Id")] = None,
+    x_requester_role: Annotated[str | None, Header(alias="X-Requester-Role")] = None,
+) -> list[FactResponse]:
+    return [
+        _to_response(view)
+        for view in FactService(db).list_facts_by_subject(
+            subject,
+            requester_id=x_requester_id,
+            tenant_id=x_tenant_id,
+            role=x_requester_role,
+        )
+    ]
 
 
 @router.post("/{fact_id}/confirm", response_model=FactResponse)

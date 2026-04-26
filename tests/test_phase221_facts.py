@@ -96,6 +96,132 @@ def test_list_facts_by_subject_and_confirm_reject(tmp_path):
     assert rejected.confirmed_by is None
 
 
+def test_fact_query_no_acl_defaults_not_configured_allow_and_audits(tmp_path):
+    db = _db_session(tmp_path)
+    chunk = _seed_document_chunk(db, metadata_json={})
+    fact = FactService(db).create_fact_from_evidence(
+        fact_type="tender_basic_info",
+        subject="无权限配置",
+        predicate="建设单位",
+        value="测试单位",
+        source_chunk_id=chunk.id,
+    )
+
+    views = FactService(db).list_facts_by_document(chunk.document_id)
+
+    assert [view.fact.id for view in views] == [fact.id]
+    event = _last_fact_query_audit(db)
+    assert event.request_json["requester_id"] == "local_dev"
+    assert event.request_json["tenant_id"] == "local_dev"
+    assert event.result_json["returned_fact_ids"] == [fact.id]
+    assert event.result_json["denied_fact_ids"] == []
+    assert event.result_json["policy_decision"] == "not_configured_allow"
+
+
+def test_fact_query_allows_requester_and_role(tmp_path):
+    db = _db_session(tmp_path)
+    requester_chunk = _seed_document_chunk(
+        db,
+        document_id="doc-requester",
+        version_id="version-requester",
+        chunk_id="chunk-requester",
+        metadata_json={"allowed_requester_ids": ["u-1"], "tenant_id": "t-1"},
+    )
+    role_chunk = _seed_document_chunk(
+        db,
+        document_id="doc-role",
+        version_id="version-role",
+        chunk_id="chunk-role",
+        metadata_json={"allowed_roles": ["bid"], "tenant_id": "t-1"},
+    )
+    service = FactService(db)
+    requester_fact = service.create_fact_from_evidence(
+        fact_type="tender_basic_info",
+        subject="requester allow",
+        predicate="值",
+        value="A",
+        source_chunk_id=requester_chunk.id,
+    )
+    role_fact = service.create_fact_from_evidence(
+        fact_type="tender_basic_info",
+        subject="role allow",
+        predicate="值",
+        value="B",
+        source_chunk_id=role_chunk.id,
+    )
+
+    requester_views = service.list_facts_by_document(
+        requester_chunk.document_id,
+        requester_id="u-1",
+        tenant_id="t-1",
+        role="staff",
+    )
+    role_views = service.list_facts_by_document(
+        role_chunk.document_id,
+        requester_id="u-2",
+        tenant_id="t-1",
+        role="bid",
+    )
+
+    assert [view.fact.id for view in requester_views] == [requester_fact.id]
+    assert [view.fact.id for view in role_views] == [role_fact.id]
+    events = (
+        db.query(AuditLog)
+        .filter(AuditLog.action == "fact.query")
+        .order_by(AuditLog.created_at.asc())
+        .all()
+    )
+    assert events[-2].result_json["policy_decision"] == "allow"
+    assert events[-1].result_json["policy_decision"] == "allow"
+
+
+def test_fact_query_tenant_mismatch_denies_and_does_not_return_fact(tmp_path):
+    db = _db_session(tmp_path)
+    chunk = _seed_document_chunk(db, metadata_json={"tenant_id": "tenant-a"})
+    fact = FactService(db).create_fact_from_evidence(
+        fact_type="tender_basic_info",
+        subject="租户隔离",
+        predicate="值",
+        value="A",
+        source_chunk_id=chunk.id,
+    )
+
+    views = FactService(db).list_facts_by_document(
+        chunk.document_id,
+        requester_id="u-1",
+        tenant_id="tenant-b",
+        role="staff",
+    )
+
+    assert views == []
+    event = _last_fact_query_audit(db)
+    assert event.result_json["policy_decision"] == "deny"
+    assert event.result_json["returned_fact_ids"] == []
+    assert event.result_json["denied_fact_ids"] == [fact.id]
+    assert event.result_json["source_document_ids"] == [chunk.document_id]
+
+
+def test_fact_query_audit_failure_does_not_block_query(tmp_path, monkeypatch):
+    db = _db_session(tmp_path)
+    chunk = _seed_document_chunk(db)
+    fact = FactService(db).create_fact_from_evidence(
+        fact_type="meeting_action_item",
+        subject="audit fail-open",
+        predicate="负责",
+        value="继续返回",
+        source_chunk_id=chunk.id,
+    )
+
+    def fail_add(_item):
+        raise RuntimeError("audit down")
+
+    monkeypatch.setattr(db, "add", fail_add)
+
+    views = FactService(db).list_facts_by_document(chunk.document_id)
+
+    assert [view.fact.id for view in views] == [fact.id]
+
+
 def _db_session(tmp_path):
     engine = create_engine(f"sqlite:///{tmp_path / 'facts.db'}")
     Base.metadata.create_all(engine)
@@ -109,6 +235,7 @@ def _seed_document_chunk(
     version_id: str = "version-1",
     chunk_id: str = "chunk-1",
     is_latest: bool = True,
+    metadata_json: dict | None = None,
 ) -> Chunk:
     if db.get(Document, document_id) is None:
         db.add(
@@ -118,9 +245,12 @@ def _seed_document_chunk(
                 source_type="tender",
                 source_uri="test.docx",
                 document_type="tender",
-                metadata_json={},
+                metadata_json=metadata_json or {},
             )
         )
+    else:
+        document = db.get(Document, document_id)
+        document.metadata_json = metadata_json or {}
     _seed_version(db, document_id=document_id, version_id=version_id, is_latest=is_latest)
     chunk = Chunk(
         id=chunk_id,
@@ -173,3 +303,12 @@ def _seed_audit(db) -> AuditLog:
     db.commit()
     db.refresh(audit)
     return audit
+
+
+def _last_fact_query_audit(db) -> AuditLog:
+    return (
+        db.query(AuditLog)
+        .filter(AuditLog.action == "fact.query")
+        .order_by(AuditLog.created_at.desc())
+        .first()
+    )
