@@ -177,3 +177,15 @@
 6. Phase 2.21a 最小实现已完成：新增 evidence-backed facts service/API，创建 fact 必须绑定 source chunk，并保留 source document/version/chunk、confidence、verification_status、created_by、confirmed_by、audit_event_id。
 7. Phase 2.21a live smoke 已通过：会议纪要 action item 与主标书建设单位各创建 1 条 `unverified` fact，by document / by subject 查询均能返回来源字段。
 8. 后续尾项：facts 暂不参与 answer generation；如要进入真实业务，应先补 facts eval、权限过滤查询、人工确认工作流和 stale source 处理策略。
+
+## 15. Phase 2.21b facts governance 待办
+
+1. Phase 2.21b 已完成边界规划：优先推进 facts eval、facts 查询权限过滤与人工确认工作流的最小闭环。
+2. facts eval 应纳入 Phase 2.14 deterministic eval，覆盖 source document/version/chunk、默认 unverified、confirm/reject 状态流转与 stale source version 诊断。
+3. facts 查询权限过滤应继承 source document ACL / tenant soft policy；deny 后不得返回 fact，也不得泄露 source evidence。
+4. facts query audit 应记录 requester、tenant、returned_fact_ids、denied_fact_ids、source_document_ids 与 policy_decision。
+5. 人工确认工作流先限定为 `unverified -> confirmed/rejected`，不做 UI 管理后台。
+6. 当前明确不做 facts 参与回答生成，不做自动全量 facts 抽取，不做知识图谱或 rollout。
+7. Phase 2.21b 第一阶段已完成 facts eval：Phase 2.14 runner 新增 `facts` group，5 条 facts case 覆盖来源字段、默认 unverified、confirmed/rejected 与 stale source version。
+8. 当前 live eval 结果：facts group `5 passed / 0 failed / 0 skipped`，full Phase 2.14 eval `21 passed / 0 failed / 1 skipped`。
+9. 后续仍需实现 facts 查询权限过滤、fact query audit 与人工确认工作流字段增强。

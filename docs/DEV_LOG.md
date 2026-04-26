@@ -113,3 +113,5 @@
 - [Phase 2.20a] 定位 full eval dense 假失败为本机 .env 指向旧 Qdrant collection；改回 hermes_chunks 后 full eval 16/16 通过。
 - [Phase 2.21] 完成下一阶段路线裁决，建议优先进入 evidence-backed 结构化 facts 最小闭环。
 - [Phase 2.21a] 完成 evidence-backed facts 最小实现，fact 必须绑定 source chunk/version/audit，默认 unverified。
+- [Phase 2.21b] 完成 facts governance 边界规划，下一步只推进 facts eval、查询权限过滤与人工确认工作流，不让 facts 参与回答生成。
+- [Phase 2.21b] 完成 facts eval 第一阶段实现，Phase 2.14 runner 新增 facts group，live eval 5/5 通过，full eval 21/21 执行通过。

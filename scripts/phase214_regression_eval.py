@@ -19,8 +19,10 @@ from app.db.session import SessionLocal
 from app.models.audit import AuditLog
 from app.models.chunk import Chunk
 from app.models.document import Document, DocumentVersion
+from app.models.fact import Fact
 from app.schemas.retrieval import RetrievalFilter, SearchRequest, SearchResponse
 from app.services.indexing.opensearch import OpenSearchChunkIndexer
+from app.services.facts import FactService
 from app.services.retrieval.service import RetrievalService
 
 
@@ -45,6 +47,12 @@ GOV_VERSION_V1_ID = "phase220-gov-version-v1"
 GOV_VERSION_V2_ID = "phase220-gov-version-v2"
 GOV_VERSION_V1_CHUNK_ID = "phase220-gov-version-v1-chunk-0"
 GOV_VERSION_V2_CHUNK_ID = "phase220-gov-version-v2-chunk-0"
+FACTS_DOC_ID = "phase221b-facts-doc"
+FACTS_VERSION_CURRENT_ID = "phase221b-facts-v2"
+FACTS_VERSION_OLD_ID = "phase221b-facts-v1"
+FACTS_CHUNK_CURRENT_ID = "phase221b-facts-current-chunk-0"
+FACTS_CHUNK_OLD_ID = "phase221b-facts-old-chunk-0"
+FACTS_SUBJECT_PREFIX = "phase221b:"
 
 
 @dataclass(frozen=True)
@@ -100,6 +108,32 @@ class EvalResult:
     evidence_version_ids: list[str] = field(default_factory=list)
     stale_version: bool | None = None
     latest_version_id: str | None = None
+    error: str | None = None
+
+
+@dataclass(frozen=True)
+class FactsEvalCase:
+    id: str
+    subject: str
+    expected_status: str | None = None
+    expected_stale_source_version: bool | None = None
+    required_source_fields: list[str] = field(
+        default_factory=lambda: ["source_document_id", "source_version_id", "source_chunk_id"]
+    )
+
+
+@dataclass
+class FactsEvalResult:
+    id: str
+    group: str = "facts"
+    passed: bool = False
+    skipped: bool = False
+    latency_ms: float = 0.0
+    fact_id: str | None = None
+    verification_status: str | None = None
+    missing_source_fields: list[str] = field(default_factory=list)
+    invalid_verification_status: dict[str, Any] | None = None
+    stale_source_version: bool | None = None
     error: str | None = None
 
 
@@ -375,6 +409,38 @@ def builtin_eval_cases() -> list[EvalCase]:
     ]
 
 
+def builtin_facts_eval_cases() -> list[FactsEvalCase]:
+    return [
+        FactsEvalCase(
+            id="facts_source_fields_present",
+            subject=f"{FACTS_SUBJECT_PREFIX}unverified",
+            expected_status="unverified",
+            expected_stale_source_version=False,
+        ),
+        FactsEvalCase(
+            id="facts_default_unverified",
+            subject=f"{FACTS_SUBJECT_PREFIX}unverified",
+            expected_status="unverified",
+        ),
+        FactsEvalCase(
+            id="facts_confirmed_status",
+            subject=f"{FACTS_SUBJECT_PREFIX}confirmed",
+            expected_status="confirmed",
+        ),
+        FactsEvalCase(
+            id="facts_rejected_status",
+            subject=f"{FACTS_SUBJECT_PREFIX}rejected",
+            expected_status="rejected",
+        ),
+        FactsEvalCase(
+            id="facts_stale_source_version",
+            subject=f"{FACTS_SUBJECT_PREFIX}stale",
+            expected_status="unverified",
+            expected_stale_source_version=True,
+        ),
+    ]
+
+
 def evaluate_case_response(
     case: EvalCase,
     response: SearchResponse,
@@ -436,17 +502,21 @@ def evaluate_case_response(
     )
 
 
-def run_eval_cases(cases: list[EvalCase] | None = None) -> dict[str, Any]:
-    cases = cases or builtin_eval_cases()
+def run_eval_cases(cases: list[EvalCase] | None = None, *, include_facts: bool = False) -> dict[str, Any]:
+    cases = builtin_eval_cases() if cases is None else cases
     environment = check_dependencies()
     if not environment["ok"]:
+        skipped_count = len([case for case in cases if case.skip_reason])
+        executed_count = len([case for case in cases if not case.skip_reason])
+        facts_count = len(builtin_facts_eval_cases()) if include_facts else 0
         return {
             "environment": environment,
-            "total": len(cases),
+            "total": len(cases) + facts_count,
             "passed": 0,
-            "failed": len([case for case in cases if not case.skip_reason]),
-            "skipped": len([case for case in cases if case.skip_reason]),
+            "failed": executed_count + facts_count,
+            "skipped": skipped_count,
             "latency_ms": {"p50": None, "p95": None},
+            "facts": _facts_summary([]),
             "cases": [],
         }
 
@@ -456,6 +526,7 @@ def run_eval_cases(cases: list[EvalCase] | None = None) -> dict[str, Any]:
             prepare_governance_fixtures(db)
         service = RetrievalService(db)
         results: list[EvalResult] = []
+        facts_results: list[FactsEvalResult] = []
         for case in cases:
             if case.skip_reason:
                 results.append(EvalResult(id=case.id, group=case.group, passed=False, skipped=True, latency_ms=0.0, error=case.skip_reason))
@@ -481,26 +552,95 @@ def run_eval_cases(cases: list[EvalCase] | None = None) -> dict[str, Any]:
             except Exception as exc:  # pragma: no cover - exercised by live failure only
                 elapsed_ms = (perf_counter() - started) * 1000
                 results.append(EvalResult(id=case.id, group=case.group, passed=False, skipped=False, latency_ms=elapsed_ms, error=repr(exc)))
+        if include_facts:
+            facts_results = run_facts_eval_cases(db)
     finally:
         db.close()
 
-    executed = [result for result in results if not result.skipped]
+    all_results = [*results, *facts_results]
+    executed = [result for result in all_results if not result.skipped]
     passed = len([result for result in executed if result.passed])
     failed = len([result for result in executed if not result.passed])
     latencies = [result.latency_ms for result in executed]
     return {
         "environment": environment,
-        "total": len(cases),
+        "total": len(all_results),
         "passed": passed,
         "failed": failed,
-        "skipped": len([result for result in results if result.skipped]),
+        "skipped": len([result for result in all_results if result.skipped]),
         "latency_ms": {
             "p50": _percentile(latencies, 50),
             "p95": _percentile(latencies, 95),
         },
-        "groups": _group_stats(results),
-        "cases": [asdict(result) for result in results],
+        "groups": _group_stats(all_results),
+        "facts": _facts_summary(facts_results),
+        "cases": [asdict(result) for result in all_results],
     }
+
+
+def run_facts_eval_cases(db) -> list[FactsEvalResult]:
+    prepare_facts_fixtures(db)
+    service = FactService(db)
+    results: list[FactsEvalResult] = []
+    for case in builtin_facts_eval_cases():
+        started = perf_counter()
+        try:
+            views = service.list_facts_by_subject(case.subject)
+            view = views[0] if views else None
+            elapsed_ms = (perf_counter() - started) * 1000
+            results.append(evaluate_fact_view(case, view, elapsed_ms))
+        except Exception as exc:  # pragma: no cover - exercised by live failure only
+            elapsed_ms = (perf_counter() - started) * 1000
+            results.append(
+                FactsEvalResult(
+                    id=case.id,
+                    passed=False,
+                    skipped=False,
+                    latency_ms=elapsed_ms,
+                    error=repr(exc),
+                )
+            )
+    return results
+
+
+def evaluate_fact_view(case: FactsEvalCase, view: Any, latency_ms: float) -> FactsEvalResult:
+    if view is None:
+        return FactsEvalResult(
+            id=case.id,
+            passed=False,
+            latency_ms=latency_ms,
+            error="fact_not_found",
+        )
+    fact = view.fact
+    missing_source_fields = [
+        field
+        for field in case.required_source_fields
+        if not _non_empty(getattr(fact, field, None))
+    ]
+    invalid_status = None
+    if case.expected_status is not None and fact.verification_status != case.expected_status:
+        invalid_status = {"expected": case.expected_status, "actual": fact.verification_status}
+    stale_source_version = bool(view.stale_source_version)
+    stale_mismatch = (
+        case.expected_stale_source_version is not None
+        and stale_source_version != case.expected_stale_source_version
+    )
+    passed = not (missing_source_fields or invalid_status or stale_mismatch)
+    error = None
+    if stale_mismatch:
+        error = f"stale_source_version_mismatch:{stale_source_version}"
+    return FactsEvalResult(
+        id=case.id,
+        passed=passed,
+        skipped=False,
+        latency_ms=latency_ms,
+        fact_id=fact.id,
+        verification_status=fact.verification_status,
+        missing_source_fields=missing_source_fields,
+        invalid_verification_status=invalid_status,
+        stale_source_version=stale_source_version,
+        error=error,
+    )
 
 
 def prepare_governance_fixtures(db) -> None:
@@ -577,15 +717,102 @@ def prepare_governance_fixtures(db) -> None:
         indexer.index_chunk(chunk, document, version)
 
 
-def _upsert_document(db, *, document_id: str, title: str, metadata: dict[str, Any]) -> Document:
+def prepare_facts_fixtures(db) -> None:
+    service = FactService(db)
+    db.query(Fact).filter(Fact.subject.like(f"{FACTS_SUBJECT_PREFIX}%")).delete(synchronize_session=False)
+    db.commit()
+
+    _upsert_document(
+        db,
+        document_id=FACTS_DOC_ID,
+        title="Phase 2.21b facts eval fixture",
+        metadata={"current_version_id": FACTS_VERSION_CURRENT_ID},
+        source_type="phase221b",
+    )
+    _upsert_version(
+        db,
+        document_id=FACTS_DOC_ID,
+        version_id=FACTS_VERSION_OLD_ID,
+        is_latest=False,
+        metadata={"version_status": "superseded", "superseded_by_version_id": FACTS_VERSION_CURRENT_ID},
+    )
+    _upsert_version(
+        db,
+        document_id=FACTS_DOC_ID,
+        version_id=FACTS_VERSION_CURRENT_ID,
+        is_latest=True,
+        metadata={"version_status": "active"},
+    )
+    _upsert_chunk(
+        db,
+        document_id=FACTS_DOC_ID,
+        version_id=FACTS_VERSION_OLD_ID,
+        chunk_id=FACTS_CHUNK_OLD_ID,
+        text="phase221b facts old source evidence amount 100.",
+        source_type="phase221b",
+    )
+    _upsert_chunk(
+        db,
+        document_id=FACTS_DOC_ID,
+        version_id=FACTS_VERSION_CURRENT_ID,
+        chunk_id=FACTS_CHUNK_CURRENT_ID,
+        text="phase221b facts current source evidence amount 200.",
+        source_type="phase221b",
+    )
+    db.commit()
+
+    service.create_fact_from_evidence(
+        fact_type="phase221b_eval",
+        subject=f"{FACTS_SUBJECT_PREFIX}unverified",
+        predicate="状态",
+        value="默认未确认",
+        source_chunk_id=FACTS_CHUNK_CURRENT_ID,
+        created_by="phase221b-eval",
+    )
+    confirmed = service.create_fact_from_evidence(
+        fact_type="phase221b_eval",
+        subject=f"{FACTS_SUBJECT_PREFIX}confirmed",
+        predicate="状态",
+        value="人工确认",
+        source_chunk_id=FACTS_CHUNK_CURRENT_ID,
+        created_by="phase221b-eval",
+    )
+    service.confirm_fact(confirmed.id, actor_id="phase221b-reviewer")
+    rejected = service.create_fact_from_evidence(
+        fact_type="phase221b_eval",
+        subject=f"{FACTS_SUBJECT_PREFIX}rejected",
+        predicate="状态",
+        value="人工拒绝",
+        source_chunk_id=FACTS_CHUNK_CURRENT_ID,
+        created_by="phase221b-eval",
+    )
+    service.mark_fact_rejected(rejected.id, actor_id="phase221b-reviewer")
+    service.create_fact_from_evidence(
+        fact_type="phase221b_eval",
+        subject=f"{FACTS_SUBJECT_PREFIX}stale",
+        predicate="版本",
+        value="旧版本来源",
+        source_chunk_id=FACTS_CHUNK_OLD_ID,
+        created_by="phase221b-eval",
+    )
+
+
+def _upsert_document(
+    db,
+    *,
+    document_id: str,
+    title: str,
+    metadata: dict[str, Any],
+    source_type: str = "phase220",
+) -> Document:
     document = db.get(Document, document_id)
     if document is None:
         document = Document(id=document_id)
         db.add(document)
     document.title = title
-    document.source_type = "phase220"
+    document.source_type = source_type
     document.source_uri = f"{document_id}.txt"
-    document.storage_uri = f"phase220://{document_id}.txt"
+    document.storage_uri = f"{source_type}://{document_id}.txt"
     document.document_type = "txt"
     document.status = "active"
     document.confidentiality_level = "internal"
@@ -611,7 +838,15 @@ def _upsert_version(db, *, document_id: str, version_id: str, is_latest: bool, m
     return version
 
 
-def _upsert_chunk(db, *, document_id: str, version_id: str, chunk_id: str, text: str) -> Chunk:
+def _upsert_chunk(
+    db,
+    *,
+    document_id: str,
+    version_id: str,
+    chunk_id: str,
+    text: str,
+    source_type: str = "phase220",
+) -> Chunk:
     chunk = db.get(Chunk, chunk_id)
     if chunk is None:
         chunk = Chunk(id=chunk_id, document_id=document_id, version_id=version_id)
@@ -628,7 +863,7 @@ def _upsert_chunk(db, *, document_id: str, version_id: str, chunk_id: str, text:
     chunk.char_count = len(text)
     chunk.content_hash = sha256(text.encode("utf-8")).hexdigest()
     chunk.token_count = len(text)
-    chunk.source_type = "phase220"
+    chunk.source_type = source_type
     chunk.metadata_json = {"source_chunk_id": chunk_id}
     chunk.permission_tags = []
     return chunk
@@ -790,6 +1025,29 @@ def _group_stats(results: list[EvalResult]) -> dict[str, dict[str, int]]:
     return stats
 
 
+def _facts_summary(results: list[FactsEvalResult]) -> dict[str, Any]:
+    missing_source_fields = sorted(
+        {
+            field
+            for result in results
+            for field in result.missing_source_fields
+        }
+    )
+    invalid_status = {
+        result.id: result.invalid_verification_status
+        for result in results
+        if result.invalid_verification_status
+    }
+    return {
+        "facts_total": len(results),
+        "facts_passed": len([result for result in results if result.passed]),
+        "facts_failed": len([result for result in results if not result.skipped and not result.passed]),
+        "missing_source_fields": missing_source_fields,
+        "invalid_verification_status": invalid_status,
+        "stale_source_version_detected": any(result.stale_source_version for result in results),
+    }
+
+
 def _non_empty(value: Any) -> bool:
     return value not in (None, "", [], {})
 
@@ -828,10 +1086,12 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
     cases = builtin_eval_cases()
+    include_facts = True
     if args.group:
         allowed_groups = set(args.group)
         cases = [case for case in cases if case.group in allowed_groups]
-    summary = run_eval_cases(cases)
+        include_facts = "facts" in allowed_groups
+    summary = run_eval_cases(cases, include_facts=include_facts)
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     return 0 if summary["environment"]["ok"] and summary["failed"] == 0 else 1
 

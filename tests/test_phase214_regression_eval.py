@@ -6,8 +6,13 @@ from app.models.audit import AuditLog
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from scripts.phase214_regression_eval import EvalCase, evaluate_case_response
+from types import SimpleNamespace
+
+from app.models.fact import Fact
+
+from scripts.phase214_regression_eval import EvalCase, FactsEvalCase, FactsEvalResult, evaluate_case_response, evaluate_fact_view
 from scripts.phase214_regression_eval import builtin_eval_cases
+from scripts.phase214_regression_eval import _facts_summary
 
 
 def test_eval_case_passes_when_expected_doc_trace_and_fields_match():
@@ -221,6 +226,93 @@ def test_builtin_eval_cases_include_governance_group():
     }
 
 
+def test_facts_eval_passes_when_source_status_and_stale_match():
+    case = FactsEvalCase(
+        id="fact",
+        subject="subject",
+        expected_status="unverified",
+        expected_stale_source_version=False,
+    )
+    fact = _fact(
+        verification_status="unverified",
+        source_document_id="doc",
+        source_version_id="version",
+        source_chunk_id="chunk",
+    )
+    view = SimpleNamespace(fact=fact, stale_source_version=False)
+
+    result = evaluate_fact_view(case, view, latency_ms=1)
+
+    assert result.passed is True
+    assert result.missing_source_fields == []
+    assert result.invalid_verification_status is None
+    assert result.stale_source_version is False
+
+
+def test_facts_eval_detects_missing_source_field():
+    case = FactsEvalCase(id="fact", subject="subject", expected_status="unverified")
+    fact = _fact(
+        verification_status="unverified",
+        source_document_id="doc",
+        source_version_id=None,
+        source_chunk_id="chunk",
+    )
+    view = SimpleNamespace(fact=fact, stale_source_version=False)
+
+    result = evaluate_fact_view(case, view, latency_ms=1)
+
+    assert result.passed is False
+    assert result.missing_source_fields == ["source_version_id"]
+
+
+def test_facts_eval_detects_confirmed_rejected_and_stale_status():
+    confirmed = evaluate_fact_view(
+        FactsEvalCase(id="confirmed", subject="subject", expected_status="confirmed"),
+        SimpleNamespace(fact=_fact(verification_status="confirmed"), stale_source_version=False),
+        latency_ms=1,
+    )
+    rejected = evaluate_fact_view(
+        FactsEvalCase(id="rejected", subject="subject", expected_status="rejected"),
+        SimpleNamespace(fact=_fact(verification_status="rejected"), stale_source_version=False),
+        latency_ms=1,
+    )
+    stale = evaluate_fact_view(
+        FactsEvalCase(id="stale", subject="subject", expected_stale_source_version=True),
+        SimpleNamespace(fact=_fact(verification_status="unverified"), stale_source_version=True),
+        latency_ms=1,
+    )
+
+    assert confirmed.passed is True
+    assert rejected.passed is True
+    assert stale.passed is True
+    assert stale.stale_source_version is True
+
+
+def test_facts_summary_exposes_group_metrics():
+    summary = _facts_summary(
+        [
+            FactsEvalResult(id="pass", passed=True, stale_source_version=True),
+            FactsEvalResult(
+                id="fail",
+                passed=False,
+                missing_source_fields=["source_chunk_id"],
+                invalid_verification_status={"expected": "confirmed", "actual": "unverified"},
+            ),
+        ]
+    )
+
+    assert summary == {
+        "facts_total": 2,
+        "facts_passed": 1,
+        "facts_failed": 1,
+        "missing_source_fields": ["source_chunk_id"],
+        "invalid_verification_status": {
+            "fail": {"expected": "confirmed", "actual": "unverified"}
+        },
+        "stale_source_version_detected": True,
+    }
+
+
 def _response(
     *,
     document_ids: list[str],
@@ -250,4 +342,23 @@ def _response(
         dense_status=dense_status,
         sparse_status=sparse_status,
         trace=trace or {},
+    )
+
+
+def _fact(
+    *,
+    verification_status: str,
+    source_document_id: str | None = "doc",
+    source_version_id: str | None = "version",
+    source_chunk_id: str | None = "chunk",
+) -> Fact:
+    return Fact(
+        fact_type="test",
+        subject="subject",
+        predicate="predicate",
+        value="value",
+        source_document_id=source_document_id,
+        source_version_id=source_version_id,
+        source_chunk_id=source_chunk_id,
+        verification_status=verification_status,
     )
