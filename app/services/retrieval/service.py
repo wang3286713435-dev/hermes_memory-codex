@@ -73,6 +73,7 @@ class RetrievalService:
         trace_id = str(uuid4())
         applied_filters, ignored_filters = self._normalize_filters(request)
         document_scope_trace = self._infer_document_scope(request.query, applied_filters)
+        version_scope_trace = self._infer_version_scope(applied_filters)
         section_scope_trace = self._infer_section_scope(request.query)
         if document_scope_trace.get("document_id"):
             applied_filters["document_id"] = document_scope_trace["document_id"]
@@ -152,6 +153,7 @@ class RetrievalService:
             **access_policy_trace,
             "returned_document_ids": self._unique(result.document_id for result in final_results),
             "evidence_chunk_ids": self._unique(result.chunk_id for result in final_results),
+            "version_ids": self._unique(result.version_id for result in final_results),
         }
         self._write_log(
             trace_id,
@@ -180,6 +182,8 @@ class RetrievalService:
                 "dense": dense_outcome.trace,
                 "sparse": sparse_trace,
                 "document_scope": document_scope_trace,
+                "version_scope": version_scope_trace,
+                "version_policy": version_scope_trace.get("version_policy", "latest_only"),
                 "section_scope": section_scope_trace,
                 "metadata_snapshot": metadata_snapshot_trace,
                 "metadata_snapshot_used": metadata_snapshot_trace.get("metadata_snapshot_used", False),
@@ -218,7 +222,17 @@ class RetrievalService:
         applied: dict = {}
         ignored: dict = {}
 
+        extra_filters = {
+            **(filters.extra or {}),
+            **(getattr(filters, "model_extra", None) or {}),
+        }
+        version_id = extra_filters.get("version_id")
+        if version_id:
+            applied["version_id"] = version_id
+
         for field in ("source_type", "document_id", "document_type", "is_latest"):
+            if field == "is_latest" and version_id:
+                continue
             value = getattr(filters, field, None)
             if value is not None:
                 applied[field] = value
@@ -228,9 +242,9 @@ class RetrievalService:
             "customer_id": filters.customer_id,
             "confidentiality_level": filters.confidentiality_level,
             "permission_tags": filters.permission_tags or None,
-            **(filters.extra or {}),
-            **(getattr(filters, "model_extra", None) or {}),
+            **extra_filters,
         }
+        unsupported.pop("version_id", None)
         ignored = {key: value for key, value in unsupported.items() if value not in (None, [], {})}
         return applied, ignored
 
@@ -257,7 +271,9 @@ class RetrievalService:
         section_scope: dict[str, Any] | None = None,
     ) -> list[SearchResult]:
         client = OpenSearch(settings.opensearch_url, timeout=5)
-        filters: list[dict] = [{"term": {self._resolve_opensearch_filter_field(client, "status"): "active"}}]
+        filters: list[dict] = []
+        if "version_id" not in applied_filters:
+            filters.append({"term": {self._resolve_opensearch_filter_field(client, "status"): "active"}})
         if "source_type" in applied_filters:
             filters.append(
                 {"term": {self._resolve_opensearch_filter_field(client, "source_type"): applied_filters["source_type"]}}
@@ -269,6 +285,10 @@ class RetrievalService:
         if "document_type" in applied_filters:
             filters.append(
                 {"term": {self._resolve_opensearch_filter_field(client, "document_type"): applied_filters["document_type"]}}
+            )
+        if "version_id" in applied_filters:
+            filters.append(
+                {"term": {self._resolve_opensearch_filter_field(client, "version_id"): applied_filters["version_id"]}}
             )
         if "is_latest" in applied_filters:
             filters.append({"term": {"is_latest": applied_filters["is_latest"]}})
@@ -678,6 +698,43 @@ class RetrievalService:
             "matched_count": len(matches),
         }
 
+    def _infer_version_scope(self, applied_filters: dict[str, Any]) -> dict[str, Any]:
+        version_id = applied_filters.get("version_id")
+        if not version_id:
+            return {
+                "status": "latest_only",
+                "version_policy": "latest_only",
+                "stale_version": False,
+            }
+        trace: dict[str, Any] = {
+            "status": "explicit_version_id",
+            "version_policy": "explicit_history_version",
+            "version_id": version_id,
+            "stale_version": False,
+        }
+        if self.db is None:
+            trace["status"] = "explicit_version_id_db_unavailable"
+            return trace
+        version = self.db.query(DocumentVersion).filter(DocumentVersion.id == version_id).first()
+        if version is None:
+            trace["status"] = "explicit_version_id_not_found"
+            trace["stale_version"] = True
+            return trace
+        trace["document_id"] = version.document_id
+        trace["is_latest"] = version.is_latest
+        if version.is_latest:
+            return trace
+        latest = (
+            self.db.query(DocumentVersion)
+            .filter(DocumentVersion.document_id == version.document_id)
+            .filter(DocumentVersion.is_latest.is_(True))
+            .first()
+        )
+        trace["stale_version"] = True
+        trace["latest_version_id"] = latest.id if latest else None
+        trace["superseded_by_version_id"] = (version.metadata_json or {}).get("superseded_by_version_id")
+        return trace
+
     def _document_reference_aliases(self, document: Document) -> list[str]:
         aliases = [
             self._normalize_document_reference(document.title),
@@ -743,6 +800,8 @@ class RetrievalService:
             query = query.filter(Document.id == applied_filters["document_id"])
         if "document_type" in applied_filters:
             query = query.filter(Document.document_type == applied_filters["document_type"])
+        if "version_id" in applied_filters:
+            query = query.filter(DocumentVersion.id == applied_filters["version_id"])
         if "is_latest" in applied_filters:
             query = query.filter(DocumentVersion.is_latest == applied_filters["is_latest"])
 
@@ -799,6 +858,8 @@ class RetrievalService:
             query = query.filter(Chunk.source_type == applied_filters["source_type"])
         if "document_type" in applied_filters:
             query = query.filter(Document.document_type == applied_filters["document_type"])
+        if "version_id" in applied_filters:
+            query = query.filter(DocumentVersion.id == applied_filters["version_id"])
         if "is_latest" in applied_filters:
             query = query.filter(DocumentVersion.is_latest == applied_filters["is_latest"])
         rows = query.all()
@@ -994,6 +1055,7 @@ class RetrievalService:
                 "denied_document_ids": [],
                 "returned_document_ids": [],
                 "evidence_chunk_ids": [],
+                "version_ids": [],
                 "permission_trace_missing": self.db is None,
                 "document_decisions": {},
             }
@@ -1028,6 +1090,7 @@ class RetrievalService:
             "denied_document_ids": denied_document_ids,
             "returned_document_ids": [],
             "evidence_chunk_ids": [],
+            "version_ids": [],
             "permission_trace_missing": any(
                 decision.get("reason") in {"acl_not_configured", "acl_metadata_missing"}
                 for decision in document_decisions.values()
@@ -1445,6 +1508,8 @@ class RetrievalService:
                     "status": status,
                     "returned_document_ids": access_policy_trace.get("returned_document_ids", []),
                     "evidence_chunk_ids": access_policy_trace.get("evidence_chunk_ids", []),
+                    "version_ids": access_policy_trace.get("version_ids", []),
+                    "evidence_version_ids": access_policy_trace.get("version_ids", []),
                     "policy_decision": access_policy_trace.get("policy_decision"),
                     "policy_reason": access_policy_trace.get("policy_reason"),
                     "denied_document_ids": access_policy_trace.get("denied_document_ids", []),

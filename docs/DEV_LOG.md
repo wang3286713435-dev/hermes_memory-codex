@@ -102,3 +102,7 @@
 - [Phase 2.18] 完成下一阶段路线评审，建议优先进入权限与审计最小闭环；facts、增量更新、音频 ASR 与 rerank 质量评测后置。
 - [Phase 2.18a] 完成权限与审计最小闭环：soft ACL 可过滤 evidence，audit log 写入可 fail-open，当前不做完整 RBAC/ABAC。
 - [Phase 2.18a] 完成 live smoke：无 ACL、requester allow、tenant mismatch deny 与 audit_logs 三条写入均通过，可进入 Git baseline。
+- [Phase 2.19] 完成版本治理路线裁决，建议优先做同名版本识别、latest 标记、superseded 诊断与默认 latest retrieval；facts 后置。
+- [Phase 2.19a] 完成版本治理最小闭环：同名上传生成新版本，旧版本 superseded，默认检索 latest，显式 version_id 可查历史。
+- [Phase 2.19a] 修复 OpenSearch 旧版本同步问题，supersede 时按 document_id+version_id 限定更新 is_latest=false，避免 sparse 泄露旧版本。
+- [Phase 2.19a] 完成 live smoke 复验：默认 sparse/dense/hybrid 只返回 latest v2，显式旧 version_id 返回 v1，audit 默认 latest 只记录 v2。

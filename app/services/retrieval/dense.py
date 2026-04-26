@@ -273,9 +273,22 @@ class QdrantDenseRetriever:
         for field in ("source_type", "document_id", "document_type", "is_latest"):
             if field in applied_filters:
                 must.append({"key": field, "match": {"value": applied_filters[field]}})
+        if "version_id" in applied_filters:
+            must.append({"key": "version_id", "match": {"value": applied_filters["version_id"]}})
         if not must:
             return None
         return {"must": must}
+
+    def set_payload_by_filter(self, *, payload: dict[str, Any], filter_must: list[dict[str, Any]]) -> dict[str, Any]:
+        self.ensure_collection()
+        response = httpx.post(
+            self._url(f"/collections/{settings.qdrant_collection}/points/payload"),
+            json={"payload": payload, "filter": {"must": filter_must}},
+            headers=self._headers(),
+            timeout=15,
+        )
+        response.raise_for_status()
+        return response.json()
 
     def _result_from_qdrant(self, raw: dict[str, Any]) -> SearchResult:
         payload = dict(raw.get("payload") or {})

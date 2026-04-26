@@ -142,3 +142,14 @@
 5. Phase 2.18a live smoke 已通过：无 ACL 默认 allow、requester allow、tenant mismatch deny 与三条 audit log 写入均验证通过，测试文档 metadata 已恢复。
 6. Phase 2.18a 非目标：不做完整 RBAC/ABAC、不接企业 IAM/SSO、不做管理后台、不做 facts、不做原始音频 ASR、不进入 rollout。
 7. 下一步建议做 Git baseline；facts、增量更新 / 版本治理、原始音频 ASR、rerank 质量评测均保留为后续阶段。
+
+## 12. Phase 2.19 增量更新 / 版本治理路线待办
+
+1. Phase 2.19 已完成路线评审：当前应优先做增量更新 / 文档版本治理，而不是直接进入 facts、完整 RBAC/ABAC 或原始音频 ASR。
+2. Phase 2.19a 最小实现已完成：同名同类型文件上传复用同一 document，新增 version，旧 version 标记 superseded，新 version 标记 latest/active。
+3. Retrieval 默认保持 `is_latest=true`；显式 `version_id` filter 可查询历史版本，并在 trace 输出 `stale_version` 与 `latest_version_id`。
+4. Audit log 已记录 evidence `version_ids`；OpenSearch / Qdrant 已补 `version_id` filter 支持。
+5. 已修复 live smoke 暴露的 OpenSearch 旧版本泄露风险：supersede 旧版本时按 `document_id + old_version_id` 限定更新 OpenSearch 旧 chunks 的 `is_latest=false`、`status=superseded`、`superseded_by_version_id`。
+6. Phase 2.19a live smoke 已复验：默认 sparse / dense-only / hybrid 只返回 latest v2，显式旧 `version_id` 只返回 v1，audit 默认 latest 只记录 v2。
+7. 当前非目标：不做复杂 diff、不做完整文档生命周期后台、不做全库重建、不物理删除旧 chunk、不做 facts 主线。
+8. 尾项：Hermes 主仓库 alias store 若要绑定 version_id，需要后续联调 stale_version 诊断；审计 eval 纳入 Phase 2.14 可作为配套小任务。

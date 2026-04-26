@@ -127,3 +127,26 @@ class DenseChunkIndexer:
             "metadata_json": chunk.metadata_json or {},
             "metadata": chunk.metadata_json or {},
         }
+
+    def mark_version_latest(
+        self,
+        version_id: str,
+        *,
+        is_latest: bool,
+        document_id: str | None = None,
+        superseded_by_version_id: str | None = None,
+    ) -> None:
+        if settings.vector_store_provider != "qdrant":
+            return
+        payload = {"is_latest": is_latest}
+        if not is_latest:
+            payload["status"] = "superseded"
+            if superseded_by_version_id:
+                payload["superseded_by_version_id"] = superseded_by_version_id
+        filter_must = [{"key": "version_id", "match": {"value": version_id}}]
+        if document_id:
+            filter_must.append({"key": "document_id", "match": {"value": document_id}})
+        self.qdrant.set_payload_by_filter(
+            payload=payload,
+            filter_must=filter_must,
+        )
