@@ -121,3 +121,9 @@
 - [Phase 2.22a] 完成 facts 管理查询与 review history 最小实现，支持状态、来源、创建人、确认人过滤，权限与 audit 语义保持不变。
 - [Phase 2.23] 完成 confirmed facts 使用路线裁决，建议先做只读检索与引用展示，不让 facts 直接进入 Agent 最终回答。
 - [Phase 2.23a] 完成 confirmed facts 只读检索最小实现，返回 citation/stale 信息并写入 fact.search audit，仍不参与 Agent 回答。
+- [Phase 2.24] 完成 facts 进入 Agent 上下文路线裁决，建议仅作为辅助上下文进入，并强制 facts_as_answer=false。
+- [Phase 2.24a] 同步主仓库最小实现状态：confirmed facts 可作辅助上下文，但必须有 retrieval evidence，且 facts_as_answer=false。
+- [Phase 2.24a] 同步终端验收修复：facts 独立分区，stale fact source 可检出，会议 transcript 不作为 facts。
+- [Phase 2.24a] 同步二次修复：fact-only 与 stale 诊断无作用域时抑制 retrieval，防止无关文档污染。
+- [Phase 2.24a] 同步 alias 绑定展示尾项修复，retrieval-only 场景稳定显示 facts false/[]/false。
+- [Phase 2.24a] 同步 Codex C 真实终端复验通过结论，5 条验收全过，stale fact 检出且 facts_as_answer 恒 false。

@@ -220,3 +220,21 @@
 8. confirmed facts 查询支持 subject、predicate、fact_type、source_document_id、source_version_id 过滤，并返回 source_excerpt / source_location。
 9. confirmed facts 查询写入 `fact.search` audit；source document soft policy deny 后仍不返回 fact。
 10. 当前仍未做：facts 进入 Agent final answer、自动抽取、知识图谱、UI 管理后台与 rollout。
+
+## 18. Phase 2.24 facts 进入 Agent 上下文路线裁决
+
+1. Phase 2.24 已完成路线评审：建议 confirmed facts 先作为 Agent 辅助上下文，而不是直接进入 final answer。
+2. 推荐下一阶段进入 `Phase 2.24a confirmed facts 辅助上下文`。
+3. 最小边界：仅 confirmed facts 可进入 context，trace 必须包含 `facts_context_used=true` 与 `facts_as_answer=false`。
+4. 每条 fact 必须显示 source_document_id、source_version_id、source_chunk_id；stale_source_version 必须明确提示。
+5. facts 查询继续继承 source document soft policy，audit 记录 `facts_context_fact_ids`。
+6. 非目标：不自动抽取 facts、不让 facts 替代 retrieval evidence、不做知识图谱、不做 UI、不进入 rollout。
+7. Phase 2.24a 最小实现已完成在 Hermes 主仓库消费层；Hermes_memory 继续提供 confirmed facts 查询、权限过滤、source citation 与 stale source 诊断。
+8. live smoke 已验证 confirmed facts 辅助上下文、stale source warning、无 retrieval evidence 时 suppress；`facts_as_answer=false` 保持不变。
+9. 终端验收修复已完成：facts context 独立分区，meeting transcript 不再被标记为 facts，`stale fact source` query 可输出 `stale_fact_source_count` 与 `latest_version_id`。
+10. 二次修复已完成：无作用域 stale / fact-answer policy query 抑制普通 retrieval，避免无关文档污染 facts 诊断。
+11. alias 绑定 / retrieval-only 场景已稳定输出 facts false / [] / false 诊断，避免模型把 retrieval chunks 写成 fact ids。
+12. Codex C 真实终端复验已通过：`@会议纪要` 绑定稳定，5 条正式验收全过，stale fact 检出，`facts_as_answer` 全场景为 false。
+13. 复验未出现 E/C chunks 写入 `facts_context_fact_ids`、fact-only query 检索无关文档或 facts 替代 retrieval evidence。
+14. 复验注意：`@会议纪要` 必须在同一会话内先绑定，避免新会话 alias_missing。
+15. 当前仍未做：facts 进入 Agent final answer、自动抽取、知识图谱、UI 管理后台与 rollout。
