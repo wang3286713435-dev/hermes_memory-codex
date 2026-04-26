@@ -2,10 +2,12 @@ import sys
 from pathlib import Path
 
 from app.schemas.retrieval import SearchResponse, SearchResult
+from app.models.audit import AuditLog
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.phase214_regression_eval import EvalCase, evaluate_case_response
+from scripts.phase214_regression_eval import builtin_eval_cases
 
 
 def test_eval_case_passes_when_expected_doc_trace_and_fields_match():
@@ -48,6 +50,24 @@ def test_eval_case_detects_forbidden_document_id():
     assert result.forbidden_document_ids == ["doc-b"]
 
 
+def test_eval_case_detects_forbidden_version_id():
+    case = EvalCase(
+        id="forbidden-version",
+        query="query",
+        filters={},
+        expected_document_ids=["doc-a"],
+        expected_version_ids=["v2"],
+        forbidden_version_ids=["v1"],
+    )
+    response = _response(document_ids=["doc-a", "doc-a"], version_ids=["v1", "v2"])
+
+    result = evaluate_case_response(case, response, latency_ms=1)
+
+    assert result.passed is False
+    assert result.returned_version_ids == ["v1", "v2"]
+    assert result.forbidden_version_ids == ["v1"]
+
+
 def test_eval_case_detects_missing_citation_fields():
     case = EvalCase(
         id="missing-field",
@@ -85,6 +105,76 @@ def test_eval_case_detects_failed_trace_flags():
     }
 
 
+def test_eval_case_checks_audit_flags_and_exposes_governance_fields():
+    case = EvalCase(
+        id="audit",
+        query="query",
+        filters={},
+        expected_document_ids=["doc-a"],
+        expected_version_ids=["v1"],
+        required_trace_flags={
+            "access_policy.policy_decision": "allow",
+            "version_scope.stale_version": False,
+        },
+        required_audit_flags={
+            "request_json.requester_id": "u-1",
+            "result_json.evidence_chunk_ids": ["chunk-0"],
+            "result_json.evidence_version_ids": ["v1"],
+        },
+    )
+    response = _response(
+        document_ids=["doc-a"],
+        version_ids=["v1"],
+        trace={
+            "access_policy": {
+                "policy_decision": "allow",
+                "denied_document_ids": [],
+                "version_ids": ["v1"],
+            },
+            "version_scope": {"stale_version": False},
+        },
+    )
+    audit = AuditLog(
+        trace_id="trace",
+        user_id="u-1",
+        action="retrieval.query",
+        resource_type="retrieval",
+        resource_id="trace",
+        request_json={"requester_id": "u-1"},
+        result_json={"evidence_chunk_ids": ["chunk-0"], "evidence_version_ids": ["v1"]},
+    )
+
+    result = evaluate_case_response(case, response, latency_ms=1, audit_event=audit)
+
+    assert result.passed is True
+    assert result.policy_decision == "allow"
+    assert result.audit_event_written is True
+    assert result.evidence_version_ids == ["v1"]
+    assert result.stale_version is False
+
+
+def test_eval_case_detects_missing_audit_flag():
+    case = EvalCase(
+        id="audit-missing",
+        query="query",
+        filters={},
+        expected_document_ids=["doc-a"],
+        required_audit_flags={"result_json.policy_decision": "allow"},
+    )
+    response = _response(document_ids=["doc-a"])
+
+    result = evaluate_case_response(case, response, latency_ms=1)
+
+    assert result.passed is False
+    assert result.failed_audit_flags == {
+        "result_json.policy_decision": {
+            "expected": "allow",
+            "actual": None,
+            "error": "audit_event_missing",
+        }
+    }
+
+
 def test_eval_case_detects_missing_dense_hybrid_fields():
     case = EvalCase(
         id="dense",
@@ -118,22 +208,37 @@ def test_eval_case_detects_missing_dense_hybrid_fields():
     assert result.failed_dense_hybrid_checks["candidate_pool.dense_returned"] == {"expected": "present", "actual": None}
 
 
+def test_builtin_eval_cases_include_governance_group():
+    governance_cases = [case for case in builtin_eval_cases() if case.group == "governance"]
+
+    assert len(governance_cases) == 5
+    assert {case.id for case in governance_cases} >= {
+        "gov_access_no_acl_not_configured_allow",
+        "gov_access_requester_allow",
+        "gov_access_tenant_mismatch_deny",
+        "gov_version_default_latest_only",
+        "gov_version_explicit_old_version",
+    }
+
+
 def _response(
     *,
     document_ids: list[str],
+    version_ids: list[str] | None = None,
     metadata: dict | None = None,
     trace: dict | None = None,
     dense_status: str = "not_executed",
     sparse_status: str = "not_executed",
     retrieval_mode: str = "sparse",
 ) -> SearchResponse:
+    version_ids = version_ids or ["version"] * len(document_ids)
     return SearchResponse(
         query="query",
         results=[
             SearchResult(
                 chunk_id=f"chunk-{index}",
                 document_id=document_id,
-                version_id="version",
+                version_id=version_ids[index],
                 text="evidence",
                 score=1.0,
                 metadata=metadata or {},

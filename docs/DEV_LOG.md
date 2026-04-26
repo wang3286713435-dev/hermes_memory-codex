@@ -108,3 +108,6 @@
 - [Phase 2.19a] 完成 live smoke 复验：默认 sparse/dense/hybrid 只返回 latest v2，显式旧 version_id 返回 v1，audit 默认 latest 只记录 v2。
 - [Phase 2.19b] 同步 alias stale version 联调规划，Hermes_memory 保持版本治理 trace 输出，主仓库负责 alias 侧诊断与用户提示。
 - [Phase 2.19b] 同步主仓库最小实现完成状态，alias stale version live smoke 已通过；Hermes_memory 不改 retrieval contract。
+- [Phase 2.20] 完成治理类 eval 扩展规划：access/audit/version 进入 API deterministic eval，alias stale version 保持 CLI smoke。
+- [Phase 2.20a] 完成治理类 eval 最小实现：API governance 5/5 通过，CLI stale alias smoke 5/5 通过；全量 core dense 失败另列尾项。
+- [Phase 2.20a] 定位 full eval dense 假失败为本机 .env 指向旧 Qdrant collection；改回 hermes_chunks 后 full eval 16/16 通过。

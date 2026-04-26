@@ -155,3 +155,14 @@
 8. 尾项：Hermes 主仓库 alias store 若要绑定 version_id，需要后续联调 stale_version 诊断；审计 eval 纳入 Phase 2.14 可作为配套小任务。
 9. Phase 2.19b 已进入 Hermes 主仓库边界规划：alias stale version 联调优先于审计 eval 扩展；Hermes_memory 继续保持现有 retrieval trace，不改 contract。
 10. Phase 2.19b 主仓库最小实现已完成并完成 live smoke；Hermes_memory 继续只提供 `version_scope` / `latest_version_id` trace，不新增 contract。
+
+## 13. Phase 2.20 治理类 Eval 扩展
+
+1. Phase 2.20 已完成边界规划：将 access policy、audit log、version latest/default filtering、explicit historical version query、deny evidence 防泄露与 audit `evidence_version_ids` 纳入 API deterministic eval。
+2. Alias stale version 属于 Hermes session layer，不纳入 Hermes_memory stateless API eval；后续应通过 Hermes CLI smoke 覆盖 `alias_stale_version`、`latest_version_id` 与 compare 一侧 stale 的用户侧诊断。
+3. Phase 2.20a 最小实现建议：扩展 `scripts/phase214_regression_eval.py` 增加 governance case group，并在 Hermes 主仓库补少量 alias stale CLI smoke。
+4. Phase 2.20 非目标：不做完整 RBAC/ABAC、不做复杂 diff、不做 facts、不进入 rollout、不改 retrieval contract、不改 memory kernel 主架构。
+5. Phase 2.20a 最小实现已完成：Hermes_memory API eval 新增 `governance` group，5 条治理 case live 运行 `5 passed / 0 failed / 0 skipped`；主仓库 CLI smoke 新增 stale alias case，live runner `5 passed / 0 failed / 0 skipped`。
+6. Phase 2.20a full eval 已复跑通过：`16 passed / 0 failed / 1 skipped`，`p50/p95=11.146ms/539.376ms`。
+7. 环境注意事项：dense / hybrid eval 必须使用 `QDRANT_COLLECTION=hermes_chunks`；若本机 ignored `.env` 指向旧 `hermes_gate_chunks`，会造成 core dense `dense_returned=0` 假失败。
+8. 本轮未回填、未放宽 eval 断言、未改治理功能；`missing_alias_suppress_cli_only` 继续由 CLI smoke 覆盖。
