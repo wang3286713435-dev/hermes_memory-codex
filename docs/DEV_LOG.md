@@ -119,3 +119,5 @@
 - [Phase 2.21b] 完成人工确认字段增强，confirm/reject 写入操作者、时间、拒绝原因与 audit，建议 Git baseline 后收口。
 - [Phase 2.22] 完成 facts 使用路线裁决，建议先增强 facts 管理与确认查询入口，暂不让 facts 参与回答生成或自动抽取。
 - [Phase 2.22a] 完成 facts 管理查询与 review history 最小实现，支持状态、来源、创建人、确认人过滤，权限与 audit 语义保持不变。
+- [Phase 2.23] 完成 confirmed facts 使用路线裁决，建议先做只读检索与引用展示，不让 facts 直接进入 Agent 最终回答。
+- [Phase 2.23a] 完成 confirmed facts 只读检索最小实现，返回 citation/stale 信息并写入 fact.search audit，仍不参与 Agent 回答。

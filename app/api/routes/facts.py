@@ -5,7 +5,6 @@ from fastapi import Header
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
-from app.models.document import DocumentVersion
 from app.schemas.facts import (
     FactCreateFromEvidenceRequest,
     FactResponse,
@@ -25,8 +24,7 @@ def create_fact_from_evidence(
     service = FactService(db)
     try:
         fact = service.create_fact_from_evidence(**request.model_dump())
-        version = db.get(DocumentVersion, fact.source_version_id)
-        return _to_response(FactView(fact=fact, source_version_is_latest=bool(version and version.is_latest)))
+        return _to_response(service.view_for_fact(fact))
     except FactValidationError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
@@ -37,6 +35,7 @@ def list_facts(
     source_document_id: str | None = None,
     source_version_id: str | None = None,
     subject: str | None = None,
+    predicate: str | None = None,
     fact_type: str | None = None,
     created_by: str | None = None,
     confirmed_by: str | None = None,
@@ -53,6 +52,7 @@ def list_facts(
                 source_document_id=source_document_id,
                 source_version_id=source_version_id,
                 subject=subject,
+                predicate=predicate,
                 fact_type=fact_type,
                 created_by=created_by,
                 confirmed_by=confirmed_by,
@@ -63,6 +63,33 @@ def list_facts(
         ]
     except FactValidationError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@router.get("/confirmed", response_model=list[FactResponse])
+def search_confirmed_facts(
+    subject: str | None = None,
+    predicate: str | None = None,
+    fact_type: str | None = None,
+    source_document_id: str | None = None,
+    source_version_id: str | None = None,
+    db: Session = Depends(get_db),
+    x_requester_id: Annotated[str | None, Header(alias="X-Requester-Id")] = None,
+    x_tenant_id: Annotated[str | None, Header(alias="X-Tenant-Id")] = None,
+    x_requester_role: Annotated[str | None, Header(alias="X-Requester-Role")] = None,
+) -> list[FactResponse]:
+    return [
+        _to_response(view)
+        for view in FactService(db).search_confirmed_facts(
+            subject=subject,
+            predicate=predicate,
+            fact_type=fact_type,
+            source_document_id=source_document_id,
+            source_version_id=source_version_id,
+            requester_id=x_requester_id,
+            tenant_id=x_tenant_id,
+            role=x_requester_role,
+        )
+    ]
 
 
 @router.get("/pending", response_model=list[FactResponse])
@@ -129,8 +156,7 @@ def confirm_fact(
     service = FactService(db)
     try:
         fact = service.confirm_fact(fact_id, confirmed_by=request.confirmed_by, actor_id=request.actor_id)
-        version = db.get(DocumentVersion, fact.source_version_id)
-        return _to_response(FactView(fact=fact, source_version_is_latest=bool(version and version.is_latest)))
+        return _to_response(service.view_for_fact(fact))
     except FactValidationError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
@@ -149,8 +175,7 @@ def reject_fact(
             rejection_reason=request.rejection_reason,
             actor_id=request.actor_id,
         )
-        version = db.get(DocumentVersion, fact.source_version_id)
-        return _to_response(FactView(fact=fact, source_version_is_latest=bool(version and version.is_latest)))
+        return _to_response(service.view_for_fact(fact))
     except FactValidationError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
@@ -197,6 +222,9 @@ def _to_response(view: FactView) -> FactResponse:
         audit_event_id=fact.audit_event_id,
         stale_source_version=view.stale_source_version,
         source_version_is_latest=view.source_version_is_latest,
+        latest_version_id=view.latest_version_id,
+        source_excerpt=view.source_excerpt,
+        source_location=view.source_location,
         created_at=fact.created_at.isoformat(),
         updated_at=fact.updated_at.isoformat(),
     )

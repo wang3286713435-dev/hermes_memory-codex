@@ -207,3 +207,16 @@
 7. 管理列表支持按 verification_status、source_document_id、source_version_id、subject、fact_type、created_by、confirmed_by 过滤。
 8. 管理查询继续继承 source document soft policy，deny 后不返回 fact；`fact.query` audit 写入失败仍 fail-open。
 9. 当前仍未做：facts 参与回答生成、自动 facts 抽取、复杂知识图谱、UI 管理后台与 rollout。
+
+## 17. Phase 2.23 confirmed facts 使用路线裁决
+
+1. Phase 2.23 已完成路线评审：不建议直接让 confirmed facts 参与 Agent 回答生成，也不建议自动 facts 抽取。
+2. 推荐下一阶段进入 `Phase 2.23a confirmed facts 只读检索 / 引用展示`。
+3. 最小边界：list / search confirmed facts，并回链 source_document_id、source_version_id、source_chunk_id。
+4. confirmed facts 查询必须继承 source document soft policy，并记录 fact.read / fact.query audit。
+5. `stale_source_version` 必须可见；confirmed fact 不替代 retrieval evidence，不进入 Agent final answer。
+6. 非目标：不做自动抽取、不做复杂知识图谱、不做 UI 管理后台、不进入 rollout。
+7. Phase 2.23a 最小实现已完成：新增 `GET /api/v1/facts/confirmed` 与 service 层 `search_confirmed_facts`。
+8. confirmed facts 查询支持 subject、predicate、fact_type、source_document_id、source_version_id 过滤，并返回 source_excerpt / source_location。
+9. confirmed facts 查询写入 `fact.search` audit；source document soft policy deny 后仍不返回 fact。
+10. 当前仍未做：facts 进入 Agent final answer、自动抽取、知识图谱、UI 管理后台与 rollout。

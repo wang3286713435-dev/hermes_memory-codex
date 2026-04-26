@@ -454,6 +454,104 @@ def test_fact_management_list_audit_failure_does_not_block_query(tmp_path, monke
     assert [view.fact.id for view in views] == [fact.id]
 
 
+def test_confirmed_fact_search_returns_only_confirmed_with_citation_fields(tmp_path):
+    db = _db_session(tmp_path)
+    chunk = _seed_document_chunk(db)
+    service = FactService(db)
+    confirmed = service.create_fact_from_evidence(
+        fact_type="tender_basic_info",
+        subject="主标书",
+        predicate="建设单位",
+        value="测试单位",
+        source_chunk_id=chunk.id,
+        created_by="creator-a",
+    )
+    unverified = service.create_fact_from_evidence(
+        fact_type="tender_basic_info",
+        subject="主标书",
+        predicate="工程地点",
+        value="深圳",
+        source_chunk_id=chunk.id,
+    )
+    rejected = service.create_fact_from_evidence(
+        fact_type="tender_basic_info",
+        subject="主标书",
+        predicate="代建单位",
+        value="代建",
+        source_chunk_id=chunk.id,
+    )
+    service.confirm_fact(confirmed.id, confirmed_by="reviewer")
+    service.reject_fact(rejected.id, rejected_by="reviewer", rejection_reason="不采用")
+
+    views = service.search_confirmed_facts(
+        subject="主标书",
+        predicate="建设单位",
+        fact_type="tender_basic_info",
+        source_document_id=chunk.document_id,
+        source_version_id=chunk.version_id,
+    )
+
+    assert [view.fact.id for view in views] == [confirmed.id]
+    assert unverified.id not in [view.fact.id for view in views]
+    assert rejected.id not in [view.fact.id for view in views]
+    assert views[0].fact.source_document_id == chunk.document_id
+    assert views[0].fact.source_version_id == chunk.version_id
+    assert views[0].fact.source_chunk_id == chunk.id
+    assert views[0].source_excerpt == "事实来源 chunk"
+    assert views[0].source_location["chunk_index"] == 0
+    assert views[0].source_location["heading_path"] == []
+    event = _last_fact_search_audit(db)
+    assert event.action == "fact.search"
+    assert event.request_json["query_type"] == "confirmed_search"
+    assert event.request_json["filter"]["verification_status"] == "confirmed"
+    assert event.result_json["returned_fact_ids"] == [confirmed.id]
+    assert event.result_json["denied_fact_ids"] == []
+
+
+def test_confirmed_fact_search_reports_stale_source_and_latest_version(tmp_path):
+    db = _db_session(tmp_path)
+    old_chunk = _seed_document_chunk(db, version_id="version-old", is_latest=False)
+    _seed_version(db, document_id=old_chunk.document_id, version_id="version-new", is_latest=True)
+    service = FactService(db)
+    fact = service.create_fact_from_evidence(
+        fact_type="tender_basic_info",
+        subject="版本引用",
+        predicate="金额",
+        value="100 万元",
+        source_chunk_id=old_chunk.id,
+    )
+    service.confirm_fact(fact.id, confirmed_by="reviewer")
+
+    views = service.search_confirmed_facts(subject="版本引用")
+
+    assert [view.fact.id for view in views] == [fact.id]
+    assert views[0].stale_source_version is True
+    assert views[0].source_version_is_latest is False
+    assert views[0].latest_version_id == "version-new"
+
+
+def test_confirmed_fact_search_respects_policy_deny(tmp_path):
+    db = _db_session(tmp_path)
+    chunk = _seed_document_chunk(db, metadata_json={"tenant_id": "tenant-a"})
+    service = FactService(db)
+    fact = service.create_fact_from_evidence(
+        fact_type="tender_basic_info",
+        subject="受限事实",
+        predicate="值",
+        value="A",
+        source_chunk_id=chunk.id,
+    )
+    service.confirm_fact(fact.id, confirmed_by="reviewer")
+
+    views = service.search_confirmed_facts(subject="受限事实", tenant_id="tenant-b")
+
+    assert views == []
+    event = _last_fact_search_audit(db)
+    assert event.result_json["policy_decision"] == "deny"
+    assert event.result_json["returned_fact_ids"] == []
+    assert event.result_json["denied_fact_ids"] == [fact.id]
+
+
 def _db_session(tmp_path):
     engine = create_engine(f"sqlite:///{tmp_path / 'facts.db'}")
     Base.metadata.create_all(engine)
@@ -541,6 +639,15 @@ def _last_fact_query_audit(db) -> AuditLog:
     return (
         db.query(AuditLog)
         .filter(AuditLog.action == "fact.query")
+        .order_by(AuditLog.created_at.desc())
+        .first()
+    )
+
+
+def _last_fact_search_audit(db) -> AuditLog:
+    return (
+        db.query(AuditLog)
+        .filter(AuditLog.action == "fact.search")
         .order_by(AuditLog.created_at.desc())
         .first()
     )

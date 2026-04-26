@@ -1,3 +1,5 @@
+from typing import Any
+
 from pydantic import BaseModel, Field
 
 
@@ -39,6 +41,9 @@ class FactResponse(BaseModel):
     audit_event_id: str | None = None
     stale_source_version: bool
     source_version_is_latest: bool
+    latest_version_id: str | None = None
+    source_excerpt: str | None = None
+    source_location: dict[str, Any] | None = None
     created_at: str
     updated_at: str
 

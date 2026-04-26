@@ -24,6 +24,9 @@ class FactValidationError(ValueError):
 class FactView:
     fact: Fact
     source_version_is_latest: bool
+    latest_version_id: str | None = None
+    source_excerpt: str | None = None
+    source_location: dict[str, Any] | None = None
 
     @property
     def stale_source_version(self) -> bool:
@@ -165,12 +168,15 @@ class FactService:
         source_document_id: str | None = None,
         source_version_id: str | None = None,
         subject: str | None = None,
+        predicate: str | None = None,
         fact_type: str | None = None,
         created_by: str | None = None,
         confirmed_by: str | None = None,
         requester_id: str | None = None,
         tenant_id: str | None = None,
         role: str | None = None,
+        query_type: str = "management_list",
+        audit_action: str = "fact.query",
     ) -> list[FactView]:
         if verification_status and verification_status not in self.VALID_STATUSES:
             raise FactValidationError("invalid_verification_status")
@@ -191,6 +197,9 @@ class FactService:
         if subject:
             query = query.filter(Fact.subject == subject)
             query_filter["subject"] = subject
+        if predicate:
+            query = query.filter(Fact.predicate == predicate)
+            query_filter["predicate"] = predicate
         if fact_type:
             query = query.filter(Fact.fact_type == fact_type)
             query_filter["fact_type"] = fact_type
@@ -204,9 +213,10 @@ class FactService:
         rows = query.order_by(Fact.created_at.desc()).all()
         return self._apply_query_policy_and_audit(
             rows,
-            query_type="management_list",
+            query_type=query_type,
             query_filter=query_filter,
             identity=self._identity(requester_id=requester_id, tenant_id=tenant_id, role=role),
+            audit_action=audit_action,
         )
 
     def list_pending_facts(
@@ -221,6 +231,32 @@ class FactService:
             requester_id=requester_id,
             tenant_id=tenant_id,
             role=role,
+        )
+
+    def search_confirmed_facts(
+        self,
+        *,
+        subject: str | None = None,
+        predicate: str | None = None,
+        fact_type: str | None = None,
+        source_document_id: str | None = None,
+        source_version_id: str | None = None,
+        requester_id: str | None = None,
+        tenant_id: str | None = None,
+        role: str | None = None,
+    ) -> list[FactView]:
+        return self.list_facts(
+            verification_status="confirmed",
+            source_document_id=source_document_id,
+            source_version_id=source_version_id,
+            subject=subject,
+            predicate=predicate,
+            fact_type=fact_type,
+            requester_id=requester_id,
+            tenant_id=tenant_id,
+            role=role,
+            query_type="confirmed_search",
+            audit_action="fact.search",
         )
 
     def list_review_history(self, fact_id: str) -> list[FactReviewAuditEvent]:
@@ -355,9 +391,10 @@ class FactService:
         query_type: str,
         query_filter: dict[str, Any],
         identity: FactQueryIdentity,
+        audit_action: str = "fact.query",
     ) -> list[FactView]:
         document_acl = self._load_document_acl([fact.source_document_id for fact, _ in rows])
-        returned: list[FactView] = []
+        returned_rows: list[tuple[Fact, DocumentVersion]] = []
         denied_fact_ids: list[str] = []
         denied_document_ids: list[str] = []
         source_document_ids: list[str] = []
@@ -375,13 +412,15 @@ class FactService:
                 if fact.source_document_id not in denied_document_ids:
                     denied_document_ids.append(fact.source_document_id)
                 continue
-            returned.append(FactView(fact=fact, source_version_is_latest=version.is_latest))
+            returned_rows.append((fact, version))
 
+        returned = self._build_fact_views(returned_rows)
         policy_decision = self._aggregate_policy_decision(document_decisions, bool(rows))
         self._add_fact_query_audit(
             identity=identity,
             query_type=query_type,
             query_filter=query_filter,
+            audit_action=audit_action,
             returned_fact_ids=[view.fact.id for view in returned],
             denied_fact_ids=denied_fact_ids,
             source_document_ids=source_document_ids,
@@ -390,6 +429,66 @@ class FactService:
             policy_reason=self._policy_reason(document_decisions, policy_decision),
         )
         return returned
+
+    def view_for_fact(self, fact: Fact) -> FactView:
+        version = self.db.get(DocumentVersion, fact.source_version_id)
+        return self._build_fact_views([(fact, version)])[0]
+
+    def _build_fact_views(self, rows: list[tuple[Fact, DocumentVersion | None]]) -> list[FactView]:
+        if not rows:
+            return []
+        latest_by_document = self._latest_version_ids([fact.source_document_id for fact, _ in rows])
+        citation_by_chunk = self._source_citations([fact.source_chunk_id for fact, _ in rows])
+        views: list[FactView] = []
+        for fact, version in rows:
+            citation = citation_by_chunk.get(fact.source_chunk_id, {})
+            views.append(
+                FactView(
+                    fact=fact,
+                    source_version_is_latest=bool(version and version.is_latest),
+                    latest_version_id=latest_by_document.get(fact.source_document_id),
+                    source_excerpt=citation.get("source_excerpt"),
+                    source_location=citation.get("source_location"),
+                )
+            )
+        return views
+
+    def _latest_version_ids(self, document_ids: list[str]) -> dict[str, str]:
+        unique_ids = sorted({document_id for document_id in document_ids if document_id})
+        if not unique_ids:
+            return {}
+        rows = (
+            self.db.query(DocumentVersion)
+            .filter(DocumentVersion.document_id.in_(unique_ids))
+            .filter(DocumentVersion.is_latest.is_(True))
+            .all()
+        )
+        return {row.document_id: row.id for row in rows}
+
+    def _source_citations(self, chunk_ids: list[str]) -> dict[str, dict[str, Any]]:
+        unique_ids = sorted({chunk_id for chunk_id in chunk_ids if chunk_id})
+        if not unique_ids:
+            return {}
+        rows = self.db.query(Chunk).filter(Chunk.id.in_(unique_ids)).all()
+        citations: dict[str, dict[str, Any]] = {}
+        for chunk in rows:
+            location = {
+                "chunk_index": chunk.chunk_index,
+                "page_start": chunk.page_start,
+                "page_end": chunk.page_end,
+                "heading_path": chunk.heading_path or [],
+                "title_path": chunk.title_path or [],
+                "section_path": chunk.section_path or [],
+            }
+            metadata = chunk.metadata_json or {}
+            for key in ("sheet_name", "cell_range", "slide_number", "slide_title"):
+                if key in metadata:
+                    location[key] = metadata[key]
+            citations[chunk.id] = {
+                "source_excerpt": (chunk.text or "")[:280],
+                "source_location": location,
+            }
+        return citations
 
     def _identity(self, *, requester_id: str | None, tenant_id: str | None, role: str | None) -> FactQueryIdentity:
         return FactQueryIdentity(
@@ -465,6 +564,7 @@ class FactService:
         identity: FactQueryIdentity,
         query_type: str,
         query_filter: dict[str, Any],
+        audit_action: str,
         returned_fact_ids: list[str],
         denied_fact_ids: list[str],
         source_document_ids: list[str],
@@ -477,9 +577,13 @@ class FactService:
                 AuditLog(
                     trace_id=f"fact_query:{query_type}:{hash(str(query_filter))}",
                     user_id=identity.requester_id,
-                    action="fact.query",
+                    action=audit_action,
                     resource_type="fact",
-                    resource_id=query_filter.get("document_id") or query_filter.get("subject"),
+                    resource_id=(
+                        query_filter.get("document_id")
+                        or query_filter.get("source_document_id")
+                        or query_filter.get("subject")
+                    ),
                     request_json={
                         "requester_id": identity.requester_id,
                         "tenant_id": identity.tenant_id,
