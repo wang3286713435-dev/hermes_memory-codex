@@ -137,3 +137,5 @@
 - [Phase 2.27a] 完成 report review dry-run 最小实现，临时目录 smoke 通过；真实 review JSON 默认忽略。
 - [Phase 2.27b] 完成 review audit 路线规划，建议先做 sanitized payload preview，不直接写 audit_logs。
 - [Phase 2.28] 固化 Codex A/B/C 文件化交接协议，明确每轮读写状态文件、硬停止条件与 baseline 节奏。
+- [Phase 2.28b] 新增 NEXT_CODEX_A_PROMPT 固定任务入口，后续 Codex A 可直接读取文件执行下一轮任务。
+- [Phase 2.28c] 新增 Nightly Sprint 协议与队列，限定夜间只执行 bounded Green Lane 任务，禁止 repair 和 rollout。

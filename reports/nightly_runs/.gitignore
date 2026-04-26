@@ -1,0 +1,4 @@
+# Local nightly sprint run state files.
+# Do not commit real nightly run JSON by default.
+*.json
+!README.md

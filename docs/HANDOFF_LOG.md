@@ -31,3 +31,40 @@
 - risks: latest.json 是 ignored 本地状态文件；Phase 2.27b 仍未实现 audit preview；repair executor、真实 audit_logs 写入和 rollout 仍禁止。
 - next: 建议 Codex B 审核 Phase 2.28 协议后做 baseline，再进入 Phase 2.27b audit preview 实现。
 - commit/tag if any: 无。
+
+## 2026-04-27 02:06 Phase 2.28b
+- goal: 新增 Codex A 固定任务入口 `docs/NEXT_CODEX_A_PROMPT.md`。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/AGENT_OPERATING_PROTOCOL.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；本轮只做协议与文档入口补丁。
+- validation: 已写入 Phase 2.27b audit preview / dry-run 完整下一轮任务；未创建脚本或测试。
+- risks: latest.json 仍为 ignored 本地状态文件；Phase 2.27b 仍未实现；repair executor、真实 audit_logs 写入和 rollout 仍禁止。
+- next: 建议 Codex B 审核后做 Phase 2.28b baseline，再执行 `docs/NEXT_CODEX_A_PROMPT.md`。
+- commit/tag if any: 无。
+
+## 2026-04-27 02:10 Phase 2.28c
+- goal: 建立 Nightly Sprint Protocol / Queue，限定夜间 bounded autonomous sprint。
+- changed_files:
+  - `docs/NIGHTLY_SPRINT_PROTOCOL.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `reports/nightly_runs/.gitignore`
+  - `reports/nightly_runs/README.md`
+  - `docs/AGENT_OPERATING_PROTOCOL.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；本轮只做协议、队列与 ignore/README。
+- validation: 已写入 Green / Yellow / Red Lane、夜间停止条件与初始 queue；未实现 Phase 2.27b。
+- risks: Nightly Sprint 不等于生产 cron；baseline / tag / push 属 Yellow Lane；repair、migration、rollout 仍为 Red Lane。
+- next: 建议 Codex B 审核后 baseline Phase 2.28c，再启动第一个 Green Lane queue item。
+- commit/tag if any: 无。

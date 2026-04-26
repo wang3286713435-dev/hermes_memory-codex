@@ -309,6 +309,10 @@
 6. item-level audit summary 后置，完整 review record 入 audit 不推荐。
 7. 真实写 `audit_logs` 后置到 preview 稳定后的独立阶段；写入失败策略应 fail-open。
 8. repair executor 继续后置，`approved_for_manual_action` 仍不等于 executed。
+9. Phase 2.27b 最小实现已完成：新增 sanitized audit payload preview runner，读取本地 review record，只输出 report-level audit summary。
+10. preview payload 固定 `dry_run=true`、`executable=false`、`would_write_audit_logs=false`，不写 DB、不写 audit_logs。
+11. 已通过单元测试与临时目录 live smoke，确认 notes、reason、approved_action、完整 item_decisions、本机绝对路径和 item-level entity details 不进入 payload。
+12. 后续如需真实写 `audit_logs`，必须另开小阶段评审，不得把 preview 结果误认为已写入审计。
 
 ## 25. Phase 2.28 Agent Operating Protocol / 文件化交接机制
 
@@ -321,3 +325,10 @@
 7. `AGENT_OPERATING_PROTOCOL.md`、`ACTIVE_PHASE.md`、`HANDOFF_LOG.md`、`PHASE_BACKLOG.md` 可作为协作基线提交。
 8. 硬停止条件已文档化：真实数据 mutation、repair/delete/cleanup、rollout、contract rewrite、主架构改动、facts 替代 evidence、生产 cron 等均需停止。
 9. 下一步建议先做 Phase 2.28 协作协议 baseline，再进入 Phase 2.27b audit preview 实现。
+10. Phase 2.28b 已新增 `docs/NEXT_CODEX_A_PROMPT.md` 作为 Codex A 固定任务入口，后续用户可只要求执行该文件。
+11. `NEXT_CODEX_A_PROMPT.md` 当前写入 Phase 2.27b sanitized audit payload preview / dry-run 完整任务；本轮不创建脚本、不写测试、不进入实现。
+12. `reports/agent_runs/latest.json` 继续作为 ignored 本地状态文件，不入 Git。
+13. Phase 2.28c 已新增 Nightly Sprint Protocol 与 Queue，允许夜间仅执行 bounded Green Lane 任务。
+14. Nightly Sprint 初始队列：Phase 2.27b audit preview / dry-run、Phase 2.27b baseline、Phase 2.27c route planning。
+15. Yellow Lane 完成后必须停止等待 Codex B；Red Lane 夜间禁止，包括 repair executor、migration、rollout、facts 自动抽取、contract / 主架构修改与生产 cron。
+16. `reports/nightly_runs/*.json` 是 ignored 本地状态文件，不入 Git；只提交 README / `.gitignore` 策略。
