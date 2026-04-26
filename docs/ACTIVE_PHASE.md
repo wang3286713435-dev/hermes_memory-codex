@@ -1,0 +1,37 @@
+# Active Phase
+
+- 当前 phase：Phase 2.28 Agent Operating Protocol / 文件化交接机制基线
+- 本轮目标：固化 Codex A/B/C 协作协议与文件化交接机制，不写业务功能代码。
+- 修改文件：
+  - `docs/AGENT_OPERATING_PROTOCOL.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/PHASE227B_REVIEW_AUDIT_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/.gitignore`
+  - `reports/agent_runs/README.md`
+  - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
+- 完成内容：
+  - 已新增 `AGENT_OPERATING_PROTOCOL.md`，明确 Codex A / B / C 职责。
+  - 已明确每轮开始读取 PRD / ROADMAP / TECHNICAL_DESIGN / TODO / DEV_LOG / ACTIVE_PHASE / PHASE_BACKLOG。
+  - 已明确每轮结束维护 ACTIVE_PHASE / HANDOFF_LOG / reports/agent_runs/latest.json。
+  - 已明确硬停止条件、overnight sprint 规则、Git / reports 策略。
+  - 已保留当前 Phase 2.27b planning 状态：推荐先做 sanitized audit payload preview，不直接写 `audit_logs`。
+- 测试结果：未运行；本轮只做协作协议与文档基线。
+- live smoke 结果：未运行。
+- 当前结论：
+  - 文件化交接机制已形成文档化基线。
+  - Phase 2.28 可进入 Codex B 审核与 Git baseline 判断。
+- 阻塞点 / 风险点：
+  - `reports/agent_runs/latest.json` 是本地状态文件，当前按 ignore 策略不入 Git。
+  - Phase 2.27b 仍只是规划；未实现 audit preview。
+  - repair executor、真实写 audit_logs、rollout 仍禁止。
+- 是否建议 baseline：是，建议 Codex B 审核后进行 Phase 2.28 协作协议 Git baseline。
+- 是否建议进入下一阶段：否，先完成协议 baseline；随后再进入 Phase 2.27b audit preview 实现。
+- 下一轮建议：
+  - 选项 A：Phase 2.28 Agent Operating Protocol baseline。
+  - 选项 B：Phase 2.27b audit preview / dry-run 最小实现。
+- 是否需要 Codex B 审核：是。
+- 是否需要 Codex C 真实终端验收：否。

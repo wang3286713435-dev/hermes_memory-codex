@@ -298,3 +298,26 @@
 9. Phase 2.27a 最小实现已完成：新增本地 review record 脚本、item decision skeleton、reviews ignore 策略与 7 条单元测试。
 10. live smoke 已在临时目录完成 dry-run-preview 与 tmp review JSON 写入；真实仓库未生成 review record。
 11. 下一步建议先做 Git baseline，再评估 Phase 2.27b 是否规划 audit_logs 集成；repair executor 继续后置。
+
+## 24. Phase 2.27b review audit 路线规划
+
+1. Phase 2.27b 已完成路线规划：建议先做 report-level audit summary preview，而不是直接写 `audit_logs`。
+2. 推荐最小边界：读取 review record，输出 sanitized audit payload，保持 dry-run，不写业务 DB。
+3. 建议 event_type：`report.review.created`，后续可扩展到 acknowledged / approved_for_manual_action / rejected。
+4. audit payload 可包含 report_hash、report_type、review_status、reviewer、reviewed_at、summary counts、`executable=false`。
+5. 必须排除 notes、reason、approved_action、完整 item_decisions、report 原文和本机绝对路径。
+6. item-level audit summary 后置，完整 review record 入 audit 不推荐。
+7. 真实写 `audit_logs` 后置到 preview 稳定后的独立阶段；写入失败策略应 fail-open。
+8. repair executor 继续后置，`approved_for_manual_action` 仍不等于 executed。
+
+## 25. Phase 2.28 Agent Operating Protocol / 文件化交接机制
+
+1. Phase 2.28 已新增 Codex A/B/C 文件化协作协议：`docs/AGENT_OPERATING_PROTOCOL.md`。
+2. Codex A 每轮开始必须读取 PRD、ROADMAP、TECHNICAL_DESIGN、TODO、DEV_LOG、ACTIVE_PHASE、PHASE_BACKLOG。
+3. Codex A 每轮结束必须更新 ACTIVE_PHASE、HANDOFF_LOG、`reports/agent_runs/latest.json`。
+4. Codex B 负责读取交接文件、监督是否偏离 PRD / Roadmap / Phase 文档，并给下一轮 prompt。
+5. Codex C 负责真实终端验收和 live smoke，不默认承担主实现。
+6. `reports/agent_runs/latest.json` 是本地状态文件，默认 ignored，不入 Git。
+7. `AGENT_OPERATING_PROTOCOL.md`、`ACTIVE_PHASE.md`、`HANDOFF_LOG.md`、`PHASE_BACKLOG.md` 可作为协作基线提交。
+8. 硬停止条件已文档化：真实数据 mutation、repair/delete/cleanup、rollout、contract rewrite、主架构改动、facts 替代 evidence、生产 cron 等均需停止。
+9. 下一步建议先做 Phase 2.28 协作协议 baseline，再进入 Phase 2.27b audit preview 实现。

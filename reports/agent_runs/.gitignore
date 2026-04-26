@@ -1,0 +1,5 @@
+# Local Codex agent run state files.
+# Do not commit real run status JSON by default.
+*.json
+!README.md
+
