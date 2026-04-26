@@ -41,3 +41,11 @@ class FactResponse(BaseModel):
     source_version_is_latest: bool
     created_at: str
     updated_at: str
+
+
+class FactReviewAuditResponse(BaseModel):
+    event_type: str
+    actor: str | None = None
+    timestamp: str
+    reason: str | None = None
+    metadata: dict

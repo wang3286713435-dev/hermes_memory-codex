@@ -37,6 +37,15 @@ class FactQueryIdentity:
     role: str = "local_dev"
 
 
+@dataclass(frozen=True)
+class FactReviewAuditEvent:
+    event_type: str
+    actor: str | None
+    timestamp: datetime
+    reason: str | None
+    metadata: dict[str, Any]
+
+
 class FactService:
     """Minimal evidence-backed facts service.
 
@@ -149,6 +158,96 @@ class FactService:
             identity=self._identity(requester_id=requester_id, tenant_id=tenant_id, role=role),
         )
 
+    def list_facts(
+        self,
+        *,
+        verification_status: str | None = None,
+        source_document_id: str | None = None,
+        source_version_id: str | None = None,
+        subject: str | None = None,
+        fact_type: str | None = None,
+        created_by: str | None = None,
+        confirmed_by: str | None = None,
+        requester_id: str | None = None,
+        tenant_id: str | None = None,
+        role: str | None = None,
+    ) -> list[FactView]:
+        if verification_status and verification_status not in self.VALID_STATUSES:
+            raise FactValidationError("invalid_verification_status")
+        query = self.db.query(Fact, DocumentVersion).join(
+            DocumentVersion,
+            Fact.source_version_id == DocumentVersion.id,
+        )
+        query_filter: dict[str, Any] = {}
+        if verification_status:
+            query = query.filter(Fact.verification_status == verification_status)
+            query_filter["verification_status"] = verification_status
+        if source_document_id:
+            query = query.filter(Fact.source_document_id == source_document_id)
+            query_filter["source_document_id"] = source_document_id
+        if source_version_id:
+            query = query.filter(Fact.source_version_id == source_version_id)
+            query_filter["source_version_id"] = source_version_id
+        if subject:
+            query = query.filter(Fact.subject == subject)
+            query_filter["subject"] = subject
+        if fact_type:
+            query = query.filter(Fact.fact_type == fact_type)
+            query_filter["fact_type"] = fact_type
+        if created_by:
+            query = query.filter(Fact.created_by == created_by)
+            query_filter["created_by"] = created_by
+        if confirmed_by:
+            query = query.filter(Fact.confirmed_by == confirmed_by)
+            query_filter["confirmed_by"] = confirmed_by
+
+        rows = query.order_by(Fact.created_at.desc()).all()
+        return self._apply_query_policy_and_audit(
+            rows,
+            query_type="management_list",
+            query_filter=query_filter,
+            identity=self._identity(requester_id=requester_id, tenant_id=tenant_id, role=role),
+        )
+
+    def list_pending_facts(
+        self,
+        *,
+        requester_id: str | None = None,
+        tenant_id: str | None = None,
+        role: str | None = None,
+    ) -> list[FactView]:
+        return self.list_facts(
+            verification_status="unverified",
+            requester_id=requester_id,
+            tenant_id=tenant_id,
+            role=role,
+        )
+
+    def list_review_history(self, fact_id: str) -> list[FactReviewAuditEvent]:
+        if self.db.get(Fact, fact_id) is None:
+            raise FactValidationError("fact_not_found")
+        rows = (
+            self.db.query(AuditLog)
+            .filter(AuditLog.resource_type == "fact")
+            .filter(AuditLog.resource_id == fact_id)
+            .filter(AuditLog.action.in_(["fact.confirm", "fact.reject"]))
+            .order_by(AuditLog.created_at.asc())
+            .all()
+        )
+        events: list[FactReviewAuditEvent] = []
+        for row in rows:
+            result = row.result_json or {}
+            events.append(
+                FactReviewAuditEvent(
+                    event_type=row.action,
+                    actor=row.user_id,
+                    timestamp=row.created_at,
+                    reason=result.get("rejection_reason"),
+                    metadata=result,
+                )
+            )
+        return events
+
     def confirm_fact(
         self,
         fact_id: str,
@@ -254,7 +353,7 @@ class FactService:
         rows: list[tuple[Fact, DocumentVersion]],
         *,
         query_type: str,
-        query_filter: dict[str, str],
+        query_filter: dict[str, Any],
         identity: FactQueryIdentity,
     ) -> list[FactView]:
         document_acl = self._load_document_acl([fact.source_document_id for fact, _ in rows])
@@ -365,7 +464,7 @@ class FactService:
         *,
         identity: FactQueryIdentity,
         query_type: str,
-        query_filter: dict[str, str],
+        query_filter: dict[str, Any],
         returned_fact_ids: list[str],
         denied_fact_ids: list[str],
         source_document_ids: list[str],

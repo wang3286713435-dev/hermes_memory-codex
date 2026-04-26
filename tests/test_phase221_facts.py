@@ -325,6 +325,135 @@ def test_fact_query_audit_failure_does_not_block_query(tmp_path, monkeypatch):
     assert [view.fact.id for view in views] == [fact.id]
 
 
+def test_fact_management_list_filters_status_pending_and_fields(tmp_path):
+    db = _db_session(tmp_path)
+    service = FactService(db)
+    chunk_a = _seed_document_chunk(
+        db,
+        document_id="doc-filter-a",
+        version_id="version-filter-a",
+        chunk_id="chunk-filter-a",
+    )
+    chunk_b = _seed_document_chunk(
+        db,
+        document_id="doc-filter-b",
+        version_id="version-filter-b",
+        chunk_id="chunk-filter-b",
+    )
+    pending = service.create_fact_from_evidence(
+        fact_type="tender_basic_info",
+        subject="筛选目标",
+        predicate="建设单位",
+        value="A 公司",
+        source_chunk_id=chunk_a.id,
+        created_by="creator-a",
+    )
+    confirmed = service.create_fact_from_evidence(
+        fact_type="meeting_action_item",
+        subject="另一目标",
+        predicate="负责人",
+        value="B",
+        source_chunk_id=chunk_b.id,
+        created_by="creator-b",
+    )
+    service.confirm_fact(confirmed.id, confirmed_by="reviewer-b")
+
+    assert [view.fact.id for view in service.list_facts(verification_status="unverified")] == [pending.id]
+    assert [view.fact.id for view in service.list_pending_facts()] == [pending.id]
+    assert [view.fact.id for view in service.list_facts(source_document_id=chunk_a.document_id)] == [pending.id]
+    assert [view.fact.id for view in service.list_facts(source_version_id=chunk_b.version_id)] == [confirmed.id]
+    assert [view.fact.id for view in service.list_facts(subject="筛选目标")] == [pending.id]
+    assert [view.fact.id for view in service.list_facts(fact_type="meeting_action_item")] == [confirmed.id]
+    assert [view.fact.id for view in service.list_facts(created_by="creator-a")] == [pending.id]
+    assert [view.fact.id for view in service.list_facts(confirmed_by="reviewer-b")] == [confirmed.id]
+
+
+def test_fact_management_list_rejects_invalid_verification_status(tmp_path):
+    db = _db_session(tmp_path)
+    try:
+        FactService(db).list_facts(verification_status="pending")
+    except FactValidationError as exc:
+        assert str(exc) == "invalid_verification_status"
+    else:  # pragma: no cover
+        raise AssertionError("invalid verification status should fail")
+
+
+def test_fact_review_history_returns_confirm_reject_events(tmp_path):
+    db = _db_session(tmp_path)
+    chunk = _seed_document_chunk(db)
+    service = FactService(db)
+    fact = service.create_fact_from_evidence(
+        fact_type="meeting_action_item",
+        subject="历史测试",
+        predicate="负责",
+        value="复核",
+        source_chunk_id=chunk.id,
+    )
+
+    service.confirm_fact(fact.id, confirmed_by="reviewer-a")
+    service.reject_fact(fact.id, rejected_by="reviewer-b", rejection_reason="证据不足")
+
+    history = service.list_review_history(fact.id)
+    assert [event.event_type for event in history] == ["fact.confirm", "fact.reject"]
+    assert [event.actor for event in history] == ["reviewer-a", "reviewer-b"]
+    assert history[0].reason is None
+    assert history[1].reason == "证据不足"
+    assert history[1].metadata["rejection_reason"] == "证据不足"
+
+
+def test_fact_review_history_requires_existing_fact(tmp_path):
+    db = _db_session(tmp_path)
+    try:
+        FactService(db).list_review_history("missing")
+    except FactValidationError as exc:
+        assert str(exc) == "fact_not_found"
+    else:  # pragma: no cover
+        raise AssertionError("missing fact history should fail")
+
+
+def test_fact_management_list_respects_policy_denial(tmp_path):
+    db = _db_session(tmp_path)
+    chunk = _seed_document_chunk(
+        db,
+        metadata_json={"tenant_id": "tenant-a", "allowed_roles": ["reviewer"]},
+    )
+    fact = FactService(db).create_fact_from_evidence(
+        fact_type="tender_basic_info",
+        subject="权限筛选",
+        predicate="值",
+        value="A",
+        source_chunk_id=chunk.id,
+    )
+
+    views = FactService(db).list_facts(subject="权限筛选", tenant_id="tenant-b", role="reviewer")
+
+    assert views == []
+    event = _last_fact_query_audit(db)
+    assert event.result_json["policy_decision"] == "deny"
+    assert event.result_json["denied_fact_ids"] == [fact.id]
+
+
+def test_fact_management_list_audit_failure_does_not_block_query(tmp_path, monkeypatch):
+    db = _db_session(tmp_path)
+    chunk = _seed_document_chunk(db)
+    fact = FactService(db).create_fact_from_evidence(
+        fact_type="tender_basic_info",
+        subject="管理 audit fail-open",
+        predicate="值",
+        value="A",
+        source_chunk_id=chunk.id,
+    )
+
+    def fail_add(_item):
+        raise RuntimeError("audit down")
+
+    monkeypatch.setattr(db, "add", fail_add)
+
+    views = FactService(db).list_facts(verification_status="unverified")
+
+    assert [view.fact.id for view in views] == [fact.id]
+
+
 def _db_session(tmp_path):
     engine = create_engine(f"sqlite:///{tmp_path / 'facts.db'}")
     Base.metadata.create_all(engine)

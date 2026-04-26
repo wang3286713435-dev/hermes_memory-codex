@@ -6,7 +6,12 @@ from sqlalchemy.orm import Session
 
 from app.db.session import get_db
 from app.models.document import DocumentVersion
-from app.schemas.facts import FactCreateFromEvidenceRequest, FactResponse, FactStatusUpdateRequest
+from app.schemas.facts import (
+    FactCreateFromEvidenceRequest,
+    FactResponse,
+    FactReviewAuditResponse,
+    FactStatusUpdateRequest,
+)
 from app.services.facts import FactService, FactValidationError, FactView
 
 router = APIRouter()
@@ -24,6 +29,57 @@ def create_fact_from_evidence(
         return _to_response(FactView(fact=fact, source_version_is_latest=bool(version and version.is_latest)))
     except FactValidationError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@router.get("", response_model=list[FactResponse])
+def list_facts(
+    verification_status: str | None = None,
+    source_document_id: str | None = None,
+    source_version_id: str | None = None,
+    subject: str | None = None,
+    fact_type: str | None = None,
+    created_by: str | None = None,
+    confirmed_by: str | None = None,
+    db: Session = Depends(get_db),
+    x_requester_id: Annotated[str | None, Header(alias="X-Requester-Id")] = None,
+    x_tenant_id: Annotated[str | None, Header(alias="X-Tenant-Id")] = None,
+    x_requester_role: Annotated[str | None, Header(alias="X-Requester-Role")] = None,
+) -> list[FactResponse]:
+    try:
+        return [
+            _to_response(view)
+            for view in FactService(db).list_facts(
+                verification_status=verification_status,
+                source_document_id=source_document_id,
+                source_version_id=source_version_id,
+                subject=subject,
+                fact_type=fact_type,
+                created_by=created_by,
+                confirmed_by=confirmed_by,
+                requester_id=x_requester_id,
+                tenant_id=x_tenant_id,
+                role=x_requester_role,
+            )
+        ]
+    except FactValidationError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@router.get("/pending", response_model=list[FactResponse])
+def list_pending_facts(
+    db: Session = Depends(get_db),
+    x_requester_id: Annotated[str | None, Header(alias="X-Requester-Id")] = None,
+    x_tenant_id: Annotated[str | None, Header(alias="X-Tenant-Id")] = None,
+    x_requester_role: Annotated[str | None, Header(alias="X-Requester-Role")] = None,
+) -> list[FactResponse]:
+    return [
+        _to_response(view)
+        for view in FactService(db).list_pending_facts(
+            requester_id=x_requester_id,
+            tenant_id=x_tenant_id,
+            role=x_requester_role,
+        )
+    ]
 
 
 @router.get("/by-document/{document_id}", response_model=list[FactResponse])
@@ -95,6 +151,26 @@ def reject_fact(
         )
         version = db.get(DocumentVersion, fact.source_version_id)
         return _to_response(FactView(fact=fact, source_version_is_latest=bool(version and version.is_latest)))
+    except FactValidationError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@router.get("/{fact_id}/review-history", response_model=list[FactReviewAuditResponse])
+def list_fact_review_history(
+    fact_id: str,
+    db: Session = Depends(get_db),
+) -> list[FactReviewAuditResponse]:
+    try:
+        return [
+            FactReviewAuditResponse(
+                event_type=event.event_type,
+                actor=event.actor,
+                timestamp=event.timestamp.isoformat(),
+                reason=event.reason,
+                metadata=event.metadata,
+            )
+            for event in FactService(db).list_review_history(fact_id)
+        ]
     except FactValidationError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 

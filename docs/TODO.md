@@ -195,3 +195,15 @@
 13. Phase 2.21b 第三阶段已完成人工确认工作流字段增强：新增 confirmed_at、rejected_by、rejected_at、rejection_reason，confirm/reject 均写入 audit。
 14. `confirm_fact` 不允许缺失确认人；`reject_fact` 不允许缺失拒绝人，缺失 rejection_reason 时默认写入 `not_specified`。
 15. Phase 2.21b 三项最小目标已完成，建议在 Git baseline 后收口；facts 参与回答生成、自动抽取、复杂知识图谱仍后置。
+
+## 16. Phase 2.22 facts 使用路线裁决
+
+1. Phase 2.22 已完成路线评审：不建议立即让 confirmed facts 参与回答生成，也不建议自动 facts 抽取。
+2. 推荐下一阶段进入 `Phase 2.22a facts 管理 / 确认工作流增强`。
+3. 最小边界：按 verification_status / pending / document / project / subject 查询 facts，并返回 confirm / reject audit history。
+4. facts 查询仍需继承 source document soft policy，不得绕过权限过滤。
+5. 非目标：不做 Agent 回答引用 facts、不做自动抽取、不做知识图谱、不做 UI 管理后台、不进入 rollout。
+6. Phase 2.22a 最小实现已完成：新增 facts 管理列表、pending 列表、confirm/reject review history 查询。
+7. 管理列表支持按 verification_status、source_document_id、source_version_id、subject、fact_type、created_by、confirmed_by 过滤。
+8. 管理查询继续继承 source document soft policy，deny 后不返回 fact；`fact.query` audit 写入失败仍 fail-open。
+9. 当前仍未做：facts 参与回答生成、自动 facts 抽取、复杂知识图谱、UI 管理后台与 rollout。
