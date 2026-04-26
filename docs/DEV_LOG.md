@@ -133,3 +133,5 @@
 - [Phase 2.26a] 完成 repair plan dry-run 最小实现，已检出已知 stale fact，输出不可执行计划且无破坏动作。
 - [Phase 2.26b] 完成报告归档路线规划，建议先沉淀 readiness 与 repair plan JSON 留痕，不进入 repair executor。
 - [Phase 2.26b] 完成报告归档最小实现，临时目录 smoke 通过；真实 reports JSON 默认忽略，不入 Git。
+- [Phase 2.27] 完成报告人工审阅流规划，建议先做本地 review record，不写 DB、不执行 repair。
+- [Phase 2.27a] 完成 report review dry-run 最小实现，临时目录 smoke 通过；真实 review JSON 默认忽略。

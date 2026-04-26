@@ -284,3 +284,17 @@
 9. Phase 2.26b 最小实现已完成：新增报告归档脚本、trend diff、reports ignore 策略与 6 条单元测试。
 10. live smoke 已在临时目录归档 fake readiness / repair plan JSON，并生成 manifest/latest；未生成真实仓库 reports JSON。
 11. 下一步建议先做 Git baseline，再规划定期 smoke runbook 或报告人工审阅流程；仍不进入 repair executor。
+
+## 23. Phase 2.27 report review workflow 规划
+
+1. Phase 2.27 已完成路线规划：下一步建议做 report-level 与 repair item-level 人工审阅流。
+2. Phase 2.27a 最小边界：review record schema、item decision schema、本地 JSON / Markdown 记录、report path/hash 绑定。
+3. report 状态建议包含 `pending_review`、`approved_for_manual_action`、`rejected`、`acknowledged`。
+4. item decision 建议包含 `needs_review`、`approved`、`rejected`、`deferred`。
+5. `approved` / `approved_for_manual_action` 不等于 executed；所有 review record 与 item decision 均必须 `executable=false`。
+6. 真实 `reports/reviews/**/*.json` 与 review markdown 默认不入 Git；只提交模板、README 或 ignore 策略。
+7. audit_logs 集成后置到 Phase 2.27b；repair executor 继续后置。
+8. 硬边界：不写业务 DB，不修改 facts / versions / indexes，不执行 repair，不进入 rollout。
+9. Phase 2.27a 最小实现已完成：新增本地 review record 脚本、item decision skeleton、reviews ignore 策略与 7 条单元测试。
+10. live smoke 已在临时目录完成 dry-run-preview 与 tmp review JSON 写入；真实仓库未生成 review record。
+11. 下一步建议先做 Git baseline，再评估 Phase 2.27b 是否规划 audit_logs 集成；repair executor 继续后置。

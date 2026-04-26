@@ -1,0 +1,5 @@
+# Phase 2.27a local review records are human review artifacts.
+# Do not commit real report review records by default.
+**/*.json
+**/*.md
+!README.md
