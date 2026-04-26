@@ -97,3 +97,5 @@
 - [Phase 2.16] 完成新上传 dense ingestion 与显式 backfill 最小实现；答疑文件 12/12 回填成功，dense-only retrieval 已返回真实候选。
 - [Phase 2.16] 登记 Rerank Smoke Audit 为后续独立尾项，本轮 dense ingestion 不混入 rerank 策略修改。
 - [Phase 2.16] 完成 6 文件真实池 dense backfill，1360/1360 成功；hybrid smoke 全部命中目标文件，Phase 2.14 eval 复跑无回归。
+- [Phase 2.17] 完成 Rerank Smoke Audit 与 dense/hybrid eval 扩展规划，下一步只验证可观测性和无污染，不改策略。
+- [Phase 2.17] 完成 Rerank Smoke Audit runner 与 Phase 2.14 dense/hybrid eval 扩展；live smoke 5/5 通过，API eval 11/11 执行通过，未发现污染。

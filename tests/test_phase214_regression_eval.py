@@ -85,11 +85,47 @@ def test_eval_case_detects_failed_trace_flags():
     }
 
 
+def test_eval_case_detects_missing_dense_hybrid_fields():
+    case = EvalCase(
+        id="dense",
+        query="query",
+        filters={},
+        expected_document_ids=["doc-a"],
+        retrieval_mode="hybrid",
+        required_dense_status="executed",
+        min_dense_returned=1,
+        required_sparse_status="executed",
+        min_sparse_returned=1,
+        required_candidate_pool_fields=["dense_returned", "sparse_returned"],
+    )
+    response = _response(
+        document_ids=["doc-a"],
+        trace={
+            "dense": {"returned": 0},
+            "sparse": {"returned": 2},
+            "candidate_pool": {"sparse_returned": 2},
+        },
+        dense_status="failed",
+        sparse_status="executed",
+        retrieval_mode="hybrid",
+    )
+
+    result = evaluate_case_response(case, response, latency_ms=1)
+
+    assert result.passed is False
+    assert result.failed_dense_hybrid_checks["dense_status"] == {"expected": "executed", "actual": "failed"}
+    assert result.failed_dense_hybrid_checks["dense_returned"] == {"expected_min": 1, "actual": 0}
+    assert result.failed_dense_hybrid_checks["candidate_pool.dense_returned"] == {"expected": "present", "actual": None}
+
+
 def _response(
     *,
     document_ids: list[str],
     metadata: dict | None = None,
     trace: dict | None = None,
+    dense_status: str = "not_executed",
+    sparse_status: str = "not_executed",
+    retrieval_mode: str = "sparse",
 ) -> SearchResponse:
     return SearchResponse(
         query="query",
@@ -105,6 +141,8 @@ def _response(
             for index, document_id in enumerate(document_ids)
         ],
         backend="test",
-        retrieval_mode="sparse",
+        retrieval_mode=retrieval_mode,
+        dense_status=dense_status,
+        sparse_status=sparse_status,
         trace=trace or {},
     )

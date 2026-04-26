@@ -36,8 +36,16 @@ class EvalCase:
     forbidden_document_ids: list[str] = field(default_factory=list)
     required_trace_flags: dict[str, Any] = field(default_factory=dict)
     required_citation_fields: list[str] = field(default_factory=list)
+    required_dense_status: str | None = None
+    min_dense_returned: int | None = None
+    required_sparse_status: str | None = None
+    min_sparse_returned: int | None = None
+    required_candidate_pool_fields: list[str] = field(default_factory=list)
     top_k: int = 5
     retrieval_mode: str = "sparse"
+    enable_dense: bool = False
+    enable_sparse: bool = True
+    enable_hybrid: bool = False
     skip_reason: str | None = None
 
 
@@ -54,6 +62,7 @@ class EvalResult:
     forbidden_document_ids: list[str] = field(default_factory=list)
     missing_citation_fields: list[str] = field(default_factory=list)
     failed_trace_flags: dict[str, dict[str, Any]] = field(default_factory=dict)
+    failed_dense_hybrid_checks: dict[str, dict[str, Any]] = field(default_factory=dict)
     error: str | None = None
 
 
@@ -70,6 +79,15 @@ def builtin_eval_cases() -> list[EvalCase]:
                 "snapshot_as_answer": False,
                 "evidence_required": True,
             },
+            retrieval_mode="hybrid",
+            enable_dense=True,
+            enable_sparse=True,
+            enable_hybrid=True,
+            required_dense_status="executed",
+            min_dense_returned=1,
+            required_sparse_status="executed",
+            min_sparse_returned=1,
+            required_candidate_pool_fields=["dense_returned", "sparse_returned", "deduped_count"],
         ),
         EvalCase(
             id="qa_doc_single_file_scope",
@@ -91,6 +109,15 @@ def builtin_eval_cases() -> list[EvalCase]:
             filters={"document_id": MAIN_TENDER_DOC_ID, "source_type": "tender", "document_type": "tender"},
             expected_document_ids=[MAIN_TENDER_DOC_ID],
             forbidden_document_ids=[COMPARE_TENDER_DOC_ID, MEETING_DOC_ID],
+            retrieval_mode="hybrid",
+            enable_dense=True,
+            enable_sparse=True,
+            enable_hybrid=True,
+            required_dense_status="executed",
+            min_dense_returned=1,
+            required_sparse_status="executed",
+            min_sparse_returned=1,
+            required_candidate_pool_fields=["dense_returned", "sparse_returned", "deduped_count"],
         ),
         EvalCase(
             id="compare_tender_schedule_no_main_pollution",
@@ -98,6 +125,15 @@ def builtin_eval_cases() -> list[EvalCase]:
             filters={"document_id": COMPARE_TENDER_DOC_ID, "source_type": "tender", "document_type": "tender"},
             expected_document_ids=[COMPARE_TENDER_DOC_ID],
             forbidden_document_ids=[MAIN_TENDER_DOC_ID, MEETING_DOC_ID],
+            retrieval_mode="hybrid",
+            enable_dense=True,
+            enable_sparse=True,
+            enable_hybrid=True,
+            required_dense_status="executed",
+            min_dense_returned=1,
+            required_sparse_status="executed",
+            min_sparse_returned=1,
+            required_candidate_pool_fields=["dense_returned", "sparse_returned", "deduped_count"],
         ),
         EvalCase(
             id="excel_sheet_cell_citation",
@@ -155,6 +191,22 @@ def builtin_eval_cases() -> list[EvalCase]:
             required_citation_fields=["risk", "source_chunk_id"],
         ),
         EvalCase(
+            id="meeting_hybrid_dense_smoke",
+            query="会议纪要 行动项 决策 风险",
+            filters={"document_id": MEETING_DOC_ID, "source_type": "meeting", "document_type": "meeting"},
+            expected_document_ids=[MEETING_DOC_ID],
+            forbidden_document_ids=[MAIN_TENDER_DOC_ID, QA_DOC_ID],
+            retrieval_mode="hybrid",
+            enable_dense=True,
+            enable_sparse=True,
+            enable_hybrid=True,
+            required_dense_status="executed",
+            min_dense_returned=1,
+            required_sparse_status="executed",
+            min_sparse_returned=1,
+            required_candidate_pool_fields=["dense_returned", "sparse_returned", "deduped_count"],
+        ),
+        EvalCase(
             id="missing_alias_suppress_cli_only",
             query="围绕 @不存在的别名 回答",
             filters={},
@@ -171,7 +223,15 @@ def evaluate_case_response(case: EvalCase, response: SearchResponse, latency_ms:
     unexpected = [document_id for document_id in returned_ids if expected and document_id not in expected]
     missing_fields = _missing_citation_fields(response, case.required_citation_fields)
     failed_trace_flags = _failed_trace_flags(response.trace or {}, case.required_trace_flags)
-    passed = not (missing_expected or forbidden_hits or unexpected or missing_fields or failed_trace_flags)
+    failed_dense_hybrid_checks = _failed_dense_hybrid_checks(response, case)
+    passed = not (
+        missing_expected
+        or forbidden_hits
+        or unexpected
+        or missing_fields
+        or failed_trace_flags
+        or failed_dense_hybrid_checks
+    )
     return EvalResult(
         id=case.id,
         passed=passed,
@@ -184,6 +244,7 @@ def evaluate_case_response(case: EvalCase, response: SearchResponse, latency_ms:
         forbidden_document_ids=forbidden_hits,
         missing_citation_fields=missing_fields,
         failed_trace_flags=failed_trace_flags,
+        failed_dense_hybrid_checks=failed_dense_hybrid_checks,
     )
 
 
@@ -216,9 +277,9 @@ def run_eval_cases(cases: list[EvalCase] | None = None) -> dict[str, Any]:
                         query=case.query,
                         top_k=case.top_k,
                         retrieval_mode=case.retrieval_mode,  # type: ignore[arg-type]
-                        enable_dense=False,
-                        enable_sparse=True,
-                        enable_hybrid=False,
+                        enable_dense=case.enable_dense,
+                        enable_sparse=case.enable_sparse,
+                        enable_hybrid=case.enable_hybrid,
                         filters=RetrievalFilter(**case.filters),
                         include_citations=True,
                     )
@@ -301,6 +362,42 @@ def _failed_trace_flags(trace: dict[str, Any], required_flags: dict[str, Any]) -
         if actual != expected:
             failed[path] = {"expected": expected, "actual": actual}
     return failed
+
+
+def _failed_dense_hybrid_checks(response: SearchResponse, case: EvalCase) -> dict[str, dict[str, Any]]:
+    failed: dict[str, dict[str, Any]] = {}
+    trace = response.trace or {}
+    dense_trace = trace.get("dense") if isinstance(trace.get("dense"), dict) else {}
+    sparse_trace = trace.get("sparse") if isinstance(trace.get("sparse"), dict) else {}
+    candidate_pool = trace.get("candidate_pool") if isinstance(trace.get("candidate_pool"), dict) else {}
+
+    if case.required_dense_status is not None and response.dense_status != case.required_dense_status:
+        failed["dense_status"] = {"expected": case.required_dense_status, "actual": response.dense_status}
+    dense_returned = _int_value(dense_trace.get("returned"), candidate_pool.get("dense_returned"))
+    if case.min_dense_returned is not None and dense_returned < case.min_dense_returned:
+        failed["dense_returned"] = {"expected_min": case.min_dense_returned, "actual": dense_returned}
+
+    if case.required_sparse_status is not None and response.sparse_status != case.required_sparse_status:
+        failed["sparse_status"] = {"expected": case.required_sparse_status, "actual": response.sparse_status}
+    sparse_returned = _int_value(sparse_trace.get("returned"), candidate_pool.get("sparse_returned"))
+    if case.min_sparse_returned is not None and sparse_returned < case.min_sparse_returned:
+        failed["sparse_returned"] = {"expected_min": case.min_sparse_returned, "actual": sparse_returned}
+
+    for field in case.required_candidate_pool_fields:
+        if not _non_empty(_get_path(candidate_pool, field)):
+            failed[f"candidate_pool.{field}"] = {"expected": "present", "actual": _get_path(candidate_pool, field)}
+    return failed
+
+
+def _int_value(*values: Any) -> int:
+    for value in values:
+        if value is None:
+            continue
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            continue
+    return 0
 
 
 def _get_path(data: dict[str, Any], path: str) -> Any:

@@ -123,3 +123,12 @@
 7. Phase 2.16 真实文件池 dense backfill 已完成：6 文件共 `1360` chunks，attempted `1360`、succeeded `1360`、failed `0`；两份大标书分别耗时约 `287.230s` 与 `243.877s`。
 8. Phase 2.16 hybrid smoke 已完成：6 文件均 `dense_status=executed`、`sparse_status=executed`，结果 document_id 均收敛到目标文件；Phase 2.14 API eval 复跑 `10 passed / 0 failed / 1 skipped`，`p50/p95=38.416ms/271.507ms`。
 9. Phase 2.16 可进入收口判断；后续如继续推进，应优先将 dense/hybrid smoke 结构化纳入评测集，并单独处理 Rerank Smoke Audit。
+
+## 10. Phase 2.17 Rerank Smoke Audit 与 dense/hybrid eval 扩展
+
+1. 当前 rerank 默认仍是关闭状态：`rerank_enabled=false`、`rerank_provider=noop`、`rerank_default_enablement_enabled=false`；真实调用需显式启用 Aliyun provider 与局部默认启用。
+2. Rerank 触发条件应保持现有策略：候选数达标、query 命中关键词、request 侧 source_type 或 route_type 命中目标范围；本阶段不改策略。
+3. Phase 2.17 已新增 Rerank Smoke Audit runner，覆盖主标书基础信息、主标书工期 / 关键节点、答疑文件、Excel structured query、会议纪要 action/decision/risk；本地 live smoke `5 passed / 0 failed`，其中 3 条 tender query 真实调用 `aliyun_text_rerank`，Excel 与会议纪要按当前策略合理 skipped。
+4. Phase 2.17 已扩展 Phase 2.14 eval，增加 `dense_status`、`dense_returned`、`sparse_status`、`candidate_pool` 检查；本地 live eval `11 passed / 0 failed / 1 skipped`，dense/hybrid 链路执行且 returned document_ids 未污染。
+5. Phase 2.17 非目标：不调 rerank 策略、不改排序权重、不做 query rewrite、不进入 rollout。
+6. 后续尾项：若要判断 rerank 排序收益，需要另起排序质量评测阶段；本阶段只确认真实调用、合理跳过、fail-open 与 dense/hybrid 可观测。
