@@ -91,3 +91,4 @@
 - [Phase 2.13] 真实终端验收通过：会议纪要绑定、行动项/决策/风险提取、主标书对比防污染均收口。
 - [Phase 2.14] 完成企业记忆回归评测规划，建议先做 API 确定性评测，再补少量 Hermes CLI smoke。
 - [Phase 2.14] 完成 API 级回归评测 runner 首轮实现，真实本地评测 10/10 通过，1 条 alias 用例跳过。
+- [Phase 2.14b] 同步 CLI smoke 收口状态：Hermes 主仓库 live runner 4/4 通过，Hermes_memory 保持无状态。

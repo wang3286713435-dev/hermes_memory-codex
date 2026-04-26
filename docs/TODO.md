@@ -104,3 +104,4 @@
 34. Phase 2.13 真实终端验收已通过：`@主标书` 与 `@会议纪要` 均可绑定，行动项 / 决策 / 风险提取命中会议 evidence；会议纪要与主标书对比无 evidence 混用，会议内容不会被当作招标文件条款引用。
 35. Phase 2.14 已完成边界规划：先建设 API-level deterministic regression eval，再补少量 Hermes CLI smoke；覆盖 document scope、alias、compare、metadata snapshot、Excel/PPTX citation、meeting transcript 与 evidence policy。
 36. Phase 2.14 最小 API eval runner 已完成：内置 11 条 case，真实本地运行 `10 passed / 0 failed / 1 skipped`；missing alias suppress 保持 CLI-only skipped，后续应补少量 Hermes CLI smoke。
+37. Phase 2.14b CLI smoke 已在 Hermes 主仓库收口；Hermes_memory 本轮不改 retrieval contract 或业务代码。真实 runner `4/4` 通过，覆盖 missing alias、session alias bind/use、A/B compare 与 meeting transcript 非 fact 语义。
