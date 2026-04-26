@@ -2,8 +2,8 @@
 
 ## 当前优先级
 
-1. Phase 2.27c 路线规划审核：确认是否允许后续 report-level sanitized audit 写入。
-2. Phase 2.27d 候选：真实写 `audit_logs` 的最小实现，仅限显式 opt-in 与 report-level summary。
+1. Phase 2.27e 路线规划：评审 report review audit 是否纳入 readiness / eval，只做规划，不扩大 DB 写入范围。
+2. Phase 2.27d 后置观察：report-level sanitized audit 写入 MVP 已 baseline，后续只在显式 opt-in 下使用。
 3. Phase 2.28c 后续：Nightly Sprint 队列继续保持，但不自动执行 Yellow Lane。
 
 ## 后置项

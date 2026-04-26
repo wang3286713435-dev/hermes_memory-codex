@@ -155,3 +155,31 @@ Phase 2.27c 路线判断：
 1. Codex B 审核本规划。
 2. 用户明确授权真实写 `audit_logs`。
 3. 明确仍不执行 repair、rollout、DB 结构扩大或 item-level audit。
+
+## 10. Phase 2.27d 最小实现结果
+
+Phase 2.27d 已完成 report-level sanitized audit 写入 MVP：
+
+1. `phase227b_review_audit_preview.py` 默认仍保持 preview-only。
+2. 仅在显式传入 `--write-audit` 时写入 `audit_logs`。
+3. 写入事件限定为 `report.review.created`。
+4. 写入内容只包含 report-level sanitized summary：`review_id`、`report_hash`、`report_type`、`review_status`、`reviewer`、`reviewed_at` 与 summary counts。
+5. `notes`、`reason`、`approved_action`、完整 `item_decisions`、本机绝对路径、item-level entity details 与 `executed` 字段继续硬排除。
+6. `approved_for_manual_action` 仍只表示人工判断，不表示 executed。
+7. audit 写入失败按 fail-open 返回 warning，不阻断 preview / review flow。
+8. 支持 `--db-url` 用于临时 SQLite smoke；默认仍使用项目 `SessionLocal`。
+
+验证结果：
+
+1. `uv run python -m py_compile scripts/phase227b_review_audit_preview.py` 通过。
+2. `uv run pytest tests/test_phase227b_review_audit_preview.py -q` 通过，`15 passed`。
+3. 临时 SQLite live smoke 写入 `1` 条 sanitized `audit_logs` 事件。
+4. stdout 与 DB payload 均未包含 notes、reason、approved_action、item_decisions、本机绝对路径、item-level entity details 或 executed。
+
+本阶段未做：
+
+1. 未写生产 / 真实业务 DB。
+2. 未写 item-level audit summary。
+3. 未写完整 review record 到 DB。
+4. 未修改 facts、document_versions、OpenSearch、Qdrant。
+5. 未执行 repair、backfill、reindex 或 rollout。

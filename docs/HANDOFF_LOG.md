@@ -144,3 +144,56 @@
 - risks: Phase 2.27d 真实写 audit_logs 属 Yellow Lane，必须 Codex B 审核与用户显式授权；repair executor 与 rollout 继续禁止。
 - next: Codex B 审核本 baseline；如通过，由用户授权 Phase 2.27d report-level sanitized audit 写入 MVP。
 - commit/tag if any: 待本轮 Git commit / tag 写入。
+
+## 2026-04-27 03:05 Phase 2.27d
+- goal: 执行 `docs/NEXT_CODEX_A_PROMPT.md`，实现 report-level sanitized review audit 写入 MVP。
+- changed_files:
+  - `scripts/phase227b_review_audit_preview.py`
+  - `tests/test_phase227b_review_audit_preview.py`
+  - `docs/PHASE227C_REVIEW_AUDIT_WRITE_ROUTE_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `uv run python -m py_compile scripts/phase227b_review_audit_preview.py`：通过。
+  - `uv run pytest tests/test_phase227b_review_audit_preview.py -q`：`15 passed`。
+- validation: 临时 SQLite live smoke 通过，显式 `--write-audit` 写入 `1` 条 sanitized `audit_logs`；stdout 与 DB payload 均未包含 notes、reason、approved_action、item_decisions、本机绝对路径、item-level entity details 或 executed。
+- risks: 真实项目环境执行 `--write-audit` 仍属于 Yellow Lane；item-level audit summary、完整 review record 入库、repair executor 与 rollout 继续后置。
+- next: 建议 Codex B 审核后执行 Phase 2.27d Git baseline；暂不进入下一阶段实现。
+- commit/tag if any: 无。
+
+## 2026-04-27 03:16 Phase 2.27d
+- goal: 完成 Phase 2.27d Git baseline，不进入 Phase 2.27e 实现。
+- changed_files:
+  - `scripts/phase227b_review_audit_preview.py`
+  - `tests/test_phase227b_review_audit_preview.py`
+  - `docs/PHASE227C_REVIEW_AUDIT_WRITE_ROUTE_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+- tests:
+  - `uv run python -m py_compile scripts/phase227b_review_audit_preview.py`：通过。
+  - `uv run pytest tests/test_phase227b_review_audit_preview.py -q`：`15 passed`。
+- validation: `latest.json` 与 nightly run JSON 均保持 ignored；未 stage 真实 reports / reviews / agent run JSON；未写生产 / 真实业务 DB。
+- risks: 后续如使用 `--write-audit` 仍需显式 opt-in；repair executor、item-level audit summary 与 rollout 继续禁止自动推进。
+- next: 交回 Codex B 做 Phase 2.27e 路线规划；不要自动进入下一阶段。
+- commit/tag if any: Phase 2.27d baseline commit / tag 以最终 Git 结果和 `latest.json` 为准。
+
+## 2026-04-27 Phase 2.27d Codex B Review
+- goal: 检查最新交接并进入 Nightly Sprint 前置判定。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `uv run python -m py_compile scripts/phase227b_review_audit_preview.py`：通过。
+  - `uv run pytest tests/test_phase227b_review_audit_preview.py -q`：`15 passed`。
+- validation: 当前 Phase 2.27d 已 validated，但尚未 baseline；`reports/agent_runs/latest.json` 与 `reports/nightly_runs/*.json` 均为 ignored local state。
+- risks: Phase 2.27d baseline 属 Yellow Lane，完成后必须停止等待 Codex B；不得夜间自动进入 Phase 2.27e 或扩大 `--write-audit` 范围。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27d Git baseline 任务；Codex A 执行后必须停止。
+- commit/tag if any: 无。

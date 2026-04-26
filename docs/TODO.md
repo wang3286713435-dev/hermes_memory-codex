@@ -343,3 +343,14 @@
 5. 必须继续排除 notes、reason、approved_action、完整 item_decisions、本机绝对路径和 fact_id / document_id 等 item-level entity details。
 6. `approved_for_manual_action` 仍不等于 executed；repair executor、item-level audit summary、完整 review record 入库继续后置。
 7. 下一阶段候选：`Phase 2.27d report-level review audit write MVP`，但属于 Yellow Lane，必须等待 Codex B 审核与用户显式授权。
+
+## 27. Phase 2.27d report-level review audit write MVP
+
+1. Phase 2.27d 已完成最小实现：review audit preview 默认不写 DB，仅在显式 `--write-audit` 时写入 report-level sanitized `audit_logs`。
+2. 写入事件限定为 `report.review.created`，并继续保留 `executable=false` 与 `approved_for_manual_action` 不等于 executed 的语义。
+3. `notes`、`reason`、`approved_action`、完整 `item_decisions`、本机绝对路径、item-level entity details 与 `executed` 字段继续硬排除。
+4. audit 写入失败 fail-open 并返回 warning；本阶段不扩大 schema，不写 item-level audit，不写完整 review record。
+5. 测试结果：py_compile 通过，`tests/test_phase227b_review_audit_preview.py` 共 `15 passed`。
+6. live smoke 使用临时 SQLite DB 写入 `1` 条 sanitized audit event；未写生产 / 真实业务 DB。
+7. 下一步建议进入 Phase 2.27d Git baseline；baseline 后再评审是否需要把 report review audit 纳入 readiness / eval。
+8. repair executor、repair 执行、rollout、真实数据修改继续后置并禁止自动推进。
