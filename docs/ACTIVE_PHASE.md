@@ -1,11 +1,9 @@
 # Active Phase
 
-- 当前 phase：Phase 2.29a MVP Freeze Report Dry-run Baseline
-- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.29a Git baseline。
+- 当前 phase：Phase 2.29b Readiness Freeze Decision Planning Baseline
+- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.29b planning baseline。
 - 修改文件：
-  - `scripts/phase229a_freeze_report_dry_run.py`
-  - `tests/test_phase229a_freeze_report_dry_run.py`
-  - `docs/PHASE229_MVP_READINESS_FREEZE_PLAN.md`
+  - `docs/PHASE229B_READINESS_FREEZE_DECISION_PLAN.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `docs/ACTIVE_PHASE.md`
@@ -14,25 +12,24 @@
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
 - 完成内容：
-  - Phase 2.29a freeze report dry-run runner、测试与文档进入 baseline。
-  - `docs/NEXT_CODEX_A_PROMPT.md` 已推进到 Phase 2.29b readiness freeze baseline decision planning。
-  - 未新增功能、未执行真实 rollout、未执行 repair。
+  - Phase 2.29b readiness freeze decision planning 进入 baseline。
+  - `docs/NEXT_CODEX_A_PROMPT.md` 已推进到 Phase 2.29b decision record dry-run 最小实现入口。
+  - 未写功能代码、未写 DB、未执行 rollout 或 repair。
 - 测试结果：
-  - `uv run python -m py_compile scripts/phase229a_freeze_report_dry_run.py` 通过。
-  - `uv run pytest tests/test_phase229a_freeze_report_dry_run.py -q`：8 passed。
+  - 未运行 pytest；本轮为 planning baseline。
+  - 已复核 `git status --short` 与 `git check-ignore -v reports/agent_runs/latest.json`。
 - live smoke 结果：
-  - 沿用 Phase 2.29a 实现轮临时目录 fake evidence dry-run 结果。
-  - 未读取真实 reports / reviews，未写 DB，未生成真实 rollout / repair 产物。
+  - 未运行；本轮不涉及 live 验证。
 - 当前结论：
-  - Phase 2.29a baseline 已完成。
-  - 当前可进入 Phase 2.29b readiness freeze baseline decision planning；仍不进入 rollout。
+  - Phase 2.29b planning baseline 已完成。
+  - 当前可进入 Phase 2.29b 最小实现：读取显式 freeze report JSON，生成 decision record。
 - 阻塞点 / 风险点：
-  - freeze report 不是 production rollout ready 证明。
-  - warn/fail 仍需人工判断，不得自动推进 rollout 或 repair。
-  - repair executor、facts 自动抽取、默认 reports/reviews 扫描继续后置。
+  - `pass` 不能被解释为 production ready。
+  - `warn` 不得自动进入 MVP candidate。
+  - production rollout、repair executor、facts 替代 evidence、默认 reports/reviews 扫描和真实 DB mutation 均为 No-Go。
 - 是否建议 baseline：已完成。
-- 是否建议进入下一阶段：建议进入 Phase 2.29b planning，不直接实现 rollout。
+- 是否建议进入下一阶段：建议进入 Phase 2.29b decision record dry-run 最小实现。
 - 下一轮建议：
-  - 规划 Phase 2.29b readiness freeze baseline decision。
+  - 实现 Phase 2.29b decision record dry-run。
 - 是否需要 Codex B 审核：否。
 - 是否需要 Codex C 真实终端验收：否。

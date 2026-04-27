@@ -154,3 +154,5 @@
 - [Phase 2.29] planning baseline 收口，NEXT_CODEX_A_PROMPT 已推进为 Phase 2.29a freeze checklist / freeze report dry-run 入口。
 - [Phase 2.29a] 完成 freeze report dry-run 最小实现，生成只读 MVP freeze report，显式读取 evidence JSON，默认不扫描真实 reports/reviews，不进入 rollout 或 repair executor；目标测试 8 passed。
 - [Phase 2.29a] baseline 收口，NEXT_CODEX_A_PROMPT 已推进为 Phase 2.29b readiness freeze baseline decision planning 入口。
+- [Phase 2.29b] 完成 readiness freeze baseline decision 路线规划，明确 pass/warn/fail 映射、No-Go 条件与最小 decision record 边界；仍不进入 rollout、repair 或 DB 写入。
+- [Phase 2.29b] planning baseline 收口，NEXT_CODEX_A_PROMPT 已推进为 Phase 2.29b decision record dry-run 最小实现入口。

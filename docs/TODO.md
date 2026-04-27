@@ -403,3 +403,13 @@
 4. 目标测试 `8 passed`，临时目录 smoke 通过。
 5. 下一步建议 Codex B review 后执行 Phase 2.29a Git baseline。
 6. Phase 2.29a baseline 收口后，下一步进入 Phase 2.29b readiness freeze baseline decision planning。
+
+## 33. Phase 2.29b readiness freeze baseline decision planning
+
+1. Phase 2.29b 已完成路线规划：只生成 readiness freeze decision record，不执行 rollout、repair 或 DB mutation。
+2. `pass` 可进入 MVP freeze candidate 评审，但仍不等于 production ready。
+3. `warn` 不自动进入 MVP candidate，必须人工确认或补充证据。
+4. `fail` 必须 No-Go。
+5. No-Go 条件包括 production rollout、repair executor、facts 替代 retrieval evidence、默认扫描真实 reports/reviews、真实 DB mutation。
+6. 下一步建议进入 Phase 2.29b 最小实现：读取显式 freeze report JSON，输出 decision record / no-go reasons。
+7. Phase 2.29b planning baseline 后，下一轮入口切换为 decision record dry-run 最小实现。

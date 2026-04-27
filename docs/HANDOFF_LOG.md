@@ -631,3 +631,48 @@
 - risks: freeze report 不等于 production rollout ready；warn/fail 仍需人工判断，不得自动进入 rollout。
 - next: 进入 Phase 2.29b readiness freeze baseline decision planning。
 - commit/tag if any: 见 final 与 ignored latest.json。
+
+## 2026-04-27 16:14 Phase 2.29b
+- goal: 规划 readiness freeze baseline decision，不写功能代码、不写 DB、不执行 rollout 或 repair。
+- changed_files:
+  - `docs/PHASE229B_READINESS_FREEZE_DECISION_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；planning-only；已复核 `git status --short` 与 `git check-ignore -v reports/agent_runs/latest.json`
+- validation: 明确 freeze report pass/warn/fail 映射；warn 必须人工确认；fail 必须 No-Go；Phase 2.29b 只生成 decision record / no-go reasons。
+- risks: pass 不等于 production ready；warn 不得自动进入 MVP candidate；production rollout、repair executor、facts 替代 evidence、默认 reports/reviews 扫描和真实 DB mutation 均为 No-Go。
+- next: Codex B 审核后执行 Phase 2.29b planning baseline；baseline 后实现 decision record dry-run。
+- commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.29b Codex B Review
+- goal: 检查项目进度，审核 Phase 2.29b readiness freeze decision planning。
+- changed_files:
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；本轮只做 Codex B review 与状态更新。
+- validation: Phase 2.29b 规划边界安全；只做 decision record/no-go reasons，禁止 rollout、repair executor、真实 DB mutation、默认扫描真实 reports/reviews 与 facts 替代 retrieval evidence。
+- risks: `pass` 不等于 production ready；`warn` 不能自动进入 MVP candidate，必须人工确认。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已是 Phase 2.29b planning baseline 任务；Codex A 执行后必须停止，不进入实现。
+- commit/tag if any: 无。
+
+## 2026-04-27 16:22 Phase 2.29b Baseline
+- goal: Phase 2.29b readiness freeze baseline decision planning 收口与 Git baseline。
+- changed_files:
+  - `docs/PHASE229B_READINESS_FREEZE_DECISION_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；planning baseline；已复核 `git status --short` 与 `git check-ignore -v reports/agent_runs/latest.json`
+- validation: planning 文档、TODO/DEV_LOG、ACTIVE/HANDOFF/BACKLOG 均进入 baseline；下一轮入口推进为 Phase 2.29b decision record dry-run 最小实现。
+- risks: `pass` 不是 production ready；`warn` 不得自动进入 MVP candidate；任何 rollout、repair executor、真实 DB mutation 继续禁止。
+- next: 执行 Phase 2.29b decision record dry-run 最小实现。
+- commit/tag if any: 见 final 与 ignored latest.json。
