@@ -162,3 +162,8 @@
 - [Phase 2.29c] docs drift cleanup baseline 收口准备完成：未修改代码、脚本或测试，下一轮入口推进为 Phase 2.29d release candidate checklist planning。
 - [Phase 2.29d] 完成 MVP freeze candidate 人工复核 / release candidate checklist 路线规划，明确 candidate 不等于 production rollout，checklist 只做只读证据、Go/No-Go、Codex B 审核与可选 Codex C 抽样复验。
 - [Phase 2.29d] planning baseline 收口准备完成：提交范围限定为 release candidate checklist 规划与交接文档；下一步建议进入 Phase 2.29e checklist dry-run 最小实现规划 / 评审。
+- [Phase 2.30a] 完成 Practical MVP Pilot Pack 文档：面向内部试运行整理标书审查、文件内容提取、公司方向辅助分析三类 playbook 与 12 条 Codex C 真实终端验收 query；本轮 docs-only，不进入 rollout。
+- [Phase 2.30a] Codex C 完成 12 条 Pilot 真实终端验收：4 pass、8 partial、0 failed；核心业务能力可用但 alias/session 不稳定阻塞试用，下一步进入 Phase 2.30b alias / session stability fix。
+- [Phase 2.30b] 主仓库完成 alias/session 最小修复：标题类 alias 绑定在 resolver 未命中时不再 suppress retrieval，可通过同轮唯一 retrieval evidence 完成 alias bind；direct assertion tests 48 个测试函数通过。
+- [Phase 2.30b] 完成 Codex B follow-up：补齐无书名号 / 自然语言 alias bind 识别，覆盖会议纪要、硬件清单、C塔方案与当前主标书 runbook prompt；direct assertion tests 53 个测试函数通过。
+- [Phase 2.30b] Codex C 真实终端复验通过：12 条 Pilot query 为 10 pass、2 partial、0 failed；四个 alias 后续 query 均稳定，未出现 alias_missing / retrieval_suppressed 误阻断，建议 baseline 并进入内部受控 MVP Pilot。

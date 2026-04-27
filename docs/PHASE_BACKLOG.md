@@ -2,9 +2,9 @@
 
 ## 当前优先级
 
-1. Phase 2.29e 候选：release candidate checklist dry-run runner，仅允许显式读取 freeze report / decision record / evidence summary。
-2. Phase 2.29d planning 已完成 baseline；后续不得把 checklist planning 解释为 production rollout approval。
-3. linkage summary 继续仅作为 Phase 2.29 人工验收项；如需代码接入，只能显式参数化读取 summary。
+1. Phase 2.30a / 2.30b Git baseline：Codex C 已复验通过，下一步固化 Pilot 文档与 alias/session 修复。
+2. Phase 2.31 候选：内部受控 MVP Pilot 试用操作规划，包括试用流程、反馈表、人工复核节奏和 known risk checklist。
+3. Phase 2.31 后置：根据真实试用反馈再决定是否做召回质量专项，不直接 rollout。
 
 ## 后置项
 
@@ -18,6 +18,10 @@
 8. docs drift cleanup 已完成 baseline；下一步仍不得直接进入 release candidate execution 或 rollout。
 9. production rollout 继续后置；MVP freeze candidate checklist 不得被解释为 production ready。
 10. Phase 2.29e 若实现，也只能输出 dry-run checklist JSON，不得写 DB、执行 repair 或默认扫描真实 reports / reviews。
+11. Phase 2.30a Pilot 仍是内部受控试运行，不等于生产发布或自动决策。
+12. Phase 2.30b 只修 alias / session stability，不处理深层召回质量尾项或 production rollout。
+13. Phase 2.30b 代码层最小修复与 runbook prompt follow-up 已通过 Codex C 真实终端复验。
+14. Phase 2.31 只能规划内部受控试用，不得解释为生产发布。
 
 ## 永久边界
 

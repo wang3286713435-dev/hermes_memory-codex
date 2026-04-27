@@ -830,3 +830,139 @@
 - risks: stale confirmed fact、soft policy、facts 不替代 evidence、专用 rerank key smoke 等 known risks 需继续保留；Phase 2.29e 若实现也只能 dry-run。
 - next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.29d planning baseline 任务；Codex A 执行后必须停止，不进入实现。
 - commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.30a Practical MVP Pilot Prompt
+- goal: 用户要求加速进入公司实际可用 MVP，检查 Phase 2.29d baseline 后，将下一轮入口切换为 Practical MVP Pilot Pack。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；本轮只做 Codex B 进度检查与下一轮文件化任务入口更新。
+- validation: Phase 2.29d baseline 已完成，HEAD `7060d38` 与 `origin/main` 对齐；下一轮不继续堆 readiness 文档，而是面向审标、文件提取和公司方向分析整理实用 MVP pilot。
+- risks: Practical MVP Pilot 仍不是 production rollout；所有输出必须保留 evidence/citation，facts 不得替代 retrieval evidence。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.30a Practical MVP Pilot Pack；Codex A 执行后必须停止等待 review。
+- commit/tag if any: 无。
+
+## 2026-04-27 18:09 Phase 2.30a
+- goal: 执行 NEXT_CODEX_A_PROMPT，整理内部受控 Practical MVP Pilot Pack。
+- changed_files:
+  - `docs/PHASE230_PRACTICAL_MVP_PILOT_PLAN.md`
+  - `docs/MVP_PILOT_RUNBOOK.md`
+  - `docs/MVP_TENDER_REVIEW_PLAYBOOK.md`
+  - `docs/MVP_FILE_EXTRACTION_PLAYBOOK.md`
+  - `docs/MVP_STRATEGY_ANALYSIS_PLAYBOOK.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行 pytest；docs-only；执行 `git status --short` 并确认无代码、脚本、测试变更。
+- validation: 已形成标书审查、文件提取、公司方向辅助分析 playbook 与 12 条 Codex C 验收 query；明确 Pilot 不是 rollout，facts 不替代 evidence。
+- risks: 真实终端验收尚未执行；发展方向建议必须人工决策；无 evidence 不得给确定结论。
+- next: Codex B review 后交给 Codex C 执行 12 条 Pilot query；通过后再做 docs baseline。
+- commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.30a Codex B Review
+- goal: 检查项目进度，审核 Practical MVP Pilot Pack 是否可进入 Codex C 真实终端验收。
+- changed_files:
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行 pytest；本轮 docs-only review。Codex B 复核 pilot plan、runbook、tender/file/strategy playbook 与 git status，确认无代码、脚本、测试、DB、索引或真实 reports/reviews 变更。
+- validation: 2.30a 文档包覆盖审标、文件提取、公司方向辅助分析；包含 12 条 pilot query、Codex C 回传字段与 pass/fail 判定；明确 Pilot 不等于 rollout，facts 不替代 retrieval evidence。
+- risks: 真实终端验收尚未执行；发展方向建议必须人工决策；无 evidence 不得给确定结论。
+- next: 交给 Codex C 按 `docs/MVP_PILOT_RUNBOOK.md` 与 `docs/PHASE230_PRACTICAL_MVP_PILOT_PLAN.md` 执行 12 条真实终端验收；通过后再做 Phase 2.30a docs baseline。
+- commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.30a Codex C Validation Review
+- goal: 吸收 Codex C 12 条真实终端验收结果，并决定是否允许 Phase 2.30a baseline / 内部 Pilot。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行 pytest；本轮为 Codex B review / prompt handoff。
+- validation: Codex C 验收结果为 `4/12 pass, 8 partial, 0 failed`；API / Hermes CLI 可用；未出现 facts 替代 evidence、transcript 误作 fact 或第三文件污染；Excel/PPTX 在标题检索下可返回 structured citation。
+- risks: `@硬件清单`、`@会议纪要`、`@C塔方案` alias / session scope 不稳定；`retrieval_suppressed=true` 可能阻断显式 alias 绑定 / 使用；主标书深层召回和 PPTX Slide 1 仍是后续质量尾项。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.30b alias/session stability fix；Codex A 完成后需 Codex B review，再交给 Codex C 复跑 12 条 Pilot query。
+- commit/tag if any: 无。
+
+## 2026-04-27 20:55 Phase 2.30b
+- goal: 修复 Practical MVP Pilot 中标题类 alias 绑定 / session 稳定性阻塞。
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/session_document_scope.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_session_document_scope.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: py_compile 通过；主仓库 venv 缺 pytest；direct assertion tests 覆盖 `test_session_document_scope.py` 与 `test_phase214b_cli_smoke_eval.py`，48 个测试函数通过。
+- validation: 标题 alias bind resolver 未命中时不再 suppress retrieval；同轮 retrieval 唯一命中文档后完成 alias bind；missing alias suppress 规则保持不变。
+- risks: 真实 Hermes CLI smoke 未执行；仍需 Codex C 复跑 12 条 Pilot query。深层召回质量尾项不属于本轮。
+- next: Codex B review 代码 diff；Codex C 验证 `@硬件清单`、`@会议纪要`、`@C塔方案` 与 alias compare。
+- commit/tag if any: 无。
+
+## 2026-04-27 21:38 Phase 2.30b
+- goal: 补齐 Codex B review 指出的无书名号 / 自然语言标题 alias 绑定缺口。
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/session_document_scope.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_session_document_scope.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: py_compile 通过；pytest 不可用；direct assertion tests 覆盖 `test_session_document_scope.py` 与 `test_phase214b_cli_smoke_eval.py`，53 个测试函数通过。
+- validation: `把会议纪要文件设为 @会议纪要`、`把硬件清单设为 @硬件清单`、`把C塔方案设为 @C塔方案`、`把当前主标书设为 @主标书`、`把当前标书设为 @主标书` 已纳入测试覆盖。
+- risks: 未做真实 Hermes CLI 复验；仍需 Codex B review 后交给 Codex C 复跑 12 条 Pilot。
+- next: Codex B review follow-up diff；通过后 Codex C 复验 alias/session 稳定性。
+- commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.30b Codex B Review
+- goal: 审核 Codex A 的 alias/session 修复是否足以交给 Codex C 复跑 Pilot。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 复跑主仓库 py_compile 通过；手动执行新增 3 个 title-bind fallback 测试函数通过。
+- validation: 2.30b 原修复方向正确，但测试只覆盖 `把《标题》设为 @alias`。Pilot runbook 的真实 prompt 是 `把会议纪要文件设为 @会议纪要`、`把当前主标书设为 @主标书` 等无书名号自然语言形式；当前 `_extract_title_candidates()` 仍可能无法抽取 title，导致继续 suppress retrieval。
+- risks: 若不补齐无书名号 alias bind，Codex C 复验大概率仍会出现 `@会议纪要` / `@硬件清单` / `@C塔方案` alias_missing。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.30b review follow-up，要求 Codex A 补齐真实 runbook alias prompt 测试与实现；暂不交给 Codex C，暂不 baseline。
+- commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.30b Codex B Follow-up Review
+- goal: 复核 Codex A 补齐无书名号 / 自然语言 alias bind 后是否可进入 Codex C 复验。
+- changed_files:
+  - `reports/agent_runs/latest.json`
+  - `docs/HANDOFF_LOG.md`
+- tests: Codex B 复跑主仓库 py_compile 通过；直接执行 `test_session_document_scope.py` 与 `test_phase214b_cli_smoke_eval.py` 中 53 个测试函数，全部通过；`latest.json` JSON 校验与 ignore 校验通过。
+- validation: follow-up 已覆盖 `把会议纪要文件设为 @会议纪要`、`把硬件清单设为 @硬件清单`、`把C塔方案设为 @C塔方案`、`把当前主标书设为 @主标书`、`把当前标书设为 @主标书`；missing alias suppress 语义保持不变。
+- risks: 真实 Hermes CLI 仍未复验；主仓库 venv 缺 pytest，采用 direct assertion tests；深层召回质量尾项和 PPTX Slide 1 不属于 2.30b。
+- next: 交给 Codex C 复跑 12 条 Pilot query，重点检查 `@硬件清单`、`@会议纪要`、`@C塔方案` 与 `@会议纪要 vs @主标书` alias/session 稳定性；通过后再进入 baseline。
+- commit/tag if any: 无。
+
+## 2026-04-28 Phase 2.30b Codex C Validation Passed
+- goal: 吸收 Codex C 真实终端复验结果，并授权 Phase 2.30a / 2.30b baseline。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮未跑 pytest；依据 Codex C 真实终端复验：12 条 Pilot query 为 `10/12 pass, 2 partial, 0 failed`。
+- validation: 四个 alias 在同一 session 后续 query 中均稳定；未再出现 `alias_missing` 或 `retrieval_suppressed` 误阻断；`facts_as_answer=false`、`transcript_as_fact=false` 全部稳定；compare 无第三文件污染。
+- risks: partial 为召回质量尾项：最高投标限价、业绩要求未被当前召回覆盖；公司方向分析中主标书 / 硬件清单对战略方向直接证据不足。内部试用仍需人工复核和人工决策，不等于 production rollout。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已切换为 Phase 2.30a / 2.30b 双仓库 Git baseline；`docs/NIGHTLY_SPRINT_QUEUE.md` 已允许 Codex A 夜间自动模式执行该 Yellow Lane baseline，完成后必须停止。
+- commit/tag if any: 无。

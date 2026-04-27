@@ -436,3 +436,18 @@
 5. Codex C 仅在后续需要声明“真实 Hermes 终端 MVP candidate 已通过”时做抽样复验；Phase 2.29d planning 本身不需要 live terminal 验收。
 6. 当前 known risks 必须继续保留：stale confirmed fact `9f98384b-5053-4a8f-9b83-35983b28b38e`、soft policy 非完整 RBAC/ABAC、专用 `ALIYUN_RERANK_API_KEY` smoke 可选尾项、facts 不得作为 final answer。
 7. 下一步建议先做 Phase 2.29d planning Git baseline；baseline 后再由 Codex B 决定是否进入 Phase 2.29e checklist dry-run 最小实现。
+
+## 36. Phase 2.30a practical MVP pilot pack
+
+1. Phase 2.30a 已整理内部受控 MVP Pilot Pack，目标是支持标书审查、企业文件内容提取、公司未来发展方向辅助分析三类真实使用。
+2. MVP 被限定为人工监督的内部试运行版本，不等于 production rollout、自动审标、自动经营决策或 repair executor。
+3. 新增 playbook 要求所有结论必须带 retrieval evidence / citation；无 evidence 时必须明确缺失，不得凭 facts 或历史记忆作答。
+4. 标书审查模板覆盖项目基础信息、投标资格、商务 / 合同风险、缺失信息识别，并要求输出风险等级与待人工确认项。
+5. 文件提取模板覆盖标书 / Word / PDF、Excel sheet/cell、PPTX slide、会议纪要 action / decision / risk、A/B compare 防污染。
+6. 发展方向分析模板强制 Evidence / Interpretation / Recommendation / Risk / Missing Evidence 分离，并标明“辅助建议，需人工决策”。
+7. Pilot 验收清单包含 12 条真实终端 query，建议 Codex C 做抽样验收；本轮未写代码、脚本或测试。
+8. Phase 2.30b 已完成 alias/session 最小修复：标题类 alias bind resolver 未命中时允许同轮 retrieval fallback，再由唯一检索文档完成绑定。
+9. Phase 2.30b 已通过 Codex C 真实终端复验：12 条 Pilot query 为 `10/12 pass, 2/12 partial, 0 failed`，alias/session 修复有效。
+10. Phase 2.30b follow-up 已补齐 runbook 原文 alias 绑定：`把会议纪要文件设为 @会议纪要`、`把硬件清单设为 @硬件清单`、`把C塔方案设为 @C塔方案`、`把当前主标书设为 @主标书`、`把当前标书设为 @主标书`。
+11. 下一步建议先做 Phase 2.30a / 2.30b Git baseline，再进入 Phase 2.31 内部受控 MVP Pilot 试用操作规划。
+12. 已知试用风险：深层字段召回仍需人工复核，经营建议必须人工决策，当前不进入 production rollout。

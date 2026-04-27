@@ -1,37 +1,48 @@
 # Active Phase
 
-- 当前 phase：Phase 2.29d Release Candidate Checklist Planning Baseline
-- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.29d release candidate checklist planning Git baseline。
+- 当前 phase：Phase 2.30a / 2.30b Practical MVP Pilot baseline ready
+- 本轮目标：吸收 Codex C 复验结果，准备 Phase 2.30a Pilot 文档与 Phase 2.30b alias/session 修复的双仓库 Git baseline。
 - 修改文件：
-  - `docs/PHASE229D_RELEASE_CANDIDATE_CHECKLIST_PLAN.md`
-  - `docs/TODO.md`
-  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
   - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
 - 完成内容：
-  - 新增 Phase 2.29d release candidate checklist 规划文档。
-  - 明确 MVP freeze candidate 只代表可人工审阅候选状态，不等于 production rollout ready。
-  - 定义 Codex B 审核标准、Codex C 可选抽样复验范围、release candidate checklist 草案与 Go / No-Go 条件。
-  - 将 stale confirmed fact、soft policy、facts 不替代 evidence、专用 rerank key smoke 等 known risks 继续保留。
-  - Phase 2.29d planning 已进入 Git baseline。
-  - 未写代码、未写 DB、未执行 repair、未进入 rollout。
+  - Codex C 已复跑 12 条 Pilot query，结果为 `10/12 pass, 2/12 partial, 0 failed`。
+  - 四个 alias 在同一 session 后续 query 中均稳定：
+    - `@主标书`
+    - `@会议纪要`
+    - `@硬件清单`
+    - `@C塔方案`
+  - 未再出现 `alias_missing`。
+  - 未出现 `retrieval_suppressed` 误阻断。
+  - `facts_as_answer=false`、`transcript_as_fact=false` 全部稳定。
+  - compare 场景未混入第三文件。
+  - 已将 `docs/NEXT_CODEX_A_PROMPT.md` 改为 Phase 2.30a / 2.30b Git baseline 任务。
+  - 已更新 `docs/NIGHTLY_SPRINT_QUEUE.md`，允许 Codex A 夜间自动模式执行本次 Yellow Lane baseline；baseline 后必须停止。
 - 测试结果：
-  - 未运行 pytest；本轮 docs-only planning。
-  - 已执行 `git status --short`、限定文档 diff 与 ignored 状态检查。
+  - 本轮未重新运行 pytest；复验依据为 Codex C 真实终端结果。
+  - 上轮 Codex B 已复跑主仓库 py_compile 与 53 个 direct assertion tests。
 - live smoke 结果：
-  - 未运行；本轮不涉及 live 验证。
+  - Codex C 真实终端验收已完成。
+  - API / CLI 可用。
 - 当前结论：
-  - Phase 2.29d planning baseline 已完成。
-  - commit / tag / push 结果见 final 与 ignored `latest.json`。
+  - Phase 2.30b alias/session 修复通过真实终端复验。
+  - 建议执行 Git baseline。
+  - 建议进入内部受控 MVP Pilot 试用，但必须保留 known risks。
 - 阻塞点 / 风险点：
-  - release candidate checklist 不等于 production rollout。
-  - repair executor、DB mutation、default reports/reviews scan 继续禁止。
-  - stale confirmed fact `9f98384b-5053-4a8f-9b83-35983b28b38e` 仍是 known warning。
-- 是否建议 baseline：已执行本轮 baseline。
-- 是否建议进入下一阶段：建议进入 Phase 2.29e checklist dry-run 最小实现规划 / 实现评审；仍不进入 rollout。
+  - 最高投标限价、业绩要求等深层字段召回仍需人工复核。
+  - 公司发展方向分析中主标书 / 硬件清单对战略方向的直接证据不足。
+  - 经营建议必须人工决策。
+  - 当前仍不是 production rollout。
+- 是否建议 baseline：是。
+- 是否建议进入下一阶段：baseline 后建议进入 Phase 2.31 内部 MVP Pilot 试用操作规划；不进入 production rollout。
 - 下一轮建议：
-  - 评审 Phase 2.29e release candidate checklist dry-run 最小实现。
-- 是否需要 Codex B 审核：否，本轮 baseline 已按用户指令执行；下一阶段仍建议 Codex B 审核边界。
-- 是否需要 Codex C 真实终端验收：否；仅后续声明真实终端 MVP candidate 时需要抽样复验。
+  - Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 完成双仓库 baseline。
+  - Codex A 夜间自动模式可执行该 baseline，但完成后必须停止，不得自动进入 Phase 2.31。
+- 是否需要 Codex B 审核：否，baseline prompt 已由 Codex B 写好。
+- 是否需要 Codex C 真实终端验收：否，本阶段已通过；后续试用中发现问题再定向复验。
