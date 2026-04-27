@@ -182,3 +182,54 @@ Smoke 只使用临时目录 fake manifest / fake review / fake audit event，不
 4. 不写 DB、不写 audit_logs、不执行 repair。
 
 不建议直接纳入 readiness audit 默认扫描，也不建议进入 item-level / repair-level linkage。
+
+## 11. Phase 2.27f 最小实现结果
+
+本轮已完成只读 linkage summary 最小实现：
+
+1. 新增 `scripts/phase227f_review_audit_linkage.py`。
+2. 支持 fake / ignored archive manifest、review record、sanitized audit event 输入。
+3. 输出 `archive_review`、`review_audit`、`end_to_end` 三段摘要。
+4. 全局固定 `dry_run=true`、`destructive_actions=[]`、`executable=false`、`repair_executed=false`。
+5. archive 缺失与 audit event 缺失输出 warning，不执行任何修复。
+6. unsafe audit event、item-level entity details、非 `report.review.created` event 输出 fail。
+7. 输出不包含 report 原文、本机绝对路径、notes、reason、approved_action、完整 item_decisions、fact_id / document_id / source_chunk_id 等 item-level entity details。
+
+验证结果：
+
+1. `uv run python -m py_compile scripts/phase227f_review_audit_linkage.py` 通过。
+2. `uv run pytest tests/test_phase227f_review_audit_linkage.py -q` 通过，9 passed。
+3. 临时目录 live smoke 通过：
+   - fake manifest + fake review + fake sanitized audit event：pass。
+   - missing audit event：warn。
+   - unsafe audit event：fail。
+
+当前结论：
+
+1. Phase 2.27f 最小实现已完成，建议进入 Codex B review。
+2. 仍不写 `audit_logs`、不写业务 DB、不执行 repair、不纳入 readiness 默认扫描。
+3. 后续如需 Git baseline，必须单独执行 baseline 任务。
+
+## 12. Phase 2.27f 安全补丁
+
+Codex B 审核发现首轮实现只检查 `request_json` / `result_json`，未检查 audit event 顶层 unsafe 字段。
+
+本轮补丁已修复：
+
+1. audit event 顶层出现 `document_id`、`fact_id`、`report_path` 等 forbidden 字段时输出 fail。
+2. audit event 顶层出现本机绝对路径字符串时输出 fail。
+3. `request_json` / `result_json` 原有 unsafe 检查保持不变。
+4. 失败输出只包含 unsafe 路径，不包含 `doc-secret`、`fact-secret`、本机绝对路径或其他敏感值。
+5. `dry_run=true`、`destructive_actions=[]`、`executable=false`、`repair_executed=false` 继续稳定。
+
+补丁验证：
+
+1. `uv run python -m py_compile scripts/phase227f_review_audit_linkage.py` 通过。
+2. `uv run pytest tests/test_phase227f_review_audit_linkage.py -q` 通过，12 passed。
+3. 临时目录 live smoke 已覆盖：
+   - sanitized audit event：pass。
+   - missing audit event：warn。
+   - unsafe `result_json`：fail。
+   - unsafe top-level audit event：fail。
+
+当前仍不写 DB、不写 `audit_logs`、不执行 repair、不读取真实业务 report / review 产物。

@@ -1,8 +1,10 @@
 # Active Phase
 
-- 当前 phase：Phase 2.27f Review Audit Linkage Route Planning Baseline
-- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.27f archive / review / audit 关联诊断规划收口与 Git baseline。
+- 当前 phase：Phase 2.27f Review Audit Linkage Baseline
+- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 archive / review / audit 只读 linkage summary 收口与 Git baseline。
 - 修改文件：
+  - `scripts/phase227f_review_audit_linkage.py`
+  - `tests/test_phase227f_review_audit_linkage.py`
   - `docs/PHASE227F_REVIEW_AUDIT_LINKAGE_PLAN.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
@@ -12,28 +14,24 @@
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
 - 完成内容：
-  - 已完成 Archive -> Review、Review -> Audit、Archive -> Review -> Audit 端到端摘要、readiness audit 接入、item-level / repair-level linkage 五个候选方向评审。
-  - 推荐后续最小实现优先做 archive / review / audit 只读 linkage summary。
-  - 推荐用 `report_hash` / `report_type` 关联 archive 与 review，用 `review_id` / `trace_id=report_review:<review_id>` 关联 review 与 audit。
-  - 缺少 archive / review / audit 任一环节应输出 warning，不自动 fail。
-  - item-level / repair-level linkage、repair executor、真实 DB 写入与 rollout 继续后置。
-  - Phase 2.27f 规划进入 Git baseline。
+  - Phase 2.27f 只读 linkage summary runner、测试、文档与安全补丁进入 baseline。
+  - 顶层 audit event unsafe 字段漏检已关闭。
+  - baseline 不写 DB、不写 `audit_logs`、不执行 repair。
 - 测试结果：
-  - 未运行 pytest；本轮只做 planning baseline。
-  - 已执行 `git status --short` 与 `git check-ignore -v reports/agent_runs/latest.json` 作为状态复核。
+  - `uv run python -m py_compile scripts/phase227f_review_audit_linkage.py` 通过。
+  - `uv run pytest tests/test_phase227f_review_audit_linkage.py -q` 通过，12 passed。
 - live smoke 结果：
-  - 未执行 live smoke；本轮不写 DB、不写 `audit_logs`、不执行 eval、不执行 repair。
+  - 本轮 baseline 未重新执行 live smoke；沿用已完成临时目录 smoke：sanitized pass、missing audit warn、unsafe result_json fail、unsafe top-level fail。
 - 当前结论：
-  - Phase 2.27f 路线规划与 baseline 已完成。
-  - 后续可以进入 Phase 2.27f 最小实现规划授权，但不得自动推进。
+  - Phase 2.27f baseline 已完成。
+  - 下一步候选为 Phase 2.27g 路线规划：是否将 linkage summary 显式参数化接入 readiness audit。
 - 阻塞点 / 风险点：
-  - linkage summary 容易被误解为 repair 已执行，后续实现必须显式输出 `repair_executed=false`。
-  - 真实 reports / reviews 目录可能包含本机路径或业务实体，后续 smoke 应优先使用 fake inputs。
-  - item-level entity details 仍不得进入诊断输出。
+  - linkage summary 不应被解释为 repair 已执行。
+  - readiness 默认扫描、item-level linkage、repair executor 继续后置。
 - 是否建议 baseline：已完成。
-- 是否建议进入下一阶段：建议交回 Codex B 规划 Phase 2.27f 最小实现；不自动进入实现。
+- 是否建议进入下一阶段：建议进入 Phase 2.27g 路线规划；不直接实现。
 - 下一轮建议：
-  - Codex B 审核 Phase 2.27f planning baseline。
-  - 若通过，生成 Phase 2.27f 最小实现 prompt：只读 linkage summary + fake inputs tests + 临时目录 smoke。
+  - 规划 linkage summary 是否显式参数化接入 readiness audit。
+  - 继续禁止默认扫描真实 reports / reviews 或输出 item-level entity details。
 - 是否需要 Codex B 审核：是。
 - 是否需要 Codex C 真实终端验收：否。

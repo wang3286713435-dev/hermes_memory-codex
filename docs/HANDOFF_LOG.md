@@ -369,3 +369,99 @@
 - risks: linkage summary 后续实现必须继续显式 `repair_executed=false`；真实 reports / reviews / audit payload 仍需避免本机路径、notes、reason、approved_action 与完整 item_decisions。
 - next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27f Git baseline 任务；Codex A 执行后必须停止，不进入实现。
 - commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.27f Baseline Review
+- goal: 检查项目进度，确认 Phase 2.27f planning baseline，并生成最小实现任务入口。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；本轮只做进度检查与下一轮文件化任务入口更新。
+- validation: Phase 2.27f planning baseline 已完成，HEAD 与 `origin/main` 对齐，tag `phase-2.27f-review-audit-linkage-plan-baseline` 指向 HEAD。
+- risks: 后续实现必须只读、只用 fake manifest / fake review / fake audit event；不得输出本机路径、notes、reason、approved_action、完整 item_decisions 或 item-level entity details。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27f 最小实现任务；Codex A 执行后必须停止等待 Codex B 审核。
+- commit/tag if any: 无。
+
+## 2026-04-27 14:26 Phase 2.27f
+- goal: 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 archive / review / audit 只读 linkage summary 最小实现。
+- changed_files:
+  - `scripts/phase227f_review_audit_linkage.py`
+  - `tests/test_phase227f_review_audit_linkage.py`
+  - `docs/PHASE227F_REVIEW_AUDIT_LINKAGE_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: `uv run python -m py_compile scripts/phase227f_review_audit_linkage.py` 通过；`uv run pytest tests/test_phase227f_review_audit_linkage.py -q` 通过，9 passed。
+- validation: 临时目录 fake manifest/review/audit pass；missing audit warn；unsafe audit fail。未读取真实 reports / reviews，未写 DB 或 audit_logs。
+- risks: linkage summary 不得被误读为 repair executed；不建议直接纳入 readiness 默认扫描；item-level / repair-level linkage 继续后置。
+- next: Codex B 审核 Phase 2.27f 最小实现；通过后再执行 Git baseline。
+- commit/tag if any: 无。
+
+## 2026-04-27 14:49 Phase 2.27f
+- goal: 修复 review audit linkage 对 audit event 顶层 unsafe 字段未检测的问题。
+- changed_files:
+  - `scripts/phase227f_review_audit_linkage.py`
+  - `tests/test_phase227f_review_audit_linkage.py`
+  - `docs/PHASE227F_REVIEW_AUDIT_LINKAGE_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: `uv run python -m py_compile scripts/phase227f_review_audit_linkage.py` 通过；`uv run pytest tests/test_phase227f_review_audit_linkage.py -q` 通过，12 passed。
+- validation: 临时目录 smoke 覆盖 sanitized pass、missing audit warn、unsafe result_json fail、unsafe top-level fail；未读取真实 reports / reviews，未写 DB 或 audit_logs。
+- risks: `docs/NEXT_CODEX_A_PROMPT.md` 有既有 dirty 未处理；readiness 默认扫描与 item-level linkage 继续后置。
+- next: Codex B 审核安全补丁；通过后再执行 Phase 2.27f Git baseline。
+- commit/tag if any: 无。
+
+## 2026-04-27 14:58 Phase 2.27f
+- goal: 完成 archive / review / audit 只读 linkage summary 收口与 Git baseline。
+- changed_files:
+  - `scripts/phase227f_review_audit_linkage.py`
+  - `tests/test_phase227f_review_audit_linkage.py`
+  - `docs/PHASE227F_REVIEW_AUDIT_LINKAGE_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+- tests: `uv run python -m py_compile scripts/phase227f_review_audit_linkage.py` 通过；`uv run pytest tests/test_phase227f_review_audit_linkage.py -q` 通过，12 passed。
+- validation: baseline 范围仅包含 Phase 2.27f runner、测试、文档与交接文件；未写 DB、未写 `audit_logs`、未执行 repair。
+- risks: linkage summary 不得被误读为 repair executed；readiness 默认扫描、item-level linkage 与 repair executor 继续后置。
+- next: Phase 2.27g 路线规划：评审 linkage summary 是否显式参数化接入 readiness audit。
+- commit/tag if any: tag `phase-2.27f-review-audit-linkage-baseline`；commit hash 以 Git 结果和 `reports/agent_runs/latest.json` 为准。
+
+## 2026-04-27 Phase 2.27f Codex B Implementation Review
+- goal: 检查项目进度，审核 Phase 2.27f 只读 linkage summary 最小实现。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `uv run python -m py_compile scripts/phase227f_review_audit_linkage.py`：通过。
+  - `uv run pytest tests/test_phase227f_review_audit_linkage.py -q`：`9 passed`。
+  - Codex B 临时负例：audit event 顶层 `document_id` 当前错误返回 `status=pass`。
+- validation: 实现总体符合只读 / no DB / no audit_logs 边界，但 unsafe 检测只覆盖 `request_json` / `result_json`，未覆盖 audit event 顶层敏感字段。
+- risks: 顶层 `document_id`、`fact_id`、`report_path` 或绝对路径若未 fail，可能破坏 Phase 2.27f 的脱敏诊断边界。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27f 安全补丁任务；Codex A 执行后必须停止，不 baseline。
+- commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.27f Safety Patch Review
+- goal: 检查项目进度，审核 Phase 2.27f 顶层 audit unsafe 字段安全补丁。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `uv run python -m py_compile scripts/phase227f_review_audit_linkage.py`：通过。
+  - `uv run pytest tests/test_phase227f_review_audit_linkage.py -q`：`12 passed`。
+  - Codex B 负例复验：顶层 `document_id`、`fact_id`、`report_path` 均返回 `status=fail`。
+- validation: 顶层 unsafe audit 字段漏口已关闭；输出 failure paths 不泄露真实敏感值；仍未写 DB、未写 `audit_logs`、未执行 repair。
+- risks: linkage summary 仍不得被解释为 repair executed；readiness 默认扫描与 item-level linkage 继续后置。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27f Git baseline 任务；Codex A 执行后必须停止。
+- commit/tag if any: 无。

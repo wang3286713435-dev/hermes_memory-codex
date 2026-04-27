@@ -146,3 +146,5 @@
 - [Phase 2.27e] 完成最小实现：readiness audit 只读检查 report.review.created 脱敏摘要，26 条相关测试通过。
 - [Phase 2.27f] 完成 archive / review / audit 关联诊断规划，建议先做只读链路摘要，不碰 DB 或 repair。
 - [Phase 2.27f] 规划 baseline 收口，下一步需 Codex B 审核后再决定是否实现只读 linkage summary。
+- [Phase 2.27f] 完成只读 linkage summary 最小实现，9 条单测与临时 smoke 通过，未写 DB 或 audit_logs。
+- [Phase 2.27f] 修复 audit event 顶层 unsafe 字段漏检，顶层 document_id/fact_id/path 现在会 fail 且不泄露值。

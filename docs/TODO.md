@@ -374,3 +374,5 @@
 5. 第一轮实现不建议直接纳入 readiness audit 默认扫描；可后续显式参数化接入。
 6. item-level / repair-level linkage、repair executor、真实 DB 写入与 rollout 继续后置。
 7. Phase 2.27f planning 已进入 baseline，下一步只建议在 Codex B 审核后实现只读 linkage summary。
+8. Phase 2.27f 最小实现已完成：新增只读 linkage summary runner 与 9 条单元测试，临时目录 smoke 覆盖 pass / missing audit warn / unsafe audit fail；未写 DB、未写 `audit_logs`、未执行 repair。
+9. Phase 2.27f 安全补丁已完成：audit event 顶层 unsafe 字段与绝对路径现在会 fail；目标测试 12 passed，临时 smoke 覆盖 unsafe top-level fail。

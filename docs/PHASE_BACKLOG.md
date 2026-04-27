@@ -2,10 +2,9 @@
 
 ## 当前优先级
 
-1. Phase 2.27f baseline review：Codex B 审核 archive / review / audit 关联诊断规划 baseline，确认不读取敏感原文、不扩大 DB 写入。
-2. Phase 2.27f 最小实现候选：只读 linkage summary，使用 fake manifest / fake review / fake audit event 单元测试和临时目录 smoke。
-3. Phase 2.27f implementation prompt：仅在 Codex B 审核通过后生成，不自动进入实现。
-4. Phase 2.28c 后续：Nightly Sprint 队列继续保持，但不自动执行 Yellow Lane。
+1. Phase 2.27g route planning：评审 linkage summary 是否需要显式参数化接入 readiness audit，默认不纳入扫描。
+2. Phase 2.27g implementation 候选：仅在规划通过后考虑显式参数，不默认扫描真实 reports / reviews。
+3. Phase 2.28c 后续：Nightly Sprint 队列继续保持，但不自动执行 Yellow Lane。
 
 ## 后置项
 
