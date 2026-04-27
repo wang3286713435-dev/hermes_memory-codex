@@ -243,6 +243,42 @@ def test_audit_log_payload_is_report_level_only():
     assert unsafe_payload_keys(db_payload, forbidden_keys=preview_module.FORBIDDEN_WRITE_KEYS) == set()
 
 
+def test_audit_log_payload_excludes_item_level_entity_details():
+    record = sample_review_record(
+        item_decisions=[
+            {
+                "item_id": "item-1",
+                "entity_id": "entity-secret",
+                "fact_id": "fact-secret",
+                "document_id": "doc-secret",
+                "source_document_id": "source-doc-secret",
+                "source_version_id": "source-version-secret",
+                "source_chunk_id": "source-chunk-secret",
+                "decision": "approved_for_manual_action",
+                "reason": "private reason",
+                "approved_action": "manual action text",
+                "executable": False,
+            }
+        ]
+    )
+    payload = build_audit_preview(record)
+    db_payload = audit_log_payload(payload)
+    encoded = json.dumps(db_payload, ensure_ascii=False)
+
+    for value in (
+        "entity-secret",
+        "fact-secret",
+        "doc-secret",
+        "source-doc-secret",
+        "source-version-secret",
+        "source-chunk-secret",
+        "private reason",
+        "manual action text",
+    ):
+        assert value not in encoded
+    assert unsafe_payload_keys(db_payload, forbidden_keys=preview_module.FORBIDDEN_WRITE_KEYS) == set()
+
+
 def test_write_audit_failure_fails_open(tmp_path, monkeypatch, capsys):
     record_path = tmp_path / "review.json"
     record_path.write_text(json.dumps(sample_review_record()), encoding="utf-8")

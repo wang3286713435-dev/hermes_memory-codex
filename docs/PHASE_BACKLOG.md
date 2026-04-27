@@ -2,8 +2,8 @@
 
 ## 当前优先级
 
-1. Phase 2.27e 最小实现候选：将 review audit 安全断言纳入 deterministic eval / unit test，并在 readiness audit 中增加只读 report review audit 状态检查。
-2. Phase 2.27e baseline 审核：Codex B 先审核 `PHASE227E_REVIEW_AUDIT_EVAL_PLAN.md` 与本次 baseline，确认不扩大 DB 写入范围。
+1. Phase 2.27e baseline review：Codex B 审核 review audit eval / readiness baseline，确认未扩大 DB 写入范围。
+2. 下一阶段路线规划：评审 archive / review / audit 关联诊断是否需要进入 Phase 2.27f，或继续后置。
 3. Phase 2.27d 后置观察：report-level sanitized audit 写入 MVP 已 baseline，后续只在显式 opt-in 下使用。
 4. Phase 2.28c 后续：Nightly Sprint 队列继续保持，但不自动执行 Yellow Lane。
 

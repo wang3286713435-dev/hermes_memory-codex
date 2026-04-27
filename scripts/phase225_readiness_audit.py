@@ -25,8 +25,28 @@ from app.models.fact import Fact  # noqa: E402
 from app.services.indexing.opensearch import OpenSearchChunkIndexer  # noqa: E402
 
 EXPECTED_QDRANT_COLLECTION = "hermes_chunks"
-AUDIT_ACTIONS = ("retrieval.query", "fact.query", "fact.search", "fact.confirm", "fact.reject")
+REPORT_REVIEW_ACTION = "report.review.created"
+AUDIT_ACTIONS = ("retrieval.query", "fact.query", "fact.search", "fact.confirm", "fact.reject", REPORT_REVIEW_ACTION)
 REQUIRED_QDRANT_PAYLOAD_FIELDS = ("document_id", "version_id", "chunk_id", "is_latest")
+REPORT_REVIEW_ALLOWED_REQUEST_KEYS = {"source", "report_hash", "report_type", "review_status", "reviewed_at"}
+REPORT_REVIEW_ALLOWED_RESULT_KEYS = {"summary", "executable", "approved_for_manual_action_is_execution", "sanitized"}
+REPORT_REVIEW_FORBIDDEN_KEYS = {
+    "notes",
+    "reason",
+    "approved_action",
+    "item_decisions",
+    "report_path",
+    "item_id",
+    "entity_id",
+    "fact_id",
+    "document_id",
+    "source_document_id",
+    "source_version_id",
+    "source_chunk_id",
+    "version_id",
+    "chunk_id",
+    "executed",
+}
 
 
 def make_check(name: str, status: str, message: str, **details: Any) -> dict[str, Any]:
@@ -77,6 +97,83 @@ def stale_facts_check(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "No confirmed facts with stale source versions were detected.",
         count=0,
     )
+
+
+def report_review_audit_check(events: list[dict[str, Any]]) -> dict[str, Any]:
+    if not events:
+        return make_check(
+            "report_review_audit_sanitized",
+            "warn",
+            "No report.review.created audit events found; review audit write path has not been exercised.",
+            event_type=REPORT_REVIEW_ACTION,
+            count=0,
+            impact="review_audit_write_not_yet_observed",
+        )
+
+    unsafe_examples: list[dict[str, Any]] = []
+    for event in events:
+        audit_id = event.get("audit_id")
+        request_json = event.get("request_json") or {}
+        result_json = event.get("result_json") or {}
+        issues: list[str] = []
+
+        if not isinstance(request_json, dict):
+            issues.append("request_json_not_object")
+            request_json = {}
+        if not isinstance(result_json, dict):
+            issues.append("result_json_not_object")
+            result_json = {}
+
+        unexpected_request_keys = sorted(set(request_json) - REPORT_REVIEW_ALLOWED_REQUEST_KEYS)
+        unexpected_result_keys = sorted(set(result_json) - REPORT_REVIEW_ALLOWED_RESULT_KEYS)
+        if unexpected_request_keys:
+            issues.append(f"unexpected_request_keys:{','.join(unexpected_request_keys)}")
+        if unexpected_result_keys:
+            issues.append(f"unexpected_result_keys:{','.join(unexpected_result_keys)}")
+        if result_json.get("executable") is not False:
+            issues.append("result_json.executable_not_false")
+        if result_json.get("approved_for_manual_action_is_execution") is not False:
+            issues.append("result_json.approved_for_manual_action_is_execution_not_false")
+        if result_json.get("sanitized") is not True:
+            issues.append("result_json.sanitized_not_true")
+
+        issues.extend(_unsafe_report_review_audit_paths({"request_json": request_json, "result_json": result_json}))
+        if issues:
+            unsafe_examples.append({"audit_id": audit_id, "issues": sorted(set(issues))[:30]})
+
+    return make_check(
+        "report_review_audit_sanitized",
+        "fail" if unsafe_examples else "pass",
+        "report.review.created audit events must remain report-level sanitized summaries.",
+        event_type=REPORT_REVIEW_ACTION,
+        count=len(events),
+        unsafe_count=len(unsafe_examples),
+        examples=unsafe_examples[:20],
+        policy="No notes, reasons, item decisions, item-level entity ids, report paths, or executed semantics may enter audit_logs.",
+    )
+
+
+def _unsafe_report_review_audit_paths(value: Any, path: str = "$") -> list[str]:
+    found: list[str] = []
+    if isinstance(value, dict):
+        for key, nested in value.items():
+            child_path = f"{path}.{key}"
+            if key in REPORT_REVIEW_FORBIDDEN_KEYS:
+                found.append(child_path)
+            found.extend(_unsafe_report_review_audit_paths(nested, child_path))
+    elif isinstance(value, list):
+        for index, item in enumerate(value):
+            found.extend(_unsafe_report_review_audit_paths(item, f"{path}[{index}]"))
+    elif isinstance(value, str):
+        if _looks_like_absolute_path(value):
+            found.append(f"{path}:absolute_path")
+        if value.strip().lower() == "executed":
+            found.append(f"{path}:executed_value")
+    return found
+
+
+def _looks_like_absolute_path(value: str) -> bool:
+    return value.startswith("/") or (len(value) > 2 and value[1:3] == ":\\")
 
 
 def summarize_section(checks: list[dict[str, Any]]) -> dict[str, Any]:
@@ -151,6 +248,9 @@ class ReadinessAuditor:
             self._db = SessionLocal()
         return self._db
 
+    def _unavailable_status(self) -> str:
+        return "warn" if self.skip_service_check else "fail"
+
     def _check_services(self) -> dict[str, Any]:
         checks: list[dict[str, Any]] = []
         checks.append(qdrant_collection_config_check(settings.qdrant_collection))
@@ -210,7 +310,9 @@ class ReadinessAuditor:
 
     def _check_version_governance(self) -> dict[str, Any]:
         if not self.db_available:
-            return summarize_section([make_check("version_governance", "fail", "Skipped because Postgres is unavailable.")])
+            return summarize_section(
+                [make_check("version_governance", self._unavailable_status(), "Skipped because Postgres is unavailable.")]
+            )
         db = self._db_session()
         checks: list[dict[str, Any]] = []
 
@@ -309,7 +411,15 @@ class ReadinessAuditor:
 
     def _check_opensearch_consistency(self) -> dict[str, Any]:
         if not self.db_available or not self.os_available:
-            return summarize_section([make_check("opensearch_consistency", "fail", "Skipped because DB or OpenSearch is unavailable.")])
+            return summarize_section(
+                [
+                    make_check(
+                        "opensearch_consistency",
+                        self._unavailable_status(),
+                        "Skipped because DB or OpenSearch is unavailable.",
+                    )
+                ]
+            )
         checks: list[dict[str, Any]] = []
         indexer = OpenSearchChunkIndexer()
         document_ids = self._sample_document_ids()
@@ -372,7 +482,7 @@ class ReadinessAuditor:
     def _check_qdrant_consistency(self) -> dict[str, Any]:
         checks = [qdrant_collection_config_check(settings.qdrant_collection)]
         if not self.qdrant_available:
-            checks.append(make_check("qdrant_consistency", "fail", "Skipped because Qdrant is unavailable."))
+            checks.append(make_check("qdrant_consistency", self._unavailable_status(), "Skipped because Qdrant is unavailable."))
             return summarize_section(checks)
         document_ids = self._sample_document_ids()
         if not document_ids:
@@ -413,7 +523,9 @@ class ReadinessAuditor:
 
     def _check_facts_governance(self) -> dict[str, Any]:
         if not self.db_available:
-            return summarize_section([make_check("facts_governance", "fail", "Skipped because Postgres is unavailable.")])
+            return summarize_section(
+                [make_check("facts_governance", self._unavailable_status(), "Skipped because Postgres is unavailable.")]
+            )
         db = self._db_session()
         checks: list[dict[str, Any]] = []
         status_counts = dict(db.query(Fact.verification_status, func.count(Fact.id)).group_by(Fact.verification_status).all())
@@ -502,7 +614,17 @@ class ReadinessAuditor:
 
     def _check_audit_logs(self) -> dict[str, Any]:
         if not self.db_available:
-            return summarize_section([make_check("audit_logs", "fail", "Skipped because Postgres is unavailable.")])
+            status = "warn" if self.skip_service_check else "fail"
+            return summarize_section(
+                [
+                    make_check(
+                        "audit_logs",
+                        status,
+                        "Skipped because Postgres is unavailable or service checks were skipped.",
+                        skipped_by_flag=self.skip_service_check,
+                    )
+                ]
+            )
         db = self._db_session()
         checks: list[dict[str, Any]] = []
         total = db.query(AuditLog).count()
@@ -526,6 +648,25 @@ class ReadinessAuditor:
                 "warn" if not action_counts else "pass",
                 "Key retrieval/fact audit action counts collected.",
                 action_counts={action: action_counts.get(action, 0) for action in AUDIT_ACTIONS},
+            )
+        )
+        report_review_events = (
+            db.query(AuditLog)
+            .filter(AuditLog.action == REPORT_REVIEW_ACTION)
+            .order_by(AuditLog.created_at.desc())
+            .limit(20)
+            .all()
+        )
+        checks.append(
+            report_review_audit_check(
+                [
+                    {
+                        "audit_id": event.id,
+                        "request_json": event.request_json,
+                        "result_json": event.result_json,
+                    }
+                    for event in report_review_events
+                ]
             )
         )
         return summarize_section(checks)

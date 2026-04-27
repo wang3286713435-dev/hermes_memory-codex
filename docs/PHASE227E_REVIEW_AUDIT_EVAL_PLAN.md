@@ -136,3 +136,29 @@ Phase 2.27e 不做：
 3. 临时 SQLite 或 fixture DB smoke。
 
 不建议直接把 report review audit 扩展为 item-level audit，也不建议进入 repair executor。
+
+## 10. Phase 2.27e 最小实现结果
+
+本轮已完成 Phase 2.27e 最小实现：
+
+1. `scripts/phase225_readiness_audit.py` 新增 `report.review.created` 只读检查。
+2. readiness audit 会检查 report review audit 是否只包含 report-level sanitized summary。
+3. 若当前环境没有 `report.review.created` event，只输出 warning，不判定为 fail。
+4. 检测到 notes、reason、approved_action、完整 item_decisions、本机绝对路径、item-level entity details 或 executed 语义时，会标记为 fail。
+5. `--skip-service-check` 下依赖服务未确认的检查降级为 warning，避免本地只读 smoke 因主动跳过服务检查而误报失败。
+6. `tests/test_phase225_readiness_audit.py` 新增 readiness audit 安全断言。
+7. `tests/test_phase227b_review_audit_preview.py` 补强真实 audit payload 不含 item-level entity details 的断言。
+
+验证结果：
+
+1. `uv run python -m py_compile scripts/phase225_readiness_audit.py scripts/phase227b_review_audit_preview.py` 通过。
+2. `uv run pytest tests/test_phase225_readiness_audit.py tests/test_phase227b_review_audit_preview.py -q` 通过，`26 passed`。
+3. `uv run python scripts/phase225_readiness_audit.py --skip-service-check --json` 返回 `status=warn`、`failed=0`、`dry_run=true`、`destructive_actions=[]`。
+
+边界保持：
+
+1. 未写 `audit_logs`。
+2. 未写业务 DB。
+3. 未修改 facts、document_versions、OpenSearch 或 Qdrant。
+4. 未执行 repair / backfill / reindex / cleanup / delete。
+5. 未进入 rollout。

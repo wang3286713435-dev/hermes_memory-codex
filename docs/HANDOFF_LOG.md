@@ -251,3 +251,66 @@
 - risks: item-level audit summary、完整 review record 入库、repair executor、rollout 继续后置；后续实现不得触碰真实业务 DB。
 - next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27e planning baseline 任务；Codex A 执行后必须停止。
 - commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.27e Baseline Review
+- goal: 检查项目进度，确认 Phase 2.27e planning baseline，并生成最小实现任务入口。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；本轮只做进度检查与下一轮文件化任务入口更新。
+- validation: Phase 2.27e planning baseline 已完成，HEAD 与 `origin/main` 对齐，tag `phase-2.27e-review-audit-eval-plan-baseline` 指向 HEAD。
+- risks: 后续实现必须保持 readiness audit 只读、review audit 写入仅限临时 SQLite / fixture DB 测试；不得触碰真实业务 DB。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27e 最小实现任务；Codex A 执行后必须停止等待 Codex B 审核。
+- commit/tag if any: 无。
+
+## 2026-04-27 13:02 Phase 2.27e
+- goal: 执行 NEXT_CODEX_A_PROMPT，完成 review audit 安全断言与 readiness audit 只读检查。
+- changed_files:
+  - `scripts/phase225_readiness_audit.py`
+  - `tests/test_phase225_readiness_audit.py`
+  - `tests/test_phase227b_review_audit_preview.py`
+  - `docs/PHASE227E_REVIEW_AUDIT_EVAL_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: `py_compile` 通过；`uv run pytest tests/test_phase225_readiness_audit.py tests/test_phase227b_review_audit_preview.py -q` 为 `26 passed`。
+- validation: readiness audit `--skip-service-check --json` 输出 `status=warn`、`failed=0`、`dry_run=true`、`destructive_actions=[]`。
+- risks: `docs/NEXT_CODEX_A_PROMPT.md` 存在既有 dirty，非本轮修改；缺少 `report.review.created` 仍为 warning。
+- next: Codex B review 后再决定是否进入 Phase 2.27e Git baseline。
+- commit/tag if any: 无。
+
+## 2026-04-27 13:42 Phase 2.27e
+- goal: 完成 Phase 2.27e review audit eval / readiness 最小实现 Git baseline。
+- changed_files:
+  - `scripts/phase225_readiness_audit.py`
+  - `tests/test_phase225_readiness_audit.py`
+  - `tests/test_phase227b_review_audit_preview.py`
+  - `docs/PHASE227E_REVIEW_AUDIT_EVAL_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+- tests: `py_compile` 通过；`uv run pytest tests/test_phase225_readiness_audit.py tests/test_phase227b_review_audit_preview.py -q` 为 `26 passed`。
+- validation: readiness audit `--skip-service-check --json` 输出 `status=warn`、`failed=0`、`dry_run=true`、`destructive_actions=[]`；`reports/agent_runs/latest.json` 仍 ignored。
+- risks: 缺少 `report.review.created` 仍为 warning；item-level audit summary、repair executor、真实业务 DB 写入与 rollout 继续后置。
+- next: 交回 Codex B 做下一阶段路线规划，不自动进入实现。
+- commit/tag if any: Phase 2.27e baseline commit / tag 以 final output 与 `reports/agent_runs/latest.json` 为准。
+
+## 2026-04-27 Phase 2.27e Codex B Implementation Review
+- goal: 检查项目进度，审核 Phase 2.27e 最小实现。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `uv run python -m py_compile scripts/phase225_readiness_audit.py scripts/phase227b_review_audit_preview.py`：通过。
+  - `uv run pytest tests/test_phase225_readiness_audit.py tests/test_phase227b_review_audit_preview.py -q`：`26 passed`。
+  - `uv run python scripts/phase225_readiness_audit.py --skip-service-check --json`：`status=warn`、`failed=0`、`dry_run=true`、`destructive_actions=[]`。
+- validation: 实现边界正确；readiness audit 仅只读检查 report-level sanitized audit；未写真实 DB / audit_logs，未修改 facts、versions、OpenSearch、Qdrant。
+- risks: unsafe report review audit 被标为 fail，强于原提示词的 warning，Codex B 认为该收紧符合治理安全目标；item-level audit、repair executor 与 rollout 继续后置。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27e Git baseline 任务；Codex A 执行后必须停止。
+- commit/tag if any: 无。

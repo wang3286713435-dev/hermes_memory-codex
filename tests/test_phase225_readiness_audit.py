@@ -4,9 +4,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.phase225_readiness_audit import (
+    REPORT_REVIEW_ACTION,
+    ReadinessAuditor,
     build_audit_summary,
     make_check,
     qdrant_collection_config_check,
+    report_review_audit_check,
     stale_facts_check,
     summarize_section,
 )
@@ -105,3 +108,85 @@ def test_stale_facts_diagnostic_passes_without_stale_rows():
 
     assert check["status"] == "pass"
     assert check["details"]["count"] == 0
+
+
+def test_report_review_audit_missing_event_is_warning_not_failure():
+    check = report_review_audit_check([])
+
+    assert check["status"] == "warn"
+    assert check["details"]["event_type"] == REPORT_REVIEW_ACTION
+    assert check["details"]["count"] == 0
+
+
+def test_report_review_audit_accepts_sanitized_report_level_payload():
+    check = report_review_audit_check(
+        [
+            {
+                "audit_id": "audit-1",
+                "request_json": {
+                    "source": "review_record",
+                    "report_hash": "sha256:abc",
+                    "report_type": "repair_plan",
+                    "review_status": "approved_for_manual_action",
+                    "reviewed_at": "2026-04-27T00:00:00+00:00",
+                },
+                "result_json": {
+                    "summary": {
+                        "items_total": 1,
+                        "approved_count": 1,
+                        "rejected_count": 0,
+                        "deferred_count": 0,
+                        "needs_review_count": 0,
+                    },
+                    "executable": False,
+                    "approved_for_manual_action_is_execution": False,
+                    "sanitized": True,
+                },
+            }
+        ]
+    )
+
+    assert check["status"] == "pass"
+    assert check["details"]["unsafe_count"] == 0
+
+
+def test_report_review_audit_flags_sensitive_or_item_level_payload():
+    check = report_review_audit_check(
+        [
+            {
+                "audit_id": "audit-unsafe",
+                "request_json": {
+                    "source": "review_record",
+                    "report_hash": "sha256:abc",
+                    "report_type": "repair_plan",
+                    "review_status": "approved_for_manual_action",
+                    "reviewed_at": "2026-04-27T00:00:00+00:00",
+                    "report_path": "/Users/example/private/report.json",
+                },
+                "result_json": {
+                    "summary": {"items_total": 1},
+                    "executable": False,
+                    "approved_for_manual_action_is_execution": False,
+                    "sanitized": True,
+                    "item_decisions": [{"fact_id": "fact-secret", "reason": "private"}],
+                },
+            }
+        ]
+    )
+
+    assert check["status"] == "fail"
+    assert check["details"]["unsafe_count"] == 1
+    encoded = str(check["details"]["examples"])
+    assert "report_path" in encoded
+    assert "item_decisions" in encoded
+    assert "fact_id" in encoded
+
+
+def test_audit_logs_skip_service_check_is_warning_not_failure():
+    auditor = ReadinessAuditor(document_ids=[], skip_service_check=True)
+
+    section = auditor._check_audit_logs()
+
+    assert section["status"] == "warn"
+    assert section["failed"] == 0
+    assert section["warnings"] == 1

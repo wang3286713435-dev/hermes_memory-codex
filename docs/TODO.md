@@ -363,3 +363,4 @@
 4. archive / review / audit 三者关联诊断可作为第二优先级，只使用 hash / id，不写本机路径或 item-level entity details。
 5. item-level audit summary、完整 review record 入库、repair executor 与 rollout 继续后置。
 6. 后续最小实现不得修改 facts、document_versions、OpenSearch、Qdrant，不得执行 repair/backfill/reindex/cleanup/delete。
+7. Phase 2.27e 最小实现已完成：readiness audit 新增只读 `report.review.created` sanitized summary 检查，缺失事件为 warning，unsafe payload 为 fail；相关单测与只读 smoke 已通过。

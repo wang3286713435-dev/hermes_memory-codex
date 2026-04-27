@@ -143,3 +143,4 @@
 - [Phase 2.27c] 夜间 Green Lane 完成真实写 audit_logs 路线规划，建议仅 report-level sanitized 写入且需显式授权。
 - [Phase 2.27d] 完成 report-level sanitized audit 写入最小实现，默认 preview-only，显式 --write-audit 可写 audit_logs；临时 SQLite smoke 通过。
 - [Phase 2.27e] 完成 review audit 是否纳入 readiness / eval 的路线规划，建议优先补安全断言与只读 readiness 检查。
+- [Phase 2.27e] 完成最小实现：readiness audit 只读检查 report.review.created 脱敏摘要，26 条相关测试通过。
