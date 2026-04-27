@@ -5,54 +5,47 @@
 ## 执行前必须读取
 
 1. `/Users/Weishengsu/Hermes_memory/docs/AGENT_OPERATING_PROTOCOL.md`
-2. `/Users/Weishengsu/Hermes_memory/docs/NIGHTLY_SPRINT_PROTOCOL.md`
-3. `/Users/Weishengsu/Hermes_memory/docs/NIGHTLY_SPRINT_QUEUE.md`
-4. `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
-5. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
-6. `/Users/Weishengsu/Hermes_memory/docs/PHASE227C_REVIEW_AUDIT_WRITE_ROUTE_PLAN.md`
-7. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
-8. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
+2. `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
+3. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
+4. `/Users/Weishengsu/Hermes_memory/docs/PHASE227E_REVIEW_AUDIT_EVAL_PLAN.md`
+5. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
+6. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
 
 ## 本轮目标
 
-Phase 2.27d report-level sanitized review audit write MVP 收口与 Git baseline。
+Phase 2.27e Review Audit Eval Route Planning 收口与 Git baseline。
 
-这是 Yellow Lane baseline 任务。只允许固化已经完成并通过验证的 Phase 2.27d 变更；不得继续进入 Phase 2.27e 或其他新实现。
+本轮只做规划文档基线固化，不写功能代码，不写 DB，不执行 eval，不执行 repair。
 
-## 当前已验证事实
+## 当前已确认事实
 
-Codex B 已复核当前交接与轻量验证：
+1. Phase 2.27e 规划已完成。
+2. 新增规划文档：`docs/PHASE227E_REVIEW_AUDIT_EVAL_PLAN.md`。
+3. 推荐路线：优先做 deterministic eval / unit test 安全断言，以及 readiness audit 只读检查。
+4. archive / review / audit 关联诊断为第二优先级。
+5. item-level audit summary、完整 review record 入库、repair executor 与 rollout 继续后置。
+6. 本轮未修改 Python 代码。
+7. 本轮未写 `audit_logs`。
+8. 本轮未写真实业务 DB。
+9. 本轮未修改 facts、document_versions、OpenSearch、Qdrant。
 
-1. `uv run python -m py_compile scripts/phase227b_review_audit_preview.py`：通过。
-2. `uv run pytest tests/test_phase227b_review_audit_preview.py -q`：`15 passed`。
-3. `reports/agent_runs/latest.json` 被 `.gitignore` 命中。
-4. `reports/nightly_runs/*.json` 被 `.gitignore` 命中。
-5. 当前实现只在显式 `--write-audit` 时写入 report-level sanitized `audit_logs`。
-6. 默认 preview-only，不写 DB。
-7. 临时 SQLite smoke 已通过；未写生产 / 真实业务 DB。
-8. 未修改 facts、document_versions、OpenSearch、Qdrant。
-9. 未执行 repair、backfill、reindex、cleanup、delete、rollout。
+## 只允许 stage 以下文件
 
-## 允许纳入 baseline 的文件
-
-只能 stage 以下文件：
-
-1. `/Users/Weishengsu/Hermes_memory/scripts/phase227b_review_audit_preview.py`
-2. `/Users/Weishengsu/Hermes_memory/tests/test_phase227b_review_audit_preview.py`
-3. `/Users/Weishengsu/Hermes_memory/docs/PHASE227C_REVIEW_AUDIT_WRITE_ROUTE_PLAN.md`
-4. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
-5. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
-6. `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
-7. `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
-8. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
-9. `/Users/Weishengsu/Hermes_memory/docs/NEXT_CODEX_A_PROMPT.md`
+1. `/Users/Weishengsu/Hermes_memory/docs/PHASE227E_REVIEW_AUDIT_EVAL_PLAN.md`
+2. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
+3. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
+4. `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
+5. `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
+6. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
+7. `/Users/Weishengsu/Hermes_memory/docs/NEXT_CODEX_A_PROMPT.md`
 
 不得 stage：
 
 1. `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`
 2. `/Users/Weishengsu/Hermes_memory/reports/nightly_runs/*.json`
-3. 任何真实 report / review JSON 产物
-4. 任何未列入上方白名单的文件
+3. 任何真实 report / review JSON
+4. 任何业务代码文件
+5. 任何未列入白名单的文件
 
 ## Baseline 前复核
 
@@ -60,20 +53,19 @@ Codex B 已复核当前交接与轻量验证：
 
 ```bash
 git status --short
-uv run python -m py_compile scripts/phase227b_review_audit_preview.py
-uv run pytest tests/test_phase227b_review_audit_preview.py -q
 git check-ignore -v reports/agent_runs/latest.json
 ```
 
 确认：
 
-1. dirty 范围仅限 Phase 2.27d 允许文件与 ignored local state。
-2. 测试仍为 `15 passed`。
-3. `latest.json` 仍 ignored。
-4. 无真实 reports / reviews JSON 被追踪或 staged。
-5. 无生产 / 真实业务 DB 写入。
-6. 无 facts / document_versions / OpenSearch / Qdrant mutation。
-7. 无 repair / backfill / reindex / cleanup / delete / rollout。
+1. dirty 范围仅为 Phase 2.27e 规划文档、交接文档与 ignored local state。
+2. `reports/agent_runs/latest.json` 仍被 ignored。
+3. 无 Python 代码变更。
+4. 无真实 report / review / nightly JSON 被 staged。
+5. 无 DB / index / facts / version 数据变更。
+6. 无 repair / backfill / reindex / cleanup / delete / rollout。
+
+本轮不需要运行 pytest；如运行，必须说明原因。
 
 ## Git 操作
 
@@ -81,9 +73,7 @@ git check-ignore -v reports/agent_runs/latest.json
 
 ```bash
 git add \
-  scripts/phase227b_review_audit_preview.py \
-  tests/test_phase227b_review_audit_preview.py \
-  docs/PHASE227C_REVIEW_AUDIT_WRITE_ROUTE_PLAN.md \
+  docs/PHASE227E_REVIEW_AUDIT_EVAL_PLAN.md \
   docs/TODO.md \
   docs/DEV_LOG.md \
   docs/ACTIVE_PHASE.md \
@@ -92,10 +82,10 @@ git add \
   docs/NEXT_CODEX_A_PROMPT.md
 
 git diff --cached --name-only
-git commit -m "chore: add phase 2.27d review audit write mvp"
-git tag phase-2.27d-review-audit-write-baseline
+git commit -m "docs: plan phase 2.27e review audit eval"
+git tag phase-2.27e-review-audit-eval-plan-baseline
 git push origin main
-git push origin phase-2.27d-review-audit-write-baseline
+git push origin phase-2.27e-review-audit-eval-plan-baseline
 ```
 
 ## 交接更新
@@ -111,43 +101,43 @@ baseline 成功后更新：
 
 ```json
 {
-  "phase": "Phase 2.27d Report-level Review Audit Write MVP",
+  "phase": "Phase 2.27e Review Audit Eval Route Planning",
   "status": "baseline",
   "git": {
     "commit": "<actual_commit_hash>",
-    "tag": "phase-2.27d-review-audit-write-baseline",
+    "tag": "phase-2.27e-review-audit-eval-plan-baseline",
     "pushed": true
   },
-  "next_recommendation": "Return to Codex B for Phase 2.27e route planning. Do not auto-enter the next phase."
+  "next_recommendation": "Return to Codex B for Phase 2.27e minimal implementation prompt. Do not auto-enter implementation."
 }
 ```
 
 ## 停止条件
 
-完成 baseline 后必须停止，不得继续执行 Nightly Sprint 下一个 item。
+完成 baseline 后必须停止，不得进入实现。
 
-必须停止并报告的情况：
+必须停止并报告：
 
 1. dirty 文件超出白名单。
-2. 测试失败。
-3. `latest.json` 或 nightly run JSON 准备被 staged。
+2. 需要修改 Python 代码。
+3. 需要写 `audit_logs`。
 4. 需要写真实业务 DB。
-5. 需要 repair / backfill / reindex / cleanup / delete。
-6. 需要进入 rollout。
-7. 需要修改 facts / document_versions / OpenSearch / Qdrant。
-8. 需要进入 Phase 2.27e 或其他新阶段实现。
+5. 需要运行 repair / backfill / reindex / cleanup / delete。
+6. 需要修改 facts、document_versions、OpenSearch、Qdrant。
+7. 需要进入 rollout。
+8. 需要自动进入 Phase 2.27e 实现。
 
 ## 返回报告格式
 
 请返回精简报告：
 
 1. 修改文件
-2. 测试结果
+2. 测试与验证结果
 3. commit hash
 4. tag
 5. push 结果
 6. 最终 `git status --short`
 7. 是否仍有阻塞 / 风险
-8. 是否建议进入 Phase 2.27e 规划
+8. 是否建议进入 Phase 2.27e 最小实现
 
 不要执行 repair executor、rollout、真实业务数据修改或自动下一阶段开发。

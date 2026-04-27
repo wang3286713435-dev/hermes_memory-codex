@@ -354,3 +354,12 @@
 6. live smoke 使用临时 SQLite DB 写入 `1` 条 sanitized audit event；未写生产 / 真实业务 DB。
 7. 下一步建议进入 Phase 2.27d Git baseline；baseline 后再评审是否需要把 report review audit 纳入 readiness / eval。
 8. repair executor、repair 执行、rollout、真实数据修改继续后置并禁止自动推进。
+
+## 28. Phase 2.27e review audit eval / readiness 规划
+
+1. Phase 2.27e 已完成路线规划：建议优先把 report review audit 安全断言纳入 deterministic eval / unit test。
+2. readiness audit 可增加只读检查：近期是否存在 `report.review.created` event，以及是否只统计 report-level sanitized audit。
+3. `--write-audit` 的验证应使用临时 SQLite / fixture DB，不触碰真实企业 DB。
+4. archive / review / audit 三者关联诊断可作为第二优先级，只使用 hash / id，不写本机路径或 item-level entity details。
+5. item-level audit summary、完整 review record 入库、repair executor 与 rollout 继续后置。
+6. 后续最小实现不得修改 facts、document_versions、OpenSearch、Qdrant，不得执行 repair/backfill/reindex/cleanup/delete。

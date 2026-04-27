@@ -197,3 +197,57 @@
 - risks: Phase 2.27d baseline 属 Yellow Lane，完成后必须停止等待 Codex B；不得夜间自动进入 Phase 2.27e 或扩大 `--write-audit` 范围。
 - next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27d Git baseline 任务；Codex A 执行后必须停止。
 - commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.27d Baseline Review
+- goal: 检查 Codex A 最新交接，确认 Phase 2.27d baseline 是否完成。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未重新运行；本轮核对 Codex A 交接、Git HEAD、tag、origin/main 与 ignored local state。
+- validation: Phase 2.27d baseline 已完成，HEAD 与 `origin/main` 均为 `65515681cd48679ebb90e055164c4ad9970bc743`，tag `phase-2.27d-review-audit-write-baseline` 指向 HEAD。
+- risks: 后续 `--write-audit` 仍必须显式 opt-in；repair executor、rollout、item-level audit summary 继续后置。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27e planning 任务，只做路线规划，不写代码、不写 DB。
+- commit/tag if any: 无。
+
+## 2026-04-27 10:00 Phase 2.27e
+- goal: 执行 `docs/NEXT_CODEX_A_PROMPT.md`，规划 report review audit 是否纳入 readiness / eval。
+- changed_files:
+  - `docs/PHASE227E_REVIEW_AUDIT_EVAL_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行 pytest；本轮只做规划。执行 `git status --short` 与 `git check-ignore -v reports/agent_runs/latest.json` 复核状态。
+- validation: 已完成 A-E 候选方向评审；推荐后续只做 deterministic eval / unit test 安全断言与 readiness audit 只读检查。
+- risks: item-level audit summary、完整 review record 入库、repair executor、rollout 与真实业务 DB 扩大写入继续禁止。
+- next: Codex B 审核 Phase 2.27e 规划；如通过，再生成最小实现 prompt。
+- commit/tag if any: 无。
+
+## 2026-04-27 12:34 Phase 2.27e
+- goal: 完成 Phase 2.27e 路线规划 Git baseline，不进入实现。
+- changed_files:
+  - `docs/PHASE227E_REVIEW_AUDIT_EVAL_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+- tests: 未运行 pytest；本轮只做规划 baseline。已复核 `git status --short` 与 `reports/agent_runs/latest.json` ignored 状态。
+- validation: baseline 范围仅包含 Phase 2.27e 规划与交接文档；未写 `audit_logs`、未写 DB、未执行 repair / eval / rollout。
+- risks: 后续实现必须保持 deterministic eval / fixture DB / readiness 只读边界；item-level audit 和 repair executor 继续后置。
+- next: 交回 Codex B 审核 baseline，并决定是否授权 Phase 2.27e 最小实现。
+- commit/tag if any: Phase 2.27e baseline commit / tag 以最终 Git 结果和 `latest.json` 为准。
+
+## 2026-04-27 Phase 2.27e Codex B Review
+- goal: 检查 Codex A 最新交接，审核 Phase 2.27e 路线规划。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；本轮只做规划审核与下一轮文件化任务入口更新。
+- validation: Phase 2.27e 规划边界正确；推荐路线为 deterministic eval / unit test 安全断言 + readiness audit 只读检查；未扩大 DB 写入范围。
+- risks: item-level audit summary、完整 review record 入库、repair executor、rollout 继续后置；后续实现不得触碰真实业务 DB。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27e planning baseline 任务；Codex A 执行后必须停止。
+- commit/tag if any: 无。

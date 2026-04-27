@@ -1,11 +1,9 @@
 # Active Phase
 
-- 当前 phase：Phase 2.27d Report-level Review Audit Write MVP baseline
-- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.27d report-level sanitized audit 写入 MVP 的 Git baseline。
+- 当前 phase：Phase 2.27e Review Audit Eval Route Planning baseline
+- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.27e 规划文档 Git baseline；不进入最小实现。
 - 修改文件：
-  - `scripts/phase227b_review_audit_preview.py`
-  - `tests/test_phase227b_review_audit_preview.py`
-  - `docs/PHASE227C_REVIEW_AUDIT_WRITE_ROUTE_PLAN.md`
+  - `docs/PHASE227E_REVIEW_AUDIT_EVAL_PLAN.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `docs/ACTIVE_PHASE.md`
@@ -13,29 +11,27 @@
   - `docs/PHASE_BACKLOG.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
 - 完成内容：
-  - 新增显式 `--write-audit` 路径，默认行为仍不写 DB。
-  - 新增 `--db-url`，用于临时 SQLite smoke；默认仍使用项目 `SessionLocal`。
-  - 写入事件限定为 `report.review.created`。
-  - 写入内容只保留 report-level sanitized summary，不包含 notes、reason、approved_action、完整 item_decisions、本机路径、item-level entity details 或 executed。
-  - audit 写入失败 fail-open，返回 warning，不阻断 preview / review flow。
-  - Phase 2.27d 相关文件已纳入 Git baseline。
+  - 已评审 readiness audit、deterministic eval、archive/review/audit 关联、item-level audit 与 repair executor 五个候选方向。
+  - 推荐后续最小实现优先做 deterministic eval / unit test 安全断言，以及 readiness audit 只读检查。
+  - archive / review / audit 关联诊断作为第二优先级。
+  - item-level audit summary 与 repair executor 继续后置。
+  - Phase 2.27e 规划文件进入 Git baseline。
 - 测试结果：
-  - `uv run python -m py_compile scripts/phase227b_review_audit_preview.py`：通过。
-  - `uv run pytest tests/test_phase227b_review_audit_preview.py -q`：`15 passed`。
+  - 未运行 pytest；本轮只做规划与文档同步。
+  - 已执行 `git status --short` 与 `git check-ignore -v reports/agent_runs/latest.json` 作为状态复核。
 - live smoke 结果：
-  - 使用临时 SQLite DB 执行 `--write-audit --db-url sqlite:///...`。
-  - 写入 `1` 条 sanitized `audit_logs` 事件。
-  - stdout 与 DB payload 均未包含 notes、reason、approved_action、item_decisions、本机绝对路径、item-level entity details 或 executed。
+  - 未执行 live smoke；本轮不写 DB、不写 `audit_logs`、不执行 eval、不执行 repair。
 - 当前结论：
-  - Phase 2.27d 最小实现已完成、验证通过并进入 baseline。
-  - 本轮未写生产 / 真实业务 DB，未修改 facts、document_versions、OpenSearch、Qdrant，未执行 repair。
+  - Phase 2.27e 路线规划已完成并进入 baseline。
+  - 后续可以进入 Phase 2.27e 最小实现，但必须限定为只读 readiness 检查与 deterministic eval / unit test。
 - 阻塞点 / 风险点：
-  - 真实项目环境执行 `--write-audit` 仍属于 Yellow Lane，baseline 前需 Codex B 审核。
-  - item-level audit summary、完整 review record 入库、repair executor 与 rollout 继续后置。
+  - report review audit 容易被误解为 repair 已执行，必须继续保留 `executable=false`。
+  - item-level entity details 仍不得进入 audit。
+  - 真实业务 DB 写入、repair executor、rollout 继续禁止自动推进。
 - 是否建议 baseline：已完成。
-- 是否建议进入下一阶段：是，建议交回 Codex B 做 Phase 2.27e 路线规划；不要自动进入实现。
+- 是否建议进入下一阶段：建议进入 Phase 2.27e 最小实现，但只限安全断言与只读 readiness 检查。
 - 下一轮建议：
-  - Codex B 读取交接文件与 baseline 结果。
-  - 下一轮只规划 Phase 2.27e：是否将 report review audit 纳入 readiness / eval。
-- 是否需要 Codex B 审核：是，审核 baseline 后再给下一轮规划 prompt。
+  - Codex B 读取 baseline 结果。
+  - 若通过，生成 Phase 2.27e 最小实现 prompt；不要直接进入 repair 或 rollout。
+- 是否需要 Codex B 审核：是，审核 baseline 后再授权实现。
 - 是否需要 Codex C 真实终端验收：否。
