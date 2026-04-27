@@ -2,8 +2,8 @@
 
 ## 当前优先级
 
-1. Phase 2.29b 最小实现：只读取显式 freeze report JSON，生成 decision record / no-go reason，不进入 rollout。
-2. Phase 2.29b baseline：提交 decision record dry-run runner、测试与文档。
+1. Phase 2.29c 路线规划：评审 MVP freeze candidate 是否进入人工复核 / release candidate checklist，仍不进入 production rollout。
+2. Phase 2.29c 后续仅允许 planning / dry-run / checklist；不得进入 rollout 或 repair executor。
 3. linkage summary 继续仅作为 Phase 2.29 人工验收项；如需代码接入，只能显式参数化读取 summary。
 
 ## 后置项

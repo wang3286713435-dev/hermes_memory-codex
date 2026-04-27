@@ -149,3 +149,34 @@ Phase 2.29b 最小实现也默认不需要 Codex C，因为它只是读取 freez
 3. `warn` 不自动进入 MVP candidate。
 4. `pass` 也不等于 production rollout。
 5. repair executor 与 rollout 继续后置。
+
+## 9. 最小实现状态
+
+Phase 2.29b 最小实现已完成。
+
+新增只读 runner：
+
+1. `scripts/phase229b_freeze_decision_dry_run.py`
+2. `tests/test_phase229b_freeze_decision_dry_run.py`
+
+实现行为：
+
+1. 只读取显式传入的 freeze report JSON。
+2. `status=pass` 映射为 `approved_for_mvp_freeze_candidate`。
+3. `status=warn` 映射为 `needs_manual_review`。
+4. `status=fail` 映射为 `no_go`。
+5. 若 freeze report 包含 `production_rollout=true`、`repair_executed=true` 或非空 `destructive_actions`，强制 `no_go`。
+6. 输出恒定保留 `dry_run=true`、`production_rollout=false`、`repair_approved=false`、`destructive_actions=[]`。
+7. `--dry-run-preview` 不写 output file。
+
+验证结果：
+
+1. `uv run python -m py_compile scripts/phase229b_freeze_decision_dry_run.py` 通过。
+2. `uv run pytest tests/test_phase229b_freeze_decision_dry_run.py -q` -> `8 passed`。
+3. 临时目录 pass / warn / fail dry-run smoke 通过。
+
+阶段结论：
+
+1. Phase 2.29b decision record dry-run 可进入 Git baseline 审核。
+2. 本阶段未写 DB、未写 `audit_logs`、未执行 repair、未生成 rollout artifact。
+3. `pass` 仍只表示 MVP freeze candidate 候选资格，不等于 production rollout ready。

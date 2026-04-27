@@ -156,3 +156,5 @@
 - [Phase 2.29a] baseline 收口，NEXT_CODEX_A_PROMPT 已推进为 Phase 2.29b readiness freeze baseline decision planning 入口。
 - [Phase 2.29b] 完成 readiness freeze baseline decision 路线规划，明确 pass/warn/fail 映射、No-Go 条件与最小 decision record 边界；仍不进入 rollout、repair 或 DB 写入。
 - [Phase 2.29b] planning baseline 收口，NEXT_CODEX_A_PROMPT 已推进为 Phase 2.29b decision record dry-run 最小实现入口。
+- [Phase 2.29b] 完成 decision record dry-run 最小实现：显式读取 freeze report JSON，pass/warn/fail 映射到 candidate/manual review/no-go，unsafe rollout/repair/destructive actions 强制 No-Go；目标测试 8 passed，临时 smoke 通过。
+- [Phase 2.29b] Git baseline 收口准备完成：复跑 py_compile 与目标 pytest 8 passed，提交范围限定为 runner、测试和阶段文档，下一轮入口推进为 Phase 2.29c 路线规划。

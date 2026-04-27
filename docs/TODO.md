@@ -413,3 +413,14 @@
 5. No-Go 条件包括 production rollout、repair executor、facts 替代 retrieval evidence、默认扫描真实 reports/reviews、真实 DB mutation。
 6. 下一步建议进入 Phase 2.29b 最小实现：读取显式 freeze report JSON，输出 decision record / no-go reasons。
 7. Phase 2.29b planning baseline 后，下一轮入口切换为 decision record dry-run 最小实现。
+
+## 34. Phase 2.29b decision record dry-run
+
+1. Phase 2.29b 最小实现已完成：新增 `scripts/phase229b_freeze_decision_dry_run.py` 与目标测试。
+2. runner 只读取显式 freeze report JSON，不默认扫描真实 reports / reviews，不写 DB。
+3. `pass` 映射为 `approved_for_mvp_freeze_candidate`；`warn` 映射为 `needs_manual_review`；`fail` 映射为 `no_go`。
+4. `production_rollout=true`、`repair_executed=true` 或非空 `destructive_actions` 会强制 No-Go。
+5. 输出恒定保留 `dry_run=true`、`production_rollout=false`、`repair_approved=false`、`destructive_actions=[]`。
+6. 验证结果：py_compile 通过，目标 pytest `8 passed`，临时目录 pass / warn / fail dry-run smoke 通过。
+7. 下一步建议 Codex B review 后进入 Phase 2.29b Git baseline；production rollout 与 repair executor 继续后置。
+8. Phase 2.29b Git baseline 已准备收口：提交范围限定为 decision dry-run runner、测试与阶段文档；不提交 ignored `latest.json` 或真实 reports / reviews 产物。

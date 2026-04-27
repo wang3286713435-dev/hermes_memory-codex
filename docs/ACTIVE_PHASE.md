@@ -1,8 +1,10 @@
 # Active Phase
 
-- 当前 phase：Phase 2.29b Readiness Freeze Decision Planning Baseline
-- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.29b planning baseline。
+- 当前 phase：Phase 2.29b Readiness Freeze Decision Dry-run Baseline
+- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.29b decision record dry-run Git baseline。
 - 修改文件：
+  - `scripts/phase229b_freeze_decision_dry_run.py`
+  - `tests/test_phase229b_freeze_decision_dry_run.py`
   - `docs/PHASE229B_READINESS_FREEZE_DECISION_PLAN.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
@@ -12,24 +14,25 @@
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
 - 完成内容：
-  - Phase 2.29b readiness freeze decision planning 进入 baseline。
-  - `docs/NEXT_CODEX_A_PROMPT.md` 已推进到 Phase 2.29b decision record dry-run 最小实现入口。
-  - 未写功能代码、未写 DB、未执行 rollout 或 repair。
+  - Phase 2.29b decision record dry-run runner、测试与文档已进入 Git baseline。
+  - `docs/NEXT_CODEX_A_PROMPT.md` 已推进到 Phase 2.29c 路线规划入口。
+  - 未写 DB、未写 `audit_logs`、未执行 rollout 或 repair。
 - 测试结果：
-  - 未运行 pytest；本轮为 planning baseline。
-  - 已复核 `git status --short` 与 `git check-ignore -v reports/agent_runs/latest.json`。
+  - `uv run python -m py_compile scripts/phase229b_freeze_decision_dry_run.py` 通过。
+  - `uv run pytest tests/test_phase229b_freeze_decision_dry_run.py -q` -> `8 passed`。
 - live smoke 结果：
-  - 未运行；本轮不涉及 live 验证。
+  - 沿用最小实现阶段临时目录 pass / warn / fail dry-run smoke 通过结论。
+  - 本轮 baseline 未执行真实 reports / reviews 扫描。
 - 当前结论：
-  - Phase 2.29b planning baseline 已完成。
-  - 当前可进入 Phase 2.29b 最小实现：读取显式 freeze report JSON，生成 decision record。
+  - Phase 2.29b baseline 已准备完成。
+  - commit / tag / push 结果见 final 与 ignored `latest.json`。
 - 阻塞点 / 风险点：
-  - `pass` 不能被解释为 production ready。
+  - `pass` 仍不等于 production ready。
   - `warn` 不得自动进入 MVP candidate。
-  - production rollout、repair executor、facts 替代 evidence、默认 reports/reviews 扫描和真实 DB mutation 均为 No-Go。
-- 是否建议 baseline：已完成。
-- 是否建议进入下一阶段：建议进入 Phase 2.29b decision record dry-run 最小实现。
+  - production rollout 与 repair executor 继续后置。
+- 是否建议 baseline：已执行本轮 baseline。
+- 是否建议进入下一阶段：建议进入 Phase 2.29c 路线规划，不进入 rollout。
 - 下一轮建议：
-  - 实现 Phase 2.29b decision record dry-run。
-- 是否需要 Codex B 审核：否。
+  - 规划 MVP freeze candidate 人工复核 / release candidate checklist。
+- 是否需要 Codex B 审核：是。
 - 是否需要 Codex C 真实终端验收：否。

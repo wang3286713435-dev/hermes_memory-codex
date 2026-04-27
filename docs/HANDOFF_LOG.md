@@ -676,3 +676,55 @@
 - risks: `pass` 不是 production ready；`warn` 不得自动进入 MVP candidate；任何 rollout、repair executor、真实 DB mutation 继续禁止。
 - next: 执行 Phase 2.29b decision record dry-run 最小实现。
 - commit/tag if any: 见 final 与 ignored latest.json。
+
+## 2026-04-27 16:33 Phase 2.29b
+- goal: 执行 NEXT_CODEX_A_PROMPT，完成 readiness freeze decision record dry-run 最小实现。
+- changed_files:
+  - `scripts/phase229b_freeze_decision_dry_run.py`
+  - `tests/test_phase229b_freeze_decision_dry_run.py`
+  - `docs/PHASE229B_READINESS_FREEZE_DECISION_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: `uv run python -m py_compile scripts/phase229b_freeze_decision_dry_run.py`; `uv run pytest tests/test_phase229b_freeze_decision_dry_run.py -q` -> 8 passed
+- validation: 临时目录 pass / warn / fail dry-run smoke 通过；未读取真实 reports / reviews，未写 DB，未生成 rollout / repair 产物。
+- risks: `pass` 只表示 MVP freeze candidate 候选资格，不等于 production rollout ready；`warn` 仍需人工确认；repair executor 继续后置。
+- next: Codex B review 后执行 Phase 2.29b Git baseline。
+- commit/tag if any: 无。
+
+## 2026-04-27 16:53 Phase 2.29b Baseline
+- goal: Phase 2.29b decision record dry-run 收口与 Git baseline。
+- changed_files:
+  - `scripts/phase229b_freeze_decision_dry_run.py`
+  - `tests/test_phase229b_freeze_decision_dry_run.py`
+  - `docs/PHASE229B_READINESS_FREEZE_DECISION_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: `uv run python -m py_compile scripts/phase229b_freeze_decision_dry_run.py`; `uv run pytest tests/test_phase229b_freeze_decision_dry_run.py -q` -> 8 passed
+- validation: `reports/agent_runs/latest.json` 已确认 ignored；baseline 未写 DB、未写 `audit_logs`、未执行 rollout 或 repair；下一轮入口推进为 Phase 2.29c 路线规划。
+- risks: `pass` 不等于 production rollout ready；`warn` 不得自动进入 MVP candidate；repair executor 继续后置。
+- next: 进入 Phase 2.29c MVP freeze candidate 人工复核 / release candidate checklist 路线规划。
+- commit/tag if any: 见 final 与 ignored latest.json。
+
+## 2026-04-27 Phase 2.29b Codex B Review
+- goal: 检查项目进度，审核 Phase 2.29b decision record dry-run 最小实现。
+- changed_files:
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `uv run python -m py_compile scripts/phase229b_freeze_decision_dry_run.py`：通过。
+  - `uv run pytest tests/test_phase229b_freeze_decision_dry_run.py -q`：`8 passed`。
+  - Codex B 临时 CLI smoke：pass -> approved_for_mvp_freeze_candidate；warn -> needs_manual_review；fail -> no_go。
+- validation: 实现只读取显式 freeze report JSON；未读取真实 reports/reviews；未写 DB；未生成 rollout/repair 产物；输出保持 `dry_run=true`、`production_rollout=false`、`repair_approved=false`、`destructive_actions=[]`。
+- risks: `pass` 仍不等于 production ready；`warn` 仍需人工确认；repair executor 与 rollout 继续后置。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已是 Phase 2.29b Git baseline 任务；Codex A 执行后必须停止，不进入下一阶段。
+- commit/tag if any: 无。
