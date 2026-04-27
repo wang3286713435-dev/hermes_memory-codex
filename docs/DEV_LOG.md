@@ -158,3 +158,5 @@
 - [Phase 2.29b] planning baseline 收口，NEXT_CODEX_A_PROMPT 已推进为 Phase 2.29b decision record dry-run 最小实现入口。
 - [Phase 2.29b] 完成 decision record dry-run 最小实现：显式读取 freeze report JSON，pass/warn/fail 映射到 candidate/manual review/no-go，unsafe rollout/repair/destructive actions 强制 No-Go；目标测试 8 passed，临时 smoke 通过。
 - [Phase 2.29b] Git baseline 收口准备完成：复跑 py_compile 与目标 pytest 8 passed，提交范围限定为 runner、测试和阶段文档，下一轮入口推进为 Phase 2.29c 路线规划。
+- [Phase 2.29c] 完成 docs drift cleanup：TODO 中 rerank、dense ingestion、Aliyun provider smoke、audit_logs 的旧状态已改为历史状态并指向后续完成事实；Nightly Sprint Queue 已归档 Phase 2.27b/2.27c 旧队列并切换到当前 2.29 docs-only 队列。
+- [Phase 2.29c] docs drift cleanup baseline 收口准备完成：未修改代码、脚本或测试，下一轮入口推进为 Phase 2.29d release candidate checklist planning。

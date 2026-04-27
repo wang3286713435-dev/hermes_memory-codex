@@ -728,3 +728,60 @@
 - risks: `pass` 仍不等于 production ready；`warn` 仍需人工确认；repair executor 与 rollout 继续后置。
 - next: `docs/NEXT_CODEX_A_PROMPT.md` 已是 Phase 2.29b Git baseline 任务；Codex A 执行后必须停止，不进入下一阶段。
 - commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.29b Baseline Check / 2.29c Drift Cleanup Prompt
+- goal: 检查 Phase 2.29b baseline，并将 Codex D drift findings 转为下一轮 docs-only 修复任务。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；本轮只做进度检查与下一轮文件化任务入口更新。
+- validation: Phase 2.29b baseline 已完成，HEAD `f888aa7` 与 `origin/main` 对齐，tag `phase-2.29b-freeze-decision-dry-run-baseline` 指向 HEAD；下一轮入口改为 docs-only drift cleanup。
+- risks: 文档漂移修复不得混入代码、测试、DB、rollout、repair executor 或真实 reports/reviews 扫描。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.29c docs drift cleanup 任务；Codex A 执行后必须停止等待 review。
+- commit/tag if any: 无。
+
+## 2026-04-27 17:05 Phase 2.29c
+- goal: 执行 NEXT_CODEX_A_PROMPT，完成 TODO / Nightly Sprint Queue 历史状态漂移清理。
+- changed_files:
+  - `docs/TODO.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行 pytest；docs-only；执行 `git status --short` 与限定文档 `git diff` 只读检查。
+- validation: 旧 rerank、dense ingestion、Aliyun provider smoke、audit_logs 状态已改为历史状态并对齐后续 phase 完成事实；Nightly queue 已归档 2.27b/2.27c 旧任务。
+- risks: docs drift cleanup 不等于 release candidate checklist；`--write-audit` opt-in 不等于 repair executed；production rollout 与 repair executor 继续后置。
+- next: Codex B review 后执行 Phase 2.29c docs drift cleanup baseline。
+- commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.29c Baseline
+- goal: Phase 2.29c docs drift cleanup 收口与 Git baseline。
+- changed_files:
+  - `docs/TODO.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行 pytest；docs-only；复核 `git status --short`，未发现代码、脚本或测试变更。
+- validation: Phase 2.29c 文档漂移修复进入 baseline；Nightly queue 标记 docs cleanup completed，并将下一项推进为 Phase 2.29d release candidate checklist planning。
+- risks: baseline 不等于 release candidate 通过；production rollout、repair executor、DB mutation、default reports/reviews scan 继续禁止。
+- next: 进入 Phase 2.29d MVP freeze candidate 人工复核 / release candidate checklist planning。
+- commit/tag if any: 见 final 与 ignored latest.json。
+
+## 2026-04-27 Phase 2.29c Codex B Review
+- goal: 检查项目进度，审核 Phase 2.29c docs drift cleanup。
+- changed_files:
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行 pytest；本轮 docs-only；Codex B 复核 `git diff` 确认仅涉及允许文档。
+- validation: TODO 旧 rerank/dense/Aliyun/audit 状态已改为历史状态并对齐后续 phase；Nightly Sprint Queue 已归档 2.27 旧队列并切换到 Phase 2.29 docs-only / checklist planning 队列；无代码、脚本、测试、DB、索引或真实 reports/reviews 变更。
+- risks: docs cleanup 不等于 release candidate checklist；release candidate planning 需在 baseline 后单独推进。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已是 Phase 2.29c docs drift cleanup Git baseline 任务；Codex A 执行后必须停止。
+- commit/tag if any: 无。

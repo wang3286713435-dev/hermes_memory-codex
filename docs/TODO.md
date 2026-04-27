@@ -7,22 +7,24 @@
 
 ## 2. 暂不推进事项
 
-- 真实 `rerank` 模型接入
-- `facts` 联查
-- OCR
-- 多 agent 协作
-- 复杂权限策略
-- 大规模 ingestion 改造
+- production rollout
+- repair executor / destructive repair / cleanup / delete
+- facts 自动抽取
+- facts 替代 retrieval evidence 或 final answer
+- 完整 RBAC / ABAC / SSO / 管理后台
+- OCR / ASR 全量化
+- 全局 rerank rollout / 排序收益大规模优化
+- 默认扫描真实 reports / reviews
 
-说明：上述事项并非长期放弃，而是不进入当前收口阶段。多模态企业资料、会议音频记忆和更完整企业级 Agent 能力应在记忆底座、会话文档作用域和基础检索稳定后分阶段推进。
+说明：上述事项并非长期放弃，而是不进入当前 MVP freeze / docs drift cleanup 阶段。当前已具备 rerank smoke、dense ingestion、facts governance、audit、version governance 与多模态 MVP 的阶段闭环；下一步重点是保持 freeze 证据链可审计，不扩大到 rollout 或自动修复。
 
 ## 3. Phase 2.2 后续待办
 
-1. 真实 reranker 模型尚未接入。当前仅完成 `NoopReranker` 与 rerank hook 结构，不能视为排序质量增强已完成；需在后续 rerank 实现阶段处理。
-2. rerank 质量评测集尚未建立。当前只有最小评测入口，不能衡量真实召回排序收益；需在 evaluation 阶段补充标注样本与指标。
-3. rerank 延迟、成本、超时策略尚未验证。当前仅验证 fail-open 行为，真实模型服务接入后需专项压测。
-4. 真实 reranker adapter 尚未选型。下一阶段应先在 API 型 reranker 与轻量 cross-encoder 服务之间选择一条主路线，不应并行扩展多个 provider。
-5. candidate pool 内部候选扩大策略尚未实现。当前仍沿用 request `top_k` 召回，后续若要提升 rerank 收益，应增加内部 candidate cap，但不能改变公开 `top_k` 语义。
+1. 本节为历史状态归档。Phase 2.2 当时仅完成 `NoopReranker` 与 rerank hook，真实 provider、灰度与质量评测尚未完成。
+2. 后续 Phase 2.3-2.8 已完成 rerank 局部默认启用、灰度观察、fail-open 与长期窗口验证。
+3. Phase 2.9d 已完成 Aliyun embedding / rerank provider 首轮真调用，其中 rerank 使用 embedding key fallback 调用 `gte-rerank-v2`。
+4. Phase 2.17 已完成 Rerank Smoke Audit 与 dense / hybrid eval 扩展，确认真实调用、合理 skipped、latency / fail-open 可观测。
+5. 当前保留尾项不是“真实 reranker 未接入”，而是专用 `ALIYUN_RERANK_API_KEY` smoke 与排序收益专项评测；全局 rerank rollout 与排序策略优化继续后置。
 
 ## 4. Phase 2.3 待办
 
@@ -42,19 +44,19 @@
 
 1. 增强大型标书深层结构化章节召回能力。当前在 800+ 页真实标书中，资质等级门槛、项目经理执业资格、总工期、里程碑节点、付款节点 / 支付比例、结算方式、缺陷责任期 / 质保金 / 保留金、延期误期赔偿、不平衡报价处置标准等核心参数仍无法稳定召回；下一步应优先增强“投标人须知前附表 / 资格审查 / 资信标 / 合同专用条款 / 工程量清单 / 限价明细”的章节定向检索能力。
 2. 明确当前检索能力仍偏“初筛”，尚未达到完整审标。当前可稳定覆盖约 60%～70% 的高价值审标条款，但仍缺约 30%～40% 的核心商务 / 合同 / 资审参数；在补齐结构化召回前，暂不应宣称已具备“完整 AI 审标自动化能力”。
-3. dense ingestion 仍未接通。当前上传 ingestion 尚未将 chunk upsert 到 Qdrant，dense 当前仍为 `0`；本轮真实文件验证主要依赖 sparse / OpenSearch，该项应单独立项，不与当前真实文件测试收口混在一起。
+3. dense ingestion 未接通是 Phase 2.9 时的历史问题；已在 Phase 2.16 修复。当前新上传 dense ingestion、显式 backfill 与 6 文件真实池回填已完成；后续尾项是 eval 覆盖、回填策略治理和环境配置一致性。
 4. 高可信度灰度测试已完成阶段补证。Windows + WSL2 高可信验证中，长窗口 `20/20` 成功，OpenSearch timeout / dense_failed_count / sparse_failed_count / 命中漂移 / 后端异常窗口均为 `0`；连续真实工作流 `30` 次 retrieval + `30` 次 agent ask 共 `60/60` 成功，document_id / 标题收敛失败与错误文档命中均为 `0`。该结论支撑 Phase 2.9c 稳定性收口，但仍不等同于生产级全面 rollout。
 5. 下一步主线不再继续拆 Phase 2.9c 小轮，建议进入非阻塞尾项收敛：继续扩样验证“投标人须知前附表 / 资格审查 / 合同专用条款 / 工程量清单 / 限价明细”相关真实问法，并补 Aliyun embedding / rerank provider smoke。
 6. Phase 2.9c 第一轮与第二轮结构化章节增强已证明方向有效：资质等级门槛、项目经理执业门槛、不平衡报价类查询已能更稳定收敛到“资格后审 / 资格审查文件 / 工程量清单”；付款节点、结算方式、缺陷责任期、质保金、误期赔偿已开始稳定打到“第三章 招标人对招标文件及合同范本的补充/修改”，但仍未证明能稳定命中最理想的合同专用条款 chunk。
 7. 总工期 / 关键节点方向已从“明显打不进去”提升到“有提升但仍不稳定”。当前代表性查询能将目标 `工期要求` chunk 拉到 top1，但仍需更多真实问法扩样确认，不应直接宣称稳定够用。
 8. 多文件连续切换稳定性已补证。Windows 连续真实工作流中 document_id / 标题收敛失败为 `0`、错误文档命中为 `0`，当前可作为 Phase 2.9c 收口证据。
-9. 高可信度灰度证据已补齐到 Phase 2.9c 阶段可接受。Windows 长窗口 wall `p95/p99 = 2397.266 ms / 2596.483 ms`；连续真实工作流 `p95/p99 = 34.935 ms / 40.929 ms`。Aliyun embedding / rerank 因缺 secret 未真实调用，作为非阻塞 provider smoke 尾项保留。
+9. 高可信度灰度证据已补齐到 Phase 2.9c 阶段可接受。Windows 长窗口 wall `p95/p99 = 2397.266 ms / 2596.483 ms`；连续真实工作流 `p95/p99 = 34.935 ms / 40.929 ms`。Aliyun embedding / rerank 当时因缺 secret 未真实调用，该历史尾项已由 Phase 2.9d 首轮真调用承接；当前仅保留专用 `ALIYUN_RERANK_API_KEY` smoke 为可选后置项。
 10. 当前仍需继续作为质量尾项扩样的是“前附表 / 工期节点”。合同专用条款方向已开始逼近并出现真实命中提升；“总工期 / 关键节点 / 计划开工日期 / 计划竣工日期”已出现 top 结果改善，但仍未证明所有真实问法都稳定够用。
 11. Phase 2.9c 最终收口判断：建议收口。`总工期 / 关键节点` 已从“明显打不进去”提升到“有提升但仍不稳定”，可作为质量尾项继续扩样；高可信机器长窗口与连续真实工作流补证已完成，稳定性阻塞已解除。
 12. Phase 2.9c 后续不再继续拆小轮推进。下一阶段建议限定为非阻塞尾项收敛：继续扩样验证 `总工期 / 关键节点` 真实问法，并补 Aliyun embedding / rerank provider smoke；不得误判为生产级全面 rollout。
 13. Phase 2.9c 新增兼容性回归修复项已完成：`RetrievalService.search()` 引入 `_infer_document_scope()` 后曾打断 `db=None` 路径，导致 `phase26_rerank_gray_validation.py` 报 `NoneType.query`。当前已在 service 层恢复无 DB 安全返回，并补上 `_database_fallback_search()` 的无 DB 保护；后续仍需持续把无 DB 评估脚本纳入最小回归保护，避免再次误判成环境问题。
 14. 总工期 / 关键节点 不再作为 Phase 2.9c 稳定性收口阻塞。本轮增加 schedule 参数短语精确加权后，真实大标书查询已能把 `工期要求` 目标 chunk 提升到 top1，`施工工期 / 合同工期` 定义 chunk 提升到 top2，技术要求进度段落被压到更后；当前判定为“有提升但仍不稳定”，转入后续质量尾项。
-15. Windows 高可信灰度补证已完成：长窗口 `20/20` 成功，连续真实工作流 `60/60` 成功；`OpenSearch timeout = 0`、`dense_failed_count = 0`、`sparse_failed_count = 0`、命中集漂移 `0`、后端异常窗口 `0`、document_id / 标题收敛失败 `0`、错误文档命中 `0`。Aliyun embedding / rerank 因缺 secret 未真实调用，继续作为非阻塞尾项。
+15. Windows 高可信灰度补证已完成：长窗口 `20/20` 成功，连续真实工作流 `60/60` 成功；`OpenSearch timeout = 0`、`dense_failed_count = 0`、`sparse_failed_count = 0`、命中集漂移 `0`、后端异常窗口 `0`、document_id / 标题收敛失败 `0`、错误文档命中 `0`。Aliyun embedding / rerank 缺 secret 是当时历史状态，已由 Phase 2.9d provider smoke 首轮真调用补齐；专用 rerank key smoke 仍可选后置。
 16. Phase 2.9d 非阻塞尾项已完成首轮收敛：Aliyun embedding 真调用返回 `executed` 与 `1024` 维向量；Aliyun rerank 使用 `ALIYUN_EMBEDDING_API_KEY` fallback 真调用 `gte-rerank-v2` 返回 `executed`，top chunk 正确；大型标书 `总工期 / 关键节点` 10 条真实问法扩样全部命中 `工期要求` 目标 chunk。后续若要求专用 rerank key，需单独补 `ALIYUN_RERANK_API_KEY` 专用 key smoke。
 17. Phase 2.9d 文档基线已固化：Phase 2.9c 已收口，Phase 2.9d 首轮尾项已完成；当前仍不进入生产级 rollout。PRD 核心缺口继续保留为未完成：dense ingestion、结构化事实层、会话记忆层、权限治理层、增量更新闭环、审计日志闭环、完整评测系统、版本治理增强、知识管理员后台、人工校验机制。
 
@@ -307,12 +309,12 @@
 4. audit payload 可包含 report_hash、report_type、review_status、reviewer、reviewed_at、summary counts、`executable=false`。
 5. 必须排除 notes、reason、approved_action、完整 item_decisions、report 原文和本机绝对路径。
 6. item-level audit summary 后置，完整 review record 入 audit 不推荐。
-7. 真实写 `audit_logs` 后置到 preview 稳定后的独立阶段；写入失败策略应 fail-open。
+7. 真实写 `audit_logs` 在 Phase 2.27b 时仍后置；该项已由 Phase 2.27d 独立阶段承接为显式 `--write-audit` opt-in 最小实现。
 8. repair executor 继续后置，`approved_for_manual_action` 仍不等于 executed。
 9. Phase 2.27b 最小实现已完成：新增 sanitized audit payload preview runner，读取本地 review record，只输出 report-level audit summary。
 10. preview payload 固定 `dry_run=true`、`executable=false`、`would_write_audit_logs=false`，不写 DB、不写 audit_logs。
 11. 已通过单元测试与临时目录 live smoke，确认 notes、reason、approved_action、完整 item_decisions、本机绝对路径和 item-level entity details 不进入 payload。
-12. 后续如需真实写 `audit_logs`，必须另开小阶段评审，不得把 preview 结果误认为已写入审计。
+12. Phase 2.27b preview 不等于已写审计；后续 Phase 2.27d 已实现 report-level sanitized audit 的显式 `--write-audit` opt-in，仍不包含 item-level audit、完整 review record 入库或 repair 执行。
 13. 本轮按 `NEXT_CODEX_A_PROMPT.md` 完成实现；未启用 Nightly Sprint，未提交 Git。
 
 ## 25. Phase 2.28 Agent Operating Protocol / 文件化交接机制

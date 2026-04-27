@@ -1,12 +1,10 @@
 # Active Phase
 
-- 当前 phase：Phase 2.29b Readiness Freeze Decision Dry-run Baseline
-- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.29b decision record dry-run Git baseline。
+- 当前 phase：Phase 2.29c Documentation Drift Cleanup Baseline
+- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.29c docs drift cleanup Git baseline。
 - 修改文件：
-  - `scripts/phase229b_freeze_decision_dry_run.py`
-  - `tests/test_phase229b_freeze_decision_dry_run.py`
-  - `docs/PHASE229B_READINESS_FREEZE_DECISION_PLAN.md`
   - `docs/TODO.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
   - `docs/DEV_LOG.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
@@ -14,24 +12,25 @@
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
 - 完成内容：
-  - Phase 2.29b decision record dry-run runner、测试与文档已进入 Git baseline。
-  - `docs/NEXT_CODEX_A_PROMPT.md` 已推进到 Phase 2.29c 路线规划入口。
-  - 未写 DB、未写 `audit_logs`、未执行 rollout 或 repair。
+  - 将 TODO 中“真实 rerank 未接入 / dense ingestion 未接通 / Aliyun 缺 secret / audit 仍停 preview”的旧状态改为历史状态。
+  - 将当前 freeze 阶段暂不推进事项改为 rollout、repair executor、facts 自动抽取、facts 替代 evidence、完整 RBAC/ABAC、OCR/ASR 全量化、全局 rerank rollout、默认扫描真实 reports/reviews。
+  - 更新 Nightly Sprint Queue，归档 Phase 2.27b / 2.27c 旧队列，新增 Phase 2.29 docs-only 队列。
+  - Phase 2.29c docs drift cleanup 已进入 Git baseline。
+  - 未改代码、脚本或测试。
 - 测试结果：
-  - `uv run python -m py_compile scripts/phase229b_freeze_decision_dry_run.py` 通过。
-  - `uv run pytest tests/test_phase229b_freeze_decision_dry_run.py -q` -> `8 passed`。
+  - 未运行 pytest；本轮 docs-only。
+  - 已执行 `git status --short` 与限定文档 `git diff` 只读检查。
 - live smoke 结果：
-  - 沿用最小实现阶段临时目录 pass / warn / fail dry-run smoke 通过结论。
-  - 本轮 baseline 未执行真实 reports / reviews 扫描。
+  - 未运行；本轮不涉及 live 验证。
 - 当前结论：
-  - Phase 2.29b baseline 已准备完成。
+  - Phase 2.29c docs drift cleanup baseline 已完成。
   - commit / tag / push 结果见 final 与 ignored `latest.json`。
 - 阻塞点 / 风险点：
-  - `pass` 仍不等于 production ready。
-  - `warn` 不得自动进入 MVP candidate。
-  - production rollout 与 repair executor 继续后置。
+  - 本轮只修文档漂移，不代表进入 production rollout。
+  - audit `--write-audit` opt-in 不等于 repair executed。
+  - release candidate checklist 仍需后续单独规划。
 - 是否建议 baseline：已执行本轮 baseline。
-- 是否建议进入下一阶段：建议进入 Phase 2.29c 路线规划，不进入 rollout。
+- 是否建议进入下一阶段：建议进入 Phase 2.29d 路线规划，不进入 rollout。
 - 下一轮建议：
   - 规划 MVP freeze candidate 人工复核 / release candidate checklist。
 - 是否需要 Codex B 审核：是。

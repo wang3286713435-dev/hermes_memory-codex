@@ -4,18 +4,18 @@
 
 ## 本轮目标
 
-Phase 2.29c 路线规划：MVP freeze candidate 人工复核 / release candidate checklist。
+Phase 2.29d 路线规划：MVP freeze candidate 人工复核 / release candidate checklist。
 
 本轮只做规划与文档同步，不写功能代码，不执行 rollout，不执行 repair，不写业务 DB。
 
 ## 当前基线
 
-Phase 2.29b 已完成：
+Phase 2.29c docs drift cleanup 已完成并进入 baseline：
 
-1. freeze report decision dry-run runner。
-2. pass / warn / fail decision mapping。
-3. unsafe rollout / repair / destructive actions No-Go。
-4. Git baseline 已进入收口流程。
+1. TODO 中 rerank、dense ingestion、Aliyun provider smoke、audit_logs 的旧状态已修正。
+2. Nightly Sprint Queue 已归档 Phase 2.27b / 2.27c 旧队列。
+3. 当前不进入 production rollout。
+4. 当前不进入 repair executor。
 
 ## 执行前必须读取
 
@@ -29,15 +29,15 @@ Phase 2.29b 已完成：
 
 ## 规划目标
 
-评审 Phase 2.29c 是否应进入 MVP freeze candidate 人工复核 / release candidate checklist。
+评审 MVP freeze candidate 是否可以进入人工复核 / release candidate checklist。
 
 需要明确：
 
 1. MVP freeze candidate 与 production rollout 的边界。
-2. 是否需要 Codex B 人工审核 freeze report 与 decision record。
-3. 是否需要 Codex C 真实终端抽样复验。
+2. Codex B 人工审核 freeze report 与 decision record 的标准。
+3. Codex C 是否需要抽样复验关键 Hermes CLI / API 场景。
 4. release candidate checklist 应包含哪些只读证据。
-5. 当前哪些 warning / known risk 必须保留。
+5. 当前哪些 warning / known risk 必须继续保留。
 
 ## 推荐最小边界
 
@@ -48,6 +48,21 @@ Phase 2.29b 已完成：
 5. 不执行 repair executor。
 6. 不默认扫描真实 reports / reviews。
 7. 不写 DB。
+
+## 建议新增文档
+
+`/Users/Weishengsu/Hermes_memory/docs/PHASE229D_RELEASE_CANDIDATE_CHECKLIST_PLAN.md`
+
+## 文档同步
+
+更新：
+
+1. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
+2. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
+3. `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
+4. `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
+5. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
+6. `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`
 
 ## 硬边界
 
@@ -66,21 +81,6 @@ Phase 2.29b 已完成：
 13. 不改 retrieval contract。
 14. 不改 memory kernel 主架构。
 
-## 建议新增文档
-
-`/Users/Weishengsu/Hermes_memory/docs/PHASE229C_MVP_FREEZE_CANDIDATE_PLAN.md`
-
-## 文档同步
-
-更新：
-
-1. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
-2. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
-3. `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
-4. `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
-5. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
-6. `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`
-
 ## Git 规则
 
 本轮不提交 Git。完成后停止，等待 review / baseline 指令。
@@ -92,4 +92,4 @@ Phase 2.29b 已完成：
 3. MVP freeze candidate 边界
 4. release candidate checklist 草案
 5. 风险点
-6. 是否建议进入 Phase 2.29c baseline
+6. 是否建议进入 Phase 2.29d baseline
