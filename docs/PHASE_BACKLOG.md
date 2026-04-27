@@ -2,8 +2,8 @@
 
 ## 当前优先级
 
-1. Phase 2.29d 路线规划：评审 MVP freeze candidate 是否进入人工复核 / release candidate checklist，仍不进入 production rollout。
-2. Phase 2.29d 后续仅允许 planning / dry-run / checklist；不得进入 rollout 或 repair executor。
+1. Phase 2.29e 候选：release candidate checklist dry-run runner，仅允许显式读取 freeze report / decision record / evidence summary。
+2. Phase 2.29d planning 已完成 baseline；后续不得把 checklist planning 解释为 production rollout approval。
 3. linkage summary 继续仅作为 Phase 2.29 人工验收项；如需代码接入，只能显式参数化读取 summary。
 
 ## 后置项
@@ -16,6 +16,8 @@
 6. production cron / scheduler：后置，Nightly Sprint 只做本地协作协议，不创建系统定时任务。
 7. repair executor：继续后置，除非 freeze 报告与人工评审明确批准。
 8. docs drift cleanup 已完成 baseline；下一步仍不得直接进入 release candidate execution 或 rollout。
+9. production rollout 继续后置；MVP freeze candidate checklist 不得被解释为 production ready。
+10. Phase 2.29e 若实现，也只能输出 dry-run checklist JSON，不得写 DB、执行 repair 或默认扫描真实 reports / reviews。
 
 ## 永久边界
 

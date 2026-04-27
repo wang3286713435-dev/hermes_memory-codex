@@ -426,3 +426,13 @@
 6. 验证结果：py_compile 通过，目标 pytest `8 passed`，临时目录 pass / warn / fail dry-run smoke 通过。
 7. 下一步建议 Codex B review 后进入 Phase 2.29b Git baseline；production rollout 与 repair executor 继续后置。
 8. Phase 2.29b Git baseline 已准备收口：提交范围限定为 decision dry-run runner、测试与阶段文档；不提交 ignored `latest.json` 或真实 reports / reviews 产物。
+
+## 35. Phase 2.29d release candidate checklist planning
+
+1. Phase 2.29d 已完成路线规划：只规划 MVP freeze candidate 人工复核与 release candidate checklist，不进入 production rollout。
+2. MVP freeze candidate 被限定为“可人工审阅的候选状态”，不等于 production ready、repair approved 或 facts 可替代 retrieval evidence。
+3. release candidate checklist 草案已覆盖 evidence completeness、safety invariants、data governance、sign-off fields 与 Go / No-Go 条件。
+4. Codex B 审核重点：freeze report / decision record 状态、warnings、`production_rollout=false`、`repair_approved=false`、`destructive_actions=[]`、`facts_as_answer=false` 与 sanitized linkage。
+5. Codex C 仅在后续需要声明“真实 Hermes 终端 MVP candidate 已通过”时做抽样复验；Phase 2.29d planning 本身不需要 live terminal 验收。
+6. 当前 known risks 必须继续保留：stale confirmed fact `9f98384b-5053-4a8f-9b83-35983b28b38e`、soft policy 非完整 RBAC/ABAC、专用 `ALIYUN_RERANK_API_KEY` smoke 可选尾项、facts 不得作为 final answer。
+7. 下一步建议先做 Phase 2.29d planning Git baseline；baseline 后再由 Codex B 决定是否进入 Phase 2.29e checklist dry-run 最小实现。

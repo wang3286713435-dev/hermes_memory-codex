@@ -1,37 +1,37 @@
 # Active Phase
 
-- 当前 phase：Phase 2.29c Documentation Drift Cleanup Baseline
-- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.29c docs drift cleanup Git baseline。
+- 当前 phase：Phase 2.29d Release Candidate Checklist Planning Baseline
+- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.29d release candidate checklist planning Git baseline。
 - 修改文件：
+  - `docs/PHASE229D_RELEASE_CANDIDATE_CHECKLIST_PLAN.md`
   - `docs/TODO.md`
-  - `docs/NIGHTLY_SPRINT_QUEUE.md`
   - `docs/DEV_LOG.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
   - `docs/PHASE_BACKLOG.md`
-  - `docs/NEXT_CODEX_A_PROMPT.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
 - 完成内容：
-  - 将 TODO 中“真实 rerank 未接入 / dense ingestion 未接通 / Aliyun 缺 secret / audit 仍停 preview”的旧状态改为历史状态。
-  - 将当前 freeze 阶段暂不推进事项改为 rollout、repair executor、facts 自动抽取、facts 替代 evidence、完整 RBAC/ABAC、OCR/ASR 全量化、全局 rerank rollout、默认扫描真实 reports/reviews。
-  - 更新 Nightly Sprint Queue，归档 Phase 2.27b / 2.27c 旧队列，新增 Phase 2.29 docs-only 队列。
-  - Phase 2.29c docs drift cleanup 已进入 Git baseline。
-  - 未改代码、脚本或测试。
+  - 新增 Phase 2.29d release candidate checklist 规划文档。
+  - 明确 MVP freeze candidate 只代表可人工审阅候选状态，不等于 production rollout ready。
+  - 定义 Codex B 审核标准、Codex C 可选抽样复验范围、release candidate checklist 草案与 Go / No-Go 条件。
+  - 将 stale confirmed fact、soft policy、facts 不替代 evidence、专用 rerank key smoke 等 known risks 继续保留。
+  - Phase 2.29d planning 已进入 Git baseline。
+  - 未写代码、未写 DB、未执行 repair、未进入 rollout。
 - 测试结果：
-  - 未运行 pytest；本轮 docs-only。
-  - 已执行 `git status --short` 与限定文档 `git diff` 只读检查。
+  - 未运行 pytest；本轮 docs-only planning。
+  - 已执行 `git status --short`、限定文档 diff 与 ignored 状态检查。
 - live smoke 结果：
   - 未运行；本轮不涉及 live 验证。
 - 当前结论：
-  - Phase 2.29c docs drift cleanup baseline 已完成。
+  - Phase 2.29d planning baseline 已完成。
   - commit / tag / push 结果见 final 与 ignored `latest.json`。
 - 阻塞点 / 风险点：
-  - 本轮只修文档漂移，不代表进入 production rollout。
-  - audit `--write-audit` opt-in 不等于 repair executed。
-  - release candidate checklist 仍需后续单独规划。
+  - release candidate checklist 不等于 production rollout。
+  - repair executor、DB mutation、default reports/reviews scan 继续禁止。
+  - stale confirmed fact `9f98384b-5053-4a8f-9b83-35983b28b38e` 仍是 known warning。
 - 是否建议 baseline：已执行本轮 baseline。
-- 是否建议进入下一阶段：建议进入 Phase 2.29d 路线规划，不进入 rollout。
+- 是否建议进入下一阶段：建议进入 Phase 2.29e checklist dry-run 最小实现规划 / 实现评审；仍不进入 rollout。
 - 下一轮建议：
-  - 规划 MVP freeze candidate 人工复核 / release candidate checklist。
-- 是否需要 Codex B 审核：是。
-- 是否需要 Codex C 真实终端验收：否。
+  - 评审 Phase 2.29e release candidate checklist dry-run 最小实现。
+- 是否需要 Codex B 审核：否，本轮 baseline 已按用户指令执行；下一阶段仍建议 Codex B 审核边界。
+- 是否需要 Codex C 真实终端验收：否；仅后续声明真实终端 MVP candidate 时需要抽样复验。

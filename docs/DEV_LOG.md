@@ -160,3 +160,5 @@
 - [Phase 2.29b] Git baseline 收口准备完成：复跑 py_compile 与目标 pytest 8 passed，提交范围限定为 runner、测试和阶段文档，下一轮入口推进为 Phase 2.29c 路线规划。
 - [Phase 2.29c] 完成 docs drift cleanup：TODO 中 rerank、dense ingestion、Aliyun provider smoke、audit_logs 的旧状态已改为历史状态并指向后续完成事实；Nightly Sprint Queue 已归档 Phase 2.27b/2.27c 旧队列并切换到当前 2.29 docs-only 队列。
 - [Phase 2.29c] docs drift cleanup baseline 收口准备完成：未修改代码、脚本或测试，下一轮入口推进为 Phase 2.29d release candidate checklist planning。
+- [Phase 2.29d] 完成 MVP freeze candidate 人工复核 / release candidate checklist 路线规划，明确 candidate 不等于 production rollout，checklist 只做只读证据、Go/No-Go、Codex B 审核与可选 Codex C 抽样复验。
+- [Phase 2.29d] planning baseline 收口准备完成：提交范围限定为 release candidate checklist 规划与交接文档；下一步建议进入 Phase 2.29e checklist dry-run 最小实现规划 / 评审。

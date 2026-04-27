@@ -785,3 +785,48 @@
 - risks: docs cleanup 不等于 release candidate checklist；release candidate planning 需在 baseline 后单独推进。
 - next: `docs/NEXT_CODEX_A_PROMPT.md` 已是 Phase 2.29c docs drift cleanup Git baseline 任务；Codex A 执行后必须停止。
 - commit/tag if any: 无。
+
+## 2026-04-27 17:28 Phase 2.29d
+- goal: 执行 NEXT_CODEX_A_PROMPT，完成 MVP freeze candidate 人工复核 / release candidate checklist 路线规划。
+- changed_files:
+  - `docs/PHASE229D_RELEASE_CANDIDATE_CHECKLIST_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行 pytest；docs-only planning；执行 `git status --short`、限定文档 diff 与 ignored 状态检查。
+- validation: release candidate checklist 已限定为只读证据与人工签核；明确 candidate 不等于 rollout，不执行 repair，不写 DB，不默认扫描真实 reports / reviews。
+- risks: stale confirmed fact `9f98384b-5053-4a8f-9b83-35983b28b38e` 继续保留为 warning；soft policy 不是完整 RBAC/ABAC；facts 不得替代 retrieval evidence。
+- next: Codex B review 后执行 Phase 2.29d planning Git baseline；baseline 后再评审 Phase 2.29e checklist dry-run。
+- commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.29d Baseline
+- goal: Phase 2.29d release candidate checklist planning 收口与 Git baseline。
+- changed_files:
+  - `docs/PHASE229D_RELEASE_CANDIDATE_CHECKLIST_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行 pytest；docs-only planning baseline；复核 `git status --short`、ignored latest.json 与业务目录无变更。
+- validation: Phase 2.29d planning 进入 baseline；未写代码、脚本、测试、DB、`audit_logs`、facts、versions、OpenSearch、Qdrant、reports/reviews 真实产物。
+- risks: MVP freeze candidate checklist 不等于 production rollout；repair executor 与 DB mutation 继续禁止。
+- next: 进入 Phase 2.29e checklist dry-run 最小实现规划 / 实现评审；不直接 rollout。
+- commit/tag if any: 见 final 与 ignored latest.json。
+
+## 2026-04-27 Phase 2.29d Codex B Review
+- goal: 检查项目进度，审核 Phase 2.29d release candidate checklist planning。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行 pytest；本轮只做 Codex B review 与下一轮 baseline prompt 更新。
+- validation: Phase 2.29d planning 边界安全；release candidate checklist 被限定为只读证据与人工签核，不等于 rollout；未写代码、DB、audit_logs、索引或真实 reports/reviews。
+- risks: stale confirmed fact、soft policy、facts 不替代 evidence、专用 rerank key smoke 等 known risks 需继续保留；Phase 2.29e 若实现也只能 dry-run。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.29d planning baseline 任务；Codex A 执行后必须停止，不进入实现。
+- commit/tag if any: 无。
