@@ -385,3 +385,12 @@
 4. 不推荐继续追加新的 Phase 2.27x 实现；优先在 Phase 2.27g baseline 后进入 Phase 2.29 readiness freeze planning。
 5. repair executor、rollout、真实 DB 写入、item-level linkage 与默认目录扫描继续后置。
 6. Phase 2.27g planning baseline 已准备收口：本阶段只提交规划与交接文件，不写代码、不写 DB、不改 readiness runner。
+
+## 31. Phase 2.29 MVP readiness freeze planning
+
+1. Phase 2.29 已完成路线规划：当前进入 MVP readiness freeze，而不是继续补新功能或进入 rollout。
+2. 已梳理候选 MVP 能力清单、必须复跑验证项、人工验收项与 Go/No-Go 判定标准。
+3. 推荐下一步仅进入 Phase 2.29a：freeze checklist / freeze report dry-run，不进入 repair executor、production rollout 或新一轮能力扩展。
+4. facts 继续保持 auxiliary context / read-only 边界，`facts_as_answer=false` 不可放松。
+5. linkage summary、review audit、readiness audit 继续作为 freeze 证据链的一部分，但不默认扫描真实 reports / reviews。
+6. Phase 2.29 planning baseline 收口后，下一轮入口切换为 Phase 2.29a freeze checklist / freeze report dry-run。

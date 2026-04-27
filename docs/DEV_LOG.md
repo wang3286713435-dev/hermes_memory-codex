@@ -150,3 +150,5 @@
 - [Phase 2.27f] 修复 audit event 顶层 unsafe 字段漏检，顶层 document_id/fact_id/path 现在会 fail 且不泄露值。
 - [Phase 2.27g] 完成 linkage readiness 路线规划，建议纳入 Phase 2.29 人工 freeze 清单，不默认扫描 reports。
 - [Phase 2.27g] 进入 planning baseline 收口，下一步建议转入 Phase 2.29 MVP readiness freeze 规划。
+- [Phase 2.29] 完成 MVP readiness freeze 路线规划，已冻结候选 MVP 能力、复验清单、人工验收项与 Go/No-Go 标准；建议下一步仅做 Phase 2.29a freeze checklist / freeze report dry-run，不进入 rollout。
+- [Phase 2.29] planning baseline 收口，NEXT_CODEX_A_PROMPT 已推进为 Phase 2.29a freeze checklist / freeze report dry-run 入口。

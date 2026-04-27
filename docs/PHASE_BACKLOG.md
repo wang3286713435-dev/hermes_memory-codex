@@ -2,9 +2,9 @@
 
 ## 当前优先级
 
-1. Phase 2.29 MVP readiness freeze planning：汇总 Phase 2.10-2.27 能力、证据、风险与 freeze checklist，不直接 rollout。
-2. Phase 2.29 checklist 候选：把 linkage summary 作为人工验收项；如需代码接入，只能显式参数化读取 summary。
-3. Phase 2.28c 后续：Nightly Sprint 队列继续保持，但不自动执行 Yellow Lane。
+1. Phase 2.29a freeze checklist / freeze report dry-run：只做 readiness freeze 最小实现，不进入 rollout。
+2. Phase 2.29b readiness freeze baseline decision：基于 freeze report 判断是否进入 MVP candidate。
+3. linkage summary 继续仅作为 Phase 2.29 人工验收项；如需代码接入，只能显式参数化读取 summary。
 
 ## 后置项
 
@@ -14,6 +14,7 @@
 4. archive / review / audit 默认 readiness 扫描：后置，避免未使用 review workflow 的环境产生噪声。
 5. rollout readiness：后置，当前仍不进入生产 rollout。
 6. production cron / scheduler：后置，Nightly Sprint 只做本地协作协议，不创建系统定时任务。
+7. repair executor：继续后置，除非 freeze 报告与人工评审明确批准。
 
 ## 永久边界
 

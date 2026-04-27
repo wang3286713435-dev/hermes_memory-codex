@@ -4,95 +4,148 @@
 
 ## 本轮目标
 
-Phase 2.27g linkage readiness route planning 收口与 Git baseline。
+Phase 2.29a 最小实现：MVP freeze checklist / freeze report dry-run。
 
-只做 Git baseline，不写功能代码，不改 readiness runner，不写 DB，不写 `audit_logs`。
+本轮只做 readiness freeze 最小闭环，不进入 production rollout，不执行 repair，不修改业务数据。
 
-## 当前状态
+## 当前基线
 
-Phase 2.27g 已完成路线规划：
+Phase 2.29 planning 已完成并准备 baseline：
 
-1. 推荐 B + D：
-   - 后续如需代码衔接，只做显式参数化读取 linkage summary。
-   - Phase 2.29 MVP readiness freeze 中把 linkage summary 纳入人工验收项。
-2. 不推荐默认扫描真实 `reports/` / `reviews/` / audit records。
-3. 不推荐继续追加新的 Phase 2.27x 实现。
-4. repair executor、rollout、真实 DB 写入、item-level linkage 继续后置。
+1. `docs/PHASE229_MVP_READINESS_FREEZE_PLAN.md` 已定义 MVP 候选能力、freeze checklist、复验项、人工验收项与 Go/No-Go 标准。
+2. Phase 2.29 明确为 readiness freeze，不是 production rollout。
+3. Phase 2.29a 推荐只做 freeze checklist / freeze report dry-run。
 
-## Baseline 执行步骤
+## 执行前必须读取
 
-1. 读取并遵守：
-   - `docs/AGENT_OPERATING_PROTOCOL.md`
-   - `docs/ACTIVE_PHASE.md`
-   - `docs/PHASE_BACKLOG.md`
-2. 本轮为 planning baseline，不运行 pytest。
-3. 执行状态复核：
-   ```bash
-   git status --short
-   git check-ignore -v reports/agent_runs/latest.json
-   ```
-4. 确认 staged 前 dirty 仅包含 Phase 2.27g 相关文件：
-   - `docs/PHASE227G_LINKAGE_READINESS_ROUTE_PLAN.md`
-   - `docs/TODO.md`
-   - `docs/DEV_LOG.md`
-   - `docs/ACTIVE_PHASE.md`
-   - `docs/HANDOFF_LOG.md`
-   - `docs/PHASE_BACKLOG.md`
-   - `docs/NEXT_CODEX_A_PROMPT.md`
-5. 仅 stage 上述 7 个文件。
-6. 提交：
-   - commit message：`docs: plan phase 2.27g linkage readiness route`
-7. 打 tag：
-   - `phase-2.27g-linkage-readiness-route-baseline`
-8. 推送：
-   - `git push origin main`
-   - `git push origin phase-2.27g-linkage-readiness-route-baseline`
-9. 更新 ignored 本地状态：
-   - `reports/agent_runs/latest.json`
-   - status 写为 `baseline`
-   - 记录 commit、tag、pushed=true
-   - 下一步建议写为 Phase 2.29 MVP readiness freeze planning。
-10. 完成后停止，不进入 Phase 2.29 实现。
+1. `/Users/Weishengsu/Hermes_memory/docs/AGENT_OPERATING_PROTOCOL.md`
+2. `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
+3. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
+4. `/Users/Weishengsu/Hermes_memory/docs/PHASE229_MVP_READINESS_FREEZE_PLAN.md`
+5. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
+6. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
 
-## Acceptance Criteria
+## 建议新增脚本
 
-1. 最终 `git status --short` 干净。
-2. commit 只包含 Phase 2.27g planning 文档与交接文件。
-3. tag 指向当前 HEAD。
-4. `origin/main` 与本地 HEAD 对齐。
-5. 未提交 `reports/agent_runs/latest.json`。
-6. 未写功能代码。
-7. 未写 DB / `audit_logs`。
+`/Users/Weishengsu/Hermes_memory/scripts/phase229a_freeze_report_dry_run.py`
+
+## 建议新增测试
+
+`/Users/Weishengsu/Hermes_memory/tests/test_phase229a_freeze_report_dry_run.py`
+
+## 功能要求
+
+1. 生成只读 freeze report JSON。
+2. 汇总 MVP freeze checklist 状态。
+3. 支持读取或引用现有只读诊断结果：
+   - Phase 2.14 deterministic eval summary
+   - CLI smoke summary
+   - governance eval summary
+   - facts eval summary
+   - readiness audit dry-run summary
+   - repair plan dry-run summary
+   - optional linkage summary path
+4. 默认不运行昂贵 eval，不读取真实 reports / reviews 目录。
+5. 仅在显式参数传入 report path 时读取对应 JSON。
+6. 输出必须保持：
+   - `dry_run=true`
+   - `destructive_actions=[]`
+   - `rollout_ready=false`
+   - `production_rollout=false`
+   - `repair_executed=false`
+
+## 输出 JSON 建议字段
+
+```json
+{
+  "phase": "Phase 2.29a",
+  "dry_run": true,
+  "status": "pass|warn|fail",
+  "rollout_ready": false,
+  "production_rollout": false,
+  "repair_executed": false,
+  "destructive_actions": [],
+  "checklist": [],
+  "evidence_inputs": [],
+  "go_no_go": {
+    "mvp_freeze_candidate": false,
+    "production_rollout": false,
+    "reasons": []
+  },
+  "risks": [],
+  "next_steps": []
+}
+```
+
+## CLI 建议
+
+1. `--json`
+2. `--output-file <path>` 可选，默认 stdout。
+3. `--eval-summary <path>` 可重复。
+4. `--readiness-report <path>` 可选。
+5. `--repair-plan <path>` 可选。
+6. `--linkage-summary <path>` 可选。
+7. `--dry-run-preview` 可选，不写文件。
+8. `--fail-on-warn` 可选。
 
 ## 硬边界
 
-1. 不写功能代码。
-2. 不修改 `scripts/phase225_readiness_audit.py`。
-3. 不修改 `scripts/phase227f_review_audit_linkage.py`。
-4. 不写 `audit_logs`。
-5. 不写业务 DB。
-6. 不修改 facts。
-7. 不修改 document_versions。
-8. 不修改 OpenSearch / Qdrant。
-9. 不读取真实 reports / reviews 业务内容。
-10. 不默认扫描本机 reports / reviews 目录。
-11. 不执行 repair / backfill / reindex / cleanup / delete。
-12. 不进入 rollout。
-13. 不进入 repair executor。
-14. 不进入 Phase 2.29 实现。
+1. 不写 `audit_logs`。
+2. 不写业务 DB。
+3. 不修改 facts。
+4. 不修改 document_versions。
+5. 不修改 OpenSearch / Qdrant。
+6. 不读取真实 reports / reviews 目录。
+7. 不默认运行 full eval。
+8. 不执行 repair / backfill / reindex / cleanup / delete。
+9. 不进入 rollout。
+10. 不进入 repair executor。
+11. 不做 facts 自动抽取。
+12. 不让 facts 替代 retrieval evidence。
+13. 不改 retrieval contract。
+14. 不改 memory kernel 主架构。
 
-## 完成后汇报格式
+## 测试要求
 
-请返回精简报告：
+1. 单元测试 checklist 聚合。
+2. 单元测试 go/no-go 判定。
+3. 单元测试 `dry_run=true`、`destructive_actions=[]`、`rollout_ready=false` 恒定。
+4. 单元测试显式 report path 输入。
+5. 单元测试不默认扫描真实 reports / reviews。
+6. 单元测试 unsafe 或缺失 evidence 时输出 warn / fail。
 
-1. 修改文件。
-2. 测试与验证结果。
-3. commit hash。
-4. tag。
-5. push 结果。
-6. 最终 git status。
-7. 是否建议进入 Phase 2.29。
+## Live smoke 要求
 
-下一步候选应是：
+1. `uv run python -m py_compile scripts/phase229a_freeze_report_dry_run.py`
+2. `uv run pytest tests/test_phase229a_freeze_report_dry_run.py -q`
+3. 使用临时目录 fake report JSON 执行 dry-run。
+4. 不读取真实业务 reports / reviews。
+5. 不写 DB。
+6. 不生成真实 rollout 产物。
 
-**Phase 2.29 MVP readiness freeze planning。**
+## 文档同步
+
+更新：
+
+1. `/Users/Weishengsu/Hermes_memory/docs/PHASE229_MVP_READINESS_FREEZE_PLAN.md`
+2. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
+3. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
+4. `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
+5. `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
+6. `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`
+
+## Git 规则
+
+本轮不提交 Git。完成后停止，等待 review / baseline 指令。
+
+## 返回报告
+
+1. 修改文件
+2. 实现内容
+3. 测试结果
+4. live smoke 结果
+5. 是否写 DB
+6. 是否生成真实 rollout / repair 产物
+7. git status
+8. 是否建议 Git baseline
+9. 是否建议进入下一阶段

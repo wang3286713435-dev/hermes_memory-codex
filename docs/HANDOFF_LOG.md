@@ -521,3 +521,60 @@
 - risks: 不应继续无限追加 Phase 2.27x；Phase 2.27g baseline 后建议进入 Phase 2.29。
 - next: `docs/NEXT_CODEX_A_PROMPT.md` 已是 Phase 2.27g planning baseline 任务；Codex A 执行后必须停止，不进入 Phase 2.29 实现。
 - commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.27g Baseline Check
+- goal: 检查项目进度，确认 Phase 2.27g baseline，并生成 Phase 2.29 MVP readiness freeze planning 任务。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；本轮只做进度检查与下一轮文件化任务入口更新。
+- validation: Phase 2.27g baseline 已完成，HEAD `9bd685c` 与 `origin/main` 对齐，tag `phase-2.27g-linkage-readiness-route-baseline` 指向 HEAD。
+- risks: Phase 2.29 是 MVP readiness freeze planning，不等于 production rollout；不得继续无限追加 2.27x。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.29 MVP readiness freeze planning 任务；只做规划，不写代码。
+- commit/tag if any: 无。
+
+## 2026-04-27 15:29 Phase 2.29
+- goal: 规划 MVP readiness freeze 边界、复验清单与 Go/No-Go 标准，不写功能代码。
+- changed_files:
+  - `docs/PHASE229_MVP_READINESS_FREEZE_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；planning-only；已复核 `git status --short` 与 `git check-ignore -v reports/agent_runs/latest.json`
+- validation: 已完成候选 MVP 能力盘点、复跑验证项、人工验收项、Go/No-Go 标准与后置范围划分；明确 readiness freeze 不等于 rollout；推荐下一步仅做 Phase 2.29a freeze checklist / freeze report dry-run
+- risks: freeze 结论若缺少复验与人工验收，容易被误判为可直接 rollout；facts 仍不得替代 retrieval evidence 或 final answer
+- next: Codex B 审核后执行 Phase 2.29 planning baseline；baseline 后再进入 Phase 2.29a
+- commit/tag if any: 无。
+
+## 2026-04-27 15:44 Phase 2.29 Baseline
+- goal: Phase 2.29 MVP readiness freeze planning 收口与 Git baseline。
+- changed_files:
+  - `docs/PHASE229_MVP_READINESS_FREEZE_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；planning baseline；已复核 `git status --short` 与 `git check-ignore -v reports/agent_runs/latest.json`
+- validation: planning 文档、TODO/DEV_LOG、ACTIVE/HANDOFF/BACKLOG 均已进入 baseline；下一轮入口推进为 Phase 2.29a freeze checklist / freeze report dry-run。
+- risks: Phase 2.29a 仍不得进入 rollout、repair executor、真实 reports/reviews 默认扫描或 facts 自动抽取。
+- next: 执行 Phase 2.29a freeze checklist / freeze report dry-run。
+- commit/tag if any: 见本轮 final 与 ignored latest.json。
+
+## 2026-04-27 Phase 2.29 Codex B Review
+- goal: 检查项目进度，审核 Phase 2.29 MVP readiness freeze planning。
+- changed_files:
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；本轮只做 Codex B review 与状态更新。
+- validation: Phase 2.29 规划边界正确，已从“继续补工具”切换到“冻结可验收 MVP 候选版本”；明确 readiness freeze 不等于 rollout，Phase 2.29a 仅建议 freeze checklist / freeze report dry-run。
+- risks: freeze 结论不得被误读为 production ready；facts 仍不得替代 retrieval evidence；repair executor、facts 自动抽取、完整 RBAC/ABAC 与 rollout 继续后置。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已是 Phase 2.29 planning baseline 任务；Codex A 执行后必须停止，不进入 Phase 2.29a 实现。
+- commit/tag if any: 无。

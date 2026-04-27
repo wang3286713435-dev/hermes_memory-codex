@@ -1,9 +1,9 @@
 # Active Phase
 
-- 当前 phase：Phase 2.27g Linkage Readiness Route Planning Baseline
-- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.27g linkage readiness route planning 收口与 Git baseline。
+- 当前 phase：Phase 2.29 MVP Readiness Freeze Planning Baseline
+- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.29 planning 收口与 Git baseline。
 - 修改文件：
-  - `docs/PHASE227G_LINKAGE_READINESS_ROUTE_PLAN.md`
+  - `docs/PHASE229_MVP_READINESS_FREEZE_PLAN.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `docs/ACTIVE_PHASE.md`
@@ -12,26 +12,23 @@
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
 - 完成内容：
-  - Phase 2.27g 路线规划进入 baseline。
-  - 推荐 B + D：显式参数化读取 linkage summary 作为后续候选，同时纳入 Phase 2.29 人工 readiness freeze 清单。
-  - 默认扫描真实 `reports/` / `reviews/`、repair executor、rollout、真实 DB 写入继续禁止。
-  - 本轮未写功能代码、未改 readiness runner、未写 DB、未写 `audit_logs`。
+  - Phase 2.29 readiness freeze planning 进入 baseline。
+  - 保留候选 MVP 能力、复验清单、人工验收项与 Go/No-Go 标准。
+  - `docs/NEXT_CODEX_A_PROMPT.md` 已推进到 Phase 2.29a freeze checklist / freeze report dry-run 入口。
 - 测试结果：
-  - 未运行 pytest；本轮为 planning baseline。
+  - 未运行 pytest；本轮为 planning-only。
   - 已执行 `git status --short` 与 `git check-ignore -v reports/agent_runs/latest.json` 复核。
 - live smoke 结果：
-  - 未运行；本轮不涉及代码或 live 验证。
+  - 未运行；本轮不涉及 live 验证。
 - 当前结论：
-  - Phase 2.27g planning baseline 已完成。
-  - 下一步建议进入 Phase 2.29 MVP readiness freeze planning。
+  - Phase 2.29 planning baseline 已完成。
+  - 当前项目可进入 Phase 2.29a freeze checklist / freeze report dry-run；仍不进入 rollout。
 - 阻塞点 / 风险点：
-  - Phase 2.29 readiness freeze 不等于 production rollout。
-  - linkage summary 仍不得被解释为 repair executed。
-  - 若后续接入 readiness audit，必须显式参数化，不得默认扫描真实 reports / reviews。
+  - freeze 结论若缺少复验与人工验收，容易被误判为可直接 rollout。
+  - facts 仍不得替代 retrieval evidence 或 final answer。
 - 是否建议 baseline：已完成。
-- 是否建议进入下一阶段：建议进入 Phase 2.29 MVP readiness freeze planning；不直接实现。
+- 是否建议进入下一阶段：建议进入 Phase 2.29a freeze checklist / freeze report dry-run。
 - 下一轮建议：
-  - Codex B 生成 Phase 2.29 planning prompt。
-  - 汇总 Phase 2.10-2.27 能力与 freeze checklist。
-- 是否需要 Codex B 审核：是。
+  - 执行 Phase 2.29a 最小实现，生成 freeze checklist / freeze report dry-run。
+- 是否需要 Codex B 审核：否。
 - 是否需要 Codex C 真实终端验收：否。
