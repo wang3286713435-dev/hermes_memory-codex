@@ -2,8 +2,8 @@
 
 ## 当前优先级
 
-1. Phase 2.29a freeze checklist / freeze report dry-run：只做 readiness freeze 最小实现，不进入 rollout。
-2. Phase 2.29b readiness freeze baseline decision：基于 freeze report 判断是否进入 MVP candidate。
+1. Phase 2.29b readiness freeze baseline decision planning：基于 freeze report 判定是否进入 MVP candidate。
+2. Phase 2.29b 最小实现候选：只生成 decision record / no-go reason，不进入 rollout。
 3. linkage summary 继续仅作为 Phase 2.29 人工验收项；如需代码接入，只能显式参数化读取 summary。
 
 ## 后置项

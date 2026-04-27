@@ -568,6 +568,40 @@
 - next: 执行 Phase 2.29a freeze checklist / freeze report dry-run。
 - commit/tag if any: 见本轮 final 与 ignored latest.json。
 
+## 2026-04-27 15:50 Phase 2.29a
+- goal: 实现 MVP freeze checklist / freeze report dry-run，不写 DB、不执行 repair、不进入 rollout。
+- changed_files:
+  - `scripts/phase229a_freeze_report_dry_run.py`
+  - `tests/test_phase229a_freeze_report_dry_run.py`
+  - `docs/PHASE229_MVP_READINESS_FREEZE_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: `uv run python -m py_compile scripts/phase229a_freeze_report_dry_run.py`; `uv run pytest tests/test_phase229a_freeze_report_dry_run.py -q` -> 8 passed
+- validation: 临时目录 fake eval/readiness/repair JSON dry-run 通过；输出保持 dry_run=true、destructive_actions=[]、rollout_ready=false、production_rollout=false、repair_executed=false；未读取真实 reports/reviews。
+- risks: warn 状态需要人工判断；freeze report 不等于 production rollout ready；repair executor 和 facts 自动抽取继续后置。
+- next: Codex B review 后执行 Phase 2.29a Git baseline。
+- commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.29a Codex B Review
+- goal: 检查项目进度，审核 Phase 2.29a freeze report dry-run 最小实现。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `uv run python -m py_compile scripts/phase229a_freeze_report_dry_run.py`：通过。
+  - `uv run pytest tests/test_phase229a_freeze_report_dry_run.py -q`：`8 passed`。
+  - Codex B 负例复验：`repair_executed=true` 与 `production_rollout=true` evidence input 均返回 fail。
+- validation: 实现保持只读；不默认扫描真实 reports/reviews；不写 DB；输出恒定 `rollout_ready=false`、`production_rollout=false`、`repair_executed=false`。
+- risks: freeze report 不等于 production rollout ready；warn/fail 仍需人工判断，不得自动进入 rollout。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.29a Git baseline 任务；Codex A 执行后必须停止。
+- commit/tag if any: 无。
+
 ## 2026-04-27 Phase 2.29 Codex B Review
 - goal: 检查项目进度，审核 Phase 2.29 MVP readiness freeze planning。
 - changed_files:
@@ -578,3 +612,22 @@
 - risks: freeze 结论不得被误读为 production ready；facts 仍不得替代 retrieval evidence；repair executor、facts 自动抽取、完整 RBAC/ABAC 与 rollout 继续后置。
 - next: `docs/NEXT_CODEX_A_PROMPT.md` 已是 Phase 2.29 planning baseline 任务；Codex A 执行后必须停止，不进入 Phase 2.29a 实现。
 - commit/tag if any: 无。
+
+## 2026-04-27 16:00 Phase 2.29a Baseline
+- goal: Phase 2.29a freeze report dry-run 收口与 Git baseline。
+- changed_files:
+  - `scripts/phase229a_freeze_report_dry_run.py`
+  - `tests/test_phase229a_freeze_report_dry_run.py`
+  - `docs/PHASE229_MVP_READINESS_FREEZE_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: `uv run python -m py_compile scripts/phase229a_freeze_report_dry_run.py`; `uv run pytest tests/test_phase229a_freeze_report_dry_run.py -q` -> 8 passed
+- validation: staged 白名单仅包含 Phase 2.29a 文件；未写 DB、未读取真实 reports/reviews、未执行 rollout 或 repair；下一轮入口推进为 Phase 2.29b readiness freeze baseline decision planning。
+- risks: freeze report 不等于 production rollout ready；warn/fail 仍需人工判断，不得自动进入 rollout。
+- next: 进入 Phase 2.29b readiness freeze baseline decision planning。
+- commit/tag if any: 见 final 与 ignored latest.json。

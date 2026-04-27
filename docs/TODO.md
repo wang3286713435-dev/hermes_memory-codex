@@ -394,3 +394,12 @@
 4. facts 继续保持 auxiliary context / read-only 边界，`facts_as_answer=false` 不可放松。
 5. linkage summary、review audit、readiness audit 继续作为 freeze 证据链的一部分，但不默认扫描真实 reports / reviews。
 6. Phase 2.29 planning baseline 收口后，下一轮入口切换为 Phase 2.29a freeze checklist / freeze report dry-run。
+
+## 32. Phase 2.29a freeze report dry-run
+
+1. Phase 2.29a 已新增只读 freeze report dry-run runner。
+2. runner 仅读取显式传入的 JSON 证据，不默认扫描真实 reports / reviews，不默认运行 full eval。
+3. 输出固定保留 `dry_run=true`、`destructive_actions=[]`、`rollout_ready=false`、`production_rollout=false`、`repair_executed=false`。
+4. 目标测试 `8 passed`，临时目录 smoke 通过。
+5. 下一步建议 Codex B review 后执行 Phase 2.29a Git baseline。
+6. Phase 2.29a baseline 收口后，下一步进入 Phase 2.29b readiness freeze baseline decision planning。

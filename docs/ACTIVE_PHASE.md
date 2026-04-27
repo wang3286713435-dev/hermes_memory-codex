@@ -1,8 +1,10 @@
 # Active Phase
 
-- 当前 phase：Phase 2.29 MVP Readiness Freeze Planning Baseline
-- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.29 planning 收口与 Git baseline。
+- 当前 phase：Phase 2.29a MVP Freeze Report Dry-run Baseline
+- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.29a Git baseline。
 - 修改文件：
+  - `scripts/phase229a_freeze_report_dry_run.py`
+  - `tests/test_phase229a_freeze_report_dry_run.py`
   - `docs/PHASE229_MVP_READINESS_FREEZE_PLAN.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
@@ -12,23 +14,25 @@
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
 - 完成内容：
-  - Phase 2.29 readiness freeze planning 进入 baseline。
-  - 保留候选 MVP 能力、复验清单、人工验收项与 Go/No-Go 标准。
-  - `docs/NEXT_CODEX_A_PROMPT.md` 已推进到 Phase 2.29a freeze checklist / freeze report dry-run 入口。
+  - Phase 2.29a freeze report dry-run runner、测试与文档进入 baseline。
+  - `docs/NEXT_CODEX_A_PROMPT.md` 已推进到 Phase 2.29b readiness freeze baseline decision planning。
+  - 未新增功能、未执行真实 rollout、未执行 repair。
 - 测试结果：
-  - 未运行 pytest；本轮为 planning-only。
-  - 已执行 `git status --short` 与 `git check-ignore -v reports/agent_runs/latest.json` 复核。
+  - `uv run python -m py_compile scripts/phase229a_freeze_report_dry_run.py` 通过。
+  - `uv run pytest tests/test_phase229a_freeze_report_dry_run.py -q`：8 passed。
 - live smoke 结果：
-  - 未运行；本轮不涉及 live 验证。
+  - 沿用 Phase 2.29a 实现轮临时目录 fake evidence dry-run 结果。
+  - 未读取真实 reports / reviews，未写 DB，未生成真实 rollout / repair 产物。
 - 当前结论：
-  - Phase 2.29 planning baseline 已完成。
-  - 当前项目可进入 Phase 2.29a freeze checklist / freeze report dry-run；仍不进入 rollout。
+  - Phase 2.29a baseline 已完成。
+  - 当前可进入 Phase 2.29b readiness freeze baseline decision planning；仍不进入 rollout。
 - 阻塞点 / 风险点：
-  - freeze 结论若缺少复验与人工验收，容易被误判为可直接 rollout。
-  - facts 仍不得替代 retrieval evidence 或 final answer。
+  - freeze report 不是 production rollout ready 证明。
+  - warn/fail 仍需人工判断，不得自动推进 rollout 或 repair。
+  - repair executor、facts 自动抽取、默认 reports/reviews 扫描继续后置。
 - 是否建议 baseline：已完成。
-- 是否建议进入下一阶段：建议进入 Phase 2.29a freeze checklist / freeze report dry-run。
+- 是否建议进入下一阶段：建议进入 Phase 2.29b planning，不直接实现 rollout。
 - 下一轮建议：
-  - 执行 Phase 2.29a 最小实现，生成 freeze checklist / freeze report dry-run。
+  - 规划 Phase 2.29b readiness freeze baseline decision。
 - 是否需要 Codex B 审核：否。
 - 是否需要 Codex C 真实终端验收：否。
