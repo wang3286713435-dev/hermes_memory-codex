@@ -451,3 +451,17 @@
 10. Phase 2.30b follow-up 已补齐 runbook 原文 alias 绑定：`把会议纪要文件设为 @会议纪要`、`把硬件清单设为 @硬件清单`、`把C塔方案设为 @C塔方案`、`把当前主标书设为 @主标书`、`把当前标书设为 @主标书`。
 11. 下一步建议先做 Phase 2.30a / 2.30b Git baseline，再进入 Phase 2.31 内部受控 MVP Pilot 试用操作规划。
 12. 已知试用风险：深层字段召回仍需人工复核，经营建议必须人工决策，当前不进入 production rollout。
+
+## 37. Phase 2.31 internal controlled MVP Pilot operations
+
+1. Phase 2.31 已完成 docs-only planning，新增内部受控 MVP Pilot 操作规划、使用者指南、反馈模板与 known risk checklist。
+2. Pilot 范围限定为标书审查 / 风险提取、企业文件内容提取与 citation 定位、公司未来发展方向辅助分析。
+3. Pilot 明确不覆盖 production rollout、自动审标定论、自动经营决策、repair executor、facts 自动抽取或 facts 替代 retrieval evidence。
+4. 每次试用必须检查 `/health`、建立 Hermes CLI session、绑定 `@主标书` / `@会议纪要` / `@硬件清单` / `@C塔方案`，并保存输出。
+5. 人工复核必须检查 document_id / version_id、citation、`facts_as_answer=false`、`transcript_as_fact=false`、contamination_flags 与 Missing Evidence。
+6. 最高投标限价、业绩要求、付款节点、工期节点、质保 / 违约等深层字段仍需人工复核。
+7. 经营建议只能作为辅助建议，必须人工决策；无 evidence 的内容必须进入 Missing Evidence 或 Assumption。
+8. 下一步建议 Codex B review Phase 2.31 文档；通过后再做文档 baseline，不自动进入 production rollout。
+9. Codex B review 已确认 Phase 2.31 文档方向可进入 docs baseline。
+10. 已补充 `docs/NIGHTLY_CODEX_A_PROMPT.md`，明确 Nightly Sprint 需要 Codex A 会话被启动，Markdown 本身不会自动运行。
+11. `NIGHTLY_SPRINT_QUEUE.md` 已从“等待 B review 无可执行项”调整为：Item 1 docs-only baseline，Item 2 Phase 2.32 feedback intake planning。

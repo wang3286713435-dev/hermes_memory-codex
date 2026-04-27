@@ -192,6 +192,20 @@ Codex A 夜间运行状态文件，默认 ignored，不提交 Git。
 
 每个 sprint 结束可写入一份本地 JSON，记录 sprint_id、queue_item、start/end time、changed_files、tests、status、stop_reason 与 git status。
 
+### 3.9 `docs/NIGHTLY_CODEX_A_PROMPT.md`
+
+Codex A 夜间模式固定启动入口。
+
+它用于解决“协议文件存在，但 Codex A 不知道从哪里开始”的问题。
+
+用户睡前只需把该文件路径交给 Codex A：
+
+```text
+执行 /Users/Weishengsu/Hermes_memory/docs/NIGHTLY_CODEX_A_PROMPT.md
+```
+
+该文件不创建 cron，不会自动唤醒 Codex A。它只是在 Codex A 已启动时提供固定执行说明。
+
 ## 4. Git 策略
 
 可提交为协作基线：
@@ -203,7 +217,8 @@ Codex A 夜间运行状态文件，默认 ignored，不提交 Git。
 5. `docs/NEXT_CODEX_A_PROMPT.md`。
 6. `docs/NIGHTLY_SPRINT_PROTOCOL.md`。
 7. `docs/NIGHTLY_SPRINT_QUEUE.md`。
-8. 必要的 reports / agent_runs / nightly_runs README 或 `.gitignore`。
+8. `docs/NIGHTLY_CODEX_A_PROMPT.md`。
+9. 必要的 reports / agent_runs / nightly_runs README 或 `.gitignore`。
 
 不得提交：
 

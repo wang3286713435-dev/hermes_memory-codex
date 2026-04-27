@@ -167,3 +167,5 @@
 - [Phase 2.30b] 主仓库完成 alias/session 最小修复：标题类 alias 绑定在 resolver 未命中时不再 suppress retrieval，可通过同轮唯一 retrieval evidence 完成 alias bind；direct assertion tests 48 个测试函数通过。
 - [Phase 2.30b] 完成 Codex B follow-up：补齐无书名号 / 自然语言 alias bind 识别，覆盖会议纪要、硬件清单、C塔方案与当前主标书 runbook prompt；direct assertion tests 53 个测试函数通过。
 - [Phase 2.30b] Codex C 真实终端复验通过：12 条 Pilot query 为 10 pass、2 partial、0 failed；四个 alias 后续 query 均稳定，未出现 alias_missing / retrieval_suppressed 误阻断，建议 baseline 并进入内部受控 MVP Pilot。
+- [Phase 2.31] 完成内部受控 MVP Pilot 操作规划，新增试用流程、使用者指南、反馈模板与 known risks checklist；本轮 docs-only，不写代码、不运行测试、不进入 production rollout。
+- [Phase 2.31] Codex B review 确认 Pilot ops 文档可 baseline，并补强 Nightly Sprint 启动入口：新增 NIGHTLY_CODEX_A_PROMPT，澄清协议文件不会自动唤醒 Codex A，队列改为可执行 docs-only baseline + feedback intake planning。

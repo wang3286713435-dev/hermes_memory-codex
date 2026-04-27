@@ -2,8 +2,8 @@
 
 ## 当前优先级
 
-1. Phase 2.30a / 2.30b Git baseline：Codex C 已复验通过，下一步固化 Pilot 文档与 alias/session 修复。
-2. Phase 2.31 候选：内部受控 MVP Pilot 试用操作规划，包括试用流程、反馈表、人工复核节奏和 known risk checklist。
+1. Phase 2.31 baseline：提交内部受控 MVP Pilot 试用流程、用户指南、反馈模板、known risk checklist 与 Nightly Sprint launcher 文档基线。
+2. Phase 2.32 planning：规划 MVP Pilot feedback intake / triage loop，把真实试用反馈转化为下一轮 bounded tasks。
 3. Phase 2.31 后置：根据真实试用反馈再决定是否做召回质量专项，不直接 rollout。
 
 ## 后置项
@@ -22,6 +22,8 @@
 12. Phase 2.30b 只修 alias / session stability，不处理深层召回质量尾项或 production rollout。
 13. Phase 2.30b 代码层最小修复与 runbook prompt follow-up 已通过 Codex C 真实终端复验。
 14. Phase 2.31 只能规划内部受控试用，不得解释为生产发布。
+15. Phase 2.31 已完成 docs-only planning；下一步只能 review / baseline，不得自动进入 rollout 或新功能实现。
+16. Nightly Sprint 只能在 Codex A 被启动后执行；`docs/NIGHTLY_CODEX_A_PROMPT.md` 是睡前启动入口，不是系统定时器。
 
 ## 永久边界
 

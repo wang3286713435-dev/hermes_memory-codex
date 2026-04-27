@@ -1,48 +1,55 @@
 # Active Phase
 
-- 当前 phase：Phase 2.30a / 2.30b Practical MVP Pilot baseline ready
-- 本轮目标：吸收 Codex C 复验结果，准备 Phase 2.30a Pilot 文档与 Phase 2.30b alias/session 修复的双仓库 Git baseline。
+- 当前 phase：Phase 2.31 Codex B Review / Nightly Sprint Operational Launcher
+- 本轮目标：复核 Phase 2.31 内部受控 MVP Pilot 操作规划，并补强 Nightly Sprint 的实际启动入口与可执行队列。
 - 修改文件：
-  - `docs/NEXT_CODEX_A_PROMPT.md`
-  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/PHASE231_INTERNAL_MVP_PILOT_OPERATIONS_PLAN.md`
+  - `docs/MVP_PILOT_USER_GUIDE.md`
+  - `docs/MVP_PILOT_FEEDBACK_TEMPLATE.md`
+  - `docs/MVP_PILOT_KNOWN_RISKS.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
   - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NIGHTLY_SPRINT_PROTOCOL.md`
+  - `docs/NIGHTLY_CODEX_A_PROMPT.md`
+  - `docs/AGENT_OPERATING_PROTOCOL.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
 - 完成内容：
-  - Codex C 已复跑 12 条 Pilot query，结果为 `10/12 pass, 2/12 partial, 0 failed`。
-  - 四个 alias 在同一 session 后续 query 中均稳定：
-    - `@主标书`
-    - `@会议纪要`
-    - `@硬件清单`
-    - `@C塔方案`
-  - 未再出现 `alias_missing`。
-  - 未出现 `retrieval_suppressed` 误阻断。
-  - `facts_as_answer=false`、`transcript_as_fact=false` 全部稳定。
-  - compare 场景未混入第三文件。
-  - 已将 `docs/NEXT_CODEX_A_PROMPT.md` 改为 Phase 2.30a / 2.30b Git baseline 任务。
-  - 已更新 `docs/NIGHTLY_SPRINT_QUEUE.md`，允许 Codex A 夜间自动模式执行本次 Yellow Lane baseline；baseline 后必须停止。
+  - 已新增内部受控 MVP Pilot 操作规划。
+  - 已新增使用者指南。
+  - 已新增反馈表模板。
+  - 已新增 known risks checklist。
+  - 已明确 Pilot 仅覆盖标书审查、文件提取与公司方向辅助分析。
+  - 已明确 Pilot 不等于 production rollout、自动审标、自动经营决策或 repair executor。
+  - Codex B 已复核 Phase 2.31 文档方向正确，可进入 docs baseline。
+  - 已新增 `docs/NIGHTLY_CODEX_A_PROMPT.md` 作为 Codex A 夜间模式固定启动入口。
+  - 已澄清 Nightly Sprint 是文件化控制面，不会自行唤醒 Codex A。
+  - 已把 `NIGHTLY_SPRINT_QUEUE.md` 更新为可执行队列：先做 docs-only baseline，再进入 Phase 2.32 feedback intake planning。
 - 测试结果：
-  - 本轮未重新运行 pytest；复验依据为 Codex C 真实终端结果。
-  - 上轮 Codex B 已复跑主仓库 py_compile 与 53 个 direct assertion tests。
+  - 本轮未运行 pytest，符合 docs-only 要求。
+  - 已执行 `git status --short`。
+  - 已确认 `reports/agent_runs/latest.json` 仍被 `.gitignore` 命中。
 - live smoke 结果：
-  - Codex C 真实终端验收已完成。
-  - API / CLI 可用。
+  - 未运行；上一阶段 Codex C 真实终端复验已通过。
 - 当前结论：
-  - Phase 2.30b alias/session 修复通过真实终端复验。
-  - 建议执行 Git baseline。
-  - 建议进入内部受控 MVP Pilot 试用，但必须保留 known risks。
+  - Phase 2.31 docs-only planning 已通过 Codex B review。
+  - Nightly Sprint 之前“安全但空转”的原因是：队列等待 Codex B review，且缺少固定启动入口。
+  - 当前已补齐启动入口与可执行 queue；但仍需要用户在睡前启动 Codex A 执行 `docs/NIGHTLY_CODEX_A_PROMPT.md`。
+  - 当前仍不进入 production rollout。
 - 阻塞点 / 风险点：
   - 最高投标限价、业绩要求等深层字段召回仍需人工复核。
-  - 公司发展方向分析中主标书 / 硬件清单对战略方向的直接证据不足。
-  - 经营建议必须人工决策。
-  - 当前仍不是 production rollout。
-- 是否建议 baseline：是。
-- 是否建议进入下一阶段：baseline 后建议进入 Phase 2.31 内部 MVP Pilot 试用操作规划；不进入 production rollout。
+  - 公司方向分析中部分文件可能只有间接 evidence。
+  - 所有经营建议必须人工决策。
+  - 当前 soft ACL 不是完整 RBAC / ABAC。
+- 是否建议 baseline：是。建议执行 docs-only baseline，范围限定在 Phase 2.31 与 Nightly launcher 文档。
+- 是否建议进入下一阶段：baseline 成功后，Nightly Sprint 可继续执行 Phase 2.32 feedback intake planning；不得进入 rollout。
 - 下一轮建议：
-  - Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 完成双仓库 baseline。
-  - Codex A 夜间自动模式可执行该 baseline，但完成后必须停止，不得自动进入 Phase 2.31。
-- 是否需要 Codex B 审核：否，baseline prompt 已由 Codex B 写好。
-- 是否需要 Codex C 真实终端验收：否，本阶段已通过；后续试用中发现问题再定向复验。
+  - 睡前把 `/Users/Weishengsu/Hermes_memory/docs/NIGHTLY_CODEX_A_PROMPT.md` 发给 Codex A。
+  - Codex A 按 `NIGHTLY_SPRINT_QUEUE.md` 执行 Item 1 docs baseline；成功后可继续 Item 2 planning。
+  - 内部试用启动前由使用者按 user guide 与 feedback template 执行。
+- 是否需要 Codex B 审核：当前补丁完成后需要用户 / Codex B 最终确认；Codex A baseline 后需停止交接。
+- 是否需要 Codex C 真实终端验收：否，本轮是 docs-only planning；后续 Pilot 真实使用可另行安排。

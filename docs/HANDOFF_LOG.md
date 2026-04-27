@@ -966,3 +966,57 @@
 - risks: partial 为召回质量尾项：最高投标限价、业绩要求未被当前召回覆盖；公司方向分析中主标书 / 硬件清单对战略方向直接证据不足。内部试用仍需人工复核和人工决策，不等于 production rollout。
 - next: `docs/NEXT_CODEX_A_PROMPT.md` 已切换为 Phase 2.30a / 2.30b 双仓库 Git baseline；`docs/NIGHTLY_SPRINT_QUEUE.md` 已允许 Codex A 夜间自动模式执行该 Yellow Lane baseline，完成后必须停止。
 - commit/tag if any: 无。
+
+## 2026-04-28 Phase 2.30 Baseline Review / Phase 2.31 Prompt
+- goal: 检查 Nightly Sprint baseline 是否完成，并推进下一轮内部受控 MVP Pilot 操作规划入口。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行 pytest；本轮只做状态检查与下一轮 prompt 更新。
+- validation: Hermes_memory commit `15e05d4`、Hermes 主仓库 commit `13097693`、tag `phase-2.30b-practical-mvp-pilot-baseline` 均已存在；Hermes_memory 工作区干净，主仓库仅保留既存无关 dirty。
+- risks: Phase 2.31 只能规划内部受控试用，不能进入 production rollout；深层召回和经营建议仍需人工复核。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.31 internal controlled MVP Pilot operations planning；`docs/NIGHTLY_SPRINT_QUEUE.md` 已将 Phase 2.30 baseline 归档，并把 Phase 2.31 planning 设为 next Green Lane。
+- commit/tag if any: 无。
+
+## 2026-04-28 02:33 Phase 2.31
+- goal: 完成内部受控 MVP Pilot 试用操作规划。
+- changed_files:
+  - `docs/PHASE231_INTERNAL_MVP_PILOT_OPERATIONS_PLAN.md`
+  - `docs/MVP_PILOT_USER_GUIDE.md`
+  - `docs/MVP_PILOT_FEEDBACK_TEMPLATE.md`
+  - `docs/MVP_PILOT_KNOWN_RISKS.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行 pytest；本轮 docs-only；执行 `git status --short` 并确认 `reports/agent_runs/latest.json` 仍被 ignore。
+- validation: 已定义试用范围、角色职责、每次使用流程、人工复核标准、反馈模板、known risks 与 1-2 天最小成功标准；未写代码、未写 DB、未改索引、未进入 rollout。
+- risks: 深层字段召回仍需人工复核；经营建议必须人工决策；soft ACL 不是完整 RBAC/ABAC；当前仍非 production rollout。
+- next: Codex B review Phase 2.31 文档；通过后再做 docs baseline。
+- commit/tag if any: 无。
+
+## 2026-04-28 02:46 Phase 2.31 Codex B Review / Nightly Launcher
+- goal: 审核 Phase 2.31 内部受控 MVP Pilot 文档，并修正 Nightly Sprint “有协议但不会自动推进”的可操作性缺口。
+- changed_files:
+  - `docs/NIGHTLY_CODEX_A_PROMPT.md`
+  - `docs/NIGHTLY_SPRINT_PROTOCOL.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/AGENT_OPERATING_PROTOCOL.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 仅读取与复核文档；后续需运行 `git status --short` 与 ignore 检查。
+- validation: Phase 2.31 docs-only planning 内容符合 MVP Pilot 边界；Nightly Sprint 当前不能自行唤醒 Codex A，必须由用户睡前启动 Codex A 执行 `docs/NIGHTLY_CODEX_A_PROMPT.md`。
+- risks: 仍不创建 production cron / scheduler；若没有正在运行的 Codex A 会话，夜间队列不会执行。
+- next: Codex A 可执行 `docs/NIGHTLY_CODEX_A_PROMPT.md`。队列 Item 1 为 docs-only baseline；成功后可继续 Item 2 Phase 2.32 feedback intake planning。
+- commit/tag if any: 无。
