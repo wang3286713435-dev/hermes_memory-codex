@@ -1,12 +1,9 @@
 # Active Phase
 
-- 当前 phase：Phase 2.27e Review Audit Eval Checks Baseline
-- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.27e review audit eval / readiness 最小实现收口与 Git baseline。
+- 当前 phase：Phase 2.27f Review Audit Linkage Route Planning Baseline
+- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.27f archive / review / audit 关联诊断规划收口与 Git baseline。
 - 修改文件：
-  - `scripts/phase225_readiness_audit.py`
-  - `tests/test_phase225_readiness_audit.py`
-  - `tests/test_phase227b_review_audit_preview.py`
-  - `docs/PHASE227E_REVIEW_AUDIT_EVAL_PLAN.md`
+  - `docs/PHASE227F_REVIEW_AUDIT_LINKAGE_PLAN.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `docs/ACTIVE_PHASE.md`
@@ -15,30 +12,28 @@
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
 - 完成内容：
-  - readiness audit 新增只读 `report.review.created` 安全检查。
-  - `report.review.created` 缺失时只输出 warning，不作为 fail。
-  - audit payload 若包含 notes、reason、approved_action、完整 item_decisions、本机绝对路径、item-level entity details 或 executed 语义，会被标记为 fail。
-  - `--skip-service-check` 下因主动跳过服务检查导致的下游不可用降级为 warning，避免本地 dry-run smoke 误报失败。
-  - review audit preview 测试补强，确认真实 audit row 不包含 item-level entity details。
-  - Phase 2.27e 最小实现进入 Git baseline。
+  - 已完成 Archive -> Review、Review -> Audit、Archive -> Review -> Audit 端到端摘要、readiness audit 接入、item-level / repair-level linkage 五个候选方向评审。
+  - 推荐后续最小实现优先做 archive / review / audit 只读 linkage summary。
+  - 推荐用 `report_hash` / `report_type` 关联 archive 与 review，用 `review_id` / `trace_id=report_review:<review_id>` 关联 review 与 audit。
+  - 缺少 archive / review / audit 任一环节应输出 warning，不自动 fail。
+  - item-level / repair-level linkage、repair executor、真实 DB 写入与 rollout 继续后置。
+  - Phase 2.27f 规划进入 Git baseline。
 - 测试结果：
-  - `uv run python -m py_compile scripts/phase225_readiness_audit.py scripts/phase227b_review_audit_preview.py` 通过。
-  - `uv run pytest tests/test_phase225_readiness_audit.py tests/test_phase227b_review_audit_preview.py -q` 通过，`26 passed`。
+  - 未运行 pytest；本轮只做 planning baseline。
+  - 已执行 `git status --short` 与 `git check-ignore -v reports/agent_runs/latest.json` 作为状态复核。
 - live smoke 结果：
-  - `uv run python scripts/phase225_readiness_audit.py --skip-service-check --json` 通过。
-  - 输出 `status=warn`、`failed=0`、`dry_run=true`、`destructive_actions=[]`。
-  - 未写 DB、未写 `audit_logs`、未生成真实 audit payload 文件。
+  - 未执行 live smoke；本轮不写 DB、不写 `audit_logs`、不执行 eval、不执行 repair。
 - 当前结论：
-  - Phase 2.27e 最小实现与 baseline 已完成。
-  - 该 baseline 仅覆盖 review audit 安全断言与 readiness audit 只读检查。
+  - Phase 2.27f 路线规划与 baseline 已完成。
+  - 后续可以进入 Phase 2.27f 最小实现规划授权，但不得自动推进。
 - 阻塞点 / 风险点：
-  - 真实 `report.review.created` 事件缺失仍是 warning，不代表系统不可用。
-  - item-level audit summary、repair executor、真实业务 DB 写入与 rollout 继续后置。
-  - 后续如果需要真实 review audit 覆盖率，应另开规划，不得在 readiness audit 中误报为生产审计完整性。
+  - linkage summary 容易被误解为 repair 已执行，后续实现必须显式输出 `repair_executed=false`。
+  - 真实 reports / reviews 目录可能包含本机路径或业务实体，后续 smoke 应优先使用 fake inputs。
+  - item-level entity details 仍不得进入诊断输出。
 - 是否建议 baseline：已完成。
-- 是否建议进入下一阶段：建议交回 Codex B 做下一阶段路线规划，不自动进入实现。
+- 是否建议进入下一阶段：建议交回 Codex B 规划 Phase 2.27f 最小实现；不自动进入实现。
 - 下一轮建议：
-  - Codex B 评审 Phase 2.27e baseline 后更新 `docs/NEXT_CODEX_A_PROMPT.md`。
-  - 下一阶段可评审 archive / review / audit 关联诊断，或继续后置 repair executor。
+  - Codex B 审核 Phase 2.27f planning baseline。
+  - 若通过，生成 Phase 2.27f 最小实现 prompt：只读 linkage summary + fake inputs tests + 临时目录 smoke。
 - 是否需要 Codex B 审核：是。
 - 是否需要 Codex C 真实终端验收：否。

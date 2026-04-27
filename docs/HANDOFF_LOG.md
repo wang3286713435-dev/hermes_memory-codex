@@ -314,3 +314,58 @@
 - risks: unsafe report review audit 被标为 fail，强于原提示词的 warning，Codex B 认为该收紧符合治理安全目标；item-level audit、repair executor 与 rollout 继续后置。
 - next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27e Git baseline 任务；Codex A 执行后必须停止。
 - commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.27e Baseline Review
+- goal: 检查项目进度，确认 Phase 2.27e baseline，并生成下一阶段路线规划任务。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；本轮只做进度检查与下一轮文件化任务入口更新。
+- validation: Phase 2.27e baseline 已完成，HEAD 与 `origin/main` 对齐，tag `phase-2.27e-review-audit-eval-checks-baseline` 指向 HEAD。
+- risks: report review audit 缺失仍为 warning；item-level audit、repair executor、真实业务 DB 写入与 rollout 继续后置。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27f route planning 任务，只做规划，不写代码、不写 DB、不执行 repair。
+- commit/tag if any: 无。
+
+## 2026-04-27 13:56 Phase 2.27f
+- goal: 规划 archive / review / audit 三者关联诊断。
+- changed_files:
+  - `docs/PHASE227F_REVIEW_AUDIT_LINKAGE_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行 pytest；本轮只做规划与文档同步。
+- validation: 已评审 A-E 候选方向；推荐后续只做 archive / review / audit 只读 linkage summary。
+- risks: linkage summary 不得被误读为 repair executed；不得输出本机路径、notes、reason、approved_action、完整 item_decisions 或 item-level entity details。
+- next: Codex B 审核 Phase 2.27f 规划；如通过，再生成 Git baseline prompt。
+- commit/tag if any: 无。
+
+## 2026-04-27 14:05 Phase 2.27f
+- goal: 完成 Phase 2.27f archive / review / audit 关联诊断规划 Git baseline。
+- changed_files:
+  - `docs/PHASE227F_REVIEW_AUDIT_LINKAGE_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+- tests: 未运行 pytest；本轮为 planning baseline。已复核 `git status --short` 与 `reports/agent_runs/latest.json` ignored 状态。
+- validation: baseline 范围仅包含 Phase 2.27f 规划与交接文档；未写 `audit_logs`、未写 DB、未执行 repair / eval / rollout。
+- risks: 后续实现必须只用 fake manifest / fake review / fake audit event；不得输出本机路径、notes、reason、approved_action 或 item-level entity details。
+- next: 交回 Codex B 审核 baseline，并决定是否授权 Phase 2.27f 最小实现。
+- commit/tag if any: Phase 2.27f baseline commit / tag 以最终 Git 结果和 `latest.json` 为准。
+
+## 2026-04-27 Phase 2.27f Codex B Review
+- goal: 检查项目进度，审核 Phase 2.27f archive / review / audit 关联诊断规划，并生成 baseline 任务。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；本轮只做 Codex B review 与下一轮文件化任务入口更新。
+- validation: Phase 2.27f 规划边界安全；仅建议后续只读 linkage summary，不写 DB、不写 `audit_logs`、不执行 repair、不输出 item-level entity details。
+- risks: linkage summary 后续实现必须继续显式 `repair_executed=false`；真实 reports / reviews / audit payload 仍需避免本机路径、notes、reason、approved_action 与完整 item_decisions。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27f Git baseline 任务；Codex A 执行后必须停止，不进入实现。
+- commit/tag if any: 无。

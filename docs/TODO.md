@@ -364,3 +364,13 @@
 5. item-level audit summary、完整 review record 入库、repair executor 与 rollout 继续后置。
 6. 后续最小实现不得修改 facts、document_versions、OpenSearch、Qdrant，不得执行 repair/backfill/reindex/cleanup/delete。
 7. Phase 2.27e 最小实现已完成：readiness audit 新增只读 `report.review.created` sanitized summary 检查，缺失事件为 warning，unsafe payload 为 fail；相关单测与只读 smoke 已通过。
+
+## 29. Phase 2.27f archive / review / audit 关联诊断规划
+
+1. Phase 2.27f 已完成路线规划：建议下一步只做 archive / review / audit 三者只读关联诊断。
+2. 最小边界：用 `report_hash` / `report_type` 关联 archived report 与 review record，用 `review_id` / `trace_id=report_review:<review_id>` 关联 review record 与 audit event。
+3. 输出只读 summary，缺少 archive / review / audit 任一环节时为 warning，不自动 fail。
+4. 诊断输出不得包含 report 原文、本机绝对路径、notes、reason、approved_action、完整 item_decisions 或 item-level entity details。
+5. 第一轮实现不建议直接纳入 readiness audit 默认扫描；可后续显式参数化接入。
+6. item-level / repair-level linkage、repair executor、真实 DB 写入与 rollout 继续后置。
+7. Phase 2.27f planning 已进入 baseline，下一步只建议在 Codex B 审核后实现只读 linkage summary。

@@ -2,9 +2,9 @@
 
 ## 当前优先级
 
-1. Phase 2.27e baseline review：Codex B 审核 review audit eval / readiness baseline，确认未扩大 DB 写入范围。
-2. 下一阶段路线规划：评审 archive / review / audit 关联诊断是否需要进入 Phase 2.27f，或继续后置。
-3. Phase 2.27d 后置观察：report-level sanitized audit 写入 MVP 已 baseline，后续只在显式 opt-in 下使用。
+1. Phase 2.27f baseline review：Codex B 审核 archive / review / audit 关联诊断规划 baseline，确认不读取敏感原文、不扩大 DB 写入。
+2. Phase 2.27f 最小实现候选：只读 linkage summary，使用 fake manifest / fake review / fake audit event 单元测试和临时目录 smoke。
+3. Phase 2.27f implementation prompt：仅在 Codex B 审核通过后生成，不自动进入实现。
 4. Phase 2.28c 后续：Nightly Sprint 队列继续保持，但不自动执行 Yellow Lane。
 
 ## 后置项
@@ -12,8 +12,9 @@
 1. repair executor：后置，必须经过单独 Phase 规划、人工确认和显式指令。
 2. item-level audit summary：后置，避免过早暴露 fact_id / document_id 等实体信息。
 3. report review 写业务 DB：后置到 Yellow Lane；仅允许 Codex B 审核后显式 opt-in 的 report-level sanitized audit 写入。
-4. rollout readiness：后置，当前仍不进入生产 rollout。
-5. production cron / scheduler：后置，Nightly Sprint 只做本地协作协议，不创建系统定时任务。
+4. archive / review / audit 默认 readiness 扫描：后置，避免未使用 review workflow 的环境产生噪声。
+5. rollout readiness：后置，当前仍不进入生产 rollout。
+6. production cron / scheduler：后置，Nightly Sprint 只做本地协作协议，不创建系统定时任务。
 
 ## 永久边界
 
