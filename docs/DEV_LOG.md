@@ -148,3 +148,5 @@
 - [Phase 2.27f] 规划 baseline 收口，下一步需 Codex B 审核后再决定是否实现只读 linkage summary。
 - [Phase 2.27f] 完成只读 linkage summary 最小实现，9 条单测与临时 smoke 通过，未写 DB 或 audit_logs。
 - [Phase 2.27f] 修复 audit event 顶层 unsafe 字段漏检，顶层 document_id/fact_id/path 现在会 fail 且不泄露值。
+- [Phase 2.27g] 完成 linkage readiness 路线规划，建议纳入 Phase 2.29 人工 freeze 清单，不默认扫描 reports。
+- [Phase 2.27g] 进入 planning baseline 收口，下一步建议转入 Phase 2.29 MVP readiness freeze 规划。

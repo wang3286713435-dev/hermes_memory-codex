@@ -2,8 +2,8 @@
 
 ## 当前优先级
 
-1. Phase 2.27g route planning：评审 linkage summary 是否需要显式参数化接入 readiness audit，默认不纳入扫描。
-2. Phase 2.27g implementation 候选：仅在规划通过后考虑显式参数，不默认扫描真实 reports / reviews。
+1. Phase 2.29 MVP readiness freeze planning：汇总 Phase 2.10-2.27 能力、证据、风险与 freeze checklist，不直接 rollout。
+2. Phase 2.29 checklist 候选：把 linkage summary 作为人工验收项；如需代码接入，只能显式参数化读取 summary。
 3. Phase 2.28c 后续：Nightly Sprint 队列继续保持，但不自动执行 Yellow Lane。
 
 ## 后置项

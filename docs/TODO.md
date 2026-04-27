@@ -376,3 +376,12 @@
 7. Phase 2.27f planning 已进入 baseline，下一步只建议在 Codex B 审核后实现只读 linkage summary。
 8. Phase 2.27f 最小实现已完成：新增只读 linkage summary runner 与 9 条单元测试，临时目录 smoke 覆盖 pass / missing audit warn / unsafe audit fail；未写 DB、未写 `audit_logs`、未执行 repair。
 9. Phase 2.27f 安全补丁已完成：audit event 顶层 unsafe 字段与绝对路径现在会 fail；目标测试 12 passed，临时 smoke 覆盖 unsafe top-level fail。
+
+## 30. Phase 2.27g linkage readiness route planning
+
+1. Phase 2.27g 已完成路线规划：评审 linkage summary 是否显式参数化接入 readiness audit。
+2. 推荐路线为 B + D：后续如需要代码衔接，仅做显式参数读取 linkage summary；同时在 Phase 2.29 MVP readiness freeze 中列为人工验收项。
+3. 不推荐默认扫描 `reports/` / `reviews/` / audit records，避免读取本机路径、notes、reason、完整 item_decisions 或 item-level entity details。
+4. 不推荐继续追加新的 Phase 2.27x 实现；优先在 Phase 2.27g baseline 后进入 Phase 2.29 readiness freeze planning。
+5. repair executor、rollout、真实 DB 写入、item-level linkage 与默认目录扫描继续后置。
+6. Phase 2.27g planning baseline 已准备收口：本阶段只提交规划与交接文件，不写代码、不写 DB、不改 readiness runner。

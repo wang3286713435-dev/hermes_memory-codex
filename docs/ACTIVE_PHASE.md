@@ -1,11 +1,9 @@
 # Active Phase
 
-- 当前 phase：Phase 2.27f Review Audit Linkage Baseline
-- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 archive / review / audit 只读 linkage summary 收口与 Git baseline。
+- 当前 phase：Phase 2.27g Linkage Readiness Route Planning Baseline
+- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.27g linkage readiness route planning 收口与 Git baseline。
 - 修改文件：
-  - `scripts/phase227f_review_audit_linkage.py`
-  - `tests/test_phase227f_review_audit_linkage.py`
-  - `docs/PHASE227F_REVIEW_AUDIT_LINKAGE_PLAN.md`
+  - `docs/PHASE227G_LINKAGE_READINESS_ROUTE_PLAN.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `docs/ACTIVE_PHASE.md`
@@ -14,24 +12,26 @@
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
 - 完成内容：
-  - Phase 2.27f 只读 linkage summary runner、测试、文档与安全补丁进入 baseline。
-  - 顶层 audit event unsafe 字段漏检已关闭。
-  - baseline 不写 DB、不写 `audit_logs`、不执行 repair。
+  - Phase 2.27g 路线规划进入 baseline。
+  - 推荐 B + D：显式参数化读取 linkage summary 作为后续候选，同时纳入 Phase 2.29 人工 readiness freeze 清单。
+  - 默认扫描真实 `reports/` / `reviews/`、repair executor、rollout、真实 DB 写入继续禁止。
+  - 本轮未写功能代码、未改 readiness runner、未写 DB、未写 `audit_logs`。
 - 测试结果：
-  - `uv run python -m py_compile scripts/phase227f_review_audit_linkage.py` 通过。
-  - `uv run pytest tests/test_phase227f_review_audit_linkage.py -q` 通过，12 passed。
+  - 未运行 pytest；本轮为 planning baseline。
+  - 已执行 `git status --short` 与 `git check-ignore -v reports/agent_runs/latest.json` 复核。
 - live smoke 结果：
-  - 本轮 baseline 未重新执行 live smoke；沿用已完成临时目录 smoke：sanitized pass、missing audit warn、unsafe result_json fail、unsafe top-level fail。
+  - 未运行；本轮不涉及代码或 live 验证。
 - 当前结论：
-  - Phase 2.27f baseline 已完成。
-  - 下一步候选为 Phase 2.27g 路线规划：是否将 linkage summary 显式参数化接入 readiness audit。
+  - Phase 2.27g planning baseline 已完成。
+  - 下一步建议进入 Phase 2.29 MVP readiness freeze planning。
 - 阻塞点 / 风险点：
-  - linkage summary 不应被解释为 repair 已执行。
-  - readiness 默认扫描、item-level linkage、repair executor 继续后置。
+  - Phase 2.29 readiness freeze 不等于 production rollout。
+  - linkage summary 仍不得被解释为 repair executed。
+  - 若后续接入 readiness audit，必须显式参数化，不得默认扫描真实 reports / reviews。
 - 是否建议 baseline：已完成。
-- 是否建议进入下一阶段：建议进入 Phase 2.27g 路线规划；不直接实现。
+- 是否建议进入下一阶段：建议进入 Phase 2.29 MVP readiness freeze planning；不直接实现。
 - 下一轮建议：
-  - 规划 linkage summary 是否显式参数化接入 readiness audit。
-  - 继续禁止默认扫描真实 reports / reviews 或输出 item-level entity details。
+  - Codex B 生成 Phase 2.29 planning prompt。
+  - 汇总 Phase 2.10-2.27 能力与 freeze checklist。
 - 是否需要 Codex B 审核：是。
 - 是否需要 Codex C 真实终端验收：否。

@@ -436,6 +436,39 @@
 - next: Phase 2.27g 路线规划：评审 linkage summary 是否显式参数化接入 readiness audit。
 - commit/tag if any: tag `phase-2.27f-review-audit-linkage-baseline`；commit hash 以 Git 结果和 `reports/agent_runs/latest.json` 为准。
 
+## 2026-04-27 15:07 Phase 2.27g
+- goal: 规划 linkage summary 是否显式参数化接入 readiness audit。
+- changed_files:
+  - `docs/PHASE227G_LINKAGE_READINESS_ROUTE_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行 pytest；本轮为 planning-only phase。已执行 `git status --short` 复核。
+- validation: 已评审 A-E 候选方向；推荐 B + D，即显式参数化作为后续候选，同时纳入 Phase 2.29 人工 readiness freeze 清单。
+- risks: 默认扫描真实 reports / reviews 可能泄露本机路径或人工审阅信息；repair executor 与 rollout 继续禁止。
+- next: Codex B 审核 Phase 2.27g planning；通过后执行 planning baseline，再进入 Phase 2.29 MVP readiness freeze planning。
+- commit/tag if any: 无。
+
+## 2026-04-27 15:13 Phase 2.27g
+- goal: 完成 linkage readiness route planning Git baseline。
+- changed_files:
+  - `docs/PHASE227G_LINKAGE_READINESS_ROUTE_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+- tests: 未运行 pytest；本轮为 planning baseline。执行 `git status --short` 与 `git check-ignore -v reports/agent_runs/latest.json` 复核。
+- validation: baseline 范围仅包含 Phase 2.27g planning 文档与交接文件；未写功能代码、未写 DB、未写 `audit_logs`。
+- risks: Phase 2.29 readiness freeze 不等于 rollout；后续若接入 readiness audit，必须显式参数化，不得默认扫描真实 reports / reviews。
+- next: 进入 Phase 2.29 MVP readiness freeze planning。
+- commit/tag if any: tag `phase-2.27g-linkage-readiness-route-baseline`；commit hash 以 Git 结果和 `reports/agent_runs/latest.json` 为准。
+
 ## 2026-04-27 Phase 2.27f Codex B Implementation Review
 - goal: 检查项目进度，审核 Phase 2.27f 只读 linkage summary 最小实现。
 - changed_files:
@@ -464,4 +497,27 @@
 - validation: 顶层 unsafe audit 字段漏口已关闭；输出 failure paths 不泄露真实敏感值；仍未写 DB、未写 `audit_logs`、未执行 repair。
 - risks: linkage summary 仍不得被解释为 repair executed；readiness 默认扫描与 item-level linkage 继续后置。
 - next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27f Git baseline 任务；Codex A 执行后必须停止。
+- commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.27f Baseline Check
+- goal: 检查项目进度，确认 Phase 2.27f baseline，并生成 Phase 2.27g 路线规划任务。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；本轮只做进度检查与下一轮文件化任务入口更新。
+- validation: Phase 2.27f baseline 已完成，HEAD `b921361` 与 `origin/main` 对齐，tag `phase-2.27f-review-audit-linkage-baseline` 指向 HEAD。
+- risks: 不应继续无限追加 2.27x；Phase 2.27g 应作为 linkage/readiness 关系的最后路线裁决子阶段，后续建议进入 Phase 2.29 MVP readiness freeze。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已改为 Phase 2.27g 路线规划任务；只做文档，不写代码。
+- commit/tag if any: 无。
+
+## 2026-04-27 Phase 2.27g Codex B Review
+- goal: 检查项目进度，审核 Phase 2.27g linkage readiness route planning。
+- changed_files:
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行；本轮只做 Codex B review 与状态更新。
+- validation: Phase 2.27g 规划边界安全，推荐 B + D：显式参数化作为后续候选，并纳入 Phase 2.29 MVP readiness freeze 人工验收项；禁止默认扫描真实 reports/reviews，禁止 repair executor / rollout。
+- risks: 不应继续无限追加 Phase 2.27x；Phase 2.27g baseline 后建议进入 Phase 2.29。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已是 Phase 2.27g planning baseline 任务；Codex A 执行后必须停止，不进入 Phase 2.29 实现。
 - commit/tag if any: 无。
