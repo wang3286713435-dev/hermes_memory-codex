@@ -1020,3 +1020,34 @@
 - risks: 仍不创建 production cron / scheduler；若没有正在运行的 Codex A 会话，夜间队列不会执行。
 - next: Codex A 可执行 `docs/NIGHTLY_CODEX_A_PROMPT.md`。队列 Item 1 为 docs-only baseline；成功后可继续 Item 2 Phase 2.32 feedback intake planning。
 - commit/tag if any: 无。
+
+## 2026-04-28 03:01 Phase 2.31 / 2.32 Nightly Sprint
+- goal: 执行 `docs/NIGHTLY_CODEX_A_PROMPT.md`，完成 Phase 2.31 docs baseline，并继续 Phase 2.32 feedback intake planning。
+- changed_files:
+  - `docs/PHASE232_MVP_PILOT_FEEDBACK_INTAKE_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+  - `reports/nightly_runs/20260428_030111.json`
+- tests: 未运行 pytest；docs-only / planning；执行 `git status --short` 与 ignore 检查。
+- validation: Phase 2.31 docs-only baseline 完成并推送；Phase 2.32 已规划 feedback intake 来源、triage 字段、P0/P1/P2/P3、Go/No-Go 与非目标；未写代码、未写 DB、未执行 repair、未进入 rollout。
+- risks: feedback intake 当前仍是人工流程，不是自动 issue / repair 系统；P0/P1 需 Codex B review，必要时 Codex C 复验。
+- next: 停止等待 Codex B review Phase 2.32；通过后再做 docs-only baseline。
+- commit/tag if any: `184533a` / `phase-2.31-pilot-ops-nightly-launcher-baseline`。
+
+## 2026-04-28 Phase 2.32 Codex B Review
+- goal: 审核 Nightly Sprint 执行结果，确认 Phase 2.32 feedback intake planning 是否符合 PRD / Pilot 边界，并准备 baseline prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: `git status --short`、`git diff --check`、`python3 -m json.tool reports/agent_runs/latest.json`、`python3 -m json.tool reports/nightly_runs/20260428_030111.json`、ignore 检查均已核验。
+- validation: Nightly Sprint 按队列完成 Item 1 与 Item 2：Phase 2.31 baseline 已推送，Phase 2.32 planning docs-only 完成并停止等待 B review；未写代码、未写 DB、未改索引、未进入 repair 或 rollout。
+- risks: Phase 2.32 仍是人工反馈分诊流程，不是自动 issue / repair 系统；P0/P1 反馈后仍需 Codex B 和必要时 Codex C。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已写入 Phase 2.32 docs-only baseline 任务；执行后停止等待 Codex B。
+- commit/tag if any: 无。

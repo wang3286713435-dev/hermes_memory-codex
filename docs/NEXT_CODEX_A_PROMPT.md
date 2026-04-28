@@ -4,17 +4,18 @@
 
 ## 本轮目标
 
-Phase 2.31 internal controlled MVP Pilot operations + Nightly Sprint launcher docs baseline。
+Phase 2.32 MVP Pilot feedback intake planning docs baseline。
 
-Codex B 已复核 Phase 2.31 文档方向正确：
+Codex B 已审核夜间执行结果：
 
-1. 内部受控 MVP Pilot 操作规划已完成。
-2. 使用者指南、反馈模板、known risks checklist 已完成。
-3. 本轮仍不进入 production rollout。
-4. Nightly Sprint 原问题已定位：协议文件不会自己唤醒 Codex A；需要固定启动入口。
-5. 本轮已新增 `docs/NIGHTLY_CODEX_A_PROMPT.md` 并更新队列。
+1. Phase 2.31 docs-only baseline 已完成。
+2. commit：`184533a`
+3. tag：`phase-2.31-pilot-ops-nightly-launcher-baseline`
+4. `origin/main` 与 tag 已推送。
+5. Phase 2.32 feedback intake planning 已完成，符合当前 MVP Pilot 需求和 PRD 边界。
+6. Nightly Sprint 已按队列停止，未进入 rollout、repair、DB 写入或自动 issue 创建。
 
-本轮只做 Git baseline，不写功能代码。
+本轮只做 Phase 2.32 文档 baseline，不写功能代码。
 
 ## 必须先读取
 
@@ -33,20 +34,14 @@ Codex B 已复核 Phase 2.31 文档方向正确：
 
 只允许 stage 以下文件：
 
-1. `docs/PHASE231_INTERNAL_MVP_PILOT_OPERATIONS_PLAN.md`
-2. `docs/MVP_PILOT_USER_GUIDE.md`
-3. `docs/MVP_PILOT_FEEDBACK_TEMPLATE.md`
-4. `docs/MVP_PILOT_KNOWN_RISKS.md`
-5. `docs/NIGHTLY_CODEX_A_PROMPT.md`
-6. `docs/NIGHTLY_SPRINT_PROTOCOL.md`
-7. `docs/NIGHTLY_SPRINT_QUEUE.md`
-8. `docs/AGENT_OPERATING_PROTOCOL.md`
-9. `docs/ACTIVE_PHASE.md`
-10. `docs/HANDOFF_LOG.md`
-11. `docs/PHASE_BACKLOG.md`
-12. `docs/NEXT_CODEX_A_PROMPT.md`
-13. `docs/TODO.md`
-14. `docs/DEV_LOG.md`
+1. `docs/PHASE232_MVP_PILOT_FEEDBACK_INTAKE_PLAN.md`
+2. `docs/ACTIVE_PHASE.md`
+3. `docs/HANDOFF_LOG.md`
+4. `docs/PHASE_BACKLOG.md`
+5. `docs/NIGHTLY_SPRINT_QUEUE.md`
+6. `docs/NEXT_CODEX_A_PROMPT.md`
+7. `docs/TODO.md`
+8. `docs/DEV_LOG.md`
 
 不得 stage：
 
@@ -60,6 +55,7 @@ Codex B 已复核 Phase 2.31 文档方向正确：
 
 ```bash
 git status --short
+git diff --check
 git check-ignore -v reports/agent_runs/latest.json
 git check-ignore -v reports/nightly_runs/test.json
 ```
@@ -72,10 +68,10 @@ git check-ignore -v reports/nightly_runs/test.json
 
 ```bash
 git add <white-listed files only>
-git commit -m "docs: baseline pilot ops and nightly launcher"
-git tag phase-2.31-pilot-ops-nightly-launcher-baseline
+git commit -m "docs: baseline pilot feedback intake plan"
+git tag phase-2.32-feedback-intake-plan-baseline
 git push origin main
-git push origin phase-2.31-pilot-ops-nightly-launcher-baseline
+git push origin phase-2.32-feedback-intake-plan-baseline
 ```
 
 baseline 后必须更新：
@@ -85,9 +81,7 @@ baseline 后必须更新：
 3. `docs/PHASE_BACKLOG.md`
 4. `reports/agent_runs/latest.json`
 
-如从 `docs/NIGHTLY_CODEX_A_PROMPT.md` 启动，且 `NIGHTLY_SPRINT_QUEUE.md` 当前 Item 1 明确 `continue_after_success=true`，baseline 成功后可以继续执行 Item 2：Phase 2.32 MVP Pilot feedback intake planning。
-
-如果不是 Nightly Sprint 启动，baseline 后停止，等待 Codex B。
+baseline 后停止，等待 Codex B。不得自动进入 Phase 2.33。
 
 ## 硬禁止
 
@@ -98,7 +92,8 @@ baseline 后必须更新：
 5. 不执行 repair / backfill / reindex / cleanup / delete。
 6. 不进入 production rollout。
 7. 不创建 production cron / scheduler。
-8. 不自动进入不在 `NIGHTLY_SPRINT_QUEUE.md` 中的阶段。
+8. 不自动创建 Linear / GitHub issue。
+9. 不自动继续下一阶段。
 
 ## 返回报告
 
@@ -108,5 +103,4 @@ baseline 后必须更新：
 2. tag。
 3. push 结果。
 4. 最终 `git status --short`。
-5. 是否继续执行 Nightly Sprint Item 2。
-6. 是否需要 Codex B / Codex C。
+5. 是否需要 Codex B / Codex C。

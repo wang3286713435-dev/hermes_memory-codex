@@ -169,3 +169,5 @@
 - [Phase 2.30b] Codex C 真实终端复验通过：12 条 Pilot query 为 10 pass、2 partial、0 failed；四个 alias 后续 query 均稳定，未出现 alias_missing / retrieval_suppressed 误阻断，建议 baseline 并进入内部受控 MVP Pilot。
 - [Phase 2.31] 完成内部受控 MVP Pilot 操作规划，新增试用流程、使用者指南、反馈模板与 known risks checklist；本轮 docs-only，不写代码、不运行测试、不进入 production rollout。
 - [Phase 2.31] Codex B review 确认 Pilot ops 文档可 baseline，并补强 Nightly Sprint 启动入口：新增 NIGHTLY_CODEX_A_PROMPT，澄清协议文件不会自动唤醒 Codex A，队列改为可执行 docs-only baseline + feedback intake planning。
+- [Phase 2.31] Nightly Sprint Item 1 docs-only baseline 已完成，commit 184533a，tag phase-2.31-pilot-ops-nightly-launcher-baseline，已推送 origin/main 与 tag。
+- [Phase 2.32] 完成 MVP Pilot feedback intake planning，定义反馈来源、triage 字段、P0/P1/P2/P3、Go / No-Go 与非目标；本轮 docs-only，不写代码、不提交 Git、不进入 rollout。

@@ -465,3 +465,14 @@
 9. Codex B review 已确认 Phase 2.31 文档方向可进入 docs baseline。
 10. 已补充 `docs/NIGHTLY_CODEX_A_PROMPT.md`，明确 Nightly Sprint 需要 Codex A 会话被启动，Markdown 本身不会自动运行。
 11. `NIGHTLY_SPRINT_QUEUE.md` 已从“等待 B review 无可执行项”调整为：Item 1 docs-only baseline，Item 2 Phase 2.32 feedback intake planning。
+
+## 38. Phase 2.32 MVP Pilot feedback intake
+
+1. Phase 2.32 已完成 docs-only planning，新增 MVP Pilot feedback intake / triage loop。
+2. 反馈来源限定为 feedback template、真实 Hermes 输出、人工复核结论、Codex C 复验记录与业务影响说明。
+3. triage 字段覆盖场景、query、期望 / 实际、pass / partial / fail、document_id / version_id、citation、问题类型、业务影响、优先级、是否需要 Codex C、是否需要新 phase。
+4. 已定义问题类型：alias/session、retrieval recall、citation、contamination、facts boundary、transcript boundary、UX / prompt、latency / runtime、environment、other。
+5. 已定义 P0/P1/P2/P3：P0 包括 facts 替代 evidence、transcript 误作 fact、compare 第三文件污染、无 citation 确定结论、alias/session 大面积失效。
+6. 已定义 Go / No-Go：P0 为 0 且 P1 可人工规避时可继续试用；任一 P0 或连续未解释 fail 应暂停或降级。
+7. 当前不自动修复、不自动写 DB、不自动创建 Linear / GitHub issue、不进入 rollout。
+8. 下一步建议 Codex B review Phase 2.32 文档；通过后再做 docs-only baseline。

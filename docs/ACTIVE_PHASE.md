@@ -1,55 +1,45 @@
 # Active Phase
 
-- 当前 phase：Phase 2.31 Codex B Review / Nightly Sprint Operational Launcher
-- 本轮目标：复核 Phase 2.31 内部受控 MVP Pilot 操作规划，并补强 Nightly Sprint 的实际启动入口与可执行队列。
+- 当前 phase：Phase 2.32 Codex B Review / Baseline Prompt
+- 本轮目标：审核 Nightly Sprint 生成的 MVP Pilot feedback intake 规划，并写入 docs-only baseline 任务入口。
 - 修改文件：
-  - `docs/PHASE231_INTERNAL_MVP_PILOT_OPERATIONS_PLAN.md`
-  - `docs/MVP_PILOT_USER_GUIDE.md`
-  - `docs/MVP_PILOT_FEEDBACK_TEMPLATE.md`
-  - `docs/MVP_PILOT_KNOWN_RISKS.md`
+  - `docs/PHASE232_MVP_PILOT_FEEDBACK_INTAKE_PLAN.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
   - `docs/PHASE_BACKLOG.md`
-  - `docs/NEXT_CODEX_A_PROMPT.md`
   - `docs/NIGHTLY_SPRINT_QUEUE.md`
-  - `docs/NIGHTLY_SPRINT_PROTOCOL.md`
-  - `docs/NIGHTLY_CODEX_A_PROMPT.md`
-  - `docs/AGENT_OPERATING_PROTOCOL.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
+  - `reports/nightly_runs/<timestamp>.json`（本地 ignored 状态文件）
 - 完成内容：
-  - 已新增内部受控 MVP Pilot 操作规划。
-  - 已新增使用者指南。
-  - 已新增反馈表模板。
-  - 已新增 known risks checklist。
-  - 已明确 Pilot 仅覆盖标书审查、文件提取与公司方向辅助分析。
-  - 已明确 Pilot 不等于 production rollout、自动审标、自动经营决策或 repair executor。
-  - Codex B 已复核 Phase 2.31 文档方向正确，可进入 docs baseline。
-  - 已新增 `docs/NIGHTLY_CODEX_A_PROMPT.md` 作为 Codex A 夜间模式固定启动入口。
-  - 已澄清 Nightly Sprint 是文件化控制面，不会自行唤醒 Codex A。
-  - 已把 `NIGHTLY_SPRINT_QUEUE.md` 更新为可执行队列：先做 docs-only baseline，再进入 Phase 2.32 feedback intake planning。
+  - Phase 2.31 Pilot ops + Nightly launcher docs baseline 已完成：commit `184533a`，tag `phase-2.31-pilot-ops-nightly-launcher-baseline`，已推送 `origin/main` 与 tag。
+  - 已新增 Phase 2.32 MVP Pilot feedback intake planning。
+  - 已定义 feedback 来源、triage 字段、问题类型、P0/P1/P2/P3、Go / No-Go 与分诊流程。
+  - 已明确不自动修复、不自动写 DB、不自动创建 Linear / GitHub issue。
+  - Codex B 已审核 Phase 2.32 planning，结论为方向正确、边界安全，可进入 docs-only baseline。
+  - 已将 Phase 2.32 baseline 任务写入 `docs/NEXT_CODEX_A_PROMPT.md`。
 - 测试结果：
-  - 本轮未运行 pytest，符合 docs-only 要求。
+  - 本轮未运行 pytest，符合 docs-only / planning 要求。
   - 已执行 `git status --short`。
-  - 已确认 `reports/agent_runs/latest.json` 仍被 `.gitignore` 命中。
+  - 已确认 `reports/agent_runs/latest.json` 与 `reports/nightly_runs/*.json` 仍被 `.gitignore` 命中。
 - live smoke 结果：
   - 未运行；上一阶段 Codex C 真实终端复验已通过。
 - 当前结论：
-  - Phase 2.31 docs-only planning 已通过 Codex B review。
-  - Nightly Sprint 之前“安全但空转”的原因是：队列等待 Codex B review，且缺少固定启动入口。
-  - 当前已补齐启动入口与可执行 queue；但仍需要用户在睡前启动 Codex A 执行 `docs/NIGHTLY_CODEX_A_PROMPT.md`。
+  - Phase 2.31 baseline 已完成。
+  - Phase 2.32 planning 已完成。
+  - Nightly Sprint 已按队列停止等待 Codex B review，行为符合预期。
+  - 当前可交给 Codex A 执行 Phase 2.32 docs baseline。
   - 当前仍不进入 production rollout。
 - 阻塞点 / 风险点：
-  - 最高投标限价、业绩要求等深层字段召回仍需人工复核。
-  - 公司方向分析中部分文件可能只有间接 evidence。
-  - 所有经营建议必须人工决策。
-  - 当前 soft ACL 不是完整 RBAC / ABAC。
-- 是否建议 baseline：是。建议执行 docs-only baseline，范围限定在 Phase 2.31 与 Nightly launcher 文档。
-- 是否建议进入下一阶段：baseline 成功后，Nightly Sprint 可继续执行 Phase 2.32 feedback intake planning；不得进入 rollout。
+  - Pilot feedback 目前仍是人工记录 / 人工分诊，不是自动 issue 系统。
+  - P0/P1 需要 Codex B review 和必要时 Codex C 复验。
+  - 深层字段召回、经营建议、soft ACL 风险仍保留。
+- 是否建议 baseline：是，Phase 2.32 可执行 docs-only baseline。
+- 是否建议进入下一阶段：否，先 baseline；baseline 后再规划下一步。
 - 下一轮建议：
-  - 睡前把 `/Users/Weishengsu/Hermes_memory/docs/NIGHTLY_CODEX_A_PROMPT.md` 发给 Codex A。
-  - Codex A 按 `NIGHTLY_SPRINT_QUEUE.md` 执行 Item 1 docs baseline；成功后可继续 Item 2 planning。
-  - 内部试用启动前由使用者按 user guide 与 feedback template 执行。
-- 是否需要 Codex B 审核：当前补丁完成后需要用户 / Codex B 最终确认；Codex A baseline 后需停止交接。
-- 是否需要 Codex C 真实终端验收：否，本轮是 docs-only planning；后续 Pilot 真实使用可另行安排。
+  - Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 完成 Phase 2.32 docs baseline。
+  - 内部 MVP Pilot 开始后按反馈表收集真实问题。
+- 是否需要 Codex B 审核：当前已审核；baseline 后需再检查 Git 状态。
+- 是否需要 Codex C 真实终端验收：否，本轮是 docs-only planning；P0/P1 反馈后再按需安排。

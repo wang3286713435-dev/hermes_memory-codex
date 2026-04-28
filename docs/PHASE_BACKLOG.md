@@ -2,9 +2,9 @@
 
 ## 当前优先级
 
-1. Phase 2.31 baseline：提交内部受控 MVP Pilot 试用流程、用户指南、反馈模板、known risk checklist 与 Nightly Sprint launcher 文档基线。
-2. Phase 2.32 planning：规划 MVP Pilot feedback intake / triage loop，把真实试用反馈转化为下一轮 bounded tasks。
-3. Phase 2.31 后置：根据真实试用反馈再决定是否做召回质量专项，不直接 rollout。
+1. Phase 2.32 review：Codex B 审核 MVP Pilot feedback intake / triage loop。
+2. Phase 2.32 baseline：审核通过后只提交文档 baseline，不写功能代码。
+3. Phase 2.32 后置：根据真实试用反馈决定是否进入召回质量专项或 UX / prompt polish，不直接 rollout。
 
 ## 后置项
 
@@ -24,6 +24,7 @@
 14. Phase 2.31 只能规划内部受控试用，不得解释为生产发布。
 15. Phase 2.31 已完成 docs-only planning；下一步只能 review / baseline，不得自动进入 rollout 或新功能实现。
 16. Nightly Sprint 只能在 Codex A 被启动后执行；`docs/NIGHTLY_CODEX_A_PROMPT.md` 是睡前启动入口，不是系统定时器。
+17. Phase 2.32 已完成 docs-only planning；下一步只能 review / baseline，不得自动创建 issue、写 DB、repair 或 rollout。
 
 ## 永久边界
 

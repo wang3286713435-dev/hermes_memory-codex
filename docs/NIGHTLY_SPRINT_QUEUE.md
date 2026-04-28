@@ -10,65 +10,25 @@
 
 ## Current Queue
 
-### Item 1：Phase 2.31 Pilot ops + Nightly launcher docs baseline
+当前无可自动执行的下一项。
 
-- lane：Yellow Lane
-- preapproved_docs_only_baseline：true
-- continue_after_success：true
-- 目标：提交 Phase 2.31 内部受控 MVP Pilot 操作规划与 Nightly Sprint 启动入口文档基线。
-- 允许动作：
-  - 复核 dirty 仅包含本 item 白名单文件。
-  - stage / commit / tag / push 白名单文件。
-  - 更新 `reports/agent_runs/latest.json` 与 `reports/nightly_runs/<timestamp>.json`。
-- 禁止动作：
-  - 不写代码。
-  - 不改脚本或测试。
-  - 不写 DB。
-  - 不执行 repair / backfill / reindex / cleanup / delete。
-  - 不进入 production rollout。
-- 文件白名单：
-  - `docs/PHASE231_INTERNAL_MVP_PILOT_OPERATIONS_PLAN.md`
-  - `docs/MVP_PILOT_USER_GUIDE.md`
-  - `docs/MVP_PILOT_FEEDBACK_TEMPLATE.md`
-  - `docs/MVP_PILOT_KNOWN_RISKS.md`
-  - `docs/NIGHTLY_CODEX_A_PROMPT.md`
-  - `docs/NIGHTLY_SPRINT_PROTOCOL.md`
-  - `docs/NIGHTLY_SPRINT_QUEUE.md`
-  - `docs/AGENT_OPERATING_PROTOCOL.md`
-  - `docs/ACTIVE_PHASE.md`
-  - `docs/HANDOFF_LOG.md`
-  - `docs/PHASE_BACKLOG.md`
-  - `docs/NEXT_CODEX_A_PROMPT.md`
-  - `docs/TODO.md`
-  - `docs/DEV_LOG.md`
-- 建议 commit message：`docs: baseline pilot ops and nightly launcher`
-- 建议 tag：`phase-2.31-pilot-ops-nightly-launcher-baseline`
-- 继续条件：
-  - 仅在 baseline 成功、最终 tracked status 干净、未出现非白名单 dirty 时，可继续 Item 2。
-  - 若 push / tag / status 任一失败，必须停止等待 Codex B。
-
-### Item 2：Phase 2.32 MVP Pilot feedback intake planning
-
-- lane：Green Lane
-- 目标：规划内部 MVP Pilot 反馈收集、分诊和优先级闭环，让试用问题能转化为下一轮可执行队列。
-- 允许动作：
-  - 新增 `docs/PHASE232_MVP_PILOT_FEEDBACK_INTAKE_PLAN.md`。
-  - 同步更新 `docs/ACTIVE_PHASE.md`、`docs/HANDOFF_LOG.md`、`docs/PHASE_BACKLOG.md`、`docs/NIGHTLY_SPRINT_QUEUE.md`、`docs/TODO.md`、`docs/DEV_LOG.md`、`reports/agent_runs/latest.json`。
-  - 仅运行 `git status --short` 与 ignore 检查。
-- 必须包含：
-  - feedback intake 来源：`MVP_PILOT_FEEDBACK_TEMPLATE.md`、真实 Hermes 输出、人工复核结论。
-  - triage 字段：场景、pass/partial/fail、问题类型、业务影响、优先级、是否需要 Codex C、是否需要新 phase。
-  - P0/P1/P2/P3 定义。
-  - 进入下一阶段的 Go/No-Go 规则。
-  - 明确不自动修复、不自动写 DB、不自动创建 Linear / GitHub issue。
-- 禁止动作：
-  - 不写代码。
-  - 不提交 Git。
-  - 不创建 production cron / scheduler。
-  - 不进入 repair executor 或 rollout。
-- 完成后停止，等待 Codex B review。
+Phase 2.31 baseline 与 Phase 2.32 planning 已完成，等待 Codex B review。不得自动继续进入 baseline、rollout 或新功能实现。
 
 ## Archived Queue
+
+### Phase 2.32 MVP Pilot feedback intake planning
+
+- 类型：Green Lane
+- 状态：completed
+- 结果：已规划 MVP Pilot feedback intake / triage loop，包含来源、字段、P0/P1/P2/P3、Go / No-Go 与非目标。
+- 备注：本轮 docs-only，未写代码、未提交 Git、未进入 rollout。
+
+### Phase 2.31 Pilot ops + Nightly launcher docs baseline
+
+- 类型：Yellow Lane
+- 状态：completed
+- 结果：commit `184533a`，tag `phase-2.31-pilot-ops-nightly-launcher-baseline`，已推送 `origin/main` 与 tag。
+- 备注：docs-only baseline；因 `continue_after_success=true`，成功后继续执行了 Phase 2.32 Green Lane planning。
 
 ### Phase 2.31 internal MVP pilot operations planning
 
