@@ -174,3 +174,8 @@
 - [Phase 2.32] docs baseline 已完成：commit 160ce62，tag phase-2.32-feedback-intake-plan-baseline；下一步推进 Phase 2.33 Day-1 Pilot run sheet，不进入 rollout。
 - [Phase 2.33] 完成 Day-1 Pilot execution packet planning，新增 run sheet、10 条最小 query set、输出保存字段、人工复核规则与 Go / Pause 检查点；本轮 docs-only，不写代码、不提交 Git、不进入 rollout。
 - [Phase 2.33] Codex B 已审核 Day-1 run sheet，当前执行 docs-only baseline；提交范围限定为 run sheet 与交接文档，不写代码、不进入 rollout。
+- [Phase 2.33] Day-1 run sheet baseline 已完成：commit `bb9656b`，tag `phase-2.33-pilot-day1-run-sheet-baseline`，已推送 `origin/main` 与 tag。
+- [Phase 2.34] Codex B 吸收 Codex C Day-1 真实终端报告：10 条 query 为 `7 pass / 3 partial / 0 fail`，P0 为 `0`，alias/session 稳定，无 facts 替代 evidence，无 transcript_as_fact，无实际第三文件污染。
+- [Phase 2.34] 当前 bounded fix 入口已写入 `docs/NEXT_CODEX_A_PROMPT.md`：优先修复 `@会议纪要 vs @主标书` compare 输出层误报 `third_document_mixed=true`；主标书深层字段召回与长输出延迟进入 backlog，不在本轮扩大。
+- [Phase 2.34] 完成 compare false-positive 最小修复：最终 evidence 在 compare 文档集合内时不再输出第三文件污染；真实 scope 外 evidence 仍会标记；主标书深层召回与延迟优化未扩做。
+- [Phase 2.34] Codex C 真实终端复验通过：`@会议纪要 vs @主标书` compare evidence 仅含两份目标文档，`third_document_mixed=false`，无第三文件污染误报；facts/transcript 边界抽样正常。

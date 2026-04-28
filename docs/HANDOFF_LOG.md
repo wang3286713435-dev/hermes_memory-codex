@@ -1116,3 +1116,58 @@
 - risks: Day-1 仍依赖人工保存输出和人工复核；深层字段召回与经营建议仍需人工确认。
 - next: `docs/NEXT_CODEX_A_PROMPT.md` 已写入 Phase 2.33 docs-only baseline 任务；执行后停止等待 Codex B。
 - commit/tag if any: 无。
+
+## 2026-04-28 16:42 Phase 2.34 Codex B Intake
+- goal: 吸收 Codex C Day-1 Pilot 真实终端验收报告，并写入 Phase 2.34 bounded fix 任务入口。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行 pytest；本轮为 Codex B intake / prompt handoff。
+- validation: Codex C Day-1 结果为 `7 pass / 3 partial / 0 fail`，P0 为 `0`；`@主标书`、`@硬件清单`、`@C塔方案`、`@会议纪要` 四个 alias 均稳定；未出现 facts 替代 evidence、transcript_as_fact 或实际第三文件污染。
+- risks: Q1/Q2 主标书深层字段召回仍为 P1 backlog；Q8 compare 输出层误报 `third_document_mixed=true` 是当前 Phase 2.34 bounded fix；Q7/Q10 长输出延迟为 P2 backlog。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只修 Q8 compare false-positive；完成后交 Codex B review，再由 Codex C 复验。
+- commit/tag if any: 无。
+
+## 2026-04-28 17:21 Phase 2.34
+- goal: 修复 Day-1 Query 8 compare 第三文件污染标记误报。
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/kernel.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_session_document_scope.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: py_compile 通过；主仓库 venv 缺 pytest；direct assertion selected tests 7 passed；zero-arg direct assertion tests 43 passed；tmp_path direct assertion tests 9 passed。
+- validation: 最终 evidence 均在 compare 文档集合内时 `third_document_mixed=false`；真实第三文档 evidence 仍触发 `unexpected_document_id`；候选过滤仅作为 `out_of_scope_document_ids_filtered` 诊断。
+- risks: Q1/Q2 主标书深层字段召回仍为 P1 backlog；Q7/Q10 延迟仍为 P2 backlog；需要 Codex C 真实终端复验 Q8。
+- next: Codex B review 代码与测试结果；Codex C 复验 Q8 compare 和 facts/transcript 边界。
+- commit/tag if any: 无。
+
+## 2026-04-28 17:59 Phase 2.34 Validation
+- goal: 吸收 Codex C 真实终端复验结果，并准备 Phase 2.34 Git baseline 入口。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮未新增测试；沿用 Phase 2.34 代码层 direct assertion 结果与 Codex C 真实终端复验。
+- validation: API `/health` 与 Hermes CLI 可用；session `20260428_174853_31a315`；`@主标书` 与 `@会议纪要` 绑定成功；Q8 compare 输出 `third_document_mixed=false`、`third_document_mixed_document_ids=[]`、`contaminationflags=none`；facts/transcript 抽样保持 false。
+- risks: Q1/Q2 主标书深层字段召回仍为 P1 backlog；Q7/Q10 延迟仍为 P2 backlog；baseline 不等于 rollout。
+- next: 执行 Phase 2.34 双仓 Git baseline，提交白名单文件并停止等待 Codex B。
+- commit/tag if any: 无。

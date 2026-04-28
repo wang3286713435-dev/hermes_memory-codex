@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## 0. 当前 MVP Pilot 状态
+
+1. Phase 2.33 Day-1 run sheet baseline 已完成：commit `bb9656b`，tag `phase-2.33-pilot-day1-run-sheet-baseline`。
+2. Codex C Day-1 真实终端验收：`7 pass / 3 partial / 0 fail`，P0 为 `0`，四个 alias 后续解析稳定，无 facts 替代 evidence，无 transcript_as_fact，无实际第三文件污染。
+3. 当前建议继续内部受控 Day-1 Pilot，但不得进入 production rollout 或自动经营决策。
+4. 当前 Phase 2.34 优先处理 P1：`@会议纪要 vs @主标书` compare 输出层误报 `third_document_mixed=true`。实际 evidence 仅来自两份目标文档，属于 contamination / UX false-positive。
+5. 主标书最高投标限价、资质等级、业绩、人员数量等深层字段召回仍为 P1 retrieval recall backlog；本轮不顺手扩大实现。
+6. 会议纪要决策 / 公司方向分析长输出延迟为 P2 backlog；本轮不顺手优化。
+
 ## 1. Phase 2.1-Qdrant 未确认项
 
 1. Qdrant 是否需要 `QDRANT_API_KEY`、以及 `api-key` header 是否生效尚未确认；当前仅验证了无鉴权的本地容器路径。
@@ -490,3 +499,15 @@
 7. 当前不写代码、不运行 pytest、不进入 production rollout、不自动创建 issue。
 8. 下一步建议 Codex B review Phase 2.33 run sheet；通过后再做 docs-only baseline。
 9. Codex B 已审核 Day-1 run sheet，可执行 Phase 2.33 docs-only Git baseline；baseline 后停止等待检查。
+
+## 40. Phase 2.34 Day-1 compare false-positive fix
+
+1. Codex C Day-1 Pilot 结果：10 条 query 为 `7 pass / 3 partial / 0 fail`，P0 为 `0`；四个 alias 均稳定。
+2. 当前 P1/P2 分流：Q1/Q2 主标书深层字段召回进入 P1 backlog；Q7/Q10 长输出延迟进入 P2 backlog；本轮只修 Q8 compare false-positive。
+3. 已完成最小修复：最终 `retrieval_evidence_document_ids` 均属于 `compare_document_ids` 时，trace/context 稳定输出 `third_document_mixed=false`。
+4. 已保留真实污染检测：最终 evidence 出现 compare 外 document_id 时仍输出 `third_document_mixed=true` 与 `unexpected_document_id`。
+5. 候选过滤诊断改为 `out_of_scope_document_ids_filtered`，不再在最终 `contamination_flags` 中误导为第三文件混入。
+6. 下一步需要 Codex B review 与 Codex C 复验 Q8 compare；复验前不建议 Git baseline。
+7. Codex C 真实终端复验已通过：Q8 compare 输出 `third_document_mixed=false`、`third_document_mixed_document_ids=[]`、`contaminationflags=none`，无实际第三文件 evidence。
+8. Facts / transcript 抽样通过：`facts_context_used=false`、`facts_context_fact_ids=[]`、`facts_as_answer=false`、`transcript_as_fact=false`。
+9. 下一步建议执行 Phase 2.34 双仓 Git baseline，不进入 production rollout。

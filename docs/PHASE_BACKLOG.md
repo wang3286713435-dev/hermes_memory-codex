@@ -2,32 +2,31 @@
 
 ## 当前优先级
 
-1. Phase 2.33 baseline：提交 Day-1 run sheet 文档基线，不写功能代码。
-2. Phase 2.33 post-baseline review：Codex B 检查 commit/tag/push 与最终 git status。
-3. Phase 2.34 候选：根据 Day-1 反馈决定是否进入召回质量专项、UX / prompt polish 或 feedback report；不得直接 rollout。
+1. Phase 2.34 baseline：Codex C 复验已通过，下一步只做双仓 Git baseline。
+2. Phase 2.34 post-baseline review：Codex B 检查 commit/tag/push 与剩余 dirty。
+3. Phase 2.35 候选：根据 Day-1 P1/P2 决定是否规划深层召回专项、latency polish 或继续 Pilot feedback report；不得直接 rollout。
+
+## Day-1 Pilot 已知问题
+
+1. P1 retrieval recall：`@主标书` 基础信息中最高投标限价未被当前召回覆盖。
+2. P1 retrieval recall：`@主标书` 资质等级、业绩、人员数量等深层字段需人工复核。
+3. P1 contamination / UX：`@会议纪要 vs @主标书` 实际 evidence 仅两份目标文档，但输出层误报 `third_document_mixed=true`。
+4. P2 latency：会议纪要决策 / 风险与公司方向分析长输出偏慢。
+5. Pilot 期间所有经营建议必须保留人工决策声明，不得当成自动经营决策。
+6. Phase 2.34 已最小修复 Q8 输出层误报，Codex C 真实终端复验通过，建议 baseline。
 
 ## 后置项
 
-1. repair executor：后置，必须经过单独 Phase 规划、人工确认和显式指令。
-2. item-level audit summary：后置，避免过早暴露 fact_id / document_id 等实体信息。
-3. report review 写业务 DB：后置到 Yellow Lane；仅允许 Codex B 审核后显式 opt-in 的 report-level sanitized audit 写入。
-4. archive / review / audit 默认 readiness 扫描：后置，避免未使用 review workflow 的环境产生噪声。
-5. rollout readiness：后置，当前仍不进入生产 rollout。
-6. production cron / scheduler：后置，Nightly Sprint 只做本地协作协议，不创建系统定时任务。
-7. repair executor：继续后置，除非 freeze 报告与人工评审明确批准。
-8. docs drift cleanup 已完成 baseline；下一步仍不得直接进入 release candidate execution 或 rollout。
-9. production rollout 继续后置；MVP freeze candidate checklist 不得被解释为 production ready。
-10. Phase 2.29e 若实现，也只能输出 dry-run checklist JSON，不得写 DB、执行 repair 或默认扫描真实 reports / reviews。
-11. Phase 2.30a Pilot 仍是内部受控试运行，不等于生产发布或自动决策。
-12. Phase 2.30b 只修 alias / session stability，不处理深层召回质量尾项或 production rollout。
-13. Phase 2.30b 代码层最小修复与 runbook prompt follow-up 已通过 Codex C 真实终端复验。
-14. Phase 2.31 只能规划内部受控试用，不得解释为生产发布。
-15. Phase 2.31 已完成 docs-only planning；下一步只能 review / baseline，不得自动进入 rollout 或新功能实现。
-16. Nightly Sprint 只能在 Codex A 被启动后执行；`docs/NIGHTLY_CODEX_A_PROMPT.md` 是睡前启动入口，不是系统定时器。
-17. Phase 2.32 已完成 docs-only planning；下一步只能 review / baseline，不得自动创建 issue、写 DB、repair 或 rollout。
-18. Phase 2.32 已完成 docs baseline；下一步仅允许 Phase 2.33 Day-1 execution packet planning，不得自动进入真实 rollout。
-19. Phase 2.33 docs-only planning 已完成，新增 Day-1 run sheet；下一步只能 review / baseline，不得自动进入真实 Pilot、repair 或 rollout。
-20. Phase 2.33 baseline 完成后必须停止等待 Codex B，不得自动进入 Day-1 真实试用、Phase 2.34、repair 或 rollout。
+1. 主标书深层字段召回专项：需单独 Phase 规划，不在 Phase 2.34 中顺手扩做。
+2. 长输出 query 延迟优化：需先收集更多 Pilot 样本，不在 Phase 2.34 中扩大。
+3. repair executor：后置，必须经过单独 Phase 规划、人工确认和显式指令。
+4. item-level audit summary：后置，避免过早暴露 fact_id / document_id 等实体信息。
+5. report review 写业务 DB：后置到 Yellow Lane；仅允许 Codex B 审核后显式 opt-in 的 report-level sanitized audit 写入。
+6. archive / review / audit 默认 readiness 扫描：后置，避免未使用 review workflow 的环境产生噪声。
+7. rollout readiness：后置，当前仍不进入生产 rollout。
+8. production cron / scheduler：后置，Nightly Sprint 只做本地协作协议，不创建系统定时任务。
+9. default real reports / reviews scan：后置，除非用户显式指定输入。
+10. production rollout 继续后置；MVP Pilot 不得解释为 production ready。
 
 ## 永久边界
 
