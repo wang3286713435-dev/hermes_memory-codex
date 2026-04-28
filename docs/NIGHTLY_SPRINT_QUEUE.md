@@ -10,11 +10,37 @@
 
 ## Current Queue
 
-当前无可自动执行的下一项。
+Phase 2.33 Day-1 execution packet planning 已完成并通过 Codex B review。当前无可自动继续的 Green Lane item，等待用户授权的 docs-only baseline。
 
-Phase 2.31 baseline 与 Phase 2.32 planning 已完成，等待 Codex B review。不得自动继续进入 baseline、rollout 或新功能实现。
+### Waiting：Phase 2.33 MVP Pilot Day-1 execution packet review / baseline
+
+- lane：Yellow Lane
+- 目标：执行 Phase 2.33 docs-only baseline。
+- 允许动作：
+  - 只提交 Phase 2.33 文档与交接文件。
+  - 不提交 ignored local state。
+- 禁止动作：
+  - 不写代码。
+  - 不写 DB。
+  - 不创建 production cron / scheduler。
+  - 不进入 repair executor 或 rollout。
+- 默认不夜间自动执行，除非用户明确授权。
 
 ## Archived Queue
+
+### Phase 2.33 MVP Pilot Day-1 execution packet planning
+
+- 类型：Green Lane
+- 状态：completed
+- 结果：已新增 `docs/MVP_PILOT_DAY1_RUN_SHEET.md`，覆盖 Day-1 目标、角色、时间表、最小 query set、输出保存字段与 Go / Pause。
+- 备注：docs-only planning；未写代码、未提交 Git、未进入 rollout。
+
+### Phase 2.32 MVP Pilot feedback intake planning baseline
+
+- 类型：Yellow Lane
+- 状态：completed
+- 结果：commit `160ce62`，tag `phase-2.32-feedback-intake-plan-baseline`，已推送 `origin/main` 与 tag。
+- 备注：docs-only baseline；未写代码、未进入 rollout。
 
 ### Phase 2.32 MVP Pilot feedback intake planning
 

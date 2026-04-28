@@ -4,37 +4,33 @@
 
 ## 本轮目标
 
-Phase 2.32 MVP Pilot feedback intake planning docs baseline。
+Phase 2.33 Internal MVP Pilot Day-1 Execution Packet docs baseline。
 
-Codex B 已审核夜间执行结果：
+Codex B 已审核 Phase 2.33 Day-1 run sheet：
 
-1. Phase 2.31 docs-only baseline 已完成。
-2. commit：`184533a`
-3. tag：`phase-2.31-pilot-ops-nightly-launcher-baseline`
-4. `origin/main` 与 tag 已推送。
-5. Phase 2.32 feedback intake planning 已完成，符合当前 MVP Pilot 需求和 PRD 边界。
-6. Nightly Sprint 已按队列停止，未进入 rollout、repair、DB 写入或自动 issue 创建。
+1. `docs/MVP_PILOT_DAY1_RUN_SHEET.md` 已覆盖 Day-1 目标、角色、时间表、alias 绑定、10 条最小 query set、输出保存字段、人工复核、问题分级与 Go / Pause。
+2. 本阶段未写代码、未写 DB、未改索引、未进入 repair 或 rollout。
+3. 文档符合当前内部受控 MVP Pilot 边界。
 
-本轮只做 Phase 2.32 文档 baseline，不写功能代码。
+本轮只做 Git baseline，不写功能代码。
 
 ## 必须先读取
 
 1. `/Users/Weishengsu/Hermes_memory/docs/AGENT_OPERATING_PROTOCOL.md`
-2. `/Users/Weishengsu/Hermes_memory/docs/NIGHTLY_CODEX_A_PROMPT.md`
-3. `/Users/Weishengsu/Hermes_memory/docs/NIGHTLY_SPRINT_PROTOCOL.md`
-4. `/Users/Weishengsu/Hermes_memory/docs/NIGHTLY_SPRINT_QUEUE.md`
-5. `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
-6. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
-7. `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
-8. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
-9. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
-10. `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`
+2. `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
+3. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
+4. `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
+5. `/Users/Weishengsu/Hermes_memory/docs/NEXT_CODEX_A_PROMPT.md`
+6. `/Users/Weishengsu/Hermes_memory/docs/MVP_PILOT_DAY1_RUN_SHEET.md`
+7. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
+8. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
+9. `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`
 
 ## Stage 白名单
 
 只允许 stage 以下文件：
 
-1. `docs/PHASE232_MVP_PILOT_FEEDBACK_INTAKE_PLAN.md`
+1. `docs/MVP_PILOT_DAY1_RUN_SHEET.md`
 2. `docs/ACTIVE_PHASE.md`
 3. `docs/HANDOFF_LOG.md`
 4. `docs/PHASE_BACKLOG.md`
@@ -68,10 +64,10 @@ git check-ignore -v reports/nightly_runs/test.json
 
 ```bash
 git add <white-listed files only>
-git commit -m "docs: baseline pilot feedback intake plan"
-git tag phase-2.32-feedback-intake-plan-baseline
+git commit -m "docs: baseline pilot day1 run sheet"
+git tag phase-2.33-pilot-day1-run-sheet-baseline
 git push origin main
-git push origin phase-2.32-feedback-intake-plan-baseline
+git push origin phase-2.33-pilot-day1-run-sheet-baseline
 ```
 
 baseline 后必须更新：
@@ -81,7 +77,7 @@ baseline 后必须更新：
 3. `docs/PHASE_BACKLOG.md`
 4. `reports/agent_runs/latest.json`
 
-baseline 后停止，等待 Codex B。不得自动进入 Phase 2.33。
+baseline 后停止，等待 Codex B。不得自动进入 Phase 2.34 或 production rollout。
 
 ## 硬禁止
 

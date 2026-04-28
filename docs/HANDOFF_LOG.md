@@ -1051,3 +1051,68 @@
 - risks: Phase 2.32 仍是人工反馈分诊流程，不是自动 issue / repair 系统；P0/P1 反馈后仍需 Codex B 和必要时 Codex C。
 - next: `docs/NEXT_CODEX_A_PROMPT.md` 已写入 Phase 2.32 docs-only baseline 任务；执行后停止等待 Codex B。
 - commit/tag if any: 无。
+
+## 2026-04-28 Phase 2.32 Baseline Review / Phase 2.33 Prompt
+- goal: 检查 Phase 2.32 docs baseline 是否完成，并准备 Phase 2.33 Day-1 Pilot execution packet 入口。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: `git status --short`、`git diff --check`、ignore 检查与 latest/nightly JSON 校验均已执行。
+- validation: Phase 2.32 baseline 已完成：commit `160ce62`，tag `phase-2.32-feedback-intake-plan-baseline`；未发现代码、DB、索引、repair 或 rollout 越界。
+- risks: 下一阶段仍必须保持内部受控 Pilot；Day-1 run sheet 只能组织试用流程，不得解释为 production rollout。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已写入 Phase 2.33 Day-1 execution packet docs-only planning。
+- commit/tag if any: 无。
+
+## 2026-04-28 15:32 Phase 2.33
+- goal: 完成内部 MVP Pilot Day-1 execution packet docs-only planning。
+- changed_files:
+  - `docs/MVP_PILOT_DAY1_RUN_SHEET.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行 pytest；本轮 docs-only；执行 `git status --short` 并确认 `reports/agent_runs/latest.json` 仍被 ignore。
+- validation: Day-1 run sheet 已覆盖目标 / 非目标、角色、时间表、alias 绑定、10 条最小 query set、输出保存字段、人工复核、问题分级与 Go / Pause；未写代码、未写 DB、未改索引、未进入 rollout。
+- risks: Pilot 仍依赖人工保存输出与人工复核；深层字段召回、经营建议和 soft ACL 风险继续保留；Phase 2.33 需 Codex B review 后再 baseline。
+- next: Codex B review `docs/MVP_PILOT_DAY1_RUN_SHEET.md`；通过后执行 docs-only baseline，不自动进入真实 rollout。
+- commit/tag if any: 无。
+
+## 2026-04-28 15:53 Phase 2.33 Baseline
+- goal: 执行 Phase 2.33 Day-1 run sheet docs-only Git baseline。
+- changed_files:
+  - `docs/MVP_PILOT_DAY1_RUN_SHEET.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+- tests: `git status --short`、`git diff --check`、`git check-ignore -v reports/agent_runs/latest.json`、`git check-ignore -v reports/nightly_runs/test.json`。
+- validation: Dirty 文件限定为 Phase 2.33 文档白名单；未写代码、未运行 pytest、未写 DB、未改索引、未进入 repair 或 rollout。
+- risks: baseline 后不得自动进入真实 Pilot 或 Phase 2.34；Day-1 仍需人工复核 citation、facts/transcript 边界与 contamination。
+- next: 完成 commit/tag/push 后停止，交 Codex B 检查 Git 状态。
+- commit/tag if any: commit hash 记录在最终报告与 ignored `reports/agent_runs/latest.json`；tag `phase-2.33-pilot-day1-run-sheet-baseline`。
+
+## 2026-04-28 Phase 2.33 Codex B Review
+- goal: 审核 Day-1 run sheet 是否符合内部受控 MVP Pilot 边界，并准备 docs-only baseline prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `reports/agent_runs/latest.json`
+- tests: `git status --short`、`git diff --check`、`python3 -m json.tool reports/agent_runs/latest.json` 与 ignore 检查均已执行。
+- validation: Day-1 run sheet 覆盖目标、非目标、角色、时间表、alias 绑定、10 条最小 query set、输出保存、人工复核、P0/P1 分级与 Go / Pause；未发现 rollout、repair、DB、索引或代码越界。
+- risks: Day-1 仍依赖人工保存输出和人工复核；深层字段召回与经营建议仍需人工确认。
+- next: `docs/NEXT_CODEX_A_PROMPT.md` 已写入 Phase 2.33 docs-only baseline 任务；执行后停止等待 Codex B。
+- commit/tag if any: 无。

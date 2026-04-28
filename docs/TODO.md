@@ -476,3 +476,17 @@
 6. 已定义 Go / No-Go：P0 为 0 且 P1 可人工规避时可继续试用；任一 P0 或连续未解释 fail 应暂停或降级。
 7. 当前不自动修复、不自动写 DB、不自动创建 Linear / GitHub issue、不进入 rollout。
 8. 下一步建议 Codex B review Phase 2.32 文档；通过后再做 docs-only baseline。
+9. Phase 2.32 docs-only baseline 已完成：commit `160ce62`，tag `phase-2.32-feedback-intake-plan-baseline`。
+10. 下一步建议 Phase 2.33：整理 Day-1 run sheet 与最小 query set，让内部试用可以直接执行。
+
+## 39. Phase 2.33 MVP Pilot Day-1 execution packet
+
+1. Phase 2.33 已完成 docs-only planning，新增 `docs/MVP_PILOT_DAY1_RUN_SHEET.md`。
+2. Day-1 run sheet 覆盖目标 / 非目标、角色、时间表、环境检查、alias 绑定、最小 query set、输出保存规则、人工复核、问题分级与 Go / Pause。
+3. 最小 query set 覆盖 `@主标书` 基础信息与风险、缺失风险检查、`@硬件清单` Excel sheet/cell、`@C塔方案` PPTX slide、`@会议纪要` action / decision / risk、A/B 防污染、facts 边界与公司方向辅助分析。
+4. 每条输出必须保存 query、原始输出、document_id/version_id、citation、`facts_as_answer`、`transcript_as_fact`、contamination_flags、pass/partial/fail、issue_type 与 priority。
+5. Go 条件：P0 为 0、alias/session 不成为主要阻塞、partial / Missing Evidence 可人工记录、使用者理解输出只是辅助建议。
+6. Pause 条件：facts 替代 evidence、无 citation 给确定结论、compare 混入第三文件、alias/session 大面积失效、使用者要求自动决策 / repair / rollout。
+7. 当前不写代码、不运行 pytest、不进入 production rollout、不自动创建 issue。
+8. 下一步建议 Codex B review Phase 2.33 run sheet；通过后再做 docs-only baseline。
+9. Codex B 已审核 Day-1 run sheet，可执行 Phase 2.33 docs-only Git baseline；baseline 后停止等待检查。

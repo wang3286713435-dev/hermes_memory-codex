@@ -2,9 +2,9 @@
 
 ## 当前优先级
 
-1. Phase 2.32 review：Codex B 审核 MVP Pilot feedback intake / triage loop。
-2. Phase 2.32 baseline：审核通过后只提交文档 baseline，不写功能代码。
-3. Phase 2.32 后置：根据真实试用反馈决定是否进入召回质量专项或 UX / prompt polish，不直接 rollout。
+1. Phase 2.33 baseline：提交 Day-1 run sheet 文档基线，不写功能代码。
+2. Phase 2.33 post-baseline review：Codex B 检查 commit/tag/push 与最终 git status。
+3. Phase 2.34 候选：根据 Day-1 反馈决定是否进入召回质量专项、UX / prompt polish 或 feedback report；不得直接 rollout。
 
 ## 后置项
 
@@ -25,6 +25,9 @@
 15. Phase 2.31 已完成 docs-only planning；下一步只能 review / baseline，不得自动进入 rollout 或新功能实现。
 16. Nightly Sprint 只能在 Codex A 被启动后执行；`docs/NIGHTLY_CODEX_A_PROMPT.md` 是睡前启动入口，不是系统定时器。
 17. Phase 2.32 已完成 docs-only planning；下一步只能 review / baseline，不得自动创建 issue、写 DB、repair 或 rollout。
+18. Phase 2.32 已完成 docs baseline；下一步仅允许 Phase 2.33 Day-1 execution packet planning，不得自动进入真实 rollout。
+19. Phase 2.33 docs-only planning 已完成，新增 Day-1 run sheet；下一步只能 review / baseline，不得自动进入真实 Pilot、repair 或 rollout。
+20. Phase 2.33 baseline 完成后必须停止等待 Codex B，不得自动进入 Day-1 真实试用、Phase 2.34、repair 或 rollout。
 
 ## 永久边界
 

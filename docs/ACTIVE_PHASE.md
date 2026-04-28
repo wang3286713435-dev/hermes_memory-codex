@@ -1,45 +1,43 @@
 # Active Phase
 
-- 当前 phase：Phase 2.32 Codex B Review / Baseline Prompt
-- 本轮目标：审核 Nightly Sprint 生成的 MVP Pilot feedback intake 规划，并写入 docs-only baseline 任务入口。
+- 当前 phase：Phase 2.33 MVP Pilot Day-1 Run Sheet Baseline
+- 本轮目标：执行 Phase 2.33 docs-only Git baseline，不写功能代码。
 - 修改文件：
-  - `docs/PHASE232_MVP_PILOT_FEEDBACK_INTAKE_PLAN.md`
+  - `docs/MVP_PILOT_DAY1_RUN_SHEET.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/NIGHTLY_SPRINT_QUEUE.md`
-  - `docs/NEXT_CODEX_A_PROMPT.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
-  - `reports/nightly_runs/<timestamp>.json`（本地 ignored 状态文件）
 - 完成内容：
-  - Phase 2.31 Pilot ops + Nightly launcher docs baseline 已完成：commit `184533a`，tag `phase-2.31-pilot-ops-nightly-launcher-baseline`，已推送 `origin/main` 与 tag。
-  - 已新增 Phase 2.32 MVP Pilot feedback intake planning。
-  - 已定义 feedback 来源、triage 字段、问题类型、P0/P1/P2/P3、Go / No-Go 与分诊流程。
-  - 已明确不自动修复、不自动写 DB、不自动创建 Linear / GitHub issue。
-  - Codex B 已审核 Phase 2.32 planning，结论为方向正确、边界安全，可进入 docs-only baseline。
-  - 已将 Phase 2.32 baseline 任务写入 `docs/NEXT_CODEX_A_PROMPT.md`。
+  - 新增 Day-1 run sheet，定义目标、非目标、角色、时间表、环境检查、alias 绑定、最小 query set、输出保存规则、人工复核、问题分级与 Go / Pause。
+  - 最小 query set 覆盖 `@主标书`、`@硬件清单`、`@C塔方案`、`@会议纪要`、A/B 防污染、facts 边界与公司方向辅助分析。
+  - 明确 Day-1 只做内部受控试用，不验证 production rollout、自动审标、自动经营决策、repair executor、facts 自动抽取或自动 issue 创建。
+  - 同步 Phase backlog、Nightly queue、TODO、DEV_LOG 与交接状态。
+  - Codex B 已审核 Day-1 run sheet，结论为方向正确、边界安全，可进入 docs-only baseline。
+  - 已将 Phase 2.33 baseline 任务写入 `docs/NEXT_CODEX_A_PROMPT.md`。
+  - 本轮准备按白名单提交 Day-1 run sheet 与阶段交接文档，并打 tag `phase-2.33-pilot-day1-run-sheet-baseline`。
 - 测试结果：
-  - 本轮未运行 pytest，符合 docs-only / planning 要求。
+  - 本轮未运行 pytest，符合 docs-only planning 要求。
   - 已执行 `git status --short`。
-  - 已确认 `reports/agent_runs/latest.json` 与 `reports/nightly_runs/*.json` 仍被 `.gitignore` 命中。
+  - 已确认没有代码、脚本、测试、DB、索引变更。
+  - 已确认 `reports/agent_runs/latest.json` 仍被 `.gitignore` 命中。
 - live smoke 结果：
-  - 未运行；上一阶段 Codex C 真实终端复验已通过。
+  - 未运行；本轮为 Day-1 文档规划，不需要真实终端验收。
 - 当前结论：
-  - Phase 2.31 baseline 已完成。
-  - Phase 2.32 planning 已完成。
-  - Nightly Sprint 已按队列停止等待 Codex B review，行为符合预期。
-  - 当前可交给 Codex A 执行 Phase 2.32 docs baseline。
+  - Phase 2.33 docs-only planning 已完成并通过 Codex B review。
   - 当前仍不进入 production rollout。
+  - 当前执行 Phase 2.33 docs baseline；baseline 后停止等待 Codex B。
 - 阻塞点 / 风险点：
-  - Pilot feedback 目前仍是人工记录 / 人工分诊，不是自动 issue 系统。
-  - P0/P1 需要 Codex B review 和必要时 Codex C 复验。
-  - 深层字段召回、经营建议、soft ACL 风险仍保留。
-- 是否建议 baseline：是，Phase 2.32 可执行 docs-only baseline。
-- 是否建议进入下一阶段：否，先 baseline；baseline 后再规划下一步。
+  - Day-1 Pilot 仍依赖人工保存输出、人工复核 citation 与人工分级。
+  - 深层字段召回、经营建议、soft ACL 风险仍需在试用中持续记录。
+  - `docs/NEXT_CODEX_A_PROMPT.md` 当前存在 Codex B 预置任务入口变更，本轮未额外改写。
+- 是否建议 baseline：是，本轮执行 docs-only baseline。
+- 是否建议进入下一阶段：否，baseline 后停止等待 Codex B；不得自动进入真实 Pilot 或 Phase 2.34。
 - 下一轮建议：
-  - Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 完成 Phase 2.32 docs baseline。
-  - 内部 MVP Pilot 开始后按反馈表收集真实问题。
-- 是否需要 Codex B 审核：当前已审核；baseline 后需再检查 Git 状态。
-- 是否需要 Codex C 真实终端验收：否，本轮是 docs-only planning；P0/P1 反馈后再按需安排。
+  - Codex B 检查 Phase 2.33 baseline commit/tag/push。
+  - 如果通过，再由用户决定是否启动 Day-1 Pilot 或进入 Phase 2.34 规划。
+- 是否需要 Codex B 审核：baseline 后需要检查 Git 状态。
+- 是否需要 Codex C 真实终端验收：否；除非 Day-1 运行后出现 P0/P1 或需要抽样复验。
