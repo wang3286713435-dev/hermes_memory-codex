@@ -178,4 +178,15 @@
 - [Phase 2.34] Codex B 吸收 Codex C Day-1 真实终端报告：10 条 query 为 `7 pass / 3 partial / 0 fail`，P0 为 `0`，alias/session 稳定，无 facts 替代 evidence，无 transcript_as_fact，无实际第三文件污染。
 - [Phase 2.34] 当前 bounded fix 入口已写入 `docs/NEXT_CODEX_A_PROMPT.md`：优先修复 `@会议纪要 vs @主标书` compare 输出层误报 `third_document_mixed=true`；主标书深层字段召回与长输出延迟进入 backlog，不在本轮扩大。
 - [Phase 2.34] 完成 compare false-positive 最小修复：最终 evidence 在 compare 文档集合内时不再输出第三文件污染；真实 scope 外 evidence 仍会标记；主标书深层召回与延迟优化未扩做。
+- [Phase 2.34] Git baseline 完成：Hermes_memory commit `789ed22`，Hermes 主仓库 commit `5de49bf5`，tag `phase-2.34-compare-contamination-baseline`。
+- [Phase 2.35] Codex B 已写入主标书深层字段召回专项入口：优先处理最高投标限价 / 招标控制价、资质 / 项目经理 / 联合体 / 业绩 / 人员等 Day-1 P1 字段；本阶段只改善 retrieval evidence，不进入自动审标或 rollout。
 - [Phase 2.34] Codex C 真实终端复验通过：`@会议纪要 vs @主标书` compare evidence 仅含两份目标文档，`third_document_mixed=false`，无第三文件污染误报；facts/transcript 边界抽样正常。
+- [Phase 2.35] 完成主标书深层字段召回最小实现：新增 price ceiling 与 qualification deep-field metadata anchors，扩展最高投标限价 / 招标控制价 / 资质 / 项目经理 / 联合体 / 业绩 / 人员要求的 section hints 与 phrase boosts，并新增 deep-field trace；目标测试 22 passed，等待 Codex B review 与 Codex C Q1/Q2 复验。
+- [Phase 2.35] Codex C 真实终端复验显示安全边界通过但效果仍 partial：最高投标限价仍 Missing Evidence，具体资质等级未命中，项目经理 / 联合体 / 业绩 / 人员要求需人工复核；首次 session 出现 alias 绑定后丢失，第二次 session 正常。
+- [Phase 2.35b] Codex B 已写入 bounded follow-up：对齐 `deep_field_profile` trace，增强 price ceiling / qualification metadata precision，并诊断 alias 首次绑定不稳定；暂不 baseline，不进入 rollout。
+- [Phase 2.35b] 完成 bounded follow-up 最小实现：`SearchResponse.trace` 顶层新增 metadata profile/status 字段；限价 metadata strong match 要求具体金额，资质 metadata strong match 要求具体等级 + 类别；目标测试 26 passed，`git diff --check` 通过。
+- [Phase 2.35b] 完成主仓库 alias 首次绑定诊断：`.venv` 缺 pytest，改用 direct assertion diagnostics，alias bind / persistence / same-turn retrieval fallback 相关 10 个路径通过，未复现首次绑定丢失，未修改主仓库代码。
+- [Phase 2.35c] Codex C 真实 CLI 复验复现阻塞：`@主标书` binding turn 返回成功且 document/version 正确，但正式 Q1/Q2 均变为 `alias_missing=true / retrieval_suppressed=true`，未进入 retrieval；当前不建议 Phase 2.35b baseline。
+- [Phase 2.35c] Codex B 已写入下一轮主仓库 alias/session 最小修复入口，限定修复 bind success 后同 session 后续 query 丢失问题；不扩大 deep-field retrieval、不进入自动审标或 rollout。
+- [Phase 2.35c] 完成主仓库 alias/session 最小修复：`上一轮已锁定的当前文件` 类绑定提示进入 current-document bind / retrieval fallback，并通过 direct assertion 覆盖跨 store resume 与 run_agent 预解析路径。
+- [Phase 2.35c] Codex C 真实终端复验通过：`@主标书` bind 后 Q1/Q2 均为 alias_resolved 且未 suppressed；限价金额、具体资质等级、业绩与人员要求仍为 retrieval recall / Missing Evidence 尾项。

@@ -58,8 +58,30 @@ FIELD_RULES: dict[str, dict[str, Any]] = {
     },
     "price_ceiling": {
         "display": "最高投标限价",
-        "triggers": ("最高投标限价", "招标控制价", "最高限价", "投标限价"),
-        "section_hints": ("招标公告", "投标人须知前附表", "工程量清单", "限价明细"),
+        "triggers": (
+            "最高投标限价",
+            "招标控制价",
+            "最高限价",
+            "投标限价",
+            "投标报价上限",
+            "报价上限",
+            "最高报价",
+            "限价金额",
+            "控制价",
+        ),
+        "positive_patterns": (
+            "最高投标限价：",
+            "最高投标限价为",
+            "招标控制价：",
+            "招标控制价为",
+            "最高限价：",
+            "最高限价为",
+            "投标报价上限",
+            "报价上限",
+            "不得超过",
+        ),
+        "section_hints": ("招标公告", "投标人须知前附表", "工程量清单", "限价明细", "最高投标限价", "招标控制价", "投标报价要求"),
+        "precision": "price_amount",
     },
     "duration": {
         "display": "工期",
@@ -76,6 +98,47 @@ FIELD_RULES: dict[str, dict[str, Any]] = {
         "triggers": ("标段", "标段名称", "标段编号"),
         "section_hints": ("招标公告", "投标人须知前附表", "标段划分"),
     },
+    "qualification_requirement": {
+        "display": "投标资质",
+        "triggers": ("投标资质", "资质等级", "资质要求", "施工总承包资质", "专业承包资质", "资格要求", "资格条件", "投标人资格"),
+        "positive_patterns": ("投标人资格要求", "资质要求", "资质等级", "具备", "及以上资质"),
+        "section_hints": ("投标人须知前附表", "资格审查", "资格后审", "资信标", "资格条件"),
+        "precision": "qualification_level",
+    },
+    "project_manager_requirement": {
+        "display": "项目经理资格",
+        "triggers": ("项目经理", "项目负责人", "注册建造师", "建造师", "b证", "B证", "安全生产考核", "安全考核"),
+        "positive_patterns": ("项目经理须", "项目负责人须", "注册建造师", "安全生产考核", "B证"),
+        "section_hints": ("投标人须知前附表", "资格审查", "资格后审", "项目管理机构", "项目经理"),
+    },
+    "consortium_requirement": {
+        "display": "联合体",
+        "triggers": ("联合体", "联合体投标", "接受联合体", "不接受联合体"),
+        "positive_patterns": ("接受联合体", "不接受联合体", "联合体投标"),
+        "section_hints": ("投标人须知前附表", "资格审查", "资格后审", "联合体投标"),
+    },
+    "performance_requirement": {
+        "display": "业绩要求",
+        "triggers": ("业绩", "类似工程业绩", "同类工程业绩", "投标人业绩", "项目经理业绩"),
+        "positive_patterns": ("类似工程业绩", "同类工程业绩", "投标人业绩", "项目经理业绩"),
+        "section_hints": ("投标人须知前附表", "资格审查", "资格后审", "资信标", "业绩"),
+    },
+    "personnel_requirement": {
+        "display": "人员要求",
+        "triggers": ("人员要求", "人员配备", "项目管理机构", "主要人员", "技术负责人", "专职安全员", "安全员", "质量员", "施工员"),
+        "positive_patterns": ("人员要求", "人员配备", "项目管理机构", "技术负责人", "专职安全员"),
+        "section_hints": ("投标人须知前附表", "资格审查", "项目管理机构", "主要人员", "人员配备"),
+    },
+}
+
+FIELD_PROFILES: dict[str, str] = {
+    "price_ceiling": "pricing_scope",
+    "duration": "schedule_scope",
+    "qualification_requirement": "qualification_scope",
+    "project_manager_requirement": "qualification_scope",
+    "consortium_requirement": "qualification_scope",
+    "performance_requirement": "qualification_scope",
+    "personnel_requirement": "qualification_scope",
 }
 
 
@@ -112,6 +175,7 @@ def build_tender_metadata_snapshot(document_id: str, chunks: list[Any]) -> Tende
 
 
 def snapshot_trace(snapshot: TenderMetadataSnapshot | None, matched_fields: list[str]) -> dict[str, Any]:
+    guided_profile = _guided_profile(matched_fields)
     if snapshot is None:
         return {
             "metadata_snapshot_used": False,
@@ -121,14 +185,18 @@ def snapshot_trace(snapshot: TenderMetadataSnapshot | None, matched_fields: list
             "source_chunk_ids": [],
             "evidence_required": True,
             "snapshot_as_answer": False,
+            "metadata_guided_query_profile": guided_profile,
+            "metadata_deep_field_profile": guided_profile,
         }
     matched = snapshot.matched(matched_fields)
+    matched_field_names = [field.field_name for field in matched]
+    guided_profile = _guided_profile(matched_field_names or matched_fields)
     return {
         "metadata_snapshot_used": bool(matched),
         "metadata_snapshot_status": "matched" if matched else "no_field_match",
         "metadata_snapshot_document_id": snapshot.document_id,
         "metadata_snapshot_version_id": snapshot.version_id,
-        "metadata_fields_matched": [field.field_name for field in matched],
+        "metadata_fields_matched": matched_field_names,
         "metadata_source_chunk_ids": [field.source_chunk_id for field in matched],
         "source_chunk_ids": [field.source_chunk_id for field in matched],
         "metadata_source_locations": {
@@ -142,12 +210,24 @@ def snapshot_trace(snapshot: TenderMetadataSnapshot | None, matched_fields: list
         },
         "evidence_required": True,
         "snapshot_as_answer": False,
-        "metadata_guided_query_profile": "tender_basic_info" if matched else "default",
+        "metadata_guided_query_profile": guided_profile if matched else "default",
+        "metadata_deep_field_profile": guided_profile if matched else "default",
     }
 
 
 def normalize_text(value: str) -> str:
     return re.sub(r"\s+", "", value or "").lower()
+
+
+_PRICE_AMOUNT_PATTERN = re.compile(
+    r"(?:人民币|¥|￥)?\s*\d+(?:[,，]\d{3})*(?:\.\d+)?\s*(?:亿元|万元|元|亿|万)"
+)
+_QUALIFICATION_LEVEL_PATTERN = re.compile(
+    r"(?:特级|一级|二级|三级|甲级|乙级|丙级|[一二三]级|壹级|贰级|叁级)"
+)
+_QUALIFICATION_CATEGORY_PATTERN = re.compile(
+    r"(?:施工总承包|专业承包|工程设计|建筑工程|市政公用工程|机电工程|电子与智能化|建筑机电安装|消防设施|智能化工程)"
+)
 
 
 def _best_chunk_for_rule(chunks: list[Any], rule: dict[str, Any]) -> tuple[Any, float] | None:
@@ -166,6 +246,8 @@ def _best_chunk_for_rule(chunks: list[Any], rule: dict[str, Any]) -> tuple[Any, 
             continue
         trigger_hits = sum(1 for trigger in rule["triggers"] if normalize_text(trigger) in haystack)
         if trigger_hits <= 0:
+            continue
+        if not _passes_precision_gate(haystack, rule):
             continue
         section_hits = sum(1 for section in rule["section_hints"] if normalize_text(section) in haystack)
         positive_hits = sum(
@@ -195,6 +277,21 @@ def _best_chunk_for_rule(chunks: list[Any], rule: dict[str, Any]) -> tuple[Any, 
     return best[0], best[2]
 
 
+def _passes_precision_gate(haystack: str, rule: dict[str, Any]) -> bool:
+    precision = rule.get("precision")
+    if not precision:
+        return True
+    if precision == "price_amount":
+        return bool(_PRICE_AMOUNT_PATTERN.search(haystack))
+    if precision == "qualification_level":
+        return bool(
+            "资质" in haystack
+            and _QUALIFICATION_LEVEL_PATTERN.search(haystack)
+            and _QUALIFICATION_CATEGORY_PATTERN.search(haystack)
+        )
+    return True
+
+
 def _excerpt_for_rule(text: str, triggers: tuple[str, ...]) -> str:
     normalized_text = text or ""
     for trigger in triggers:
@@ -216,3 +313,19 @@ def _source_location(chunk: Any) -> str:
     if location:
         return location
     return f"chunk_index={getattr(chunk, 'chunk_index', None)}"
+
+
+def _guided_profile(field_names: list[str]) -> str:
+    priority = {
+        "default": 0,
+        "tender_basic_info": 1,
+        "schedule_scope": 2,
+        "pricing_scope": 3,
+        "qualification_scope": 3,
+    }
+    profile = "tender_basic_info" if field_names else "default"
+    for field_name in field_names:
+        candidate = FIELD_PROFILES.get(field_name, "tender_basic_info")
+        if priority.get(candidate, 0) > priority.get(profile, 0):
+            profile = candidate
+    return profile

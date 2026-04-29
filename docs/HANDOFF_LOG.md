@@ -1171,3 +1171,162 @@
 - risks: Q1/Q2 主标书深层字段召回仍为 P1 backlog；Q7/Q10 延迟仍为 P2 backlog；baseline 不等于 rollout。
 - next: 执行 Phase 2.34 双仓 Git baseline，提交白名单文件并停止等待 Codex B。
 - commit/tag if any: 无。
+
+## 2026-04-28 Phase 2.35 Codex B Intake
+- goal: 检查 Phase 2.34 baseline 状态，并进入 Phase 2.35 主标书深层字段召回专项。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未运行 pytest；本轮为 Codex B 阶段切换 / prompt handoff。
+- validation: Phase 2.34 baseline 已完成：Hermes_memory commit `789ed22`，Hermes 主仓库 commit `5de49bf5`，tag `phase-2.34-compare-contamination-baseline`；Hermes_memory 工作区干净，Hermes 主仓库仅剩既有无关 dirty。
+- risks: Phase 2.35 容易扩成完整自动审标，必须限定为 retrieval evidence 改善；若 evidence 不足，继续输出 Missing Evidence。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只在 Hermes_memory 做 diagnostic-first 最小实现；完成后交 Codex B review，必要时 Codex C 复验 Day-1 Q1/Q2。
+- commit/tag if any: 无。
+
+## 2026-04-28 18:49 Phase 2.35
+- goal: 执行主标书深层字段召回专项 diagnostic-first 最小实现。
+- changed_files:
+  - `app/services/retrieval/service.py`
+  - `app/services/retrieval/tender_metadata.py`
+  - `tests/test_tender_metadata_retrieval.py`
+  - `tests/test_phase235_tender_deep_field_retrieval.py`
+  - `docs/PHASE235_TENDER_DEEP_FIELD_RETRIEVAL_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: py_compile 通过；`uv run pytest tests/test_tender_metadata_retrieval.py tests/test_retrieval_contract.py tests/test_phase235_tender_deep_field_retrieval.py -q` 为 `22 passed`。
+- validation: 新增 price ceiling 与 qualification deep-field metadata anchors；扩展 section scope 与 phrase boosts；新增 deep-field trace；snapshot 仍为导航，`snapshot_as_answer=false`。
+- risks: 未做真实 Hermes CLI 复验；若真实文本未解析或未索引，仍应 Missing Evidence；本阶段不是自动审标。
+- next: Codex B review；通过后建议 Codex C 复验 Day-1 Q1/Q2，再决定 Phase 2.35 baseline。
+- commit/tag if any: 无。
+
+## 2026-04-28 Phase 2.35 Codex C Validation Intake
+- goal: 吸收 Phase 2.35 真实终端复验结果，并准备 bounded follow-up。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮未运行 pytest；Codex C 复验只读执行，未修改代码、文档、DB 或索引。
+- validation: Q1 基础字段通过，但最高投标限价 / 招标控制价 / 投标报价上限仍 Missing Evidence；Q2 投标资质 fail，项目经理 / 联合体 / 业绩 / 人员要求 partial；无编造金额、资质、业绩或人员数量。
+- risks: 终端 trace 显示 `deep_field_profile=single_pass`，需与 retrieval profile 对齐；首次 session 出现 alias 绑定后丢失，第二次 session 正常，需诊断但不应盲目大改。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，做 Phase 2.35b trace/profile 对齐、metadata precision、alias 首次绑定诊断。
+- commit/tag if any: 无。
+
+## 2026-04-28 Phase 2.35b
+- goal: 执行 Phase 2.35b bounded follow-up：trace/profile 对齐、metadata precision 修复、alias 首次绑定诊断。
+- changed_files:
+  - `app/services/retrieval/service.py`
+  - `app/services/retrieval/tender_metadata.py`
+  - `tests/test_tender_metadata_retrieval.py`
+  - `docs/PHASE235_TENDER_DEEP_FIELD_RETRIEVAL_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: `uv run pytest tests/test_tender_metadata_retrieval.py tests/test_phase235_tender_deep_field_retrieval.py -q` 为 `13 passed`；`uv run pytest tests/test_tender_metadata_retrieval.py tests/test_retrieval_contract.py tests/test_phase235_tender_deep_field_retrieval.py -q` 为 `26 passed`；py_compile 与 `git diff --check` 通过；主仓库 alias direct assertion diagnostics 10 passed。
+- validation: API trace 顶层新增 metadata profile/status；price ceiling strong match 要求具体金额；qualification strong match 要求资质等级 + 类别；alias 首次绑定问题未在 direct assertion 中复现。
+- risks: 若 Codex C 仍看到 `deep_field_profile=single_pass`，可能是 Hermes 主仓库展示 / adapter flattening 问题；真实标书没有具体金额或资质等级时仍应 Missing Evidence。
+- next: 交 Codex B review；通过后由 Codex C 重跑 Day-1 Q1/Q2。
+- commit/tag if any: 无。
+
+## 2026-04-29 Phase 2.35c Codex B Intake
+- goal: 吸收 Codex C Phase 2.35b 真实终端复验失败，并写入 alias/session 最小修复入口。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮为 Codex B 交接，不运行 pytest；已读取主仓 alias/session 相关入口与 AGENTS.md。
+- validation: Codex C session `20260429_024717_785309` 中，`@主标书` bind 输出 document/version 正确，但正式 Q1/Q2 均为 `alias_missing=true / retrieval_suppressed=true`，未进入 retrieval，因此无法验证 Phase 2.35b deep-field trace。
+- risks: 若盲目 baseline，会把一个无法进入 Q1/Q2 retrieval 的 Pilot 阻塞带入基线；下一轮必须先修主仓 alias/session。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做主仓库 alias/session 最小修复；完成后 Codex B review，再由 Codex C 重跑 Day-1 Q1/Q2。
+- commit/tag if any: 无。
+
+## 2026-04-29 16:36 Phase 2.35c
+- goal: 执行主仓库 alias/session 最小修复，解决 `@主标书` bind 成功后正式 Q1/Q2 变成 `alias_missing / retrieval_suppressed` 的阻断问题。
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/session_document_scope.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_session_document_scope.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `docs/PHASE235_TENDER_DEEP_FIELD_RETRIEVAL_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 主仓库 py_compile 通过；主仓库 `.venv` 缺 pytest，改用 6 个 direct assertion tests 覆盖新增 / 相邻 alias 路径并通过；Hermes_memory Phase 2.35 目标 pytest `13 passed`。
+- validation: 只读检查真实 state，Codex C session `20260429_024717_785309` 未持久化 `@主标书`；修复将“上一轮已锁定的当前文件”等说法纳入 current-document bind / retrieval fallback，并验证跨 store resume 可 resolve。
+- risks: 尚未做真实 Hermes CLI 复验；Phase 2.35b deep-field 效果仍需 Codex C 重跑 Day-1 Q1/Q2。
+- next: Codex B review；通过后 Codex C 重新执行 `@主标书` 绑定与 Day-1 Q1/Q2，确认不再 alias_missing / retrieval_suppressed。
+- commit/tag if any: 无。
+
+## 2026-04-29 16:58 Phase 2.35c Codex C Validation
+- goal: 吸收 Phase 2.35c 真实终端复验结果，判断 alias/session 修复与 baseline 条件。
+- changed_files:
+  - `docs/PHASE235_TENDER_DEEP_FIELD_RETRIEVAL_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+- tests: 本轮未新增测试；Codex C 真实终端复验只读执行，未写代码、文档、DB、索引或提交。
+- validation: session `20260429_165301_e3c312` 中 `@主标书` bind 后正式 Q1/Q2 均为 `alias_resolved`，`alias_missing=false`，`retrieval_suppressed=false`；evidence 仅来自主标书。
+- risks: 限价具体金额、资质具体等级 / 类别、类似业绩、人员要求仍为 retrieval recall 尾项；`metadata_deep_field_profile=null` 与 `deep_field_profile=single_pass` 仍需后续 trace/display 处理。
+- next: 建议执行 Phase 2.35c Git baseline，但结论口径必须限定为 alias/session 修复已收口，不得写成 deep-field recall 完全收口。
+- commit/tag if any: 无。
+
+## 2026-04-29 17:17 Phase 2.35c Baseline Prep
+- goal: 复跑 Phase 2.35c baseline 前验证，并准备 Git baseline。
+- changed_files:
+  - `app/services/retrieval/service.py`
+  - `app/services/retrieval/tender_metadata.py`
+  - `tests/test_tender_metadata_retrieval.py`
+  - `tests/test_phase235_tender_deep_field_retrieval.py`
+  - `docs/PHASE235_TENDER_DEEP_FIELD_RETRIEVAL_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/session_document_scope.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_session_document_scope.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+- tests: Hermes_memory targeted regression `26 passed`; Hermes main session scope regression `48 passed`; both repos `git diff --check` passed.
+- validation: Codex C real terminal validation already passed for alias/session; deep-field recall remains partial and must be recorded as tail work.
+- risks: Do not stage main repo `uv.lock`, `docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`, or `tests/agent/test_memory_kernel_adapter_reload.py`.
+- next: Commit/tag/push Phase 2.35c baseline in both repos; keep baseline wording bounded.
+- commit/tag if any: pending.

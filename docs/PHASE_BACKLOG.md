@@ -2,23 +2,33 @@
 
 ## 当前优先级
 
-1. Phase 2.34 baseline：Codex C 复验已通过，下一步只做双仓 Git baseline。
-2. Phase 2.34 post-baseline review：Codex B 检查 commit/tag/push 与剩余 dirty。
-3. Phase 2.35 候选：根据 Day-1 P1/P2 决定是否规划深层召回专项、latency polish 或继续 Pilot feedback report；不得直接 rollout。
+1. Phase 2.35c Git baseline：提交 bounded retrieval + alias/session 修复与阶段文档。
+2. baseline 文案必须明确：alias/session 已通过真实终端复验，但 deep-field recall 仍 partial。
+3. baseline 后再规划后续 retrieval recall / trace display tail items。
 
 ## Day-1 Pilot 已知问题
 
-1. P1 retrieval recall：`@主标书` 基础信息中最高投标限价未被当前召回覆盖。
-2. P1 retrieval recall：`@主标书` 资质等级、业绩、人员数量等深层字段需人工复核。
-3. P1 contamination / UX：`@会议纪要 vs @主标书` 实际 evidence 仅两份目标文档，但输出层误报 `third_document_mixed=true`。
+1. P1 retrieval recall：`@主标书` 最高投标限价 / 招标控制价 / 投标报价上限未召回具体金额。
+2. P1 retrieval recall：`@主标书` 投标资质具体等级 / 类别未召回。
+3. P1 partial：项目经理、联合体、业绩、人员要求已有相关 evidence，但仍需人工复核。
 4. P2 latency：会议纪要决策 / 风险与公司方向分析长输出偏慢。
 5. Pilot 期间所有经营建议必须保留人工决策声明，不得当成自动经营决策。
-6. Phase 2.34 已最小修复 Q8 输出层误报，Codex C 真实终端复验通过，建议 baseline。
+
+## Phase 2.35 当前状态
+
+1. Phase 2.35 最小实现已完成，目标测试 `22 passed`。
+2. Codex C 复验显示安全边界通过：无编造、facts/transcript 均未替代 evidence。
+3. Phase 2.35b 已完成 metadata precision 小修：限价需具体金额，资质需具体等级 + 类别。
+4. Phase 2.35b 已新增 API trace 顶层 profile 字段：`metadata_guided_query_profile`、`metadata_deep_field_profile`。
+5. alias 首次绑定不稳定已在 Codex C 真实 CLI 中复现：bind 成功后正式 Q1/Q2 变为 `alias_missing=true / retrieval_suppressed=true`。
+6. Phase 2.35c 已完成主仓库最小修复：`上一轮已锁定的当前文件` 等说法现在会走 current-document bind / current retrieval fallback，不再被误当成标题或历史上下文。
+7. Codex C 真实终端复验通过：session `20260429_165301_e3c312` 中正式 Q1/Q2 均为 `alias_resolved`，`alias_missing=false`，`retrieval_suppressed=false`。
+8. Phase 2.35c 可进入 Git baseline，但只能声明 alias/session 修复收口；deep-field recall 与 trace 透出仍不完全收口。
 
 ## 后置项
 
-1. 主标书深层字段召回专项：需单独 Phase 规划，不在 Phase 2.34 中顺手扩做。
-2. 长输出 query 延迟优化：需先收集更多 Pilot 样本，不在 Phase 2.34 中扩大。
+1. 完整 AI 审标 / 自动审标：后置，当前只做 retrieval evidence 与 trace 改善。
+2. 长输出 query 延迟优化：需先收集更多 Pilot 样本，不在 Phase 2.35b 中扩大。
 3. repair executor：后置，必须经过单独 Phase 规划、人工确认和显式指令。
 4. item-level audit summary：后置，避免过早暴露 fact_id / document_id 等实体信息。
 5. report review 写业务 DB：后置到 Yellow Lane；仅允许 Codex B 审核后显式 opt-in 的 report-level sanitized audit 写入。

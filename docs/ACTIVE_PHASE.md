@@ -1,60 +1,55 @@
 # Active Phase
 
-- 当前 phase：Phase 2.34 Day-1 Pilot Findings Triage / Compare False-Positive Fix Validation
-- 本轮目标：吸收 Codex C 真实终端复验结果，准备 Phase 2.34 Git baseline 入口。
+- 当前 phase：Phase 2.35c Alias Session Follow-up
+- 本轮目标：吸收 Codex C 真实终端复验结果，确认 alias/session 修复是否通过，并明确 Phase 2.35c 是否可进入 baseline。
 - 修改文件：
-  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/session_document_scope.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_session_document_scope.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `app/services/retrieval/service.py`
+  - `app/services/retrieval/tender_metadata.py`
+  - `tests/test_tender_metadata_retrieval.py`
+  - `tests/test_phase235_tender_deep_field_retrieval.py`
+  - `docs/PHASE235_TENDER_DEEP_FIELD_RETRIEVAL_PLAN.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
-  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/kernel.py`
-  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
-  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_session_document_scope.py`
-  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
-  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
 - 完成内容：
-  - 已确认 Phase 2.33 Day-1 run sheet baseline 完成：commit `bb9656b`，tag `phase-2.33-pilot-day1-run-sheet-baseline`。
-  - 已吸收 Codex C Day-1 Pilot 报告：API / CLI 可用，四个 alias 稳定，10 条 query 为 `7 pass / 3 partial / 0 fail`，P0 为 `0`。
-  - 已确认 Day-1 Pilot 可继续受控推进，但不能进入 production rollout。
-  - 已将 P1/P2 分流：
-    - Q1/Q2 主标书深层字段召回尾项进入 retrieval recall backlog。
-    - Q8 compare 第三文件污染标记误报进入 Phase 2.34 当前 bounded fix。
-    - Q7/Q10 长输出延迟进入 latency backlog。
-  - 已将 Phase 2.34 任务写入 `docs/NEXT_CODEX_A_PROMPT.md`，只允许修 Q8 compare false-positive，不扩大到深层召回或延迟优化。
-  - 已完成 Q8 compare false-positive 最小修复：最终 evidence 均在 `compare_document_ids` 内时稳定输出 `third_document_mixed=false`。
-  - 已把候选过滤诊断从最终 contamination 语义中拆出为 `out_of_scope_document_ids_filtered`。
-  - 已保留真实第三文件污染检测：最终 evidence 出现 scope 外 document_id 时仍输出 `third_document_mixed=true` 与 `unexpected_document_id`。
-  - 已在 context block 中增加 compare scope 提示，避免模型把主题差异、partial evidence 或已过滤候选误说成第三文件污染。
-  - Codex C 已完成真实终端复验：session `20260428_174853_31a315`，Q8 compare 输出 `third_document_mixed=false`、`third_document_mixed_document_ids=[]`、`contaminationflags=none`。
-  - Facts / transcript 抽样通过：`facts_context_used=false`、`facts_context_fact_ids=[]`、`facts_as_answer=false`、`transcript_as_fact=false`。
-  - 已将下一轮 baseline 任务写入 `docs/NEXT_CODEX_A_PROMPT.md`。
+  - Phase 2.35b 已补主标书深层字段 retrieval trace / metadata precision。
+  - Phase 2.35c 已补主仓库 alias/session 最小修复：`上一轮已锁定的当前文件` 等说法进入 current-document bind / current retrieval fallback，并持久化 alias。
+  - Codex C 真实终端复验已确认：`@主标书` bind 后正式 Q1/Q2 均为 `alias_resolved`，`alias_missing=false`，`retrieval_suppressed=false`。
+  - 正式 Q1/Q2 retrieval evidence 均仅来自主标书 document_id `869d4684-0a98-4825-bc72-ada65c15cfc9`。
 - 测试结果：
-  - Hermes 主仓库 `python3 -m py_compile agent/memory_kernel/kernel.py agent/memory_kernel/context_builder.py agent/memory_kernel/orchestrator.py agent/memory_kernel/adapters/hermes_memory_adapter.py` 通过。
-  - `./.venv/bin/python -m pytest ...` 未运行成功：主仓库 venv 缺 pytest。
-  - direct assertion selected tests：7 passed。
-  - direct assertion zero-arg tests：43 passed，9 个 tmp_path fixture 测试跳过后单独执行。
-  - direct assertion tmp_path tests：9 passed。
+  - Hermes 主仓库 py_compile：通过。
+  - Hermes 主仓库 pytest：`.venv/bin/python -m pytest -o addopts='' tests/agent/test_session_document_scope.py -q`：`48 passed`。
+  - Hermes_memory pytest：`uv run pytest tests/test_tender_metadata_retrieval.py tests/test_retrieval_contract.py tests/test_phase235_tender_deep_field_retrieval.py -q`：`26 passed`。
+  - 两仓 `git diff --check`：通过。
 - live smoke 结果：
-  - Codex C Phase 2.34 真实终端复验通过。
-  - API `/health` 返回 `200 OK`；Hermes CLI 可用。
-  - `@主标书` 与 `@会议纪要` alias 绑定成功且未 suppress retrieval。
-  - Compare evidence 只包含两份目标文档，无实际第三文件 evidence。
+  - Codex C session：`20260429_165301_e3c312`。
+  - API `/health`：最终 `200 OK`。
+  - Hermes CLI：可用。
+  - `@主标书` bound / resolved document_id：`869d4684-0a98-4825-bc72-ada65c15cfc9`。
+  - `@主标书` resolved version_id：`43558ba9-2813-42ff-b11b-3fbb4448a5bb`。
+  - Q1：`5 pass / 0 partial / 1 fail`；最高投标限价 / 招标控制价 / 投标报价上限仍 Missing Evidence，未编造金额。
+  - Q2：`1 pass / 1 partial / 3 fail`；联合体 pass，项目经理 partial，资质 / 类似业绩 / 人员要求仍 Missing Evidence 或缺主标具体条件。
+  - `snapshot_as_answer=false`、`facts_as_answer=false`、`transcript_as_fact=false`。
 - 当前结论：
-  - Phase 2.34 最小修复已完成并通过 Codex C 真实终端复验。
-  - 未改 retrieval contract 或 memory kernel 主架构。
-  - 主标书深层字段召回与长输出延迟仍为 backlog，未在本轮实现。
+  - Phase 2.35c alias/session 修复已通过真实终端复验。
+  - Phase 2.35c 可作为 alias/session 修复 baseline。
+  - 不应把 deep-field recall / trace 视为完全收口。
 - 阻塞点 / 风险点：
-  - 主标书最高投标限价、资质等级、业绩、人员数量等深层字段仍是 P1 retrieval recall 尾项。
-  - Q8 当前为输出层 / trace UX 误报，实际 evidence 未混入第三文件。
-  - 长输出 query 仍有 P2 latency 风险。
-- 是否建议 baseline：是，建议执行 Phase 2.34 Git baseline。
-- 是否建议进入下一阶段：否；先 baseline，baseline 后再由 Codex B / 用户决定后续。
-- 下一轮建议：
-  - Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 完成 Phase 2.34 双仓 baseline。
-  - baseline 后停止等待 Codex B 检查。
-- 是否需要 Codex B 审核：baseline 后需要。
-- 是否需要 Codex C 真实终端验收：否，当前已通过。
+  - 最高投标限价 / 招标控制价 / 投标报价上限仍缺具体金额 evidence。
+  - 投标资质具体等级 / 类别仍未稳定命中。
+  - `metadata_deep_field_profile=null` 与 `deep_field_profile=single_pass` 仍是 trace / 展示层尾项。
+  - 项目经理等级、类似业绩金额 / 规模 / 年限、人员数量 / 专业 / 资质仍需后续 retrieval recall 专项或人工复核。
+- 是否建议 baseline：是，本轮执行 Phase 2.35c Git baseline。
+- 是否建议进入下一阶段：否，baseline 后再规划 deep-field recall / trace tail item。
+- 下一轮建议：Phase 2.35c baseline 后，规划限价金额、资质等级 / 类别、业绩 / 人员要求与 trace 透出尾项。
+- 是否需要 Codex B 审核：是，baseline 前复核提交范围。
+- 是否需要 Codex C 真实终端验收：否，当前复验已完成。

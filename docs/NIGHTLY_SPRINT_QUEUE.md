@@ -10,32 +10,41 @@
 
 ## Current Queue
 
-### Waiting：Phase 2.34 compare false-positive Git baseline
+### Item 1：Phase 2.35c Git baseline
 
 - lane：Yellow Lane
-- 目标：提交 Phase 2.34 compare false-positive 修复与复验文档基线。
+- 状态：ready for explicit baseline command
+- 目标：固化 Phase 2.35 / 2.35b / 2.35c bounded work。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 仅 stage `docs/NEXT_CODEX_A_PROMPT.md` 白名单中的双仓文件。
-  - 提交 Hermes 主仓库当前可写远端 `backup2` 与 Hermes_memory `origin/main`。
-  - 打 tag `phase-2.34-compare-contamination-baseline`。
+  - 复跑指定 py_compile / pytest / direct assertion tests。
+  - 只 stage Phase 2.35 相关 retrieval、alias/session 测试与文档。
+  - commit / tag / push 仅在用户明确 baseline 指令下执行。
 - 禁止动作：
-  - 不扩大到主标书深层字段召回实现。
-  - 不扩大到 latency 优化实现。
   - 不写业务 DB、OpenSearch、Qdrant、facts 或 document_versions。
   - 不执行 repair / backfill / reindex / cleanup / delete。
   - 不进入 production rollout。
-  - 不强推。
-- 默认：需要用户明确执行；baseline 后停止等待 Codex B。
+  - 不写自动审标结论。
+  - 不隐藏 Missing Evidence。
+  - 不把 deep-field recall 写成完全收口。
+- 当前结果：Codex C 真实终端复验已通过 alias/session；deep-field recall 仍 partial。
+- 默认：等待用户明确 baseline 指令，不夜间自动提交。
 
 ## Archived Queue
 
-### Phase 2.34 compare false-positive fix
+### Phase 2.35 main tender deep-field retrieval implementation
 
 - 类型：Yellow Lane
-- 状态：validated
-- 结果：最终 evidence 在 compare 文档集合内时输出 `third_document_mixed=false`；真实第三文件 evidence 仍保留污染标记。
-- 备注：Codex C 真实终端复验已通过；等待 Git baseline。
+- 状态：implemented / validated partial
+- 结果：目标测试 `22 passed`；Codex C 复验安全边界通过，但最高投标限价和具体资质等级仍未命中。
+- 备注：不 baseline，进入 Phase 2.35b 小修 / 诊断。
+
+### Phase 2.34 compare false-positive baseline
+
+- 类型：Yellow Lane
+- 状态：completed
+- 结果：Hermes_memory commit `789ed22`；Hermes 主仓库 commit `5de49bf5`；tag `phase-2.34-compare-contamination-baseline`。
+- 备注：已通过 Codex C 复验；未进入 rollout。
 
 ### Phase 2.33 MVP Pilot Day-1 run sheet baseline
 
@@ -43,58 +52,6 @@
 - 状态：completed
 - 结果：commit `bb9656b`，tag `phase-2.33-pilot-day1-run-sheet-baseline`，已推送 `origin/main` 与 tag。
 - 备注：docs-only baseline；未写代码、未进入 rollout。
-
-### Phase 2.33 MVP Pilot Day-1 execution packet planning
-
-- 类型：Green Lane
-- 状态：completed
-- 结果：已新增 `docs/MVP_PILOT_DAY1_RUN_SHEET.md`，覆盖 Day-1 目标、角色、时间表、最小 query set、输出保存字段与 Go / Pause。
-- 备注：docs-only planning；未写代码、未提交 Git、未进入 rollout。
-
-### Phase 2.32 MVP Pilot feedback intake planning baseline
-
-- 类型：Yellow Lane
-- 状态：completed
-- 结果：commit `160ce62`，tag `phase-2.32-feedback-intake-plan-baseline`，已推送 `origin/main` 与 tag。
-- 备注：docs-only baseline；未写代码、未进入 rollout。
-
-### Phase 2.31 Pilot ops + Nightly launcher docs baseline
-
-- 类型：Yellow Lane
-- 状态：completed
-- 结果：commit `184533a`，tag `phase-2.31-pilot-ops-nightly-launcher-baseline`，已推送 `origin/main` 与 tag。
-- 备注：docs-only baseline；因 `continue_after_success=true`，成功后继续执行了 Phase 2.32 Green Lane planning。
-
-### Phase 2.30a / 2.30b Practical MVP Pilot baseline
-
-- 类型：Yellow Lane
-- 状态：completed
-- 结果：Hermes_memory commit `15e05d4`，Hermes 主仓库 commit `13097693`，tag `phase-2.30b-practical-mvp-pilot-baseline`。
-- 备注：完成后已按 Yellow Lane 规则停止，未自动进入 Phase 2.31。
-
-### Phase 2.27b audit preview / dry-run 最小实现
-
-- 类型：Green Lane
-- 状态：completed
-- 结果：已实现 sanitized audit payload preview；不写 `audit_logs`，不写 DB。
-
-### Phase 2.27b Git baseline
-
-- 类型：Yellow Lane
-- 状态：completed
-- 结果：已 baseline；后续进入 Phase 2.27c / 2.27d。
-
-### Phase 2.27c route planning
-
-- 类型：Green Lane
-- 状态：completed
-- 结果：已规划 report-level sanitized audit opt-in 写入；默认 preview-only。
-
-### Phase 2.29b decision record dry-run baseline
-
-- 类型：Yellow Lane
-- 状态：completed
-- 结果：commit `f888aa7`，tag `phase-2.29b-freeze-decision-dry-run-baseline`。
 
 ## Red Lane
 

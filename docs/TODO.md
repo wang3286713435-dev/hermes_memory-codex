@@ -2,6 +2,22 @@
 
 ## 0. 当前 MVP Pilot 状态
 
+1. Phase 2.34 compare false-positive baseline 已完成：Hermes_memory commit `789ed22`，Hermes 主仓库 commit `5de49bf5`，tag `phase-2.34-compare-contamination-baseline`。
+2. 当前进入 Phase 2.35：主标书深层字段召回专项，优先围绕 Day-1 Q1/Q2 做 retrieval evidence 改善。
+3. Phase 2.35 不做自动审标、不做 rollout、不写 DB、不改 Hermes 主仓库；如果 evidence 不足，必须保留 Missing Evidence。
+
+## 0.1 Phase 2.35 当前待办
+
+1. Codex C 真实终端复验已完成：安全边界通过，但整体仍为 partial。
+2. Phase 2.35b 已完成最小修复：API trace 顶层暴露 `metadata_guided_query_profile` / `metadata_deep_field_profile`，Q1/Q2 应可直接核对 `pricing_scope` / `qualification_scope`。
+3. 最高投标限价 / 招标控制价 / 投标报价上限：metadata anchor 已要求具体金额 / 货币 / 万元 / 元；如真实标书仍无具体金额，必须继续 Missing Evidence。
+4. 投标资质：metadata anchor 已要求具体资质等级 + 类别；证照清单不再强标为资质等级命中。
+5. 项目经理、联合体、业绩、人员要求：已有相关 evidence，但仍为 partial，需要 Codex C 继续按 Missing Evidence / 人工复核口径验证。
+6. 首次 session alias 绑定后丢失：主仓库 direct assertion diagnostics 未复现，暂作为 terminal-only tail，不能盲目大改。
+7. 下一步：补全指定测试复跑后交 Codex B review；通过后由 Codex C 重跑 Day-1 Q1/Q2。
+
+## 0.2 Phase 2.34 历史状态
+
 1. Phase 2.33 Day-1 run sheet baseline 已完成：commit `bb9656b`，tag `phase-2.33-pilot-day1-run-sheet-baseline`。
 2. Codex C Day-1 真实终端验收：`7 pass / 3 partial / 0 fail`，P0 为 `0`，四个 alias 后续解析稳定，无 facts 替代 evidence，无 transcript_as_fact，无实际第三文件污染。
 3. 当前建议继续内部受控 Day-1 Pilot，但不得进入 production rollout 或自动经营决策。
@@ -507,7 +523,32 @@
 3. 已完成最小修复：最终 `retrieval_evidence_document_ids` 均属于 `compare_document_ids` 时，trace/context 稳定输出 `third_document_mixed=false`。
 4. 已保留真实污染检测：最终 evidence 出现 compare 外 document_id 时仍输出 `third_document_mixed=true` 与 `unexpected_document_id`。
 5. 候选过滤诊断改为 `out_of_scope_document_ids_filtered`，不再在最终 `contamination_flags` 中误导为第三文件混入。
-6. 下一步需要 Codex B review 与 Codex C 复验 Q8 compare；复验前不建议 Git baseline。
-7. Codex C 真实终端复验已通过：Q8 compare 输出 `third_document_mixed=false`、`third_document_mixed_document_ids=[]`、`contaminationflags=none`，无实际第三文件 evidence。
-8. Facts / transcript 抽样通过：`facts_context_used=false`、`facts_context_fact_ids=[]`、`facts_as_answer=false`、`transcript_as_fact=false`。
-9. 下一步建议执行 Phase 2.34 双仓 Git baseline，不进入 production rollout。
+6. Codex C 真实终端复验已通过：Q8 compare 输出 `third_document_mixed=false`、`third_document_mixed_document_ids=[]`、`contaminationflags=none`，无实际第三文件 evidence。
+7. Facts / transcript 抽样通过：`facts_context_used=false`、`facts_context_fact_ids=[]`、`facts_as_answer=false`、`transcript_as_fact=false`。
+8. Phase 2.34 已完成 baseline，Q8 compare false-positive 收口；后续转入 Phase 2.35 主标书深层字段召回专项。
+
+## 41. Phase 2.35 tender deep-field retrieval
+
+1. 已完成 diagnostic-first 最小实现，限定在 Hermes_memory retrieval 层。
+2. 新增 / 增强 metadata snapshot fields：
+   - `price_ceiling`
+   - `qualification_requirement`
+   - `project_manager_requirement`
+   - `consortium_requirement`
+   - `performance_requirement`
+   - `personnel_requirement`
+3. 已扩展最高投标限价 / 招标控制价 / 投标报价上限的触发词、section hints 与 phrase boosts。
+4. 已扩展资质 / 项目经理 / 联合体 / 业绩 / 人员要求的触发词、section hints 与 phrase boosts。
+5. 已新增 additive trace：`deep_field_profile`、`deep_field_section_hints`、`deep_field_query_aliases`、`metadata_deep_field_profile`。
+6. `snapshot_as_answer=false` 与 `evidence_required=true` 保持不变，snapshot 只做导航，不替代 retrieval evidence。
+7. 测试结果：py_compile 通过，目标 pytest `22 passed`。
+8. 未做真实 Hermes CLI 复验；下一步需 Codex B review，必要时交 Codex C 复验 Day-1 Q1/Q2。
+9. 当前仍不进入 production rollout，不做自动审标，不写 DB，不改索引。
+10. Codex C 复验结果：Q1 基础字段通过，但最高投标限价 / 招标控制价 / 投标报价上限仍 Missing Evidence；Q2 投标资质 fail，项目经理 / 联合体 / 业绩 / 人员要求 partial。
+11. 安全边界通过：未编造金额、资质、业绩或人员数量；`snapshot_as_answer=false`、`facts_as_answer=false`、`transcript_as_fact=false`。
+12. 当前暂不 baseline，进入 Phase 2.35b bounded follow-up。
+13. Phase 2.35b 代码层 review 通过，但 Codex C 真实 CLI 复验显示正式 Q1/Q2 被 alias/session 阻断：`alias_missing=true / retrieval_suppressed=true`。
+14. Phase 2.35c 下一步只修 Hermes 主仓库 alias/session 首次绑定后丢失；修复后再由 Codex C 重跑 Q1/Q2。
+15. Phase 2.35c 已完成主仓库最小修复：`上一轮已锁定的当前文件` 等说法会进入 current-document bind / current retrieval fallback，并持久化 alias 供后续同 session query 使用。
+16. Codex C 真实终端复验通过：正式 Q1/Q2 不再丢 alias，不再 suppressed，可进入 Phase 2.35c baseline。
+17. deep-field recall 仍 partial：限价具体金额、资质具体等级 / 类别、类似业绩、人员要求仍为后续尾项；`metadata_deep_field_profile=null` 与 `deep_field_profile=single_pass` 属 trace / 展示尾项。

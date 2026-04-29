@@ -187,8 +187,14 @@ class RetrievalService:
                 "section_scope": section_scope_trace,
                 "metadata_snapshot": metadata_snapshot_trace,
                 "metadata_snapshot_used": metadata_snapshot_trace.get("metadata_snapshot_used", False),
+                "metadata_snapshot_status": metadata_snapshot_trace.get("metadata_snapshot_status", "unavailable"),
                 "metadata_fields_matched": metadata_snapshot_trace.get("metadata_fields_matched", []),
                 "metadata_source_chunk_ids": metadata_snapshot_trace.get("metadata_source_chunk_ids", []),
+                "metadata_guided_query_profile": metadata_snapshot_trace.get("metadata_guided_query_profile", "default"),
+                "metadata_deep_field_profile": metadata_snapshot_trace.get("metadata_deep_field_profile", "default"),
+                "deep_field_profile": section_scope_trace.get("query_profile", "default"),
+                "deep_field_section_hints": section_scope_trace.get("target_sections", []),
+                "deep_field_query_aliases": section_scope_trace.get("query_aliases", []),
                 **meeting_transcript_trace,
                 "evidence_required": True,
                 "snapshot_as_answer": False,
@@ -352,6 +358,33 @@ class RetrievalService:
             }
             for phrase, boost in schedule_parameter_phrases.items():
                 should_clauses.append({"match_phrase": {"text": {"query": phrase, "boost": boost}}})
+        elif query_profile == "pricing_scope":
+            pricing_parameter_phrases = {
+                "最高投标限价": 16.0,
+                "招标控制价": 16.0,
+                "最高限价": 13.0,
+                "投标报价上限": 12.0,
+                "投标限价": 11.0,
+                "限价明细": 8.0,
+                "不得超过": 7.0,
+            }
+            for phrase, boost in pricing_parameter_phrases.items():
+                should_clauses.append({"match_phrase": {"text": {"query": phrase, "boost": boost}}})
+        elif query_profile == "qualification_scope":
+            qualification_parameter_phrases = {
+                "投标人资格要求": 16.0,
+                "资格条件": 14.0,
+                "资质等级": 13.0,
+                "项目经理": 12.0,
+                "注册建造师": 10.0,
+                "安全生产考核": 10.0,
+                "联合体投标": 10.0,
+                "类似工程业绩": 10.0,
+                "人员配备": 8.0,
+                "项目管理机构": 8.0,
+            }
+            for phrase, boost in qualification_parameter_phrases.items():
+                should_clauses.append({"match_phrase": {"text": {"query": phrase, "boost": boost}}})
         for phrase, boost in self._meeting_query_boosts(request.query, applied_filters).items():
             should_clauses.append({"match_phrase": {"text": {"query": phrase, "boost": boost}}})
 
@@ -413,8 +446,8 @@ class RetrievalService:
 
         section_rules = [
             (
-                ("资质", "资格", "项目经理", "建造师", "b证", "安全考核", "项目负责人"),
-                ["投标人须知前附表", "资格审查", "资信标", "资格后审", "项目管理机构"],
+                ("资质", "资格", "项目经理", "建造师", "b证", "安全考核", "项目负责人", "联合体", "业绩", "人员要求", "人员配备", "项目管理机构"),
+                ["投标人须知前附表", "资格审查", "资信标", "资格后审", "项目管理机构", "联合体投标", "类似工程业绩", "人员要求"],
                 [
                     "资质要求",
                     "资格条件",
@@ -423,6 +456,9 @@ class RetrievalService:
                     "注册建造师",
                     "安全考核证",
                     "资格审查文件",
+                    "联合体投标",
+                    "类似工程业绩",
+                    "人员配备",
                 ],
                 "qualification_scope",
             ),
@@ -502,9 +538,9 @@ class RetrievalService:
                 "tender_basic_info",
             ),
             (
-                ("工程量清单", "限价", "不平衡报价"),
-                ["工程量清单", "限价明细", "最高投标限价", "投标报价要求", "评标"],
-                ["工程量清单", "最高投标限价", "不平衡报价", "投标报价要求", "商务标定性评审表"],
+                ("工程量清单", "限价", "最高投标限价", "招标控制价", "投标报价上限", "最高报价", "报价上限", "控制价", "不平衡报价"),
+                ["招标公告", "投标人须知前附表", "工程量清单", "限价明细", "最高投标限价", "招标控制价", "投标报价要求", "评标"],
+                ["工程量清单", "最高投标限价", "招标控制价", "最高限价", "投标报价上限", "不平衡报价", "投标报价要求", "商务标定性评审表"],
                 "pricing_scope",
             ),
         ]
@@ -512,15 +548,23 @@ class RetrievalService:
         matched_sections: list[str] = []
         query_aliases: list[str] = []
         query_profile = "default"
+        profile_priority = {
+            "default": 0,
+            "tender_basic_info": 1,
+            "schedule_scope": 2,
+            "pricing_scope": 3,
+            "qualification_scope": 3,
+            "commercial_scope": 3,
+        }
         for triggers, sections, aliases, profile in section_rules:
-            if any(trigger in query for trigger in triggers):
+            if any(self._normalize_document_reference(trigger) in normalized for trigger in triggers):
                 for section in sections:
                     if section not in matched_sections:
                         matched_sections.append(section)
                 for alias in aliases:
                     if alias not in query_aliases:
                         query_aliases.append(alias)
-                if query_profile == "default":
+                if profile_priority.get(profile, 0) > profile_priority.get(query_profile, 0):
                     query_profile = profile
 
         if not matched_sections:
@@ -531,6 +575,7 @@ class RetrievalService:
             "target_sections": matched_sections,
             "query_aliases": query_aliases,
             "query_profile": query_profile,
+            "deep_field_profile": query_profile,
         }
 
     def _infer_tender_metadata_scope(self, query: str, applied_filters: dict[str, Any]) -> dict[str, Any]:
@@ -576,17 +621,31 @@ class RetrievalService:
         guided["metadata_snapshot_used"] = True
         guided["metadata_source_chunk_ids"] = list(metadata_trace.get("metadata_source_chunk_ids") or [])
         guided["metadata_fields_matched"] = list(metadata_trace.get("metadata_fields_matched") or [])
-        guided["query_profile"] = "tender_basic_info"
+        guided["query_profile"] = metadata_trace.get("metadata_guided_query_profile") or "tender_basic_info"
         target_sections = list(guided.get("target_sections") or [])
-        for section in ("招标公告", "投标人须知前附表", "工程概况", "项目概况"):
+        guided_sections = {
+            "tender_basic_info": ("招标公告", "投标人须知前附表", "工程概况", "项目概况"),
+            "pricing_scope": ("招标公告", "投标人须知前附表", "工程量清单", "限价明细", "最高投标限价", "招标控制价", "投标报价要求"),
+            "schedule_scope": ("招标公告", "投标人须知前附表", "工期要求", "计划开工日期", "计划竣工日期", "关键工期节点"),
+            "qualification_scope": ("投标人须知前附表", "资格审查", "资格后审", "资信标", "项目管理机构", "联合体投标", "类似工程业绩", "人员要求"),
+        }
+        for section in guided_sections.get(guided["query_profile"], guided_sections["tender_basic_info"]):
             if section not in target_sections:
                 target_sections.append(section)
         guided["target_sections"] = target_sections
         aliases = list(guided.get("query_aliases") or [])
-        for alias in ("工程名称", "工程地点", "建设单位", "招标人", "代建单位", "项目编号", "标段", "最高投标限价", "工期"):
+        guided_aliases = {
+            "tender_basic_info": ("工程名称", "工程地点", "建设单位", "招标人", "代建单位", "项目编号", "标段", "最高投标限价", "工期"),
+            "pricing_scope": ("最高投标限价", "招标控制价", "最高限价", "投标报价上限", "投标限价", "限价明细"),
+            "schedule_scope": ("工期", "总工期", "计划工期", "计划开工日期", "计划竣工日期", "关键工期节点"),
+            "qualification_scope": ("资质要求", "资格条件", "项目经理", "注册建造师", "安全考核证", "联合体投标", "类似工程业绩", "人员配备"),
+        }
+        for alias in guided_aliases.get(guided["query_profile"], guided_aliases["tender_basic_info"]):
             if alias not in aliases:
                 aliases.append(alias)
         guided["query_aliases"] = aliases
+        guided["deep_field_profile"] = guided["query_profile"]
+        guided["metadata_deep_field_profile"] = metadata_trace.get("metadata_deep_field_profile", "default")
         guided["status"] = "metadata_guided_section_scope"
         return guided
 
