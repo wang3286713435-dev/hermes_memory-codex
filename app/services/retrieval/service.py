@@ -32,6 +32,8 @@ from app.services.retrieval.rerank import (
 )
 from app.services.retrieval.tender_metadata import (
     build_tender_metadata_snapshot,
+    concrete_deep_field_missing_reason,
+    has_concrete_deep_field_evidence,
     infer_tender_metadata_fields,
     snapshot_trace,
 )
@@ -81,6 +83,7 @@ class RetrievalService:
             applied_filters["document_type"] = document_scope_trace["document_type"]
         metadata_snapshot_trace = self._infer_tender_metadata_scope(request.query, applied_filters)
         section_scope_trace = self._with_metadata_guidance(section_scope_trace, metadata_snapshot_trace)
+        deep_field_trace = self._build_deep_field_trace(metadata_snapshot_trace, section_scope_trace)
         retrieval_mode = self._resolve_mode(request)
         backend = retrieval_mode
         dense_outcome = DenseSearchOutcome(status="skipped", trace={"reason": "dense disabled"})
@@ -148,6 +151,12 @@ class RetrievalService:
             candidates=candidate_pool.candidates,
         )
         final_results = rerank_outcome.results[: request.top_k]
+        deep_field_trace = self._with_final_deep_field_evidence(deep_field_trace, final_results)
+        metadata_snapshot_trace = {
+            **metadata_snapshot_trace,
+            "deep_field_missing_reason": deep_field_trace["deep_field_missing_reason"],
+            "deep_field_diagnostics": deep_field_trace["deep_field_diagnostics"],
+        }
         meeting_transcript_trace = meeting_trace(final_results)
         access_policy_trace = {
             **access_policy_trace,
@@ -191,10 +200,12 @@ class RetrievalService:
                 "metadata_fields_matched": metadata_snapshot_trace.get("metadata_fields_matched", []),
                 "metadata_source_chunk_ids": metadata_snapshot_trace.get("metadata_source_chunk_ids", []),
                 "metadata_guided_query_profile": metadata_snapshot_trace.get("metadata_guided_query_profile", "default"),
-                "metadata_deep_field_profile": metadata_snapshot_trace.get("metadata_deep_field_profile", "default"),
-                "deep_field_profile": section_scope_trace.get("query_profile", "default"),
-                "deep_field_section_hints": section_scope_trace.get("target_sections", []),
-                "deep_field_query_aliases": section_scope_trace.get("query_aliases", []),
+                "metadata_deep_field_profile": deep_field_trace["metadata_deep_field_profile"],
+                "deep_field_profile": deep_field_trace["deep_field_profile"],
+                "deep_field_section_hints": deep_field_trace["deep_field_section_hints"],
+                "deep_field_query_aliases": deep_field_trace["deep_field_query_aliases"],
+                "deep_field_missing_reason": deep_field_trace["deep_field_missing_reason"],
+                "deep_field_diagnostics": deep_field_trace["deep_field_diagnostics"],
                 **meeting_transcript_trace,
                 "evidence_required": True,
                 "snapshot_as_answer": False,
@@ -648,6 +659,153 @@ class RetrievalService:
         guided["metadata_deep_field_profile"] = metadata_trace.get("metadata_deep_field_profile", "default")
         guided["status"] = "metadata_guided_section_scope"
         return guided
+
+    def _build_deep_field_trace(
+        self,
+        metadata_trace: dict[str, Any],
+        section_scope: dict[str, Any],
+    ) -> dict[str, Any]:
+        metadata_profile = metadata_trace.get("metadata_deep_field_profile") or "default"
+        section_profile = section_scope.get("query_profile") or section_scope.get("deep_field_profile") or "default"
+        deep_field_profile = section_profile if section_profile != "default" else metadata_profile
+        section_hints = list(section_scope.get("target_sections") or [])
+        query_aliases = list(section_scope.get("query_aliases") or [])
+        metadata_diagnostics = dict(metadata_trace.get("deep_field_diagnostics") or {})
+        intent_fields = list(
+            metadata_trace.get("metadata_intent_fields")
+            or metadata_diagnostics.get("intent_fields")
+            or metadata_trace.get("metadata_fields_matched")
+            or []
+        )
+        matched_fields = list(
+            metadata_trace.get("metadata_fields_matched")
+            or metadata_diagnostics.get("matched_fields")
+            or []
+        )
+        missing_reason = metadata_trace.get("deep_field_missing_reason") or metadata_diagnostics.get("missing_reason")
+        diagnostics = {
+            **metadata_diagnostics,
+            "profile": deep_field_profile,
+            "metadata_deep_field_profile": metadata_profile,
+            "section_targets_attempted": section_hints,
+            "query_aliases_used": query_aliases,
+            "boosted_phrases_used": self._deep_field_boosted_phrases(deep_field_profile),
+            "metadata_source_chunk_ids": list(metadata_trace.get("metadata_source_chunk_ids") or []),
+            "intent_fields": intent_fields,
+            "matched_fields": matched_fields,
+            "evidence_required": True,
+            "snapshot_as_answer": False,
+        }
+        if not diagnostics.get("status"):
+            diagnostics["status"] = "section_diagnostics_only" if section_hints or query_aliases else "no_deep_field_signal"
+        if "concrete_evidence_required" not in diagnostics:
+            diagnostics["concrete_evidence_required"] = False
+        diagnostics["concrete_evidence_present"] = (
+            diagnostics.get("concrete_evidence_required") is True
+            and not diagnostics.get("concrete_evidence_missing_fields")
+        )
+        diagnostics["missing_reason"] = missing_reason
+        return {
+            "metadata_deep_field_profile": metadata_profile,
+            "deep_field_profile": deep_field_profile,
+            "deep_field_section_hints": section_hints,
+            "deep_field_query_aliases": query_aliases,
+            "deep_field_missing_reason": missing_reason,
+            "deep_field_diagnostics": diagnostics,
+        }
+
+    def _with_final_deep_field_evidence(
+        self,
+        deep_field_trace: dict[str, Any],
+        final_results: list[SearchResult],
+    ) -> dict[str, Any]:
+        diagnostics = dict(deep_field_trace.get("deep_field_diagnostics") or {})
+        required_fields = list(diagnostics.get("concrete_evidence_required_fields") or [])
+        if not required_fields:
+            return deep_field_trace
+
+        matched_fields = list(diagnostics.get("concrete_evidence_matched_fields") or [])
+        final_matched_fields = [
+            field_name
+            for field_name in required_fields
+            if any(has_concrete_deep_field_evidence(field_name, result.text or "") for result in final_results)
+        ]
+        final_missing_fields = [field_name for field_name in required_fields if field_name not in final_matched_fields]
+        missing_reasons = [
+            reason
+            for field_name in final_missing_fields
+            if (reason := concrete_deep_field_missing_reason(field_name))
+        ]
+        diagnostics.update(
+            {
+                "concrete_evidence_matched_fields": final_matched_fields,
+                "concrete_evidence_missing_fields": final_missing_fields,
+                "concrete_evidence_present": bool(required_fields) and not final_missing_fields,
+                "final_retrieval_evidence_checked": True,
+                "metadata_matched_fields_before_final_evidence_check": matched_fields,
+            }
+        )
+        if final_missing_fields:
+            diagnostics["status"] = "missing_concrete_evidence"
+            diagnostics["missing_reasons"] = missing_reasons
+            diagnostics["missing_reason"] = missing_reasons[0] if len(missing_reasons) == 1 else (missing_reasons or None)
+            diagnostics["diagnostic_consistency"] = "metadata_anchor_without_final_concrete_evidence"
+        else:
+            diagnostics["status"] = "concrete_evidence_found"
+            diagnostics["missing_reasons"] = []
+            diagnostics["missing_reason"] = None
+            diagnostics["diagnostic_consistency"] = "final_concrete_evidence_confirmed"
+
+        if "project_manager_requirement" in required_fields:
+            project_manager_level_explicit = "project_manager_requirement" in final_matched_fields
+            diagnostics["project_manager_level_explicit"] = project_manager_level_explicit
+            if not project_manager_level_explicit:
+                diagnostics["project_manager_level_missing_reason"] = (
+                    "electronic_certificate_format_is_not_role_level_requirement"
+                )
+            else:
+                diagnostics.pop("project_manager_level_missing_reason", None)
+
+        return {
+            **deep_field_trace,
+            "deep_field_missing_reason": diagnostics.get("missing_reason"),
+            "deep_field_diagnostics": diagnostics,
+        }
+
+    def _deep_field_boosted_phrases(self, query_profile: str) -> list[str]:
+        phrases_by_profile = {
+            "pricing_scope": [
+                "最高投标限价",
+                "招标控制价",
+                "最高限价",
+                "投标报价上限",
+                "投标限价",
+                "限价明细",
+                "不得超过",
+            ],
+            "qualification_scope": [
+                "投标人资格要求",
+                "资格条件",
+                "资质等级",
+                "项目经理",
+                "注册建造师",
+                "安全生产考核",
+                "联合体投标",
+                "类似工程业绩",
+                "人员配备",
+                "项目管理机构",
+            ],
+            "schedule_scope": [
+                "工期要求",
+                "总工期",
+                "计划开工日期",
+                "计划竣工日期",
+                "合同工期",
+                "日历天",
+                "竣工验收合格",
+            ],
+        }
+        return phrases_by_profile.get(query_profile, [])
 
     def _is_tender_scope(self, applied_filters: dict[str, Any]) -> bool:
         if applied_filters.get("source_type") == "tender" or applied_filters.get("document_type") == "tender":

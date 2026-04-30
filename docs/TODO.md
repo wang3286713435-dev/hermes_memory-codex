@@ -552,3 +552,30 @@
 15. Phase 2.35c 已完成主仓库最小修复：`上一轮已锁定的当前文件` 等说法会进入 current-document bind / current retrieval fallback，并持久化 alias 供后续同 session query 使用。
 16. Codex C 真实终端复验通过：正式 Q1/Q2 不再丢 alias，不再 suppressed，可进入 Phase 2.35c baseline。
 17. deep-field recall 仍 partial：限价具体金额、资质具体等级 / 类别、类似业绩、人员要求仍为后续尾项；`metadata_deep_field_profile=null` 与 `deep_field_profile=single_pass` 属 trace / 展示尾项。
+
+## 42. Phase 2.36 tender deep-field recall tail planning
+
+1. Phase 2.36 已完成路线规划：只做文档规划，不写代码、不运行真实 API / CLI smoke、不提交 Git。
+2. 已按字段分类剩余缺口：
+   - 最高投标限价 / 招标控制价 / 投标报价上限。
+   - 投标资质等级 / 类别。
+   - 项目经理等级 / B 证。
+   - 联合体。
+   - 类似业绩。
+   - 人员数量 / 专业 / 证书。
+   - trace display / profile fields。
+3. 缺口分类使用 A/B/C/D：真实缺字段、章节召回不足、trace 展示问题、需人工确认。
+4. 推荐 Phase 2.36a 最小实现：trace polish + section-targeted retrieval diagnostics + fixture-based concrete field tests。
+5. 继续保留 Missing Evidence 口径；不得编造限价金额、资质等级、业绩或人员数量。
+6. 不进入自动审标、production rollout、repair、DB / OpenSearch / Qdrant 变更。
+7. Phase 2.36a 已完成 retrieval-layer 最小实现：顶层 trace 稳定输出 deep-field profile / section hints / query aliases / Missing Evidence reason / diagnostics。
+8. 新增 fixture tests 覆盖具体限价、占位限价、具体资质等级+类别、证照清单；目标 pytest `17 passed`。
+9. 下一步需 Codex B review；如终端仍显示 `metadata_deep_field_profile=null` 或 `deep_field_profile=single_pass`，需单独授权检查 Hermes 主仓库 adapter/context 展示层。
+10. Phase 2.36b 已完成主仓库消费层最小实现：adapter / kernel / context_builder 提升并渲染 deep-field trace；alias parser 支持 `锁定“标题”，并绑定为 @alias`。
+11. Phase 2.36b 主仓库目标测试：py_compile 通过，`59 passed`。
+12. 下一步需 Codex B review 与 Codex C 真实终端复验；不能把本轮写成 deep-field recall 完全收口。
+13. Codex C 复验确认 Phase 2.36b 的 alias binding 与 terminal-visible trace 已基本通过，但发现 diagnostics 与答案边界语义不一致：Q1 限价 diagnostics 可能显示 concrete found，而最终答案仍 Missing Evidence。
+14. Phase 2.36c 已完成 Hermes_memory 最小修复：concrete evidence 需经最终 retrieval evidence 校正；metadata anchor 命中但最终 evidence 无具体金额时，trace 保守输出 `missing_concrete_price_amount` 与 `concrete_evidence_present=false`。
+15. Phase 2.36c 已约束项目经理等级表述：仅电子证书 / 证照材料 / 格式条款不得推断为“项目经理=一级注册建造师”；需明确“项目经理须具备 X级注册建造师”才算 explicit level evidence。
+16. Phase 2.36c 目标测试 `33 passed`；Codex B review 已通过，Codex C 真实终端复验已通过。
+17. Phase 2.36c 当前可执行 Git baseline：限价 diagnostics 与 Missing Evidence 语义一致，电子证书 / 材料条款不再推断为项目经理等级；deep-field recall 仍 partial，真实限价金额、具体资质等级 / 类别、业绩、人员数量继续后置，不能宣称完整自动审标收口。

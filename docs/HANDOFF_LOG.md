@@ -1330,3 +1330,248 @@
 - risks: Do not stage main repo `uv.lock`, `docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`, or `tests/agent/test_memory_kernel_adapter_reload.py`.
 - next: Commit/tag/push Phase 2.35c baseline in both repos; keep baseline wording bounded.
 - commit/tag if any: pending.
+
+## 2026-04-29 17:46 Phase 2.36
+- goal: 规划主标书 deep-field recall / trace tail item 收敛方案。
+- changed_files:
+  - `docs/PHASE236_TENDER_DEEP_FIELD_RECALL_TAIL_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: docs-only planning，未运行 pytest；未运行真实 API / CLI smoke。
+- validation: Phase 2.35c alias/session baseline 已完成；规划按 price ceiling、qualification、project manager、consortium、performance、personnel 与 trace display 分类剩余 tail items。
+- risks: 限价金额、资质等级 / 类别、业绩、人员要求仍可能是真实源文缺字段；必须继续保留 Missing Evidence，不得编造。
+- next: Codex B review；通过后建议 Phase 2.36a 做 trace polish + section-targeted retrieval diagnostics。
+- commit/tag if any: 无。
+
+## 2026-04-30 09:20 Phase 2.36a Codex B Review
+- goal: 审核 Phase 2.36a retrieval-layer trace polish + diagnostics 实现，并决定是否可 baseline。
+- changed_files:
+  - `app/services/retrieval/service.py`
+  - `app/services/retrieval/tender_metadata.py`
+  - `tests/test_phase236_tender_deep_field_trace.py`
+  - `docs/PHASE236_TENDER_DEEP_FIELD_RECALL_TAIL_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: `uv run python -m py_compile app/services/retrieval/tender_metadata.py app/services/retrieval/service.py` passed；`uv run pytest tests/test_tender_metadata_retrieval.py tests/test_phase235_tender_deep_field_retrieval.py tests/test_phase236_tender_deep_field_trace.py tests/test_retrieval_contract.py -q` => `30 passed`；`git diff --check` passed。
+- validation: 代码层 review 通过。实现稳定输出 `metadata_deep_field_profile`、`deep_field_profile`、`deep_field_section_hints`、`deep_field_query_aliases`、`deep_field_missing_reason`、`deep_field_diagnostics`，并用 fixture 区分 concrete evidence 与 placeholder / generic evidence。
+- risks: 当前只证明 Hermes_memory retrieval-layer trace；若真实 CLI 仍显示 `metadata_deep_field_profile=null` 或 `deep_field_profile=single_pass`，则需要单独授权 Hermes 主仓库 adapter/context trace display follow-up。
+- next: 建议 Codex C 只做 `@主标书` Q1/Q2 terminal-visible trace 抽样；通过后再执行 Phase 2.36a Git baseline。
+- commit/tag if any: 无。
+
+## 2026-04-30 09:55 Phase 2.36a Codex C Trace Sampling
+- goal: 吸收 Codex C 真实终端抽样结果，判断 Phase 2.36a 是否可 baseline。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮为 Codex B 交接，不运行 pytest。
+- validation: Codex C fallback session `20260430_005108_6db393` 中 Q1/Q2 alias 已 resolved，evidence 仅主标书，`snapshot_as_answer=false`、`facts_as_answer=false`、`transcript_as_fact=false`，无编造。
+- risks: 终端 trace 仍未透出 Hermes_memory 新字段：`metadata_deep_field_profile=null`、`deep_field_profile=null`、`deep_field_diagnostics=null`，`query_aliases` 只显示 `主标书`。指定一步绑定 prompt session `20260430_005006_4ad0a0` 仍 `alias_missing=true / retrieval_suppressed=true`。
+- next: 不 baseline Phase 2.36a；进入 Phase 2.36b，修复 Hermes 主仓库 adapter/kernel/context_builder trace 映射与 `绑定为 @alias` / 中文弯引号 title alias binding。
+- commit/tag if any: 无。
+
+## 2026-04-30 10:18 Phase 2.36b Codex B Review
+- goal: 审核 Phase 2.36b 主仓 trace display / alias prompt handling 实现，并决定是否可交 Codex C。
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/adapters/hermes_memory_adapter.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/kernel.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/session_document_scope.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_session_document_scope.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_structured_citation_context.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 主仓 `./.venv/bin/python -m py_compile agent/memory_kernel/adapters/hermes_memory_adapter.py agent/memory_kernel/kernel.py agent/memory_kernel/context_builder.py agent/memory_kernel/session_document_scope.py` passed；主仓 `./.venv/bin/python -m pytest -o addopts='' tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py -q` => `59 passed`；两仓 `git diff --check` passed。
+- validation: Codex B review 通过。主仓已补 deep-field trace flatten / promotion / context rendering；alias parser 已覆盖 `绑定为`、`绑定成` 与中文弯引号标题。
+- risks: 仍需 Codex C 真实终端复验，确认 Step 1 一步绑定与 Q1/Q2 terminal-visible trace 实际通过。不得将当前实现误写为 deep-field recall 完整收口。
+- next: Codex C 重跑 Step 1 / Q1 / Q2 抽样；若通过，再进入 Phase 2.36b Git baseline。
+- commit/tag if any: 无。
+
+## 2026-04-30 10:42 Phase 2.36b Codex C Validation
+- goal: 吸收 Codex C 真实终端复验结果，判断 Phase 2.36b 是否可 baseline。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮为 Codex B 交接，不运行 pytest。
+- validation: Codex C session `20260430_020429_7517f4` 中 Step 1 一步 alias binding 已通过；Q1/Q2 terminal-visible trace 已显示 `pricing_scope` / `qualification_scope`、deep-field aliases 与 diagnostics；安全边界保持 false/false/false。
+- risks: 暂不 baseline。Q1 diagnostics 显示 concrete found / present=true，但答案仍为限价 Missing Evidence，存在 trace / answer boundary 不一致；Q2 将“一级注册建造师电子证书要求”表述为“项目经理=一级注册建造师”，存在过度解释风险。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，做 Phase 2.36c diagnostics / answer boundary semantic consistency 最小修复。
+- commit/tag if any: 无。
+
+## 2026-04-29 17:55 Phase 2.36 Codex B Review
+- goal: 审核 Phase 2.36 planning，并写入 Phase 2.36a 最小实现任务入口。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮为 Codex B review / prompt handoff，不运行 pytest。
+- validation: `docs/PHASE236_TENDER_DEEP_FIELD_RECALL_TAIL_PLAN.md` 分类清晰，保持 Missing Evidence 口径，未要求自动审标、rollout、DB 或索引变更；允许进入 bounded Phase 2.36a。
+- risks: Phase 2.36a 只能补 trace polish 与 diagnostics，不能宣称 deep-field recall 完全收口；若发现 terminal-visible trace 卡在 Hermes 主仓库，需要停止并回交，不要直接改主仓库。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，实现 Hermes_memory 侧 trace polish + section-targeted retrieval diagnostics，并运行目标测试。
+- commit/tag if any: 无。
+
+## 2026-04-29 17:35 Phase 2.35c Baseline Review / Phase 2.36 Prompt
+- goal: 检查 Phase 2.35c baseline 状态，并将下一轮安全任务切换到 Phase 2.36 deep-field recall / trace tail planning。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮为 Codex B 检查与交接，不运行 pytest。
+- validation: Hermes_memory HEAD `ec77c96` 已打 tag `phase-2.35c-alias-session-baseline`；Hermes 主仓库 HEAD `ead4e899` 已打同名 tag。`reports/agent_runs/latest.json` 标记 Phase 2.35c baseline 已完成并 pushed。
+- risks: Deep-field recall 仍 partial；限价具体金额、资质等级 / 类别、类似业绩、人员要求仍不得编造。主仓库既有无关 dirty 仍不得混入后续提交。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.36 路线规划与文档同步；不写功能代码、不跑真实 smoke、不提交 baseline。
+- commit/tag if any: 无。
+
+## 2026-04-30 00:29 Phase 2.36a
+- goal: 执行 Phase 2.36a trace polish + section-targeted retrieval diagnostics 最小实现。
+- changed_files:
+  - `app/services/retrieval/service.py`
+  - `app/services/retrieval/tender_metadata.py`
+  - `tests/test_phase236_tender_deep_field_trace.py`
+  - `docs/PHASE236_TENDER_DEEP_FIELD_RECALL_TAIL_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `uv run python -m py_compile app/services/retrieval/tender_metadata.py app/services/retrieval/service.py`：通过。
+  - `uv run pytest tests/test_tender_metadata_retrieval.py tests/test_phase235_tender_deep_field_retrieval.py tests/test_phase236_tender_deep_field_trace.py -q`：`17 passed`。
+  - `uv run pytest tests/test_retrieval_contract.py -q`：`13 passed`。
+  - `git diff --check`：通过。
+- validation: retrieval-layer trace 现在稳定输出 deep-field profile、section hints、query aliases、Missing Evidence reason 与 diagnostics；fixture 覆盖 concrete price / placeholder price / concrete qualification / generic certificate list。
+- risks: 未做真实 API / CLI smoke；若终端 trace 仍显示 null / single_pass，需授权检查 Hermes 主仓库 adapter/context 展示层。真实主标书缺字段仍必须 Missing Evidence。
+- next: Codex B review Phase 2.36a；通过后再决定 Git baseline 或 Codex C 抽样复验。
+- commit/tag if any: 无。
+
+## 2026-04-30 01:37 Phase 2.36b
+- goal: 修复 Hermes 主仓库 deep-field trace display 映射与一步 alias binding prompt handling。
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/adapters/hermes_memory_adapter.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/kernel.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/session_document_scope.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_session_document_scope.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_structured_citation_context.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `docs/PHASE236_TENDER_DEEP_FIELD_RECALL_TAIL_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `/Users/Weishengsu/.hermes/hermes-agent/.venv/bin/python -m py_compile agent/memory_kernel/adapters/hermes_memory_adapter.py agent/memory_kernel/kernel.py agent/memory_kernel/context_builder.py agent/memory_kernel/session_document_scope.py`：通过。
+  - `/Users/Weishengsu/.hermes/hermes-agent/.venv/bin/python -m pytest -o addopts='' tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py -q`：`59 passed`。
+  - `git diff --check`：Hermes 主仓库与 Hermes_memory 均通过。
+- validation: 主仓库 adapter/kernel 已提升 Hermes_memory deep-field trace 字段，context block 已独立渲染 deep-field diagnostics；alias parser 已支持中文弯引号标题与 `绑定为 / 绑定成 @alias`。
+- risks: 未做真实 API / CLI smoke；terminal-visible trace 与一步 alias binding 仍需 Codex C 复验。deep-field recall 本身仍 partial，限价金额、具体资质等级、业绩、人员要求不足仍应 Missing Evidence。
+- next: Codex B review Phase 2.36b；通过后由 Codex C 复验 Step 1 / Q1 / Q2 终端 trace。
+- commit/tag if any: 无。
+
+## 2026-04-30 12:15 Phase 2.36c
+- goal: 修复 deep-field diagnostics 与 Missing Evidence / 项目经理等级 answer boundary 语义一致性。
+- changed_files:
+  - `app/services/retrieval/tender_metadata.py`
+  - `app/services/retrieval/service.py`
+  - `tests/test_phase236_tender_deep_field_trace.py`
+  - `docs/PHASE236_TENDER_DEEP_FIELD_RECALL_TAIL_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `UV_CACHE_DIR=.uv-cache uv run python -m py_compile app/services/retrieval/tender_metadata.py app/services/retrieval/service.py`：通过。
+  - `UV_CACHE_DIR=.uv-cache uv run pytest tests/test_tender_metadata_retrieval.py tests/test_phase235_tender_deep_field_retrieval.py tests/test_phase236_tender_deep_field_trace.py tests/test_retrieval_contract.py -q`：`33 passed`。
+  - `.venv/bin/python -m pytest ...` fallback：`33 passed`。
+- validation: 限价 concrete evidence 现在需最终 retrieval evidence 含具体金额；metadata anchor 无最终金额时输出 Missing Evidence diagnostics。项目经理等级仅明确岗位等级要求才算 explicit，电子证书格式 / 材料条款不会被推断为岗位等级。
+- risks: 未做真实 API / CLI smoke；deep-field recall 仍 partial；Phase 2.36c 仍需 Codex B review 与 Codex C 复验。
+- next: Codex B review Phase 2.36c；通过后交 Codex C 复验 Step 1 / Q1 / Q2。
+- commit/tag if any: 无。
+
+## 2026-04-30 12:48 Phase 2.36c Codex B Review
+- goal: 审核 Phase 2.36c diagnostics / answer boundary 语义一致性修复，并决定是否可交 Codex C。
+- changed_files:
+  - `app/services/retrieval/tender_metadata.py`
+  - `app/services/retrieval/service.py`
+  - `tests/test_phase236_tender_deep_field_trace.py`
+  - `docs/PHASE236_TENDER_DEEP_FIELD_RECALL_TAIL_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `UV_CACHE_DIR=.uv-cache uv run python -m py_compile app/services/retrieval/tender_metadata.py app/services/retrieval/service.py`：通过。
+  - `UV_CACHE_DIR=.uv-cache uv run pytest tests/test_tender_metadata_retrieval.py tests/test_phase235_tender_deep_field_retrieval.py tests/test_phase236_tender_deep_field_trace.py tests/test_retrieval_contract.py -q`：`33 passed`。
+  - `git diff --check`：通过。
+- validation: Codex B review 通过。实现限定在 Hermes_memory retrieval diagnostics 语义校正：最终 retrieval evidence 会重新判定 concrete evidence；metadata anchor 无最终具体金额时输出 Missing Evidence；电子证书格式 / 材料条款不会被推断为项目经理等级。
+- risks: 仍未做真实 API / CLI smoke；deep-field recall 仍 partial，限价金额、具体资质等级、业绩、人员数量仍不得编造。当前不建议 baseline。
+- next: 交 Codex C 重跑 Step 1 / Q1 / Q2，重点检查终端可见 diagnostics 与答案边界是否一致。
+- commit/tag if any: 无。
+
+## 2026-04-30 13:05 Phase 2.36c Codex C Validation / Baseline Prompt
+- goal: 吸收 Codex C 真实终端复验结果，并写入 Phase 2.36c baseline 任务入口。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮为 Codex B 交接，不运行 pytest。
+- validation: Codex C session `20260430_123308_6660a8` 通过。Step 1 alias binding 为 `alias_bound`，`alias_missing=false`，`retrieval_suppressed=false`。Q1 已无 `concrete_evidence_present=true` 与限价 Missing Evidence 冲突；Q2 `project_manager_level_explicit=false`，未把电子证书格式 / 材料条款推断为项目经理等级。安全边界 `snapshot_as_answer=false`、`facts_as_answer=false`、`transcript_as_fact=false` 稳定，未混入第三文件。
+- risks: deep-field recall 仍 partial；真实限价金额、资质具体等级 / 类别、业绩、人员数量仍为后续尾项，必须继续 Missing Evidence / 人工复核。Q1 组合查询 profile 可显示 `schedule_scope`，但 price aliases / Missing Evidence diagnostics 已正确透出，非 baseline 阻塞。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，仅做 Phase 2.36c Git baseline；baseline 后停止，不进入下一阶段。
+- commit/tag if any: pending。
+
+## 2026-04-30 12:46 Phase 2.36c Baseline
+- goal: 执行 Phase 2.36c deep-field diagnostics semantic consistency Git baseline。
+- changed_files:
+  - `app/services/retrieval/tender_metadata.py`
+  - `app/services/retrieval/service.py`
+  - `tests/test_phase236_tender_deep_field_trace.py`
+  - `docs/PHASE236_TENDER_DEEP_FIELD_RECALL_TAIL_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+- tests:
+  - `UV_CACHE_DIR=.uv-cache uv run python -m py_compile app/services/retrieval/tender_metadata.py app/services/retrieval/service.py`：通过。
+  - `UV_CACHE_DIR=.uv-cache uv run pytest tests/test_tender_metadata_retrieval.py tests/test_phase235_tender_deep_field_retrieval.py tests/test_phase236_tender_deep_field_trace.py tests/test_retrieval_contract.py -q`：`33 passed`。
+  - `git diff --check`：通过。
+- validation: Codex B review 已通过；Codex C session `20260430_123308_6660a8` 已通过 Step 1 / Q1 / Q2 复验，diagnostics 与 Missing Evidence 语义一致。
+- risks: deep-field recall 仍 partial；真实限价金额、具体资质等级 / 类别、业绩、人员数量仍为后续尾项。baseline 不代表自动审标或 rollout。
+- next: 完成测试、白名单 staged、commit/tag/push 后停止。
+- commit/tag if any: pending。

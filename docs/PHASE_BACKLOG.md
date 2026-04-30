@@ -2,9 +2,9 @@
 
 ## 当前优先级
 
-1. Phase 2.35c Git baseline：提交 bounded retrieval + alias/session 修复与阶段文档。
-2. baseline 文案必须明确：alias/session 已通过真实终端复验，但 deep-field recall 仍 partial。
-3. baseline 后再规划后续 retrieval recall / trace display tail items。
+1. Phase 2.36c：完成 deep-field diagnostics semantic consistency Git baseline。
+2. baseline 后停止，不自动进入 Phase 2.37；下一阶段必须由 Codex B / 用户重新规划。
+3. Phase 2.36c 仍不得进入自动审标、rollout、repair 或 DB / 索引变更。
 
 ## Day-1 Pilot 已知问题
 
@@ -23,7 +23,32 @@
 5. alias 首次绑定不稳定已在 Codex C 真实 CLI 中复现：bind 成功后正式 Q1/Q2 变为 `alias_missing=true / retrieval_suppressed=true`。
 6. Phase 2.35c 已完成主仓库最小修复：`上一轮已锁定的当前文件` 等说法现在会走 current-document bind / current retrieval fallback，不再被误当成标题或历史上下文。
 7. Codex C 真实终端复验通过：session `20260429_165301_e3c312` 中正式 Q1/Q2 均为 `alias_resolved`，`alias_missing=false`，`retrieval_suppressed=false`。
-8. Phase 2.35c 可进入 Git baseline，但只能声明 alias/session 修复收口；deep-field recall 与 trace 透出仍不完全收口。
+8. Phase 2.35c Git baseline 已完成：Hermes_memory commit `ec77c96`，Hermes 主仓库 commit `ead4e899`，tag `phase-2.35c-alias-session-baseline`。
+9. Phase 2.35c baseline 只能声明 alias/session 修复收口；deep-field recall 与 trace 透出仍不完全收口。
+
+## Phase 2.36 规划入口
+
+1. 目标：把 Phase 2.35c 剩余 tail item 分清是“真实缺字段 / 章节召回不足 / trace 展示问题 / 需人工复核”。
+2. 重点字段：最高投标限价 / 招标控制价 / 投标报价上限、投标资质具体等级 / 类别、项目经理等级 / B 证、联合体、类似业绩、人员数量 / 专业 / 资质。
+3. 推荐方向：优先规划 section-targeted retrieval diagnostics 与 trace polish，不直接扩大到完整自动审标。
+4. 规划阶段不需要 Codex C；只有进入实现并影响真实终端输出后才需要真实 CLI 复验。
+
+## Phase 2.36a / 2.36b 当前状态
+
+1. Phase 2.36a Hermes_memory retrieval-layer trace diagnostics 已完成并通过 Codex B review，目标测试合计 `30 passed`。
+2. Codex C 真实终端抽样显示 Q1/Q2 安全边界正常、无编造，但终端 trace 仍为 `metadata_deep_field_profile=null`、`deep_field_profile=null`、`deep_field_diagnostics=null`。
+3. 失败定位转入 Hermes 主仓库 adapter / kernel / context_builder trace 映射与展示层。
+4. Codex C 指定 Step 1 一步绑定 prompt 仍失败：`请在企业记忆中锁定“...”，并绑定为 @主标书` 未被 alias bind parser 稳定识别。
+5. 下一步 Phase 2.36b 只做主仓库消费层 / 展示层最小修复；不扩大 Hermes_memory retrieval 逻辑，不进入真实业务数据写入。
+6. Phase 2.36b 主仓库最小实现已完成：adapter / kernel / context_builder 可提升并渲染 deep-field trace，session scope parser 支持 `绑定为 / 绑定成` 与中文弯引号标题。
+7. Phase 2.36b 目标测试通过：主仓库 py_compile 通过，`tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py` 为 `59 passed`。
+8. Codex C 终端复验显示 Phase 2.36b 的一步 alias binding 与 terminal-visible trace 已基本通过：Q1/Q2 分别显示 `pricing_scope` / `qualification_scope` 与 diagnostics。
+9. Phase 2.36b 暂不 baseline：Q1 diagnostics 出现 concrete found 与答案 Missing Evidence 不一致；Q2 对“一级注册建造师电子证书要求”存在过度表述为项目经理等级的风险。
+10. Phase 2.36c 已完成 Hermes_memory 最小修复：final retrieval evidence 会重新校正 concrete evidence，metadata anchor 不足时输出保守 Missing Evidence diagnostics。
+11. Phase 2.36c 已补项目经理等级边界：电子证书格式 / 材料条款不能作为 explicit role-level requirement。
+12. Phase 2.36c 目标测试 `33 passed`；Codex B review 已通过。
+13. Codex C 真实终端复验已通过：session `20260430_123308_6660a8` 中 Step 1 alias binding 成功，Q1 限价 diagnostics 与 Missing Evidence 一致，Q2 未把电子证书 / 材料条款推断为项目经理等级。
+14. 当前只执行 Phase 2.36c Git baseline；deep-field recall 仍 partial，真实限价金额、具体资质等级 / 类别、业绩、人员数量继续作为后续尾项，不得写成完整自动审标能力收口。
 
 ## 后置项
 

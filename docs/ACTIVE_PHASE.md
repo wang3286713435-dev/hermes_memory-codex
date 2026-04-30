@@ -1,55 +1,48 @@
 # Active Phase
 
-- 当前 phase：Phase 2.35c Alias Session Follow-up
-- 本轮目标：吸收 Codex C 真实终端复验结果，确认 alias/session 修复是否通过，并明确 Phase 2.35c 是否可进入 baseline。
+- 当前 phase：Phase 2.36c Deep-field Diagnostics Semantic Consistency Baseline
+- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.36c Git baseline。
 - 修改文件：
-  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/session_document_scope.py`
-  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_session_document_scope.py`
-  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
-  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
-  - `app/services/retrieval/service.py`
   - `app/services/retrieval/tender_metadata.py`
-  - `tests/test_tender_metadata_retrieval.py`
-  - `tests/test_phase235_tender_deep_field_retrieval.py`
-  - `docs/PHASE235_TENDER_DEEP_FIELD_RETRIEVAL_PLAN.md`
+  - `app/services/retrieval/service.py`
+  - `tests/test_phase236_tender_deep_field_trace.py`
+  - `docs/PHASE236_TENDER_DEEP_FIELD_RECALL_TAIL_PLAN.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
   - `docs/PHASE_BACKLOG.md`
-  - `docs/NIGHTLY_SPRINT_QUEUE.md`
-  - `docs/NEXT_CODEX_A_PROMPT.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
   - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
 - 完成内容：
-  - Phase 2.35b 已补主标书深层字段 retrieval trace / metadata precision。
-  - Phase 2.35c 已补主仓库 alias/session 最小修复：`上一轮已锁定的当前文件` 等说法进入 current-document bind / current retrieval fallback，并持久化 alias。
-  - Codex C 真实终端复验已确认：`@主标书` bind 后正式 Q1/Q2 均为 `alias_resolved`，`alias_missing=false`，`retrieval_suppressed=false`。
-  - 正式 Q1/Q2 retrieval evidence 均仅来自主标书 document_id `869d4684-0a98-4825-bc72-ada65c15cfc9`。
+  - 限价 concrete evidence 判定收紧为“限价语境内的具体金额 + 货币 / 单位”。
+  - metadata snapshot 命中后，会用最终 retrieval evidence 再校正 `concrete_evidence_present`。
+  - metadata anchor 命中但最终 evidence 无具体金额时，trace 输出 `missing_concrete_price_amount` 与 `diagnostic_consistency=metadata_anchor_without_final_concrete_evidence`。
+  - 项目经理等级只在明确“项目经理 / 项目负责人须具备 X级注册建造师”时视为 explicit level evidence。
+  - 电子证书 / 证照材料 / 格式条款不再推断为项目经理等级要求。
+  - 未修改 retrieval contract、memory kernel 主架构、业务 DB、facts、document_versions、OpenSearch 或 Qdrant。
 - 测试结果：
-  - Hermes 主仓库 py_compile：通过。
-  - Hermes 主仓库 pytest：`.venv/bin/python -m pytest -o addopts='' tests/agent/test_session_document_scope.py -q`：`48 passed`。
-  - Hermes_memory pytest：`uv run pytest tests/test_tender_metadata_retrieval.py tests/test_retrieval_contract.py tests/test_phase235_tender_deep_field_retrieval.py -q`：`26 passed`。
-  - 两仓 `git diff --check`：通过。
+  - 默认 `uv run ...` 因 sandbox 无法读取用户级 uv cache 失败；使用 `UV_CACHE_DIR=.uv-cache` 后通过。
+  - `UV_CACHE_DIR=.uv-cache uv run python -m py_compile app/services/retrieval/tender_metadata.py app/services/retrieval/service.py`：通过。
+  - `UV_CACHE_DIR=.uv-cache uv run pytest tests/test_tender_metadata_retrieval.py tests/test_phase235_tender_deep_field_retrieval.py tests/test_phase236_tender_deep_field_trace.py tests/test_retrieval_contract.py -q`：`33 passed`。
+  - `.venv/bin/python` fallback 目标测试同样为 `33 passed`。
 - live smoke 结果：
-  - Codex C session：`20260429_165301_e3c312`。
-  - API `/health`：最终 `200 OK`。
-  - Hermes CLI：可用。
-  - `@主标书` bound / resolved document_id：`869d4684-0a98-4825-bc72-ada65c15cfc9`。
-  - `@主标书` resolved version_id：`43558ba9-2813-42ff-b11b-3fbb4448a5bb`。
-  - Q1：`5 pass / 0 partial / 1 fail`；最高投标限价 / 招标控制价 / 投标报价上限仍 Missing Evidence，未编造金额。
-  - Q2：`1 pass / 1 partial / 3 fail`；联合体 pass，项目经理 partial，资质 / 类似业绩 / 人员要求仍 Missing Evidence 或缺主标具体条件。
-  - `snapshot_as_answer=false`、`facts_as_answer=false`、`transcript_as_fact=false`。
+  - Codex C 真实终端复验通过，session `20260430_123308_6660a8`。
+  - Step 1 一步 alias binding 通过：`alias_bound`，`alias_missing=false`，`retrieval_suppressed=false`。
+  - Q1 限价 diagnostics 与 Missing Evidence 一致：`concrete_evidence_present=false`、`concrete_evidence_missing_fields=["price_ceiling"]`、`deep_field_missing_reason=missing_concrete_price_amount`。
+  - Q2 不再把电子证书 / 证照格式 / 材料要求推断为项目经理等级：`project_manager_level_explicit=false`。
+  - 未写业务 DB、facts、document_versions、OpenSearch、Qdrant。
 - 当前结论：
-  - Phase 2.35c alias/session 修复已通过真实终端复验。
-  - Phase 2.35c 可作为 alias/session 修复 baseline。
-  - 不应把 deep-field recall / trace 视为完全收口。
+  - Phase 2.36c 最小实现已完成代码层验证。
+  - diagnostics 与 Missing Evidence 语义已在测试层对齐。
+  - Codex B review 已通过：变更范围符合 Phase 2.36c 边界，未发现 retrieval contract、memory kernel 主架构或数据写入越界。
+  - Codex C 真实终端复验已通过，可进入 Git baseline。
 - 阻塞点 / 风险点：
-  - 最高投标限价 / 招标控制价 / 投标报价上限仍缺具体金额 evidence。
-  - 投标资质具体等级 / 类别仍未稳定命中。
-  - `metadata_deep_field_profile=null` 与 `deep_field_profile=single_pass` 仍是 trace / 展示层尾项。
-  - 项目经理等级、类似业绩金额 / 规模 / 年限、人员数量 / 专业 / 资质仍需后续 retrieval recall 专项或人工复核。
-- 是否建议 baseline：是，本轮执行 Phase 2.35c Git baseline。
-- 是否建议进入下一阶段：否，baseline 后再规划 deep-field recall / trace tail item。
-- 下一轮建议：Phase 2.35c baseline 后，规划限价金额、资质等级 / 类别、业绩 / 人员要求与 trace 透出尾项。
-- 是否需要 Codex B 审核：是，baseline 前复核提交范围。
-- 是否需要 Codex C 真实终端验收：否，当前复验已完成。
+  - deep-field recall 仍 partial；本轮不解决限价金额、具体资质等级、业绩、人员要求真实召回不足。
+  - Q1 组合查询包含工期时 profile 可能显示 `schedule_scope`，但 price aliases / Missing Evidence diagnostics 已正确透出。
+  - `UV_CACHE_DIR=.uv-cache` 产生的 uv cache 不在 git status 中出现；仍需避免纳入 Git。
+- 是否建议 baseline：是，执行 Phase 2.36c Git baseline。
+- 是否建议进入下一阶段：否，先完成 baseline。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 的 baseline 任务。
+- 是否需要 Codex B 审核：否，已完成。
+- 是否需要 Codex C 真实终端验收：否，已完成。

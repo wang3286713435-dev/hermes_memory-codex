@@ -190,3 +190,8 @@
 - [Phase 2.35c] Codex B 已写入下一轮主仓库 alias/session 最小修复入口，限定修复 bind success 后同 session 后续 query 丢失问题；不扩大 deep-field retrieval、不进入自动审标或 rollout。
 - [Phase 2.35c] 完成主仓库 alias/session 最小修复：`上一轮已锁定的当前文件` 类绑定提示进入 current-document bind / retrieval fallback，并通过 direct assertion 覆盖跨 store resume 与 run_agent 预解析路径。
 - [Phase 2.35c] Codex C 真实终端复验通过：`@主标书` bind 后 Q1/Q2 均为 alias_resolved 且未 suppressed；限价金额、具体资质等级、业绩与人员要求仍为 retrieval recall / Missing Evidence 尾项。
+- [Phase 2.36] 完成主标书 deep-field recall tail planning，将限价、资质、项目经理、联合体、业绩、人员与 trace 展示缺口分类为真实缺字段 / 章节召回不足 / trace polish / 人工确认，并建议 2.36a 先做 trace + diagnostics。
+- [Phase 2.36a] 完成 retrieval-layer trace polish + section diagnostics：新增 `deep_field_missing_reason` / `deep_field_diagnostics`，区分 concrete price / qualification evidence 与 Missing Evidence；目标测试 `17 passed`，未做真实 CLI smoke。
+- [Phase 2.36b] 完成主仓库 trace display / alias prompt 最小修复：deep-field trace 从 Hermes_memory retrieval trace 提升到顶层并进入 context block；`锁定“标题”，并绑定为 @alias` 可识别为 alias bind；主仓目标测试 `59 passed`。
+- [Phase 2.36c] 完成 diagnostics / answer boundary 语义一致性修复：限价 concrete evidence 需最终 retrieval evidence 含具体金额，电子证书格式条款不再推断为项目经理等级；目标测试 `33 passed`。
+- [Phase 2.36c] Codex B review 与 Codex C 真实终端复验均已通过：Step 1 alias binding 成功，Q1 限价 diagnostics 与 Missing Evidence 一致，Q2 项目经理等级边界正确；当前进入 Git baseline，不进入自动审标或 rollout。
