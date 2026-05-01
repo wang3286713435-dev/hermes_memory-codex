@@ -1554,6 +1554,19 @@
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，仅做 Phase 2.36c Git baseline；baseline 后停止，不进入下一阶段。
 - commit/tag if any: pending。
 
+## 2026-04-30 14:22 Phase 2.37 Route Planning Prompt
+- goal: 在 Phase 2.36c baseline 后写入下一阶段路线规划入口。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮为 Codex B handoff，不运行 pytest；未运行真实 API / CLI smoke。
+- validation: Phase 2.36c baseline 已确认：HEAD `d491a44`，tag `phase-2.36c-tender-deep-field-diagnostics-baseline`。下一阶段建议先做 MVP Pilot issue intake / triage planning，把真实试用反馈转为结构化 issue records，不直接修复或 rollout。
+- risks: 不得将 Phase 2.37 规划误执行为 repair、自动审标、DB 写入或生产 rollout。deep-field recall partial 应作为 issue 记录和分流，而不是被隐藏。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.37 docs-only 路线规划。
+- commit/tag if any: 无。
+
 ## 2026-04-30 12:46 Phase 2.36c Baseline
 - goal: 执行 Phase 2.36c deep-field diagnostics semantic consistency Git baseline。
 - changed_files:
@@ -1574,4 +1587,53 @@
 - validation: Codex B review 已通过；Codex C session `20260430_123308_6660a8` 已通过 Step 1 / Q1 / Q2 复验，diagnostics 与 Missing Evidence 语义一致。
 - risks: deep-field recall 仍 partial；真实限价金额、具体资质等级 / 类别、业绩、人员数量仍为后续尾项。baseline 不代表自动审标或 rollout。
 - next: 完成测试、白名单 staged、commit/tag/push 后停止。
+- commit/tag if any: pending。
+
+## 2026-04-30 15:02 Phase 2.37 Planning
+- goal: 规划 MVP Pilot issue intake / triage，承接 Day-1 / Codex C / 用户真实试用反馈。
+- changed_files:
+  - `docs/PHASE237_PILOT_ISSUE_TRIAGE_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - 本轮 docs-only planning，未运行 pytest。
+  - 未运行真实 API / CLI smoke。
+- validation: 已评审 A-E 候选方向，推荐 Phase 2.37a 先做 local issue intake schema / template / dry-run validator or summary generator；deep-field recall partial 尾项进入 issue 分流，不直接盲修。
+- risks: intake 本身不修复 retrieval recall；若后续缺少样本记录纪律，P1/P2 仍可能变成口头反馈。仍禁止 DB 写入、repair、rollout、自动审标。
+- next: Codex B review Phase 2.37 规划；通过后再决定是否进入 Phase 2.37a 最小实现。
+- commit/tag if any: 无。
+
+## 2026-05-01 00:00 Phase 2.37 Codex B Review
+- goal: 审核 Phase 2.37 Pilot Issue Intake / Triage planning，并写入 planning baseline 任务入口。
+- changed_files:
+  - `docs/PHASE237_PILOT_ISSUE_TRIAGE_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮为 Codex B review / handoff，未运行 pytest；`git diff --check` 通过。
+- validation: Codex B review 通过。规划优先 issue intake / triage，schema、issue_type、P0/P1/P2/P3 与 Go / Pause 规则清晰；未要求自动修复、DB 写入、索引变更、自动审标或 rollout。
+- risks: issue intake 本身不修复 retrieval recall；后续 Phase 2.37a 应只做 local schema / template / dry-run validator or summary generator。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.37 planning Git baseline；baseline 后停止。
+- commit/tag if any: pending。
+
+## 2026-05-01 00:10 Phase 2.37 Drift Check Follow-up
+- goal: 吸收 Codex D drift audit 中对夜间队列与 TODO 当前状态的有效提醒，做最小文档同步。
+- changed_files:
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/HANDOFF_LOG.md`
+- tests: docs-only drift follow-up，未运行 pytest；`git diff --check` 待 baseline 前复核。
+- validation: `NEXT_CODEX_A_PROMPT.md` 当前已包含 Phase 2.37 规划文件；Codex D 该条 WARN 属旧状态。`NIGHTLY_SPRINT_QUEUE.md` 确实停留在 Phase 2.35c，已改为 Phase 2.37 planning baseline，并归档 2.36c / 2.35c 旧队列。
+- risks: 不处理更大范围历史 TODO / PRD 漂移，避免打断主线；仅修正会影响自动推进安全的当前队列入口。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.37 planning docs baseline。
 - commit/tag if any: pending。

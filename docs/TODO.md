@@ -3,8 +3,8 @@
 ## 0. 当前 MVP Pilot 状态
 
 1. Phase 2.34 compare false-positive baseline 已完成：Hermes_memory commit `789ed22`，Hermes 主仓库 commit `5de49bf5`，tag `phase-2.34-compare-contamination-baseline`。
-2. 当前进入 Phase 2.35：主标书深层字段召回专项，优先围绕 Day-1 Q1/Q2 做 retrieval evidence 改善。
-3. Phase 2.35 不做自动审标、不做 rollout、不写 DB、不改 Hermes 主仓库；如果 evidence 不足，必须保留 Missing Evidence。
+2. 当前进入 Phase 2.37：MVP Pilot issue intake / triage planning，优先把 Day-1 / Codex C / 用户真实试用反馈结构化留痕与分级。
+3. Phase 2.37 不做自动审标、不做 rollout、不写 DB、不自动修复 issue；如果 evidence 不足，必须保留 Missing Evidence。
 
 ## 0.1 Phase 2.35 当前待办
 
@@ -41,7 +41,7 @@
 - 全局 rerank rollout / 排序收益大规模优化
 - 默认扫描真实 reports / reviews
 
-说明：上述事项并非长期放弃，而是不进入当前 MVP freeze / docs drift cleanup 阶段。当前已具备 rerank smoke、dense ingestion、facts governance、audit、version governance 与多模态 MVP 的阶段闭环；下一步重点是保持 freeze 证据链可审计，不扩大到 rollout 或自动修复。
+说明：上述事项并非长期放弃，而是不进入当前 MVP Pilot / issue intake 阶段。当前已具备 rerank smoke、dense ingestion、facts governance、audit、version governance 与多模态 MVP 的阶段闭环；下一步重点是把真实试用反馈结构化分流，不扩大到 rollout 或自动修复。
 
 ## 3. Phase 2.2 后续待办
 
@@ -579,3 +579,13 @@
 15. Phase 2.36c 已约束项目经理等级表述：仅电子证书 / 证照材料 / 格式条款不得推断为“项目经理=一级注册建造师”；需明确“项目经理须具备 X级注册建造师”才算 explicit level evidence。
 16. Phase 2.36c 目标测试 `33 passed`；Codex B review 已通过，Codex C 真实终端复验已通过。
 17. Phase 2.36c 当前可执行 Git baseline：限价 diagnostics 与 Missing Evidence 语义一致，电子证书 / 材料条款不再推断为项目经理等级；deep-field recall 仍 partial，真实限价金额、具体资质等级 / 类别、业绩、人员数量继续后置，不能宣称完整自动审标收口。
+
+## 43. Phase 2.37 MVP Pilot issue intake / triage planning
+
+1. Phase 2.36c baseline 已完成：commit `d491a44`，tag `phase-2.36c-tender-deep-field-diagnostics-baseline`。
+2. 下一阶段建议先做 Pilot issue intake / triage，而不是继续盲修单个 deep-field recall 问题。
+3. issue intake 应记录 query、expected / actual、document_id、citation、issue_type、priority、source_phase 与 human_review_required。
+4. P0 必须覆盖编造、facts/transcript 替代 evidence、跨文件污染、权限泄露、自动决策越界。
+5. Phase 2.37 规划已完成，新增 `docs/PHASE237_PILOT_ISSUE_TRIAGE_PLAN.md`。
+6. 推荐 Phase 2.37a 做 local issue intake schema / templates / dry-run validator or summary generator。
+7. Phase 2.37a 非目标：不自动修复 issue，不写 DB / facts / document_versions，不修改 OpenSearch / Qdrant，不进入 rollout，不做自动审标结论。

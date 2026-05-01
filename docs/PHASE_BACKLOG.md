@@ -2,9 +2,9 @@
 
 ## 当前优先级
 
-1. Phase 2.36c：完成 deep-field diagnostics semantic consistency Git baseline。
-2. baseline 后停止，不自动进入 Phase 2.37；下一阶段必须由 Codex B / 用户重新规划。
-3. Phase 2.36c 仍不得进入自动审标、rollout、repair 或 DB / 索引变更。
+1. Phase 2.37：规划 MVP Pilot Issue Intake / Triage，把真实试用反馈结构化留痕。
+2. 优先建立 issue schema、priority 规则、Go / Pause 分流，不自动修复 issue。
+3. Phase 2.37 仍不得进入自动审标、rollout、repair 或 DB / 索引变更。
 
 ## Day-1 Pilot 已知问题
 
@@ -48,7 +48,18 @@
 11. Phase 2.36c 已补项目经理等级边界：电子证书格式 / 材料条款不能作为 explicit role-level requirement。
 12. Phase 2.36c 目标测试 `33 passed`；Codex B review 已通过。
 13. Codex C 真实终端复验已通过：session `20260430_123308_6660a8` 中 Step 1 alias binding 成功，Q1 限价 diagnostics 与 Missing Evidence 一致，Q2 未把电子证书 / 材料条款推断为项目经理等级。
-14. 当前只执行 Phase 2.36c Git baseline；deep-field recall 仍 partial，真实限价金额、具体资质等级 / 类别、业绩、人员数量继续作为后续尾项，不得写成完整自动审标能力收口。
+14. Phase 2.36c Git baseline 已完成：commit `d491a44`，tag `phase-2.36c-tender-deep-field-diagnostics-baseline`。
+15. deep-field recall 仍 partial，真实限价金额、具体资质等级 / 类别、业绩、人员数量继续作为后续尾项，不得写成完整自动审标能力收口。
+
+## Phase 2.37 规划入口
+
+1. 目标：把 Day-1 / Codex C / 用户真实试用反馈转成结构化 issue intake records。
+2. 推荐先做 issue intake / triage，而不是继续盲修 deep-field recall。
+3. issue_type 至少覆盖 retrieval_recall、trace_ux、latency、alias_session、contamination_false_positive、missing_evidence_expected、answer_boundary。
+4. priority 规则必须保留 P0/P1/P2/P3，P0 包括编造、facts/transcript 替代 evidence、跨文件污染、权限泄露和自动决策越界。
+5. Phase 2.37 规划已完成，新增 `docs/PHASE237_PILOT_ISSUE_TRIAGE_PLAN.md`。
+6. 推荐 Phase 2.37a：local issue intake schema / templates / dry-run validator or summary generator。
+7. Phase 2.37a 仍不得自动修复 issue、写 DB / facts / document_versions、修改 OpenSearch / Qdrant、进入 rollout 或做自动审标结论。
 
 ## 后置项
 

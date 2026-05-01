@@ -195,3 +195,5 @@
 - [Phase 2.36b] 完成主仓库 trace display / alias prompt 最小修复：deep-field trace 从 Hermes_memory retrieval trace 提升到顶层并进入 context block；`锁定“标题”，并绑定为 @alias` 可识别为 alias bind；主仓目标测试 `59 passed`。
 - [Phase 2.36c] 完成 diagnostics / answer boundary 语义一致性修复：限价 concrete evidence 需最终 retrieval evidence 含具体金额，电子证书格式条款不再推断为项目经理等级；目标测试 `33 passed`。
 - [Phase 2.36c] Codex B review 与 Codex C 真实终端复验均已通过：Step 1 alias binding 成功，Q1 限价 diagnostics 与 Missing Evidence 一致，Q2 项目经理等级边界正确；当前进入 Git baseline，不进入自动审标或 rollout。
+- [Phase 2.37] Codex B 已写入 MVP Pilot issue intake / triage planning 入口：下一步先结构化记录真实试用反馈与 P0/P1/P2/P3 分流，不直接进入自动修复、自动审标或 rollout。
+- [Phase 2.37] 完成 Pilot issue intake / triage 路线规划，推荐 Phase 2.37a 先做 local issue schema、template 与 dry-run validator / summary generator；deep-field recall 尾项进入 issue 分流，不直接盲修。

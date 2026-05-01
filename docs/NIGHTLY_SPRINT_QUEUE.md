@@ -10,27 +10,41 @@
 
 ## Current Queue
 
-### Item 1：Phase 2.35c Git baseline
+### Item 1：Phase 2.37 planning Git baseline
 
 - lane：Yellow Lane
-- 状态：ready for explicit baseline command
-- 目标：固化 Phase 2.35 / 2.35b / 2.35c bounded work。
+- 状态：ready for docs-only baseline command
+- 目标：固化 Phase 2.37 Pilot Issue Intake / Triage planning。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 复跑指定 py_compile / pytest / direct assertion tests。
-  - 只 stage Phase 2.35 相关 retrieval、alias/session 测试与文档。
-  - commit / tag / push 仅在用户明确 baseline 指令下执行。
+  - 复核 `git status --short` 与 `git diff --check`。
+  - 只 stage Phase 2.37 planning 文档与交接文件。
+  - commit / tag / push 仅限 `docs/NEXT_CODEX_A_PROMPT.md` 白名单。
 - 禁止动作：
+  - 不进入 Phase 2.37a 实现。
   - 不写业务 DB、OpenSearch、Qdrant、facts 或 document_versions。
   - 不执行 repair / backfill / reindex / cleanup / delete。
   - 不进入 production rollout。
   - 不写自动审标结论。
-  - 不隐藏 Missing Evidence。
-  - 不把 deep-field recall 写成完全收口。
-- 当前结果：Codex C 真实终端复验已通过 alias/session；deep-field recall 仍 partial。
-- 默认：等待用户明确 baseline 指令，不夜间自动提交。
+  - 不隐藏 Missing Evidence 或自动修复 issue。
+- 当前结果：Phase 2.37 planning 已完成并通过 Codex B review；推荐后续 Phase 2.37a local issue intake dry-run。
+- 默认：等待用户明确 baseline 指令；baseline 后停止。
 
 ## Archived Queue
+
+### Phase 2.36c tender deep-field diagnostics baseline
+
+- 类型：Yellow Lane
+- 状态：completed
+- 结果：Hermes_memory commit `d491a44`，tag `phase-2.36c-tender-deep-field-diagnostics-baseline`。
+- 备注：diagnostics 与 Missing Evidence 语义一致性已收口；deep-field recall 仍 partial。
+
+### Phase 2.35c Git baseline
+
+- 类型：Yellow Lane
+- 状态：completed
+- 结果：Hermes_memory commit `ec77c96`；Hermes 主仓库 commit `ead4e899`；tag `phase-2.35c-alias-session-baseline`。
+- 备注：alias/session 修复已收口；deep-field recall 仍 partial。
 
 ### Phase 2.35 main tender deep-field retrieval implementation
 

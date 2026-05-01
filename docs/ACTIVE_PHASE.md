@@ -1,48 +1,39 @@
 # Active Phase
 
-- 当前 phase：Phase 2.36c Deep-field Diagnostics Semantic Consistency Baseline
-- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.36c Git baseline。
+- 当前 phase：Phase 2.37 Pilot Issue Intake / Triage Planning Baseline
+- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 MVP Pilot issue intake / triage 规划 Git baseline。
 - 修改文件：
-  - `app/services/retrieval/tender_metadata.py`
-  - `app/services/retrieval/service.py`
-  - `tests/test_phase236_tender_deep_field_trace.py`
-  - `docs/PHASE236_TENDER_DEEP_FIELD_RECALL_TAIL_PLAN.md`
+  - `docs/PHASE237_PILOT_ISSUE_TRIAGE_PLAN.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `docs/NEXT_CODEX_A_PROMPT.md`
-  - `reports/agent_runs/latest.json`（本地 ignored 状态文件）
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 限价 concrete evidence 判定收紧为“限价语境内的具体金额 + 货币 / 单位”。
-  - metadata snapshot 命中后，会用最终 retrieval evidence 再校正 `concrete_evidence_present`。
-  - metadata anchor 命中但最终 evidence 无具体金额时，trace 输出 `missing_concrete_price_amount` 与 `diagnostic_consistency=metadata_anchor_without_final_concrete_evidence`。
-  - 项目经理等级只在明确“项目经理 / 项目负责人须具备 X级注册建造师”时视为 explicit level evidence。
-  - 电子证书 / 证照材料 / 格式条款不再推断为项目经理等级要求。
-  - 未修改 retrieval contract、memory kernel 主架构、业务 DB、facts、document_versions、OpenSearch 或 Qdrant。
+  - 新增 Phase 2.37 Pilot Issue Intake / Triage 规划。
+  - 评审 A-E 候选方向，推荐优先做 Pilot issue intake / triage，而不是继续盲修单个 deep-field recall。
+  - 定义 issue record schema、issue_type、P0/P1/P2/P3 priority、Go / Pause 规则与非目标。
+  - 将 Phase 2.36c partial recall 尾项转为 issue intake 候选，而不是隐藏或写成已收口。
 - 测试结果：
-  - 默认 `uv run ...` 因 sandbox 无法读取用户级 uv cache 失败；使用 `UV_CACHE_DIR=.uv-cache` 后通过。
-  - `UV_CACHE_DIR=.uv-cache uv run python -m py_compile app/services/retrieval/tender_metadata.py app/services/retrieval/service.py`：通过。
-  - `UV_CACHE_DIR=.uv-cache uv run pytest tests/test_tender_metadata_retrieval.py tests/test_phase235_tender_deep_field_retrieval.py tests/test_phase236_tender_deep_field_trace.py tests/test_retrieval_contract.py -q`：`33 passed`。
-  - `.venv/bin/python` fallback 目标测试同样为 `33 passed`。
+  - 本轮 docs-only planning，未运行 pytest。
+  - 未修改业务代码。
+  - `git status --short` 仅显示本轮允许的文档 / ignored latest 相关变更。
 - live smoke 结果：
-  - Codex C 真实终端复验通过，session `20260430_123308_6660a8`。
-  - Step 1 一步 alias binding 通过：`alias_bound`，`alias_missing=false`，`retrieval_suppressed=false`。
-  - Q1 限价 diagnostics 与 Missing Evidence 一致：`concrete_evidence_present=false`、`concrete_evidence_missing_fields=["price_ceiling"]`、`deep_field_missing_reason=missing_concrete_price_amount`。
-  - Q2 不再把电子证书 / 证照格式 / 材料要求推断为项目经理等级：`project_manager_level_explicit=false`。
-  - 未写业务 DB、facts、document_versions、OpenSearch、Qdrant。
+  - 未运行真实 API / CLI smoke。
+  - 本轮不影响终端行为。
 - 当前结论：
-  - Phase 2.36c 最小实现已完成代码层验证。
-  - diagnostics 与 Missing Evidence 语义已在测试层对齐。
-  - Codex B review 已通过：变更范围符合 Phase 2.36c 边界，未发现 retrieval contract、memory kernel 主架构或数据写入越界。
-  - Codex C 真实终端复验已通过，可进入 Git baseline。
+  - Phase 2.37 planning 已完成。
+  - Codex B review 已通过：规划符合 PRD / 路线边界，推荐先做 issue intake / triage。
+  - 推荐 Phase 2.37a 做 local issue intake schema / template / dry-run validator or summary generator。
+  - 不建议直接进入 deep-field recall 修复、自动审标能力增强或 rollout。
 - 阻塞点 / 风险点：
-  - deep-field recall 仍 partial；本轮不解决限价金额、具体资质等级、业绩、人员要求真实召回不足。
-  - Q1 组合查询包含工期时 profile 可能显示 `schedule_scope`，但 price aliases / Missing Evidence diagnostics 已正确透出。
-  - `UV_CACHE_DIR=.uv-cache` 产生的 uv cache 不在 git status 中出现；仍需避免纳入 Git。
-- 是否建议 baseline：是，执行 Phase 2.36c Git baseline。
-- 是否建议进入下一阶段：否，先完成 baseline。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 的 baseline 任务。
+  - issue intake 只建立分流机制，不会自动提升 retrieval recall。
+  - 若没有后续样本记录纪律，P1/P2 问题仍可能回到人工口头反馈。
+  - Phase 2.37a 仍必须禁止 DB 写入、repair、rollout、自动审标。
+- 是否建议 baseline：是，执行 Phase 2.37 planning Git baseline。
+- 是否建议进入下一阶段：否，先完成 planning baseline。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 的 baseline 任务；baseline 后再规划 / 授权 Phase 2.37a。
 - 是否需要 Codex B 审核：否，已完成。
-- 是否需要 Codex C 真实终端验收：否，已完成。
+- 是否需要 Codex C 真实终端验收：否。
