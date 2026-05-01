@@ -2,9 +2,9 @@
 
 ## 当前优先级
 
-1. Phase 2.37：规划 MVP Pilot Issue Intake / Triage，把真实试用反馈结构化留痕。
-2. 优先建立 issue schema、priority 规则、Go / Pause 分流，不自动修复 issue。
-3. Phase 2.37 仍不得进入自动审标、rollout、repair 或 DB / 索引变更。
+1. Phase 2.37a：实现 MVP Pilot Issue Intake / Triage local dry-run 工具，把真实试用反馈结构化留痕。
+2. 优先建立本地 issue schema、template、validator 与 triage summary，不自动修复 issue。
+3. Phase 2.37a 仍不得进入自动审标、rollout、repair、DB / 索引变更或外部 issue 自动创建。
 
 ## Day-1 Pilot 已知问题
 
@@ -60,6 +60,11 @@
 5. Phase 2.37 规划已完成，新增 `docs/PHASE237_PILOT_ISSUE_TRIAGE_PLAN.md`。
 6. 推荐 Phase 2.37a：local issue intake schema / templates / dry-run validator or summary generator。
 7. Phase 2.37a 仍不得自动修复 issue、写 DB / facts / document_versions、修改 OpenSearch / Qdrant、进入 rollout 或做自动审标结论。
+8. Phase 2.37 planning Git baseline 已完成：commit `8fd10b7`，tag `phase-2.37-pilot-issue-triage-plan-baseline`。
+9. Phase 2.37a 入口已写入 `docs/NEXT_CODEX_A_PROMPT.md`：local issue intake schema / template / dry-run validator + summary generator。
+10. Phase 2.37a 最小实现已完成：本地 intake 工具支持 template、单文件 / 目录读取、schema 校验、triage summary 与 strict invalid exit。
+11. Phase 2.37a 目标验证通过：py_compile 通过，`tests/test_phase237a_pilot_issue_intake.py` 为 `9 passed`，临时 dry-run smoke 通过。
+12. 下一步需 Codex B review；通过后只做 Phase 2.37a Git baseline，不直接进入 deep-field recall 修复、repair 或 rollout。
 
 ## 后置项
 

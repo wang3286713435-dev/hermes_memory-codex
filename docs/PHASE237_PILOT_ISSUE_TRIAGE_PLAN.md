@@ -180,3 +180,42 @@ Recommended Phase 2.37a boundary:
    - personnel quantity Missing Evidence.
    - long-output latency.
 4. No automatic repair and no rollout.
+
+## 12. Phase 2.37a Implementation Update
+
+Phase 2.37a local dry-run implementation is complete.
+
+Implemented files:
+
+1. `scripts/phase237a_pilot_issue_intake.py`
+2. `tests/test_phase237a_pilot_issue_intake.py`
+
+Implemented behavior:
+
+1. Prints a local issue template with all required fields via `--print-template`.
+2. Reads one JSON issue record via `--input`.
+3. Reads multiple JSON issue records from a directory via `--input-dir`.
+4. Validates required fields and allowed enums for issue type, priority, status, and safety boundary.
+5. Emits JSON summary with totals, priority counts, issue type counts, invalid records, and Go / Pause recommendation.
+6. Supports `--strict`, returning non-zero when invalid records exist.
+
+Validation:
+
+1. `uv run python -m py_compile scripts/phase237a_pilot_issue_intake.py` passed.
+2. `uv run pytest tests/test_phase237a_pilot_issue_intake.py -q` passed with `9 passed`.
+3. Temporary dry-run smoke passed for template generation, single-file input, directory input, and strict invalid handling.
+
+Boundaries retained:
+
+1. No DB writes.
+2. No facts, document_versions, OpenSearch, or Qdrant mutation.
+3. No repair / backfill / reindex.
+4. No real API / CLI smoke.
+5. No Linear / GitHub issue creation.
+6. No automatic tender-review conclusion.
+7. No rollout.
+
+Next step:
+
+1. Codex B review.
+2. If approved, Phase 2.37a Git baseline.

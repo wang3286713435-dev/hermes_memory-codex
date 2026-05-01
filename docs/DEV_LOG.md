@@ -197,3 +197,6 @@
 - [Phase 2.36c] Codex B review 与 Codex C 真实终端复验均已通过：Step 1 alias binding 成功，Q1 限价 diagnostics 与 Missing Evidence 一致，Q2 项目经理等级边界正确；当前进入 Git baseline，不进入自动审标或 rollout。
 - [Phase 2.37] Codex B 已写入 MVP Pilot issue intake / triage planning 入口：下一步先结构化记录真实试用反馈与 P0/P1/P2/P3 分流，不直接进入自动修复、自动审标或 rollout。
 - [Phase 2.37] 完成 Pilot issue intake / triage 路线规划，推荐 Phase 2.37a 先做 local issue schema、template 与 dry-run validator / summary generator；deep-field recall 尾项进入 issue 分流，不直接盲修。
+- [Phase 2.37] planning baseline 已完成：commit `8fd10b7`，tag `phase-2.37-pilot-issue-triage-plan-baseline`，已推送 origin/main 与 tag。
+- [Phase 2.37a] Codex B 已写入下一轮执行入口：实现 local issue intake schema / template / dry-run validator + summary generator；本阶段仍禁止 DB 写入、外部 issue 自动创建、repair、rollout 与自动审标。
+- [Phase 2.37a] 完成 local issue intake dry-run 最小实现：支持 template、单文件 / 目录 JSON 读取、schema / enum 校验、triage summary 与 strict invalid exit；目标测试 `9 passed`，临时 dry-run smoke 通过。

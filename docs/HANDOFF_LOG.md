@@ -1637,3 +1637,62 @@
 - risks: 不处理更大范围历史 TODO / PRD 漂移，避免打断主线；仅修正会影响自动推进安全的当前队列入口。
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.37 planning docs baseline。
 - commit/tag if any: pending。
+
+## 2026-05-01 09:30 Phase 2.37a Prompt Handoff
+- goal: 核实 Phase 2.37 planning baseline，并写入 Phase 2.37a local issue intake dry-run 最小实现入口。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮为 Codex B handoff，未运行 pytest；已核实 HEAD `8fd10b7`，tag `phase-2.37-pilot-issue-triage-plan-baseline`，baseline 状态 clean。
+- validation: Phase 2.37 planning baseline 已完成。下一步推荐 Phase 2.37a 仅做 local issue schema / template / dry-run validator + summary generator，不写 DB、不自动创建 Linear/GitHub issue、不 repair、不 rollout。
+- risks: issue intake 只做分流和留痕，不修复 retrieval recall；若 Codex A 越界写 DB / repair / rollout 必须停止。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.37a 最小实现后停止等待 Codex B review。
+- commit/tag if any: 无。
+
+## 2026-05-01 23:36 Phase 2.37a Pilot Issue Intake Dry-run
+- goal: 执行 `docs/NEXT_CODEX_A_PROMPT.md`，实现本地 issue intake schema / template / dry-run validator + summary generator。
+- changed_files:
+  - `scripts/phase237a_pilot_issue_intake.py`
+  - `tests/test_phase237a_pilot_issue_intake.py`
+  - `docs/PHASE237_PILOT_ISSUE_TRIAGE_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `uv run python -m py_compile scripts/phase237a_pilot_issue_intake.py` passed.
+  - `uv run pytest tests/test_phase237a_pilot_issue_intake.py -q` passed: `9 passed`.
+- validation: 临时目录 dry-run smoke 通过：template 输出、单文件 input、目录 input、strict invalid exit 均正常；未运行真实 API / CLI smoke。
+- risks: issue intake 不修复 retrieval recall；后续外部 issue 创建、DB 写入、repair 或 rollout 都必须单独规划。
+- next: Codex B review；通过后执行 Phase 2.37a Git baseline。
+- commit/tag if any: 无。
+
+## 2026-05-01 23:50 Phase 2.37a Codex B Review
+- goal: 审核 Phase 2.37a local issue intake dry-run 实现，并决定是否可 baseline。
+- changed_files:
+  - `scripts/phase237a_pilot_issue_intake.py`
+  - `tests/test_phase237a_pilot_issue_intake.py`
+  - `docs/PHASE237_PILOT_ISSUE_TRIAGE_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m py_compile scripts/phase237a_pilot_issue_intake.py`：通过。
+  - `uv run pytest tests/test_phase237a_pilot_issue_intake.py -q`：`9 passed`。
+- validation: Codex B review 通过。实现限定为本地 JSON issue schema / template / validator / summary dry-run；输出保留 `dry_run=true`、`destructive_actions=[]`、`writes_db=false`、`creates_external_issue=false`、`repairs_issue=false`。未发现 DB、OpenSearch、Qdrant、facts、document_versions、repair、rollout 或外部 issue 创建越界。
+- risks: intake 只做分流与留痕，不修复 retrieval recall；后续外部 issue creation、repair 或 rollout 必须单独规划。
+- next: 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中 Phase 2.37a Git baseline；baseline 后停止，不进入 Phase 2.38。
+- commit/tag if any: pending。

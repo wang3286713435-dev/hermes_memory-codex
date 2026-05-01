@@ -1,8 +1,10 @@
 # Active Phase
 
-- 当前 phase：Phase 2.37 Pilot Issue Intake / Triage Planning Baseline
-- 本轮目标：执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 MVP Pilot issue intake / triage 规划 Git baseline。
+- 当前 phase：Phase 2.37a Pilot Issue Intake Dry-run Review Passed
+- 本轮目标：Codex B 审核 Phase 2.37a 本地 Pilot issue intake dry-run 实现，并确认可进入 Git baseline。
 - 修改文件：
+  - `scripts/phase237a_pilot_issue_intake.py`
+  - `tests/test_phase237a_pilot_issue_intake.py`
   - `docs/PHASE237_PILOT_ISSUE_TRIAGE_PLAN.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
@@ -12,28 +14,29 @@
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 新增 Phase 2.37 Pilot Issue Intake / Triage 规划。
-  - 评审 A-E 候选方向，推荐优先做 Pilot issue intake / triage，而不是继续盲修单个 deep-field recall。
-  - 定义 issue record schema、issue_type、P0/P1/P2/P3 priority、Go / Pause 规则与非目标。
-  - 将 Phase 2.36c partial recall 尾项转为 issue intake 候选，而不是隐藏或写成已收口。
+  - 新增本地 dry-run intake 工具，支持 `--print-template`、`--input`、`--input-dir`、`--strict` 与 JSON summary 输出。
+  - 实现 Phase 2.37 issue schema 必填字段校验、issue_type / priority / status / safety_boundary enum 校验。
+  - 输出 triage summary：`total`、`by_priority`、`by_issue_type`、`p0_count`、`p1_count`、`go_pause_recommendation`、`invalid_records`。
+  - 固定 dry-run 边界：`destructive_actions=[]`、`writes_db=false`、`creates_external_issue=false`、`repairs_issue=false`。
+  - Codex B review 通过：实现范围符合 Phase 2.37a 规划，没有越界到 DB、外部 issue、repair、rollout 或自动审标。
 - 测试结果：
-  - 本轮 docs-only planning，未运行 pytest。
-  - 未修改业务代码。
-  - `git status --short` 仅显示本轮允许的文档 / ignored latest 相关变更。
+  - `uv run python -m py_compile scripts/phase237a_pilot_issue_intake.py`：通过。
+  - `uv run pytest tests/test_phase237a_pilot_issue_intake.py -q`：`9 passed`。
+  - `uv run python scripts/phase237a_pilot_issue_intake.py --help`：通过。
 - live smoke 结果：
-  - 未运行真实 API / CLI smoke。
-  - 本轮不影响终端行为。
+  - 仅执行临时目录 dry-run smoke，未运行真实 API / CLI。
+  - `--print-template`、单文件 `--input`、目录 `--input-dir`、`--strict` invalid 退出码均通过。
+  - 未生成 repo 内真实 report / issue 产物。
 - 当前结论：
-  - Phase 2.37 planning 已完成。
-  - Codex B review 已通过：规划符合 PRD / 路线边界，推荐先做 issue intake / triage。
-  - 推荐 Phase 2.37a 做 local issue intake schema / template / dry-run validator or summary generator。
-  - 不建议直接进入 deep-field recall 修复、自动审标能力增强或 rollout。
+  - Phase 2.37a 最小实现已完成。
+  - 当前能力只做本地 issue intake / triage dry-run，不修复 retrieval recall，不创建外部 issue，不进入 rollout。
+  - Codex B 已批准进入 Phase 2.37a Git baseline。
 - 阻塞点 / 风险点：
-  - issue intake 只建立分流机制，不会自动提升 retrieval recall。
-  - 若没有后续样本记录纪律，P1/P2 问题仍可能回到人工口头反馈。
-  - Phase 2.37a 仍必须禁止 DB 写入、repair、rollout、自动审标。
-- 是否建议 baseline：是，执行 Phase 2.37 planning Git baseline。
-- 是否建议进入下一阶段：否，先完成 planning baseline。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 的 baseline 任务；baseline 后再规划 / 授权 Phase 2.37a。
+  - issue intake 只是分流和留痕机制，不能被误写成 deep-field recall 已修复。
+  - 后续若要自动创建 Linear / GitHub issue，必须单独规划。
+  - 后续若要把 intake 结果转 repair / DB / rollout，必须触发硬停止并重新规划。
+- 是否建议 baseline：是，Codex B review 已通过，建议执行 Phase 2.37a Git baseline。
+- 是否建议进入下一阶段：否，先做 Phase 2.37a review / baseline，不直接进入 deep-field recall 修复或 rollout。
+- 下一轮建议：Codex A 按 `docs/NEXT_CODEX_A_PROMPT.md` 执行 Phase 2.37a Git baseline；baseline 后停止。
 - 是否需要 Codex B 审核：否，已完成。
 - 是否需要 Codex C 真实终端验收：否。

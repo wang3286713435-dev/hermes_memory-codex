@@ -3,8 +3,9 @@
 ## 0. 当前 MVP Pilot 状态
 
 1. Phase 2.34 compare false-positive baseline 已完成：Hermes_memory commit `789ed22`，Hermes 主仓库 commit `5de49bf5`，tag `phase-2.34-compare-contamination-baseline`。
-2. 当前进入 Phase 2.37：MVP Pilot issue intake / triage planning，优先把 Day-1 / Codex C / 用户真实试用反馈结构化留痕与分级。
-3. Phase 2.37 不做自动审标、不做 rollout、不写 DB、不自动修复 issue；如果 evidence 不足，必须保留 Missing Evidence。
+2. Phase 2.37 planning baseline 已完成：commit `8fd10b7`，tag `phase-2.37-pilot-issue-triage-plan-baseline`。
+3. 当前进入 Phase 2.37a：MVP Pilot issue intake local dry-run，优先把 Day-1 / Codex C / 用户真实试用反馈结构化留痕与分级。
+4. Phase 2.37a 不做自动审标、不做 rollout、不写 DB、不自动修复 issue；如果 evidence 不足，必须保留 Missing Evidence。
 
 ## 0.1 Phase 2.35 当前待办
 
@@ -589,3 +590,6 @@
 5. Phase 2.37 规划已完成，新增 `docs/PHASE237_PILOT_ISSUE_TRIAGE_PLAN.md`。
 6. 推荐 Phase 2.37a 做 local issue intake schema / templates / dry-run validator or summary generator。
 7. Phase 2.37a 非目标：不自动修复 issue，不写 DB / facts / document_versions，不修改 OpenSearch / Qdrant，不进入 rollout，不做自动审标结论。
+8. Phase 2.37 planning baseline 已完成：commit `8fd10b7`，tag `phase-2.37-pilot-issue-triage-plan-baseline`。
+9. Phase 2.37a 最小实现已完成：新增 local intake dry-run 工具与测试，支持 template、single / directory input、schema 校验、summary、strict invalid exit。
+10. Phase 2.37a 验证通过：py_compile 通过，`tests/test_phase237a_pilot_issue_intake.py` 为 `9 passed`，临时 dry-run smoke 通过；下一步需 Codex B review 后再 baseline。
