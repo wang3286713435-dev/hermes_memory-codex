@@ -605,3 +605,6 @@
 11. Phase 2.37a Git baseline 已完成：commit `1e1ca45`，tag `phase-2.37a-pilot-issue-intake-baseline`。
 12. Phase 2.37b 最小 runbook / storage convention 已完成：新增 MVP Pilot issue intake runbook，规定 `reports/pilot_issues/*.json` 为本地敏感试用记录且默认 ignored。
 13. Phase 2.37b 验证通过：template / strict dry-run 命令通过，`reports/pilot_issues/example.json` ignore 策略通过；下一步需 Codex B review 后再 baseline。
+14. Phase 2.37b Git baseline 已完成：commit `e8c0631`，tag `phase-2.37b-pilot-issue-intake-runbook-baseline`。
+15. Phase 2.37c planning 已完成：新增 daily / per-round Pilot issue triage summary 规划，明确 P0 pause、P1 bounded fix planning 候选、P2 backlog / UX / latency、P3 polish。
+16. Phase 2.37c 非目标：不创建真实 issue records，不写 DB / facts / versions / index，不自动创建外部 issue，不 repair，不 rollout，不自动审标。

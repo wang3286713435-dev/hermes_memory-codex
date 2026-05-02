@@ -7,49 +7,46 @@
 3. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
 4. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
 5. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
-6. `/Users/Weishengsu/Hermes_memory/docs/MVP_PILOT_ISSUE_INTAKE_RUNBOOK.md`
+6. `/Users/Weishengsu/Hermes_memory/docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`
 
 ## 当前状态
 
-Phase 2.37b Pilot issue intake runbook / local storage convention 已完成。
+Phase 2.37c Pilot issue triage summary planning 已完成。
 
 已完成内容：
 
-1. 新增 `docs/MVP_PILOT_ISSUE_INTAKE_RUNBOOK.md`。
-2. 新增 `reports/pilot_issues/.gitignore`。
-3. 新增 `reports/pilot_issues/README.md`。
-4. 真实 Pilot issue JSON / Markdown 默认 ignored，不入 Git。
-5. 本轮未修改 intake 脚本、测试、业务代码、DB、facts、versions、OpenSearch 或 Qdrant。
+1. 新增 `docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`。
+2. 规划输入：`reports/pilot_issues/*.json`，但本轮未创建真实 issue records。
+3. 规划未来输出：ignored local summary JSON / Markdown。
+4. 明确 P0 / P1 / P2 / P3 分诊规则、首批 known issue 候选、Go / Pause 语义、PRD evidence 边界与 BIM 后置关系。
+5. 本轮未修改脚本、测试、业务代码、DB、facts、versions、OpenSearch 或 Qdrant。
 
 验证结果：
 
 1. `git diff --check` passed。
-2. `uv run python scripts/phase237a_pilot_issue_intake.py --print-template >/tmp/phase237b_issue_template.json` passed。
-3. `uv run python scripts/phase237a_pilot_issue_intake.py --input /tmp/phase237b_issue_template.json --strict` passed。
-4. `git check-ignore -v reports/pilot_issues/example.json` passed。
+2. 未运行 pytest。
+3. 未运行真实 API / CLI smoke。
 
 ## 下一轮目标
 
-Phase 2.37b docs baseline。
+Phase 2.37c docs baseline。
 
 执行条件：
 
-1. Codex B 已审核并确认可以 baseline（2026-05-02 review passed）。
+1. Codex B 已审核并确认可以 baseline（2026-05-03 review passed）。
 2. 用户明确授权执行 baseline。
 
 ## Baseline 文件白名单
 
 只允许 stage / commit 以下文件：
 
-1. `docs/MVP_PILOT_ISSUE_INTAKE_RUNBOOK.md`
-2. `reports/pilot_issues/.gitignore`
-3. `reports/pilot_issues/README.md`
-4. `docs/ACTIVE_PHASE.md`
-5. `docs/HANDOFF_LOG.md`
-6. `docs/PHASE_BACKLOG.md`
-7. `docs/TODO.md`
-8. `docs/DEV_LOG.md`
-9. `docs/NEXT_CODEX_A_PROMPT.md`
+1. `docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`
+2. `docs/ACTIVE_PHASE.md`
+3. `docs/HANDOFF_LOG.md`
+4. `docs/PHASE_BACKLOG.md`
+5. `docs/TODO.md`
+6. `docs/DEV_LOG.md`
+7. `docs/NEXT_CODEX_A_PROMPT.md`
 
 不得 stage / commit：
 
@@ -64,9 +61,6 @@ Phase 2.37b docs baseline。
 
 ```bash
 git diff --check
-uv run python scripts/phase237a_pilot_issue_intake.py --print-template >/tmp/phase237b_issue_template.json
-uv run python scripts/phase237a_pilot_issue_intake.py --input /tmp/phase237b_issue_template.json --strict
-git check-ignore -v reports/pilot_issues/example.json
 ```
 
 不运行 pytest，除非脚本或测试被修改。
@@ -76,13 +70,13 @@ git check-ignore -v reports/pilot_issues/example.json
 commit message:
 
 ```text
-docs: add phase 2.37b pilot issue intake runbook
+docs: plan phase 2.37c pilot issue triage summary
 ```
 
 tag:
 
 ```text
-phase-2.37b-pilot-issue-intake-runbook-baseline
+phase-2.37c-pilot-issue-triage-summary-plan-baseline
 ```
 
 ## 硬边界
@@ -97,7 +91,8 @@ phase-2.37b-pilot-issue-intake-runbook-baseline
 8. 不修改 memory kernel 主架构。
 9. 不进入 production rollout。
 10. 不实现 BIM asset catalog。
-11. 不纳入无关 dirty。
+11. 不创建真实 issue records。
+12. 不纳入无关 dirty。
 
 ## 输出要求
 

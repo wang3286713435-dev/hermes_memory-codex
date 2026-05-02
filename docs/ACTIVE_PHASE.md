@@ -1,11 +1,9 @@
 # Active Phase
 
-- 当前 phase：Phase 2.37b Pilot Issue Intake Runbook Review Passed
-- 本轮目标：Codex B 审核 MVP Pilot issue intake runbook 与本地 issue records ignored 存储约定，并确认可进入 docs baseline。
+- 当前 phase：Phase 2.37c Pilot Issue Triage Summary Planning Review Passed
+- 本轮目标：Codex B 审核 Phase 2.37c planning，确认是否可执行 docs baseline。
 - 修改文件：
-  - `docs/MVP_PILOT_ISSUE_INTAKE_RUNBOOK.md`
-  - `reports/pilot_issues/.gitignore`
-  - `reports/pilot_issues/README.md`
+  - `docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
   - `docs/PHASE_BACKLOG.md`
@@ -14,28 +12,27 @@
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 新增 MVP Pilot issue intake runbook，说明 purpose、non-goals、storage convention、sanitized JSON template、commands、priority rules、Go / Pause rules、PRD alignment 与 BIM 后置关系。
-  - 新增 `reports/pilot_issues/` 目录策略，真实 issue JSON / Markdown 默认 ignored，不入 Git。
-  - 明确 issue intake 是反馈留痕与人工 triage 入口，不是 issue 修复、外部 issue 自动创建、repair queue、rollout approval 或自动审标能力。
-  - Codex B review 通过：runbook 对齐 PRD，不越界到 DB、repair、rollout、自动审标或 BIM asset catalog。
+  - 新增 Phase 2.37c 规划文档，定义本地 Pilot issue records 的每日 / 每轮人工 triage summary 目标。
+  - 规划输入为 `reports/pilot_issues/*.json`，但本轮不创建真实 issue records。
+  - 规划未来输出为 ignored 的 local summary JSON / Markdown，不入 Git。
+  - 明确 P0 / P1 / P2 / P3 分诊规则、Go / Pause 语义、首批 known issue 候选、PRD evidence 边界与 BIM 后置关系。
+  - Codex B review 通过：规划符合 MVP Pilot issue intake 主线，未越界进入 repair、DB 写入、外部 issue、rollout 或 BIM 实现。
 - 测试结果：
   - `git diff --check`：通过。
-  - `uv run python scripts/phase237a_pilot_issue_intake.py --print-template >/tmp/phase237b_issue_template.json`：通过。
-  - `uv run python scripts/phase237a_pilot_issue_intake.py --input /tmp/phase237b_issue_template.json --strict`：通过。
-  - `git check-ignore -v reports/pilot_issues/example.json`：通过，命中 `reports/pilot_issues/.gitignore`。
+  - 未运行 pytest；本轮未修改脚本或测试。
 - live smoke 结果：
   - 未运行真实 API / CLI smoke。
-  - 本轮只做本地 dry-run 命令验证。
+  - 未创建真实 issue records。
 - 当前结论：
-  - Phase 2.37b 最小 runbook / storage convention 已完成。
-  - 本轮未修改脚本、测试、业务代码、DB、facts、document_versions、OpenSearch 或 Qdrant。
-  - Codex B 已批准进入 Phase 2.37b docs baseline。
+  - Phase 2.37c planning-only 已完成。
+  - Codex B review 已通过，建议执行 Phase 2.37c docs baseline。
+  - 本轮未写 DB、facts、document_versions、OpenSearch、Qdrant，也未创建外部 issue、repair 或 rollout。
 - 阻塞点 / 风险点：
-  - runbook 只规范 issue 记录方式，不自动分配负责人、不自动创建外部 issue、不修复 P1/P2。
-  - 真实 `reports/pilot_issues/*.json` 可能包含敏感试用反馈，必须保持 ignored。
-  - BIM 数据管家仍是后置规划线，不能从本 runbook 外推为 BIM asset catalog 已实现。
-- 是否建议 baseline：是，Codex B review 已通过，建议执行 Phase 2.37b docs baseline。
-- 是否建议进入下一阶段：否，先做 Phase 2.37b review / baseline。
-- 下一轮建议：Codex A 按 `docs/NEXT_CODEX_A_PROMPT.md` 执行 Phase 2.37b docs baseline；baseline 后停止。
+  - 规划不生成真实 triage summary，也不修复 P1/P2。
+  - 后续若实现 summary generator，必须保持 local ignored 输出，不得自动创建外部 issue。
+  - BIM 数据管家仍是后置规划线，不能并入当前 MVP Pilot fix queue。
+- 是否建议 baseline：是，Codex B review 已通过，建议按 `docs/NEXT_CODEX_A_PROMPT.md` 执行 Phase 2.37c docs baseline。
+- 是否建议进入下一阶段：否，先完成 Phase 2.37c docs baseline。
+- 下一轮建议：Codex A 执行 Phase 2.37c docs baseline；baseline 后停止，之后再决定 Phase 2.37d local triage summary generator 或手工首批 issue records。
 - 是否需要 Codex B 审核：否，已完成。
 - 是否需要 Codex C 真实终端验收：否。

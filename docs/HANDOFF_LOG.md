@@ -1720,6 +1720,25 @@
 - next: Codex B review; if approved, execute Phase 2.37b docs baseline.
 - commit/tag if any: 无。
 
+## 2026-05-02 22:12 Phase 2.37c Pilot Issue Triage Summary Planning
+- goal: 执行 `docs/NEXT_CODEX_A_PROMPT.md`，规划首批 Pilot issue 分诊 / daily triage summary。
+- changed_files:
+  - `docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `git diff --check` passed.
+  - No pytest run; no script or test files changed.
+- validation: Planning document defines daily / per-round triage summary target, local ignored summary outputs, P0/P1/P2/P3 routing, known first-batch issue candidates, Go / Pause meaning, PRD evidence boundary, and BIM later-line boundary.
+- risks: Planning does not create real issue records, generate summaries, assign owners, or fix P1/P2 items. External issue creation, repair, DB writes, rollout, and BIM asset catalog remain out of scope.
+- next: Codex B review; if approved, execute Phase 2.37c docs baseline.
+- commit/tag if any: 无。
+
 ## 2026-05-02 22:05 Phase 2.37b Codex B Review
 - goal: 审核 MVP Pilot issue intake runbook 与 `reports/pilot_issues` ignored 存储约定。
 - changed_files:
@@ -1741,4 +1760,22 @@
 - validation: Codex B review 通过。Runbook 覆盖 purpose、non-goals、storage convention、脱敏 JSON 样例、校验命令、P0/P1/P2/P3、Go/Pause、PRD evidence 边界与 BIM 后置关系；`reports/pilot_issues/*.json` / `*.md` 默认 ignored。
 - risks: runbook 只规范 issue 记录方式，不自动修复、分配 owner、创建外部 issue、写 DB 或 rollout；真实 issue 记录可能包含敏感试用反馈，必须继续 ignored。
 - next: 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中 Phase 2.37b docs baseline；baseline 后停止，不进入下一阶段。
+- commit/tag if any: pending。
+
+## 2026-05-03 Phase 2.37c Codex B Review
+- goal: 审核 Phase 2.37c Pilot issue triage summary planning，并决定是否可执行 docs baseline。
+- changed_files:
+  - `docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `git diff --check`：通过。
+- validation: Codex B review 通过。规划限定为本地 Pilot issue records 的 daily / per-round triage summary 规则，不创建真实 issue records，不生成真实 summary，不修复 P1/P2，不写 DB / facts / document_versions / OpenSearch / Qdrant，不创建外部 issue，不进入 repair 或 rollout；BIM 数据管家仍保持后置规划线。
+- risks: Phase 2.37c baseline 仅固化规划；后续 Phase 2.37d 若实现 generator，必须保持输出 ignored、本地、只读，不得自动创建外部 issue 或执行 repair。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中 Phase 2.37c docs baseline；baseline 后停止，不进入 Phase 2.37d。
 - commit/tag if any: pending。
