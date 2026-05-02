@@ -602,3 +602,6 @@
 8. Phase 2.37 planning baseline 已完成：commit `8fd10b7`，tag `phase-2.37-pilot-issue-triage-plan-baseline`。
 9. Phase 2.37a 最小实现已完成：新增 local intake dry-run 工具与测试，支持 template、single / directory input、schema 校验、summary、strict invalid exit。
 10. Phase 2.37a 验证通过：py_compile 通过，`tests/test_phase237a_pilot_issue_intake.py` 为 `9 passed`，临时 dry-run smoke 通过；下一步需 Codex B review 后再 baseline。
+11. Phase 2.37a Git baseline 已完成：commit `1e1ca45`，tag `phase-2.37a-pilot-issue-intake-baseline`。
+12. Phase 2.37b 最小 runbook / storage convention 已完成：新增 MVP Pilot issue intake runbook，规定 `reports/pilot_issues/*.json` 为本地敏感试用记录且默认 ignored。
+13. Phase 2.37b 验证通过：template / strict dry-run 命令通过，`reports/pilot_issues/example.json` ignore 策略通过；下一步需 Codex B review 后再 baseline。

@@ -2,9 +2,9 @@
 
 ## 当前优先级
 
-1. Phase 2.37a：实现 MVP Pilot Issue Intake / Triage local dry-run 工具，把真实试用反馈结构化留痕。
-2. 优先建立本地 issue schema、template、validator 与 triage summary，不自动修复 issue。
-3. Phase 2.37a 仍不得进入自动审标、rollout、repair、DB / 索引变更或外部 issue 自动创建。
+1. Phase 2.37b：建立 MVP Pilot issue intake runbook 与本地 issue records ignored 存储约定。
+2. 优先让用户 / Codex C / Codex B 按 Phase 2.37a schema 保存本地 issue records，并用现有 dry-run 工具生成 triage summary。
+3. Phase 2.37b 仍不得进入自动审标、rollout、repair、DB / 索引变更或外部 issue 自动创建。
 
 ## Day-1 Pilot 已知问题
 
@@ -65,6 +65,10 @@
 10. Phase 2.37a 最小实现已完成：本地 intake 工具支持 template、单文件 / 目录读取、schema 校验、triage summary 与 strict invalid exit。
 11. Phase 2.37a 目标验证通过：py_compile 通过，`tests/test_phase237a_pilot_issue_intake.py` 为 `9 passed`，临时 dry-run smoke 通过。
 12. 下一步需 Codex B review；通过后只做 Phase 2.37a Git baseline，不直接进入 deep-field recall 修复、repair 或 rollout。
+13. Phase 2.37a Git baseline 已完成：commit `1e1ca45`，tag `phase-2.37a-pilot-issue-intake-baseline`。
+14. Phase 2.37b 最小 runbook / storage convention 已完成：新增 `docs/MVP_PILOT_ISSUE_INTAKE_RUNBOOK.md` 与 `reports/pilot_issues/` ignore / README 策略。
+15. Phase 2.37b 验证通过：`git diff --check` 通过，template / strict dry-run 命令通过，`reports/pilot_issues/example.json` 被 git ignore 命中。
+16. 下一步需 Codex B review；通过后只做 Phase 2.37b docs baseline，不直接进入 P1 修复、repair 或 rollout。
 
 ## 后置项
 

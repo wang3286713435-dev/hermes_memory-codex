@@ -1696,3 +1696,49 @@
 - risks: intake 只做分流与留痕，不修复 retrieval recall；后续外部 issue creation、repair 或 rollout 必须单独规划。
 - next: 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中 Phase 2.37a Git baseline；baseline 后停止，不进入 Phase 2.38。
 - commit/tag if any: pending。
+
+## 2026-05-02 21:55 Phase 2.37b Pilot Issue Intake Runbook
+- goal: 执行 `docs/NEXT_CODEX_A_PROMPT.md`，建立 MVP Pilot issue intake runbook 与本地 issue records ignored 存储约定。
+- changed_files:
+  - `docs/MVP_PILOT_ISSUE_INTAKE_RUNBOOK.md`
+  - `reports/pilot_issues/.gitignore`
+  - `reports/pilot_issues/README.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `git diff --check` passed.
+  - `uv run python scripts/phase237a_pilot_issue_intake.py --print-template >/tmp/phase237b_issue_template.json` passed.
+  - `uv run python scripts/phase237a_pilot_issue_intake.py --input /tmp/phase237b_issue_template.json --strict` passed.
+  - `git check-ignore -v reports/pilot_issues/example.json` passed.
+- validation: Runbook covers purpose, non-goals, local storage, sanitized JSON example, validation commands, P0/P1/P2/P3 rules, Go / Pause meaning, PRD evidence boundary, and BIM as a later planning line.
+- risks: Runbook does not fix retrieval recall or assign owners; real Pilot issue records may be sensitive and must remain ignored. External issue creation, repair, DB writes, rollout, and BIM asset catalog remain out of scope.
+- next: Codex B review; if approved, execute Phase 2.37b docs baseline.
+- commit/tag if any: 无。
+
+## 2026-05-02 22:05 Phase 2.37b Codex B Review
+- goal: 审核 MVP Pilot issue intake runbook 与 `reports/pilot_issues` ignored 存储约定。
+- changed_files:
+  - `docs/MVP_PILOT_ISSUE_INTAKE_RUNBOOK.md`
+  - `reports/pilot_issues/.gitignore`
+  - `reports/pilot_issues/README.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python scripts/phase237a_pilot_issue_intake.py --print-template >/tmp/phase237b_issue_template.json`：通过。
+  - `uv run python scripts/phase237a_pilot_issue_intake.py --input /tmp/phase237b_issue_template.json --strict`：通过。
+  - `git check-ignore -v reports/pilot_issues/example.json`：通过。
+- validation: Codex B review 通过。Runbook 覆盖 purpose、non-goals、storage convention、脱敏 JSON 样例、校验命令、P0/P1/P2/P3、Go/Pause、PRD evidence 边界与 BIM 后置关系；`reports/pilot_issues/*.json` / `*.md` 默认 ignored。
+- risks: runbook 只规范 issue 记录方式，不自动修复、分配 owner、创建外部 issue、写 DB 或 rollout；真实 issue 记录可能包含敏感试用反馈，必须继续 ignored。
+- next: 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中 Phase 2.37b docs baseline；baseline 后停止，不进入下一阶段。
+- commit/tag if any: pending。

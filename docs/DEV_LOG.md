@@ -200,4 +200,6 @@
 - [Phase 2.37] planning baseline 已完成：commit `8fd10b7`，tag `phase-2.37-pilot-issue-triage-plan-baseline`，已推送 origin/main 与 tag。
 - [Phase 2.37a] Codex B 已写入下一轮执行入口：实现 local issue intake schema / template / dry-run validator + summary generator；本阶段仍禁止 DB 写入、外部 issue 自动创建、repair、rollout 与自动审标。
 - [Phase 2.37a] 完成 local issue intake dry-run 最小实现：支持 template、单文件 / 目录 JSON 读取、schema / enum 校验、triage summary 与 strict invalid exit；目标测试 `9 passed`，临时 dry-run smoke 通过。
+- [Phase 2.37a] Git baseline 已完成：commit `1e1ca45`，tag `phase-2.37a-pilot-issue-intake-baseline`。
+- [Phase 2.37b] 完成 Pilot issue intake runbook 与本地存储约定：`reports/pilot_issues/*.json` / `*.md` 默认 ignored，真实试用反馈不入 Git；template / strict dry-run 验证通过。
 - [BIM Data Steward] 完成 PRD / Roadmap / Technical Design 轻量扩展规划：新增 BIM 文件资产目录治理方向，明确初期只做项目、楼栋、楼层、专业、版本、路径、hash、责任人、权限标签和派生元数据管理，不并入当前 MVP Pilot，不做 TB 级原始模型全量解析、在线查看、碰撞检测、自动算量或自动设计审查。

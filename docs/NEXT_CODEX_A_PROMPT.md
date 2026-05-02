@@ -7,42 +7,43 @@
 3. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
 4. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
 5. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
-6. `/Users/Weishengsu/Hermes_memory/docs/PHASE237_PILOT_ISSUE_TRIAGE_PLAN.md`
+6. `/Users/Weishengsu/Hermes_memory/docs/MVP_PILOT_ISSUE_INTAKE_RUNBOOK.md`
 
 ## 当前状态
 
-Phase 2.37a Pilot issue intake dry-run 最小实现已完成。
+Phase 2.37b Pilot issue intake runbook / local storage convention 已完成。
 
 已完成内容：
 
-1. 新增 `scripts/phase237a_pilot_issue_intake.py`。
-2. 新增 `tests/test_phase237a_pilot_issue_intake.py`。
-3. 支持 `--print-template`、`--input`、`--input-dir`、`--strict`。
-4. 输出 local triage summary JSON，包含 total、priority / issue type counts、P0/P1 counts、Go / Pause recommendation 与 invalid records。
-5. 保持 dry-run 边界：不写 DB、不创建外部 issue、不 repair、不 rollout。
+1. 新增 `docs/MVP_PILOT_ISSUE_INTAKE_RUNBOOK.md`。
+2. 新增 `reports/pilot_issues/.gitignore`。
+3. 新增 `reports/pilot_issues/README.md`。
+4. 真实 Pilot issue JSON / Markdown 默认 ignored，不入 Git。
+5. 本轮未修改 intake 脚本、测试、业务代码、DB、facts、versions、OpenSearch 或 Qdrant。
 
 验证结果：
 
-1. `uv run python -m py_compile scripts/phase237a_pilot_issue_intake.py` passed。
-2. `uv run pytest tests/test_phase237a_pilot_issue_intake.py -q` passed：`9 passed`。
-3. 临时目录 dry-run smoke 通过。
+1. `git diff --check` passed。
+2. `uv run python scripts/phase237a_pilot_issue_intake.py --print-template >/tmp/phase237b_issue_template.json` passed。
+3. `uv run python scripts/phase237a_pilot_issue_intake.py --input /tmp/phase237b_issue_template.json --strict` passed。
+4. `git check-ignore -v reports/pilot_issues/example.json` passed。
 
 ## 下一轮目标
 
-Phase 2.37a Git baseline。
+Phase 2.37b docs baseline。
 
 执行条件：
 
-1. Codex B 已审核并确认可以 baseline（2026-05-01 review passed）。
+1. Codex B 已审核并确认可以 baseline（2026-05-02 review passed）。
 2. 用户明确授权执行 baseline。
 
 ## Baseline 文件白名单
 
 只允许 stage / commit 以下文件：
 
-1. `scripts/phase237a_pilot_issue_intake.py`
-2. `tests/test_phase237a_pilot_issue_intake.py`
-3. `docs/PHASE237_PILOT_ISSUE_TRIAGE_PLAN.md`
+1. `docs/MVP_PILOT_ISSUE_INTAKE_RUNBOOK.md`
+2. `reports/pilot_issues/.gitignore`
+3. `reports/pilot_issues/README.md`
 4. `docs/ACTIVE_PHASE.md`
 5. `docs/HANDOFF_LOG.md`
 6. `docs/PHASE_BACKLOG.md`
@@ -53,29 +54,35 @@ Phase 2.37a Git baseline。
 不得 stage / commit：
 
 1. `reports/agent_runs/latest.json`
-2. 任何真实 reports JSON
-3. 任何真实 review JSON / Markdown
-4. 无关代码或文档 dirty
+2. `reports/pilot_issues/*.json`
+3. `reports/pilot_issues/*.md` except `README.md`
+4. `scripts/phase237a_pilot_issue_intake.py`
+5. `tests/test_phase237a_pilot_issue_intake.py`
+6. 任何业务代码、DB、retrieval、indexing、facts、OpenSearch、Qdrant 相关文件。
 
 ## 必须复跑
 
 ```bash
-uv run python -m py_compile scripts/phase237a_pilot_issue_intake.py
-uv run pytest tests/test_phase237a_pilot_issue_intake.py -q
+git diff --check
+uv run python scripts/phase237a_pilot_issue_intake.py --print-template >/tmp/phase237b_issue_template.json
+uv run python scripts/phase237a_pilot_issue_intake.py --input /tmp/phase237b_issue_template.json --strict
+git check-ignore -v reports/pilot_issues/example.json
 ```
+
+不运行 pytest，除非脚本或测试被修改。
 
 ## Git 建议
 
 commit message:
 
 ```text
-chore: add phase 2.37a pilot issue intake dry-run
+docs: add phase 2.37b pilot issue intake runbook
 ```
 
 tag:
 
 ```text
-phase-2.37a-pilot-issue-intake-baseline
+phase-2.37b-pilot-issue-intake-runbook-baseline
 ```
 
 ## 硬边界
@@ -89,7 +96,8 @@ phase-2.37a-pilot-issue-intake-baseline
 7. 不修改 retrieval contract。
 8. 不修改 memory kernel 主架构。
 9. 不进入 production rollout。
-10. 不纳入无关 dirty。
+10. 不实现 BIM asset catalog。
+11. 不纳入无关 dirty。
 
 ## 输出要求
 
@@ -101,5 +109,5 @@ phase-2.37a-pilot-issue-intake-baseline
 4. tag。
 5. push 结果。
 6. final git status。
-7. 是否存在 ignored latest.json / reports 被 staged。
+7. 是否存在 ignored latest.json / pilot issue records 被 staged。
 8. 是否建议进入下一阶段。
