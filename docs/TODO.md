@@ -6,6 +6,7 @@
 2. Phase 2.37 planning baseline 已完成：commit `8fd10b7`，tag `phase-2.37-pilot-issue-triage-plan-baseline`。
 3. 当前进入 Phase 2.37a：MVP Pilot issue intake local dry-run，优先把 Day-1 / Codex C / 用户真实试用反馈结构化留痕与分级。
 4. Phase 2.37a 不做自动审标、不做 rollout、不写 DB、不自动修复 issue；如果 evidence 不足，必须保留 Missing Evidence。
+5. 新增 BIM 数据管家 PRD 扩展规划：先做 BIM 文件资产目录治理，作为后置专项规划线，不并入当前 MVP Pilot。
 
 ## 0.1 Phase 2.35 当前待办
 
@@ -41,8 +42,16 @@
 - OCR / ASR 全量化
 - 全局 rerank rollout / 排序收益大规模优化
 - 默认扫描真实 reports / reviews
+- TB 级 BIM 原始模型内容全量解析、在线查看器、碰撞检测、自动算量、自动设计审查
 
 说明：上述事项并非长期放弃，而是不进入当前 MVP Pilot / issue intake 阶段。当前已具备 rerank smoke、dense ingestion、facts governance、audit、version governance 与多模态 MVP 的阶段闭环；下一步重点是把真实试用反馈结构化分流，不扩大到 rollout 或自动修复。
+
+## 0.3 BIM 数据管家后置规划
+
+1. PRD 已新增 BIM 数据管家方向：Hermes 初期只管理 BIM 模型文件资产目录、版本、权限、项目归属、检索、引用和后续解析入口。
+2. BIM 文件资产目录最小元数据包括项目、楼栋、楼层、专业、模型类型、版本、路径 / 存储位置、文件大小、hash、创建 / 修改时间、责任人和权限标签。
+3. 原始模型文件不直接进入 LLM 上下文；Hermes 只保存元数据、派生文本、结构化属性和可追溯链接。
+4. 后续可单独规划 `BIM asset catalog planning`，先用少量项目目录试点，不全量处理几个 TB 的模型资产。
 
 ## 3. Phase 2.2 后续待办
 
