@@ -5,7 +5,8 @@
 1. Phase 2.38a：Tender P1 Source Availability Audit Git baseline 已完成，commit `456b32d`，tag `phase-2.38a-tender-p1-source-audit-baseline`。
 2. Phase 2.38b：Tender P1 Concrete Source Recall Diagnostics 已完成最小实现并通过 Codex B review。
 3. 只读 live preview 结果：资质与业绩 candidate source 已在 top-k，人员要求 candidate source 可检索但低排名；限价继续 Missing Evidence，项目经理等级继续人工复核。
-4. 下一步不得直接进入 broad retrieval fix、repair、rollout 或索引重建；先做 2.38b baseline，再规划 personnel recall tail diagnostics。
+4. Phase 2.38c personnel recall tail planning 已完成并通过 Codex B review；本轮执行 docs baseline。
+5. Phase 2.38c baseline 后可由 Codex B 决定是否规划 Phase 2.38d personnel-only bounded recall implementation；不得直接进入 broad retrieval fix、repair、rollout 或索引重建。
 
 ## Day-1 Pilot 已知问题
 
@@ -83,6 +84,10 @@
 27. Phase 2.38b localhost read-only preview：`qualification_grade_category=candidate_in_top_k`，`performance_requirement=candidate_in_top_k`，`personnel_requirement=candidate_present_but_low_rank`。
 28. `price_ceiling` 保持 `field_should_remain_missing_evidence`；`project_manager_level` 保持 `field_requires_human_review`。
 29. Phase 2.38b Codex B review 已通过，下一步只做 Git baseline，不直接进入 2.38c。
+30. Phase 2.38b Git baseline 已完成：commit `a8c93f1`，tag `phase-2.38b-tender-recall-diagnostics-baseline`。
+31. Phase 2.38c planning 已完成：新增 `docs/PHASE238C_PERSONNEL_RECALL_TAIL_PLAN.md`，结论为人员要求低排名更像 query/profile/candidate-pool tail，不是 source missing。
+32. Phase 2.38c 推荐后续 Phase 2.38d：personnel-only aliases / section hints / candidate-pool diagnostics；继续后置限价缺源、项目经理人工复核、broad retrieval tuning、repair 与 rollout。
+33. Phase 2.38c Codex B review 已通过，本轮执行 docs baseline，不直接进入 2.38d。
 
 ## 后置项
 

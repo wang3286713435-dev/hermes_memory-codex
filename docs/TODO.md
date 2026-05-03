@@ -8,7 +8,8 @@
 4. Phase 2.37d triage summary generator baseline 已完成：commit `d97a67c`，tag `phase-2.37d-pilot-triage-summary-baseline`。
 5. Phase 2.38a Tender P1 Source Availability Audit baseline 已完成：commit `456b32d`，tag `phase-2.38a-tender-p1-source-audit-baseline`。
 6. 新增 BIM 数据管家 PRD 扩展规划：先做 BIM 文件资产目录治理，作为后置专项规划线，不并入当前 MVP Pilot。
-7. 当前 Phase 2.38b：Tender P1 Concrete Source Recall Diagnostics 已完成 Codex B review，下一步只做 Git baseline，不直接修 ranking。
+7. Phase 2.38b Git baseline 已完成：commit `a8c93f1`，tag `phase-2.38b-tender-recall-diagnostics-baseline`。
+8. Phase 2.38c 人员要求召回尾项规划已完成 Codex B review，本轮执行 docs baseline。
 
 ## 0.1 Phase 2.38b 当前待办
 
@@ -18,7 +19,17 @@
 4. `price_ceiling` 固定为 `field_should_remain_missing_evidence`，继续 Missing Evidence / 人工补源，不进入召回修复。
 5. `project_manager_level` 固定为 `field_requires_human_review`，继续人工复核，不得从电子证书 / 材料条款推断等级。
 6. 不直接修改 retrieval ranking，不改 retrieval contract / memory kernel，不进入 repair、backfill、reindex、rollout 或自动审标。
-7. Codex B review 已通过；下一步只做 Phase 2.38b Git baseline，不直接进入 Phase 2.38c。
+7. Git baseline 已完成：commit `a8c93f1`，tag `phase-2.38b-tender-recall-diagnostics-baseline`。
+8. 下一步：Phase 2.38c 只规划 `personnel_requirement` 低排名尾项；限价与项目经理等级继续后置 / 人工复核。
+
+## 0.1.1 Phase 2.38c 当前待办
+
+1. Phase 2.38c docs-only planning 已完成，新增 `docs/PHASE238C_PERSONNEL_RECALL_TAIL_PLAN.md`。
+2. 结论：`personnel_requirement` 是 candidate present but low-rank，偏 query/profile/candidate-pool tail，不是 source missing。
+3. 推荐后续 Phase 2.38d 仅做 personnel-only bounded recall implementation。
+4. 可选实现边界：personnel-specific aliases、section hints、candidate-pool diagnostics、before/after visibility。
+5. 继续后置：限价缺具体金额、项目经理等级人工复核、broad retrieval tuning、自动审标、repair、rollout。
+6. Codex B review 已通过；本轮执行 Phase 2.38c docs baseline，不直接进入 2.38d。
 
 ## 0.2 Phase 2.38a 历史状态
 

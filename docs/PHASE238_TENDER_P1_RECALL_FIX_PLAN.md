@@ -145,3 +145,34 @@ Phase 2.38b conclusion:
 3. Price ceiling remains Missing Evidence / source supplementation territory.
 4. Project manager level remains human-review territory.
 5. The next bounded fix, if approved, should focus on personnel requirement query/profile diagnostics rather than broad retrieval tuning.
+
+Phase 2.38b baseline result:
+
+1. Git baseline completed with commit `a8c93f1` and tag `phase-2.38b-tender-recall-diagnostics-baseline`.
+2. `origin/main` and tag push completed.
+
+## 8. Phase 2.38c Direction
+
+Phase 2.38c should be planning-only.
+
+It should focus on the personnel requirement recall tail:
+
+1. `personnel_requirement` candidate sources are retrievable but low-ranked.
+2. The likely next step is bounded query/profile diagnostics for personnel-specific wording, aliases, section hints, and candidate pool behavior.
+3. `price_ceiling` remains Missing Evidence / source supplementation territory.
+4. `project_manager_level` remains human-review territory.
+5. Do not perform broad retrieval tuning, repair, reindex, rollout, or automatic tender-review conclusions.
+
+Phase 2.38c planning result:
+
+1. New planning document: `docs/PHASE238C_PERSONNEL_RECALL_TAIL_PLAN.md`.
+2. Main conclusion: personnel requirement recall is a query/profile/candidate-pool tail, not source missing.
+3. Recommended next bounded phase: Phase 2.38d personnel-only recall implementation.
+4. Candidate implementation should focus on personnel-specific aliases, section hints, and before/after visibility diagnostics.
+5. The phase must not solve price ceiling, infer project manager level, apply broad ranking changes, rebuild indexes, or enter rollout.
+
+Phase 2.38c baseline scope:
+
+1. Docs-only baseline after Codex B review.
+2. No code, test, app, script, DB, OpenSearch, Qdrant, facts, document version, repair, reindex, or rollout changes.
+3. Phase 2.38d remains a later Codex B decision and must stay personnel-only if approved.

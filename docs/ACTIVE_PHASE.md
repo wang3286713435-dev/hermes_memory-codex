@@ -1,12 +1,9 @@
 # Active Phase
 
-- 当前 phase：Phase 2.38b Tender P1 Concrete Source Recall Diagnostics Review Passed
-- 本轮目标：Codex B 审核 Phase 2.38b 只读 retrieval 可见性诊断，并授权 Git baseline。
+- 当前 phase：Phase 2.38c Personnel Requirement Recall Tail Planning Baseline
+- 本轮目标：执行 Phase 2.38c docs-only Git baseline。
 - 修改文件：
-  - `scripts/phase238b_tender_concrete_recall_diagnostics.py`
-  - `tests/test_phase238b_tender_concrete_recall_diagnostics.py`
-  - `reports/tender_recall_diagnostics/.gitignore`
-  - `reports/tender_recall_diagnostics/README.md`
+  - `docs/PHASE238C_PERSONNEL_RECALL_TAIL_PLAN.md`
   - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
@@ -16,34 +13,30 @@
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 新增 Phase 2.38b 只读 diagnostics runner。
-  - 固定 `price_ceiling` 为 `field_should_remain_missing_evidence`，不进入召回修复。
-  - 固定 `project_manager_level` 为 `field_requires_human_review`，不从电子证书 / 材料条款推断等级。
-  - 对 `qualification_grade_category` / `performance_requirement` / `personnel_requirement` 执行 candidate visibility 诊断。
-  - 新增 ignored 的 `reports/tender_recall_diagnostics/` 策略，真实诊断报告默认不入 Git。
+  - Phase 2.38c planning 已通过 Codex B review。
+  - 执行 docs-only baseline，未写代码、未改 retrieval、未写 DB / OpenSearch / Qdrant / facts / document_versions。
+  - Phase 2.38c 规划结论保持：人员要求是 candidate present but low-rank，推荐后续 personnel-only bounded implementation。
 - 测试结果：
-  - `uv run python -m py_compile scripts/phase238b_tender_concrete_recall_diagnostics.py`：通过。
-  - `uv run pytest tests/test_phase238b_tender_concrete_recall_diagnostics.py -q`：`9 passed`。
+  - 本轮 docs-only baseline，未运行 pytest。
   - `git diff --check`：通过。
+  - `git status --short`：baseline 前仅包含 Phase 2.38c 允许文档。
 - live smoke 结果：
-  - 使用 localhost 覆写执行 read-only `--dry-run-preview`，未写 output file。
-  - `price_ceiling`：`field_should_remain_missing_evidence`。
-  - `qualification_grade_category`：`candidate_in_top_k`，候选 chunk `b5a34baa-2b01-44c3-aa44-3dbcefd6cde4` 排名 2。
-  - `project_manager_level`：`field_requires_human_review`。
-  - `performance_requirement`：`candidate_in_top_k`，候选 chunk `03ce871a-e1b6-4bab-9a1d-266711827146` 排名 1。
-  - `personnel_requirement`：`candidate_present_but_low_rank`，候选 chunks 排名 17 / 19 / 41。
+  - 本轮无 live smoke。
   - 未写 DB、未修改 OpenSearch / Qdrant / facts / document_versions。
-  - Codex B review 通过：实现限定为只读 diagnostics，未发现 retrieval ranking、contract、DB、索引、repair、rollout 或真实报告越界。
 - 当前结论：
-  - Phase 2.38b 最小实现已完成。
-  - 资质与业绩 source candidate 已能进入 top-k；人员要求 candidate 可检索但低排名。
-  - 限价仍应 Missing Evidence / 人工补源；项目经理等级仍需人工复核。
+  - Phase 2.38c docs baseline 已完成。
+  - 后续可规划 Phase 2.38d personnel-only bounded recall implementation。
 - 阻塞点 / 风险点：
-  - 不能把 `price_ceiling` 的 anchor-only 状态写成已找到具体金额。
-  - 不能把 `project_manager_level` 的 ambiguous 状态写成已确认等级。
-  - `personnel_requirement` 仍需后续 bounded query/profile 诊断；本轮未修 ranking。
-- 是否建议 baseline：是，Codex B review 已通过，建议执行 Phase 2.38b Git baseline。
-- 是否建议进入下一阶段：否；先做 Phase 2.38b baseline。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中的 Phase 2.38b Git baseline；baseline 后停止。
-- 是否需要 Codex B 审核：否，已完成。
-- 是否需要 Codex C 真实终端验收：否；本轮是诊断 runner，不改变回答链路。
+  - Phase 2.38d 不得扩大为 broad retrieval tuning。
+  - `price_ceiling` 继续 Missing Evidence / 人工补源。
+  - `project_manager_level` 继续 human-review-only。
+  - 任何后续 retrieval 输出变化都需 Codex C 定向复验。
+- Git baseline：
+  - commit：由本轮 Git baseline 生成。
+  - tag：`phase-2.38c-personnel-recall-tail-plan-baseline`。
+  - push：由本轮 Git baseline 推送。
+- 是否建议 baseline：是；本轮执行 Phase 2.38c docs baseline。
+- 是否建议进入下一阶段：否；baseline 后停止，等待 Codex B 检查。
+- 下一轮建议：Codex B 检查 Phase 2.38c baseline，并决定是否写入 Phase 2.38d personnel-only bounded implementation prompt。
+- 是否需要 Codex B 审核：是，baseline 后需要 Codex B 检查。
+- 是否需要 Codex C 真实终端验收：否；planning-only 不改变回答链路。

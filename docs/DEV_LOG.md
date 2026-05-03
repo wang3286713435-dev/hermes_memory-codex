@@ -209,5 +209,10 @@
 - [Phase 2.38a] 完成 Tender P1 source availability audit 最小实现：新增只读 runner 与目标测试 10 passed；live dry-run 因本机 `postgres` 主机名不可解析返回 skipped_live_unavailable，未写 DB、未改索引、未生成真实报告。
 - [Phase 2.38b] 完成 Tender P1 concrete source recall diagnostics 最小实现：新增只读 runner 与目标测试 9 passed；localhost read-only preview 显示资质 / 业绩 candidate 在 top-k，人员 candidate 低排名，限价继续 Missing Evidence，项目经理等级继续人工复核。
 - [Phase 2.38b] Codex B review 通过：复跑 py_compile、目标 pytest 9 passed、git diff --check 与 ignore 检查均通过；localhost read-only preview 复核显示人员要求 candidate 低排名，下一步只做 Git baseline。
+- [Phase 2.38b] Git baseline 已完成：commit `a8c93f1`，tag `phase-2.38b-tender-recall-diagnostics-baseline`，已推送 origin/main 与 tag。
+- [Phase 2.38c] Codex B 已写入下一轮 planning 入口：只规划 `personnel_requirement` 低排名尾项，不写代码、不改 retrieval、不进入 rollout。
 - [Phase 2.38a] Git baseline 已完成：commit `456b32d`，tag `phase-2.38a-tender-p1-source-audit-baseline`。
 - [Phase 2.38b] Codex B 补做 localhost 覆写 read-only live audit preview：限价为 anchor_only，项目经理等级为 ambiguous，资质 / 业绩 / 人员为 concrete_source_found；下一步只做 concrete source recall diagnostics，不直接修 retrieval ranking。
+- [Phase 2.38c] 完成人员要求召回尾项规划：人员 candidate 已存在但低排名，推荐后续仅做 personnel-only aliases / section hints / candidate-pool diagnostics，不处理限价、项目经理等级、broad retrieval tuning 或 rollout。
+- [Phase 2.38c] Codex B review 通过：规划限定为 docs-only，`git diff --check` 通过；下一步只做 docs baseline，不直接进入 2.38d。
+- [Phase 2.38c] 执行 docs-only Git baseline：提交范围限定为 Phase 2.38c 规划与交接文档；不写代码、不运行 pytest、不进入 2.38d。

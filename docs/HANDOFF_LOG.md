@@ -1924,3 +1924,66 @@
 - risks: `personnel_requirement` candidate 低排名只说明后续可做 bounded query/profile diagnostics；不得直接进入 broad retrieval tuning。`price_ceiling` 继续 Missing Evidence，`project_manager_level` 继续人工复核。
 - next: 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中 Phase 2.38b Git baseline；baseline 后停止，不进入 Phase 2.38c。
 - commit/tag if any: pending。
+
+## 2026-05-03 Phase 2.38c Codex B Prompt Handoff
+- goal: 检查 Phase 2.38b baseline 状态，并写入 Phase 2.38c personnel recall tail planning 的下一轮 Codex A 提示词。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮为 Codex B handoff；未运行 pytest。已确认 HEAD `a8c93f1`，tag `phase-2.38b-tender-recall-diagnostics-baseline`，baseline 状态 clean。
+- validation: Phase 2.38b baseline 已完成。下一步推荐 Phase 2.38c 只做 docs-only personnel recall tail planning，围绕 `personnel_requirement=candidate_present_but_low_rank` 分清 query wording、section hints、candidate pool 与后续 bounded implementation 选择。
+- risks: 不得顺手修 retrieval ranking；限价继续 Missing Evidence / 人工补源，项目经理等级继续人工复核；不进入 broad retrieval tuning、repair、reindex、rollout 或自动审标。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.38c planning 后停止等待 Codex B review。
+- commit/tag if any: 无。
+
+## 2026-05-03 22:27 Phase 2.38c
+- goal: 完成人员要求召回低排名尾项规划，不写功能代码。
+- changed_files: `docs/PHASE238C_PERSONNEL_RECALL_TAIL_PLAN.md`, `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`, `docs/ACTIVE_PHASE.md`, `docs/HANDOFF_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `reports/agent_runs/latest.json`。
+- tests: docs-only planning，未运行 pytest；`git diff --check` passed。
+- validation: 规划确认 `personnel_requirement` candidate present but low-rank，不是 source missing；推荐后续仅做 personnel-only aliases / section hints / candidate-pool diagnostics。
+- risks: 不得扩大为 broad retrieval tuning；不得顺手处理限价或项目经理等级；后续若改 retrieval 输出需 Codex C 定向复验。
+- next: Codex B review；通过后只做 Phase 2.38c docs baseline，或写入 Phase 2.38d personnel-only bounded implementation prompt。
+- commit/tag if any: none。
+
+## 2026-05-03 Phase 2.38c Codex B Review
+- goal: 审核 Phase 2.38c personnel recall tail planning，并决定是否可执行 docs baseline。
+- changed_files:
+  - `docs/PHASE238C_PERSONNEL_RECALL_TAIL_PLAN.md`
+  - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `git diff --check`：通过。
+  - `reports/agent_runs/latest.json`：JSON 合法，且为 ignored 本地状态。
+- validation: Codex B review 通过。规划限定为 docs-only；未写代码，未改 retrieval ranking / contract，未写 DB / facts / document_versions，未修改 OpenSearch / Qdrant，未执行 repair / backfill / reindex / cleanup / delete，未进入 rollout。
+- risks: Phase 2.38d 若执行必须保持 personnel-only；不得顺手处理限价、项目经理等级、broad retrieval tuning、repair、reindex 或 rollout。
+- next: 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中 Phase 2.38c docs baseline；baseline 后停止，不进入 Phase 2.38d。
+- commit/tag if any: pending。
+
+## 2026-05-03 Phase 2.38c
+- goal: 执行 Phase 2.38c docs-only Git baseline。
+- changed_files:
+  - `docs/PHASE238C_PERSONNEL_RECALL_TAIL_PLAN.md`
+  - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests: docs-only baseline，未运行 pytest；`git diff --check` 通过。
+- validation: 仅处理 Phase 2.38c 规划与交接文档；未写代码、未改 retrieval ranking / contract、未写 DB / facts / document_versions、未修改 OpenSearch / Qdrant、未执行 repair / backfill / reindex / cleanup / delete、未进入 rollout。
+- risks: Phase 2.38d 必须保持 personnel-only；`price_ceiling` 继续 Missing Evidence / 人工补源；`project_manager_level` 继续 human-review-only；任何后续 retrieval 输出变化都需 Codex C 定向复验。
+- next: Codex B 检查 Phase 2.38c baseline，并决定是否写入 Phase 2.38d prompt。
+- commit/tag if any: 由本轮 Git baseline 结果记录。
