@@ -2,9 +2,9 @@
 
 ## 当前优先级
 
-1. Phase 2.37d：本地 Pilot issue triage summary generator 已完成最小实现，等待 Codex B review。
-2. 下一步仅建议做 Phase 2.37d Git baseline；不得直接进入 P1 retrieval fix、repair、rollout 或外部 issue 自动创建。
-3. 真实 `reports/pilot_issues/*.json` 与 `reports/pilot_triage/*.json/*.md` 仍是本地敏感运行产物，默认不入 Git。
+1. Phase 2.38a：Tender P1 Source Availability Audit 已完成最小实现，等待 Codex B review。
+2. 下一步仅建议做 Phase 2.38a Git baseline；不得直接进入 retrieval fix、repair、rollout 或索引重建。
+3. live read-only audit 当前因本机 `.env` 的 `postgres` 主机名不可解析而返回 `skipped_live_unavailable`；后续可在服务可用时重跑，但不得修环境或写数据。
 
 ## Day-1 Pilot 已知问题
 
@@ -74,7 +74,10 @@
 19. 下一步需 Codex B review；通过后只做 Phase 2.37c docs baseline，不直接进入 P1 fix、repair、rollout 或外部 issue 创建。
 20. Phase 2.37c Git baseline 已完成：commit `4aa6bd4`，tag `phase-2.37c-pilot-issue-triage-summary-plan-baseline`。
 21. Phase 2.37d 最小实现已完成：新增本地 triage summary generator，读取 `reports/pilot_issues/*.json` 并输出 ignored 的 JSON / Markdown summary；目标测试 `9 passed`，`git diff --check` 通过。
-22. 下一步需 Codex B review；通过后只做 Phase 2.37d Git baseline，不创建真实 issue、不修复 P1、不进入 rollout。
+22. Phase 2.37d Git baseline 已完成：commit `d97a67c`，tag `phase-2.37d-pilot-triage-summary-baseline`。
+23. Phase 2.38a 最小实现已完成：新增只读 source availability audit runner，字段覆盖限价、资质等级/类别、项目经理等级、类似业绩、人员要求；目标测试 `10 passed`。
+24. Phase 2.38a live dry-run 当前返回 `skipped_live_unavailable`，原因为本机无法解析 `.env` 中的 `postgres` 主机名；未写报告、未写 DB、未改索引。
+25. 下一步需 Codex B review；通过后只做 Phase 2.38a Git baseline，不直接进入 retrieval fix。
 
 ## 后置项
 

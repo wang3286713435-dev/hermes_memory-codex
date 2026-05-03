@@ -5,10 +5,20 @@
 1. Phase 2.34 compare false-positive baseline 已完成：Hermes_memory commit `789ed22`，Hermes 主仓库 commit `5de49bf5`，tag `phase-2.34-compare-contamination-baseline`。
 2. Phase 2.37 planning baseline 已完成：commit `8fd10b7`，tag `phase-2.37-pilot-issue-triage-plan-baseline`。
 3. Phase 2.37a / 2.37b / 2.37c 已完成 intake、runbook 与 triage summary planning baseline。
-4. 当前进入 Phase 2.37d：本地 Pilot issue triage summary generator 已完成最小实现，等待 Codex B review 与 Git baseline。
-5. 新增 BIM 数据管家 PRD 扩展规划：先做 BIM 文件资产目录治理，作为后置专项规划线，不并入当前 MVP Pilot。
+4. Phase 2.37d triage summary generator baseline 已完成：commit `d97a67c`，tag `phase-2.37d-pilot-triage-summary-baseline`。
+5. 当前进入 Phase 2.38a：Tender P1 Source Availability Audit 已完成最小实现，等待 Codex B review。
+6. 新增 BIM 数据管家 PRD 扩展规划：先做 BIM 文件资产目录治理，作为后置专项规划线，不并入当前 MVP Pilot。
 
-## 0.1 Phase 2.37d 当前待办
+## 0.1 Phase 2.38a 当前待办
+
+1. 新增只读 source availability audit runner，用于判断主标书 P1 字段是 concrete source、anchor-only、not found、ambiguous 还是 live skipped。
+2. 字段覆盖：最高投标限价 / 招标控制价 / 投标报价上限、投标资质具体等级 + 类别、项目经理等级、类似业绩、人员要求。
+3. 目标测试已通过：py_compile 通过，`tests/test_phase238a_tender_p1_source_audit.py` 为 `10 passed`。
+4. live read-only dry-run 已尝试，但当前本机 `.env` 指向 `postgres` 主机名不可解析，所有字段返回 `skipped_live_unavailable`。
+5. 本轮未写报告、未写 DB、未修改 OpenSearch / Qdrant / facts / document_versions。
+6. 下一步：Codex B review；通过后只做 Phase 2.38a Git baseline，不直接进入 retrieval fix。
+
+## 0.2 Phase 2.37d 历史状态
 
 1. 本地 triage summary generator 已实现：读取 `reports/pilot_issues/*.json`，输出 dry-run JSON summary，可选写入 ignored 的 `reports/pilot_triage/*.json/*.md`。
 2. 输出字段固定保留 `dry_run=true`、`destructive_actions=[]`、`writes_db=false`、`creates_external_issue=false`、`repairs_issue=false`、`rollout_approved=false`。
@@ -17,7 +27,7 @@
 5. 目标测试已通过：py_compile 通过，`tests/test_phase237d_pilot_triage_summary.py` 为 `9 passed`，`git diff --check` 通过。
 6. 下一步：Codex B review；通过后只做 Phase 2.37d Git baseline，不直接进入 P1 retrieval fix、repair 或 rollout。
 
-## 0.2 Phase 2.35 当前待办
+## 0.3 Phase 2.35 当前待办
 
 1. Codex C 真实终端复验已完成：安全边界通过，但整体仍为 partial。
 2. Phase 2.35b 已完成最小修复：API trace 顶层暴露 `metadata_guided_query_profile` / `metadata_deep_field_profile`，Q1/Q2 应可直接核对 `pricing_scope` / `qualification_scope`。
@@ -27,7 +37,7 @@
 6. 首次 session alias 绑定后丢失：主仓库 direct assertion diagnostics 未复现，暂作为 terminal-only tail，不能盲目大改。
 7. 下一步：补全指定测试复跑后交 Codex B review；通过后由 Codex C 重跑 Day-1 Q1/Q2。
 
-## 0.3 Phase 2.34 历史状态
+## 0.4 Phase 2.34 历史状态
 
 1. Phase 2.33 Day-1 run sheet baseline 已完成：commit `bb9656b`，tag `phase-2.33-pilot-day1-run-sheet-baseline`。
 2. Codex C Day-1 真实终端验收：`7 pass / 3 partial / 0 fail`，P0 为 `0`，四个 alias 后续解析稳定，无 facts 替代 evidence，无 transcript_as_fact，无实际第三文件污染。
@@ -55,7 +65,7 @@
 
 说明：上述事项并非长期放弃，而是不进入当前 MVP Pilot / issue intake 阶段。当前已具备 rerank smoke、dense ingestion、facts governance、audit、version governance 与多模态 MVP 的阶段闭环；下一步重点是把真实试用反馈结构化分流，不扩大到 rollout 或自动修复。
 
-## 0.4 BIM 数据管家后置规划
+## 0.5 BIM 数据管家后置规划
 
 1. PRD 已新增 BIM 数据管家方向：Hermes 初期只管理 BIM 模型文件资产目录、版本、权限、项目归属、检索、引用和后续解析入口。
 2. BIM 文件资产目录最小元数据包括项目、楼栋、楼层、专业、模型类型、版本、路径 / 存储位置、文件大小、hash、创建 / 修改时间、责任人和权限标签。

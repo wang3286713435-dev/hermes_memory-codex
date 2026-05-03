@@ -1,13 +1,13 @@
 # Active Phase
 
-- 当前 phase：Phase 2.37d Pilot Issue Triage Summary Generator Review Passed
-- 本轮目标：Codex B 审核 Phase 2.37d triage summary generator，并授权 Git baseline。
+- 当前 phase：Phase 2.38a Tender P1 Source Availability Audit Review Passed
+- 本轮目标：Codex B 审核 Phase 2.38a read-only source availability audit，并授权 Git baseline。
 - 修改文件：
-  - `scripts/phase237d_pilot_triage_summary.py`
-  - `tests/test_phase237d_pilot_triage_summary.py`
-  - `reports/pilot_triage/.gitignore`
-  - `reports/pilot_triage/README.md`
-  - `docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`
+  - `scripts/phase238a_tender_p1_source_audit.py`
+  - `tests/test_phase238a_tender_p1_source_audit.py`
+  - `reports/tender_p1_audit/.gitignore`
+  - `reports/tender_p1_audit/README.md`
+  - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
   - `docs/PHASE_BACKLOG.md`
@@ -16,29 +16,29 @@
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 新增 `scripts/phase237d_pilot_triage_summary.py`，读取 Phase 2.37a schema 兼容 issue records 并生成 dry-run summary。
-  - 支持 `--input-dir`、`--output-dir`、`--date`、`--dry-run-preview`、`--format json|md|both`、`--strict`。
-  - Summary 输出 P0/P1/Missing Evidence/workflow blockers、P0 pause / P1 manual review / P2-P3 continue 建议。
-  - 新增 `reports/pilot_triage/` ignore / README，真实 summary JSON / Markdown 默认不入 Git。
-  - Codex B review 通过：实现限定为本地 dry-run summary generator，不创建真实 issue records，不写 DB，不 repair，不 rollout，不创建外部 issue。
+  - 新增 `scripts/phase238a_tender_p1_source_audit.py`，用于只读判断主标书 P1 字段是否存在 concrete source、anchor-only、not found、ambiguous 或 skipped。
+  - 字段覆盖 `price_ceiling`、`qualification_grade_category`、`project_manager_level`、`performance_requirement`、`personnel_requirement`。
+  - 新增 `reports/tender_p1_audit/` ignore / README，真实 audit JSON / Markdown 默认不入 Git。
+  - 新增 Phase 2.38 规划 / 实现文档，明确本轮不修 retrieval、不写 DB、不改索引、不进入 rollout。
+  - Codex B review 通过：实现限定为 read-only source availability audit，未发现业务代码、DB、OpenSearch、Qdrant、facts、document_versions、repair、rollout 或真实报告越界。
 - 测试结果：
-  - `uv run python -m py_compile scripts/phase237d_pilot_triage_summary.py` 通过。
-  - `uv run pytest tests/test_phase237d_pilot_triage_summary.py -q` 通过，`9 passed`。
+  - `uv run python -m py_compile scripts/phase238a_tender_p1_source_audit.py` 通过。
+  - `uv run pytest tests/test_phase238a_tender_p1_source_audit.py -q` 通过，`10 passed`。
   - `git diff --check` 通过。
   - Codex B 复跑上述三项，均通过。
+  - `reports/tender_p1_audit/*.json` / `*.md` ignore 策略命中。
 - live smoke 结果：
-  - 未运行真实 API / CLI smoke。
-  - 未创建真实 Pilot issue records。
-  - 未在 repo 生成真实 Pilot triage summary JSON / Markdown。
+  - 已尝试目标 document/version 的 read-only dry-run。
+  - 当前本机 `.env` 指向 `postgres` 主机名不可解析，live audit 按设计输出 `skipped_live_unavailable`。
+  - 未写报告、未写 DB、未修改 OpenSearch / Qdrant / facts / document_versions。
 - 当前结论：
-  - Phase 2.37d 最小实现已完成并通过 Codex B review。
-  - 当前仍是本地 dry-run / ignored artifact 链路，不是 issue 修复、外部 issue 创建、repair 或 rollout。
+  - Phase 2.38a 最小实现已完成并通过 Codex B review。
+  - 当前只证明 runner / 判定规则 / fail-open 语义可用；未完成真实源文档字段可用性判断。
 - 阻塞点 / 风险点：
-  - 真实 Pilot issue records 仍可能包含敏感反馈，必须继续 ignored。
-  - Summary 的 `continue_with_manual_review` 不是 rollout approval。
-  - P1 retrieval recall 仍需后续 bounded fix planning，不得由本轮自动修复。
-- 是否建议 baseline：是，Codex B review 已通过，建议执行 Phase 2.37d Git baseline。
-- 是否建议进入下一阶段：否，先 review / baseline，不直接进入 P1 修复或 Phase 2.38。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中的 Phase 2.37d Git baseline；baseline 后停止。
+  - 本机 live DB 不可用，目标主标书字段仍需在服务可用时重跑 read-only audit。
+  - 本轮不能直接进入 retrieval fix；必须先由 Codex B review 并决定是否 baseline / 重跑 live / 进入 bounded fix planning。
+- 是否建议 baseline：是，Codex B review 已通过，建议执行 Phase 2.38a Git baseline。
+- 是否建议进入下一阶段：否，先 review / baseline，不直接进入 retrieval fix。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中的 Phase 2.38a Git baseline；baseline 后停止。
 - 是否需要 Codex B 审核：否，已完成。
-- 是否需要 Codex C 真实终端验收：否。
+- 是否需要 Codex C 真实终端验收：否；本轮是 read-only source audit runner，不改变回答链路。

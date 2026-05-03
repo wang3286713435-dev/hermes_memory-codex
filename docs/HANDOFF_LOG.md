@@ -1826,3 +1826,50 @@
 - risks: summary 只能作为人工 triage 辅助，不能视为 repair result、rollout approval 或自动审标结论；P1 retrieval recall 仍需后续 bounded fix planning。
 - next: 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中 Phase 2.37d Git baseline；baseline 后停止，不进入 P1 fix 或 Phase 2.38。
 - commit/tag if any: pending。
+
+## 2026-05-03 Phase 2.38a Codex B Prompt Handoff
+- goal: 检查 Phase 2.37d baseline 状态，并写入 Phase 2.38a tender P1 source availability audit 的下一轮 Codex A 提示词。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮为 Codex B handoff，未运行 pytest；已确认 HEAD `d97a67c`，tag `phase-2.37d-pilot-triage-summary-baseline`，baseline 状态 clean。
+- validation: Phase 2.37d baseline 已完成。下一步推荐 Phase 2.38a 只做主标书 P1 deep-field source availability read-only audit，先判断限价、具体资质等级 / 类别、项目经理等级、业绩、人员要求是源文档缺失、索引/解析缺失，还是 retrieval 召回缺口；不修 retrieval，不写 DB，不改索引，不 rollout。
+- risks: audit 只能作为 bounded fix planning 前置诊断，不能被解释为审标结论、repair result 或 rollout approval；真实 audit report 必须 ignored。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.38a 最小实现后停止等待 Codex B review。
+- commit/tag if any: 无。
+## 2026-05-03 21:04 Phase 2.38a
+- goal: Implement read-only source availability audit for main tender P1 fields from `docs/NEXT_CODEX_A_PROMPT.md`.
+- changed_files: `scripts/phase238a_tender_p1_source_audit.py`, `tests/test_phase238a_tender_p1_source_audit.py`, `reports/tender_p1_audit/.gitignore`, `reports/tender_p1_audit/README.md`, `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`, `docs/ACTIVE_PHASE.md`, `docs/HANDOFF_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `reports/agent_runs/latest.json` (ignored).
+- tests: `uv run python -m py_compile scripts/phase238a_tender_p1_source_audit.py`; `uv run pytest tests/test_phase238a_tender_p1_source_audit.py -q` => 10 passed; `git diff --check`.
+- validation: Target document/version live dry-run attempted; local `.env` host `postgres` was not resolvable, so all fields returned `skipped_live_unavailable`; no report file was written.
+- risks: Source availability for the real main tender remains unverified until local DB is reachable; no retrieval fix should start from this run alone.
+- next: Codex B review, then Phase 2.38a Git baseline or rerun live read-only audit with reachable DB.
+- commit/tag if any: none.
+
+
+## 2026-05-03 Phase 2.38a Codex B Review
+- goal: 审核 Phase 2.38a tender P1 source availability audit，并决定是否可执行 Git baseline。
+- changed_files:
+  - `scripts/phase238a_tender_p1_source_audit.py`
+  - `tests/test_phase238a_tender_p1_source_audit.py`
+  - `reports/tender_p1_audit/.gitignore`
+  - `reports/tender_p1_audit/README.md`
+  - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `uv run python -m py_compile scripts/phase238a_tender_p1_source_audit.py`：通过。
+  - `uv run pytest tests/test_phase238a_tender_p1_source_audit.py -q`：`10 passed`。
+  - `git diff --check`：通过。
+  - `git check-ignore -v reports/tender_p1_audit/example.json reports/tender_p1_audit/example.md`：命中 ignore。
+- validation: Codex B review 通过。实现限定为 read-only source availability audit；输出保留 `dry_run=true`、`read_only=true`、`destructive_actions=[]`、`writes_db=false`、`mutates_index=false`、`repairs_issue=false`、`rollout_approved=false`。live dry-run 因本机 `.env` 的 `postgres` 主机名不可解析返回 `skipped_live_unavailable`，未写报告、未写 DB、未改 OpenSearch / Qdrant / facts / document_versions。
+- risks: 当前仍未完成真实主标书字段 source availability 判断；不能基于 skipped 结果进入 retrieval fix。后续可在服务可用时重跑 read-only audit，或先 baseline 工具。
+- next: 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中 Phase 2.38a Git baseline；baseline 后停止，不进入 retrieval fix 或 Phase 2.38b。
+- commit/tag if any: pending。

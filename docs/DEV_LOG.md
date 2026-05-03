@@ -206,3 +206,4 @@
 - [Phase 2.37c] 完成 Pilot issue triage summary 路线规划：后续可将本地 issue records 汇总为 ignored daily / per-round summary，P0 pause、P1 进入 bounded fix planning 候选、P2/P3 入 backlog / polish；本轮 planning-only，未创建真实 issue records。
 - [BIM Data Steward] 完成 PRD / Roadmap / Technical Design 轻量扩展规划：新增 BIM 文件资产目录治理方向，明确初期只做项目、楼栋、楼层、专业、版本、路径、hash、责任人、权限标签和派生元数据管理，不并入当前 MVP Pilot，不做 TB 级原始模型全量解析、在线查看、碰撞检测、自动算量或自动设计审查。
 - [Phase 2.37d] 完成本地 Pilot issue triage summary generator：读取 `reports/pilot_issues/*.json`，输出 dry-run summary 与 ignored JSON/Markdown；目标测试 9 passed，未创建真实 issue、未写 DB、未进入 repair 或 rollout。
+- [Phase 2.38a] 完成 Tender P1 source availability audit 最小实现：新增只读 runner 与目标测试 10 passed；live dry-run 因本机 `postgres` 主机名不可解析返回 skipped_live_unavailable，未写 DB、未改索引、未生成真实报告。

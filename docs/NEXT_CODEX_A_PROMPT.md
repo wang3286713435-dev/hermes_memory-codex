@@ -7,42 +7,44 @@
 3. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
 4. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
 5. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
+6. `/Users/Weishengsu/Hermes_memory/docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
 
 ## 当前状态
 
-Phase 2.37d local Pilot issue triage summary generator 已完成最小实现，并已通过 Codex B review（2026-05-03）。
+Phase 2.38a Tender P1 Source Availability Audit 已完成最小实现，并已通过 Codex B review（2026-05-03）。
 
 已完成内容：
 
-1. 新增 `scripts/phase237d_pilot_triage_summary.py`。
-2. 新增 `tests/test_phase237d_pilot_triage_summary.py`。
-3. 新增 `reports/pilot_triage/.gitignore` 与 `reports/pilot_triage/README.md`。
-4. 文档已同步 `docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`、`TODO.md`、`DEV_LOG.md`、`ACTIVE_PHASE.md`、`PHASE_BACKLOG.md`、`HANDOFF_LOG.md`。
-5. 目标测试已通过：py_compile 通过，`tests/test_phase237d_pilot_triage_summary.py` 为 `9 passed`，`git diff --check` 通过。
-6. Codex B review 复跑通过：py_compile、pytest 9 passed、`git diff --check` 均通过；未发现 DB、repair、rollout、外部 issue 或真实运行产物越界。
+1. 新增 `scripts/phase238a_tender_p1_source_audit.py`。
+2. 新增 `tests/test_phase238a_tender_p1_source_audit.py`。
+3. 新增 `reports/tender_p1_audit/.gitignore` 与 `reports/tender_p1_audit/README.md`。
+4. 新增 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+5. 文档已同步 `TODO.md`、`DEV_LOG.md`、`ACTIVE_PHASE.md`、`PHASE_BACKLOG.md`、`HANDOFF_LOG.md`。
+6. 目标测试已通过：py_compile 通过，`tests/test_phase238a_tender_p1_source_audit.py` 为 `10 passed`，`git diff --check` 通过。
+7. live read-only dry-run 已尝试，但本机 `.env` 的 `postgres` 主机名不可解析，字段均返回 `skipped_live_unavailable`。
+8. Codex B review 复跑通过：py_compile、pytest 10 passed、`git diff --check` 均通过；ignore 策略命中；未发现 DB、repair、rollout、索引变更或真实报告越界。
 
 ## 下一轮目标
 
-Phase 2.37d Git baseline（Codex B approved）。
+Phase 2.38a Git baseline（Codex B approved）。
 
 执行范围：
 
 1. 只做 Git baseline。
 2. 不新增功能。
 3. 不修改业务逻辑。
-4. 不创建真实 Pilot issue records。
-5. 不创建真实 Pilot triage summary JSON / Markdown。
-6. 不进入 P1 retrieval fix、repair、rollout 或外部 issue 创建。
+4. 不重跑 live DB / OpenSearch audit，除非用户明确要求。
+5. 不进入 retrieval fix、repair、rollout 或索引重建。
 
 ## 当前应提交文件
 
 只允许提交：
 
-1. `scripts/phase237d_pilot_triage_summary.py`
-2. `tests/test_phase237d_pilot_triage_summary.py`
-3. `reports/pilot_triage/.gitignore`
-4. `reports/pilot_triage/README.md`
-5. `docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`
+1. `scripts/phase238a_tender_p1_source_audit.py`
+2. `tests/test_phase238a_tender_p1_source_audit.py`
+3. `reports/tender_p1_audit/.gitignore`
+4. `reports/tender_p1_audit/README.md`
+5. `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
 6. `docs/ACTIVE_PHASE.md`
 7. `docs/HANDOFF_LOG.md`
 8. `docs/PHASE_BACKLOG.md`
@@ -53,28 +55,29 @@ Phase 2.37d Git baseline（Codex B approved）。
 不得提交：
 
 1. `reports/agent_runs/latest.json`
-2. 真实 `reports/pilot_issues/*.json` / `*.md`
-3. 真实 `reports/pilot_triage/*.json` / `*.md`
-4. 任何业务代码变更
-5. 任何 DB / OpenSearch / Qdrant / facts / document_versions 变更
+2. 真实 `reports/tender_p1_audit/*.json` / `*.md`
+3. 真实 `reports/pilot_issues/*.json` / `*.md`
+4. 真实 `reports/pilot_triage/*.json` / `*.md`
+5. 任何 retrieval / ingestion / indexing / facts / version governance 业务代码变更
+6. 任何 DB / OpenSearch / Qdrant 数据变更
 
 ## 必须复跑
 
 ```bash
 cd /Users/Weishengsu/Hermes_memory
-uv run python -m py_compile scripts/phase237d_pilot_triage_summary.py
-uv run pytest tests/test_phase237d_pilot_triage_summary.py -q
+uv run python -m py_compile scripts/phase238a_tender_p1_source_audit.py
+uv run pytest tests/test_phase238a_tender_p1_source_audit.py -q
 git diff --check
 ```
 
 ## Git 要求
 
-1. `git status --short` 只包含上述 Phase 2.37d 文件。
+1. `git status --short` 只包含上述 Phase 2.38a 文件。
 2. 只 stage 上述允许文件。
 3. commit message：
-   `chore: add phase 2.37d pilot triage summary`
+   `chore: add phase 2.38a tender p1 source audit`
 4. tag：
-   `phase-2.37d-pilot-triage-summary-baseline`
+   `phase-2.38a-tender-p1-source-audit-baseline`
 5. push `origin/main`。
 6. push tag。
 
@@ -90,7 +93,7 @@ git diff --check
 8. 不进入 rollout。
 9. 不改 retrieval contract。
 10. 不改 memory kernel 主架构。
-11. 不提交真实 Pilot issue 或 summary 运行产物。
+11. 不提交真实 audit report 运行产物。
 
 ## 返回报告
 
@@ -102,5 +105,5 @@ git diff --check
 4. tag。
 5. push 结果。
 6. 最终 git status。
-7. 是否存在真实 issue / summary 运行产物被 staged。
+7. 是否存在真实 audit report 被 staged。
 8. 是否建议进入下一阶段。
