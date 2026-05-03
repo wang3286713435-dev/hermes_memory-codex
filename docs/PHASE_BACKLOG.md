@@ -2,9 +2,9 @@
 
 ## 当前优先级
 
-1. Phase 2.37c：规划 MVP Pilot issue records 的 daily / per-round triage summary。
-2. 优先明确 P0/P1/P2/P3 分诊规则、首批 P1/P2 known issue 候选与后续 bounded fix planning 入口。
-3. Phase 2.37c 仍不得创建真实 issue records、自动审标、rollout、repair、DB / 索引变更或外部 issue 自动创建。
+1. Phase 2.37d：本地 Pilot issue triage summary generator 已完成最小实现，等待 Codex B review。
+2. 下一步仅建议做 Phase 2.37d Git baseline；不得直接进入 P1 retrieval fix、repair、rollout 或外部 issue 自动创建。
+3. 真实 `reports/pilot_issues/*.json` 与 `reports/pilot_triage/*.json/*.md` 仍是本地敏感运行产物，默认不入 Git。
 
 ## Day-1 Pilot 已知问题
 
@@ -72,6 +72,9 @@
 17. Phase 2.37b Git baseline 已完成：commit `e8c0631`，tag `phase-2.37b-pilot-issue-intake-runbook-baseline`。
 18. Phase 2.37c planning 已完成：新增 `docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`，规划 daily / per-round triage summary、P0/P1/P2/P3 分诊、首批 known issue 候选与后续 Phase 2.37d 方向。
 19. 下一步需 Codex B review；通过后只做 Phase 2.37c docs baseline，不直接进入 P1 fix、repair、rollout 或外部 issue 创建。
+20. Phase 2.37c Git baseline 已完成：commit `4aa6bd4`，tag `phase-2.37c-pilot-issue-triage-summary-plan-baseline`。
+21. Phase 2.37d 最小实现已完成：新增本地 triage summary generator，读取 `reports/pilot_issues/*.json` 并输出 ignored 的 JSON / Markdown summary；目标测试 `9 passed`，`git diff --check` 通过。
+22. 下一步需 Codex B review；通过后只做 Phase 2.37d Git baseline，不创建真实 issue、不修复 P1、不进入 rollout。
 
 ## 后置项
 

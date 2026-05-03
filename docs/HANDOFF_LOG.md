@@ -1779,3 +1779,50 @@
 - risks: Phase 2.37c baseline 仅固化规划；后续 Phase 2.37d 若实现 generator，必须保持输出 ignored、本地、只读，不得自动创建外部 issue 或执行 repair。
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中 Phase 2.37c docs baseline；baseline 后停止，不进入 Phase 2.37d。
 - commit/tag if any: pending。
+
+## 2026-05-03 Phase 2.37d Codex B Prompt Handoff
+- goal: 检查 Phase 2.37c baseline 状态，并写入 Phase 2.37d local triage summary generator 的下一轮 Codex A 提示词。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮为 Codex B handoff，未运行 pytest；已确认 HEAD `4aa6bd4`，tag `phase-2.37c-pilot-issue-triage-summary-plan-baseline`，baseline 状态 clean。
+- validation: Phase 2.37c baseline 已完成。下一步推荐 Phase 2.37d 只做 local triage summary generator，读取本地 ignored Pilot issue records 并生成 ignored summary JSON / Markdown；不创建真实 issue records，不创建外部 issue，不写 DB，不 repair，不 rollout。
+- risks: summary generator 只能服务人工审阅，不能被解释为 repair result、rollout approval 或自动审标结论；真实 summary 产物必须继续 ignored。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.37d 最小实现后停止等待 Codex B review。
+- commit/tag if any: 无。
+## 2026-05-03 12:38 Phase 2.37d
+- goal: Implement local Pilot issue triage summary generator from `docs/NEXT_CODEX_A_PROMPT.md`.
+- changed_files: `scripts/phase237d_pilot_triage_summary.py`, `tests/test_phase237d_pilot_triage_summary.py`, `reports/pilot_triage/.gitignore`, `reports/pilot_triage/README.md`, `docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`, `docs/ACTIVE_PHASE.md`, `docs/HANDOFF_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `reports/agent_runs/latest.json` (ignored).
+- tests: `uv run python -m py_compile scripts/phase237d_pilot_triage_summary.py`; `uv run pytest tests/test_phase237d_pilot_triage_summary.py -q` => 9 passed; `git diff --check`.
+- validation: No real Pilot issue records or real triage summary artifacts were created; `reports/pilot_triage/*.json/*.md` are ignored.
+- risks: Summary is triage only, not repair, rollout approval, or external issue creation; P1 items still require human review before bounded fix planning.
+- next: Codex B review, then Phase 2.37d Git baseline only if approved.
+- commit/tag if any: none.
+
+
+## 2026-05-03 Phase 2.37d Codex B Review
+- goal: 审核 Phase 2.37d local Pilot issue triage summary generator，并决定是否可执行 Git baseline。
+- changed_files:
+  - `scripts/phase237d_pilot_triage_summary.py`
+  - `tests/test_phase237d_pilot_triage_summary.py`
+  - `reports/pilot_triage/.gitignore`
+  - `reports/pilot_triage/README.md`
+  - `docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `uv run python -m py_compile scripts/phase237d_pilot_triage_summary.py`：通过。
+  - `uv run pytest tests/test_phase237d_pilot_triage_summary.py -q`：`9 passed`。
+  - `git diff --check`：通过。
+  - `git check-ignore -v reports/pilot_triage/example.json reports/pilot_triage/example.md`：命中 ignore。
+- validation: Codex B review 通过。实现限定为读取本地 `reports/pilot_issues/*.json` 并生成本地 ignored triage summary；summary 保留 `dry_run=true`、`destructive_actions=[]`、`writes_db=false`、`creates_external_issue=false`、`repairs_issue=false`、`rollout_approved=false`。未发现业务代码、DB、facts、document_versions、OpenSearch、Qdrant、repair、rollout、外部 issue 创建或真实运行产物越界。
+- risks: summary 只能作为人工 triage 辅助，不能视为 repair result、rollout approval 或自动审标结论；P1 retrieval recall 仍需后续 bounded fix planning。
+- next: 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中 Phase 2.37d Git baseline；baseline 后停止，不进入 P1 fix 或 Phase 2.38。
+- commit/tag if any: pending。

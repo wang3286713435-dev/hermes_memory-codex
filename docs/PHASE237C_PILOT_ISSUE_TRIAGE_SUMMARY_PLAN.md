@@ -133,3 +133,51 @@ After Phase 2.37c baseline, choose one:
 2. Manual first-batch issue recording: create sanitized local issue records for known P1/P2 candidates, then run the Phase 2.37a validator.
 
 Recommended default: implement Phase 2.37d local triage summary generator only after Codex B review.
+
+## 11. Phase 2.37d Implementation Update
+
+Phase 2.37d local triage summary generator is implemented.
+
+Implemented files:
+
+1. `scripts/phase237d_pilot_triage_summary.py`
+2. `tests/test_phase237d_pilot_triage_summary.py`
+3. `reports/pilot_triage/.gitignore`
+4. `reports/pilot_triage/README.md`
+
+Implemented behavior:
+
+1. Reads local Phase 2.37a-compatible issue records from `reports/pilot_issues/*.json`.
+2. Validates records with the Phase 2.37a schema helper.
+3. Skips malformed records with warnings by default; `--strict` returns non-zero when warnings exist.
+4. Emits dry-run summary fields including `source_issue_count`, priority/type counts, `p0_items`, `p1_items`, `missing_evidence_items`, `workflow_blockers`, `go_pause_recommendation`, and `suggested_next_action`.
+5. Supports `--dry-run-preview` without writing files.
+6. Writes local JSON / Markdown summaries to `reports/pilot_triage/` when not in preview mode.
+7. Keeps `dry_run=true`, `destructive_actions=[]`, `writes_db=false`, `creates_external_issue=false`, `repairs_issue=false`, and `rollout_approved=false`.
+
+Validation:
+
+1. `uv run python -m py_compile scripts/phase237d_pilot_triage_summary.py` passed.
+2. `uv run pytest tests/test_phase237d_pilot_triage_summary.py -q` passed with `9 passed`.
+3. `git diff --check` passed.
+
+Output policy:
+
+1. Real `reports/pilot_triage/*.json` and `*.md` summary artifacts are ignored by Git.
+2. Tests use temporary directories only.
+3. No real issue records or real summary artifacts were created in the repository.
+
+Boundaries retained:
+
+1. No DB writes.
+2. No facts, document_versions, OpenSearch, or Qdrant mutation.
+3. No repair / backfill / reindex.
+4. No real API / CLI smoke.
+5. No Linear / GitHub issue creation.
+6. No automatic tender-review conclusion.
+7. No rollout.
+
+Next step:
+
+1. Codex B review.
+2. If approved, run Phase 2.37d Git baseline only.

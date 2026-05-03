@@ -7,102 +7,100 @@
 3. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
 4. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
 5. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
-6. `/Users/Weishengsu/Hermes_memory/docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`
 
 ## 当前状态
 
-Phase 2.37c Pilot issue triage summary planning 已完成。
+Phase 2.37d local Pilot issue triage summary generator 已完成最小实现，并已通过 Codex B review（2026-05-03）。
 
 已完成内容：
 
-1. 新增 `docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`。
-2. 规划输入：`reports/pilot_issues/*.json`，但本轮未创建真实 issue records。
-3. 规划未来输出：ignored local summary JSON / Markdown。
-4. 明确 P0 / P1 / P2 / P3 分诊规则、首批 known issue 候选、Go / Pause 语义、PRD evidence 边界与 BIM 后置关系。
-5. 本轮未修改脚本、测试、业务代码、DB、facts、versions、OpenSearch 或 Qdrant。
-
-验证结果：
-
-1. `git diff --check` passed。
-2. 未运行 pytest。
-3. 未运行真实 API / CLI smoke。
+1. 新增 `scripts/phase237d_pilot_triage_summary.py`。
+2. 新增 `tests/test_phase237d_pilot_triage_summary.py`。
+3. 新增 `reports/pilot_triage/.gitignore` 与 `reports/pilot_triage/README.md`。
+4. 文档已同步 `docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`、`TODO.md`、`DEV_LOG.md`、`ACTIVE_PHASE.md`、`PHASE_BACKLOG.md`、`HANDOFF_LOG.md`。
+5. 目标测试已通过：py_compile 通过，`tests/test_phase237d_pilot_triage_summary.py` 为 `9 passed`，`git diff --check` 通过。
+6. Codex B review 复跑通过：py_compile、pytest 9 passed、`git diff --check` 均通过；未发现 DB、repair、rollout、外部 issue 或真实运行产物越界。
 
 ## 下一轮目标
 
-Phase 2.37c docs baseline。
+Phase 2.37d Git baseline（Codex B approved）。
 
-执行条件：
+执行范围：
 
-1. Codex B 已审核并确认可以 baseline（2026-05-03 review passed）。
-2. 用户明确授权执行 baseline。
+1. 只做 Git baseline。
+2. 不新增功能。
+3. 不修改业务逻辑。
+4. 不创建真实 Pilot issue records。
+5. 不创建真实 Pilot triage summary JSON / Markdown。
+6. 不进入 P1 retrieval fix、repair、rollout 或外部 issue 创建。
 
-## Baseline 文件白名单
+## 当前应提交文件
 
-只允许 stage / commit 以下文件：
+只允许提交：
 
-1. `docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`
-2. `docs/ACTIVE_PHASE.md`
-3. `docs/HANDOFF_LOG.md`
-4. `docs/PHASE_BACKLOG.md`
-5. `docs/TODO.md`
-6. `docs/DEV_LOG.md`
-7. `docs/NEXT_CODEX_A_PROMPT.md`
+1. `scripts/phase237d_pilot_triage_summary.py`
+2. `tests/test_phase237d_pilot_triage_summary.py`
+3. `reports/pilot_triage/.gitignore`
+4. `reports/pilot_triage/README.md`
+5. `docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`
+6. `docs/ACTIVE_PHASE.md`
+7. `docs/HANDOFF_LOG.md`
+8. `docs/PHASE_BACKLOG.md`
+9. `docs/TODO.md`
+10. `docs/DEV_LOG.md`
+11. `docs/NEXT_CODEX_A_PROMPT.md`
 
-不得 stage / commit：
+不得提交：
 
 1. `reports/agent_runs/latest.json`
-2. `reports/pilot_issues/*.json`
-3. `reports/pilot_issues/*.md` except `README.md`
-4. `scripts/phase237a_pilot_issue_intake.py`
-5. `tests/test_phase237a_pilot_issue_intake.py`
-6. 任何业务代码、DB、retrieval、indexing、facts、OpenSearch、Qdrant 相关文件。
+2. 真实 `reports/pilot_issues/*.json` / `*.md`
+3. 真实 `reports/pilot_triage/*.json` / `*.md`
+4. 任何业务代码变更
+5. 任何 DB / OpenSearch / Qdrant / facts / document_versions 变更
 
 ## 必须复跑
 
 ```bash
+cd /Users/Weishengsu/Hermes_memory
+uv run python -m py_compile scripts/phase237d_pilot_triage_summary.py
+uv run pytest tests/test_phase237d_pilot_triage_summary.py -q
 git diff --check
 ```
 
-不运行 pytest，除非脚本或测试被修改。
+## Git 要求
 
-## Git 建议
-
-commit message:
-
-```text
-docs: plan phase 2.37c pilot issue triage summary
-```
-
-tag:
-
-```text
-phase-2.37c-pilot-issue-triage-summary-plan-baseline
-```
+1. `git status --short` 只包含上述 Phase 2.37d 文件。
+2. 只 stage 上述允许文件。
+3. commit message：
+   `chore: add phase 2.37d pilot triage summary`
+4. tag：
+   `phase-2.37d-pilot-triage-summary-baseline`
+5. push `origin/main`。
+6. push tag。
 
 ## 硬边界
 
-1. 不写业务 DB / facts / document_versions。
-2. 不修改 OpenSearch / Qdrant 数据。
-3. 不执行 repair / backfill / reindex / cleanup / delete。
-4. 不运行真实 API / CLI smoke。
-5. 不自动创建 Linear / GitHub issue。
-6. 不做自动审标结论。
-7. 不修改 retrieval contract。
-8. 不修改 memory kernel 主架构。
-9. 不进入 production rollout。
-10. 不实现 BIM asset catalog。
-11. 不创建真实 issue records。
-12. 不纳入无关 dirty。
+1. 不写业务 DB。
+2. 不修改 facts。
+3. 不修改 document_versions。
+4. 不修改 OpenSearch。
+5. 不修改 Qdrant。
+6. 不执行 repair / backfill / reindex / cleanup / delete。
+7. 不创建外部 issue。
+8. 不进入 rollout。
+9. 不改 retrieval contract。
+10. 不改 memory kernel 主架构。
+11. 不提交真实 Pilot issue 或 summary 运行产物。
 
-## 输出要求
+## 返回报告
 
-返回精简报告：
+按固定短格式返回：
 
 1. 修改文件。
 2. 测试结果。
 3. commit hash。
 4. tag。
 5. push 结果。
-6. final git status。
-7. 是否存在 ignored latest.json / pilot issue records 被 staged。
+6. 最终 git status。
+7. 是否存在真实 issue / summary 运行产物被 staged。
 8. 是否建议进入下一阶段。

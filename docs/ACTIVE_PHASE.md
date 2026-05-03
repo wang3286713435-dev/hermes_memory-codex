@@ -1,8 +1,12 @@
 # Active Phase
 
-- 当前 phase：Phase 2.37c Pilot Issue Triage Summary Planning Review Passed
-- 本轮目标：Codex B 审核 Phase 2.37c planning，确认是否可执行 docs baseline。
+- 当前 phase：Phase 2.37d Pilot Issue Triage Summary Generator Review Passed
+- 本轮目标：Codex B 审核 Phase 2.37d triage summary generator，并授权 Git baseline。
 - 修改文件：
+  - `scripts/phase237d_pilot_triage_summary.py`
+  - `tests/test_phase237d_pilot_triage_summary.py`
+  - `reports/pilot_triage/.gitignore`
+  - `reports/pilot_triage/README.md`
   - `docs/PHASE237C_PILOT_ISSUE_TRIAGE_SUMMARY_PLAN.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
@@ -12,27 +16,29 @@
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 新增 Phase 2.37c 规划文档，定义本地 Pilot issue records 的每日 / 每轮人工 triage summary 目标。
-  - 规划输入为 `reports/pilot_issues/*.json`，但本轮不创建真实 issue records。
-  - 规划未来输出为 ignored 的 local summary JSON / Markdown，不入 Git。
-  - 明确 P0 / P1 / P2 / P3 分诊规则、Go / Pause 语义、首批 known issue 候选、PRD evidence 边界与 BIM 后置关系。
-  - Codex B review 通过：规划符合 MVP Pilot issue intake 主线，未越界进入 repair、DB 写入、外部 issue、rollout 或 BIM 实现。
+  - 新增 `scripts/phase237d_pilot_triage_summary.py`，读取 Phase 2.37a schema 兼容 issue records 并生成 dry-run summary。
+  - 支持 `--input-dir`、`--output-dir`、`--date`、`--dry-run-preview`、`--format json|md|both`、`--strict`。
+  - Summary 输出 P0/P1/Missing Evidence/workflow blockers、P0 pause / P1 manual review / P2-P3 continue 建议。
+  - 新增 `reports/pilot_triage/` ignore / README，真实 summary JSON / Markdown 默认不入 Git。
+  - Codex B review 通过：实现限定为本地 dry-run summary generator，不创建真实 issue records，不写 DB，不 repair，不 rollout，不创建外部 issue。
 - 测试结果：
-  - `git diff --check`：通过。
-  - 未运行 pytest；本轮未修改脚本或测试。
+  - `uv run python -m py_compile scripts/phase237d_pilot_triage_summary.py` 通过。
+  - `uv run pytest tests/test_phase237d_pilot_triage_summary.py -q` 通过，`9 passed`。
+  - `git diff --check` 通过。
+  - Codex B 复跑上述三项，均通过。
 - live smoke 结果：
   - 未运行真实 API / CLI smoke。
-  - 未创建真实 issue records。
+  - 未创建真实 Pilot issue records。
+  - 未在 repo 生成真实 Pilot triage summary JSON / Markdown。
 - 当前结论：
-  - Phase 2.37c planning-only 已完成。
-  - Codex B review 已通过，建议执行 Phase 2.37c docs baseline。
-  - 本轮未写 DB、facts、document_versions、OpenSearch、Qdrant，也未创建外部 issue、repair 或 rollout。
+  - Phase 2.37d 最小实现已完成并通过 Codex B review。
+  - 当前仍是本地 dry-run / ignored artifact 链路，不是 issue 修复、外部 issue 创建、repair 或 rollout。
 - 阻塞点 / 风险点：
-  - 规划不生成真实 triage summary，也不修复 P1/P2。
-  - 后续若实现 summary generator，必须保持 local ignored 输出，不得自动创建外部 issue。
-  - BIM 数据管家仍是后置规划线，不能并入当前 MVP Pilot fix queue。
-- 是否建议 baseline：是，Codex B review 已通过，建议按 `docs/NEXT_CODEX_A_PROMPT.md` 执行 Phase 2.37c docs baseline。
-- 是否建议进入下一阶段：否，先完成 Phase 2.37c docs baseline。
-- 下一轮建议：Codex A 执行 Phase 2.37c docs baseline；baseline 后停止，之后再决定 Phase 2.37d local triage summary generator 或手工首批 issue records。
+  - 真实 Pilot issue records 仍可能包含敏感反馈，必须继续 ignored。
+  - Summary 的 `continue_with_manual_review` 不是 rollout approval。
+  - P1 retrieval recall 仍需后续 bounded fix planning，不得由本轮自动修复。
+- 是否建议 baseline：是，Codex B review 已通过，建议执行 Phase 2.37d Git baseline。
+- 是否建议进入下一阶段：否，先 review / baseline，不直接进入 P1 修复或 Phase 2.38。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中的 Phase 2.37d Git baseline；baseline 后停止。
 - 是否需要 Codex B 审核：否，已完成。
 - 是否需要 Codex C 真实终端验收：否。
