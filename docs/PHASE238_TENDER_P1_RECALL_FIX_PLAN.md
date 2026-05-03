@@ -59,13 +59,20 @@ Validation:
 2. `uv run pytest tests/test_phase238a_tender_p1_source_audit.py -q`
 3. `git diff --check`
 
-Current validation result:
+Phase 2.38a baseline result:
 
 1. `uv run python -m py_compile scripts/phase238a_tender_p1_source_audit.py` passed.
 2. `uv run pytest tests/test_phase238a_tender_p1_source_audit.py -q` passed with `10 passed`.
-3. Live read-only dry-run was attempted with the target document/version and `--dry-run-preview`.
-4. Local `.env` currently points to host `postgres`, which is not resolvable on this machine, so all fields returned `skipped_live_unavailable`.
-5. No report file was written and no DB / OpenSearch / Qdrant mutation occurred.
+3. Git baseline completed with commit `456b32d` and tag `phase-2.38a-tender-p1-source-audit-baseline`.
+4. The first live read-only dry-run was attempted with the target document/version and `--dry-run-preview`.
+5. The first local `.env` run pointed to host `postgres`, which was not resolvable on this machine, so all fields returned `skipped_live_unavailable`.
+6. Codex B later reran read-only live audit with localhost host overrides. No report file was written and no DB / OpenSearch / Qdrant mutation occurred.
+7. The localhost read-only audit found:
+   - `price_ceiling`: `anchor_only`
+   - `qualification_grade_category`: `concrete_source_found`
+   - `project_manager_level`: `ambiguous`
+   - `performance_requirement`: `concrete_source_found`
+   - `personnel_requirement`: `concrete_source_found`
 
 ## 5. Non-goals
 
@@ -80,11 +87,61 @@ Phase 2.38a does not:
 7. Enter production rollout.
 8. Modify retrieval contract or memory kernel main architecture.
 
-## 6. Next Step
+## 6. Phase 2.38b Direction
 
-After Codex B review, use the audit result to decide the next bounded task:
+Phase 2.38b should not directly fix retrieval ranking. It should first diagnose whether known concrete source candidate chunks are visible to current retrieval.
 
-1. If `concrete_source_found`: plan targeted retrieval recall diagnostics/fix for the field.
-2. If `anchor_only` or `ambiguous`: keep Missing Evidence or require human review before any fix.
-3. If `not_found`: treat as source/parse/index availability issue, not a ranking-only problem.
-4. If `skipped_live_unavailable`: rerun read-only audit when local services are available.
+Field policy:
+
+1. `price_ceiling`: preserve Missing Evidence; Phase 2.38a only found anchors/placeholders, not a concrete amount.
+2. `project_manager_level`: require human review; Phase 2.38a found ambiguous related text and must not infer a level from electronic certificate format clauses.
+3. `qualification_grade_category`, `performance_requirement`, and `personnel_requirement`: run read-only retrieval candidate visibility diagnostics.
+
+Allowed next diagnostic statuses:
+
+1. `candidate_in_top_k`
+2. `candidate_present_but_low_rank`
+3. `candidate_absent_from_retrieval`
+4. `field_should_remain_missing_evidence`
+5. `field_requires_human_review`
+6. `skipped_live_unavailable`
+
+## 7. Phase 2.38b Implementation
+
+Implemented runner:
+
+```bash
+uv run python scripts/phase238b_tender_concrete_recall_diagnostics.py \
+  --document-id 869d4684-0a98-4825-bc72-ada65c15cfc9 \
+  --version-id 43558ba9-2813-42ff-b11b-3fbb4448a5bb \
+  --dry-run-preview
+```
+
+The runner:
+
+1. Keeps `dry_run=true`, `read_only=true`, `destructive_actions=[]`, `writes_db=false`, `mutates_index=false`, `repairs_issue=false`, and `rollout_approved=false`.
+2. Does not modify retrieval ranking or query profile.
+3. Does not write DB, facts, document versions, OpenSearch, or Qdrant.
+4. Writes local reports only under ignored `reports/tender_recall_diagnostics/` when not in preview mode.
+
+Validation:
+
+1. `uv run python -m py_compile scripts/phase238b_tender_concrete_recall_diagnostics.py` passed.
+2. `uv run pytest tests/test_phase238b_tender_concrete_recall_diagnostics.py -q` passed with `9 passed`.
+3. `git diff --check` passed.
+
+Read-only live preview with localhost service overrides:
+
+1. `price_ceiling`: `field_should_remain_missing_evidence`; Phase 2.38a found only anchor-only source availability.
+2. `qualification_grade_category`: `candidate_in_top_k`; candidate chunk `b5a34baa-2b01-44c3-aa44-3dbcefd6cde4` ranked 2.
+3. `project_manager_level`: `field_requires_human_review`; ambiguous source must not be converted into inferred grade.
+4. `performance_requirement`: `candidate_in_top_k`; candidate chunk `03ce871a-e1b6-4bab-9a1d-266711827146` ranked 1.
+5. `personnel_requirement`: `candidate_present_but_low_rank`; candidate chunks appeared at ranks 17, 19, and 41.
+
+Phase 2.38b conclusion:
+
+1. Qualification and performance candidate sources are already visible in top-k.
+2. Personnel requirement candidate sources are retrievable but low-ranked.
+3. Price ceiling remains Missing Evidence / source supplementation territory.
+4. Project manager level remains human-review territory.
+5. The next bounded fix, if approved, should focus on personnel requirement query/profile diagnostics rather than broad retrieval tuning.

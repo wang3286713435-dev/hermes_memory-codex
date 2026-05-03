@@ -207,3 +207,7 @@
 - [BIM Data Steward] 完成 PRD / Roadmap / Technical Design 轻量扩展规划：新增 BIM 文件资产目录治理方向，明确初期只做项目、楼栋、楼层、专业、版本、路径、hash、责任人、权限标签和派生元数据管理，不并入当前 MVP Pilot，不做 TB 级原始模型全量解析、在线查看、碰撞检测、自动算量或自动设计审查。
 - [Phase 2.37d] 完成本地 Pilot issue triage summary generator：读取 `reports/pilot_issues/*.json`，输出 dry-run summary 与 ignored JSON/Markdown；目标测试 9 passed，未创建真实 issue、未写 DB、未进入 repair 或 rollout。
 - [Phase 2.38a] 完成 Tender P1 source availability audit 最小实现：新增只读 runner 与目标测试 10 passed；live dry-run 因本机 `postgres` 主机名不可解析返回 skipped_live_unavailable，未写 DB、未改索引、未生成真实报告。
+- [Phase 2.38b] 完成 Tender P1 concrete source recall diagnostics 最小实现：新增只读 runner 与目标测试 9 passed；localhost read-only preview 显示资质 / 业绩 candidate 在 top-k，人员 candidate 低排名，限价继续 Missing Evidence，项目经理等级继续人工复核。
+- [Phase 2.38b] Codex B review 通过：复跑 py_compile、目标 pytest 9 passed、git diff --check 与 ignore 检查均通过；localhost read-only preview 复核显示人员要求 candidate 低排名，下一步只做 Git baseline。
+- [Phase 2.38a] Git baseline 已完成：commit `456b32d`，tag `phase-2.38a-tender-p1-source-audit-baseline`。
+- [Phase 2.38b] Codex B 补做 localhost 覆写 read-only live audit preview：限价为 anchor_only，项目经理等级为 ambiguous，资质 / 业绩 / 人员为 concrete_source_found；下一步只做 concrete source recall diagnostics，不直接修 retrieval ranking。

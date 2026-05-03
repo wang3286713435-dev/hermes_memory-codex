@@ -2,9 +2,10 @@
 
 ## 当前优先级
 
-1. Phase 2.38a：Tender P1 Source Availability Audit 已完成最小实现，等待 Codex B review。
-2. 下一步仅建议做 Phase 2.38a Git baseline；不得直接进入 retrieval fix、repair、rollout 或索引重建。
-3. live read-only audit 当前因本机 `.env` 的 `postgres` 主机名不可解析而返回 `skipped_live_unavailable`；后续可在服务可用时重跑，但不得修环境或写数据。
+1. Phase 2.38a：Tender P1 Source Availability Audit Git baseline 已完成，commit `456b32d`，tag `phase-2.38a-tender-p1-source-audit-baseline`。
+2. Phase 2.38b：Tender P1 Concrete Source Recall Diagnostics 已完成最小实现并通过 Codex B review。
+3. 只读 live preview 结果：资质与业绩 candidate source 已在 top-k，人员要求 candidate source 可检索但低排名；限价继续 Missing Evidence，项目经理等级继续人工复核。
+4. 下一步不得直接进入 broad retrieval fix、repair、rollout 或索引重建；先做 2.38b baseline，再规划 personnel recall tail diagnostics。
 
 ## Day-1 Pilot 已知问题
 
@@ -76,8 +77,12 @@
 21. Phase 2.37d 最小实现已完成：新增本地 triage summary generator，读取 `reports/pilot_issues/*.json` 并输出 ignored 的 JSON / Markdown summary；目标测试 `9 passed`，`git diff --check` 通过。
 22. Phase 2.37d Git baseline 已完成：commit `d97a67c`，tag `phase-2.37d-pilot-triage-summary-baseline`。
 23. Phase 2.38a 最小实现已完成：新增只读 source availability audit runner，字段覆盖限价、资质等级/类别、项目经理等级、类似业绩、人员要求；目标测试 `10 passed`。
-24. Phase 2.38a live dry-run 当前返回 `skipped_live_unavailable`，原因为本机无法解析 `.env` 中的 `postgres` 主机名；未写报告、未写 DB、未改索引。
-25. 下一步需 Codex B review；通过后只做 Phase 2.38a Git baseline，不直接进入 retrieval fix。
+24. Phase 2.38a Git baseline 已完成：commit `456b32d`，tag `phase-2.38a-tender-p1-source-audit-baseline`。
+25. Codex B localhost 覆写 read-only live audit 显示：`price_ceiling=anchor_only`，`qualification_grade_category=concrete_source_found`，`project_manager_level=ambiguous`，`performance_requirement=concrete_source_found`，`personnel_requirement=concrete_source_found`。
+26. Phase 2.38b 最小实现已完成：新增只读 concrete recall diagnostics runner，目标测试 `9 passed`，`git diff --check` 通过。
+27. Phase 2.38b localhost read-only preview：`qualification_grade_category=candidate_in_top_k`，`performance_requirement=candidate_in_top_k`，`personnel_requirement=candidate_present_but_low_rank`。
+28. `price_ceiling` 保持 `field_should_remain_missing_evidence`；`project_manager_level` 保持 `field_requires_human_review`。
+29. Phase 2.38b Codex B review 已通过，下一步只做 Git baseline，不直接进入 2.38c。
 
 ## 后置项
 

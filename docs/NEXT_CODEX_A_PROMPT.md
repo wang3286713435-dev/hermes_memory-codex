@@ -11,39 +11,57 @@
 
 ## 当前状态
 
-Phase 2.38a Tender P1 Source Availability Audit 已完成最小实现，并已通过 Codex B review（2026-05-03）。
+Phase 2.38b Tender P1 Concrete Source Recall Diagnostics 已完成 Codex B review。
 
-已完成内容：
+Codex B 复核结果：
 
-1. 新增 `scripts/phase238a_tender_p1_source_audit.py`。
-2. 新增 `tests/test_phase238a_tender_p1_source_audit.py`。
-3. 新增 `reports/tender_p1_audit/.gitignore` 与 `reports/tender_p1_audit/README.md`。
-4. 新增 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
-5. 文档已同步 `TODO.md`、`DEV_LOG.md`、`ACTIVE_PHASE.md`、`PHASE_BACKLOG.md`、`HANDOFF_LOG.md`。
-6. 目标测试已通过：py_compile 通过，`tests/test_phase238a_tender_p1_source_audit.py` 为 `10 passed`，`git diff --check` 通过。
-7. live read-only dry-run 已尝试，但本机 `.env` 的 `postgres` 主机名不可解析，字段均返回 `skipped_live_unavailable`。
-8. Codex B review 复跑通过：py_compile、pytest 10 passed、`git diff --check` 均通过；ignore 策略命中；未发现 DB、repair、rollout、索引变更或真实报告越界。
+1. 代码范围符合 Phase 2.38b 边界：只读 diagnostics runner + tests + ignored reports 策略 + 文档同步。
+2. 未修改 retrieval ranking。
+3. 未改 retrieval contract。
+4. 未改 memory kernel 主架构。
+5. 未写 DB / facts / document_versions。
+6. 未修改 OpenSearch / Qdrant。
+7. 未执行 repair / backfill / reindex / cleanup / delete。
+8. 未进入 rollout。
+9. 未自动审标。
+
+复跑验证：
+
+1. `uv run python -m py_compile scripts/phase238b_tender_concrete_recall_diagnostics.py`：通过。
+2. `uv run pytest tests/test_phase238b_tender_concrete_recall_diagnostics.py -q`：`9 passed`。
+3. `git diff --check`：通过。
+4. ignore 策略命中：`reports/tender_recall_diagnostics/*.json`、`*.md` 与 `reports/agent_runs/latest.json` 不入 Git。
+
+Codex B 只读 live preview 复核：
+
+1. `output_file=None`，未写真实报告。
+2. `price_ceiling=field_should_remain_missing_evidence`。
+3. `qualification_grade_category=candidate_in_top_k`，candidate rank 包含 2。
+4. `project_manager_level=field_requires_human_review`。
+5. `performance_requirement=candidate_in_top_k`，candidate rank 包含 1。
+6. `personnel_requirement=candidate_present_but_low_rank`，candidate ranks 为 19 / 17 / 41。
 
 ## 下一轮目标
 
-Phase 2.38a Git baseline（Codex B approved）。
+Phase 2.38b Git baseline（Codex B approved）。
 
 执行范围：
 
 1. 只做 Git baseline。
 2. 不新增功能。
 3. 不修改业务逻辑。
-4. 不重跑 live DB / OpenSearch audit，除非用户明确要求。
-5. 不进入 retrieval fix、repair、rollout 或索引重建。
+4. 不重跑 live DB / OpenSearch diagnostics，除非用户明确要求。
+5. 不进入 Phase 2.38c。
+6. 不进入 retrieval fix、repair、rollout 或索引重建。
 
 ## 当前应提交文件
 
 只允许提交：
 
-1. `scripts/phase238a_tender_p1_source_audit.py`
-2. `tests/test_phase238a_tender_p1_source_audit.py`
-3. `reports/tender_p1_audit/.gitignore`
-4. `reports/tender_p1_audit/README.md`
+1. `scripts/phase238b_tender_concrete_recall_diagnostics.py`
+2. `tests/test_phase238b_tender_concrete_recall_diagnostics.py`
+3. `reports/tender_recall_diagnostics/.gitignore`
+4. `reports/tender_recall_diagnostics/README.md`
 5. `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
 6. `docs/ACTIVE_PHASE.md`
 7. `docs/HANDOFF_LOG.md`
@@ -55,9 +73,9 @@ Phase 2.38a Git baseline（Codex B approved）。
 不得提交：
 
 1. `reports/agent_runs/latest.json`
-2. 真实 `reports/tender_p1_audit/*.json` / `*.md`
-3. 真实 `reports/pilot_issues/*.json` / `*.md`
-4. 真实 `reports/pilot_triage/*.json` / `*.md`
+2. 真实 `reports/tender_recall_diagnostics/*.json` / `*.md`
+3. 真实 `reports/tender_p1_audit/*.json` / `*.md`
+4. 真实 `reports/pilot_issues/*.json` / `*.md`
 5. 任何 retrieval / ingestion / indexing / facts / version governance 业务代码变更
 6. 任何 DB / OpenSearch / Qdrant 数据变更
 
@@ -65,35 +83,38 @@ Phase 2.38a Git baseline（Codex B approved）。
 
 ```bash
 cd /Users/Weishengsu/Hermes_memory
-uv run python -m py_compile scripts/phase238a_tender_p1_source_audit.py
-uv run pytest tests/test_phase238a_tender_p1_source_audit.py -q
+uv run python -m py_compile scripts/phase238b_tender_concrete_recall_diagnostics.py
+uv run pytest tests/test_phase238b_tender_concrete_recall_diagnostics.py -q
 git diff --check
+git status --short
 ```
 
 ## Git 要求
 
-1. `git status --short` 只包含上述 Phase 2.38a 文件。
+1. `git status --short` 只包含上述 Phase 2.38b 文件。
 2. 只 stage 上述允许文件。
 3. commit message：
-   `chore: add phase 2.38a tender p1 source audit`
+   `chore: add phase 2.38b tender recall diagnostics`
 4. tag：
-   `phase-2.38a-tender-p1-source-audit-baseline`
+   `phase-2.38b-tender-recall-diagnostics-baseline`
 5. push `origin/main`。
 6. push tag。
 
 ## 硬边界
 
-1. 不写业务 DB。
-2. 不修改 facts。
-3. 不修改 document_versions。
-4. 不修改 OpenSearch。
-5. 不修改 Qdrant。
-6. 不执行 repair / backfill / reindex / cleanup / delete。
-7. 不创建外部 issue。
-8. 不进入 rollout。
-9. 不改 retrieval contract。
-10. 不改 memory kernel 主架构。
-11. 不提交真实 audit report 运行产物。
+1. 不修 retrieval ranking。
+2. 不改 retrieval contract。
+3. 不改 memory kernel 主架构。
+4. 不写业务 DB。
+5. 不修改 facts。
+6. 不修改 document_versions。
+7. 不修改 OpenSearch。
+8. 不修改 Qdrant。
+9. 不执行 repair / backfill / reindex / cleanup / delete。
+10. 不创建外部 issue。
+11. 不进入 rollout。
+12. 不提交真实 diagnostics report 运行产物。
+13. 不把 `price_ceiling` 或 `project_manager_level` 当作可修复字段。
 
 ## 返回报告
 
@@ -105,5 +126,7 @@ git diff --check
 4. tag。
 5. push 结果。
 6. 最终 git status。
-7. 是否存在真实 audit report 被 staged。
-8. 是否建议进入下一阶段。
+7. 是否存在真实 diagnostics report 被 staged。
+8. 是否建议进入 Phase 2.38c。
+
+baseline 后必须停止，等待 Codex B 检查。不得自动进入 Phase 2.38c。

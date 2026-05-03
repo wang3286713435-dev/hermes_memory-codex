@@ -1873,3 +1873,54 @@
 - risks: 当前仍未完成真实主标书字段 source availability 判断；不能基于 skipped 结果进入 retrieval fix。后续可在服务可用时重跑 read-only audit，或先 baseline 工具。
 - next: 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中 Phase 2.38a Git baseline；baseline 后停止，不进入 retrieval fix 或 Phase 2.38b。
 - commit/tag if any: pending。
+
+## 2026-05-03 Phase 2.38b Codex B Handoff
+- goal: 检查 Phase 2.38a baseline，并写入 Phase 2.38b concrete source recall diagnostics 任务入口。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮为 Codex B handoff；未运行 pytest。已确认 HEAD `456b32d`，tag `phase-2.38a-tender-p1-source-audit-baseline`。
+- validation: 使用 localhost 覆写执行 read-only live audit preview，未写报告、未写 DB、未修改 OpenSearch / Qdrant / facts / document_versions。结果：`price_ceiling=anchor_only`，`qualification_grade_category=concrete_source_found`，`project_manager_level=ambiguous`，`performance_requirement=concrete_source_found`，`personnel_requirement=concrete_source_found`。
+- risks: 限价不得盲修，项目经理等级不得推断；Phase 2.38b 只能诊断 concrete candidate chunks 的 retrieval 可见性，不能直接修改 retrieval ranking。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.38b read-only diagnostics 后停止等待 Codex B review。
+- commit/tag if any: 无。
+
+## 2026-05-03 21:32 Phase 2.38b
+- goal: 实现 Tender P1 concrete source recall diagnostics，只诊断 candidate chunk 可见性，不修 retrieval ranking。
+- changed_files: `scripts/phase238b_tender_concrete_recall_diagnostics.py`, `tests/test_phase238b_tender_concrete_recall_diagnostics.py`, `reports/tender_recall_diagnostics/.gitignore`, `reports/tender_recall_diagnostics/README.md`, `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`, `docs/ACTIVE_PHASE.md`, `docs/HANDOFF_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `reports/agent_runs/latest.json`。
+- tests: `uv run python -m py_compile scripts/phase238b_tender_concrete_recall_diagnostics.py` passed; `uv run pytest tests/test_phase238b_tender_concrete_recall_diagnostics.py -q` => `9 passed`; `git diff --check` passed。
+- validation: localhost read-only preview 未写报告；资质 `candidate_in_top_k`，业绩 `candidate_in_top_k`，人员 `candidate_present_but_low_rank`；限价继续 Missing Evidence，项目经理等级继续人工复核。
+- risks: 人员要求仍需 bounded query/profile 诊断；限价 anchor-only 不能隐藏 Missing Evidence；项目经理 ambiguous 不能推断等级。
+- next: Codex B review；通过后只做 Phase 2.38b Git baseline，或规划 Phase 2.38c personnel recall tail diagnostics。
+- commit/tag if any: none。
+
+## 2026-05-03 Phase 2.38b Codex B Review
+- goal: 审核 Phase 2.38b tender concrete source recall diagnostics，并决定是否可执行 Git baseline。
+- changed_files:
+  - `scripts/phase238b_tender_concrete_recall_diagnostics.py`
+  - `tests/test_phase238b_tender_concrete_recall_diagnostics.py`
+  - `reports/tender_recall_diagnostics/.gitignore`
+  - `reports/tender_recall_diagnostics/README.md`
+  - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `uv run python -m py_compile scripts/phase238b_tender_concrete_recall_diagnostics.py`：通过。
+  - `uv run pytest tests/test_phase238b_tender_concrete_recall_diagnostics.py -q`：`9 passed`。
+  - `git diff --check`：通过。
+  - `git check-ignore -v reports/tender_recall_diagnostics/example.json reports/tender_recall_diagnostics/example.md reports/agent_runs/latest.json`：命中 ignore。
+- validation: Codex B review 通过。实现限定为 read-only recall diagnostics；输出保留 `dry_run=true`、`read_only=true`、`destructive_actions=[]`、`writes_db=false`、`mutates_index=false`、`repairs_issue=false`、`rollout_approved=false`。localhost preview 未写报告，未写 DB，未改 OpenSearch / Qdrant / facts / document_versions。
+- risks: `personnel_requirement` candidate 低排名只说明后续可做 bounded query/profile diagnostics；不得直接进入 broad retrieval tuning。`price_ceiling` 继续 Missing Evidence，`project_manager_level` 继续人工复核。
+- next: 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中 Phase 2.38b Git baseline；baseline 后停止，不进入 Phase 2.38c。
+- commit/tag if any: pending。
