@@ -11,7 +11,8 @@
 7. Phase 2.38b Git baseline 已完成：commit `a8c93f1`，tag `phase-2.38b-tender-recall-diagnostics-baseline`。
 8. Phase 2.38c 人员要求召回尾项规划 baseline 已完成：commit `ff49941`，tag `phase-2.38c-personnel-recall-tail-plan-baseline`。
 9. Phase 2.38d personnel-only bounded recall implementation baseline 已完成；Codex C Q1/Q2/Q3 真实终端复验通过。
-10. 下一步建议进入 PRD Acceptance Matrix / MVP Evidence Pack docs-only planning，不直接启动 Data Steward 实现、repair、rollout 或 schema / scheduler 工作。
+10. Phase 2.40 PRD Acceptance Matrix / MVP Evidence Pack planning 已完成，建议 Codex B review 后再决定是否进入 Phase 2.40a artifact dry-run。
+11. 下一步不得直接启动 Data Steward 实现、repair、rollout、schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
 
 ## 0.1 Phase 2.38b 当前待办
 
@@ -667,3 +668,12 @@
 14. Phase 2.37b Git baseline 已完成：commit `e8c0631`，tag `phase-2.37b-pilot-issue-intake-runbook-baseline`。
 15. Phase 2.37c planning 已完成：新增 daily / per-round Pilot issue triage summary 规划，明确 P0 pause、P1 bounded fix planning 候选、P2 backlog / UX / latency、P3 polish。
 16. Phase 2.37c 非目标：不创建真实 issue records，不写 DB / facts / versions / index，不自动创建外部 issue，不 repair，不 rollout，不自动审标。
+
+## 44. Phase 2.40 PRD Acceptance Matrix / MVP Evidence Pack planning
+
+1. Phase 2.40 已完成 docs-only planning，新增 `docs/PHASE240_PRD_ACCEPTANCE_MATRIX_PLAN.md`。
+2. acceptance matrix 最小字段为 `prd_item`、`capability_area`、`status`、`evidence_type`、`evidence_ref`、`known_gap`、`next_phase_candidate`、`not_claimable`。
+3. 状态口径固定为 `done` / `partial` / `planned` / `deferred`，避免把 partial、dry-run 或 docs-only 能力误写成 done。
+4. MVP evidence pack 优先收集 citation、Top-K / rerank / trace、permission deny behavior、`facts_as_answer=false`、`transcript_as_fact=false`、Pilot query pass rate 与 Missing Evidence / 人工复核边界。
+5. 当前不可宣称能力包括 production rollout ready、自动审标 / 自动经营决策、repair executor ready、facts 自动抽取或替代 evidence、Data Steward 已实现、TB BIM 全量解析、完整知识图谱 / 多 agent / 完整 RBAC。
+6. Phase 2.40a 候选方向：只读 matrix / evidence pack artifact 或 generator；不得写 DB、跑真实 API、进入 rollout、启动 Data Steward 实现或新增 schema / scheduler。

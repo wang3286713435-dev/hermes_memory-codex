@@ -2357,3 +2357,21 @@
 - risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是 Phase 2.38 遗留 dirty，已排除本轮 stage。Data Steward 仍不得直接进入实现。
 - next: baseline 后停止；下一轮建议做 PRD Acceptance Matrix / MVP Evidence Pack docs-only planning。
 - commit/tag if any: tag `phase-2.39-data-steward-product-plan-baseline`，commit 由本轮 Git baseline 生成。
+
+## 2026-05-05 22:59 Phase 2.40
+- goal: PRD Acceptance Matrix / MVP Evidence Pack docs-only planning。
+- changed_files:
+  - `docs/PHASE240_PRD_ACCEPTANCE_MATRIX_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - Phase 2.40 关键词与边界 `rg` 复核：通过。
+- validation: 新规划定义 PRD acceptance matrix 字段、能力域、evidence pack 优先级和 `not_claimable` 清单；明确下一步应补证据包，不直接扩展新能力。
+- risks: 本轮未形成正式 matrix records 或 evidence pack artifact；`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 与 `docs/NEXT_CODEX_A_PROMPT.md` 仍为既有 dirty，其中 Phase 2.38 文件不属于本轮范围。
+- next: Codex B review；通过后可规划 Phase 2.40a 只读 matrix / evidence pack artifact。
+- commit/tag if any: 无；本轮按 NEXT 要求不提交 Git。

@@ -1,69 +1,156 @@
 # NEXT_CODEX_A_PROMPT
 
-这是 Codex A 的下一轮执行入口。执行前必须先读取：
+这是 Codex A 的下一轮执行入口。请严格按文件化交接机制执行；本轮只做一个 bounded step，完成后停止，等待 Codex B 审核。
+
+## 必读文件
+
+执行前必须先读取：
 
 1. `/Users/Weishengsu/Hermes_memory/docs/AGENT_OPERATING_PROTOCOL.md`
 2. `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
 3. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
-4. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
-5. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
-6. `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`
+4. `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
+5. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
+6. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
+7. `/Users/Weishengsu/Hermes_memory/docs/PHASE240_PRD_ACCEPTANCE_MATRIX_PLAN.md`
+8. `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`
 
 ## 当前状态
 
-Phase 2.39 Data Steward / BIM 数据管家 docs-only baseline 已进入收口：
+Phase 2.40 PRD Acceptance Matrix / MVP Evidence Pack planning 已完成，当前需要收口 docs-only Git baseline。
 
-1. Data Steward 已明确为 Hermes 后置产品线，不并入当前 MVP Pilot。
-2. BIM 是首个高价值垂直场景，但当前只做资产目录 / 本体 / 图谱 / 空间索引 / 子 Agent 监控规划。
-3. 当前不新增 DB schema、Neo4j、PostGIS、空间索引代码、生产级 scheduler。
-4. 当前不解析 TB 级 BIM 原始模型，不把原始模型直接送入向量库或 LLM 上下文。
-5. 当前不进入 Data Steward 实现、repair、rollout 或真实数据迁移。
+当前基线：
 
-## 下一轮建议目标
+1. HEAD：`594bf25`
+2. tag：`phase-2.39-data-steward-product-plan-baseline`
+3. Phase 2.39 Data Steward product plan 已完成 baseline。
 
-Phase 2.40 PRD Acceptance Matrix / MVP Evidence Pack planning。
+当前工作区存在 Phase 2.40 planning 文件，以及一个遗留无关 dirty：
 
-本轮建议只做文档规划：把 PRD / Roadmap / Technical Design 中的 MVP 能力、已完成 evidence、仍需人工复核项、后置产品线和不可宣称能力整理成可审核矩阵。
+1. `/Users/Weishengsu/Hermes_memory/docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
 
-## 建议新增文档
+该 Phase 2.38 文件不属于本轮范围，必须保留原状，不得 stage、commit、清理或改写。
 
-`/Users/Weishengsu/Hermes_memory/docs/PHASE240_PRD_ACCEPTANCE_MATRIX_PLAN.md`
+## 本轮目标
 
-## 建议更新
+Phase 2.40 PRD Acceptance Matrix / MVP Evidence Pack planning docs-only baseline。
 
-1. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
-2. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
-3. `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
-4. `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
-5. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
-6. `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`
+只提交 Phase 2.40 规划文档与交接文档；不进入 Phase 2.40a 实现，不新增代码，不扩展能力。
 
-## Phase 2.40 规划边界
+## 允许 stage / commit 的文件白名单
 
-应覆盖：
+只允许 stage 以下文件：
 
-1. PRD capability item。
-2. 当前完成状态：done / partial / planned / deferred。
-3. evidence 来源：commit、tag、phase doc、eval、Codex C live validation。
-4. 仍需人工复核项。
-5. 不得宣称能力。
-6. 后置路线：Data Steward、rollout、repair executor、facts 自动抽取、BIM 全量解析。
+1. `/Users/Weishengsu/Hermes_memory/docs/PHASE240_PRD_ACCEPTANCE_MATRIX_PLAN.md`
+2. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
+3. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
+4. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
+5. `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
+6. `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
+7. `/Users/Weishengsu/Hermes_memory/docs/NEXT_CODEX_A_PROMPT.md`
+
+`/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json` 是 ignored 本地状态文件，可以更新，但不得提交。
+
+## 禁止 stage / commit 的文件
+
+明确禁止 stage / commit：
+
+1. `/Users/Weishengsu/Hermes_memory/docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
+2. 任意代码文件
+3. 任意脚本文件
+4. 任意测试文件
+5. 任意 migration / schema 文件
+6. 任意 reports / reviews 真实 JSON 产物
+7. Hermes 主仓库任意文件
 
 ## 硬边界
 
 1. 不写功能代码。
-2. 不写 DB / facts / document_versions。
-3. 不修改 OpenSearch / Qdrant。
-4. 不执行 repair / backfill / reindex / cleanup / delete。
-5. 不进入 rollout。
-6. 不改 retrieval contract。
-7. 不改 memory kernel 主架构。
-8. 不启动 Data Steward 实现。
-9. 不新增 Neo4j / PostGIS / scheduler / DB schema。
-10. 不运行无关 pytest。
+2. 不新增脚本、测试、migration、schema。
+3. 不写 DB / facts / document_versions。
+4. 不修改 OpenSearch / Qdrant。
+5. 不执行 repair / backfill / reindex / cleanup / delete。
+6. 不进入 rollout。
+7. 不改 retrieval contract。
+8. 不改 memory kernel 主架构。
+9. 不启动 Data Steward 实现。
+10. 不新增 Neo4j / PostGIS / scheduler / DB schema。
+11. 不运行 pytest。
+12. 不修改 Hermes 主仓库。
+13. 不自动进入 Phase 2.40a。
 
-## 完成要求
+## Baseline 前检查
 
-1. 更新交接文件：`ACTIVE_PHASE.md`、`HANDOFF_LOG.md`、`reports/agent_runs/latest.json`。
-2. 返回精简摘要。
-3. 不提交 Git，除非用户明确要求 baseline。
+在 `/Users/Weishengsu/Hermes_memory` 执行：
+
+```bash
+git status --short
+git diff --check
+git diff -- docs/PHASE240_PRD_ACCEPTANCE_MATRIX_PLAN.md docs/TODO.md docs/DEV_LOG.md docs/PHASE_BACKLOG.md docs/ACTIVE_PHASE.md docs/HANDOFF_LOG.md docs/NEXT_CODEX_A_PROMPT.md
+git diff -- docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md
+```
+
+确认：
+
+1. Phase 2.40 白名单文件内容完整。
+2. `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 是无关遗留 dirty，不纳入本轮。
+3. 没有代码、脚本、测试、DB、索引、Hermes 主仓变更。
+
+## Git baseline 步骤
+
+只 stage 白名单文件：
+
+```bash
+git add docs/PHASE240_PRD_ACCEPTANCE_MATRIX_PLAN.md docs/TODO.md docs/DEV_LOG.md docs/PHASE_BACKLOG.md docs/ACTIVE_PHASE.md docs/HANDOFF_LOG.md docs/NEXT_CODEX_A_PROMPT.md
+git diff --cached --check
+git diff --cached --name-only
+```
+
+确认 staged 文件只包含上述 7 个文件后提交：
+
+```bash
+git commit -m "docs: baseline phase 2.40 prd acceptance matrix plan"
+git tag phase-2.40-prd-acceptance-matrix-plan-baseline
+git push origin main
+git push origin phase-2.40-prd-acceptance-matrix-plan-baseline
+```
+
+## 完成后更新 ignored 本地状态
+
+更新 `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`：
+
+1. `phase`: `Phase 2.40 PRD Acceptance Matrix / MVP Evidence Pack Planning`
+2. `status`: `baseline`
+3. `git.commit`: 当前 commit hash
+4. `git.tag`: `phase-2.40-prd-acceptance-matrix-plan-baseline`
+5. `git.pushed`: `true`
+6. `needs_codex_b_review`: `true`
+7. `next_recommendation`: `Codex B review Phase 2.40 baseline, then decide whether to enter Phase 2.40a read-only acceptance matrix / MVP evidence pack artifact.`
+
+`latest.json` 仍必须被 ignore，不得 stage。
+
+## 验收标准
+
+1. Commit 只包含 Phase 2.40 docs-only 白名单文件。
+2. Tag `phase-2.40-prd-acceptance-matrix-plan-baseline` 指向当前 HEAD。
+3. `origin/main` 与 tag 均推送成功。
+4. 未提交 `reports/agent_runs/latest.json`。
+5. 未提交 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+6. 未修改代码、脚本、测试、DB、OpenSearch、Qdrant、Hermes 主仓。
+7. 最终 `git status --short` 允许只剩无关遗留 dirty：`M docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；如没有则更好。
+
+## 完成报告必须包含
+
+1. commit hash
+2. tag
+3. push 结果
+4. staged 文件列表
+5. final `git status --short`
+6. 是否保留无关 dirty
+7. 是否建议进入 Phase 2.40a
+
+## 下一步建议
+
+Baseline 完成后停止。不要自动进入 Phase 2.40a。
+
+建议下一阶段由 Codex B 审核后再写入新的 `NEXT_CODEX_A_PROMPT.md`：Phase 2.40a read-only PRD acceptance matrix / MVP evidence pack artifact。
