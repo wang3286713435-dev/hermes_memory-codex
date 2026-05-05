@@ -5,8 +5,8 @@
 1. Phase 2.38a：Tender P1 Source Availability Audit Git baseline 已完成，commit `456b32d`，tag `phase-2.38a-tender-p1-source-audit-baseline`。
 2. Phase 2.38b：Tender P1 Concrete Source Recall Diagnostics 已完成最小实现并通过 Codex B review。
 3. 只读 live preview 结果：资质与业绩 candidate source 已在 top-k，人员要求 candidate source 可检索但低排名；限价继续 Missing Evidence，项目经理等级继续人工复核。
-4. Phase 2.38c personnel recall tail planning 已完成并通过 Codex B review；本轮执行 docs baseline。
-5. Phase 2.38c baseline 后可由 Codex B 决定是否规划 Phase 2.38d personnel-only bounded recall implementation；不得直接进入 broad retrieval fix、repair、rollout 或索引重建。
+4. Phase 2.38c personnel recall tail planning baseline 已完成：commit `ff49941`，tag `phase-2.38c-personnel-recall-tail-plan-baseline`。
+5. Phase 2.38d 最小实现、review fix、Q1 intent fix、主仓 answer guard、safe fallback contract 与 runtime post-answer guard 已通过 Codex C Q1/Q2/Q3 真实终端复验；本轮执行 Git baseline，不得直接进入 broad retrieval fix、repair、rollout 或索引重建。
 
 ## Day-1 Pilot 已知问题
 

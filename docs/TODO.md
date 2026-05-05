@@ -9,7 +9,8 @@
 5. Phase 2.38a Tender P1 Source Availability Audit baseline 已完成：commit `456b32d`，tag `phase-2.38a-tender-p1-source-audit-baseline`。
 6. 新增 BIM 数据管家 PRD 扩展规划：先做 BIM 文件资产目录治理，作为后置专项规划线，不并入当前 MVP Pilot。
 7. Phase 2.38b Git baseline 已完成：commit `a8c93f1`，tag `phase-2.38b-tender-recall-diagnostics-baseline`。
-8. Phase 2.38c 人员要求召回尾项规划已完成 Codex B review，本轮执行 docs baseline。
+8. Phase 2.38c 人员要求召回尾项规划 baseline 已完成：commit `ff49941`，tag `phase-2.38c-personnel-recall-tail-plan-baseline`。
+9. Phase 2.38d personnel-only bounded recall implementation 已完成第五轮 runtime post-answer guard，目标测试通过；等待 Codex B 复审与 Codex C Q1/Q2/Q3 真实终端复验。
 
 ## 0.1 Phase 2.38b 当前待办
 
@@ -29,7 +30,22 @@
 3. 推荐后续 Phase 2.38d 仅做 personnel-only bounded recall implementation。
 4. 可选实现边界：personnel-specific aliases、section hints、candidate-pool diagnostics、before/after visibility。
 5. 继续后置：限价缺具体金额、项目经理等级人工复核、broad retrieval tuning、自动审标、repair、rollout。
-6. Codex B review 已通过；本轮执行 Phase 2.38c docs baseline，不直接进入 2.38d。
+6. Codex B review 已通过；Phase 2.38c docs baseline 已完成：commit `ff49941`，tag `phase-2.38c-personnel-recall-tail-plan-baseline`。
+
+## 0.1.2 Phase 2.38d 当前待办
+
+1. Phase 2.38d 首轮实现已完成，Codex B review finding 已做最小修复，并通过 Codex B 复审。
+2. Codex C 定向复验显示：retrieval / trace 层已通过，Q1/Q2 为 `personnel_scope`，Q3 broad query 为 `qualification_scope`。
+3. Q1/Q2/Q3 当前阻塞转为最终回答边界：项目经理 / 一级建造师 / “每类1人”仍可能与 Missing Evidence 并存。
+4. answer-boundary 第二轮最小修复已完成：主仓库 `personnel_scope` context block 明确人员-only 不得混入项目经理 / 注册建造师 / 一级建造师 / B证 / 安全考核证 / 投标资质 / 联合体 / 类似工程业绩，且不得从角色列表推断“每个项目只能1个 / 每类1人 / 至少各1名”。
+5. 即使 citation chunk 同时混有人员信息和项目经理 / 资质 / 联合体 / 业绩信息，personnel-only 回答也必须只抽取人员部分。
+6. 第三轮最小修复已补结构化 guard lines：`personnel_forbidden_answer_terms`、`personnel_count_inference_forbidden=true`、`ignore_non_personnel_content_in_mixed_chunks=true`。
+7. 第四轮最小修复已补 safe fallback contract：`personnel_violation_if_answer_contains_forbidden_term=true`、`personnel_violation_if_answer_contains_inferred_count=true`、`personnel_safe_fallback_required_on_violation=true`，违规时要求丢弃草稿并输出 Missing Evidence / 人工复核模板。
+8. 第五轮 runtime guard 已接入 `run_agent.py` 最终输出路径：personnel-only 违规答案会被替换为 Missing Evidence / 人工复核 safe fallback。
+9. broad query `投标资质、项目经理、联合体、业绩、人员要求分别是什么？` 仍必须保持 `qualification_scope`，不得误套 personnel-only boundary。
+10. `price_ceiling` 继续 Missing Evidence，`project_manager_level` 继续 human-review-only。
+11. 主仓库目标测试已通过：py_compile 通过，`tests/agent/test_structured_citation_context.py tests/agent/test_session_document_scope.py` 为 `65 passed`。
+12. Codex C 真实终端复验已通过：Q1/Q2 personnel-only safe fallback 触发且无禁词 / 数量推断，Q3 broad qualification 未被压扁；本轮进入 Phase 2.38d Git baseline，不进入 Phase 2.38e。
 
 ## 0.2 Phase 2.38a 历史状态
 

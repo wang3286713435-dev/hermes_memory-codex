@@ -216,3 +216,18 @@
 - [Phase 2.38c] 完成人员要求召回尾项规划：人员 candidate 已存在但低排名，推荐后续仅做 personnel-only aliases / section hints / candidate-pool diagnostics，不处理限价、项目经理等级、broad retrieval tuning 或 rollout。
 - [Phase 2.38c] Codex B review 通过：规划限定为 docs-only，`git diff --check` 通过；下一步只做 docs baseline，不直接进入 2.38d。
 - [Phase 2.38c] 执行 docs-only Git baseline：提交范围限定为 Phase 2.38c 规划与交接文档；不写代码、不运行 pytest、不进入 2.38d。
+- [Phase 2.38d] 完成人员要求低排名最小实现：新增 `personnel_scope`、人员 aliases / section hints / boosted phrases 与 diagnostics expanded query；目标测试 28 passed，新增测试 6 passed，未运行 DB-backed live preview。
+- [Phase 2.38c] Git baseline 已完成：commit `ff49941`，tag `phase-2.38c-personnel-recall-tail-plan-baseline`，`origin/main` 对齐。
+- [Phase 2.38d] Codex B 已写入下一轮执行入口：只处理 `personnel_requirement` low-rank 的 personnel-only bounded recall implementation；不处理限价、项目经理等级、broad retrieval tuning、repair、reindex 或 rollout。
+- [Phase 2.38d] Codex B review 未通过：`personnel_scope` 首轮实现仍让 personnel-focused query 混入 broad qualification aliases / sections（如项目经理、联合体、类似业绩）；已写入最小 review-fix prompt。
+- [Phase 2.38d] 完成 review-fix：personnel-focused query 现在按人员 allowlist 收敛 aliases / sections，不再混入项目经理、联合体、类似业绩、资信标等 broad qualification 信号；目标测试 28 passed，等待 Codex B 复审。
+- [Phase 2.38d] Review-fix 通过 Codex B 复审：personnel-focused query 不再混入 broad qualification aliases / sections，broad qualification query 仍保持 `qualification_scope`；下一步建议 Codex C 定向复验 Q2 人员要求。
+- [Phase 2.38d] Codex C 定向复验反馈：Q2 人员要求与 Q3 broad query 通过；Q1 带“不要回答投标资质、项目经理、联合体、业绩”的人员 query 仍落到 `qualification_scope`。Codex B 已写入下一轮 bounded fix，只处理否定/排除句 intent parsing。
+- [Phase 2.38d] 完成 Q1 intent fix：`不要回答...` / `不回答...` 等排除语中的资质、项目经理、联合体、业绩不再触发 `qualification_scope`；Q1/Q2 为 `personnel_scope` 且 metadata fields 仅 `personnel_requirement`，Q3 broad query 仍为 `qualification_scope`；目标测试 30 passed。
+- [Phase 2.38d] Q1 intent fix 通过 Codex B 复审：带“不要回答投标资质、项目经理、联合体、业绩”的人员 query 现在保持 `personnel_scope` 且 metadata fields 仅 `personnel_requirement`；下一步需 Codex C 重跑 Q1/Q2/Q3 真实终端复验。
+- [Phase 2.38d] Codex C 复验显示 retrieval / trace 层已修复但最终回答边界仍过度表述；主仓库补 `personnel_scope` answer-boundary context，禁止 personnel-only 回答混入项目经理 / 注册建造师 / B证或推断“每类1人”；主仓目标测试 `11 passed`，等待 Codex B review 与 Codex C Q1/Q2/Q3 复验。
+- [Phase 2.38d] Codex C 第二轮复验仍显示 final answer guard 不够硬：Q1/Q2 会输出项目经理 / 每个项目只能1个 / 类似工程业绩。主仓库已将 `personnel_answer_boundary` 强化为 strict guard，并补 broad qualification 不误套 personnel boundary 测试；主仓目标测试 `12 passed`。
+- [Phase 2.38d] 第三轮最小修复按 NEXT_CODEX_A_PROMPT 执行：在主仓 `personnel_scope` context 中补 `personnel_forbidden_answer_terms`、`personnel_count_inference_forbidden=true`、`ignore_non_personnel_content_in_mixed_chunks=true`；未改 retrieval / DB / 索引，主仓目标测试 `12 passed`。
+- [Phase 2.38d] 第四轮最小修复补 safe fallback contract：违规答案草稿需丢弃并输出 Missing Evidence / 人工复核模板；因本轮白名单不含 `run_agent.py`，未接入真正 post-answer retry / replacement，仍需 Codex C 复验。
+- [Phase 2.38d] 第五轮最小修复已接入 runtime post-answer guard：`personnel_scope` + personnel-only query 的最终回答若含禁词或隐式数量推断，会替换为 Missing Evidence / 人工复核 fallback；主仓 py_compile 通过，目标测试 `65 passed`，等待 Codex B review 与 Codex C Q1/Q2/Q3 复验。
+- [Phase 2.38d] Codex C 真实终端复验通过：Q1/Q2 personnel-only safe fallback 触发且无禁词 / 数量推断，Q3 broad qualification 未被压扁；本轮执行 Phase 2.38d Git baseline，Data Steward dirty 单独后置。

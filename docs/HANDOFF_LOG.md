@@ -1987,3 +1987,351 @@
 - risks: Phase 2.38d 必须保持 personnel-only；`price_ceiling` 继续 Missing Evidence / 人工补源；`project_manager_level` 继续 human-review-only；任何后续 retrieval 输出变化都需 Codex C 定向复验。
 - next: Codex B 检查 Phase 2.38c baseline，并决定是否写入 Phase 2.38d prompt。
 - commit/tag if any: 由本轮 Git baseline 结果记录。
+
+## 2026-05-04 02:50 Phase 2.38d
+- goal: 执行 Phase 2.38d personnel-only bounded recall implementation。
+- changed_files:
+  - `app/services/retrieval/service.py`
+  - `app/services/retrieval/tender_metadata.py`
+  - `scripts/phase238b_tender_concrete_recall_diagnostics.py`
+  - `tests/test_phase238d_personnel_recall_tail.py`
+  - `docs/PHASE238D_PERSONNEL_RECALL_IMPLEMENTATION.md`
+  - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `uv run python -m py_compile app/services/retrieval/service.py app/services/retrieval/tender_metadata.py scripts/phase238b_tender_concrete_recall_diagnostics.py`：通过。
+  - `uv run pytest tests/test_phase238d_personnel_recall_tail.py tests/test_phase235_tender_deep_field_retrieval.py tests/test_tender_metadata_retrieval.py tests/test_phase238b_tender_concrete_recall_diagnostics.py -q`：`28 passed`。
+  - `uv run pytest tests/test_phase238d_personnel_recall_tail.py -q`：`6 passed`。
+  - `git diff --check`：通过。
+- validation: `personnel_requirement` 现在有 `personnel_scope`、人员 aliases / section hints / boosted phrases 与 diagnostics expanded query；broad qualification query 未被 personnel scope 劫持；`price_ceiling` 与 `project_manager_level` 后置边界保持。
+- risks: 未跑 DB-backed live preview，因为当前 diagnostics path 可能写 retrieval log；真实 answer / candidate rank 改善仍需 Codex C 定向复验。
+- next: Codex B review；通过后决定 Codex C 复验或 Phase 2.38d Git baseline。
+- commit/tag if any: 无。
+
+## 2026-05-04 Phase 2.38d Codex B Prompt Handoff
+- goal: 检查 Phase 2.38c baseline，并写入 Phase 2.38d personnel-only bounded recall implementation 的 Codex A 执行入口。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮为 Codex B handoff；未运行 pytest。已确认 HEAD `ff49941`，tag `phase-2.38c-personnel-recall-tail-plan-baseline`，`main...origin/main` 对齐。
+- validation: Phase 2.38c baseline 已完成，worktree 检查前干净；下一步仅授权 `personnel_requirement` 低排名 bounded implementation。
+- risks: 不得扩大为 broad retrieval tuning；不得处理限价或项目经理等级；不得写 DB / facts / document_versions / OpenSearch / Qdrant；不得 repair / backfill / reindex / rollout。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`；完成 Phase 2.38d implementation 后停止等待 Codex B review。若 retrieval 输出变化，后续建议 Codex C 定向复验。
+- commit/tag if any: 无。
+
+## 2026-05-04 Phase 2.38d Codex B Review
+- goal: 审核 Phase 2.38d personnel-only bounded recall implementation 首轮实现，并决定是否可进入 Codex C 复验或 baseline。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: `git diff --check` 通过；Codex B 未运行 pytest。
+- validation: 首轮实现方向基本正确，`personnel_scope`、personnel aliases / section hints / diagnostics 已出现；但 review 发现 `人员要求是什么？` 与 `项目人员数量、专业、职称或资质要求是什么？` 仍混入 broad qualification aliases / sections，例如 `项目经理`、`联合体投标`、`类似工程业绩`、`资信标`。
+- risks: 该问题会把 personnel-only fix 扩大成 broad qualification retrieval；不能 baseline。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只修 personnel-focused query 混入 broad aliases / sections 的问题；修复后停止等待 Codex B review。
+- commit/tag if any: 无。
+
+## 2026-05-04 03:11 Phase 2.38d
+- goal: 修复 personnel-focused query 混入 broad qualification aliases / sections 的 Codex B review finding。
+- changed_files:
+  - `app/services/retrieval/service.py`
+  - `tests/test_phase238d_personnel_recall_tail.py`
+  - `docs/PHASE238D_PERSONNEL_RECALL_IMPLEMENTATION.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `uv run python -m py_compile app/services/retrieval/service.py app/services/retrieval/tender_metadata.py scripts/phase238b_tender_concrete_recall_diagnostics.py`：通过。
+  - `uv run pytest tests/test_phase238d_personnel_recall_tail.py tests/test_phase235_tender_deep_field_retrieval.py tests/test_tender_metadata_retrieval.py tests/test_phase238b_tender_concrete_recall_diagnostics.py -q`：`28 passed`。
+  - `git diff --check`：通过。
+- validation: `人员要求是什么？` 与 `项目人员数量、专业、职称或资质要求是什么？` 均为 `personnel_scope`，且不再包含 `项目经理`、`项目负责人`、`注册建造师`、`安全考核证`、`联合体投标`、`类似工程业绩`、`资信标` 等 broad 信号；broad qualification query 仍保持 `qualification_scope`。
+- risks: 未做 DB-backed live smoke，真实 answer / rank 改善仍待 Codex C 定向复验；限价与项目经理等级继续按既定后置边界处理。
+- next: 等待 Codex B 复审；通过后再决定 Codex C Q2 人员要求定向复验或 Phase 2.38d Git baseline。
+- commit/tag if any: 无。
+
+## 2026-05-04 Phase 2.38d Codex B Review Passed
+- goal: 复审 Phase 2.38d review-fix，确认是否可进入 Codex C 定向终端复验。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m py_compile app/services/retrieval/service.py app/services/retrieval/tender_metadata.py scripts/phase238b_tender_concrete_recall_diagnostics.py`：通过。
+  - `uv run pytest tests/test_phase238d_personnel_recall_tail.py -q`：`6 passed`。
+  - `uv run pytest tests/test_phase235_tender_deep_field_retrieval.py tests/test_tender_metadata_retrieval.py tests/test_phase238b_tender_concrete_recall_diagnostics.py -q`：`22 passed`。
+- validation: `人员要求是什么？` 与 `项目人员数量、专业、职称或资质要求是什么？` 均为 `personnel_scope`，不再混入 `项目经理`、`项目负责人`、`注册建造师`、`安全考核证`、`联合体投标`、`类似工程业绩`、`资信标`；broad query `投标资质、项目经理、联合体、业绩、人员要求分别是什么？` 仍为 `qualification_scope`。
+- risks: 未做 DB-backed live smoke，真实 answer / rank 改善仍待 Codex C 定向复验；限价与项目经理等级继续按既定后置边界处理。
+- next: Codex C 执行 Q2 人员要求定向真实终端复验；通过后 Codex B 再写 Phase 2.38d Git baseline prompt。
+- commit/tag if any: 无。
+
+## 2026-05-04 Phase 2.38d Codex C Follow-up Handoff
+- goal: 吸收 Codex C 定向终端复验结果，并写入 Q1 intent parsing 的最小修复入口。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 本轮为 Codex B handoff；未运行 pytest。本地复现显示 Q1 带否定/排除句时仍落到 `qualification_scope`，且 metadata fields 包含 qualification / project manager / consortium / performance。
+- validation: Codex C 报告可信。Q2 人员要求通过，Q3 broad query 通过；剩余阻塞是 Q1 中 `不要回答投标资质、项目经理、联合体、业绩` 被误判为 broad qualification intent。
+- risks: 不得扩大成 broad retrieval tuning；不得处理限价或项目经理等级；不得写 DB / facts / document_versions / OpenSearch / Qdrant。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只修 Q1 否定/排除句 intent parsing；修复后停止等待 Codex B review。
+- commit/tag if any: 无。
+
+## 2026-05-04 03:49 Phase 2.38d
+- goal: 修复 Q1 中否定/排除说明误触发 broad qualification intent 的问题。
+- changed_files:
+  - `app/services/retrieval/service.py`
+  - `app/services/retrieval/tender_metadata.py`
+  - `tests/test_phase238d_personnel_recall_tail.py`
+  - `docs/PHASE238D_PERSONNEL_RECALL_IMPLEMENTATION.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `uv run python -m py_compile app/services/retrieval/service.py app/services/retrieval/tender_metadata.py scripts/phase238b_tender_concrete_recall_diagnostics.py`：通过。
+  - `uv run pytest tests/test_phase238d_personnel_recall_tail.py tests/test_phase235_tender_deep_field_retrieval.py tests/test_tender_metadata_retrieval.py tests/test_phase238b_tender_concrete_recall_diagnostics.py -q`：`30 passed`。
+- validation: Q1 `项目人员数量、专业、职称或资质要求是什么？请只回答人员要求，不要回答投标资质、项目经理、联合体、业绩。` 现在为 `personnel_scope`，metadata fields 仅 `personnel_requirement`；Q2 personnel-only 仍通过；Q3 broad query 仍为 `qualification_scope`。
+- risks: 未做 DB-backed live smoke，真实 Hermes CLI 输出仍需 Codex C 定向复验；限价与项目经理等级继续后置。
+- next: 等待 Codex B review；通过后建议 Codex C 重新复验 Q1/Q2/Q3。
+- commit/tag if any: 无。
+
+## 2026-05-04 Phase 2.38d Codex C Answer Boundary Follow-up
+- goal: 吸收 Codex C 真实终端复验结果，修复 personnel-only 最终回答边界。
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_structured_citation_context.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/PHASE238D_PERSONNEL_RECALL_IMPLEMENTATION.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py`：通过。
+  - `.venv/bin/python -m pytest -o addopts='' tests/agent/test_structured_citation_context.py -q`：`11 passed`。
+- validation: `personnel_scope` context block 现在明确人员-only 回答不得混入项目经理 / 项目负责人 / 注册建造师 / B证，且不得从角色列表推断“每类1人”；数量、专业、职称或资质未明确时应输出 Missing Evidence。
+- risks: 未跑真实 Hermes CLI；模型是否完全遵守回答边界仍需 Codex C 复验。未写 DB / facts / versions / OpenSearch / Qdrant。
+- next: Codex B review；通过后 Codex C 重跑 Q1/Q2/Q3。
+- commit/tag if any: 无。
+
+## 2026-05-04 Phase 2.38d Q1 Intent Fix Codex B Review Passed
+- goal: 复审 Q1 否定/排除句 intent fix，确认是否可进入 Codex C 定向终端复验。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m py_compile app/services/retrieval/service.py app/services/retrieval/tender_metadata.py scripts/phase238b_tender_concrete_recall_diagnostics.py`：通过。
+  - `uv run pytest tests/test_phase238d_personnel_recall_tail.py -q`：`8 passed`。
+  - `uv run pytest tests/test_phase235_tender_deep_field_retrieval.py tests/test_tender_metadata_retrieval.py tests/test_phase238b_tender_concrete_recall_diagnostics.py -q`：`22 passed`。
+- validation: Q1 带“不要回答投标资质、项目经理、联合体、业绩”的人员 query 现在为 `personnel_scope`，metadata fields 仅 `personnel_requirement`；Q2 personnel-only 仍为 `personnel_scope`；Q3 broad query 仍为 `qualification_scope`。
+- risks: 未做 DB-backed live smoke，真实 Hermes CLI 输出仍需 Codex C 定向复验；限价与项目经理等级继续后置。
+- next: Codex C 重跑 Q1/Q2/Q3 定向真实终端复验；通过后 Codex B 再写 Phase 2.38d Git baseline prompt。
+- commit/tag if any: 无。
+
+## 2026-05-04 18:32 Phase 2.38d
+- goal: 补齐 Codex C 复验后的 answer-boundary 状态交接，确保下一轮不误判为可 baseline。
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_structured_citation_context.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/PHASE238D_PERSONNEL_RECALL_IMPLEMENTATION.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py`：通过。
+  - `.venv/bin/python -m pytest -o addopts='' tests/agent/test_structured_citation_context.py -q`：`11 passed`。
+- validation: 本轮未跑真实 Hermes CLI；answer-boundary 只在 context 层新增约束，需 Codex B review 后交 Codex C 重跑 Q1/Q2/Q3。
+- risks: 真实模型是否完全遵守人员-only 边界仍未复验；限价金额与项目经理等级继续后置；不得直接 baseline。
+- next: Codex B review；通过后 Codex C 定向终端复验。
+- commit/tag if any: 无。
+
+## 2026-05-04 19:15 Phase 2.38d
+- goal: 第二轮最小修复 personnel-only final answer guard，吸收 Codex C 复验中 Q1/Q2/Q3 仍有过度表述的问题。
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_structured_citation_context.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/PHASE238D_PERSONNEL_RECALL_IMPLEMENTATION.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py`：通过。
+  - `.venv/bin/python -m pytest -o addopts='' tests/agent/test_structured_citation_context.py -q`：`12 passed`。
+- validation: 未跑真实 Hermes CLI；本轮仅加强 context guard 并补 broad qualification 不误套 personnel boundary 的单测。
+- risks: 模型是否遵守 strict guard 仍需 Codex C 终端复验；不得直接 baseline；不得修 retrieval / 限价 / 项目经理等级。
+- next: Codex B review；通过后 Codex C 重跑 Q1/Q2/Q3。
+- commit/tag if any: 无。
+
+## 2026-05-04 20:31 Phase 2.38d
+- goal: 第三轮最小修复 personnel-only structured answer guard，吸收 Codex C 最新复验中 `项目经理` 与 `每个项目限1人` 仍外溢的问题。
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_structured_citation_context.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/PHASE238D_PERSONNEL_RECALL_IMPLEMENTATION.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py`：通过。
+  - `.venv/bin/python -m pytest -o addopts='' tests/agent/test_structured_citation_context.py -q`：`12 passed`。
+- validation: `personnel_scope` context 现在输出 `personnel_forbidden_answer_terms`、`personnel_count_inference_forbidden=true`、`ignore_non_personnel_content_in_mixed_chunks=true`；broad `qualification_scope` 不输出这些 lines。
+- risks: 未跑真实 Hermes CLI；模型是否遵守 structured guard 仍需 Codex C 复验。未写 DB / facts / versions / OpenSearch / Qdrant。
+- next: Codex B review；通过后 Codex C 重跑 Q1/Q2/Q3。
+- commit/tag if any: 无。
+
+## 2026-05-05 01:56 Phase 2.38d
+- goal: 第四轮最小修复 personnel-only safe fallback contract，在不改 retrieval / contract / 主架构的前提下继续压制人员-only 最终回答外溢。
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_structured_citation_context.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/PHASE238D_PERSONNEL_RECALL_IMPLEMENTATION.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py agent/memory_kernel/kernel.py agent/memory_kernel/orchestrator.py`：通过。
+  - `.venv/bin/python -m pytest -o addopts='' tests/agent/test_structured_citation_context.py -q`：`12 passed`。
+- validation: `personnel_scope` context 现在输出 violation flags 与 safe fallback template；broad `qualification_scope` 仍不输出 personnel-only guard。
+- risks: 当前白名单未允许修改 `run_agent.py`，未实现真正 post-answer retry / replacement；仍需 Codex C 真实终端复验。未写 DB / facts / versions / OpenSearch / Qdrant。
+- next: Codex B review；通过后 Codex C 重跑 Q1/Q2/Q3。
+- commit/tag if any: 无。
+
+## 2026-05-05 20:36 Phase 2.38d
+- goal: 执行第五轮 runtime post-answer guard，将 personnel-only fallback 接入 Hermes 主仓真实输出路径。
+- changed_files:
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests: 未执行；主仓代码未写入。
+- validation: 已读取任务文件并定位修改点；已准备 `/private/tmp/phase238d_runtime_guard_patch.py`，但未能执行。
+- risks: Hermes 主仓位于当前 sandbox writable roots 外；两次 `require_escalated` 执行补丁脚本均因 automatic permission approval review 超时未获批准。runtime post-answer guard 未实现，不能 baseline。
+- next: 用户显式批准主仓写入后，重新执行 `NEXT_CODEX_A_PROMPT.md`，优先修改 `run_agent.py`、`kernel.py` 与目标测试。
+- commit/tag if any: 无。
+
+## 2026-05-05 20:42 Phase 2.38d
+- goal: 第五轮最小修复 personnel-only runtime post-answer guard，在 Hermes 主仓真实输出路径压制 personnel-only 禁词和隐式数量推断。
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/run_agent.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/kernel.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_structured_citation_context.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/PHASE238D_PERSONNEL_RECALL_IMPLEMENTATION.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `.venv/bin/python -m py_compile run_agent.py agent/memory_kernel/context_builder.py agent/memory_kernel/kernel.py agent/memory_kernel/orchestrator.py`：通过。
+  - `.venv/bin/python -m pytest -o addopts='' tests/agent/test_structured_citation_context.py tests/agent/test_session_document_scope.py -q`：`65 passed`。
+- validation: 已接入 `apply_personnel_answer_guard()`；`personnel_scope` + personnel-only query 命中禁词或数量推断时替换为 safe fallback；broad `qualification_scope` 不触发。
+- risks: 未做真实 CLI 复验；需 Codex B review 与 Codex C Q1/Q2/Q3 终端复验。未写 DB / facts / versions / OpenSearch / Qdrant。
+- next: Codex B review；通过后 Codex C 重跑 Q1/Q2/Q3，确认 Q1/Q2 无禁词 / 数量推断，Q3 broad query 未被误压扁。
+- commit/tag if any: 无。
+
+## 2026-05-05 21:09 Phase 2.38d
+- goal: 执行 `NEXT_CODEX_A_PROMPT.md` 的 review / validation handoff 任务，复核 runtime guard 状态并准备交给 Codex B / Codex C。
+- changed_files:
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `.venv/bin/python -m py_compile run_agent.py agent/memory_kernel/context_builder.py agent/memory_kernel/kernel.py agent/memory_kernel/orchestrator.py`：通过。
+  - `.venv/bin/python -m pytest -o addopts='' tests/agent/test_structured_citation_context.py tests/agent/test_session_document_scope.py -q`：`65 passed`。
+- validation: 本轮未新增功能；确认当前入口要求仅做 review / validation handoff。Phase 2.38d runtime guard 仍需 Codex B review 与 Codex C Q1/Q2/Q3 真实终端复验。
+- risks: 未跑真实 CLI；不能 baseline；不得扩大到限价、项目经理等级、broad retrieval tuning、DB / 索引变更。
+- next: Codex B review；通过后 Codex C 按 `NEXT_CODEX_A_PROMPT.md` 中三条 query 复验。
+- commit/tag if any: 无。
+
+## 2026-05-05 22:24 Phase 2.38d
+- goal: Phase 2.38d personnel runtime guard Git baseline。
+- changed_files:
+  - `app/services/retrieval/service.py`
+  - `app/services/retrieval/tender_metadata.py`
+  - `scripts/phase238b_tender_concrete_recall_diagnostics.py`
+  - `tests/test_phase238d_personnel_recall_tail.py`
+  - `docs/PHASE238D_PERSONNEL_RECALL_IMPLEMENTATION.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/run_agent.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/kernel.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_structured_citation_context.py`
+  - Phase 2.38d docs / handoff hunk only
+- tests:
+  - Hermes 主仓 py_compile：通过。
+  - Hermes 主仓 `tests/agent/test_structured_citation_context.py tests/agent/test_session_document_scope.py`：`65 passed`。
+  - Hermes 主仓 `git diff --check`：通过。
+  - Hermes_memory py_compile：通过。
+  - Hermes_memory `tests/test_phase238d_personnel_recall_tail.py tests/test_phase238b_tender_concrete_recall_diagnostics.py`：`17 passed`。
+  - Hermes_memory `git diff --check`：通过。
+- validation: Codex C session `20260505_211355_d19af3` 已通过：Q1/Q2 personnel-only safe fallback 触发且无禁词 / 数量推断；Q3 broad query 未被压扁；无 facts / transcript / 第三文件污染。
+- risks: 本 baseline 不处理 Data Steward / Phase 2.39，不处理限价、项目经理等级或 broad retrieval tuning。Data Steward docs dirty 必须单独 baseline。
+- next: baseline 后停止；下一轮单独处理 Phase 2.39 Data Steward docs-only baseline 或由 Codex B 写新 prompt。
+- commit/tag if any: tag `phase-2.38d-personnel-runtime-guard-baseline`，commit 由本轮 Git baseline 生成。

@@ -1,42 +1,30 @@
 # Active Phase
 
-- 当前 phase：Phase 2.38c Personnel Requirement Recall Tail Planning Baseline
-- 本轮目标：执行 Phase 2.38c docs-only Git baseline。
+- 当前 phase：Phase 2.38d Personnel-only Runtime Guard Baseline
+- 本轮目标：执行 Phase 2.38d personnel runtime guard Git baseline；不新增功能、不进入 Phase 2.38e、不处理 Data Steward。
 - 修改文件：
-  - `docs/PHASE238C_PERSONNEL_RECALL_TAIL_PLAN.md`
-  - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
-  - `docs/ACTIVE_PHASE.md`
-  - `docs/HANDOFF_LOG.md`
-  - `docs/PHASE_BACKLOG.md`
-  - `docs/TODO.md`
-  - `docs/DEV_LOG.md`
-  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - Hermes_memory Phase 2.38d retrieval / diagnostics / personnel recall files
+  - Hermes 主仓 Phase 2.38d runtime guard files
+  - Phase 2.38d 交接文档与 TODO / DEV_LOG / PHASE_BACKLOG 相关 hunk
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - Phase 2.38c planning 已通过 Codex B review。
-  - 执行 docs-only baseline，未写代码、未改 retrieval、未写 DB / OpenSearch / Qdrant / facts / document_versions。
-  - Phase 2.38c 规划结论保持：人员要求是 candidate present but low-rank，推荐后续 personnel-only bounded implementation。
+  - Codex C 真实终端复验已通过：Q1 / Q2 personnel-only 均触发 safe fallback，无 forbidden terms 或隐式数量推断；Q3 broad qualification 未被压扁。
+  - 本轮执行两仓目标测试与 diff 检查。
+  - 本轮准备提交 Phase 2.38d baseline，Data Steward 文件和无关 dirty 不纳入提交。
 - 测试结果：
-  - 本轮 docs-only baseline，未运行 pytest。
-  - `git diff --check`：通过。
-  - `git status --short`：baseline 前仅包含 Phase 2.38c 允许文档。
+  - Hermes 主仓：py_compile 通过，`tests/agent/test_structured_citation_context.py tests/agent/test_session_document_scope.py` 为 `65 passed`，`git diff --check` 通过。
+  - Hermes_memory：py_compile 通过，`tests/test_phase238d_personnel_recall_tail.py tests/test_phase238b_tender_concrete_recall_diagnostics.py` 为 `17 passed`，`git diff --check` 通过。
 - live smoke 结果：
-  - 本轮无 live smoke。
-  - 未写 DB、未修改 OpenSearch / Qdrant / facts / document_versions。
+  - Codex C session `20260505_211355_d19af3` 真实终端复验通过。
+  - `@主标书` alias 绑定成功，Q1/Q2/Q3 均无 facts 替代 evidence、无 transcript_as_fact、无第三文件污染。
 - 当前结论：
-  - Phase 2.38c docs baseline 已完成。
-  - 后续可规划 Phase 2.38d personnel-only bounded recall implementation。
+  - Phase 2.38d personnel runtime guard 可 baseline。
+  - baseline 只代表 personnel-only final answer guard 收口，不代表限价、项目经理等级或 broad retrieval tuning 收口。
 - 阻塞点 / 风险点：
-  - Phase 2.38d 不得扩大为 broad retrieval tuning。
-  - `price_ceiling` 继续 Missing Evidence / 人工补源。
-  - `project_manager_level` 继续 human-review-only。
-  - 任何后续 retrieval 输出变化都需 Codex C 定向复验。
-- Git baseline：
-  - commit：由本轮 Git baseline 生成。
-  - tag：`phase-2.38c-personnel-recall-tail-plan-baseline`。
-  - push：由本轮 Git baseline 推送。
-- 是否建议 baseline：是；本轮执行 Phase 2.38c docs baseline。
-- 是否建议进入下一阶段：否；baseline 后停止，等待 Codex B 检查。
-- 下一轮建议：Codex B 检查 Phase 2.38c baseline，并决定是否写入 Phase 2.38d personnel-only bounded implementation prompt。
-- 是否需要 Codex B 审核：是，baseline 后需要 Codex B 检查。
-- 是否需要 Codex C 真实终端验收：否；planning-only 不改变回答链路。
+  - Data Steward / Phase 2.39 docs dirty 必须单独处理。
+  - `price_ceiling` 与 `project_manager_level` 仍是后续 tail，不在本 baseline 范围。
+- 是否建议 baseline：是，本轮执行 baseline。
+- 是否建议进入下一阶段：否；baseline 后停止。
+- 下一轮建议：单独处理 Phase 2.39 Data Steward docs-only baseline，或由 Codex B 写下一轮 bounded prompt。
+- 是否需要 Codex B 审核：baseline 后建议复核 staged / pushed 结果。
+- 是否需要 Codex C 真实终端验收：本轮已吸收 Codex C 复验结果，无需重复。

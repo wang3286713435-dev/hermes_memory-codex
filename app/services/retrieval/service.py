@@ -321,6 +321,11 @@ class RetrievalService:
             alias_heading_boost = 6.0
             target_heading_boost = 10.0
             target_title_boost = 8.0
+        elif query_profile == "personnel_scope":
+            alias_text_boost = 4.5
+            alias_heading_boost = 7.0
+            target_heading_boost = 11.0
+            target_title_boost = 9.0
         elif query_profile == "schedule_scope":
             alias_text_boost = 2.0
             alias_heading_boost = 4.0
@@ -396,6 +401,25 @@ class RetrievalService:
             }
             for phrase, boost in qualification_parameter_phrases.items():
                 should_clauses.append({"match_phrase": {"text": {"query": phrase, "boost": boost}}})
+        elif query_profile == "personnel_scope":
+            personnel_parameter_phrases = {
+                "项目管理机构": 18.0,
+                "人员配备": 18.0,
+                "人员要求": 16.0,
+                "主要人员": 15.0,
+                "主要管理人员": 15.0,
+                "项目班子": 14.0,
+                "技术负责人": 13.0,
+                "专职安全员": 13.0,
+                "安全员": 10.0,
+                "质量员": 10.0,
+                "施工员": 10.0,
+                "人员数量": 9.0,
+                "人员专业": 9.0,
+                "人员资质": 9.0,
+            }
+            for phrase, boost in personnel_parameter_phrases.items():
+                should_clauses.append({"match_phrase": {"text": {"query": phrase, "boost": boost}}})
         for phrase, boost in self._meeting_query_boosts(request.query, applied_filters).items():
             should_clauses.append({"match_phrase": {"text": {"query": phrase, "boost": boost}}})
 
@@ -456,6 +480,55 @@ class RetrievalService:
             return {"status": "no_section_signal", "target_sections": [], "query_aliases": [], "query_profile": "default"}
 
         section_rules = [
+            (
+                (
+                    "人员要求",
+                    "人员配备",
+                    "人员数量",
+                    "人员专业",
+                    "人员资质",
+                    "项目人员",
+                    "项目管理机构",
+                    "项目班子",
+                    "主要人员",
+                    "主要管理人员",
+                    "技术负责人",
+                    "专职安全员",
+                    "安全员",
+                    "质量员",
+                    "施工员",
+                ),
+                [
+                    "投标人须知前附表",
+                    "资格审查",
+                    "资格后审",
+                    "项目管理机构",
+                    "项目班子",
+                    "主要人员",
+                    "主要管理人员",
+                    "人员配备",
+                    "人员要求",
+                    "技术负责人",
+                    "专职安全员",
+                ],
+                [
+                    "项目管理机构",
+                    "人员配备",
+                    "人员要求",
+                    "主要人员",
+                    "主要管理人员",
+                    "项目班子",
+                    "技术负责人",
+                    "专职安全员",
+                    "安全员",
+                    "质量员",
+                    "施工员",
+                    "人员数量",
+                    "人员专业",
+                    "人员资质",
+                ],
+                "personnel_scope",
+            ),
             (
                 ("资质", "资格", "项目经理", "建造师", "b证", "安全考核", "项目负责人", "联合体", "业绩", "人员要求", "人员配备", "项目管理机构"),
                 ["投标人须知前附表", "资格审查", "资信标", "资格后审", "项目管理机构", "联合体投标", "类似工程业绩", "人员要求"],
@@ -565,9 +638,12 @@ class RetrievalService:
             "schedule_scope": 2,
             "pricing_scope": 3,
             "qualification_scope": 3,
+            "personnel_scope": 4,
             "commercial_scope": 3,
         }
         for triggers, sections, aliases, profile in section_rules:
+            if profile == "personnel_scope" and not self._is_personnel_focused_query(normalized):
+                continue
             if any(self._normalize_document_reference(trigger) in normalized for trigger in triggers):
                 for section in sections:
                     if section not in matched_sections:
@@ -580,6 +656,39 @@ class RetrievalService:
 
         if not matched_sections:
             return {"status": "no_section_signal", "target_sections": [], "query_aliases": [], "query_profile": "default"}
+
+        if query_profile == "personnel_scope":
+            personnel_sections = {
+                "投标人须知前附表",
+                "资格审查",
+                "资格后审",
+                "项目管理机构",
+                "项目班子",
+                "主要人员",
+                "主要管理人员",
+                "人员配备",
+                "人员要求",
+                "技术负责人",
+                "专职安全员",
+            }
+            personnel_aliases = {
+                "项目管理机构",
+                "人员配备",
+                "人员要求",
+                "主要人员",
+                "主要管理人员",
+                "项目班子",
+                "技术负责人",
+                "专职安全员",
+                "安全员",
+                "质量员",
+                "施工员",
+                "人员数量",
+                "人员专业",
+                "人员资质",
+            }
+            matched_sections = [section for section in matched_sections if section in personnel_sections]
+            query_aliases = [alias for alias in query_aliases if alias in personnel_aliases]
 
         return {
             "status": "section_scope_inferred",
@@ -639,6 +748,7 @@ class RetrievalService:
             "pricing_scope": ("招标公告", "投标人须知前附表", "工程量清单", "限价明细", "最高投标限价", "招标控制价", "投标报价要求"),
             "schedule_scope": ("招标公告", "投标人须知前附表", "工期要求", "计划开工日期", "计划竣工日期", "关键工期节点"),
             "qualification_scope": ("投标人须知前附表", "资格审查", "资格后审", "资信标", "项目管理机构", "联合体投标", "类似工程业绩", "人员要求"),
+            "personnel_scope": ("投标人须知前附表", "资格审查", "资格后审", "项目管理机构", "项目班子", "主要人员", "主要管理人员", "人员配备", "人员要求", "技术负责人", "专职安全员"),
         }
         for section in guided_sections.get(guided["query_profile"], guided_sections["tender_basic_info"]):
             if section not in target_sections:
@@ -650,6 +760,7 @@ class RetrievalService:
             "pricing_scope": ("最高投标限价", "招标控制价", "最高限价", "投标报价上限", "投标限价", "限价明细"),
             "schedule_scope": ("工期", "总工期", "计划工期", "计划开工日期", "计划竣工日期", "关键工期节点"),
             "qualification_scope": ("资质要求", "资格条件", "项目经理", "注册建造师", "安全考核证", "联合体投标", "类似工程业绩", "人员配备"),
+            "personnel_scope": ("项目管理机构", "人员配备", "人员要求", "主要人员", "主要管理人员", "项目班子", "技术负责人", "专职安全员", "安全员", "质量员", "施工员", "人员数量", "人员专业", "人员资质"),
         }
         for alias in guided_aliases.get(guided["query_profile"], guided_aliases["tender_basic_info"]):
             if alias not in aliases:
@@ -795,6 +906,22 @@ class RetrievalService:
                 "人员配备",
                 "项目管理机构",
             ],
+            "personnel_scope": [
+                "项目管理机构",
+                "人员配备",
+                "人员要求",
+                "主要人员",
+                "主要管理人员",
+                "项目班子",
+                "技术负责人",
+                "专职安全员",
+                "安全员",
+                "质量员",
+                "施工员",
+                "人员数量",
+                "人员专业",
+                "人员资质",
+            ],
             "schedule_scope": [
                 "工期要求",
                 "总工期",
@@ -806,6 +933,43 @@ class RetrievalService:
             ],
         }
         return phrases_by_profile.get(query_profile, [])
+
+    def _is_personnel_focused_query(self, normalized_query: str) -> bool:
+        if not normalized_query:
+            return False
+        positive_intent_text = self._without_excluded_intent_terms(normalized_query)
+        personnel_signals = (
+            "人员要求",
+            "人员配备",
+            "人员数量",
+            "人员专业",
+            "人员资质",
+            "项目人员",
+            "项目管理机构",
+            "项目班子",
+            "主要人员",
+            "主要管理人员",
+            "技术负责人",
+            "专职安全员",
+            "安全员",
+            "质量员",
+            "施工员",
+        )
+        if not any(self._normalize_document_reference(signal) in positive_intent_text for signal in personnel_signals):
+            return False
+        broad_qualification_signals = ("投标资质", "项目经理", "联合体", "类似业绩", "同类工程业绩", "投标人业绩")
+        return not any(
+            self._normalize_document_reference(signal) in positive_intent_text
+            for signal in broad_qualification_signals
+        )
+
+    def _without_excluded_intent_terms(self, normalized_query: str) -> str:
+        text = normalized_query or ""
+        for marker in ("不要", "不包含", "排除", "无需", "不投标资质", "不项目经理", "不联合体", "不业绩"):
+            index = text.find(marker)
+            if index >= 0:
+                text = text[:index]
+        return text
 
     def _is_tender_scope(self, applied_filters: dict[str, Any]) -> bool:
         if applied_filters.get("source_type") == "tender" or applied_filters.get("document_type") == "tender":

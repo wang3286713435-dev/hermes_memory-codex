@@ -126,9 +126,33 @@ FIELD_RULES: dict[str, dict[str, Any]] = {
     },
     "personnel_requirement": {
         "display": "人员要求",
-        "triggers": ("人员要求", "人员配备", "项目管理机构", "主要人员", "技术负责人", "专职安全员", "安全员", "质量员", "施工员"),
-        "positive_patterns": ("人员要求", "人员配备", "项目管理机构", "技术负责人", "专职安全员"),
-        "section_hints": ("投标人须知前附表", "资格审查", "项目管理机构", "主要人员", "人员配备"),
+        "triggers": (
+            "人员要求",
+            "人员配备",
+            "项目管理机构",
+            "主要人员",
+            "主要管理人员",
+            "项目班子",
+            "技术负责人",
+            "专职安全员",
+            "安全员",
+            "质量员",
+            "施工员",
+            "人员数量",
+            "人员专业",
+            "人员资质",
+        ),
+        "positive_patterns": (
+            "人员要求",
+            "人员配备",
+            "项目管理机构",
+            "主要人员",
+            "主要管理人员",
+            "项目班子",
+            "技术负责人",
+            "专职安全员",
+        ),
+        "section_hints": ("投标人须知前附表", "资格审查", "项目管理机构", "主要人员", "主要管理人员", "人员配备"),
     },
 }
 
@@ -139,7 +163,7 @@ FIELD_PROFILES: dict[str, str] = {
     "project_manager_requirement": "qualification_scope",
     "consortium_requirement": "qualification_scope",
     "performance_requirement": "qualification_scope",
-    "personnel_requirement": "qualification_scope",
+    "personnel_requirement": "personnel_scope",
 }
 
 CONCRETE_FIELD_REQUIREMENTS: dict[str, dict[str, str]] = {
@@ -166,6 +190,18 @@ def infer_tender_metadata_fields(query: str) -> list[str]:
     for field_name, rule in FIELD_RULES.items():
         if any(normalize_text(trigger) in text for trigger in rule["triggers"]):
             matched.append(field_name)
+    if "personnel_requirement" in matched and _is_personnel_focused_query(text):
+        matched = [
+            field_name
+            for field_name in matched
+            if field_name
+            not in {
+                "qualification_requirement",
+                "project_manager_requirement",
+                "consortium_requirement",
+                "performance_requirement",
+            }
+        ]
     return matched
 
 
@@ -410,12 +446,15 @@ def _source_location(chunk: Any) -> str:
 
 
 def _guided_profile(field_names: list[str]) -> str:
+    if set(field_names) == {"personnel_requirement"}:
+        return "personnel_scope"
     priority = {
         "default": 0,
         "tender_basic_info": 1,
         "schedule_scope": 2,
         "pricing_scope": 3,
         "qualification_scope": 3,
+        "personnel_scope": 3,
     }
     profile = "tender_basic_info" if field_names else "default"
     for field_name in field_names:
@@ -423,6 +462,42 @@ def _guided_profile(field_names: list[str]) -> str:
         if priority.get(candidate, 0) > priority.get(profile, 0):
             profile = candidate
     return profile
+
+
+def _is_personnel_focused_query(normalized_query: str) -> bool:
+    if not normalized_query:
+        return False
+    positive_intent_text = _without_excluded_intent_terms(normalized_query)
+    personnel_signals = (
+        "人员要求",
+        "人员配备",
+        "人员数量",
+        "人员专业",
+        "人员资质",
+        "项目人员",
+        "项目管理机构",
+        "项目班子",
+        "主要人员",
+        "主要管理人员",
+        "技术负责人",
+        "专职安全员",
+        "安全员",
+        "质量员",
+        "施工员",
+    )
+    if not any(signal in positive_intent_text for signal in personnel_signals):
+        return False
+    broad_qualification_signals = ("投标资质", "项目经理", "联合体", "类似业绩", "同类工程业绩", "投标人业绩")
+    return not any(signal in positive_intent_text for signal in broad_qualification_signals)
+
+
+def _without_excluded_intent_terms(normalized_query: str) -> str:
+    text = normalized_query or ""
+    for marker in ("不要回答", "不要包含", "不回答", "不包含", "排除", "无需回答", "不要", "无需"):
+        index = text.find(marker)
+        if index >= 0:
+            text = text[:index]
+    return text
 
 
 def _deep_field_diagnostics(intent_fields: list[str], matched_fields: list[str]) -> dict[str, Any]:

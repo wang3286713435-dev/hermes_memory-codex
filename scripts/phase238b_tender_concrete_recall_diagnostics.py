@@ -72,6 +72,35 @@ FIELD_QUERIES = {
     "personnel_requirement": "项目人员数量、专业、职称或资质要求是什么？",
 }
 
+PERSONNEL_QUERY_ALIASES = [
+    "项目管理机构",
+    "人员配备",
+    "人员要求",
+    "主要人员",
+    "主要管理人员",
+    "项目班子",
+    "技术负责人",
+    "专职安全员",
+    "安全员",
+    "质量员",
+    "施工员",
+    "人员数量",
+    "人员专业",
+    "人员资质",
+]
+
+PERSONNEL_SECTION_HINTS = [
+    "投标人须知前附表",
+    "资格审查",
+    "资格后审",
+    "项目管理机构",
+    "项目班子",
+    "主要人员",
+    "主要管理人员",
+    "人员配备",
+    "人员要求",
+]
+
 
 def _json_dump(payload: Any) -> str:
     return json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True)
@@ -104,18 +133,40 @@ def fixed_policy_diagnostic(field: str) -> dict[str, Any]:
     }
 
 
+def retrieval_query_for_field(field: str) -> str:
+    query = FIELD_QUERIES[field]
+    if field != "personnel_requirement":
+        return query
+    expansion = " ".join([*PERSONNEL_QUERY_ALIASES, *PERSONNEL_SECTION_HINTS])
+    return f"{query} {expansion}"
+
+
+def personnel_expansion_trace(field: str, retrieval_query: str) -> dict[str, Any]:
+    if field != "personnel_requirement":
+        return {"personnel_expanded_query": False}
+    return {
+        "personnel_expanded_query": True,
+        "baseline_query": FIELD_QUERIES[field],
+        "expanded_retrieval_query": retrieval_query,
+        "personnel_query_aliases": list(PERSONNEL_QUERY_ALIASES),
+        "personnel_section_hints": list(PERSONNEL_SECTION_HINTS),
+    }
+
+
 def skipped_live_diagnostic(field: str, live_error: str | None) -> dict[str, Any]:
+    retrieval_query = retrieval_query_for_field(field)
     return {
         "field": field,
         "policy": "diagnose_retrieval_candidate_visibility",
         "candidate_chunk_ids": list(CONCRETE_FIELD_CANDIDATES[field]),
-        "retrieval_query": FIELD_QUERIES[field],
+        "retrieval_query": retrieval_query,
         "retrieved_chunk_ids": [],
         "candidate_hits": [],
         "status": "skipped_live_unavailable",
         "recommended_next_action": "Retry read-only recall diagnostics when local DB/OpenSearch are reachable.",
         "diagnostic_reason": "Live retrieval diagnostics could not run.",
         "live_error": live_error,
+        **personnel_expansion_trace(field, retrieval_query),
     }
 
 
@@ -158,6 +209,7 @@ def diagnose_candidate_visibility(
         "status": status,
         "recommended_next_action": next_action,
         "diagnostic_reason": f"{len(candidate_hits)} of {len(candidate_chunk_ids)} candidate chunks appeared in retrieved results.",
+        **personnel_expansion_trace(field, retrieval_query),
     }
 
 
@@ -183,7 +235,7 @@ def run_retrieval_diagnostics(
         service = RetrievalService(db)
         diagnostics: list[dict[str, Any]] = []
         for field in fields:
-            query = FIELD_QUERIES[field]
+            query = retrieval_query_for_field(field)
             request = SearchRequest(
                 query=query,
                 retrieval_mode=retrieval_mode,  # type: ignore[arg-type]
