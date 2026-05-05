@@ -2375,3 +2375,21 @@
 - risks: 本轮未形成正式 matrix records 或 evidence pack artifact；`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 与 `docs/NEXT_CODEX_A_PROMPT.md` 仍为既有 dirty，其中 Phase 2.38 文件不属于本轮范围。
 - next: Codex B review；通过后可规划 Phase 2.40a 只读 matrix / evidence pack artifact。
 - commit/tag if any: 无；本轮按 NEXT 要求不提交 Git。
+
+## 2026-05-05 23:28 Phase 2.40a
+- goal: PRD Acceptance Matrix / MVP Evidence Pack docs-only artifact。
+- changed_files:
+  - `docs/PRD_ACCEPTANCE_MATRIX.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - Phase 2.40a artifact 关键词与边界 `rg` 复核：通过。
+- validation: Matrix 已覆盖 PRD item、capability area、status、evidence、known gap、next phase candidate 与 not claimable；明确当前可内部受控 MVP Pilot，但不是 production rollout。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是无关 Phase 2.38 dirty；`docs/NEXT_CODEX_A_PROMPT.md` 是既有 prompt dirty，本轮未修改。Matrix 仍需后续人工维护 evidence refs。
+- next: Codex B review；通过后只做 Phase 2.40a docs-only baseline，不直接进入新能力开发。
+- commit/tag if any: 无；本轮按 NEXT 要求不提交 Git。

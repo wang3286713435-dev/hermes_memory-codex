@@ -235,6 +235,20 @@ baseline 前必须：
 3. dirty 白名单复核。
 4. 不混入无关文件。
 
+### 4.1 Baseline Gate
+
+小修不 baseline。包括但不限于 prompt wording、状态文件小改、单行文档修正、非阶段性 follow-up、未完成验收的局部 polish。
+
+写入或批准 Git baseline prompt 前，必须同时满足：
+
+1. 当前 phase 有明确验收结果。
+2. Codex B review 明确通过。
+3. Codex C 真实终端验收或目标测试 / 目标静态检查通过；docs-only phase 可用目标静态检查替代真实终端。
+4. TODO、DEV_LOG、ACTIVE_PHASE、HANDOFF_LOG、PHASE_BACKLOG 与 ignored latest 状态已同步。
+5. 下一步将切换 phase、扩大范围，或需要把一个完整阶段性成果固化为后续工作的基线。
+
+任一条件不满足时，不得 stage / commit / tag / push。应继续保持本轮 dirty 或写入下一轮 bounded prompt，等待补齐验收、review 或文档同步。
+
 ## 5. 硬停止条件
 
 遇到以下情况必须停止，不得继续实现：

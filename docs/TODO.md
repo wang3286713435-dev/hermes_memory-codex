@@ -11,8 +11,9 @@
 7. Phase 2.38b Git baseline 已完成：commit `a8c93f1`，tag `phase-2.38b-tender-recall-diagnostics-baseline`。
 8. Phase 2.38c 人员要求召回尾项规划 baseline 已完成：commit `ff49941`，tag `phase-2.38c-personnel-recall-tail-plan-baseline`。
 9. Phase 2.38d personnel-only bounded recall implementation baseline 已完成；Codex C Q1/Q2/Q3 真实终端复验通过。
-10. Phase 2.40 PRD Acceptance Matrix / MVP Evidence Pack planning 已完成，建议 Codex B review 后再决定是否进入 Phase 2.40a artifact dry-run。
-11. 下一步不得直接启动 Data Steward 实现、repair、rollout、schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
+10. Phase 2.40 PRD Acceptance Matrix / MVP Evidence Pack planning baseline 已完成：commit `1383155`，tag `phase-2.40-prd-acceptance-matrix-plan-baseline`。
+11. Phase 2.40a docs-only artifact 已完成，新增 `docs/PRD_ACCEPTANCE_MATRIX.md`，建议 Codex B review 后再决定是否 baseline。
+12. 下一步不得直接启动 Data Steward 实现、repair、rollout、schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
 
 ## 0.1 Phase 2.38b 当前待办
 
@@ -677,3 +678,13 @@
 4. MVP evidence pack 优先收集 citation、Top-K / rerank / trace、permission deny behavior、`facts_as_answer=false`、`transcript_as_fact=false`、Pilot query pass rate 与 Missing Evidence / 人工复核边界。
 5. 当前不可宣称能力包括 production rollout ready、自动审标 / 自动经营决策、repair executor ready、facts 自动抽取或替代 evidence、Data Steward 已实现、TB BIM 全量解析、完整知识图谱 / 多 agent / 完整 RBAC。
 6. Phase 2.40a 候选方向：只读 matrix / evidence pack artifact 或 generator；不得写 DB、跑真实 API、进入 rollout、启动 Data Steward 实现或新增 schema / scheduler。
+
+## 45. Phase 2.40a PRD Acceptance Matrix / MVP Evidence Pack artifact
+
+1. Phase 2.40a 已完成 docs-only artifact，新增 `docs/PRD_ACCEPTANCE_MATRIX.md`。
+2. Matrix 覆盖 ingestion、structured chunking、sparse/dense/hybrid retrieval、rerank、citation/trace、alias/session、Excel/PPTX、meeting transcript、facts governance、access/audit、version governance、readiness / repair dry-run、review workflow、Pilot issue intake、tender deep-field retrieval、Data Steward deferred product line。
+3. 每行包含 PRD item、capability area、status、evidence、known gap、next phase candidate、not claimable。
+4. 当前落地判断：可进入内部受控 MVP Pilot / Day-1 试用，但不是 production rollout。
+5. 当前必须人工复核：限价、具体资质等级 / 类别、项目经理等级、类似业绩、人员数量、经营判断和所有 Missing Evidence。
+6. 当前不可宣称：production ready、自动审标、自动经营决策、repair executor ready、facts 自动抽取或替代 evidence、Data Steward 已实现、TB BIM 全量解析、Neo4j / PostGIS / 空间索引 / scheduler 已落地。
+7. 下一步建议 Codex B review 后只做 docs-only baseline；不要直接进入新功能开发。

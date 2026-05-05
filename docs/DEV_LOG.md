@@ -235,3 +235,4 @@
 - [Phase 2.39] 新增 `docs/PHASE239_DATA_STEWARD_PRODUCT_PLAN.md`：明确 Data Steward 可作为楼宇 / 园区 / 项目数据管家应用对外封装，但当前不做全量 BIM 解析、在线查看器、碰撞检测、自动算量、自动设计审查、Neo4j/PostGIS/schema 或 scheduler 实现。
 - [Phase 2.39] 执行 docs-only baseline：复核 Data Steward / 数据管家术语与边界，不写功能代码、不运行 pytest、不进入 Data Steward 实现；下一步建议 PRD Acceptance Matrix / MVP Evidence Pack planning。
 - [Phase 2.40] 完成 PRD Acceptance Matrix / MVP Evidence Pack docs-only planning：定义 done / partial / planned / deferred 状态、evidence_ref、known_gap、not_claimable 字段；明确不可宣称 production rollout ready、自动审标、repair executor ready、facts 自动抽取或替代 evidence、Data Steward 已实现、TB BIM 全量解析等能力。
+- [Phase 2.40a] 完成 PRD Acceptance Matrix / MVP Evidence Pack docs-only artifact：新增 `docs/PRD_ACCEPTANCE_MATRIX.md`，按能力域列出 status、evidence、known gap、next phase candidate 与 not claimable；明确当前可内部受控 Pilot，但不是 production rollout。

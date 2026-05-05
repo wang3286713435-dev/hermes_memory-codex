@@ -83,9 +83,11 @@ Green Lane 完成后仍必须写交接文件。若出现硬停止条件，必须
 
 Yellow Lane 可以做准备、验证或文档同步，但不得自动继续下一个阶段。
 
-例外：仅当 `docs/NIGHTLY_SPRINT_QUEUE.md` 明确标记 `preapproved_docs_only_baseline=true` 且 `continue_after_success=true` 时，Codex A 可以在 docs-only baseline 成功后继续下一个 Green Lane item。
+例外：仅当 `docs/NIGHTLY_SPRINT_QUEUE.md` 明确标记 `preapproved_docs_only_baseline=true` 且 `continue_after_success=true`，并且满足 `AGENT_OPERATING_PROTOCOL.md` 的 Baseline Gate 时，Codex A 可以在 docs-only baseline 成功后继续下一个 Green Lane item。
 
 该例外只适用于文档 / README / `.gitignore` / 状态文件 baseline；不得用于代码、脚本、测试、多仓库、DB、API、CLI smoke、真实 audit 写入或任何数据 mutation。
+
+小修不 baseline。夜间不得因为 prompt wording、状态文件小改、单行文档修正或未完成验收的局部 polish 自动打 tag / push。
 
 ## 7. Red Lane
 
