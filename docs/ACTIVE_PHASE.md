@@ -1,9 +1,9 @@
 # Active Phase
 
-- 当前 phase：Phase 2.40a PRD Acceptance Matrix / MVP Evidence Pack Artifact
-- 本轮目标：新增可人工审核的 PRD acceptance matrix / MVP evidence pack Markdown artifact；不写代码、不运行真实 API / CLI、不提交 Git。
+- 当前 phase：Phase 2.41 MVP Pilot Evidence Review / Go-No-Go Planning
+- 本轮目标：把 Phase 2.40a PRD Acceptance Matrix / MVP Evidence Pack 转成内部受控 MVP Pilot 的人工 evidence review 与 Go / Pause / No-Go 规划；不写代码、不运行真实 API / CLI、不提交 Git。
 - 修改文件：
-  - `docs/PRD_ACCEPTANCE_MATRIX.md`
+  - `docs/PHASE241_MVP_PILOT_EVIDENCE_REVIEW_PLAN.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `docs/PHASE_BACKLOG.md`
@@ -11,26 +11,29 @@
   - `docs/HANDOFF_LOG.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 新增 `docs/PRD_ACCEPTANCE_MATRIX.md`。
-  - Matrix 覆盖 ingestion、structured chunking、sparse/dense/hybrid retrieval、rerank、citation/trace、alias/session、Excel/PPTX、meeting transcript、facts governance、access/audit、version governance、readiness / repair dry-run、review workflow、Pilot issue intake、tender deep-field retrieval、Data Steward deferred product line。
-  - 每行包含 PRD item、capability area、status、evidence、known gap、next phase candidate、not claimable。
-  - 明确当前可进入内部受控 MVP Pilot / Day-1 试用，但不是 production rollout。
-  - 明确主标书深层字段仍有 Missing Evidence / 人工复核项：限价、具体资质等级 / 类别、项目经理等级、业绩、人员数量。
+  - 新增 `docs/PHASE241_MVP_PILOT_EVIDENCE_REVIEW_PLAN.md`。
+  - 规划输入来源：PRD acceptance matrix、Codex C 真实终端验收、Pilot issue intake / triage、readiness / repair dry-run reports、人工复核结论。
+  - 定义 Go / Pause / No-Go 条件。
+  - 定义 MVP Pilot evidence review checklist。
+  - 定义 P0 / P1 / P2 / P3 handling policy。
+  - 明确 human review requirement 与 not-claimable checklist。
+  - 明确当前仍是内部受控 MVP Pilot，不是 production rollout。
+  - 明确 Data Steward 仍是后置产品线，不进入当前主线实现。
 - 测试结果：
-  - `git diff --check`：通过。
-  - Phase 2.40a artifact 关键词与边界 `rg` 复核：通过。
-  - 本轮为 docs-only artifact，未运行 pytest。
+  - `git diff --check`：待本轮结束复核。
+  - Phase 2.41 关键词与边界 `rg`：待本轮结束复核。
+  - 本轮为 docs-only planning，未运行 pytest。
 - live smoke 结果：
   - 不适用；本轮无代码、API / CLI、DB、facts、versions、OpenSearch 或 Qdrant 操作。
 - 当前结论：
-  - Phase 2.40a docs-only artifact 已完成，建议 Codex B review。
-  - Matrix 可回答“当前 MVP 到哪一步、证据在哪里、哪些不能宣称”。
+  - Phase 2.41 docs-only planning 已完成，建议 Codex B review。
+  - 当前只形成审阅规则与后续候选，不批准 production rollout，不批准 repair executor，不进入新能力开发。
 - 阻塞点 / 风险点：
   - 当前仍有遗留 dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`，不属于本轮范围。
-  - `docs/NEXT_CODEX_A_PROMPT.md` 是既有 prompt dirty，本轮未修改。
-  - Matrix 仍需后续人工维护 evidence refs，不应当成自动生产评估系统。
-- 是否建议 baseline：否；本轮按 NEXT 要求不提交 Git。
-- 是否建议进入下一阶段：暂不直接进入；先由 Codex B review Phase 2.40a artifact。
-- 下一轮建议：Codex B review 后，若通过，再做 Phase 2.40a docs-only baseline；不要直接进入新能力开发。
+  - `docs/NEXT_CODEX_A_PROMPT.md` 是本轮入口文件 dirty，本轮未修改。
+  - Phase 2.41 仍是人工 review planning；Go 只代表可继续内部受控 MVP Pilot，不代表 production ready。
+- 是否建议 baseline：否；本轮是 planning，按 NEXT 要求不提交 Git。
+- 是否建议进入下一阶段：暂不直接进入；先由 Codex B review Phase 2.41 planning。
+- 下一轮建议：Codex B review 后，若通过，再做 Phase 2.41 docs-only baseline；后续可二选一规划 Phase 2.41a 只读 evidence review checklist artifact 或 dry-run report。
 - 是否需要 Codex B 审核：是。
 - 是否需要 Codex C 真实终端验收：否，本轮无终端行为。

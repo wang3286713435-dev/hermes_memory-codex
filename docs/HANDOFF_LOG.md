@@ -2393,3 +2393,21 @@
 - risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是无关 Phase 2.38 dirty；`docs/NEXT_CODEX_A_PROMPT.md` 是既有 prompt dirty，本轮未修改。Matrix 仍需后续人工维护 evidence refs。
 - next: Codex B review；通过后只做 Phase 2.40a docs-only baseline，不直接进入新能力开发。
 - commit/tag if any: 无；本轮按 NEXT 要求不提交 Git。
+
+## 2026-05-06 00:05 Phase 2.41
+- goal: MVP Pilot Evidence Review / Go-No-Go docs-only planning。
+- changed_files:
+  - `docs/PHASE241_MVP_PILOT_EVIDENCE_REVIEW_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：待最终复核。
+  - Phase 2.41 关键词与边界 `rg`：待最终复核。
+- validation: 规划定义 Go / Pause / No-Go、P0/P1/P2/P3 handling、人工复核要求与 not-claimable checklist；明确 Go 只代表内部受控 MVP Pilot 可继续，不代表 production rollout。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是无关遗留 dirty；`docs/NEXT_CODEX_A_PROMPT.md` 是本轮入口文件 dirty，本轮未修改。不得把 planning 写成 rollout approval。
+- next: Codex B review；通过后只做 Phase 2.41 docs-only baseline，后续再决定是否做 Phase 2.41a checklist artifact 或 dry-run report。
+- commit/tag if any: 无；本轮按 NEXT 要求不提交 Git。

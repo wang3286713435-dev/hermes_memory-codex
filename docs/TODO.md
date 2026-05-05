@@ -12,8 +12,9 @@
 8. Phase 2.38c 人员要求召回尾项规划 baseline 已完成：commit `ff49941`，tag `phase-2.38c-personnel-recall-tail-plan-baseline`。
 9. Phase 2.38d personnel-only bounded recall implementation baseline 已完成；Codex C Q1/Q2/Q3 真实终端复验通过。
 10. Phase 2.40 PRD Acceptance Matrix / MVP Evidence Pack planning baseline 已完成：commit `1383155`，tag `phase-2.40-prd-acceptance-matrix-plan-baseline`。
-11. Phase 2.40a docs-only artifact 已完成，新增 `docs/PRD_ACCEPTANCE_MATRIX.md`，建议 Codex B review 后再决定是否 baseline。
-12. 下一步不得直接启动 Data Steward 实现、repair、rollout、schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
+11. Phase 2.40a docs-only artifact baseline 已完成：commit `e6f7fc2`，tag `phase-2.40a-prd-acceptance-matrix-artifact-baseline`。
+12. Phase 2.41 MVP Pilot Evidence Review / Go-No-Go planning 已完成，新增 `docs/PHASE241_MVP_PILOT_EVIDENCE_REVIEW_PLAN.md`，建议 Codex B review 后再决定是否 baseline。
+13. 下一步不得直接启动 Data Steward 实现、repair、rollout、schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
 
 ## 0.1 Phase 2.38b 当前待办
 
@@ -687,4 +688,15 @@
 4. 当前落地判断：可进入内部受控 MVP Pilot / Day-1 试用，但不是 production rollout。
 5. 当前必须人工复核：限价、具体资质等级 / 类别、项目经理等级、类似业绩、人员数量、经营判断和所有 Missing Evidence。
 6. 当前不可宣称：production ready、自动审标、自动经营决策、repair executor ready、facts 自动抽取或替代 evidence、Data Steward 已实现、TB BIM 全量解析、Neo4j / PostGIS / 空间索引 / scheduler 已落地。
-7. 下一步建议 Codex B review 后只做 docs-only baseline；不要直接进入新功能开发。
+7. Phase 2.40a docs baseline 已完成：commit `e6f7fc2`，tag `phase-2.40a-prd-acceptance-matrix-artifact-baseline`。
+
+## 46. Phase 2.41 MVP Pilot Evidence Review / Go-No-Go planning
+
+1. Phase 2.41 已完成 docs-only planning，新增 `docs/PHASE241_MVP_PILOT_EVIDENCE_REVIEW_PLAN.md`。
+2. 规划目标：把 PRD acceptance matrix 转成内部受控 MVP Pilot 的人工 evidence review、Go / Pause / No-Go 与 P0 / P1 / P2 / P3 handling policy。
+3. Go 条件要求 P0 为 0、alias/session 不阻塞核心流程、citation / document_id / version_id 可人工核验、`facts_as_answer=false` / `transcript_as_fact=false` / `snapshot_as_answer=false` 稳定，且 Missing Evidence 被正确记录。
+4. Pause / No-Go 条件覆盖编造金额、资质、业绩、人员数量或经营结论，facts / transcript / snapshot 替代 retrieval evidence，跨文件污染，权限泄露，alias/session 核心阻断，以及无法保存人工复核记录。
+5. human review requirement 覆盖限价、资质等级 / 类别、项目经理等级 / B 证、类似业绩、人员数量、经营判断和所有 Missing Evidence。
+6. 当前仍不进入 production rollout、自动审标、自动经营决策、repair executor、Data Steward 实现、DB schema / Neo4j / PostGIS / 空间索引 / scheduler。
+7. 后续候选：Phase 2.41a 只读 Pilot evidence review checklist artifact，或 Phase 2.41a Pilot evidence review dry-run report。
+8. 下一步建议 Codex B review；通过后只做 docs-only baseline，不直接进入新能力开发。
