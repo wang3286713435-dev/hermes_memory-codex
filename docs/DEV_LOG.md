@@ -231,3 +231,6 @@
 - [Phase 2.38d] 第四轮最小修复补 safe fallback contract：违规答案草稿需丢弃并输出 Missing Evidence / 人工复核模板；因本轮白名单不含 `run_agent.py`，未接入真正 post-answer retry / replacement，仍需 Codex C 复验。
 - [Phase 2.38d] 第五轮最小修复已接入 runtime post-answer guard：`personnel_scope` + personnel-only query 的最终回答若含禁词或隐式数量推断，会替换为 Missing Evidence / 人工复核 fallback；主仓 py_compile 通过，目标测试 `65 passed`，等待 Codex B review 与 Codex C Q1/Q2/Q3 复验。
 - [Phase 2.38d] Codex C 真实终端复验通过：Q1/Q2 personnel-only safe fallback 触发且无禁词 / 数量推断，Q3 broad qualification 未被压扁；本轮执行 Phase 2.38d Git baseline，Data Steward dirty 单独后置。
+- [Phase 2.39] Data Steward 后置产品线规划已落到 PRD / Roadmap / Technical Design：BIM 是首个高价值垂直场景，当前只做资产目录、本体、知识图谱、空间索引和子 Agent 监控的产品规划，不并入 Phase 2.38d 或 MVP Pilot。
+- [Phase 2.39] 新增 `docs/PHASE239_DATA_STEWARD_PRODUCT_PLAN.md`：明确 Data Steward 可作为楼宇 / 园区 / 项目数据管家应用对外封装，但当前不做全量 BIM 解析、在线查看器、碰撞检测、自动算量、自动设计审查、Neo4j/PostGIS/schema 或 scheduler 实现。
+- [Phase 2.39] 执行 docs-only baseline：复核 Data Steward / 数据管家术语与边界，不写功能代码、不运行 pytest、不进入 Data Steward 实现；下一步建议 PRD Acceptance Matrix / MVP Evidence Pack planning。

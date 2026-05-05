@@ -2335,3 +2335,25 @@
 - risks: 本 baseline 不处理 Data Steward / Phase 2.39，不处理限价、项目经理等级或 broad retrieval tuning。Data Steward docs dirty 必须单独 baseline。
 - next: baseline 后停止；下一轮单独处理 Phase 2.39 Data Steward docs-only baseline 或由 Codex B 写新 prompt。
 - commit/tag if any: tag `phase-2.38d-personnel-runtime-guard-baseline`，commit 由本轮 Git baseline 生成。
+
+## 2026-05-05 22:44 Phase 2.39
+- goal: Data Steward / BIM 数据管家后置产品线 docs-only baseline。
+- changed_files:
+  - `docs/PRD.md`
+  - `docs/ROADMAP.md`
+  - `docs/TECHNICAL_DESIGN.md`
+  - `docs/PHASE239_DATA_STEWARD_PRODUCT_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - Data Steward / Phase 2.39 关键词与边界 `rg` 复核：通过。
+- validation: PRD / Roadmap / Technical Design / Phase 2.39 计划已明确 Data Steward 是后置产品线；当前不新增 DB schema、Neo4j、PostGIS、空间索引代码、生产级 scheduler，不解析 TB 级 BIM 原始模型，不直接进入 LLM 上下文。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是 Phase 2.38 遗留 dirty，已排除本轮 stage。Data Steward 仍不得直接进入实现。
+- next: baseline 后停止；下一轮建议做 PRD Acceptance Matrix / MVP Evidence Pack docs-only planning。
+- commit/tag if any: tag `phase-2.39-data-steward-product-plan-baseline`，commit 由本轮 Git baseline 生成。

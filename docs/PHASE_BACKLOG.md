@@ -2,11 +2,13 @@
 
 ## 当前优先级
 
-1. Phase 2.38a：Tender P1 Source Availability Audit Git baseline 已完成，commit `456b32d`，tag `phase-2.38a-tender-p1-source-audit-baseline`。
-2. Phase 2.38b：Tender P1 Concrete Source Recall Diagnostics 已完成最小实现并通过 Codex B review。
-3. 只读 live preview 结果：资质与业绩 candidate source 已在 top-k，人员要求 candidate source 可检索但低排名；限价继续 Missing Evidence，项目经理等级继续人工复核。
-4. Phase 2.38c personnel recall tail planning baseline 已完成：commit `ff49941`，tag `phase-2.38c-personnel-recall-tail-plan-baseline`。
-5. Phase 2.38d 最小实现、review fix、Q1 intent fix、主仓 answer guard、safe fallback contract 与 runtime post-answer guard 已通过 Codex C Q1/Q2/Q3 真实终端复验；本轮执行 Git baseline，不得直接进入 broad retrieval fix、repair、rollout 或索引重建。
+1. Phase 2.39 Data Steward / BIM 数据管家 docs-only baseline 正在收口：Data Steward 明确为后置产品线，不并入当前 MVP Pilot，不新增 DB schema、Neo4j、PostGIS、空间索引代码或生产级 scheduler。
+2. 下一轮建议进入 PRD Acceptance Matrix / MVP Evidence Pack docs-only planning，不直接进入 Data Steward 实现、repair、rollout 或真实数据迁移。
+3. Phase 2.38a：Tender P1 Source Availability Audit Git baseline 已完成，commit `456b32d`，tag `phase-2.38a-tender-p1-source-audit-baseline`。
+4. Phase 2.38b：Tender P1 Concrete Source Recall Diagnostics 已完成最小实现并通过 Codex B review。
+5. 只读 live preview 结果：资质与业绩 candidate source 已在 top-k，人员要求 candidate source 可检索但低排名；限价继续 Missing Evidence，项目经理等级继续人工复核。
+6. Phase 2.38c personnel recall tail planning baseline 已完成：commit `ff49941`，tag `phase-2.38c-personnel-recall-tail-plan-baseline`。
+7. Phase 2.38d 最小实现、review fix、Q1 intent fix、主仓 answer guard、safe fallback contract 与 runtime post-answer guard 已通过 Codex C Q1/Q2/Q3 真实终端复验；已完成 Git baseline，不得直接进入 broad retrieval fix、repair、rollout 或索引重建。
 
 ## Day-1 Pilot 已知问题
 
@@ -87,7 +89,17 @@
 30. Phase 2.38b Git baseline 已完成：commit `a8c93f1`，tag `phase-2.38b-tender-recall-diagnostics-baseline`。
 31. Phase 2.38c planning 已完成：新增 `docs/PHASE238C_PERSONNEL_RECALL_TAIL_PLAN.md`，结论为人员要求低排名更像 query/profile/candidate-pool tail，不是 source missing。
 32. Phase 2.38c 推荐后续 Phase 2.38d：personnel-only aliases / section hints / candidate-pool diagnostics；继续后置限价缺源、项目经理人工复核、broad retrieval tuning、repair 与 rollout。
-33. Phase 2.38c Codex B review 已通过，本轮执行 docs baseline，不直接进入 2.38d。
+33. Phase 2.38c Git baseline 已完成：commit `ff49941`，tag `phase-2.38c-personnel-recall-tail-plan-baseline`。
+34. Phase 2.38d 入口已写入 `docs/NEXT_CODEX_A_PROMPT.md`：仅处理 `personnel_requirement` 低排名，禁止顺手处理限价、项目经理等级、broad retrieval tuning、repair、reindex 或 rollout。
+35. Phase 2.38d 首轮实现、review-fix 与 Q1 intent fix 已通过 Codex B 复审。
+36. Codex C 真实终端复验显示 retrieval / trace 层已修复：Q1/Q2 均为 `personnel_scope`，metadata fields 仅 `personnel_requirement`；Q3 broad query 仍为 `qualification_scope`。
+37. Codex C 第二轮复验显示最终回答仍失败：Q1/Q2 会输出项目经理 / 每个项目只能1个 / 类似工程业绩，Q3 人员小节仍有隐式数量过度表述。
+38. 主仓第二轮 final answer guard 已完成：`personnel_scope` context block 明确禁止输出项目经理 / 项目负责人 / 注册建造师 / 一级建造师 / B证 / 安全考核证 / 投标资质 / 联合体 / 类似工程业绩，且禁止把角色列表转成隐式数量。
+39. 第三轮 structured answer guard 已完成：`personnel_forbidden_answer_terms`、`personnel_count_inference_forbidden=true`、`ignore_non_personnel_content_in_mixed_chunks=true` 已进入 `personnel_scope` context。
+40. broad `qualification_scope` 不应误套 personnel-only boundary 的测试已补，主仓目标测试 `12 passed`。
+41. 第四轮 safe fallback contract 已完成：若答案草稿含 forbidden terms 或隐式数量推断，context 要求丢弃草稿并输出 Missing Evidence / 人工复核模板。
+42. 当前白名单未允许修改 `run_agent.py`；本轮未接入真正 post-answer retry / replacement，仍需 Codex C 真实终端复验。
+43. 下一步等待 Codex B review；通过后建议 Codex C 重跑 Q1/Q2/Q3；通过后再由 Codex B 写入 Phase 2.38d Git baseline prompt。
 
 ## 后置项
 
@@ -101,6 +113,7 @@
 8. production cron / scheduler：后置，Nightly Sprint 只做本地协作协议，不创建系统定时任务。
 9. default real reports / reviews scan：后置，除非用户显式指定输入。
 10. production rollout 继续后置；MVP Pilot 不得解释为 production ready。
+11. Data Steward 产品化、Building Asset Catalog MVP、建筑本体 / 知识图谱、空间索引、子 Agent 调度与监控面板均后置；当前不新增 DB schema、Neo4j、PostGIS、空间索引代码或生产级 scheduler。
 
 ## 永久边界
 

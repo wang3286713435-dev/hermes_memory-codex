@@ -7,10 +7,11 @@
 3. Phase 2.37a / 2.37b / 2.37c 已完成 intake、runbook 与 triage summary planning baseline。
 4. Phase 2.37d triage summary generator baseline 已完成：commit `d97a67c`，tag `phase-2.37d-pilot-triage-summary-baseline`。
 5. Phase 2.38a Tender P1 Source Availability Audit baseline 已完成：commit `456b32d`，tag `phase-2.38a-tender-p1-source-audit-baseline`。
-6. 新增 BIM 数据管家 PRD 扩展规划：先做 BIM 文件资产目录治理，作为后置专项规划线，不并入当前 MVP Pilot。
+6. Phase 2.39 Data Steward / BIM 数据管家 docs-only baseline 正在收口：先做数据资产目录治理，作为后置产品线，不并入当前 MVP Pilot。
 7. Phase 2.38b Git baseline 已完成：commit `a8c93f1`，tag `phase-2.38b-tender-recall-diagnostics-baseline`。
 8. Phase 2.38c 人员要求召回尾项规划 baseline 已完成：commit `ff49941`，tag `phase-2.38c-personnel-recall-tail-plan-baseline`。
-9. Phase 2.38d personnel-only bounded recall implementation 已完成第五轮 runtime post-answer guard，目标测试通过；等待 Codex B 复审与 Codex C Q1/Q2/Q3 真实终端复验。
+9. Phase 2.38d personnel-only bounded recall implementation baseline 已完成；Codex C Q1/Q2/Q3 真实终端复验通过。
+10. 下一步建议进入 PRD Acceptance Matrix / MVP Evidence Pack docs-only planning，不直接启动 Data Steward 实现、repair、rollout 或 schema / scheduler 工作。
 
 ## 0.1 Phase 2.38b 当前待办
 
@@ -102,12 +103,14 @@
 
 说明：上述事项并非长期放弃，而是不进入当前 MVP Pilot / issue intake 阶段。当前已具备 rerank smoke、dense ingestion、facts governance、audit、version governance 与多模态 MVP 的阶段闭环；下一步重点是把真实试用反馈结构化分流，不扩大到 rollout 或自动修复。
 
-## 0.5 BIM 数据管家后置规划
+## 0.5 Data Steward / BIM 数据管家后置规划
 
-1. PRD 已新增 BIM 数据管家方向：Hermes 初期只管理 BIM 模型文件资产目录、版本、权限、项目归属、检索、引用和后续解析入口。
-2. BIM 文件资产目录最小元数据包括项目、楼栋、楼层、专业、模型类型、版本、路径 / 存储位置、文件大小、hash、创建 / 修改时间、责任人和权限标签。
-3. 原始模型文件不直接进入 LLM 上下文；Hermes 只保存元数据、派生文本、结构化属性和可追溯链接。
-4. 后续可单独规划 `BIM asset catalog planning`，先用少量项目目录试点，不全量处理几个 TB 的模型资产。
+1. PRD 已将 BIM 数据管家扩展为 Data Steward 后置产品线：Hermes 初期只管理数据资产目录、版本、权限、项目归属、责任人、检索、引用和后续解析入口。
+2. BIM 是 Data Steward 的首个高价值垂直场景；最小元数据包括项目、楼栋、楼层、空间、专业、系统、模型类型、版本、路径 / 存储位置、文件大小、hash、创建 / 修改时间、责任人和权限标签。
+3. Data Steward 四层规划为文件资产目录、建筑本体、知识图谱和空间索引；Agent 层规划为 Supervisor、Catalog、Ontology、Spatial Index、Monitoring 和 Review。
+4. 原始 BIM 模型、点云和 IoT 实时流不直接进入 LLM 上下文；Hermes 只保存元数据、派生文本、结构化属性、空间索引 metadata 和可追溯链接。
+5. 当前只做产品规划，不新增 DB schema、Neo4j、PostGIS、空间索引代码或 agent scheduler；后续可单独规划 `Data Steward / Building Asset Catalog MVP`。
+6. 当前主线仍是 Phase 2.38d / MVP Pilot，Data Steward 不进入当前实现资源池，不得影响审标 MVP 收口。
 
 ## 3. Phase 2.2 后续待办
 
