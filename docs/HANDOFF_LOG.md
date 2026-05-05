@@ -2411,3 +2411,21 @@
 - risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是无关遗留 dirty；`docs/NEXT_CODEX_A_PROMPT.md` 是本轮入口文件 dirty，本轮未修改。不得把 planning 写成 rollout approval。
 - next: Codex B review；通过后只做 Phase 2.41 docs-only baseline，后续再决定是否做 Phase 2.41a checklist artifact 或 dry-run report。
 - commit/tag if any: 无；本轮按 NEXT 要求不提交 Git。
+
+## 2026-05-06 01:51 Phase 2.41a
+- goal: MVP Pilot Evidence Review Checklist docs-only artifact。
+- changed_files:
+  - `docs/MVP_PILOT_EVIDENCE_REVIEW_CHECKLIST.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：待最终复核。
+  - Phase 2.41a checklist 关键词与边界 `rg`：待最终复核。
+- validation: Checklist 已覆盖人工填写字段、P0/P1、evidence policy、citation、governance、human review、not-claimable 与 Go / Pause / No-Go 模板；明确不是 production rollout approval、自动审标批准或 repair 授权。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 与 `docs/NEXT_CODEX_A_PROMPT.md` 仍为既有 dirty；本轮不得提交 Git，不得进入新能力开发、rollout、repair、Data Steward 实现或 API/CLI smoke。
+- next: Codex B review；通过后若满足 Baseline Gate，再做 Phase 2.41a docs-only baseline。
+- commit/tag if any: 无；本轮按 NEXT 要求不提交 Git。

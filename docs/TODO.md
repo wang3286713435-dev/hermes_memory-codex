@@ -700,3 +700,14 @@
 6. 当前仍不进入 production rollout、自动审标、自动经营决策、repair executor、Data Steward 实现、DB schema / Neo4j / PostGIS / 空间索引 / scheduler。
 7. 后续候选：Phase 2.41a 只读 Pilot evidence review checklist artifact，或 Phase 2.41a Pilot evidence review dry-run report。
 8. 下一步建议 Codex B review；通过后只做 docs-only baseline，不直接进入新能力开发。
+
+## 47. Phase 2.41a MVP Pilot Evidence Review Checklist Artifact
+
+1. Phase 2.41a 已新增只读人工审阅 artifact：`docs/MVP_PILOT_EVIDENCE_REVIEW_CHECKLIST.md`。
+2. Checklist 覆盖 reviewer、reviewed_at、pilot_round、source_sessions、evidence_refs、decision、decision_reason 等人工填写字段。
+3. Checklist 明确 P0 / P1、evidence policy、citation、governance、human review、not-claimable 与 Go / Pause / No-Go 结论模板。
+4. `facts_as_answer=false`、`transcript_as_fact=false`、`snapshot_as_answer=false`、Missing Evidence not hidden 继续作为 Pilot evidence review 必查项。
+5. 当前 artifact 只用于内部受控 MVP Pilot 人工审阅，不是 production rollout approval，不是自动审标批准，不是 repair / cleanup / reindex 授权。
+6. Data Steward 仍是后置产品线；当前未实现 Data Steward、TB BIM 全量解析、Neo4j / PostGIS / 空间索引或 scheduler。
+7. 本轮不写代码、不新增脚本 / 测试 / migration、不运行 pytest / API / CLI、不提交 Git。
+8. 下一步建议 Codex B review Phase 2.41a artifact；若通过，再按 Baseline Gate 单独执行 docs-only baseline。

@@ -1,9 +1,9 @@
 # Active Phase
 
-- 当前 phase：Phase 2.41 MVP Pilot Evidence Review / Go-No-Go Planning
-- 本轮目标：把 Phase 2.40a PRD Acceptance Matrix / MVP Evidence Pack 转成内部受控 MVP Pilot 的人工 evidence review 与 Go / Pause / No-Go 规划；不写代码、不运行真实 API / CLI、不提交 Git。
+- 当前 phase：Phase 2.41a MVP Pilot Evidence Review Checklist Artifact
+- 本轮目标：把 Phase 2.41 Go / Pause / No-Go 规划转成可人工填写的 MVP Pilot evidence review checklist artifact；不写代码、不新增脚本、不运行真实 API / CLI、不提交 Git。
 - 修改文件：
-  - `docs/PHASE241_MVP_PILOT_EVIDENCE_REVIEW_PLAN.md`
+  - `docs/MVP_PILOT_EVIDENCE_REVIEW_CHECKLIST.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `docs/PHASE_BACKLOG.md`
@@ -11,29 +11,27 @@
   - `docs/HANDOFF_LOG.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 新增 `docs/PHASE241_MVP_PILOT_EVIDENCE_REVIEW_PLAN.md`。
-  - 规划输入来源：PRD acceptance matrix、Codex C 真实终端验收、Pilot issue intake / triage、readiness / repair dry-run reports、人工复核结论。
-  - 定义 Go / Pause / No-Go 条件。
-  - 定义 MVP Pilot evidence review checklist。
-  - 定义 P0 / P1 / P2 / P3 handling policy。
-  - 明确 human review requirement 与 not-claimable checklist。
-  - 明确当前仍是内部受控 MVP Pilot，不是 production rollout。
+  - 新增 `docs/MVP_PILOT_EVIDENCE_REVIEW_CHECKLIST.md`。
+  - Checklist 覆盖 reviewer、reviewed_at、pilot_round、source_sessions / Codex C sessions、evidence_refs、decision 与 decision_reason。
+  - Checklist 明确 P0 / P1、evidence policy、citation、governance、human review、not-claimable 与 Go / Pause / No-Go 结论模板。
+  - 明确 `facts_as_answer=false`、`transcript_as_fact=false`、`snapshot_as_answer=false` 与 Missing Evidence not hidden 为人工审阅必查项。
+  - 明确当前 artifact 只用于内部受控 MVP Pilot 人工审阅，不是 production rollout approval。
   - 明确 Data Steward 仍是后置产品线，不进入当前主线实现。
 - 测试结果：
   - `git diff --check`：待本轮结束复核。
-  - Phase 2.41 关键词与边界 `rg`：待本轮结束复核。
-  - 本轮为 docs-only planning，未运行 pytest。
+  - Phase 2.41a checklist 关键词与边界 `rg`：待本轮结束复核。
+  - 本轮为 docs-only artifact，未运行 pytest。
 - live smoke 结果：
   - 不适用；本轮无代码、API / CLI、DB、facts、versions、OpenSearch 或 Qdrant 操作。
 - 当前结论：
-  - Phase 2.41 docs-only planning 已完成，建议 Codex B review。
-  - 当前只形成审阅规则与后续候选，不批准 production rollout，不批准 repair executor，不进入新能力开发。
+  - Phase 2.41a docs-only checklist artifact 已完成，建议 Codex B review。
+  - 当前不批准 production rollout，不批准 repair executor，不进入新能力开发。
 - 阻塞点 / 风险点：
   - 当前仍有遗留 dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`，不属于本轮范围。
-  - `docs/NEXT_CODEX_A_PROMPT.md` 是本轮入口文件 dirty，本轮未修改。
-  - Phase 2.41 仍是人工 review planning；Go 只代表可继续内部受控 MVP Pilot，不代表 production ready。
-- 是否建议 baseline：否；本轮是 planning，按 NEXT 要求不提交 Git。
-- 是否建议进入下一阶段：暂不直接进入；先由 Codex B review Phase 2.41 planning。
-- 下一轮建议：Codex B review 后，若通过，再做 Phase 2.41 docs-only baseline；后续可二选一规划 Phase 2.41a 只读 evidence review checklist artifact 或 dry-run report。
+  - `docs/NEXT_CODEX_A_PROMPT.md` 是入口文件 dirty，本轮按要求未修改。
+  - Checklist 是人工审阅模板，不是 Go 结论本身；Go 只代表可继续内部受控 MVP Pilot，不代表 production ready。
+- 是否建议 baseline：否；本轮是 artifact 生成，按 NEXT 要求不提交 Git。
+- 是否建议进入下一阶段：暂不直接进入；先由 Codex B review Phase 2.41a artifact。
+- 下一轮建议：Codex B review 后，若通过并满足 Baseline Gate，再做 Phase 2.41a docs-only baseline；不要自动进入 new capability、rollout、repair 或 Data Steward 实现。
 - 是否需要 Codex B 审核：是。
 - 是否需要 Codex C 真实终端验收：否，本轮无终端行为。

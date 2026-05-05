@@ -2,15 +2,16 @@
 
 ## 当前优先级
 
-1. Phase 2.41 MVP Pilot Evidence Review / Go-No-Go planning 已完成，等待 Codex B review。
-2. 下一轮建议仅做 Phase 2.41 docs-only baseline；不要直接进入新能力开发、rollout、repair executor、Data Steward 实现或 Pilot 扩大执行。
-3. Phase 2.40a PRD Acceptance Matrix / MVP Evidence Pack artifact baseline 已完成，commit `e6f7fc2`，tag `phase-2.40a-prd-acceptance-matrix-artifact-baseline`。
-4. Phase 2.40 PRD Acceptance Matrix / MVP Evidence Pack planning baseline 已完成，commit `1383155`，tag `phase-2.40-prd-acceptance-matrix-plan-baseline`。
-5. Phase 2.39 Data Steward / BIM 数据管家 docs-only baseline 已完成：Data Steward 明确为后置产品线，不并入当前 MVP Pilot，不新增 DB schema、Neo4j、PostGIS、空间索引代码或生产级 scheduler。
-6. Phase 2.38a：Tender P1 Source Availability Audit Git baseline 已完成，commit `456b32d`，tag `phase-2.38a-tender-p1-source-audit-baseline`。
-7. Phase 2.38b：Tender P1 Concrete Source Recall Diagnostics 已完成最小实现并通过 Codex B review。
-8. 只读 live preview 结果：资质与业绩 candidate source 已在 top-k，人员要求 candidate source 可检索但低排名；限价继续 Missing Evidence，项目经理等级继续人工复核。
-9. Phase 2.38d 最小实现、review fix、Q1 intent fix、主仓 answer guard、safe fallback contract 与 runtime post-answer guard 已通过 Codex C Q1/Q2/Q3 真实终端复验；已完成 Git baseline，不得直接进入 broad retrieval fix、repair、rollout 或索引重建。
+1. Phase 2.41a MVP Pilot Evidence Review Checklist artifact 已完成，等待 Codex B review。
+2. 下一轮建议仅做 Codex B review；若通过，再按 Baseline Gate 单独做 docs-only baseline，不直接进入新能力开发、rollout、repair executor、Data Steward 实现或 Pilot 扩大执行。
+3. Phase 2.41 MVP Pilot Evidence Review / Go-No-Go planning baseline 已完成，commit `40f8380`，tag `phase-2.41-mvp-pilot-evidence-review-plan-baseline`。
+4. Phase 2.40a PRD Acceptance Matrix / MVP Evidence Pack artifact baseline 已完成，commit `e6f7fc2`，tag `phase-2.40a-prd-acceptance-matrix-artifact-baseline`。
+5. Phase 2.40 PRD Acceptance Matrix / MVP Evidence Pack planning baseline 已完成，commit `1383155`，tag `phase-2.40-prd-acceptance-matrix-plan-baseline`。
+6. Phase 2.39 Data Steward / BIM 数据管家 docs-only baseline 已完成：Data Steward 明确为后置产品线，不并入当前 MVP Pilot，不新增 DB schema、Neo4j、PostGIS、空间索引代码或生产级 scheduler。
+7. Phase 2.38a：Tender P1 Source Availability Audit Git baseline 已完成，commit `456b32d`，tag `phase-2.38a-tender-p1-source-audit-baseline`。
+8. Phase 2.38b：Tender P1 Concrete Source Recall Diagnostics 已完成最小实现并通过 Codex B review。
+9. 只读 live preview 结果：资质与业绩 candidate source 已在 top-k，人员要求 candidate source 可检索但低排名；限价继续 Missing Evidence，项目经理等级继续人工复核。
+10. Phase 2.38d 最小实现、review fix、Q1 intent fix、主仓 answer guard、safe fallback contract 与 runtime post-answer guard 已通过 Codex C Q1/Q2/Q3 真实终端复验；已完成 Git baseline，不得直接进入 broad retrieval fix、repair、rollout 或索引重建。
 
 ## Day-1 Pilot 已知问题
 
