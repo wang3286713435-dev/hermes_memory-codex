@@ -1,0 +1,92 @@
+{
+  "pilot_round": "TEMPLATE_INTERNAL_MVP_PILOT_ROUND",
+  "reviewer": "TEMPLATE_REVIEWER_ROLE_ONLY",
+  "source_sessions": [
+    {
+      "session_ref": "TEMPLATE_CODEX_C_SESSION_REF",
+      "source_type": "terminal_validation_summary",
+      "notes": "Use a non-sensitive session reference or issue link. Do not include real session_id, customer data, document_id, fact_id, personal names, amounts, or confidential content in this template."
+    }
+  ],
+  "p0_items": [],
+  "p1_items": [
+    {
+      "id": "TEMPLATE_P1_RETRIEVAL_RECALL",
+      "title": "Bounded retrieval recall item requiring human review",
+      "priority": "P1",
+      "issue_type": "retrieval_recall",
+      "blocking": false,
+      "human_review_required": true,
+      "next_phase_candidate": "TEMPLATE_NEXT_PHASE_CANDIDATE"
+    }
+  ],
+  "p2_items": [
+    {
+      "id": "TEMPLATE_P2_TRACE_OR_LATENCY",
+      "title": "Non-blocking trace, latency, or UX follow-up",
+      "priority": "P2",
+      "issue_type": "trace_ux"
+    }
+  ],
+  "p3_items": [
+    {
+      "id": "TEMPLATE_P3_DOC_POLISH",
+      "title": "Documentation or runbook polish",
+      "priority": "P3",
+      "issue_type": "documentation"
+    }
+  ],
+  "evidence_policy": {
+    "facts_as_answer": false,
+    "transcript_as_fact": false,
+    "snapshot_as_answer": false,
+    "missing_evidence_hidden": false,
+    "production_rollout_claimed": false,
+    "repair_authorized": false,
+    "data_mutation": false
+  },
+  "citation_summary": {
+    "document_id_present": "manual_check_required",
+    "version_id_present": "manual_check_required",
+    "chunk_id_present": "manual_check_required",
+    "structured_citation_present": "manual_check_required",
+    "manually_checkable_citations_count": 0,
+    "notes": "Replace with sanitized counts or yes/no values from manual review. Do not paste confidential excerpts."
+  },
+  "missing_evidence": [
+    {
+      "id": "TEMPLATE_FIELD_PRICE_CEILING",
+      "field": "price_ceiling_or_bid_control_price",
+      "status": "missing_evidence",
+      "review_status": "needs_manual_review",
+      "human_reviewed": false,
+      "note": "Use placeholders only. Real Missing Evidence must be manually checked before any Pilot expansion."
+    }
+  ],
+  "known_risks": [
+    {
+      "id": "TEMPLATE_RISK_INTERNAL_PILOT_ONLY",
+      "severity": "warning",
+      "description": "Go only means internal controlled MVP Pilot continuation, not production rollout readiness."
+    }
+  ],
+  "not_claimable_confirmed": [
+    "production_ready",
+    "automated_tender_review_replaces_human",
+    "automated_business_decision",
+    "repair_executor_ready",
+    "facts_auto_extraction_complete",
+    "facts_replace_retrieval_evidence",
+    "data_steward_implemented",
+    "tb_bim_full_parse_complete",
+    "neo4j_postgis_spatial_scheduler_ready"
+  ],
+  "next_phase_candidates": [
+    {
+      "phase": "TEMPLATE_PHASE_CANDIDATE",
+      "scope": "bounded_follow_up_or_manual_review",
+      "requires_codex_b_review": true,
+      "requires_codex_c_validation": false
+    }
+  ]
+}

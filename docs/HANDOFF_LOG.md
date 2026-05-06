@@ -2576,3 +2576,62 @@
 - risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍为遗留无关 dirty，baseline 必须排除；baseline 不得生成真实 report、运行 API / CLI、写 DB、repair、rollout 或进入 Data Steward。
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.42a Git baseline；完成后停止等待 Codex B review。
 - commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
+
+## 2026-05-06 10:44 Phase 2.42b
+- goal: Codex B review Phase 2.42a baseline and write Phase 2.42b input template / runbook artifact prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git status --short` / HEAD / tag 检查：Phase 2.42a baseline 已完成，HEAD `4c60b28`，tag `phase-2.42a-mvp-pilot-review-dry-run-generator-baseline`。
+  - `git diff-tree --no-commit-id --name-only -r HEAD`：确认只包含 Phase 2.42a 白名单文件。
+  - `origin/main` 对齐检查：通过。
+- validation: Phase 2.42a baseline 通过 Codex B review；下一步收缩为 Phase 2.42b sanitized input template + runbook artifact，不运行 API / CLI，不生成真实 report。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty，不得触碰；Phase 2.42b 不得生成真实 MVP Pilot report、rollout approval、repair authorization、DB 写入或 Data Steward 实现。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`；完成 Phase 2.42b 后停止等待 Codex B review，不自动 baseline。
+- commit/tag if any: 无；本轮只是 Phase 2.42b prompt handoff，不提交 Git。
+
+## 2026-05-06 10:50 Phase 2.42b
+- goal: MVP Pilot Review Dry-run Input Template / Runbook artifact。
+- changed_files:
+  - `docs/MVP_PILOT_REVIEW_DRY_RUN_INPUT_TEMPLATE.json`
+  - `docs/MVP_PILOT_REVIEW_DRY_RUN_RUNBOOK.md`
+  - `docs/PHASE242_MVP_PILOT_REVIEW_DRY_RUN_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `python -m json.tool ...`：本机裸 `python` 不存在，改用 `uv run python`。
+  - `uv run python -m json.tool docs/MVP_PILOT_REVIEW_DRY_RUN_INPUT_TEMPLATE.json`：通过。
+  - `uv run python scripts/phase242a_mvp_pilot_review_dry_run.py --input docs/MVP_PILOT_REVIEW_DRY_RUN_INPUT_TEMPLATE.json --json`：通过。
+  - safety assertions：通过，template 输出 decision 为 `pause`。
+  - `git diff --check`：通过。
+- validation: Template 只含 sanitized placeholders，runbook 覆盖人工输入整理、ignored report output、Go/Pause/No-Go 解读与非目标；未生成真实 MVP Pilot report。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty；`docs/NEXT_CODEX_A_PROMPT.md` 与 `docs/NIGHTLY_SPRINT_QUEUE.md` 为既有 prompt / queue dirty，本轮按要求未修改 NEXT。Phase 2.42b 不得被解释为 rollout、repair、Data Steward 或真实 Pilot approval。
+- next: Codex B review Phase 2.42b；通过后再单独决定是否 Git baseline。
+- commit/tag if any: 无；本轮按 NEXT 要求不提交 Git。
+
+## 2026-05-06 10:56 Phase 2.42b
+- goal: Codex B review Phase 2.42b template / runbook artifact and write Git baseline prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `uv run python -m json.tool docs/MVP_PILOT_REVIEW_DRY_RUN_INPUT_TEMPLATE.json`：通过。
+  - `uv run python scripts/phase242a_mvp_pilot_review_dry_run.py --input docs/MVP_PILOT_REVIEW_DRY_RUN_INPUT_TEMPLATE.json --json`：通过。
+  - safety assertions：通过，template 输出 decision 为 `pause`。
+  - `git diff --check`：通过。
+- validation: Template 是 sanitized JSON，无真实客户数据 / session_id / document_id / fact_id / 人名 / 金额；runbook 覆盖人工输入整理、ignored report output、Go/Pause/No-Go 解读与非目标；Phase 2.42b 未生成真实 MVP Pilot report。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍为遗留无关 dirty，baseline 必须排除；baseline 不得生成真实 report、运行 API / CLI、写 DB、repair、rollout 或进入 Data Steward。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.42b Git baseline；完成后停止等待 Codex B review。
+- commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。

@@ -271,3 +271,35 @@ Phase 2.42a 验收标准：
 5. `reports/mvp_pilot_reviews/*.json` 与 `*.md` 被 git ignore。
 6. 不运行 API / CLI smoke。
 7. 不提交 Git。
+
+## 16. Phase 2.42b Template / Runbook Artifact
+
+Phase 2.42b 新增本地 sanitized input template 与人工 runbook，让 Phase 2.42a generator 可交给 Codex B / 人工 reviewer 做受控输入整理。
+
+新增文件：
+
+1. `docs/MVP_PILOT_REVIEW_DRY_RUN_INPUT_TEMPLATE.json`。
+2. `docs/MVP_PILOT_REVIEW_DRY_RUN_RUNBOOK.md`。
+
+Template 约束：
+
+1. 只包含占位符，不包含真实客户数据、真实 session_id、真实 document_id、真实 fact_id、真实姓名、真实金额或敏感判断。
+2. 覆盖 generator 支持的核心输入字段：`pilot_round`、`reviewer`、`source_sessions`、`p0_items`、`p1_items`、`p2_items`、`p3_items`、`evidence_policy`、`citation_summary`、`missing_evidence`、`known_risks`、`not_claimable_confirmed`、`next_phase_candidates`。
+3. 默认 safety policy 为 `facts_as_answer=false`、`transcript_as_fact=false`、`snapshot_as_answer=false`、`missing_evidence_hidden=false`、`production_rollout_claimed=false`。
+4. 示例 Missing Evidence 使用 `TEMPLATE_FIELD_PRICE_CEILING` 等占位符；默认可生成 `pause`，提醒人工复核。
+
+Runbook 约束：
+
+1. 明确 dry-run report 不是 production rollout approval。
+2. 明确 dry-run report 不是 repair authorization。
+3. 明确所有 Missing Evidence 必须人工复核。
+4. 说明如何从 Codex C 真实终端验收、Pilot issue records、checklist 与 PRD matrix 手工整理输入。
+5. 说明真实 report JSON / Markdown 默认写入 ignored 的 `reports/mvp_pilot_reviews/`，不入 Git。
+6. 说明 `go` 只代表继续内部受控 MVP Pilot，不代表 production ready。
+
+Phase 2.42b 不做：
+
+1. 真实 MVP Pilot report 生成。
+2. API / CLI smoke。
+3. DB / facts / document_versions / OpenSearch / Qdrant 写入。
+4. rollout、repair、Data Steward 实现、自动审标或自动经营决策。

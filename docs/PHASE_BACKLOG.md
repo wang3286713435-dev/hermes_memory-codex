@@ -2,12 +2,13 @@
 
 ## 当前优先级
 
-1. Phase 2.42a MVP Pilot review dry-run report generator 最小实现已完成并通过 Codex B review；目标验证 `7 passed`。
-2. 下一轮唯一优先事项：Phase 2.42a Git baseline，只 stage 白名单文件，排除遗留 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
-3. Phase 2.42a baseline 后必须停止等待 Codex B review，不自动进入 Phase 2.42b / 2.43。
-4. Phase 2.42 MVP Pilot Review Dry-run Report planning baseline 已完成，commit `0e0d208`，tag `phase-2.42-mvp-pilot-review-dry-run-plan-baseline`。
-5. Phase 2.42a 保持只读、显式输入、本地输出；不默认扫描真实 reports / reviews，不写 DB，不进入 rollout、repair 或 Data Steward 实现。
-6. Phase 2.41a MVP Pilot Evidence Review Checklist artifact baseline 已完成，commit `a2e1042`，tag `phase-2.41a-mvp-pilot-evidence-review-checklist-baseline`。
+1. Phase 2.42b sanitized input template + dry-run runbook artifact 已完成实现并通过 Codex B review。
+2. 下一轮唯一优先事项：Phase 2.42b Git baseline，只 stage 白名单文件，排除遗留 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+3. Phase 2.42b baseline 后必须停止等待 Codex B review，不自动进入 Phase 2.42c / 2.43。
+4. Phase 2.42a MVP Pilot review dry-run report generator Git baseline 已完成，commit `4c60b28`，tag `phase-2.42a-mvp-pilot-review-dry-run-generator-baseline`。
+5. Phase 2.42 MVP Pilot Review Dry-run Report planning baseline 已完成，commit `0e0d208`，tag `phase-2.42-mvp-pilot-review-dry-run-plan-baseline`。
+6. Phase 2.42a 保持只读、显式输入、本地输出；不默认扫描真实 reports / reviews，不写 DB，不进入 rollout、repair 或 Data Steward 实现。
+7. Phase 2.41a MVP Pilot Evidence Review Checklist artifact baseline 已完成，commit `a2e1042`，tag `phase-2.41a-mvp-pilot-evidence-review-checklist-baseline`。
 7. Phase 2.41 MVP Pilot Evidence Review / Go-No-Go planning baseline 已完成，commit `40f8380`，tag `phase-2.41-mvp-pilot-evidence-review-plan-baseline`。
 8. Phase 2.40a PRD Acceptance Matrix / MVP Evidence Pack artifact baseline 已完成，commit `e6f7fc2`，tag `phase-2.40a-prd-acceptance-matrix-artifact-baseline`。
 9. Phase 2.40 PRD Acceptance Matrix / MVP Evidence Pack planning baseline 已完成，commit `1383155`，tag `phase-2.40-prd-acceptance-matrix-plan-baseline`。

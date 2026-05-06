@@ -14,8 +14,10 @@
 10. Phase 2.40 PRD Acceptance Matrix / MVP Evidence Pack planning baseline 已完成：commit `1383155`，tag `phase-2.40-prd-acceptance-matrix-plan-baseline`。
 11. Phase 2.40a docs-only artifact baseline 已完成：commit `e6f7fc2`，tag `phase-2.40a-prd-acceptance-matrix-artifact-baseline`。
 12. Phase 2.41 MVP Pilot Evidence Review / Go-No-Go planning baseline 已完成，Phase 2.41a checklist artifact baseline 已完成。
-13. Phase 2.42 MVP Pilot Review Dry-run Report Planning 已完成，Codex B review 确认主线方向正确；当前只做 TODO / Nightly queue / state docs sync review-fix，小修不 baseline。
-14. 下一步不得直接启动 production rollout、repair、Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
+13. Phase 2.42 MVP Pilot Review Dry-run Report Planning 已完成，Codex B review 确认主线方向正确。
+14. Phase 2.42a MVP Pilot Review Dry-run Report Generator baseline 已完成：commit `4c60b28`，tag `phase-2.42a-mvp-pilot-review-dry-run-generator-baseline`。
+15. Phase 2.42b sanitized input template / dry-run runbook artifact 已完成实现等待 Codex B review；本轮不生成真实 report、不运行 API / CLI、不写 DB、不进入 rollout、repair 或 Data Steward 实现。
+16. 下一步不得直接启动 production rollout、repair、Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
 
 ## 0.1 Phase 2.38b 当前待办
 
