@@ -724,3 +724,14 @@
 7. 当前不写代码、不新增脚本 / 测试 / migration、不运行 pytest / API / CLI、不提交 Git。
 8. Codex B review 已确认 Phase 2.42 planning 主线方向正确，baseline 前仅需同步 TODO 当前状态与 Nightly queue，避免旧 Phase 2.39 / Phase 2.37 口径误导。
 9. 当前 docs sync review-fix 小修不 baseline；完成后等待 Codex B 再判断是否写入 Phase 2.42 docs-only baseline prompt。
+
+## 49. Phase 2.42a MVP Pilot Review Dry-run Report Generator
+
+1. Phase 2.42 baseline 已完成：commit `0e0d208`，tag `phase-2.42-mvp-pilot-review-dry-run-plan-baseline`。
+2. Phase 2.42a 已新增本地只读 dry-run report generator：`scripts/phase242a_mvp_pilot_review_dry_run.py`。
+3. generator 仅读取显式 `--input` JSON，不默认扫描真实 `reports/` 或 `reviews/`。
+4. 输出固定保留 `dry_run=true`、`production_rollout=false`、`repair_authorized=false`、`destructive_actions=[]`、`data_mutation=false`、`facts_as_answer=false`、`transcript_as_fact=false`、`snapshot_as_answer=false`。
+5. decision rules 覆盖 P0 / unsafe evidence policy / rollout / repair / destructive actions => `no_go`；Missing Evidence 未人工复核或 blocking P1 => `pause`；P1 已记录且可人工复核 => 内部受控 Pilot 的 `go`。
+6. 已新增 `reports/mvp_pilot_reviews/.gitignore` 与 `README.md`；真实 report JSON / Markdown 默认 ignored，不入 Git。
+7. 当前不运行 API / CLI smoke，不写 DB / facts / versions / OpenSearch / Qdrant，不进入 production rollout、repair 或 Data Steward 实现。
+8. 下一步需 Codex B review Phase 2.42a；通过后再单独决定是否 Git baseline。

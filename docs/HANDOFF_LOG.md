@@ -2515,3 +2515,64 @@
 - risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty，baseline 必须排除；baseline 后不得自动进入 Phase 2.42a、rollout、repair 或 Data Steward 实现。
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只 stage Phase 2.42 白名单文件，commit / tag / push 后停止等待 Codex B review。
 - commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
+
+## 2026-05-06 10:23 Phase 2.42a
+- goal: Codex B review Phase 2.42 baseline and write Phase 2.42a MVP Pilot review dry-run generator prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git status --short` / HEAD / tag 检查：Phase 2.42 baseline 已完成，HEAD `0e0d208`，tag `phase-2.42-mvp-pilot-review-dry-run-plan-baseline`。
+  - `git diff-tree --no-commit-id --name-only -r HEAD`：确认只包含 Phase 2.42 docs-only 白名单文件。
+- validation: Phase 2.42 baseline 通过 Codex B review；下一步收缩为 Phase 2.42a local dry-run generator，只读取显式 JSON 输入，输出 ignored report，不默认扫描真实 reports / reviews。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty，不得触碰；Phase 2.42a 不得生成 rollout approval、repair authorization、真实 DB 写入或 Data Steward 实现。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`；完成 Phase 2.42a 后停止等待 Codex B review，不自动 baseline。
+- commit/tag if any: 无；本轮只是 Phase 2.42a prompt handoff，不提交 Git。
+
+## 2026-05-06 10:32 Phase 2.42a
+- goal: MVP Pilot Review Dry-run Report Generator 最小实现。
+- changed_files:
+  - `scripts/phase242a_mvp_pilot_review_dry_run.py`
+  - `tests/test_phase242a_mvp_pilot_review_dry_run.py`
+  - `reports/mvp_pilot_reviews/.gitignore`
+  - `reports/mvp_pilot_reviews/README.md`
+  - `docs/PHASE242_MVP_PILOT_REVIEW_DRY_RUN_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `uv run python -m py_compile scripts/phase242a_mvp_pilot_review_dry_run.py`：通过。
+  - `uv run pytest tests/test_phase242a_mvp_pilot_review_dry_run.py -q`：`7 passed`。
+  - `git diff --check`：通过。
+  - `git check-ignore -v reports/mvp_pilot_reviews/example.json reports/mvp_pilot_reviews/example.md`：通过。
+  - `git status --short`：已复核；无业务代码变更。
+- validation: generator 仅读取显式 `--input` JSON，输出 dry-run JSON；`--output-dir` 仅显式写入 JSON / Markdown；固定保留 no rollout / no repair / no destructive action / no data mutation / facts-transcript-snapshot not answer。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍为无关遗留 dirty；`docs/NEXT_CODEX_A_PROMPT.md` 与 `docs/NIGHTLY_SPRINT_QUEUE.md` 为既有 dirty，本轮未修改；本轮不提交 Git、不运行 API / CLI smoke、不生成真实 report。
+- next: Codex B review Phase 2.42a；通过后再单独决定是否 Git baseline。
+- commit/tag if any: 无；本轮按 NEXT 要求不提交 Git。
+
+## 2026-05-06 10:43 Phase 2.42a
+- goal: Codex B review Phase 2.42a MVP Pilot review dry-run generator and write Git baseline prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `uv run python -m py_compile scripts/phase242a_mvp_pilot_review_dry_run.py`：通过。
+  - `uv run pytest tests/test_phase242a_mvp_pilot_review_dry_run.py -q`：`7 passed`。
+  - `git diff --check`：通过。
+  - `git check-ignore -v reports/mvp_pilot_reviews/example.json reports/mvp_pilot_reviews/example.md reports/agent_runs/latest.json`：通过。
+- validation: Phase 2.42a generator 只读取显式 `--input`，不默认扫描真实 reports / reviews；输出固定 dry-run / no rollout / no repair / no destructive action / no data mutation / facts-transcript-snapshot not answer；Markdown disclaimer 与 ignored report storage 均符合规划。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍为遗留无关 dirty，baseline 必须排除；baseline 不得生成真实 report、运行 API / CLI、写 DB、repair、rollout 或进入 Data Steward。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.42a Git baseline；完成后停止等待 Codex B review。
+- commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。

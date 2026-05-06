@@ -10,26 +10,28 @@
 
 ## Current Queue
 
-### Item 1：Phase 2.42 docs sync review-fix
+### Item 1：Phase 2.42a MVP Pilot review dry-run report generator Git baseline
 
-- lane：Green Lane
+- lane：Yellow Lane
 - 状态：ready
-- 目标：同步 `TODO.md`、`NIGHTLY_SPRINT_QUEUE.md` 与状态文件，完成 Phase 2.42 MVP Pilot Review Dry-run Report Planning 的 baseline 前文档漂移小修。
+- 目标：在 Codex B review 通过后，提交 Phase 2.42a MVP Pilot review dry-run report generator Git baseline。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 修改 `docs/TODO.md`、`docs/NIGHTLY_SPRINT_QUEUE.md`、`docs/ACTIVE_PHASE.md`、`docs/PHASE_BACKLOG.md`、`docs/HANDOFF_LOG.md` 与 ignored `reports/agent_runs/latest.json`。
-  - 复核 `git diff --check`、Phase 2.42 / Nightly queue 关键词与 `git status --short`。
+  - 运行 py_compile、目标 pytest、git diff --check、ignore 检查。
+  - selective staging Phase 2.42a 白名单文件。
+  - commit、tag、push `origin/main` 与 tag。
 - 禁止动作：
-  - 不执行 Phase 2.42 docs-only baseline。
-  - 不 commit、tag、push。
-  - 不进入 Phase 2.42a 实现。
+  - 不 stage / commit `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+  - 不默认扫描真实 `reports/` 或 `reviews/` 目录。
+  - 不生成 production rollout approval。
+  - 不授权 repair / cleanup / delete / reindex。
   - 不写业务 DB、OpenSearch、Qdrant、facts 或 document_versions。
-  - 不执行 repair / backfill / reindex / cleanup / delete。
-  - 不进入 production rollout。
+  - 不运行 API / CLI smoke。
   - 不启动 Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
   - 不修改 retrieval contract 或 memory kernel 主架构。
+  - baseline 后不得自动进入下一 phase。
 - 完成后：必须停止等待 Codex B review。
-- baseline 规则：Phase 2.42 baseline 属 Yellow Lane，必须单独 Codex B review / 用户或 prompt 授权；不得夜间自动执行。
+- baseline 规则：本 item 已由 Codex B 写入 baseline prompt；仅可执行本次 baseline，不得连跑下一阶段。
 
 ## Archived Queue
 

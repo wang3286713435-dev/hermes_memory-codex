@@ -239,3 +239,4 @@
 - [Phase 2.41] 完成 MVP Pilot Evidence Review / Go-No-Go docs-only planning：新增 `docs/PHASE241_MVP_PILOT_EVIDENCE_REVIEW_PLAN.md`，定义 Go / Pause / No-Go、P0/P1/P2/P3 handling、人工复核要求与 not-claimable checklist；不写代码、不运行 API/CLI、不进入 rollout。
 - [Phase 2.41a] 完成 MVP Pilot Evidence Review Checklist docs-only artifact：新增 `docs/MVP_PILOT_EVIDENCE_REVIEW_CHECKLIST.md`，用于人工填写 Go / Pause / No-Go、P0/P1、evidence policy、citation、governance、human review 与 not-claimable；本轮不写代码、不运行 API/CLI、不提交 Git。
 - [Phase 2.42] 完成 MVP Pilot Review Dry-run Report docs-only planning：新增 `docs/PHASE242_MVP_PILOT_REVIEW_DRY_RUN_PLAN.md`，规划后续只读 report 的输入、输出、Go/Pause/No-Go decision logic、P0/P1/P2/P3 aggregation、evidence policy、citation 与 Missing Evidence summary；不写代码、不生成真实 report、不进入 rollout。
+- [Phase 2.42a] 完成 MVP Pilot Review Dry-run Report Generator 最小实现：新增显式输入、本地只读 generator 与目标测试，真实 report JSON / Markdown 默认 ignored；不扫描真实 reports / reviews，不运行 API/CLI，不进入 rollout 或 repair。

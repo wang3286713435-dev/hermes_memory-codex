@@ -1,32 +1,38 @@
 # Active Phase
 
-- 当前 phase：Phase 2.42 Git Baseline Prompt Handoff
-- 本轮目标：Codex B review Phase 2.42 planning 与 docs sync review-fix，并写入 Phase 2.42 docs-only Git baseline prompt；不直接提交 Git。
+- 当前 phase：Phase 2.42a MVP Pilot Review Dry-run Report Generator Baseline Prompt
+- 本轮目标：Codex B review Phase 2.42a 实现，并写入 Git baseline prompt；不直接提交 Git。
 - 修改文件：
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 已确认 Phase 2.42 MVP Pilot Review Dry-run Report Planning 内容通过 Codex B review。
-  - 已确认 Phase 2.42 docs sync review-fix 通过：`TODO.md` 当前状态不再停留在 Phase 2.39，`NIGHTLY_SPRINT_QUEUE.md` Current Queue 不再指向 Phase 2.37 baseline。
-  - 已将 Phase 2.42 docs-only Git baseline 任务写入 `docs/NEXT_CODEX_A_PROMPT.md`。
-  - Baseline 白名单限定为 Phase 2.42 planning、docs sync 与交接文档；明确排除 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+  - 已完成 Codex B review：Phase 2.42a generator 实现符合边界。
+  - 已确认 generator 仅接受显式 `--input`，不默认扫描真实 reports / reviews。
+  - 已确认输出固定包含 dry-run / no rollout / no repair / no destructive action / no data mutation / facts/transcript/snapshot not answer。
+  - 已确认真实 MVP Pilot review report JSON / Markdown 默认 ignored。
+  - 已将 Phase 2.42a Git baseline task 写入 `docs/NEXT_CODEX_A_PROMPT.md`。
 - 测试结果：
+  - `uv run python -m py_compile scripts/phase242a_mvp_pilot_review_dry_run.py`：通过。
+  - `uv run pytest tests/test_phase242a_mvp_pilot_review_dry_run.py -q`：`7 passed`。
   - `git diff --check`：通过。
-  - Phase 2.42 / Nightly queue 关键词与边界 `rg`：通过。
-  - `git status --short`：已复核；无业务代码变更。
+  - `git check-ignore -v reports/mvp_pilot_reviews/example.json reports/mvp_pilot_reviews/example.md reports/agent_runs/latest.json`：通过。
+  - `git status --short`：已复核；无业务服务代码变更。
 - live smoke 结果：
   - 不适用；本轮无代码、API / CLI、DB、facts、versions、OpenSearch 或 Qdrant 操作。
 - 当前结论：
-  - Phase 2.42 Baseline Gate 已满足。
-  - 下一步应由 Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.42 docs-only Git baseline。
+  - Phase 2.42a 最小实现已完成。
+  - Phase 2.42a 通过 Codex B review。
+  - Baseline Gate 已满足，可以单独执行 Git baseline。
 - 阻塞点 / 风险点：
   - 遗留无关 dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`，不得被 stage / commit。
-  - Baseline 后仍不得自动进入 Phase 2.42a、production rollout、repair 或 Data Steward 实现。
-- 是否建议 baseline：是，建议执行 Phase 2.42 docs-only baseline。
-- 是否建议进入下一阶段：否；先 baseline Phase 2.42。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`；完成 commit / tag / push 后停止等待 Codex B review。
+  - `docs/NEXT_CODEX_A_PROMPT.md` 与 `docs/NIGHTLY_SPRINT_QUEUE.md` 已更新为 baseline handoff / queue。
+  - Phase 2.42a 不得生成 rollout approval 或 repair authorization。
+- 是否建议 baseline：是；下一轮只做 Phase 2.42a Git baseline。
+- 是否建议进入下一阶段：否；先 baseline Phase 2.42a。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 baseline 后停止等待 Codex B review。
 - 是否需要 Codex B 审核：baseline 后需要。
-- 是否需要 Codex C 真实终端验收：否，本轮和 baseline 均为 docs-only。
+- 是否需要 Codex C 真实终端验收：否，Phase 2.42a 不跑真实 API / CLI。

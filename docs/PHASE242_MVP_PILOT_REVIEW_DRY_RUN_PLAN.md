@@ -156,7 +156,14 @@ Missing Evidence summary 至少应覆盖：
 
 真实 report JSON / Markdown 默认 ignored，不入 Git。
 
-本轮不创建 `reports/mvp_pilot_reviews/`，不生成真实 report，不创建示例业务数据。
+Phase 2.42 planning 阶段不创建 `reports/mvp_pilot_reviews/`，不生成真实 report，不创建示例业务数据。
+
+Phase 2.42a 最小实现新增本地 ignored 存储策略：
+
+1. `reports/mvp_pilot_reviews/.gitignore`。
+2. `reports/mvp_pilot_reviews/README.md`。
+3. 真实 report `*.json` / `*.md` 默认 ignored。
+4. 只提交目录策略文件，不提交真实 report 产物。
 
 ## 10. Codex B / Codex C 分工
 
@@ -177,13 +184,13 @@ Codex C 不负责主实现，不执行 repair，不批准 rollout。
 
 ## 11. 非目标
 
-Phase 2.42 不做：
+Phase 2.42 / 2.42a 不做：
 
 1. production rollout。
 2. repair / cleanup / delete / reindex。
 3. DB / facts / document_versions 写入。
 4. OpenSearch / Qdrant mutation。
-5. API / CLI / script / test 实现。
+5. API / CLI smoke。
 6. Data Steward 实现。
 7. 自动审标。
 8. 自动经营决策。
@@ -191,18 +198,56 @@ Phase 2.42 不做：
 10. memory kernel 主架构修改。
 11. Neo4j / PostGIS / scheduler / DB schema。
 
-## 12. 后续候选
+## 12. Phase 2.42a 最小实现边界
+
+Phase 2.42a 已新增本地只读 dry-run report generator：
+
+1. 脚本：`scripts/phase242a_mvp_pilot_review_dry_run.py`。
+2. 测试：`tests/test_phase242a_mvp_pilot_review_dry_run.py`。
+3. 输入：仅允许显式 `--input /path/to/evidence.json`。
+4. 默认输出：stdout JSON。
+5. 可选输出：`--output-dir` 写入 JSON / Markdown；测试仅使用临时目录。
+6. 不默认扫描 `reports/`、`reviews/` 或任何真实业务目录。
+
+固定安全字段：
+
+1. `dry_run=true`。
+2. `production_rollout=false`。
+3. `repair_authorized=false`。
+4. `destructive_actions=[]`。
+5. `data_mutation=false`。
+6. `facts_as_answer=false`。
+7. `transcript_as_fact=false`。
+8. `snapshot_as_answer=false`。
+
+Decision rules：
+
+1. 任一 P0 => `no_go`。
+2. unsafe evidence policy、rollout、repair、destructive action 或 data mutation input => `no_go`。
+3. Missing Evidence 未人工复核 => `pause`。
+4. blocking P1 => `pause`。
+5. P1 已记录且可人工复核 => `go`，但仅表示可继续内部受控 MVP Pilot。
+
+Markdown output 必须包含：
+
+1. `This is not production rollout approval`。
+2. `This is not repair authorization`。
+3. `Human review required`。
+4. `Missing Evidence must be manually reviewed`。
+
+## 13. 后续候选
 
 Codex B review 后，下一步只能选择一个 bounded path：
 
-1. Phase 2.42a：local ignored MVP Pilot review dry-run report artifact。
-2. Phase 2.42a：local dry-run report generator planning / implementation。
+1. Phase 2.42a Codex B review。
+2. Phase 2.42a docs / script / tests Git baseline。
+3. Phase 2.42b：只读 report artifact refinement 或 explicit sample template planning。
 
 两者都必须保持只读，不进入 rollout，不执行 repair，不写业务 DB。
 
-## 13. 本轮验收
+## 14. Phase 2.42 Planning 验收
 
-本轮验收标准：
+Phase 2.42 planning 验收标准：
 
 1. 新增 `docs/PHASE242_MVP_PILOT_REVIEW_DRY_RUN_PLAN.md`。
 2. dry-run report 输入、输出、decision schema、P0/P1/P2/P3 aggregation policy 明确。
@@ -214,3 +259,15 @@ Codex B review 后，下一步只能选择一个 bounded path：
 8. `git diff --check` 通过。
 9. 关键词 `rg` 复核通过。
 10. 不提交 Git。
+
+## 15. Phase 2.42a 验收
+
+Phase 2.42a 验收标准：
+
+1. py_compile 通过。
+2. 目标 pytest 通过。
+3. `--input` 为必填；脚本不默认扫描真实 reports / reviews。
+4. `--output-dir` 仅在显式传入时写入 JSON / Markdown。
+5. `reports/mvp_pilot_reviews/*.json` 与 `*.md` 被 git ignore。
+6. 不运行 API / CLI smoke。
+7. 不提交 Git。
