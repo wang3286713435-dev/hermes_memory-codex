@@ -1,9 +1,10 @@
 # Active Phase
 
-- 当前 phase：Phase 2.44b Sanitized Issue Intake Dry-run / Recorder Workflow Planning Baseline Prompt
-- 本轮目标：Codex B review Phase 2.44b planning，并写入 docs-only Git baseline 任务。
+- 当前 phase：Phase 2.44c Fake-data Sanitized Issue Intake Dry-run Artifact Baseline Prompt
+- 本轮目标：Codex B review Phase 2.44c fake-data artifact，并写入 docs-only Git baseline 任务。
 - 修改文件：
-  - `docs/PHASE244B_SANITIZED_ISSUE_INTAKE_DRY_RUN_PLAN.md`
+  - `docs/MVP_PILOT_DAY1_FAKE_ISSUE_DRY_RUN.md`
+  - `docs/MVP_PILOT_DAY1_FAKE_ISSUE_INPUT.json`
   - `docs/ACTIVE_PHASE.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/HANDOFF_LOG.md`
@@ -13,31 +14,34 @@
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - Phase 2.44b planning 文档已完成，定义 recorder 如何从 Day-1 raw output 手工摘录 sanitized issue input。
-  - 规划明确哪些字段必须脱敏或占位：raw answer、document_id、version_id、citation、session_id、人员姓名和业务判断。
-  - 规划明确使用现有 `scripts/phase237a_pilot_issue_intake.py` 做 strict dry-run validation。
-  - 规划明确真实 issue records 应保存到 ignored local path，例如 `reports/pilot_issues/*.json`。
-  - Codex B review 通过：Phase 2.44b 是 docs-only planning，不生成真实 issue records / Pilot report，不修 retrieval，不进入 rollout。
+  - Phase 2.44c fake-data artifact 已完成，新增 fake issue dry-run runbook 与 fake issue input。
+  - fake input 包含 2 条占位 issue：P1 `retrieval_recall` 与 P1 `trace_ux`。
+  - fake input 使用 placeholder alias、document_id、version_id、citation、source location 与 sanitized behavior。
+  - Codex B review 通过：未包含真实 raw answer、真实 session_id、真实客户数据、真实金额、真实投标判断或真实经营建议。
+  - strict validator 通过，dry-run summary 输出 `continue_with_manual_review`。
 - 测试结果：
   - `git diff --check`：通过。
+  - `uv run python -m json.tool docs/MVP_PILOT_DAY1_FAKE_ISSUE_INPUT.json >/tmp/day1_fake_issue_input_check.json`：通过。
+  - `uv run python scripts/phase237a_pilot_issue_intake.py --input docs/MVP_PILOT_DAY1_FAKE_ISSUE_INPUT.json --strict >/tmp/day1_fake_issue_intake_validate.json`：通过，`invalid_count=0`。
+  - `uv run python scripts/phase237a_pilot_issue_intake.py --input docs/MVP_PILOT_DAY1_FAKE_ISSUE_INPUT.json >/tmp/day1_fake_issue_intake_summary.json`：通过，`total=2`，`valid_records=2`，`P1=2`，`go_pause_recommendation=continue_with_manual_review`。
   - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
-  - `git check-ignore -v reports/agent_runs/latest.json`：通过，命中 `reports/agent_runs/.gitignore`。
-  - `git status --short`：通过；显示 Phase 2.44b 文档变更、新增 Phase 2.44b 规划文档，以及遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
 - live smoke 结果：
   - 本轮不运行 API / CLI smoke。
   - 本轮不生成真实 Pilot report 或真实 issue records。
+  - 未写 DB / facts / document_versions / OpenSearch / Qdrant。
 - 当前结论：
-  - Phase 2.44b docs-only planning 已完成。
+  - Phase 2.44c fake-data artifact 已完成。
   - Codex B review 已通过。
-  - 当前可做 Phase 2.44b docs-only Git baseline。
+  - 当前可做 Phase 2.44c docs-only Git baseline。
 - 阻塞点 / 风险点：
-  - Day-1 P1/P2 尾项仍未修复，只进入记录 / 分诊规划。
+  - `continue_with_manual_review` 不是 rollout approval。
+  - Day-1 P1/P2 尾项仍未修复，只进入记录 / 分诊 dry-run。
   - 真实 issue records 与 raw output bundle 必须保持 ignored local artifact。
-  - 当前 validator enum 与 Day-1 label 不完全一致，后续如要扩 enum 必须单独规划。
   - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty，本轮不得 stage / commit。
   - 继续禁止 production rollout、repair、Data Steward 实现、DB / facts / document_versions / OpenSearch / Qdrant 写入。
 - 是否建议 baseline：是；Baseline Gate 已满足。
-- 是否建议进入下一阶段：否；先完成 Phase 2.44b Git baseline。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44b docs-only Git baseline。
+- 是否建议进入下一阶段：否；先完成 Phase 2.44c Git baseline。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44c docs-only Git baseline。
 - 是否需要 Codex B 审核：已完成。
 - 是否需要 Codex C 真实终端验收：否。

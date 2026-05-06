@@ -10,16 +10,17 @@
 
 ## Current Queue
 
-### Item 1：Phase 2.44b Sanitized Issue Intake Dry-run / Recorder Workflow Planning
+### Item 1：Phase 2.44c Fake-data Sanitized Issue Intake Dry-run Artifact
 
 - lane：Green Lane
 - 状态：implemented_codex_b_review_passed_waiting_baseline
-- 目标：规划 recorder 如何把 Day-1 continuation P1/P2 findings 转成 sanitized local issue intake dry-run，不生成真实 issue records / Pilot report。
+- 目标：用 fake / placeholder issue input 验证 sanitized issue intake workflow，不生成真实 issue records / Pilot report。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 新增 `docs/PHASE244B_SANITIZED_ISSUE_INTAKE_DRY_RUN_PLAN.md`。
-  - 更新 Phase 2.44b 交接文档与 ignored latest 状态。
-  - 运行 `git diff --check`、`latest.json` JSON 校验、ignore 检查与 `git status --short`。
+  - 新增 `docs/MVP_PILOT_DAY1_FAKE_ISSUE_DRY_RUN.md`。
+  - 新增 `docs/MVP_PILOT_DAY1_FAKE_ISSUE_INPUT.json`，内容必须为 fake / placeholder。
+  - 更新 Phase 2.44c 交接文档与 ignored latest 状态。
+  - 运行 `git diff --check`、fake JSON 校验、Phase 2.37a strict validator、summary dry-run、`latest.json` JSON 校验、ignore 检查与 `git status --short`。
 - 禁止动作：
   - 不修改 / stage `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
   - 不修改代码、脚本、测试、migration 或 Hermes 主仓库。
@@ -34,18 +35,18 @@
   - 不启动 Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
   - 不修改 retrieval contract 或 memory kernel 主架构。
   - 不自动发起 Codex C。
-- 完成后：已停止等待 Codex B review，不得进入 Phase 2.44c。
+- 完成后：停止等待 Codex B review，不得进入 Phase 2.44d。
 - baseline 规则：本 item 不 baseline；仅交付 planning dirty。
-- 当前结果：docs-only planning 已完成并通过 Codex B review，新增 `docs/PHASE244B_SANITIZED_ISSUE_INTAKE_DRY_RUN_PLAN.md`；未生成真实 issue records / Pilot report，未写 DB / facts / document_versions / OpenSearch / Qdrant。
+- 当前结果：Codex A 已完成 fake input / dry-run runbook，strict validator 通过，Codex B review 已通过；未生成真实 issue records / Pilot report。
 
-### Item 2：Phase 2.44b docs-only planning baseline
+### Item 2：Phase 2.44c fake-data artifact baseline
 
 - lane：Yellow Lane
 - 状态：codex_b_approved_next_prompt_ready
-- 条件：Codex B review 已通过 Phase 2.44b planning；允许执行 docs-only baseline。
-- 目标：只提交 Phase 2.44b planning / handoff 文档 baseline。
+- 条件：Codex B review 已通过 Phase 2.44c artifact；允许执行 docs-only baseline。
+- 目标：只提交 Phase 2.44c fake-data artifact / handoff 文档 baseline。
 - 禁止动作：
-  - 不进入 Phase 2.44c。
+  - 不进入 Phase 2.44d。
   - 不生成真实 issue records / Pilot report。
   - 不写 DB / facts / document_versions / OpenSearch / Qdrant。
   - 不执行 repair / backfill / reindex / cleanup / delete。
@@ -53,6 +54,13 @@
 - baseline 规则：默认夜间不可自动执行；需要用户或 Codex B 明确授权。
 
 ## Archived Queue
+
+### Phase 2.44b Sanitized Issue Intake Dry-run / Recorder Workflow Planning
+
+- 类型：Yellow Lane
+- 状态：completed
+- 结果：commit `0241c4d`，tag `phase-2.44b-sanitized-issue-intake-dry-run-plan-baseline`。
+- 备注：sanitized issue intake dry-run / recorder workflow planning 已 baseline；未生成真实 issue records / Pilot report，未写 DB / facts / document_versions / OpenSearch / Qdrant。
 
 ### Phase 2.44a MVP Pilot Issue Intake Worksheet / Template Artifact
 

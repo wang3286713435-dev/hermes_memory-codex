@@ -3110,3 +3110,71 @@
 - risks: baseline 必须 selective staging，排除遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.44c。
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44b docs-only Git baseline。
 - commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
+
+## 2026-05-06 17:37 Phase 2.44c
+- goal: Confirm Phase 2.44b baseline and write next artifact prompt for fake-data sanitized issue intake dry-run。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - Phase 2.44b baseline checked：HEAD `0241c4d`，tag `phase-2.44b-sanitized-issue-intake-dry-run-plan-baseline`。
+  - `reports/agent_runs/latest.json` indicates baseline / pushed true。
+  - 本轮不运行 API / CLI，不运行 pytest，不生成真实 Pilot report 或 issue records。
+- validation: 下一轮收缩为 fake-data artifact，目标是用 placeholder issue input 验证 sanitized issue intake workflow；不使用真实 Pilot raw output、不生成真实 records、不修 retrieval、不写 DB、不进入 rollout / repair / Data Steward。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍为遗留无关 dirty，不得触碰；Phase 2.44c 完成后需 Codex B review，不自动 baseline。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44c fake-data dry-run artifact。
+- commit/tag if any: 无；本轮只是 next prompt handoff，不提交 Git。
+
+## 2026-05-06 17:45 Phase 2.44c
+- goal: Create fake/temp-data sanitized issue intake dry-run artifact and validate recorder workflow with the existing Phase 2.37a validator.
+- changed_files:
+  - `docs/MVP_PILOT_DAY1_FAKE_ISSUE_DRY_RUN.md`
+  - `docs/MVP_PILOT_DAY1_FAKE_ISSUE_INPUT.json`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool docs/MVP_PILOT_DAY1_FAKE_ISSUE_INPUT.json >/tmp/day1_fake_issue_input_check.json`：通过。
+  - `uv run python scripts/phase237a_pilot_issue_intake.py --input docs/MVP_PILOT_DAY1_FAKE_ISSUE_INPUT.json --strict >/tmp/day1_fake_issue_intake_validate.json`：通过，`invalid_count=0`。
+  - `uv run python scripts/phase237a_pilot_issue_intake.py --input docs/MVP_PILOT_DAY1_FAKE_ISSUE_INPUT.json >/tmp/day1_fake_issue_intake_summary.json`：通过，`total=2`，`valid_records=2`，`P1=2`，`go_pause_recommendation=continue_with_manual_review`。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+- validation: fake input contains only placeholder aliases, document IDs, version IDs, citations, and sanitized behavior; no real issue records, Pilot report, API/CLI, DB/index writes, repair, rollout, or Data Steward work.
+- risks: `continue_with_manual_review` is not rollout approval; Day-1 P1/P2 findings remain candidates, not fixes; inherited dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope.
+- next: Codex B review Phase 2.44c artifact; if approved, write docs-only Git baseline prompt. Do not enter Phase 2.44d.
+- commit/tag if any: 无；本轮不提交 Git。
+
+## 2026-05-06 17:50 Phase 2.44c
+- goal: Codex B review Phase 2.44c fake-data sanitized issue intake dry-run artifact and write docs-only Git baseline prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool docs/MVP_PILOT_DAY1_FAKE_ISSUE_INPUT.json >/tmp/day1_fake_issue_input_check.json`：通过。
+  - `uv run python scripts/phase237a_pilot_issue_intake.py --input docs/MVP_PILOT_DAY1_FAKE_ISSUE_INPUT.json --strict >/tmp/day1_fake_issue_intake_validate.json`：通过，`invalid_count=0`。
+  - `uv run python scripts/phase237a_pilot_issue_intake.py --input docs/MVP_PILOT_DAY1_FAKE_ISSUE_INPUT.json >/tmp/day1_fake_issue_intake_summary.json`：通过，`total=2`，`valid_records=2`，`P1=2`，`go_pause_recommendation=continue_with_manual_review`。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+- validation: Codex B review 通过。fake input 只含 placeholder aliases/document IDs/version IDs/citations/source locations/sanitized behavior；无真实 raw answer、session、customer、amount、tender judgment、business recommendation。
+- risks: baseline 必须 selective staging，排除遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.44d。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44c docs-only Git baseline。
+- commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。

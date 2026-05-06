@@ -2,13 +2,15 @@
 
 ## 当前优先级
 
-1. Phase 2.44b sanitized issue intake dry-run / recorder workflow planning 已完成，新增 `docs/PHASE244B_SANITIZED_ISSUE_INTAKE_DRY_RUN_PLAN.md`。
-2. Codex B review Phase 2.44b planning 已通过；当前唯一优先事项：执行 Phase 2.44b docs-only Git baseline。
-3. Phase 2.44b 只做 docs-only planning：规划 recorder 如何把 Day-1 P1/P2 findings 转成 sanitized local issue intake dry-run，不生成真实 issue records、不生成真实 Pilot report、不修 retrieval。
-4. Day-1 issue candidates 已记录：限价 Missing Evidence、主标书深层字段人工复核、Excel citation 降级、公司方向人工决策、trace display UX。
-5. 继续禁止 production rollout、repair、Data Steward 实现、DB / facts / document_versions / OpenSearch / Qdrant 写入。
-6. Phase 2.44a MVP Pilot issue intake worksheet / sanitized template artifact Git baseline 已完成：commit `14c5640`，tag `phase-2.44a-pilot-issue-intake-worksheet-baseline`。
-7. 遗留无关 dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`，不得被本轮 stage / commit。
+1. Phase 2.44c fake/temp-data sanitized issue intake dry-run artifact 已完成并通过 Codex B review，当前唯一优先事项：执行 Phase 2.44c docs-only Git baseline。
+2. Phase 2.44c fake input 覆盖 2 条占位 issue：P1 `retrieval_recall` 与 P1 `trace_ux`；strict validator 通过，`invalid_count=0`，`go_pause_recommendation=continue_with_manual_review`。
+3. Phase 2.44c baseline 后再评审 Phase 2.44d；不得直接生成真实 issue records、修 retrieval 或进入 rollout。
+4. Phase 2.44b sanitized issue intake dry-run / recorder workflow planning Git baseline 已完成：commit `0241c4d`，tag `phase-2.44b-sanitized-issue-intake-dry-run-plan-baseline`。
+5. Phase 2.44c 只允许 fake / placeholder issue input，用于验证 recorder workflow；不生成真实 issue records、不生成真实 Pilot report、不修 retrieval。
+6. Day-1 issue candidates 已记录：限价 Missing Evidence、主标书深层字段人工复核、Excel citation 降级、公司方向人工决策、trace display UX。
+7. 继续禁止 production rollout、repair、Data Steward 实现、DB / facts / document_versions / OpenSearch / Qdrant 写入。
+8. Phase 2.44a MVP Pilot issue intake worksheet / sanitized template artifact Git baseline 已完成：commit `14c5640`，tag `phase-2.44a-pilot-issue-intake-worksheet-baseline`。
+9. 遗留无关 dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`，不得被本轮 stage / commit。
 8. Phase 2.43d `@主标书` alias/session Pause 最小修复与双仓 Git baseline 已完成：Hermes_memory commit `d62852b`，Hermes 主仓库 commit `9e8e5667`，tag `phase-2.43d-main-tender-alias-session-baseline`。
 9. Codex C Day-1 断点续跑已通过：session `20260506_143354_d4ad05`，`@主标书` Q1-Q2 resolved，`alias_missing=false`，`retrieval_suppressed=false`；10 条 query 为 `6 pass / 4 partial / 0 fail`，P0 为 0，Decision 为 `Go`。
 10. Phase 2.43b MVP Pilot Pre-flight Smoke Prompt baseline 已完成：commit `ef2e43f`，tag `phase-2.43b-mvp-pilot-preflight-smoke-prompt-baseline`。

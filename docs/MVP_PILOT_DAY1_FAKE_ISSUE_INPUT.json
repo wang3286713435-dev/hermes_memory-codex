@@ -1,0 +1,98 @@
+[
+  {
+    "actual_behavior": "Fake observed behavior: the answer stayed in Missing Evidence because no concrete placeholder amount was available in the cited fake evidence.",
+    "aliases": [
+      "@fake-main-tender"
+    ],
+    "citations": [
+      {
+        "citation_id": "fake-citation-price-ceiling-001",
+        "source_location": "fake-section: tender notice / price ceiling placeholder",
+        "source_type": "fake-tender-chunk"
+      }
+    ],
+    "document_ids": [
+      "fake-document-id-main-tender-placeholder"
+    ],
+    "expected_behavior": "Return a cited concrete value when evidence exists, or explicit Missing Evidence without fabrication.",
+    "human_review_required": true,
+    "issue_id": "fake-pilot-issue-20260506-001",
+    "issue_type": "retrieval_recall",
+    "notes": "Committed fake dry-run record only. It contains no real raw answer, document ID, version ID, citation, customer name, amount, tender judgment, repair request, or rollout approval.",
+    "priority": "P1",
+    "query": "Fake sanitized query: ask for a tender price ceiling from @fake-main-tender.",
+    "reported_at": "2026-05-06T17:45:00+08:00",
+    "reporter": "pilot-recorder",
+    "safety_boundary": [
+      "missing_evidence",
+      "evidence_required",
+      "no_fabrication",
+      "no_repair_rollout"
+    ],
+    "source": "fake_day1_recorder_dry_run",
+    "source_phase": "Phase 2.44c",
+    "status": "new",
+    "suggested_next_action": "Keep as a fake recorder workflow validation item; real findings require ignored local records and human review before any bounded planning.",
+    "trace_flags": {
+      "contamination_flags": [],
+      "facts_as_answer": false,
+      "retrieval_evidence_document_ids": [
+        "fake-document-id-main-tender-placeholder"
+      ],
+      "snapshot_as_answer": false,
+      "transcript_as_fact": false
+    },
+    "version_ids": [
+      "fake-version-id-main-tender-placeholder"
+    ]
+  },
+  {
+    "actual_behavior": "Fake observed behavior: the structured citation display degraded from a cell range placeholder to a broader row range placeholder.",
+    "aliases": [
+      "@fake-structured-sheet"
+    ],
+    "citations": [
+      {
+        "citation_id": "fake-citation-cell-range-001",
+        "source_location": "fake-sheet: Sheet-A, rows 10-12, columns A-D",
+        "source_type": "fake-excel-cell-range"
+      }
+    ],
+    "document_ids": [
+      "fake-document-id-structured-sheet-placeholder"
+    ],
+    "expected_behavior": "Display stable sheet and cell-range citation when structured source metadata is available.",
+    "human_review_required": true,
+    "issue_id": "fake-pilot-issue-20260506-002",
+    "issue_type": "trace_ux",
+    "notes": "Committed fake dry-run record only. It validates recorder and validator flow; it is not a real issue record, not a repair request, and not rollout evidence.",
+    "priority": "P1",
+    "query": "Fake sanitized query: ask for one item from @fake-structured-sheet with citation.",
+    "reported_at": "2026-05-06T17:45:00+08:00",
+    "reporter": "pilot-recorder",
+    "safety_boundary": [
+      "evidence_required",
+      "no_repair_rollout"
+    ],
+    "source": "fake_day1_recorder_dry_run",
+    "source_phase": "Phase 2.44c",
+    "status": "new",
+    "suggested_next_action": "Keep as a fake citation UX workflow validation item; real structured citation issues must stay in ignored local issue records.",
+    "trace_flags": {
+      "citation_fields_present": [
+        "fake-sheet-name",
+        "fake-cell-range"
+      ],
+      "contamination_flags": [],
+      "facts_as_answer": false,
+      "retrieval_evidence_document_ids": [
+        "fake-document-id-structured-sheet-placeholder"
+      ],
+      "snapshot_as_answer": false,
+      "transcript_as_fact": false
+    },
+    "version_ids": [
+      "fake-version-id-structured-sheet-placeholder"
+    ]
+  }
+]
