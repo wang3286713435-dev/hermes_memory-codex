@@ -10,30 +10,46 @@
 
 ## Current Queue
 
-### Item 1：Phase 2.42a MVP Pilot review dry-run report generator Git baseline
+### Item 1：Phase 2.43 review / baseline decision
 
-- lane：Yellow Lane
-- 状态：ready
-- 目标：在 Codex B review 通过后，提交 Phase 2.42a MVP Pilot review dry-run report generator Git baseline。
-- 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
+- lane：Green Lane
+- 状态：waiting_codex_b_review
+- 目标：Codex B review Phase 2.43 launch candidate planning，确认是否允许进入 docs-only baseline 或 Phase 2.43a launch packet / operator checklist artifact。
+- 任务入口：待 Codex B 写入 `docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 运行 py_compile、目标 pytest、git diff --check、ignore 检查。
-  - selective staging Phase 2.42a 白名单文件。
-  - commit、tag、push `origin/main` 与 tag。
+  - Review `docs/PHASE243_MVP_PILOT_LAUNCH_CANDIDATE_PLAN.md`。
+  - 写入下一轮 prompt 或 baseline prompt。
+  - 更新 TODO、DEV_LOG、PHASE_BACKLOG、ACTIVE_PHASE、HANDOFF_LOG、NIGHTLY_SPRINT_QUEUE 与 ignored latest。
 - 禁止动作：
-  - 不 stage / commit `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+  - 不修改 / stage `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+  - 不修改脚本、测试、业务代码、migration 或 schema。
   - 不默认扫描真实 `reports/` 或 `reviews/` 目录。
+  - 不生成真实 MVP Pilot report。
   - 不生成 production rollout approval。
   - 不授权 repair / cleanup / delete / reindex。
   - 不写业务 DB、OpenSearch、Qdrant、facts 或 document_versions。
   - 不运行 API / CLI smoke。
   - 不启动 Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
   - 不修改 retrieval contract 或 memory kernel 主架构。
-  - baseline 后不得自动进入下一 phase。
-- 完成后：必须停止等待 Codex B review。
-- baseline 规则：本 item 已由 Codex B 写入 baseline prompt；仅可执行本次 baseline，不得连跑下一阶段。
+  - 不 commit、tag、push。
+- 完成后：必须停止等待用户 / Codex A 执行下一轮明确 prompt。
+- baseline 规则：Phase 2.43 baseline 属 Yellow Lane，必须单独 Codex B review / 用户或 prompt 授权；不得夜间自动执行。
 
 ## Archived Queue
+
+### Phase 2.43 Internal MVP Pilot Launch Candidate Planning
+
+- 类型：Green Lane
+- 状态：implemented / waiting review
+- 结果：新增 `docs/PHASE243_MVP_PILOT_LAUNCH_CANDIDATE_PLAN.md`。
+- 备注：只做 docs-only planning；未启动真实 Pilot，未生成真实 report，未进入 rollout / repair / Data Steward。
+
+### Phase 2.42b MVP Pilot review dry-run input template / runbook
+
+- 类型：Yellow Lane
+- 状态：completed
+- 结果：commit `edd0e08`，tag `phase-2.42b-mvp-pilot-review-dry-run-template-baseline`。
+- 备注：sanitized input template 与 runbook 已 baseline；未生成真实 MVP Pilot report，未进入 rollout / repair。
 
 ### Phase 2.37 planning Git baseline
 

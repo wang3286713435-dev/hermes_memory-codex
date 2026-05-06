@@ -16,8 +16,9 @@
 12. Phase 2.41 MVP Pilot Evidence Review / Go-No-Go planning baseline 已完成，Phase 2.41a checklist artifact baseline 已完成。
 13. Phase 2.42 MVP Pilot Review Dry-run Report Planning 已完成，Codex B review 确认主线方向正确。
 14. Phase 2.42a MVP Pilot Review Dry-run Report Generator baseline 已完成：commit `4c60b28`，tag `phase-2.42a-mvp-pilot-review-dry-run-generator-baseline`。
-15. Phase 2.42b sanitized input template / dry-run runbook artifact 已完成实现等待 Codex B review；本轮不生成真实 report、不运行 API / CLI、不写 DB、不进入 rollout、repair 或 Data Steward 实现。
-16. 下一步不得直接启动 production rollout、repair、Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
+15. Phase 2.42b sanitized input template / dry-run runbook artifact baseline 已完成：commit `edd0e08`，tag `phase-2.42b-mvp-pilot-review-dry-run-template-baseline`。
+16. Phase 2.43 Internal MVP Pilot Launch Candidate Planning 已完成，等待 Codex B review；本轮不启动真实 Pilot、不生成真实 report、不运行 API / CLI、不写 DB、不进入 rollout、repair 或 Data Steward 实现。
+17. 下一步不得直接启动 production rollout、repair、Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
 
 ## 0.1 Phase 2.38b 当前待办
 
