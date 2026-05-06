@@ -2,7 +2,7 @@
 
 ## 0. 当前 MVP Pilot 状态
 
-1. Phase 2.44 MVP Pilot continuation / issue intake planning 已完成并通过 Codex B review；下一步只做 docs-only Git baseline。
+1. Phase 2.44 MVP Pilot continuation / issue intake planning Git baseline 已完成：commit `afb5a29`，tag `phase-2.44-pilot-continuation-issue-intake-plan-baseline`。
 2. Phase 2.34 compare false-positive baseline 已完成：Hermes_memory commit `789ed22`，Hermes 主仓库 commit `5de49bf5`，tag `phase-2.34-compare-contamination-baseline`。
 3. Phase 2.37 planning baseline 已完成：commit `8fd10b7`，tag `phase-2.37-pilot-issue-triage-plan-baseline`。
 4. Phase 2.37a / 2.37b / 2.37c 已完成 intake、runbook 与 triage summary planning baseline。
@@ -28,8 +28,10 @@
 24. Phase 2.43d 双仓 Git baseline 已完成：Hermes_memory commit `d62852b`，Hermes 主仓库 commit `9e8e5667`，tag `phase-2.43d-main-tender-alias-session-baseline`。
 25. Day-1 issue candidates 已记录：限价 Missing Evidence、主标书资质 / 项目经理 / 联合体 / 业绩 / 人员深层字段人工复核、Excel cell citation 降级、公司方向人工决策复核、trace display UX。
 26. Codex B review Phase 2.44 planning 已通过：规划只记录 issue intake / continuation 边界，不进入实现、真实 report、真实 issue records、repair、rollout 或 Data Steward。
-27. 下一步执行 Phase 2.44 docs-only Git baseline；任务入口已写入 `docs/NEXT_CODEX_A_PROMPT.md`。
-28. 下一步不得直接启动 production rollout、repair、Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
+27. Phase 2.44a MVP Pilot issue intake worksheet / sanitized template artifact 已完成并通过 Codex B review：新增人工 worksheet 与 validator-compatible JSON template。
+28. Phase 2.44a artifact 不包含真实 issue records / Pilot report；真实 Pilot issue JSON 仍只能进入 ignored 的 `reports/pilot_issues/*.json`。
+29. 下一步执行 Phase 2.44a docs-only Git baseline；任务入口已写入 `docs/NEXT_CODEX_A_PROMPT.md`。
+30. 下一步不得直接启动 production rollout、repair、Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
 
 ## 0.1 Phase 2.38b 当前待办
 

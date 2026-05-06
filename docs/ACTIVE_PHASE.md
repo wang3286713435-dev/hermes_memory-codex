@@ -1,9 +1,10 @@
 # Active Phase
 
-- 当前 phase：Phase 2.44 MVP Pilot Continuation / Issue Intake Planning Baseline Prompt
-- 本轮目标：Codex B review Phase 2.44 docs-only planning，并写入 Git baseline 任务。
+- 当前 phase：Phase 2.44a MVP Pilot Issue Intake Worksheet / Template Baseline Prompt
+- 本轮目标：Codex B review Phase 2.44a worksheet / template artifact，并写入 Git baseline 任务。
 - 修改文件：
-  - `docs/PHASE244_MVP_PILOT_CONTINUATION_ISSUE_INTAKE_PLAN.md`
+  - `docs/MVP_PILOT_DAY1_ISSUE_INTAKE_WORKSHEET.md`
+  - `docs/MVP_PILOT_DAY1_ISSUE_INTAKE_TEMPLATE.json`
   - `docs/ACTIVE_PHASE.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/HANDOFF_LOG.md`
@@ -13,30 +14,34 @@
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 新增 Phase 2.44 planning 文档，明确 Day-1 continuation 结论为内部受控 Pilot 可继续，但不是 production rollout。
-  - 记录 Day-1 P1 / P2 issue intake candidates：限价 Missing Evidence、主标书深层字段人工复核、Excel citation 降级、公司方向人工决策、trace display UX。
-  - 明确 record-now vs fix-now：本阶段只记录 / 规划，不修 retrieval、不生成真实 issue records、不生成真实 Pilot report。
-  - 推荐下一阶段候选：Phase 2.44a sanitized local issue records / issue intake summary dry-run；备选为 Pilot continuation recorder worksheet。
-  - 保留 Go / Pause / No-Go 规则与人工复核字段。
-  - Codex B review 通过：规划没有越界到实现、真实 report、真实 issue records、repair、rollout 或 Data Steward。
+  - 新增 Day-1 issue intake worksheet，供 Pilot recorder 人工记录 P1/P2 issue。
+  - 新增 sanitized JSON template，使用占位符 / 脱敏样例，不含真实 document_id、version_id、citation、raw answer 或 session_id。
+  - worksheet 记录必填字段、P0/P1/P2/P3、Go / Pause / No-Go、Day-1 candidate quick-fill 与 validator-compatible issue_type 映射。
+  - 明确真实 issue records 只能进入 ignored 的 `reports/pilot_issues/*.json`，不得提交 Git。
+  - 未生成真实 Pilot report，未创建真实 issue records。
+  - Codex B review 通过：worksheet / template 是 docs-only artifact，template 可通过现有 Phase 2.37a intake validator。
 - 测试结果：
   - `git diff --check`：通过。
+  - `uv run python -m json.tool docs/MVP_PILOT_DAY1_ISSUE_INTAKE_TEMPLATE.json >/tmp/day1_issue_template_check.json`：通过。
+  - `uv run python scripts/phase237a_pilot_issue_intake.py --input docs/MVP_PILOT_DAY1_ISSUE_INTAKE_TEMPLATE.json --strict >/tmp/day1_issue_template_validate.json`：通过，`invalid_count=0`。
+  - `uv run python scripts/phase237a_pilot_issue_intake.py --print-template >/tmp/phase237a_issue_template.json`：通过。
   - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
   - `git check-ignore -v reports/agent_runs/latest.json`：通过，命中 `reports/agent_runs/.gitignore`。
-  - `git status --short`：通过；仅显示 Phase 2.44 文档变更、新增 Phase 2.44 规划文档，以及遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+  - `git status --short`：通过；显示 Phase 2.44a 文档变更、新增 worksheet / template，以及遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
 - live smoke 结果：
   - 本轮不运行 API / CLI smoke。
   - 本轮不生成真实 Pilot report 或真实 issue records。
 - 当前结论：
-  - Phase 2.44 docs-only planning 已完成。
+  - Phase 2.44a docs/template artifact 已完成。
   - Codex B review 已通过。
-  - 当前可做 Phase 2.44 docs-only Git baseline。
+  - 当前可做 Phase 2.44a docs-only Git baseline。
 - 阻塞点 / 风险点：
-  - Day-1 P1/P2 尾项仍需通过 issue intake 管理，不应被误写成已修复。
+  - Day-1 P1/P2 尾项仍未修复，只转为可人工记录的 issue intake artifact。
+  - 当前 validator 的 `issue_type` enum 尚未包含 `structured_citation_ux`、`manual_review_required`、`strategy_human_review`，worksheet 已提供映射；后续如要扩 enum 必须单独规划。
   - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty，本轮不得 stage / commit。
   - 继续禁止 production rollout、repair、Data Steward 实现、DB / facts / document_versions / OpenSearch / Qdrant 写入。
 - 是否建议 baseline：是；Baseline Gate 已满足。
-- 是否建议进入下一阶段：否；先完成 Phase 2.44 Git baseline。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44 docs-only Git baseline。
+- 是否建议进入下一阶段：否；先完成 Phase 2.44a Git baseline。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44a docs-only Git baseline。
 - 是否需要 Codex B 审核：已完成。
 - 是否需要 Codex C 真实终端验收：否。

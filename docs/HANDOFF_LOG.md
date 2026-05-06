@@ -2981,3 +2981,69 @@
 - risks: baseline 必须 selective staging，排除遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.44a。
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44 docs-only Git baseline。
 - commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
+
+## 2026-05-06 16:46 Phase 2.44a
+- goal: Create MVP Pilot Day-1 issue intake worksheet and sanitized JSON template artifact.
+- changed_files:
+  - `docs/MVP_PILOT_DAY1_ISSUE_INTAKE_WORKSHEET.md`
+  - `docs/MVP_PILOT_DAY1_ISSUE_INTAKE_TEMPLATE.json`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool docs/MVP_PILOT_DAY1_ISSUE_INTAKE_TEMPLATE.json >/tmp/day1_issue_template_check.json`：通过。
+  - `uv run python scripts/phase237a_pilot_issue_intake.py --print-template >/tmp/phase237a_issue_template.json`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过，命中 `reports/agent_runs/.gitignore`。
+  - `git status --short`：通过；显示 Phase 2.44a 文档变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: worksheet and template are docs/template artifacts only; no real issue records, no Pilot report, no API/CLI, no DB/index writes.
+- risks: current validator issue_type enum does not include every Day-1 label; worksheet maps Day-1 labels to validator-compatible issue_type values. Inherited dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope.
+- next: Codex B review Phase 2.44a artifact; if approved, write Phase 2.44a docs-only baseline prompt.
+- commit/tag if any: 无；本轮不提交 Git。
+
+## 2026-05-06 16:10 Phase 2.44a
+- goal: Confirm Phase 2.44 baseline and write next artifact prompt for MVP Pilot issue intake worksheet / sanitized template。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - Phase 2.44 baseline checked：HEAD `afb5a29`，tag `phase-2.44-pilot-continuation-issue-intake-plan-baseline`。
+  - `reports/agent_runs/latest.json` indicates baseline / pushed true。
+  - 本轮不运行 API / CLI，不运行 pytest，不生成真实 report 或 issue records。
+- validation: 下一轮收缩为 docs/template artifact，目标是人工 recorder 可用的 issue intake worksheet 与 sanitized JSON template；不修 retrieval、不写 DB、不进入 rollout / repair / Data Steward。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍为遗留无关 dirty，不得触碰；Phase 2.44a 完成后需 Codex B review，不自动 baseline。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44a worksheet / template artifact。
+- commit/tag if any: 无；本轮只是 next prompt handoff，不提交 Git。
+
+## 2026-05-06 17:05 Phase 2.44a
+- goal: Codex B review Phase 2.44a worksheet / sanitized template artifact and write docs-only Git baseline prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool docs/MVP_PILOT_DAY1_ISSUE_INTAKE_TEMPLATE.json >/tmp/day1_issue_template_check.json`：通过。
+  - `uv run python scripts/phase237a_pilot_issue_intake.py --input docs/MVP_PILOT_DAY1_ISSUE_INTAKE_TEMPLATE.json --strict >/tmp/day1_issue_template_validate.json`：通过，`invalid_count=0`。
+  - `uv run python scripts/phase237a_pilot_issue_intake.py --print-template >/tmp/phase237a_issue_template.json`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+- validation: Codex B review 通过。worksheet 覆盖必填字段、Day-1 quick-fill、priority、Go/Pause/No-Go 与禁止项；template 不含真实 document/version/citation/raw answer/session，且兼容现有 validator。
+- risks: baseline 必须 selective staging，排除遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.44b。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44a docs-only Git baseline。
+- commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。

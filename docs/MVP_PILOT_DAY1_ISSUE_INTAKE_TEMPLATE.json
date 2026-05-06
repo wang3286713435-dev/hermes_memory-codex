@@ -1,0 +1,46 @@
+{
+  "actual_behavior": "Sanitized observed behavior placeholder. Example: Missing Evidence returned; no concrete cited value was available in the reviewed output.",
+  "aliases": [
+    "@example-alias"
+  ],
+  "citations": [
+    {
+      "citation_id": "example-citation-id",
+      "source_location": "example-source-location",
+      "source_type": "example-source-type"
+    }
+  ],
+  "document_ids": [
+    "example-document-id"
+  ],
+  "expected_behavior": "Sanitized expected behavior placeholder. Example: return cited evidence or explicit Missing Evidence without fabrication.",
+  "human_review_required": true,
+  "issue_id": "pilot-issue-YYYYMMDD-001",
+  "issue_type": "retrieval_recall",
+  "notes": "Sanitized template only. Do not commit real raw outputs, real document IDs, real version IDs, real citations, secrets, repair requests, or rollout approvals.",
+  "priority": "P1",
+  "query": "Sanitized pilot query placeholder.",
+  "reported_at": "YYYY-MM-DDTHH:MM:SS+08:00",
+  "reporter": "pilot-recorder",
+  "safety_boundary": [
+    "missing_evidence",
+    "evidence_required",
+    "no_fabrication"
+  ],
+  "source": "codex_c_terminal_validation",
+  "source_phase": "Phase 2.44a",
+  "status": "new",
+  "suggested_next_action": "Route to manual triage and bounded planning if needed; do not repair, reindex, backfill, delete, or approve rollout from this record.",
+  "trace_flags": {
+    "contamination_flags": [],
+    "facts_as_answer": false,
+    "retrieval_evidence_document_ids": [
+      "example-document-id"
+    ],
+    "snapshot_as_answer": false,
+    "transcript_as_fact": false
+  },
+  "version_ids": [
+    "example-version-id"
+  ]
+}

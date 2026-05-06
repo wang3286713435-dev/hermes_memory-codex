@@ -2,12 +2,12 @@
 
 ## 当前优先级
 
-1. Phase 2.44 MVP Pilot continuation / issue intake planning 已完成，新增 `docs/PHASE244_MVP_PILOT_CONTINUATION_ISSUE_INTAKE_PLAN.md`。
-2. 当前结论：可以继续内部受控 MVP Pilot continuation，但必须保留人工复核，不是 production rollout。
-3. Codex B review Phase 2.44 planning 已通过；当前唯一优先事项：执行 Phase 2.44 docs-only Git baseline。
+1. Phase 2.44a MVP Pilot issue intake worksheet / sanitized template artifact 已完成，新增 `docs/MVP_PILOT_DAY1_ISSUE_INTAKE_WORKSHEET.md` 与 `docs/MVP_PILOT_DAY1_ISSUE_INTAKE_TEMPLATE.json`。
+2. Codex B review Phase 2.44a artifact 已通过；当前唯一优先事项：执行 Phase 2.44a docs-only Git baseline。
+3. Phase 2.44a 只做 docs/template artifact：帮助 recorder 人工整理 Day-1 P1/P2 issue，不生成真实 issue records、不生成真实 Pilot report、不修 retrieval。
 4. Day-1 issue candidates 已记录：限价 Missing Evidence、主标书深层字段人工复核、Excel citation 降级、公司方向人工决策、trace display UX。
-5. 本阶段未修 retrieval、未生成真实 issue records、未生成真实 Pilot report、未写 DB / facts / document_versions / OpenSearch / Qdrant。
-6. Phase 2.44 baseline 后，下一步候选是 Phase 2.44a sanitized issue intake dry-run / recorder worksheet planning；仍不得进入 production rollout。
+5. 继续禁止 production rollout、repair、Data Steward 实现、DB / facts / document_versions / OpenSearch / Qdrant 写入。
+6. Phase 2.44a baseline 后，下一步候选是 Phase 2.44b sanitized issue intake dry-run 或 recorder workflow planning；不得直接修 retrieval。
 7. 遗留无关 dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`，不得被本轮 stage / commit。
 8. Phase 2.43d `@主标书` alias/session Pause 最小修复与双仓 Git baseline 已完成：Hermes_memory commit `d62852b`，Hermes 主仓库 commit `9e8e5667`，tag `phase-2.43d-main-tender-alias-session-baseline`。
 9. Codex C Day-1 断点续跑已通过：session `20260506_143354_d4ad05`，`@主标书` Q1-Q2 resolved，`alias_missing=false`，`retrieval_suppressed=false`；10 条 query 为 `6 pass / 4 partial / 0 fail`，P0 为 0，Decision 为 `Go`。
