@@ -10,16 +10,16 @@
 
 ## Current Queue
 
-### Item 1：Phase 2.43a MVP Pilot Launch Packet Git Baseline
+### Item 1：Phase 2.43b MVP Pilot Pre-flight Smoke Prompt Artifact
 
 - lane：Yellow Lane
-- 状态：ready_for_baseline
-- 目标：固化 Phase 2.43a launch packet / operator checklist docs baseline。
+- 状态：reviewed_ready_for_baseline
+- 目标：新增可交给 Codex C 的 MVP Pilot pre-flight smoke prompt / runbook。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - stage Phase 2.43a 白名单文档。
+  - Stage Phase 2.43b 白名单文档。
   - 运行 `git diff --check`、关键词边界检查、`latest.json` JSON 校验、ignore 检查、cached diff 检查。
-  - commit / tag / push Phase 2.43a baseline。
+  - commit / tag / push Phase 2.43b baseline。
 - 禁止动作：
   - 不修改 / stage `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
   - 不修改脚本、测试、业务代码、migration 或 schema。
@@ -31,12 +31,19 @@
   - 不运行 API / CLI smoke。
   - 不启动 Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
   - 不修改 retrieval contract 或 memory kernel 主架构。
-  - 不进入 Phase 2.43b / 2.43c。
+  - 不自动发起 Codex C。
 - 完成后：必须停止等待 Codex B review。
 - baseline 规则：本 item 已由 Codex B review 写入 explicit baseline prompt；不得 baseline 后继续自动推进。
-- 当前结果：`docs/MVP_PILOT_LAUNCH_PACKET.md` 已完成并通过 Codex B review；等待 baseline。
+- 当前结果：Phase 2.43b artifact 已创建并通过 Codex B review；等待 baseline。
 
 ## Archived Queue
+
+### Phase 2.43a MVP Pilot Launch Packet Git Baseline
+
+- 类型：Yellow Lane
+- 状态：completed
+- 结果：commit `5423497`，tag `phase-2.43a-mvp-pilot-launch-packet-baseline`。
+- 备注：只固化 launch packet / operator checklist；未启动真实 Pilot，未生成真实 report，未进入 rollout / repair / Data Steward。
 
 ### Phase 2.43 Internal MVP Pilot Launch Candidate Planning
 

@@ -2750,3 +2750,68 @@
 - risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty，baseline 必须排除；Phase 2.43a baseline 只固化 launch packet artifact，不得自动进入 2.43b / 2.43c。
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.43a Git baseline；完成后停止等待 Codex B review。
 - commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
+
+## 2026-05-06 12:06 Phase 2.43b
+- goal: Codex B review Phase 2.43a baseline and write Phase 2.43b MVP Pilot pre-flight smoke prompt artifact handoff。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git status --short` / HEAD / tag / `origin/main` 检查：Phase 2.43a baseline 已完成，HEAD `5423497`，tag `phase-2.43a-mvp-pilot-launch-packet-baseline`。
+  - `git diff-tree --no-commit-id --name-only -r HEAD`：确认 Phase 2.43a baseline 只包含 launch packet 与交接文档白名单。
+  - 本轮不运行 API / CLI smoke，不运行 pytest，不生成真实 MVP Pilot report。
+- validation: Phase 2.43a baseline 通过 Codex B 状态复核；下一步收缩为 Phase 2.43b pre-flight smoke prompt / runbook artifact，只做 docs-only artifact，不启动真实 Pilot。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty，不得触碰；Phase 2.43b 不得运行真实 API / CLI smoke、生成真实 report、rollout approval、repair authorization、DB 写入或 Data Steward 实现。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`；完成 Phase 2.43b artifact 后停止等待 Codex B review，不自动 baseline，不自动发起 Codex C。
+- commit/tag if any: 无；本轮只是 Phase 2.43b prompt handoff，不提交 Git。
+
+## 2026-05-06 12:09 Phase 2.43b
+- goal: Create MVP Pilot pre-flight smoke prompt / runbook artifact for Codex C。
+- changed_files:
+  - `docs/MVP_PILOT_PREFLIGHT_SMOKE_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - 新增 prompt `git diff --check --no-index /dev/null docs/MVP_PILOT_PREFLIGHT_SMOKE_PROMPT.md`：通过。
+  - Phase 2.43b keyword boundary `rg`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：已复核。
+- validation: 新增 pre-flight smoke prompt，覆盖 API / CLI、fresh session、alias、citation、evidence policy、Missing Evidence、facts/transcript/snapshot boundary、No-Go / Pause / Go 与人工决策声明；本轮不运行真实 API / CLI，不生成真实 report。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty，不得 stage / commit；`docs/NEXT_CODEX_A_PROMPT.md` 是既有 handoff dirty，本轮不修改；Phase 2.43b 不得被解释为 Pilot 启动、production rollout、repair、Data Steward 实现、自动审标或自动经营决策。
+- next: Codex B review Phase 2.43b artifact；通过后再决定是否交给 Codex C 做真实 pre-flight smoke。
+- commit/tag if any: 无；本轮按 NEXT 要求不提交 Git。
+
+## 2026-05-06 12:18 Phase 2.43b
+- goal: Codex B review Phase 2.43b pre-flight smoke prompt artifact and write Git baseline prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - Phase 2.43b keyword boundary `rg`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：已复核；仅 Phase 2.43b 白名单文件、baseline prompt 与遗留 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` dirty。
+- validation: Phase 2.43b pre-flight smoke prompt artifact 通过 Codex B review。Prompt 覆盖 API / CLI、fresh session、alias、query subset、evidence policy flags、Missing Evidence、No-Go / Pause / Go 与 no-data-write 边界；未运行真实 API / CLI，未生成真实 report，未写 DB，未进入 rollout / repair / Data Steward。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty，baseline 必须排除；Phase 2.43b baseline 只固化 Codex C pre-flight prompt，不得自动启动 Codex C 或真实 Pilot。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.43b Git baseline；完成后停止等待 Codex B review。
+- commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。

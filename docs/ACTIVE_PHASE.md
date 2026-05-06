@@ -1,37 +1,41 @@
 # Active Phase
 
-- 当前 phase：Phase 2.43a MVP Pilot Launch Packet / Operator Checklist Baseline Prompt
-- 本轮目标：Codex B review Phase 2.43a artifact，并写入 Git baseline prompt；不直接提交 Git。
+- 当前 phase：Phase 2.43b MVP Pilot Pre-flight Smoke Prompt / Runbook Baseline Prompt
+- 本轮目标：Codex B review Phase 2.43b artifact，并写入 Git baseline prompt；不直接提交 Git。
 - 修改文件：
   - `docs/NEXT_CODEX_A_PROMPT.md`
-  - `docs/ACTIVE_PHASE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
   - `docs/PHASE_BACKLOG.md`
+  - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 已完成 Codex B review：Phase 2.43a launch packet 符合 MVP Pilot 边界。
-  - 已确认 launch packet 覆盖角色、启动前 checklist、session execution、evidence review、Go / Pause / No-Go、输出归档、人工决策声明、停止条件与后续流转。
-  - 已确认 `facts_as_answer=false`、`transcript_as_fact=false`、`snapshot_as_answer=false`、Missing Evidence、citation / `document_id` / `version_id` 与 P0 / P1 gate 均在 packet 中明确。
-  - 已确认未进入真实 Pilot、production rollout、repair、Data Steward 实现、DB 写入、OpenSearch / Qdrant mutation、facts / document_versions 写入或主架构变更。
-  - 已将 Phase 2.43a Git baseline task 写入 `docs/NEXT_CODEX_A_PROMPT.md`。
+  - 已完成 Codex B review：Phase 2.43b pre-flight smoke prompt / runbook 符合 MVP Pilot 边界。
+  - 已确认 prompt 覆盖 API / CLI、fresh session、alias、主标书 evidence / Missing Evidence、Excel / PPTX citation、会议纪要 transcript boundary、confirmed facts boundary、optional compare smoke。
+  - 已确认 prompt 覆盖 P0 / P1 / P2 / P3、No-Go / Pause / Go、`facts_as_answer=false`、`transcript_as_fact=false`、`snapshot_as_answer=false` 与 no-data-write 边界。
+  - 已确认未运行真实 Pilot、API / CLI smoke、production rollout、repair、Data Steward 实现、DB 写入、OpenSearch / Qdrant mutation、facts / document_versions 写入或主架构变更。
+  - 已将 Phase 2.43b Git baseline task 写入 `docs/NEXT_CODEX_A_PROMPT.md`。
 - 测试结果：
   - `git diff --check`：通过。
-  - Phase 2.43a keyword boundary `rg`：通过。
+  - 新增 prompt `git diff --check --no-index /dev/null docs/MVP_PILOT_PREFLIGHT_SMOKE_PROMPT.md`：通过。
+  - Phase 2.43b keyword boundary `rg`：通过。
   - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
   - `git check-ignore -v reports/agent_runs/latest.json`：通过。
-  - `git status --short`：已复核；仅 Phase 2.43a 白名单文件、`docs/NEXT_CODEX_A_PROMPT.md` baseline prompt 与遗留无关 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` dirty。
+  - `git status --short`：已复核。
 - live smoke 结果：
-  - 不适用；本轮不运行 API / CLI smoke，不运行 pytest，不生成真实 report。
+  - 不适用；本轮不运行 API / CLI smoke，不运行 pytest，不生成真实 MVP Pilot report。
 - 当前结论：
-  - Phase 2.43a artifact 已完成。
-  - Phase 2.43a 通过 Codex B review。
+  - Phase 2.43b artifact 已完成。
+  - Phase 2.43b 通过 Codex B review。
   - Baseline Gate 已满足，可以单独执行 Git baseline。
 - 阻塞点 / 风险点：
   - 遗留无关 dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`，本轮未触碰，baseline 必须排除。
-  - `docs/NEXT_CODEX_A_PROMPT.md` 已更新为 baseline handoff。
-  - Phase 2.43a 不得被解释为真实 Pilot 启动、production rollout approval、repair authorization、自动审标批准或 Data Steward 实现。
-- 是否建议 baseline：是；下一轮只做 Phase 2.43a Git baseline。
-- 是否建议进入下一阶段：否；先 baseline Phase 2.43a。
+  - `docs/NEXT_CODEX_A_PROMPT.md` 是既有 handoff dirty，本轮不修改。
+  - Phase 2.43b 不得被解释为真实 Pilot 启动、production rollout approval、repair authorization、自动审标批准或 Data Steward 实现。
+- 是否建议 baseline：是；下一轮只做 Phase 2.43b Git baseline。
+- 是否建议进入下一阶段：否；先 baseline Phase 2.43b。
 - 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 baseline 后停止等待 Codex B review。
 - 是否需要 Codex B 审核：baseline 后需要。
-- 是否需要 Codex C 真实终端验收：否；Phase 2.43a 是 docs-only artifact。
+- 是否需要 Codex C 真实终端验收：baseline 后再发起；本轮不自动启动。

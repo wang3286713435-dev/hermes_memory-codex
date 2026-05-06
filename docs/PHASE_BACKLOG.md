@@ -2,12 +2,12 @@
 
 ## 当前优先级
 
-1. Phase 2.43a MVP Pilot Launch Packet / Operator Checklist artifact 已完成并通过 Codex B review。
-2. 下一轮唯一优先事项：Phase 2.43a Git baseline，只 stage 白名单文件，排除遗留 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
-3. Phase 2.43a baseline 后必须停止等待 Codex B review，不自动进入 Phase 2.43b / 2.43c。
-4. Phase 2.43a 只做 docs-only artifact；未启动真实 Pilot、未生成真实 report、未运行 API / CLI、未写 DB、未进入 rollout、repair 或 Data Steward 实现。
-5. Phase 2.43a 不得进入 production rollout、repair executor、Data Steward / BIM asset catalog implementation、自动审标、自动投标或自动经营决策。
-6. 遗留无关 dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`，不得被 Phase 2.43a stage / commit。
+1. Phase 2.43a MVP Pilot Launch Packet / Operator Checklist Git baseline 已完成：commit `5423497`，tag `phase-2.43a-mvp-pilot-launch-packet-baseline`。
+2. Phase 2.43b MVP Pilot Pre-flight Smoke Prompt / Runbook docs-only artifact 已完成并通过 Codex B review：`docs/MVP_PILOT_PREFLIGHT_SMOKE_PROMPT.md` 可交给 Codex C 做预飞行验收。
+3. Phase 2.43b 未运行 API / CLI，未启动真实 Pilot，未生成真实 report，未上传，未写 DB，未进入 rollout、repair 或 Data Steward 实现。
+4. 当前唯一优先事项：Phase 2.43b Git baseline；baseline 后停止等待 Codex B review，不自动发起 Codex C。
+5. Phase 2.43a / 2.43b 不得进入 production rollout、repair executor、Data Steward / BIM asset catalog implementation、自动审标、自动投标或自动经营决策。
+6. 遗留无关 dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`，不得被 Phase 2.43b stage / commit。
 7. Phase 2.43 Internal MVP Pilot Launch Candidate Planning Git baseline 已完成，commit `5141bb5`，tag `phase-2.43-mvp-pilot-launch-candidate-plan-baseline`。
 8. Phase 2.43 Internal MVP Pilot Launch Candidate Planning 已完成并已 baseline。
 9. Phase 2.42b MVP Pilot Review Dry-run Input Template / Runbook Git baseline 已完成，commit `edd0e08`，tag `phase-2.42b-mvp-pilot-review-dry-run-template-baseline`。

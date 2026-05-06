@@ -18,8 +18,10 @@
 14. Phase 2.42a MVP Pilot Review Dry-run Report Generator baseline 已完成：commit `4c60b28`，tag `phase-2.42a-mvp-pilot-review-dry-run-generator-baseline`。
 15. Phase 2.42b sanitized input template / dry-run runbook artifact baseline 已完成：commit `edd0e08`，tag `phase-2.42b-mvp-pilot-review-dry-run-template-baseline`。
 16. Phase 2.43 Internal MVP Pilot Launch Candidate Planning 已完成并 baseline：commit `5141bb5`，tag `phase-2.43-mvp-pilot-launch-candidate-plan-baseline`。
-17. Phase 2.43a MVP Pilot Launch Packet / Operator Checklist artifact 已完成，新增 `docs/MVP_PILOT_LAUNCH_PACKET.md`；当前等待 Codex B review，不启动真实 Pilot、不生成真实 report、不运行 API / CLI、不写 DB、不进入 rollout、repair 或 Data Steward 实现。
-18. 下一步不得直接启动 production rollout、repair、Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
+17. Phase 2.43a MVP Pilot Launch Packet / Operator Checklist artifact 已完成并 baseline：commit `5423497`，tag `phase-2.43a-mvp-pilot-launch-packet-baseline`；未启动真实 Pilot、不生成真实 report、不运行 API / CLI、不写 DB、不进入 rollout、repair 或 Data Steward 实现。
+18. Phase 2.43b MVP Pilot Pre-flight Smoke Prompt / Runbook artifact 已完成并通过 Codex B review：新增 `docs/MVP_PILOT_PREFLIGHT_SMOKE_PROMPT.md`，用于 Codex C 在启动内部受控 Pilot 前做 API / CLI、alias/session、citation、evidence policy、Missing Evidence 与 No-Go / Pause / Go 预飞行验收。
+19. Phase 2.43b 仍未启动真实 Pilot：本轮不运行 API / CLI、不生成真实 report、不上传、不写 DB / facts / document_versions / OpenSearch / Qdrant、不进入 rollout、repair 或 Data Steward 实现；下一步只做 Git baseline。
+20. 下一步不得直接启动 production rollout、repair、Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
 
 ## 0.1 Phase 2.38b 当前待办
 
