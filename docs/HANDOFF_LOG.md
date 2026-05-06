@@ -2429,3 +2429,89 @@
 - risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 与 `docs/NEXT_CODEX_A_PROMPT.md` 仍为既有 dirty；本轮不得提交 Git，不得进入新能力开发、rollout、repair、Data Steward 实现或 API/CLI smoke。
 - next: Codex B review；通过后若满足 Baseline Gate，再做 Phase 2.41a docs-only baseline。
 - commit/tag if any: 无；本轮按 NEXT 要求不提交 Git。
+
+## 2026-05-06 02:21 Phase 2.42
+- goal: Codex B review Phase 2.41a baseline and write next Codex A prompt for MVP Pilot review dry-run report planning。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git status --short` / HEAD / tag 检查：Phase 2.41a baseline 已完成，HEAD `a2e1042`，tag `phase-2.41a-mvp-pilot-evidence-review-checklist-baseline`。
+- validation: Phase 2.41a baseline review 通过；下一步已收缩为 Phase 2.42 docs-only planning，不写代码、不新增脚本、不生成真实 report、不运行 API / CLI、不进入 rollout。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty，Phase 2.42 不得 stage / commit。Phase 2.42 仍不是 Go 结论或 production approval。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，生成 `docs/PHASE242_MVP_PILOT_REVIEW_DRY_RUN_PLAN.md` 并同步状态；完成后停止等待 Codex B review。
+- commit/tag if any: 无；本轮只是 prompt handoff，不提交 Git。
+
+## 2026-05-06 05:15 Phase 2.42
+- goal: MVP Pilot Review Dry-run Report docs-only planning。
+- changed_files:
+  - `docs/PHASE242_MVP_PILOT_REVIEW_DRY_RUN_PLAN.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - Phase 2.42 dry-run report 关键词与边界 `rg`：通过。
+  - `git status --short`：已复核，未发现业务代码变更；`docs/NEXT_CODEX_A_PROMPT.md` 与 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 为既有 dirty。
+- validation: 规划已覆盖 report 输入、输出、Go / Pause / No-Go decision logic、P0/P1/P2/P3 aggregation、evidence policy、citation summary、Missing Evidence summary 与 ignored storage policy。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 与 `docs/NEXT_CODEX_A_PROMPT.md` 仍为既有 dirty；本轮不得提交 Git，不得生成真实 report，不得进入 rollout、repair、Data Steward 实现或 API/CLI smoke。
+- next: Codex B review；通过后再决定是否进入 Phase 2.42a local ignored report artifact 或 dry-run generator。
+- commit/tag if any: 无；本轮按 NEXT 要求不提交 Git。
+
+## 2026-05-06 09:59 Phase 2.42
+- goal: Codex B review Phase 2.42 planning and Codex D drift report；写入 docs sync review-fix prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - Phase 2.42 关键词与边界 `rg`：通过。
+  - `git status --short` / HEAD / tag 检查：无业务代码变更，HEAD `a2e1042`。
+- validation: Phase 2.42 planning 内容通过 Codex B review；Codex D WARN 基本成立，属于 TODO 当前口径与 Nightly queue 过时，不是主线越界。
+- risks: Baseline Gate 的“文档状态已同步”尚未完全满足；`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty，下一轮不得触碰。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 TODO / Nightly queue / 状态文件 docs sync review-fix；完成后停止等待 Codex B review，不自动 baseline。
+- commit/tag if any: 无；本轮只是 Codex B prompt handoff，不提交 Git。
+
+## 2026-05-06 10:02 Phase 2.42
+- goal: Phase 2.42 docs sync review-fix：同步 TODO 当前状态与 Nightly queue，避免旧 Phase 2.39 / Phase 2.37 口径误导 baseline 前状态。
+- changed_files:
+  - `docs/TODO.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - Phase 2.42 / Nightly queue 关键词与边界 `rg`：通过。
+  - `git status --short`：已复核；无业务代码变更。
+- validation: TODO 当前状态已从 Phase 2.39 正在收口改为已完成 baseline；Nightly Current Queue 已改为 Phase 2.42 docs sync review-fix Green Lane；旧 Phase 2.37 baseline 已归档为 stale archived；明确小修不 baseline。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 与 `docs/NEXT_CODEX_A_PROMPT.md` 仍为既有 dirty；`docs/DEV_LOG.md` 与 `docs/PHASE242_MVP_PILOT_REVIEW_DRY_RUN_PLAN.md` 为 Phase 2.42 planning 既有 dirty；本轮不得提交 Git、不得写代码、不得进入 rollout / repair / Data Steward 实现。
+- next: Codex B review docs sync review-fix；通过后再决定是否写入 Phase 2.42 docs-only baseline prompt。
+- commit/tag if any: 无；本轮按 NEXT 要求不提交 Git。
+
+## 2026-05-06 10:12 Phase 2.42
+- goal: Codex B review Phase 2.42 docs sync review-fix and write docs-only Git baseline prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - Phase 2.42 / Nightly queue 关键词与边界 `rg`：通过。
+  - `git status --short`：已复核；无业务代码变更。
+- validation: Phase 2.42 planning 与 docs sync review-fix 均通过 Codex B review；Baseline Gate 已满足，允许单独执行 docs-only Git baseline。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty，baseline 必须排除；baseline 后不得自动进入 Phase 2.42a、rollout、repair 或 Data Steward 实现。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只 stage Phase 2.42 白名单文件，commit / tag / push 后停止等待 Codex B review。
+- commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。

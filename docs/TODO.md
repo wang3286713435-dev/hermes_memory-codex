@@ -7,14 +7,15 @@
 3. Phase 2.37a / 2.37b / 2.37c 已完成 intake、runbook 与 triage summary planning baseline。
 4. Phase 2.37d triage summary generator baseline 已完成：commit `d97a67c`，tag `phase-2.37d-pilot-triage-summary-baseline`。
 5. Phase 2.38a Tender P1 Source Availability Audit baseline 已完成：commit `456b32d`，tag `phase-2.38a-tender-p1-source-audit-baseline`。
-6. Phase 2.39 Data Steward / BIM 数据管家 docs-only baseline 正在收口：先做数据资产目录治理，作为后置产品线，不并入当前 MVP Pilot。
+6. Phase 2.39 Data Steward / BIM 数据管家 docs-only baseline 已完成：Data Steward 明确作为后置产品线，不并入当前 MVP Pilot，不新增 DB schema、Neo4j、PostGIS、空间索引代码或 scheduler。
 7. Phase 2.38b Git baseline 已完成：commit `a8c93f1`，tag `phase-2.38b-tender-recall-diagnostics-baseline`。
 8. Phase 2.38c 人员要求召回尾项规划 baseline 已完成：commit `ff49941`，tag `phase-2.38c-personnel-recall-tail-plan-baseline`。
 9. Phase 2.38d personnel-only bounded recall implementation baseline 已完成；Codex C Q1/Q2/Q3 真实终端复验通过。
 10. Phase 2.40 PRD Acceptance Matrix / MVP Evidence Pack planning baseline 已完成：commit `1383155`，tag `phase-2.40-prd-acceptance-matrix-plan-baseline`。
 11. Phase 2.40a docs-only artifact baseline 已完成：commit `e6f7fc2`，tag `phase-2.40a-prd-acceptance-matrix-artifact-baseline`。
-12. Phase 2.41 MVP Pilot Evidence Review / Go-No-Go planning 已完成，新增 `docs/PHASE241_MVP_PILOT_EVIDENCE_REVIEW_PLAN.md`，建议 Codex B review 后再决定是否 baseline。
-13. 下一步不得直接启动 Data Steward 实现、repair、rollout、schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
+12. Phase 2.41 MVP Pilot Evidence Review / Go-No-Go planning baseline 已完成，Phase 2.41a checklist artifact baseline 已完成。
+13. Phase 2.42 MVP Pilot Review Dry-run Report Planning 已完成，Codex B review 确认主线方向正确；当前只做 TODO / Nightly queue / state docs sync review-fix，小修不 baseline。
+14. 下一步不得直接启动 production rollout、repair、Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
 
 ## 0.1 Phase 2.38b 当前待办
 
@@ -711,3 +712,15 @@
 6. Data Steward 仍是后置产品线；当前未实现 Data Steward、TB BIM 全量解析、Neo4j / PostGIS / 空间索引或 scheduler。
 7. 本轮不写代码、不新增脚本 / 测试 / migration、不运行 pytest / API / CLI、不提交 Git。
 8. 下一步建议 Codex B review Phase 2.41a artifact；若通过，再按 Baseline Gate 单独执行 docs-only baseline。
+
+## 48. Phase 2.42 MVP Pilot Review Dry-run Report Planning
+
+1. Phase 2.42 已新增 docs-only planning：`docs/PHASE242_MVP_PILOT_REVIEW_DRY_RUN_PLAN.md`。
+2. 规划目标：把 checklist、PRD acceptance matrix、Pilot issue records、Codex C sessions、readiness / repair dry-run reports 与人工复核记录汇总成后续只读 dry-run report。
+3. 规划输出字段包括 report_id、generated_at、reviewer / reviewed_by、pilot_round、source_sessions、P0/P1/P2/P3 count、decision、decision_reason、evidence_policy_summary、citation_summary、missing_evidence_summary、known_risks、not_claimable_confirmed 与 next_phase_candidates。
+4. Go / Pause / No-Go dry-run logic 明确：P0 任一命中即 no_go；P1 需人工复核或 bounded backlog；Go 只代表可继续内部受控 MVP Pilot，不代表 production rollout。
+5. evidence policy 必查 `facts_as_answer=false`、`transcript_as_fact=false`、`snapshot_as_answer=false`、Missing Evidence not hidden、no production ready claim。
+6. storage policy：后续真实 report 默认写入 ignored 的 `reports/mvp_pilot_reviews/`，本轮不创建真实 report。
+7. 当前不写代码、不新增脚本 / 测试 / migration、不运行 pytest / API / CLI、不提交 Git。
+8. Codex B review 已确认 Phase 2.42 planning 主线方向正确，baseline 前仅需同步 TODO 当前状态与 Nightly queue，避免旧 Phase 2.39 / Phase 2.37 口径误导。
+9. 当前 docs sync review-fix 小修不 baseline；完成后等待 Codex B 再判断是否写入 Phase 2.42 docs-only baseline prompt。

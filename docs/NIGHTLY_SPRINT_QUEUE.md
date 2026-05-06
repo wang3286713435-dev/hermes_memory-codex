@@ -10,27 +10,35 @@
 
 ## Current Queue
 
-### Item 1：Phase 2.37 planning Git baseline
+### Item 1：Phase 2.42 docs sync review-fix
 
-- lane：Yellow Lane
-- 状态：ready for docs-only baseline command
-- 目标：固化 Phase 2.37 Pilot Issue Intake / Triage planning。
+- lane：Green Lane
+- 状态：ready
+- 目标：同步 `TODO.md`、`NIGHTLY_SPRINT_QUEUE.md` 与状态文件，完成 Phase 2.42 MVP Pilot Review Dry-run Report Planning 的 baseline 前文档漂移小修。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 复核 `git status --short` 与 `git diff --check`。
-  - 只 stage Phase 2.37 planning 文档与交接文件。
-  - commit / tag / push 仅限 `docs/NEXT_CODEX_A_PROMPT.md` 白名单。
+  - 修改 `docs/TODO.md`、`docs/NIGHTLY_SPRINT_QUEUE.md`、`docs/ACTIVE_PHASE.md`、`docs/PHASE_BACKLOG.md`、`docs/HANDOFF_LOG.md` 与 ignored `reports/agent_runs/latest.json`。
+  - 复核 `git diff --check`、Phase 2.42 / Nightly queue 关键词与 `git status --short`。
 - 禁止动作：
-  - 不进入 Phase 2.37a 实现。
+  - 不执行 Phase 2.42 docs-only baseline。
+  - 不 commit、tag、push。
+  - 不进入 Phase 2.42a 实现。
   - 不写业务 DB、OpenSearch、Qdrant、facts 或 document_versions。
   - 不执行 repair / backfill / reindex / cleanup / delete。
   - 不进入 production rollout。
-  - 不写自动审标结论。
-  - 不隐藏 Missing Evidence 或自动修复 issue。
-- 当前结果：Phase 2.37 planning 已完成并通过 Codex B review；推荐后续 Phase 2.37a local issue intake dry-run。
-- 默认：等待用户明确 baseline 指令；baseline 后停止。
+  - 不启动 Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
+  - 不修改 retrieval contract 或 memory kernel 主架构。
+- 完成后：必须停止等待 Codex B review。
+- baseline 规则：Phase 2.42 baseline 属 Yellow Lane，必须单独 Codex B review / 用户或 prompt 授权；不得夜间自动执行。
 
 ## Archived Queue
+
+### Phase 2.37 planning Git baseline
+
+- 类型：Yellow Lane
+- 状态：completed / stale archived
+- 结果：commit `8fd10b7`，tag `phase-2.37-pilot-issue-triage-plan-baseline`。
+- 备注：旧 Current Queue 已归档；不得再作为夜间当前任务。
 
 ### Phase 2.36c tender deep-field diagnostics baseline
 
