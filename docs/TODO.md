@@ -2,30 +2,34 @@
 
 ## 0. 当前 MVP Pilot 状态
 
-1. Phase 2.34 compare false-positive baseline 已完成：Hermes_memory commit `789ed22`，Hermes 主仓库 commit `5de49bf5`，tag `phase-2.34-compare-contamination-baseline`。
-2. Phase 2.37 planning baseline 已完成：commit `8fd10b7`，tag `phase-2.37-pilot-issue-triage-plan-baseline`。
-3. Phase 2.37a / 2.37b / 2.37c 已完成 intake、runbook 与 triage summary planning baseline。
-4. Phase 2.37d triage summary generator baseline 已完成：commit `d97a67c`，tag `phase-2.37d-pilot-triage-summary-baseline`。
-5. Phase 2.38a Tender P1 Source Availability Audit baseline 已完成：commit `456b32d`，tag `phase-2.38a-tender-p1-source-audit-baseline`。
-6. Phase 2.39 Data Steward / BIM 数据管家 docs-only baseline 已完成：Data Steward 明确作为后置产品线，不并入当前 MVP Pilot，不新增 DB schema、Neo4j、PostGIS、空间索引代码或 scheduler。
-7. Phase 2.38b Git baseline 已完成：commit `a8c93f1`，tag `phase-2.38b-tender-recall-diagnostics-baseline`。
-8. Phase 2.38c 人员要求召回尾项规划 baseline 已完成：commit `ff49941`，tag `phase-2.38c-personnel-recall-tail-plan-baseline`。
-9. Phase 2.38d personnel-only bounded recall implementation baseline 已完成；Codex C Q1/Q2/Q3 真实终端复验通过。
-10. Phase 2.40 PRD Acceptance Matrix / MVP Evidence Pack planning baseline 已完成：commit `1383155`，tag `phase-2.40-prd-acceptance-matrix-plan-baseline`。
-11. Phase 2.40a docs-only artifact baseline 已完成：commit `e6f7fc2`，tag `phase-2.40a-prd-acceptance-matrix-artifact-baseline`。
-12. Phase 2.41 MVP Pilot Evidence Review / Go-No-Go planning baseline 已完成，Phase 2.41a checklist artifact baseline 已完成。
-13. Phase 2.42 MVP Pilot Review Dry-run Report Planning 已完成，Codex B review 确认主线方向正确。
-14. Phase 2.42a MVP Pilot Review Dry-run Report Generator baseline 已完成：commit `4c60b28`，tag `phase-2.42a-mvp-pilot-review-dry-run-generator-baseline`。
-15. Phase 2.42b sanitized input template / dry-run runbook artifact baseline 已完成：commit `edd0e08`，tag `phase-2.42b-mvp-pilot-review-dry-run-template-baseline`。
-16. Phase 2.43 Internal MVP Pilot Launch Candidate Planning 已完成并 baseline：commit `5141bb5`，tag `phase-2.43-mvp-pilot-launch-candidate-plan-baseline`。
-17. Phase 2.43a MVP Pilot Launch Packet / Operator Checklist artifact 已完成并 baseline：commit `5423497`，tag `phase-2.43a-mvp-pilot-launch-packet-baseline`；未启动真实 Pilot、不生成真实 report、不运行 API / CLI、不写 DB、不进入 rollout、repair 或 Data Steward 实现。
-18. Phase 2.43b MVP Pilot Pre-flight Smoke Prompt / Runbook artifact 已完成并 baseline：commit `ef2e43f`，tag `phase-2.43b-mvp-pilot-preflight-smoke-prompt-baseline`。
-19. Codex C pre-flight smoke 已完成并返回 `Go`：API / CLI 可用，四个 alias 稳定，P0 为 0；P1 为主标书最高投标限价 / 招标控制价 Missing Evidence，P2 为部分 trace 字段未显式打印。
-20. Day-1 Pilot 已开始但按 run sheet 触发 `Pause`：`@主标书` 绑定阶段出现 `alias_bind_failed`，正式 Q1 变为 `alias_missing=true / retrieval_suppressed=true`，Q2-Q10 未继续执行。
-21. Phase 2.43d `@主标书` alias/session bounded fix 已完成：current bind fallback 遇到多 retrieval 候选时采用 top document 完成绑定并记录歧义诊断，title bind 多候选仍保持失败；主仓 session scope 测试 `51 passed`。
-22. Codex C Day-1 断点续跑已通过：session `20260506_143354_d4ad05`，`@主标书` Q1-Q2 resolved，`alias_missing=false`，`retrieval_suppressed=false`；10 条 query 为 `6 pass / 4 partial / 0 fail`，P0 为 0，Decision 为 `Go`。
-23. 下一步执行 Phase 2.43d 双仓 Git baseline；任务入口已写入 `docs/NEXT_CODEX_A_PROMPT.md`。
-24. 下一步不得直接启动 production rollout、repair、Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
+1. Phase 2.44 MVP Pilot continuation / issue intake planning 已完成并通过 Codex B review；下一步只做 docs-only Git baseline。
+2. Phase 2.34 compare false-positive baseline 已完成：Hermes_memory commit `789ed22`，Hermes 主仓库 commit `5de49bf5`，tag `phase-2.34-compare-contamination-baseline`。
+3. Phase 2.37 planning baseline 已完成：commit `8fd10b7`，tag `phase-2.37-pilot-issue-triage-plan-baseline`。
+4. Phase 2.37a / 2.37b / 2.37c 已完成 intake、runbook 与 triage summary planning baseline。
+5. Phase 2.37d triage summary generator baseline 已完成：commit `d97a67c`，tag `phase-2.37d-pilot-triage-summary-baseline`。
+6. Phase 2.38a Tender P1 Source Availability Audit baseline 已完成：commit `456b32d`，tag `phase-2.38a-tender-p1-source-audit-baseline`。
+7. Phase 2.39 Data Steward / BIM 数据管家 docs-only baseline 已完成：Data Steward 明确作为后置产品线，不并入当前 MVP Pilot，不新增 DB schema、Neo4j、PostGIS、空间索引代码或 scheduler。
+8. Phase 2.38b Git baseline 已完成：commit `a8c93f1`，tag `phase-2.38b-tender-recall-diagnostics-baseline`。
+9. Phase 2.38c 人员要求召回尾项规划 baseline 已完成：commit `ff49941`，tag `phase-2.38c-personnel-recall-tail-plan-baseline`。
+10. Phase 2.38d personnel-only bounded recall implementation baseline 已完成；Codex C Q1/Q2/Q3 真实终端复验通过。
+11. Phase 2.40 PRD Acceptance Matrix / MVP Evidence Pack planning baseline 已完成：commit `1383155`，tag `phase-2.40-prd-acceptance-matrix-plan-baseline`。
+12. Phase 2.40a docs-only artifact baseline 已完成：commit `e6f7fc2`，tag `phase-2.40a-prd-acceptance-matrix-artifact-baseline`。
+13. Phase 2.41 MVP Pilot Evidence Review / Go-No-Go planning baseline 已完成，Phase 2.41a checklist artifact baseline 已完成。
+14. Phase 2.42 MVP Pilot Review Dry-run Report Planning 已完成，Codex B review 确认主线方向正确。
+15. Phase 2.42a MVP Pilot Review Dry-run Report Generator baseline 已完成：commit `4c60b28`，tag `phase-2.42a-mvp-pilot-review-dry-run-generator-baseline`。
+16. Phase 2.42b sanitized input template / dry-run runbook artifact baseline 已完成：commit `edd0e08`，tag `phase-2.42b-mvp-pilot-review-dry-run-template-baseline`。
+17. Phase 2.43 Internal MVP Pilot Launch Candidate Planning 已完成并 baseline：commit `5141bb5`，tag `phase-2.43-mvp-pilot-launch-candidate-plan-baseline`。
+18. Phase 2.43a MVP Pilot Launch Packet / Operator Checklist artifact 已完成并 baseline：commit `5423497`，tag `phase-2.43a-mvp-pilot-launch-packet-baseline`；未启动真实 Pilot、不生成真实 report、不运行 API / CLI、不写 DB、不进入 rollout、repair 或 Data Steward 实现。
+19. Phase 2.43b MVP Pilot Pre-flight Smoke Prompt / Runbook artifact 已完成并 baseline：commit `ef2e43f`，tag `phase-2.43b-mvp-pilot-preflight-smoke-prompt-baseline`。
+20. Codex C pre-flight smoke 已完成并返回 `Go`：API / CLI 可用，四个 alias 稳定，P0 为 0；P1 为主标书最高投标限价 / 招标控制价 Missing Evidence，P2 为部分 trace 字段未显式打印。
+21. Day-1 Pilot 已开始但按 run sheet 触发 `Pause`：`@主标书` 绑定阶段出现 `alias_bind_failed`，正式 Q1 变为 `alias_missing=true / retrieval_suppressed=true`，Q2-Q10 未继续执行。
+22. Phase 2.43d `@主标书` alias/session bounded fix 已完成：current bind fallback 遇到多 retrieval 候选时采用 top document 完成绑定并记录歧义诊断，title bind 多候选仍保持失败；主仓 session scope 测试 `51 passed`。
+23. Codex C Day-1 断点续跑已通过：session `20260506_143354_d4ad05`，`@主标书` Q1-Q2 resolved，`alias_missing=false`，`retrieval_suppressed=false`；10 条 query 为 `6 pass / 4 partial / 0 fail`，P0 为 0，Decision 为 `Go`。
+24. Phase 2.43d 双仓 Git baseline 已完成：Hermes_memory commit `d62852b`，Hermes 主仓库 commit `9e8e5667`，tag `phase-2.43d-main-tender-alias-session-baseline`。
+25. Day-1 issue candidates 已记录：限价 Missing Evidence、主标书资质 / 项目经理 / 联合体 / 业绩 / 人员深层字段人工复核、Excel cell citation 降级、公司方向人工决策复核、trace display UX。
+26. Codex B review Phase 2.44 planning 已通过：规划只记录 issue intake / continuation 边界，不进入实现、真实 report、真实 issue records、repair、rollout 或 Data Steward。
+27. 下一步执行 Phase 2.44 docs-only Git baseline；任务入口已写入 `docs/NEXT_CODEX_A_PROMPT.md`。
+28. 下一步不得直接启动 production rollout、repair、Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
 
 ## 0.1 Phase 2.38b 当前待办
 

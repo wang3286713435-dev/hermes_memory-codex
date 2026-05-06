@@ -2,21 +2,24 @@
 
 ## 当前优先级
 
-1. Phase 2.43d `@主标书` alias/session Pause 最小修复已完成：pending current alias bind 在 retrieval 返回目标 top document 且同时存在其他候选时不再最终标成 `alias_bind_failed`，会绑定 top document 并记录歧义诊断。
-2. Codex C Day-1 断点续跑已通过：session `20260506_143354_d4ad05`，`@主标书` Q1-Q2 resolved，`alias_missing=false`，`retrieval_suppressed=false`；10 条 query 为 `6 pass / 4 partial / 0 fail`，P0 为 0，Decision 为 `Go`。
-3. 当前唯一优先事项：执行 Phase 2.43d 双仓 Git baseline；任务入口已写入 `docs/NEXT_CODEX_A_PROMPT.md`。
-4. 本轮修复未处理限价 Missing Evidence、资质等级、深层召回、性能、Data Steward、repair 或 rollout。
-5. baseline 后可恢复内部受控 MVP Pilot continuation / issue intake；仍不得进入 production rollout。
-6. 遗留无关 dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`，不得被本轮 stage / commit。
-7. Phase 2.43b MVP Pilot Pre-flight Smoke Prompt baseline 已完成：commit `ef2e43f`，tag `phase-2.43b-mvp-pilot-preflight-smoke-prompt-baseline`。
-8. Phase 2.43a MVP Pilot Launch Packet / Operator Checklist Git baseline 已完成：commit `5423497`，tag `phase-2.43a-mvp-pilot-launch-packet-baseline`。
-9. Phase 2.43 Internal MVP Pilot Launch Candidate Planning Git baseline 已完成，commit `5141bb5`，tag `phase-2.43-mvp-pilot-launch-candidate-plan-baseline`。
-10. Phase 2.42b MVP Pilot Review Dry-run Input Template / Runbook Git baseline 已完成，commit `edd0e08`，tag `phase-2.42b-mvp-pilot-review-dry-run-template-baseline`。
-11. Phase 2.42a MVP Pilot review dry-run report generator Git baseline 已完成，commit `4c60b28`，tag `phase-2.42a-mvp-pilot-review-dry-run-generator-baseline`。
-12. Phase 2.42 MVP Pilot Review Dry-run Report planning baseline 已完成，commit `0e0d208`，tag `phase-2.42-mvp-pilot-review-dry-run-plan-baseline`。
-13. Phase 2.41a MVP Pilot Evidence Review Checklist artifact baseline 已完成，commit `a2e1042`，tag `phase-2.41a-mvp-pilot-evidence-review-checklist-baseline`。
-14. Phase 2.41 MVP Pilot Evidence Review / Go-No-Go planning baseline 已完成，commit `40f8380`，tag `phase-2.41-mvp-pilot-evidence-review-plan-baseline`。
-15. Phase 2.40a PRD Acceptance Matrix / MVP Evidence Pack artifact baseline 已完成，commit `e6f7fc2`，tag `phase-2.40a-prd-acceptance-matrix-artifact-baseline`。
+1. Phase 2.44 MVP Pilot continuation / issue intake planning 已完成，新增 `docs/PHASE244_MVP_PILOT_CONTINUATION_ISSUE_INTAKE_PLAN.md`。
+2. 当前结论：可以继续内部受控 MVP Pilot continuation，但必须保留人工复核，不是 production rollout。
+3. Codex B review Phase 2.44 planning 已通过；当前唯一优先事项：执行 Phase 2.44 docs-only Git baseline。
+4. Day-1 issue candidates 已记录：限价 Missing Evidence、主标书深层字段人工复核、Excel citation 降级、公司方向人工决策、trace display UX。
+5. 本阶段未修 retrieval、未生成真实 issue records、未生成真实 Pilot report、未写 DB / facts / document_versions / OpenSearch / Qdrant。
+6. Phase 2.44 baseline 后，下一步候选是 Phase 2.44a sanitized issue intake dry-run / recorder worksheet planning；仍不得进入 production rollout。
+7. 遗留无关 dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`，不得被本轮 stage / commit。
+8. Phase 2.43d `@主标书` alias/session Pause 最小修复与双仓 Git baseline 已完成：Hermes_memory commit `d62852b`，Hermes 主仓库 commit `9e8e5667`，tag `phase-2.43d-main-tender-alias-session-baseline`。
+9. Codex C Day-1 断点续跑已通过：session `20260506_143354_d4ad05`，`@主标书` Q1-Q2 resolved，`alias_missing=false`，`retrieval_suppressed=false`；10 条 query 为 `6 pass / 4 partial / 0 fail`，P0 为 0，Decision 为 `Go`。
+10. Phase 2.43b MVP Pilot Pre-flight Smoke Prompt baseline 已完成：commit `ef2e43f`，tag `phase-2.43b-mvp-pilot-preflight-smoke-prompt-baseline`。
+10. Phase 2.43a MVP Pilot Launch Packet / Operator Checklist Git baseline 已完成：commit `5423497`，tag `phase-2.43a-mvp-pilot-launch-packet-baseline`。
+11. Phase 2.43 Internal MVP Pilot Launch Candidate Planning Git baseline 已完成，commit `5141bb5`，tag `phase-2.43-mvp-pilot-launch-candidate-plan-baseline`。
+12. Phase 2.42b MVP Pilot Review Dry-run Input Template / Runbook Git baseline 已完成，commit `edd0e08`，tag `phase-2.42b-mvp-pilot-review-dry-run-template-baseline`。
+13. Phase 2.42a MVP Pilot review dry-run report generator Git baseline 已完成，commit `4c60b28`，tag `phase-2.42a-mvp-pilot-review-dry-run-generator-baseline`。
+14. Phase 2.42 MVP Pilot Review Dry-run Report planning baseline 已完成，commit `0e0d208`，tag `phase-2.42-mvp-pilot-review-dry-run-plan-baseline`。
+15. Phase 2.41a MVP Pilot Evidence Review Checklist artifact baseline 已完成，commit `a2e1042`，tag `phase-2.41a-mvp-pilot-evidence-review-checklist-baseline`。
+16. Phase 2.41 MVP Pilot Evidence Review / Go-No-Go planning baseline 已完成，commit `40f8380`，tag `phase-2.41-mvp-pilot-evidence-review-plan-baseline`。
+17. Phase 2.40a PRD Acceptance Matrix / MVP Evidence Pack artifact baseline 已完成，commit `e6f7fc2`，tag `phase-2.40a-prd-acceptance-matrix-artifact-baseline`。
 
 ## Day-1 Pilot 已知问题
 

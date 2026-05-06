@@ -254,3 +254,7 @@
 - [Phase 2.43d] Codex A 完成 bounded fix：`alias_bind_pending_current_retrieval` 在 retrieval 返回多个候选时采用 top document 完成绑定并记录 `alias_bind_ambiguous_retrieval_document_ids`，同时保留 title bind 多候选失败语义；主仓 session scope 测试 `51 passed`，等待 Codex B review 与 Codex C 复验。
 - [Phase 2.43d] Codex B review 通过并新增 `docs/NEXT_CODEX_C_PROMPT.md`：下一步只做 Codex C Day-1 Q1 alias/session 真实终端复验，不 baseline、不 rollout、不 repair。
 - [Phase 2.43d] Codex C Day-1 断点续跑通过：`@主标书` Q1-Q2 resolved，`alias_missing=false`，`retrieval_suppressed=false`；Day-1 10 条 query 为 `6 pass / 4 partial / 0 fail`，P0 为 0，Decision 为 `Go`；下一步只做双仓 Git baseline。
+- [Phase 2.43d] 双仓 Git baseline 已完成：Hermes_memory commit `d62852b`，Hermes 主仓库 commit `9e8e5667`，tag `phase-2.43d-main-tender-alias-session-baseline`；`@主标书` alias/session Pause blocker 收口。
+- [Phase 2.44] Codex B 已写入下一轮 docs-only planning 入口：将 Day-1 continuation 的 P1/P2 尾项转为 MVP Pilot continuation / issue intake plan；不写代码、不生成真实 issue records、不进入 repair、rollout 或 Data Steward。
+- [Phase 2.44] 完成 MVP Pilot continuation / issue intake docs-only planning：新增 `docs/PHASE244_MVP_PILOT_CONTINUATION_ISSUE_INTAKE_PLAN.md`，记录 Day-1 issue candidates、Go / Pause / No-Go、人工复核责任与下一阶段候选；本轮未生成真实 issue records / Pilot report，未写 DB / facts / document_versions / OpenSearch / Qdrant，未进入 repair、rollout 或 Data Steward。
+- [Phase 2.44] Codex B review 通过：规划边界正确，符合内部受控 MVP Pilot continuation / issue intake，不进入实现、真实 report、真实 issue records、repair、rollout 或 Data Steward；下一步只做 docs-only Git baseline。

@@ -2919,3 +2919,65 @@
 - risks: baseline 必须 selective staging；主仓 `agent/memory_kernel/adapters/hermes_memory_adapter.py`、`uv.lock`、PHASE211E 文档和 adapter reload 测试不属于本轮；Hermes_memory `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 不属于本轮。
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.43d 双仓 Git baseline；完成后停止等待 Codex B review。
 - commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
+
+## 2026-05-06 15:40 Phase 2.44
+- goal: Absorb Phase 2.43d baseline and prepare MVP Pilot continuation / issue intake planning prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - Phase 2.43d baseline state reviewed：Hermes_memory HEAD `d62852b`，tag `phase-2.43d-main-tender-alias-session-baseline`。
+  - Codex C Day-1 continuation result reviewed：`6 pass / 4 partial / 0 fail`，P0 为 `0`，Decision 为 `Go`。
+  - 本轮不运行 API / CLI，不运行 pytest，不生成真实 report 或 issue records。
+- validation: 下一轮收缩为 docs-only planning，目标是把 Day-1 P1/P2 尾项纳入 issue intake / Pilot continuation 规则；不修 retrieval、不写 DB、不进入 rollout / repair / Data Steward。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍为遗留无关 dirty，不得触碰；Phase 2.44 完成后需 Codex B review，不自动 baseline。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44 docs-only planning。
+- commit/tag if any: 无；本轮只是 next prompt handoff，不提交 Git。
+
+## 2026-05-06 15:42 Phase 2.44
+- goal: Plan internal MVP Pilot continuation / issue intake after Phase 2.43d baseline and Codex C Day-1 continuation Go.
+- changed_files:
+  - `docs/PHASE244_MVP_PILOT_CONTINUATION_ISSUE_INTAKE_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过，命中 `reports/agent_runs/.gitignore`。
+  - `git status --short`：通过；显示 Phase 2.44 文档变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: docs-only plan records internal controlled Pilot continuation, Day-1 P1/P2 issue candidates, Go / Pause / No-Go rules, and human review boundaries; no real issue records/report/API/DB/index work.
+- risks: P1/P2 tails are recorded, not fixed; inherited dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope; no rollout / repair / Data Steward.
+- next: Codex B review Phase 2.44 planning; if approved, choose Phase 2.44 docs baseline or Phase 2.44a sanitized issue intake dry-run / recorder worksheet.
+- commit/tag if any: 无；本轮不提交 Git。
+
+## 2026-05-06 15:55 Phase 2.44
+- goal: Codex B review Phase 2.44 planning and write docs-only Git baseline prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - Phase 2.44 plan reviewed：`docs/PHASE244_MVP_PILOT_CONTINUATION_ISSUE_INTAKE_PLAN.md` 覆盖 Day-1 continuation Go、P1/P2 issue candidates、record-now vs fix-now、Go / Pause / No-Go 与人工复核责任。
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+- validation: Codex B review 通过。Phase 2.44 是 docs-only planning，不写代码、不生成真实 report 或 issue records、不进入 repair / rollout / Data Steward。
+- risks: baseline 必须 selective staging，排除遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.44a。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44 docs-only Git baseline。
+- commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。

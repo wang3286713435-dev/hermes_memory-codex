@@ -10,21 +10,23 @@
 
 ## Current Queue
 
-### Item 1：Phase 2.43d Main Tender Alias / Session Git Baseline
+### Item 1：Phase 2.44 MVP Pilot Continuation / Issue Intake Planning
 
-- lane：Yellow Lane
-- 状态：codex_b_reviewed_ready_for_baseline
-- 目标：固化 Phase 2.43d `@主标书` alias/session 修复；Codex C Day-1 断点续跑已通过。
+- lane：Green Lane
+- 状态：implemented_waiting_codex_b_review
+- 目标：吸收 Phase 2.43d baseline 与 Codex C Day-1 continuation `Go` 结果，规划内部受控 MVP Pilot continuation / issue intake。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 按 `docs/NEXT_CODEX_A_PROMPT.md` 白名单 selective stage。
-  - 运行主仓库 py_compile / 目标测试与 Hermes_memory 静态校验。
-  - commit / tag / push 两仓 Phase 2.43d baseline。
+  - 只修改 `docs/NEXT_CODEX_A_PROMPT.md` 白名单中的 docs / handoff 文件。
+  - 新增 `docs/PHASE244_MVP_PILOT_CONTINUATION_ISSUE_INTAKE_PLAN.md`。
+  - 运行 `git diff --check`、`latest.json` JSON 校验、ignore 检查与 `git status --short`。
 - 禁止动作：
   - 不修改 / stage `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+  - 不修改代码、脚本、测试、migration 或 Hermes 主仓库。
   - 不修改 Hermes_memory retrieval / indexing / facts / version governance / migration / schema。
   - 不默认扫描真实 `reports/` 或 `reviews/` 目录。
   - 不生成真实 MVP Pilot report。
+  - 不生成真实 `reports/pilot_issues/*.json` issue record。
   - 不生成 production rollout approval。
   - 不授权 repair / cleanup / delete / reindex。
   - 不写业务 DB、OpenSearch、Qdrant、facts 或 document_versions。
@@ -32,11 +34,32 @@
   - 不启动 Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
   - 不修改 retrieval contract 或 memory kernel 主架构。
   - 不自动发起 Codex C。
-- 完成后：必须停止等待 Codex B review，不得进入 Phase 2.44。
-- baseline 规则：本 item 已满足 baseline gate；仍必须 selective staging，排除无关 dirty。
-- 当前结果：等待 Codex A 执行双仓 Git baseline。
+- 完成后：已停止等待 Codex B review，不得进入 Phase 2.44a。
+- baseline 规则：本 item 不 baseline；仅交付 planning dirty。
+- 当前结果：docs-only planning 已完成，新增 `docs/PHASE244_MVP_PILOT_CONTINUATION_ISSUE_INTAKE_PLAN.md`；未生成真实 issue records / Pilot report，未写 DB / facts / document_versions / OpenSearch / Qdrant。
+
+### Item 2：Phase 2.44 docs-only planning baseline
+
+- lane：Yellow Lane
+- 状态：blocked_until_codex_b_review
+- 条件：Codex B review 明确通过 Phase 2.44 planning 后才允许执行。
+- 目标：只提交 Phase 2.44 planning / handoff 文档 baseline。
+- 禁止动作：
+  - 不进入 Phase 2.44a 实现。
+  - 不生成真实 issue records / Pilot report。
+  - 不写 DB / facts / document_versions / OpenSearch / Qdrant。
+  - 不执行 repair / backfill / reindex / cleanup / delete。
+  - 不进入 rollout / Data Steward。
+- baseline 规则：默认夜间不可自动执行；需要用户或 Codex B 明确授权。
 
 ## Archived Queue
+
+### Phase 2.43d Main Tender Alias / Session Git Baseline
+
+- 类型：Yellow Lane
+- 状态：completed
+- 结果：Hermes_memory commit `d62852b`；Hermes 主仓库 commit `9e8e5667`；tag `phase-2.43d-main-tender-alias-session-baseline`。
+- 备注：`@主标书` alias/session Day-1 Pause blocker 已解除；Codex C continuation 结果为 Go，P0 为 0。
 
 ### Phase 2.43b MVP Pilot Pre-flight Smoke Prompt Artifact
 
