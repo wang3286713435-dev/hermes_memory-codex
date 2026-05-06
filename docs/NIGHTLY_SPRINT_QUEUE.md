@@ -10,33 +10,40 @@
 
 ## Current Queue
 
-### Item 1：Phase 2.43b MVP Pilot Pre-flight Smoke Prompt Artifact
+### Item 1：Phase 2.43d Main Tender Alias / Session Git Baseline
 
 - lane：Yellow Lane
-- 状态：reviewed_ready_for_baseline
-- 目标：新增可交给 Codex C 的 MVP Pilot pre-flight smoke prompt / runbook。
+- 状态：codex_b_reviewed_ready_for_baseline
+- 目标：固化 Phase 2.43d `@主标书` alias/session 修复；Codex C Day-1 断点续跑已通过。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - Stage Phase 2.43b 白名单文档。
-  - 运行 `git diff --check`、关键词边界检查、`latest.json` JSON 校验、ignore 检查、cached diff 检查。
-  - commit / tag / push Phase 2.43b baseline。
+  - 按 `docs/NEXT_CODEX_A_PROMPT.md` 白名单 selective stage。
+  - 运行主仓库 py_compile / 目标测试与 Hermes_memory 静态校验。
+  - commit / tag / push 两仓 Phase 2.43d baseline。
 - 禁止动作：
   - 不修改 / stage `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
-  - 不修改脚本、测试、业务代码、migration 或 schema。
+  - 不修改 Hermes_memory retrieval / indexing / facts / version governance / migration / schema。
   - 不默认扫描真实 `reports/` 或 `reviews/` 目录。
   - 不生成真实 MVP Pilot report。
   - 不生成 production rollout approval。
   - 不授权 repair / cleanup / delete / reindex。
   - 不写业务 DB、OpenSearch、Qdrant、facts 或 document_versions。
-  - 不运行 API / CLI smoke。
+  - 不运行新的 API / CLI smoke。
   - 不启动 Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
   - 不修改 retrieval contract 或 memory kernel 主架构。
   - 不自动发起 Codex C。
-- 完成后：必须停止等待 Codex B review。
-- baseline 规则：本 item 已由 Codex B review 写入 explicit baseline prompt；不得 baseline 后继续自动推进。
-- 当前结果：Phase 2.43b artifact 已创建并通过 Codex B review；等待 baseline。
+- 完成后：必须停止等待 Codex B review，不得进入 Phase 2.44。
+- baseline 规则：本 item 已满足 baseline gate；仍必须 selective staging，排除无关 dirty。
+- 当前结果：等待 Codex A 执行双仓 Git baseline。
 
 ## Archived Queue
+
+### Phase 2.43b MVP Pilot Pre-flight Smoke Prompt Artifact
+
+- 类型：Yellow Lane
+- 状态：completed
+- 结果：commit `ef2e43f`，tag `phase-2.43b-mvp-pilot-preflight-smoke-prompt-baseline`。
+- 备注：pre-flight smoke prompt / runbook 已 baseline；Codex C pre-flight 返回 Go，但 Day-1 Pilot 后续触发 `@主标书` alias/session Pause。
 
 ### Phase 2.43a MVP Pilot Launch Packet Git Baseline
 

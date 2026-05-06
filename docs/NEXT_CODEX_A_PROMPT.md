@@ -1,167 +1,161 @@
 # NEXT_CODEX_A_PROMPT
 
-这是 Codex A 的下一轮执行入口。请严格按文件化交接机制执行；本轮只做 Phase 2.43b MVP Pilot Pre-flight Smoke Prompt / Runbook Git baseline，完成后停止，等待 Codex B 审核。不要启动真实 Pilot，不要运行 API / CLI smoke，不要进入 Phase 2.43c，不要进入 production rollout、repair、Data Steward 实现或任何业务数据写入。
+这是 Codex A 的下一轮执行入口。请严格按文件化交接机制执行；本轮只做 Phase 2.43d `@主标书` alias/session 修复 Git baseline。
+
+本轮不写新功能、不改代码逻辑、不进入 Phase 2.44、不启动 Pilot 新一轮、不运行 production rollout、不 repair、不 backfill、不 reindex、不 cleanup、不 delete、不做 Data Steward 实现。
 
 ## 必读文件
 
-执行前必须先读取：
+执行前必须读取：
 
 1. `/Users/Weishengsu/Hermes_memory/docs/AGENT_OPERATING_PROTOCOL.md`
-2. `/Users/Weishengsu/Hermes_memory/docs/NIGHTLY_SPRINT_PROTOCOL.md`
-3. `/Users/Weishengsu/Hermes_memory/docs/NIGHTLY_SPRINT_QUEUE.md`
-4. `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
-5. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
-6. `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
-7. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
-8. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
-9. `/Users/Weishengsu/Hermes_memory/docs/MVP_PILOT_PREFLIGHT_SMOKE_PROMPT.md`
-10. `/Users/Weishengsu/Hermes_memory/docs/MVP_PILOT_LAUNCH_PACKET.md`
-11. `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`
+2. `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
+3. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
+4. `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
+5. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
+6. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
+7. `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`
+8. `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+9. `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
 
-## 当前状态
+## Baseline 依据
 
-Phase 2.43b MVP Pilot Pre-flight Smoke Prompt / Runbook artifact 已完成并通过 Codex B review。
+Phase 2.43d 已满足 baseline gate：
 
-Codex B 已复核：
+1. 当前 phase 有明确验收结果：Day-1 `@主标书` alias/session blocker 已修复。
+2. Codex B review 已通过：bounded diff 只影响 current alias bind fallback，未放宽 title bind 多候选失败语义。
+3. Codex C 真实终端复验已通过：
+   - session_id：`20260506_143354_d4ad05`
+   - `@主标书`：同 session Q1-Q2 均 resolved，`alias_missing=false`，`retrieval_suppressed=false`
+   - `@硬件清单`、`@C塔方案`、`@会议纪要`：alias bound 且 stable
+   - Day-1 10 条 query：`6 pass / 4 partial / 0 fail`
+   - P0：0
+   - Decision：`Go`
+4. 文档状态已同步：ACTIVE_PHASE / PHASE_BACKLOG / TODO / DEV_LOG / HANDOFF_LOG / latest.json 已记录 Codex C 结果。
+5. 下一步将切换回内部受控 MVP Pilot continuation / issue intake，因此应先 baseline Phase 2.43d。
 
-1. `docs/MVP_PILOT_PREFLIGHT_SMOKE_PROMPT.md` 是交给 Codex C 的真实终端预飞行验收提示词，不是 Pilot 启动授权。
-2. Prompt 覆盖 API / CLI、fresh session、alias 绑定、主标书 evidence / Missing Evidence、Excel / PPTX structured citation、会议纪要 transcript boundary、confirmed facts boundary 与 optional compare smoke。
-3. Prompt 明确输出结构化报告：API / CLI 状态、`session_id`、alias table、query table、P0 / P1 / P2 / P3、evidence policy flags、Missing Evidence、third-document contamination 与 Go / Pause / No-Go。
-4. Prompt 明确 `facts_as_answer=false`、`transcript_as_fact=false`、`snapshot_as_answer=false`、Missing Evidence 可见、citation / source 可人工核查。
-5. Prompt 明确 `Go` 只代表可考虑内部受控 MVP Pilot，不是 production rollout、自动审标、自动投标、自动经营决策、repair 或 Data Steward implementation。
-6. 未运行真实 API / CLI smoke，未启动真实 Pilot，未生成真实 report，未写 DB，未进入 rollout / repair / Data Steward 实现。
+## 当前保留风险
 
-当前基线：
+这些是已知 Pilot 尾项，不是本轮 baseline 阻塞：
 
-1. HEAD：`5423497`
-2. tag：`phase-2.43a-mvp-pilot-launch-packet-baseline`
-3. `origin/main` 已对齐。
+1. P1：`@主标书` 最高投标限价 / 招标控制价仍 Missing Evidence。
+2. P1：`@主标书` 资质 / 项目经理 / 联合体 / 业绩 / 人员等深层字段仍需人工复核。
+3. P1：Excel 硬件清单部分 cell citation 降级为 row / range。
+4. P1/P2：公司方向分析仍必须人工决策，部分风险 / 行业判断需人工复核。
+5. P2：会议风险解释 / strategy trace 展示尾项。
 
-当前允许保留一个遗留无关 dirty：
+这些尾项不得在本轮顺手修。
 
-1. `/Users/Weishengsu/Hermes_memory/docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
+## Git baseline 范围
 
-该 Phase 2.38 文件不属于本轮范围，必须保留原状，不得 stage、commit、清理或改写。
+### Hermes 主仓库
 
-## Baseline Gate 判定
+工作目录：`/Users/Weishengsu/.hermes/hermes-agent`
 
-本轮允许 baseline，因为 5 条 gate 已满足：
+只允许 stage / commit 以下文件：
 
-1. 当前 phase 有明确验收结果：Phase 2.43b pre-flight prompt / runbook artifact 已完成。
-2. Codex B review 已通过：未发现偏离 PRD、MVP Pilot 边界或 Data Steward 后置边界。
-3. 目标验证通过：`git diff --check`、新增 prompt diff check、关键词边界检查、`latest.json` JSON 校验与 ignore 检查通过；本阶段无需 Codex C 真实终端验收。
-4. 文档状态已同步：ACTIVE_PHASE、PHASE_BACKLOG、NIGHTLY_SPRINT_QUEUE、TODO、DEV_LOG、HANDOFF_LOG 与 ignored latest 均记录 Phase 2.43b 状态。
-5. 下一步将扩大到 Codex C 真实终端 pre-flight smoke；baseline 后才允许交给 Codex C 执行。
+1. `agent/memory_kernel/session_document_scope.py`
+2. `tests/agent/test_session_document_scope.py`
+3. `docs/TODO.md`
+4. `docs/DEV_LOG.md`
 
-小修不 baseline 规则仍有效；本轮不是小修，而是 Phase 2.43b artifact 阶段收口。
+不得 stage / commit 以下既有无关 dirty：
 
-## 本轮目标
+1. `agent/memory_kernel/adapters/hermes_memory_adapter.py`
+2. `uv.lock`
+3. `docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`
+4. `tests/agent/test_memory_kernel_adapter_reload.py`
 
-Phase 2.43b MVP Pilot Pre-flight Smoke Prompt / Runbook Git baseline。
+commit message：
 
-只提交 Phase 2.43b 白名单文件；不进入下一阶段，不运行真实 API / CLI，不启动真实 Pilot，不生成真实 report，不写 DB，不做 rollout 或 repair。
+```text
+fix: stabilize main tender alias session binding
+```
 
-## 允许 stage / commit 的文件白名单
+### Hermes_memory
 
-只允许 stage 以下文件：
+工作目录：`/Users/Weishengsu/Hermes_memory`
 
-1. `/Users/Weishengsu/Hermes_memory/docs/MVP_PILOT_PREFLIGHT_SMOKE_PROMPT.md`
-2. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
-3. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
-4. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
-5. `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
-6. `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
-7. `/Users/Weishengsu/Hermes_memory/docs/NIGHTLY_SPRINT_QUEUE.md`
-8. `/Users/Weishengsu/Hermes_memory/docs/NEXT_CODEX_A_PROMPT.md`
+只允许 stage / commit 以下文件：
 
-`/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json` 是 ignored 本地状态文件，可以更新，但不得提交。
+1. `docs/NEXT_CODEX_A_PROMPT.md`
+2. `docs/NEXT_CODEX_C_PROMPT.md`
+3. `docs/ACTIVE_PHASE.md`
+4. `docs/HANDOFF_LOG.md`
+5. `docs/PHASE_BACKLOG.md`
+6. `docs/NIGHTLY_SPRINT_QUEUE.md`
+7. `docs/TODO.md`
+8. `docs/DEV_LOG.md`
 
-## 禁止 stage / commit 的文件
+不得 stage / commit：
 
-明确禁止 stage / commit：
+1. `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
+2. `reports/agent_runs/latest.json`（ignored 本地状态）
 
-1. `/Users/Weishengsu/Hermes_memory/docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
-2. 任意业务服务代码文件。
-3. 任意脚本文件。
-4. 任意测试文件。
-5. 任意 migration / schema 文件。
-6. 任意真实 reports / reviews JSON 或 Markdown 产物。
-7. Hermes 主仓库任意文件。
-8. 任意 DB / OpenSearch / Qdrant / facts / document_versions 相关数据产物。
+commit message：
+
+```text
+docs: record phase 2.43d alias session validation
+```
+
+## Tag
+
+两仓库都打同一个 tag：
+
+```text
+phase-2.43d-main-tender-alias-session-baseline
+```
 
 ## 验证命令
+
+### Hermes 主仓库
+
+在 `/Users/Weishengsu/.hermes/hermes-agent` 执行：
+
+```bash
+./.venv/bin/python -m py_compile \
+  agent/memory_kernel/session_document_scope.py \
+  agent/memory_kernel/kernel.py \
+  agent/memory_kernel/orchestrator.py \
+  agent/memory_kernel/context_builder.py \
+  agent/memory_kernel/adapters/hermes_memory_adapter.py
+
+./.venv/bin/python -m pytest -o addopts='' tests/agent/test_session_document_scope.py -q
+
+git diff --check
+git status --short
+```
+
+### Hermes_memory
 
 在 `/Users/Weishengsu/Hermes_memory` 执行：
 
 ```bash
 git diff --check
-git diff --check --no-index /dev/null docs/MVP_PILOT_PREFLIGHT_SMOKE_PROMPT.md || test $? -eq 1
-rg -n "Codex C|pre-flight|API|CLI|alias|facts_as_answer|transcript_as_fact|snapshot_as_answer|Missing Evidence|No-Go|Go|Pause|P0|P1|citation|document_id|version_id|no upload|no DB|no report|production rollout|repair|Data Steward" docs/MVP_PILOT_PREFLIGHT_SMOKE_PROMPT.md docs/TODO.md docs/DEV_LOG.md docs/PHASE_BACKLOG.md docs/ACTIVE_PHASE.md docs/NIGHTLY_SPRINT_QUEUE.md
 uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json
 git check-ignore -v reports/agent_runs/latest.json
 git status --short
 ```
 
-不运行 API / CLI smoke，不运行 pytest，不生成真实 report。
+## Stage / commit / push 规则
 
-## Git 操作
-
-确认 dirty 仅包含白名单文件与允许保留的 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 后执行：
-
-```bash
-git add docs/MVP_PILOT_PREFLIGHT_SMOKE_PROMPT.md \
-  docs/TODO.md \
-  docs/DEV_LOG.md \
-  docs/PHASE_BACKLOG.md \
-  docs/ACTIVE_PHASE.md \
-  docs/HANDOFF_LOG.md \
-  docs/NIGHTLY_SPRINT_QUEUE.md \
-  docs/NEXT_CODEX_A_PROMPT.md
-
-git diff --cached --name-only
-git diff --cached --check
-git commit -m "docs: add phase 2.43b mvp pilot preflight smoke prompt"
-git tag phase-2.43b-mvp-pilot-preflight-smoke-prompt-baseline
-git push origin main
-git push origin phase-2.43b-mvp-pilot-preflight-smoke-prompt-baseline
-```
-
-## 完成后必须检查
-
-1. `git status --short`
-2. HEAD commit hash
-3. tag 是否指向 HEAD
-4. `origin/main` push 是否成功
-5. tag push 是否成功
-6. `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 是否仍未 staged / 未提交
-
-如果最终只剩 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` dirty，可以报告为遗留无关 dirty；不要清理它。
-
-## 硬边界
-
-1. 不写业务 DB / facts / document_versions。
-2. 不修改 OpenSearch / Qdrant。
-3. 不执行 repair / backfill / reindex / cleanup / delete。
-4. 不进入 production rollout。
-5. 不生成真实 MVP Pilot report。
-6. 不默认扫描真实 reports / reviews。
-7. 不改 retrieval contract。
-8. 不改 memory kernel 主架构。
-9. 不启动 Data Steward 实现。
-10. 不新增 Neo4j / PostGIS / scheduler / DB schema。
-11. 不运行 API / CLI smoke。
-12. 不修改 Hermes 主仓库。
-13. baseline 后必须停止，不得自动进入下一 phase，不得自动发起 Codex C。
+1. 必须 selective staging，只 stage 白名单文件。
+2. staged 后必须检查 `git diff --cached --name-only`。
+3. 若 staged 文件超出白名单，必须 unstage 并停止。
+4. Hermes 主仓库不得推 origin；按既定策略推可写远端 `backup2` 当前工作分支与 tag。
+5. Hermes_memory 推 `origin/main` 与 tag。
+6. baseline 后必须停止，不得进入 Phase 2.44，不得继续执行 Pilot，不得自动发起 Codex C。
 
 ## 完成报告必须包含
 
-1. 修改文件。
-2. 验证命令与结果。
-3. staged 文件白名单复核结果。
-4. commit hash。
-5. tag。
-6. push 结果。
-7. 最终 `git status --short`。
-8. 是否保留 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 遗留 dirty。
-9. 是否进入真实 Pilot / rollout / repair / Data Steward 实现（必须为否）。
-10. 是否自动发起 Codex C（必须为否）。
+1. 两仓库 commit hash。
+2. tag 是否创建并指向当前 HEAD。
+3. push 结果。
+4. 最终 `git status --short`。
+5. 是否只 stage / commit 白名单文件。
+6. 是否保留无关 dirty：
+   - Hermes 主仓库：`agent/memory_kernel/adapters/hermes_memory_adapter.py`、`uv.lock`、`docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`、`tests/agent/test_memory_kernel_adapter_reload.py`
+   - Hermes_memory：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
+7. 是否写 DB / facts / document_versions / OpenSearch / Qdrant（必须为否）。
+8. 是否进入 rollout / repair / Data Steward（必须为否）。
+9. 下一步建议：恢复内部受控 MVP Pilot continuation / issue intake，不进入 production rollout。

@@ -247,3 +247,10 @@
 - [Phase 2.43b] Codex B 已写入下一轮 docs-only artifact 入口：新增 Codex C MVP Pilot pre-flight smoke prompt / runbook，先验收 API / CLI、alias/session、citation、evidence policy、Missing Evidence 与 No-Go / Pause / Go 边界，不启动真实 Pilot。
 - [Phase 2.43b] 完成 MVP Pilot pre-flight smoke prompt / runbook artifact：新增 `docs/MVP_PILOT_PREFLIGHT_SMOKE_PROMPT.md`，覆盖 Codex C API / CLI 预检、alias 绑定、主标书 / structured citation / 会议纪要 / facts 边界 / compare 小样本、P0/P1/P2/P3 与 Go / Pause / No-Go 规则；本轮不运行真实 API / CLI、不生成真实 report、不上传、不写 DB / facts / document_versions / OpenSearch / Qdrant、不进入 rollout、repair 或 Data Steward 实现。
 - [Phase 2.43b] Codex B review 通过：pre-flight smoke prompt 覆盖 Codex C 真实终端验收边界、query subset、P0 / P1 / P2 / P3、No-Go / Pause / Go 与 no-data-write；下一步只做 Git baseline，不自动发起 Codex C。
+- [Phase 2.43b] Git baseline 已完成：commit `ef2e43f`，tag `phase-2.43b-mvp-pilot-preflight-smoke-prompt-baseline`，`origin/main` 对齐。
+- [Phase 2.43c] Codex C pre-flight smoke 返回 `Go`：API / CLI 可用，四个 alias 稳定，P0 为 0；P1 保留主标书限价 Missing Evidence，P2 保留部分 trace display；下一步可启动内部受控 MVP Pilot Day-1，不等于 production rollout。
+- [Phase 2.43c] Day-1 Pilot 按 run sheet 触发 `Pause`：session `20260506_132914_521b45` 中 `@主标书` 绑定阶段出现 `alias_bind_failed`，正式 Q1 变成 `alias_missing=true / retrieval_suppressed=true`，Q2-Q10 未继续执行；`@硬件清单`、`@C塔方案`、`@会议纪要` 均绑定稳定。
+- [Phase 2.43d] Codex B 已写入下一轮 bounded fix 入口：只修 `@主标书` alias/session Pause blocker，不处理限价 Missing Evidence、资质等级、深层召回、repair、rollout 或 Data Steward。
+- [Phase 2.43d] Codex A 完成 bounded fix：`alias_bind_pending_current_retrieval` 在 retrieval 返回多个候选时采用 top document 完成绑定并记录 `alias_bind_ambiguous_retrieval_document_ids`，同时保留 title bind 多候选失败语义；主仓 session scope 测试 `51 passed`，等待 Codex B review 与 Codex C 复验。
+- [Phase 2.43d] Codex B review 通过并新增 `docs/NEXT_CODEX_C_PROMPT.md`：下一步只做 Codex C Day-1 Q1 alias/session 真实终端复验，不 baseline、不 rollout、不 repair。
+- [Phase 2.43d] Codex C Day-1 断点续跑通过：`@主标书` Q1-Q2 resolved，`alias_missing=false`，`retrieval_suppressed=false`；Day-1 10 条 query 为 `6 pass / 4 partial / 0 fail`，P0 为 0，Decision 为 `Go`；下一步只做双仓 Git baseline。

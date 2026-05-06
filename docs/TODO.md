@@ -19,9 +19,13 @@
 15. Phase 2.42b sanitized input template / dry-run runbook artifact baseline 已完成：commit `edd0e08`，tag `phase-2.42b-mvp-pilot-review-dry-run-template-baseline`。
 16. Phase 2.43 Internal MVP Pilot Launch Candidate Planning 已完成并 baseline：commit `5141bb5`，tag `phase-2.43-mvp-pilot-launch-candidate-plan-baseline`。
 17. Phase 2.43a MVP Pilot Launch Packet / Operator Checklist artifact 已完成并 baseline：commit `5423497`，tag `phase-2.43a-mvp-pilot-launch-packet-baseline`；未启动真实 Pilot、不生成真实 report、不运行 API / CLI、不写 DB、不进入 rollout、repair 或 Data Steward 实现。
-18. Phase 2.43b MVP Pilot Pre-flight Smoke Prompt / Runbook artifact 已完成并通过 Codex B review：新增 `docs/MVP_PILOT_PREFLIGHT_SMOKE_PROMPT.md`，用于 Codex C 在启动内部受控 Pilot 前做 API / CLI、alias/session、citation、evidence policy、Missing Evidence 与 No-Go / Pause / Go 预飞行验收。
-19. Phase 2.43b 仍未启动真实 Pilot：本轮不运行 API / CLI、不生成真实 report、不上传、不写 DB / facts / document_versions / OpenSearch / Qdrant、不进入 rollout、repair 或 Data Steward 实现；下一步只做 Git baseline。
-20. 下一步不得直接启动 production rollout、repair、Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
+18. Phase 2.43b MVP Pilot Pre-flight Smoke Prompt / Runbook artifact 已完成并 baseline：commit `ef2e43f`，tag `phase-2.43b-mvp-pilot-preflight-smoke-prompt-baseline`。
+19. Codex C pre-flight smoke 已完成并返回 `Go`：API / CLI 可用，四个 alias 稳定，P0 为 0；P1 为主标书最高投标限价 / 招标控制价 Missing Evidence，P2 为部分 trace 字段未显式打印。
+20. Day-1 Pilot 已开始但按 run sheet 触发 `Pause`：`@主标书` 绑定阶段出现 `alias_bind_failed`，正式 Q1 变为 `alias_missing=true / retrieval_suppressed=true`，Q2-Q10 未继续执行。
+21. Phase 2.43d `@主标书` alias/session bounded fix 已完成：current bind fallback 遇到多 retrieval 候选时采用 top document 完成绑定并记录歧义诊断，title bind 多候选仍保持失败；主仓 session scope 测试 `51 passed`。
+22. Codex C Day-1 断点续跑已通过：session `20260506_143354_d4ad05`，`@主标书` Q1-Q2 resolved，`alias_missing=false`，`retrieval_suppressed=false`；10 条 query 为 `6 pass / 4 partial / 0 fail`，P0 为 0，Decision 为 `Go`。
+23. 下一步执行 Phase 2.43d 双仓 Git baseline；任务入口已写入 `docs/NEXT_CODEX_A_PROMPT.md`。
+24. 下一步不得直接启动 production rollout、repair、Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
 
 ## 0.1 Phase 2.38b 当前待办
 

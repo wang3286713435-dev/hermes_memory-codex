@@ -2815,3 +2815,107 @@
 - risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty，baseline 必须排除；Phase 2.43b baseline 只固化 Codex C pre-flight prompt，不得自动启动 Codex C 或真实 Pilot。
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.43b Git baseline；完成后停止等待 Codex B review。
 - commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
+
+## 2026-05-06 13:05 Phase 2.43c
+- goal: Codex B review Codex C pre-flight smoke result and hand off internal controlled MVP Pilot Day-1 execution。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git status --short` / HEAD / tag / `origin/main` 检查：Phase 2.43b baseline 已完成，HEAD `ef2e43f`，tag `phase-2.43b-mvp-pilot-preflight-smoke-prompt-baseline`。
+  - Codex C pre-flight smoke：API `/health` pass，Hermes CLI pass，四个 alias pass，Q1-Q5 smoke pass，P0 为 0，决策 `Go`。
+  - 本轮不运行额外 API / CLI，不运行 pytest，不生成真实 MVP Pilot report。
+- validation: Codex C pre-flight 支持启动内部受控 MVP Pilot Day-1。P1 为主标书限价 Missing Evidence，P2 为部分 trace display；二者不阻塞 Go，但必须在 Day-1 review 中记录。
+- risks: 本结论不是 production rollout、自动审标、自动投标、自动经营决策、repair、Data Steward 实现或数据写入授权。Day-1 必须保存 raw outputs 与人工复核。
+- next: Codex C / Pilot Operator 执行 `docs/MVP_PILOT_DAY1_RUN_SHEET.md`，并按 `docs/MVP_PILOT_LAUNCH_PACKET.md` 与 `docs/MVP_PILOT_EVIDENCE_REVIEW_CHECKLIST.md` 保存结果；Codex A 当前无开发任务。
+- commit/tag if any: 无；本轮只是状态 handoff，不提交 Git。
+
+## 2026-05-06 13:45 Phase 2.43d
+- goal: Codex B review Day-1 Pause report and write bounded `@主标书` alias/session fix prompt for Codex A。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - Codex C / Pilot Operator Day-1 report reviewed：API `/health` pass，Hermes CLI pass。
+  - Day-1 session `20260506_132914_521b45`：`@主标书` bind 阶段 `alias_bind_failed`，正式 Q1 `alias_missing=true / retrieval_suppressed=true`，Q2-Q10 按 run sheet 暂停。
+  - `@硬件清单`、`@C塔方案`、`@会议纪要`：alias bound 且 stable。
+  - 本轮不运行 API / CLI smoke，不运行 pytest，不生成真实 report。
+- validation: Day-1 Pause 成立，当前 blocker 是 P1 alias/session instability，不是限价 Missing Evidence、深层召回、Data Steward、repair 或 rollout。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty，不得 stage / commit；修复必须限定主仓 alias/session 路径，完成后需 Codex B review 与 Codex C 复验。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.43d `@主标书` alias/session bounded fix；不提交 Git，不 tag，不 push。
+- commit/tag if any: 无；本轮只是 bounded fix prompt handoff，不提交 Git。
+
+## 2026-05-06 14:19 Phase 2.43d
+- goal: Execute bounded `@主标书` alias/session Pause fix from `docs/NEXT_CODEX_A_PROMPT.md`。
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/session_document_scope.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_session_document_scope.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - 主仓 `python -m py_compile ...`：未执行成功，本机主仓环境无 `python` 命令。
+  - 主仓 `./.venv/bin/python -m py_compile agent/memory_kernel/session_document_scope.py agent/memory_kernel/kernel.py agent/memory_kernel/orchestrator.py agent/memory_kernel/context_builder.py agent/memory_kernel/adapters/hermes_memory_adapter.py`：通过。
+  - 主仓 `./.venv/bin/python tests/agent/test_session_document_scope.py`：通过，退出码 0。
+  - 主仓 `./.venv/bin/python -m pytest -o addopts='' tests/agent/test_session_document_scope.py -q`：`51 passed`。
+- validation: pending current alias bind 现在在 retrieval 返回多个候选时采用首个 retrieval document 完成绑定，并记录 `alias_bind_ambiguous_retrieval_document_ids`；title bind 多候选仍保持 `ambiguous_title_retrieval` 失败，missing alias suppress 语义未放宽。
+- risks: 需要 Codex B review 采用 top document 的 current alias fallback 是否可接受；需要 Codex C 重跑 Day-1 Q1 alias/session 抽样或完整 Day-1；遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 未触碰。
+- next: Codex B review 本轮 bounded diff；通过后交 Codex C 复验。当前不 baseline、不 tag、不 push。
+- commit/tag if any: 无；本轮按 NEXT 要求不提交 Git。
+
+## 2026-05-06 14:35 Phase 2.43d
+- goal: Codex B review Phase 2.43d bounded diff and prepare Codex C real terminal validation prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - 主仓 `./.venv/bin/python -m py_compile ...`：通过。
+  - 主仓 `./.venv/bin/python -m pytest -o addopts='' tests/agent/test_session_document_scope.py -q`：`51 passed`。
+  - Hermes_memory `git diff --check`：通过。
+  - Hermes_memory `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - Hermes_memory `git check-ignore -v reports/agent_runs/latest.json`：通过。
+- validation: Codex B review 通过。current alias fallback 只在 pending current alias bind 路径采用 top document，并保留 ambiguous diagnostics；title bind 多候选仍失败，missing alias suppress 语义未放宽。
+- risks: 仍需 Codex C 真实终端复验确认 Day-1 Q1 不再 alias_missing / retrieval_suppressed；`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、主仓 `uv.lock` 与若干既有 dirty 不属于本轮 baseline。
+- next: Codex C 执行 `docs/NEXT_CODEX_C_PROMPT.md`；通过后再写 Phase 2.43d baseline prompt。
+- commit/tag if any: 无；本轮只是 Codex C validation prompt handoff，不提交 Git。
+
+## 2026-05-06 15:05 Phase 2.43d
+- goal: Absorb Codex C Day-1 continuation `Go` result and write dual-repo Git baseline prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - Codex C Day-1 continuation reviewed：API `/health` pass，Hermes CLI pass。
+  - session `20260506_143354_d4ad05`：`@主标书` Q1-Q2 resolved，`alias_missing=false`，`retrieval_suppressed=false`。
+  - Day-1 10 条 query：`6 pass / 4 partial / 0 fail`，P0 为 0，Decision 为 `Go`。
+  - 本轮不运行额外 API / CLI，不运行 pytest，不提交 Git。
+- validation: Baseline Gate 已满足：phase acceptance 明确、Codex B review 通过、Codex C 真实终端通过、文档已同步、下一步将恢复内部受控 MVP Pilot continuation / issue intake。
+- risks: baseline 必须 selective staging；主仓 `agent/memory_kernel/adapters/hermes_memory_adapter.py`、`uv.lock`、PHASE211E 文档和 adapter reload 测试不属于本轮；Hermes_memory `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 不属于本轮。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.43d 双仓 Git baseline；完成后停止等待 Codex B review。
+- commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
