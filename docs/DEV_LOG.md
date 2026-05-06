@@ -242,3 +242,4 @@
 - [Phase 2.42a] 完成 MVP Pilot Review Dry-run Report Generator 最小实现：新增显式输入、本地只读 generator 与目标测试，真实 report JSON / Markdown 默认 ignored；不扫描真实 reports / reviews，不运行 API/CLI，不进入 rollout 或 repair。
 - [Phase 2.42b] 完成 MVP Pilot Review Dry-run sanitized input template 与 runbook artifact：模板只含占位符，runbook 说明人工整理输入、dry-run 命令与 Go/Pause/No-Go 解读；本轮不生成真实 report、不运行 API/CLI、不写 DB、不进入 rollout、repair 或 Data Steward 实现。
 - [Phase 2.43] 完成 Internal MVP Pilot Launch Candidate docs-only planning：串联 runbook、user guide、Day-1 run sheet、feedback template、evidence review checklist、dry-run report runbook / template 与 PRD acceptance matrix；本轮不启动真实 Pilot、不生成真实 report、不运行 API/CLI、不写 DB、不进入 rollout、repair 或 Data Steward 实现。
+- [Phase 2.43a] 完成 MVP Pilot Launch Packet / Operator Checklist artifact：新增内部受控 Pilot 操作包，覆盖角色、启动前 checklist、session execution、evidence review、Go / Pause / No-Go、输出归档、人工决策声明、停止条件与后续流转；本轮不启动真实 Pilot、不生成真实 report、不运行 API/CLI、不写 DB、不进入 rollout、repair 或 Data Steward 实现。

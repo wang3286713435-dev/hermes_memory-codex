@@ -1,6 +1,6 @@
 # NEXT_CODEX_A_PROMPT
 
-这是 Codex A 的下一轮执行入口。请严格按文件化交接机制执行；本轮只做 Phase 2.43 Internal MVP Pilot Launch Candidate Planning Git baseline，完成后停止，等待 Codex B 审核。不要进入 Phase 2.43a / 2.43b / 2.43c，不要启动真实 Pilot、production rollout、repair、Data Steward 实现或任何业务数据写入。
+这是 Codex A 的下一轮执行入口。请严格按文件化交接机制执行；本轮只做 Phase 2.43a MVP Pilot Launch Packet / Operator Checklist Git baseline，完成后停止，等待 Codex B 审核。不要进入 Phase 2.43b / 2.43c，不要启动真实 Pilot、production rollout、repair、Data Steward 实现或任何业务数据写入。
 
 ## 必读文件
 
@@ -14,26 +14,26 @@
 6. `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
 7. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
 8. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
-9. `/Users/Weishengsu/Hermes_memory/docs/PHASE243_MVP_PILOT_LAUNCH_CANDIDATE_PLAN.md`
+9. `/Users/Weishengsu/Hermes_memory/docs/MVP_PILOT_LAUNCH_PACKET.md`
 10. `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`
 
 ## 当前状态
 
-Phase 2.43 Internal MVP Pilot Launch Candidate Planning 已完成并通过 Codex B review。
+Phase 2.43a MVP Pilot Launch Packet / Operator Checklist artifact 已完成并通过 Codex B review。
 
 Codex B 已复核：
 
-1. Phase 2.43 是 docs-only launch candidate planning，不是实际 Pilot run。
-2. 规划已串联 runbook、user guide、Day-1 run sheet、feedback template、evidence review checklist、dry-run report runbook / template 与 PRD acceptance matrix。
-3. 规划已覆盖目标、非目标、启动前置条件、必备 artifacts、Go / Pause / No-Go gate、Pilot Day flow、记录字段、后置项与下一步候选。
-4. 文档明确保留 `facts_as_answer=false`、`transcript_as_fact=false`、Missing Evidence 人工复核与 No-Go 边界。
+1. Launch packet 是 docs-only operator checklist，不是实际 Pilot run。
+2. 文档覆盖角色、启动前 checklist、session execution、evidence review、Go / Pause / No-Go、输出归档、人工决策声明、停止条件与后续流转。
+3. 文档明确保留 `facts_as_answer=false`、`transcript_as_fact=false`、`snapshot_as_answer=false`、Missing Evidence 可见、citation / `document_id` / `version_id` 可核验。
+4. 文档明确 `Go` 只代表内部受控 MVP Pilot 可继续，不是 production rollout。
 5. 未修改业务代码、脚本、测试、migration、schema、真实 reports / reviews 产物、Hermes 主仓库、DB、OpenSearch、Qdrant、facts 或 document_versions。
 6. 未启动真实 Pilot，未生成真实 report，未执行 API / CLI smoke，未进入 rollout / repair / Data Steward 实现。
 
 当前基线：
 
-1. HEAD：`edd0e08`
-2. tag：`phase-2.42b-mvp-pilot-review-dry-run-template-baseline`
+1. HEAD：`5141bb5`
+2. tag：`phase-2.43-mvp-pilot-launch-candidate-plan-baseline`
 3. `origin/main` 已对齐。
 
 当前允许保留一个遗留无关 dirty：
@@ -46,25 +46,25 @@ Codex B 已复核：
 
 本轮允许 baseline，因为 5 条 gate 已满足：
 
-1. 当前 phase 有明确验收结果：Phase 2.43 planning artifact 已完成。
+1. 当前 phase 有明确验收结果：Phase 2.43a launch packet artifact 已完成。
 2. Codex B review 已通过：未发现偏离 PRD、MVP Pilot 边界或 Data Steward 后置边界。
-3. 目标验证通过：`git diff --check` 与关键词边界检查通过；本阶段无需 Codex C 真实终端验收。
-4. 文档状态已同步：ACTIVE_PHASE、PHASE_BACKLOG、NIGHTLY_SPRINT_QUEUE、TODO、DEV_LOG、HANDOFF_LOG 与 ignored latest 均记录 Phase 2.43 状态。
-5. 下一步将切换 phase 或扩大范围：baseline 后才允许选择 Phase 2.43a / 2.43b / 2.43c。
+3. 目标验证通过：`git diff --check`、关键词边界检查、`latest.json` JSON 校验与 ignore 检查通过；本阶段无需 Codex C 真实终端验收。
+4. 文档状态已同步：ACTIVE_PHASE、PHASE_BACKLOG、NIGHTLY_SPRINT_QUEUE、TODO、DEV_LOG、HANDOFF_LOG 与 ignored latest 均记录 Phase 2.43a 状态。
+5. 下一步将切换 phase 或扩大范围：baseline 后才允许选择 Phase 2.43b / 2.43c。
 
-小修不 baseline 规则仍有效；本轮不是小修，而是 Phase 2.43 planning 阶段收口。
+小修不 baseline 规则仍有效；本轮不是小修，而是 Phase 2.43a artifact 阶段收口。
 
 ## 本轮目标
 
-Phase 2.43 Internal MVP Pilot Launch Candidate Planning Git baseline。
+Phase 2.43a MVP Pilot Launch Packet / Operator Checklist Git baseline。
 
-只提交 Phase 2.43 白名单文件；不进入下一阶段，不启动真实 Pilot，不生成真实 report，不运行 API / CLI，不写 DB，不做 rollout 或 repair。
+只提交 Phase 2.43a 白名单文件；不进入下一阶段，不启动真实 Pilot，不生成真实 report，不运行 API / CLI，不写 DB，不做 rollout 或 repair。
 
 ## 允许 stage / commit 的文件白名单
 
 只允许 stage 以下文件：
 
-1. `/Users/Weishengsu/Hermes_memory/docs/PHASE243_MVP_PILOT_LAUNCH_CANDIDATE_PLAN.md`
+1. `/Users/Weishengsu/Hermes_memory/docs/MVP_PILOT_LAUNCH_PACKET.md`
 2. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
 3. `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
 4. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
@@ -94,7 +94,9 @@ Phase 2.43 Internal MVP Pilot Launch Candidate Planning Git baseline。
 
 ```bash
 git diff --check
-rg -n "production rollout|repair|Data Steward|Missing Evidence|facts_as_answer|transcript_as_fact|No-Go|Go|Pause" docs/PHASE243_MVP_PILOT_LAUNCH_CANDIDATE_PLAN.md docs/TODO.md docs/DEV_LOG.md docs/PHASE_BACKLOG.md docs/ACTIVE_PHASE.md docs/NIGHTLY_SPRINT_QUEUE.md
+rg -n "production rollout|repair|Data Steward|facts_as_answer|transcript_as_fact|snapshot_as_answer|Missing Evidence|No-Go|Go|Pause|P0|P1|citation|document_id|version_id" docs/MVP_PILOT_LAUNCH_PACKET.md docs/TODO.md docs/DEV_LOG.md docs/PHASE_BACKLOG.md docs/ACTIVE_PHASE.md docs/NIGHTLY_SPRINT_QUEUE.md
+uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json
+git check-ignore -v reports/agent_runs/latest.json
 git status --short
 ```
 
@@ -105,7 +107,7 @@ git status --short
 确认 dirty 仅包含白名单文件与允许保留的 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 后执行：
 
 ```bash
-git add docs/PHASE243_MVP_PILOT_LAUNCH_CANDIDATE_PLAN.md \
+git add docs/MVP_PILOT_LAUNCH_PACKET.md \
   docs/TODO.md \
   docs/DEV_LOG.md \
   docs/PHASE_BACKLOG.md \
@@ -116,10 +118,10 @@ git add docs/PHASE243_MVP_PILOT_LAUNCH_CANDIDATE_PLAN.md \
 
 git diff --cached --name-only
 git diff --cached --check
-git commit -m "docs: plan phase 2.43 mvp pilot launch candidate"
-git tag phase-2.43-mvp-pilot-launch-candidate-plan-baseline
+git commit -m "docs: add phase 2.43a mvp pilot launch packet"
+git tag phase-2.43a-mvp-pilot-launch-packet-baseline
 git push origin main
-git push origin phase-2.43-mvp-pilot-launch-candidate-plan-baseline
+git push origin phase-2.43a-mvp-pilot-launch-packet-baseline
 ```
 
 ## 完成后必须检查

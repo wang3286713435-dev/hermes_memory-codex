@@ -10,16 +10,16 @@
 
 ## Current Queue
 
-### Item 1：Phase 2.43 review / baseline decision
+### Item 1：Phase 2.43a MVP Pilot Launch Packet Git Baseline
 
-- lane：Green Lane
-- 状态：waiting_codex_b_review
-- 目标：Codex B review Phase 2.43 launch candidate planning，确认是否允许进入 docs-only baseline 或 Phase 2.43a launch packet / operator checklist artifact。
-- 任务入口：待 Codex B 写入 `docs/NEXT_CODEX_A_PROMPT.md`
+- lane：Yellow Lane
+- 状态：ready_for_baseline
+- 目标：固化 Phase 2.43a launch packet / operator checklist docs baseline。
+- 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - Review `docs/PHASE243_MVP_PILOT_LAUNCH_CANDIDATE_PLAN.md`。
-  - 写入下一轮 prompt 或 baseline prompt。
-  - 更新 TODO、DEV_LOG、PHASE_BACKLOG、ACTIVE_PHASE、HANDOFF_LOG、NIGHTLY_SPRINT_QUEUE 与 ignored latest。
+  - stage Phase 2.43a 白名单文档。
+  - 运行 `git diff --check`、关键词边界检查、`latest.json` JSON 校验、ignore 检查、cached diff 检查。
+  - commit / tag / push Phase 2.43a baseline。
 - 禁止动作：
   - 不修改 / stage `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
   - 不修改脚本、测试、业务代码、migration 或 schema。
@@ -31,17 +31,18 @@
   - 不运行 API / CLI smoke。
   - 不启动 Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
   - 不修改 retrieval contract 或 memory kernel 主架构。
-  - 不 commit、tag、push。
-- 完成后：必须停止等待用户 / Codex A 执行下一轮明确 prompt。
-- baseline 规则：Phase 2.43 baseline 属 Yellow Lane，必须单独 Codex B review / 用户或 prompt 授权；不得夜间自动执行。
+  - 不进入 Phase 2.43b / 2.43c。
+- 完成后：必须停止等待 Codex B review。
+- baseline 规则：本 item 已由 Codex B review 写入 explicit baseline prompt；不得 baseline 后继续自动推进。
+- 当前结果：`docs/MVP_PILOT_LAUNCH_PACKET.md` 已完成并通过 Codex B review；等待 baseline。
 
 ## Archived Queue
 
 ### Phase 2.43 Internal MVP Pilot Launch Candidate Planning
 
-- 类型：Green Lane
-- 状态：implemented / waiting review
-- 结果：新增 `docs/PHASE243_MVP_PILOT_LAUNCH_CANDIDATE_PLAN.md`。
+- 类型：Yellow Lane
+- 状态：completed
+- 结果：commit `5141bb5`，tag `phase-2.43-mvp-pilot-launch-candidate-plan-baseline`。
 - 备注：只做 docs-only planning；未启动真实 Pilot，未生成真实 report，未进入 rollout / repair / Data Steward。
 
 ### Phase 2.42b MVP Pilot review dry-run input template / runbook
