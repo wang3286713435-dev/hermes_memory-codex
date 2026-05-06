@@ -3047,3 +3047,66 @@
 - risks: baseline 必须 selective staging，排除遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.44b。
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44a docs-only Git baseline。
 - commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
+
+## 2026-05-06 17:19 Phase 2.44b
+- goal: Plan sanitized issue intake dry-run / recorder workflow for Day-1 continuation P1/P2 findings.
+- changed_files:
+  - `docs/PHASE244B_SANITIZED_ISSUE_INTAKE_DRY_RUN_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过，命中 `reports/agent_runs/.gitignore`。
+  - `git status --short`：通过；显示 Phase 2.44b 文档变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: docs-only plan defines sanitized input workflow, strict validation commands, local ignored storage, review gate, and stop conditions; no real issue records/report/API/DB/index work.
+- risks: P1/P2 findings remain issue intake candidates, not fixes; real issue records must stay ignored; inherited dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope.
+- next: Codex B review Phase 2.44b planning; if approved, write Phase 2.44b docs-only baseline prompt or plan Phase 2.44c fake/temp-data dry-run.
+- commit/tag if any: 无；本轮不提交 Git。
+
+## 2026-05-06 17:10 Phase 2.44b
+- goal: Confirm Phase 2.44a baseline and write next docs-only planning prompt for sanitized issue intake dry-run / recorder workflow。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - Phase 2.44a baseline checked：HEAD `14c5640`，tag `phase-2.44a-pilot-issue-intake-worksheet-baseline`。
+  - `reports/agent_runs/latest.json` indicates baseline / pushed true。
+  - 本轮不运行 API / CLI，不运行 pytest，不生成真实 Pilot report 或 issue records。
+- validation: 下一轮收缩为 docs-only planning，目标是规划 sanitized issue intake dry-run / recorder workflow；不生成真实 issue records、不修 retrieval、不写 DB、不进入 rollout / repair / Data Steward。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍为遗留无关 dirty，不得触碰；Phase 2.44b 完成后需 Codex B review，不自动 baseline。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44b planning。
+- commit/tag if any: 无；本轮只是 next prompt handoff，不提交 Git。
+
+## 2026-05-06 17:26 Phase 2.44b
+- goal: Codex B review Phase 2.44b sanitized issue intake dry-run / recorder workflow planning and write docs-only Git baseline prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - Phase 2.44b plan reviewed：覆盖 inputs / sanitization、recorder workflow、dry-run validation、issue type mapping、local storage、review gate、stop conditions 与 next recommendation。
+- validation: Codex B review 通过。Phase 2.44b 是 docs-only planning，不生成真实 issue records / Pilot report，不写 DB / index，不进入 retrieval fix、repair、rollout 或 Data Steward。
+- risks: baseline 必须 selective staging，排除遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.44c。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44b docs-only Git baseline。
+- commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
