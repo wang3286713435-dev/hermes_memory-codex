@@ -2,11 +2,16 @@
 
 ## 0. 当前 MVP Pilot 状态
 
-1. Phase 2.44c fake/temp-data sanitized issue intake dry-run artifact 已完成并通过 Codex B review；当前唯一优先事项是执行 docs-only Git baseline。
-2. Phase 2.44c 新增 fake issue input 与 dry-run runbook；strict validator 通过，`total=2`、`valid_records=2`、`invalid_count=0`、`P1=2`、`go_pause_recommendation=continue_with_manual_review`。
-3. Phase 2.44c 未生成真实 issue records / Pilot report，未扫描真实 `reports/`，未运行 API / CLI，未写 DB / facts / document_versions / OpenSearch / Qdrant，未进入 repair / rollout / Data Steward。
-4. Phase 2.44b sanitized issue intake dry-run / recorder workflow planning Git baseline 已完成：commit `0241c4d`，tag `phase-2.44b-sanitized-issue-intake-dry-run-plan-baseline`。
-5. Phase 2.44a MVP Pilot issue intake worksheet / sanitized template artifact Git baseline 已完成：commit `14c5640`，tag `phase-2.44a-pilot-issue-intake-worksheet-baseline`。
+1. Phase 2.44d explicit ignored local issue input dry-run route planning 已完成，Codex B review 已通过。
+2. 当前唯一优先事项：执行 Phase 2.44d docs-only Git baseline；不得进入 Phase 2.44e。
+3. Phase 2.44d 明确未来真实 recorder workflow dry-run 只能使用用户显式授权、人工准备、路径明确、Git ignored 的 local input；本阶段不生成真实 issue records / Pilot report。
+4. Phase 2.44d baseline 只允许 stage Phase 2.44d planning / handoff 文档；遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 不得 stage / commit。
+5. Phase 2.44d 继续禁止真实 tracked issue records、默认扫描真实 `reports/` / `reviews/`、API / CLI、DB / facts / document_versions / OpenSearch / Qdrant 写入、repair / rollout / Data Steward。
+6. Phase 2.44c fake/temp-data sanitized issue intake dry-run artifact Git baseline 已完成：commit `cb29ed4`，tag `phase-2.44c-fake-issue-intake-dry-run-baseline`。
+7. Phase 2.44c 新增 fake issue input 与 dry-run runbook；strict validator 通过，`total=2`、`valid_records=2`、`invalid_count=0`、`P1=2`、`go_pause_recommendation=continue_with_manual_review`。
+8. Phase 2.44c 未生成真实 issue records / Pilot report，未扫描真实 `reports/`，未运行 API / CLI，未写 DB / facts / document_versions / OpenSearch / Qdrant，未进入 repair / rollout / Data Steward。
+9. Phase 2.44b sanitized issue intake dry-run / recorder workflow planning Git baseline 已完成：commit `0241c4d`，tag `phase-2.44b-sanitized-issue-intake-dry-run-plan-baseline`。
+10. Phase 2.44a MVP Pilot issue intake worksheet / sanitized template artifact Git baseline 已完成：commit `14c5640`，tag `phase-2.44a-pilot-issue-intake-worksheet-baseline`。
 4. Phase 2.44 MVP Pilot continuation / issue intake planning Git baseline 已完成：commit `afb5a29`，tag `phase-2.44-pilot-continuation-issue-intake-plan-baseline`。
 5. Phase 2.34 compare false-positive baseline 已完成：Hermes_memory commit `789ed22`，Hermes 主仓库 commit `5de49bf5`，tag `phase-2.34-compare-contamination-baseline`。
 6. Phase 2.37 planning baseline 已完成：commit `8fd10b7`，tag `phase-2.37-pilot-issue-triage-plan-baseline`。

@@ -3178,3 +3178,66 @@
 - risks: baseline 必须 selective staging，排除遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.44d。
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44c docs-only Git baseline。
 - commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
+
+## 2026-05-06 17:59 Phase 2.44d
+- goal: Confirm Phase 2.44c baseline and write next docs-only planning prompt for explicit ignored local issue input dry-run route。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - Phase 2.44c baseline checked：HEAD `cb29ed4`，tag `phase-2.44c-fake-issue-intake-dry-run-baseline`。
+  - `reports/agent_runs/latest.json` indicates baseline / pushed true。
+  - 本轮不运行 API / CLI，不运行 pytest，不生成真实 Pilot report 或 issue records。
+- validation: 下一轮收缩为 docs-only planning，目标是评估后续是否允许 explicit ignored local input 试跑真实 recorder workflow；本轮不生成真实 issue file、不修 retrieval、不写 DB、不进入 rollout / repair / Data Steward。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍为遗留无关 dirty，不得触碰；Phase 2.44d 完成后需 Codex B review，不自动 baseline。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44d planning。
+- commit/tag if any: 无；本轮只是 next prompt handoff，不提交 Git。
+
+## 2026-05-06 18:05 Phase 2.44d
+- goal: Plan explicit ignored local issue input dry-run route for future real recorder workflow validation.
+- changed_files:
+  - `docs/PHASE244D_EXPLICIT_LOCAL_ISSUE_DRY_RUN_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：通过；显示 Phase 2.44d 文档变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: planning defines explicit local input preconditions, local-only fields, recorder workflow, validation commands, review gate, Git/storage policy, and stop conditions; no real issue records/report/API/DB/index work.
+- risks: future real local input may contain sensitive raw output and must stay ignored; `continue_with_manual_review` is not rollout approval; inherited dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope.
+- next: Codex B review Phase 2.44d planning; if approved, write docs-only Git baseline prompt. Do not enter Phase 2.44e.
+- commit/tag if any: 无；本轮不提交 Git。
+
+## 2026-05-06 18:13 Phase 2.44d
+- goal: Codex B review Phase 2.44d explicit local issue dry-run route planning and write docs-only Git baseline prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：确认 Phase 2.44d 文档 / handoff 变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: Codex B review 通过。Phase 2.44d planning 明确 explicit local input 前置条件、local-only 字段、recorder workflow、validation commands、review gate、Git/storage policy 与 stop conditions；未生成真实 issue records / Pilot report。
+- risks: baseline 必须 selective staging，排除 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.44e；继续禁止 DB/index writes、repair、rollout 与 Data Steward 实现。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44d docs-only Git baseline。
+- commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
