@@ -3283,6 +3283,47 @@
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45 docs-only Git baseline。
 - commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
 
+## 2026-05-07 11:28 Phase 2.45a
+- goal: Confirm Phase 2.45 baseline and write next docs-only artifact prompt for Mac mini MVP deployment runbook.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - Phase 2.45 baseline checked：HEAD `fa6aff4`，tag `phase-2.45-mac-mini-mvp-server-plan-baseline`。
+  - `reports/agent_runs/latest.json` indicates baseline / pushed true。
+  - 本轮不运行 API / CLI，不运行 pytest，不执行真实部署。
+- validation: 下一轮收缩为 docs-only artifact，目标是新增 Mac mini MVP deployment runbook / checklist；本轮不写代码、不新增部署脚本、不进入 production rollout / Data Steward。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍为遗留无关 dirty，不得触碰；Phase 2.45a 完成后需 Codex B review，不自动 baseline。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45a artifact。
+- commit/tag if any: 无；本轮只是 next prompt handoff，不提交 Git。
+
+## 2026-05-07 12:28 Phase 2.45a
+- goal: Codex B review Phase 2.45a Mac mini MVP deployment runbook artifact and write docs-only Git baseline prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：确认 Phase 2.45a 文档 / handoff 变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: Codex B review 通过。Runbook 是人工 checklist，不是 deployment script / production rollout；覆盖 Day-0、目录、env/secrets、repo checkout、service startup、hot update、minimum smoke、backup / rollback、stop conditions 与 operator sign-off。
+- risks: baseline 必须 selective staging，排除 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.45b；继续禁止真实部署、deployment script、DB/index writes、repair、rollout 与 Data Steward 实现。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45a docs-only Git baseline。
+- commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
+
 ## 2026-05-07 10:48 Phase 2.45
 - goal: Plan Mac mini internal MVP server deployment topology, update flow, storage boundaries, checks, and rollback.
 - changed_files:
@@ -3303,4 +3344,26 @@
 - validation: docs-only planning covers Mac mini hardware/network, service topology, directory strategy, NAS / external SSD boundaries, `.env` / secrets checklist, hot-update flow, health / MVP smoke, backup / rollback, stop conditions, and later Phase 2.45a / 2.45b / 2.45c candidates.
 - risks: Mac mini MVP node must not be interpreted as production rollout; NAS unavailable / wrong `.env` host / wrong Qdrant collection remain future deployment risks; inherited dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope.
 - next: Codex B review Phase 2.45 planning. Do not baseline or enter Phase 2.45a until reviewed.
+- commit/tag if any: 无；本轮不提交 Git。
+
+## 2026-05-07 11:37 Phase 2.45a
+- goal: Create Mac mini MVP deployment runbook / checklist artifact for controlled internal MVP server setup.
+- changed_files:
+  - `docs/MAC_MINI_MVP_DEPLOYMENT_RUNBOOK.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：通过；显示 Phase 2.45a 文档变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: 新增 runbook 覆盖 Day-0 准备、目录创建、env/secrets checklist、服务启动顺序、部署 / 热更新、最小 smoke、备份 / 回滚、stop conditions、operator sign-off 与 Codex 禁止执行事项。
+- risks: 本 runbook 不是 production rollout；不得解释为真实部署授权；不新增 deployment script；遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍不得触碰。
+- next: Codex B review `docs/MAC_MINI_MVP_DEPLOYMENT_RUNBOOK.md`；若通过，只能进入 Phase 2.45a docs-only baseline prompt，不得进入 Phase 2.45b 或真实部署。
 - commit/tag if any: 无；本轮不提交 Git。

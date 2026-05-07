@@ -10,15 +10,15 @@
 
 ## Current Queue
 
-### Item 1：Phase 2.45 Mac mini MVP Server Deployment Planning
+### Item 1：Phase 2.45a Mac mini MVP Deployment Runbook Artifact
 
 - lane：Green Lane
 - 状态：implemented_codex_b_review_passed_waiting_baseline
-- 目标：规划 Mac mini 内部 MVP 节点部署封装、热更新、NAS / 外接 SSD 边界、health check 与 smoke checklist；本轮不执行真实部署。
+- 目标：新增 Mac mini MVP deployment runbook / checklist artifact；本轮不执行真实部署、不新增 deployment script。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 新增 `docs/PHASE245_MAC_MINI_MVP_SERVER_PLAN.md`。
-  - 更新 Phase 2.45 交接文档与 ignored latest 状态。
+  - 新增 `docs/MAC_MINI_MVP_DEPLOYMENT_RUNBOOK.md`。
+  - 更新 Phase 2.45a 交接文档与 ignored latest 状态。
   - 运行 `git diff --check`、`latest.json` JSON 校验、ignore 检查与 `git status --short`。
 - 禁止动作：
   - 不修改 / stage `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
@@ -33,16 +33,16 @@
   - 不启动 Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
   - 不修改 retrieval contract 或 memory kernel 主架构。
   - 不自动发起 Codex C。
-- 完成后：已完成 Codex B review；等待 Phase 2.45 docs-only baseline。
+- 完成后：已完成 Codex B review；等待 Phase 2.45a docs-only baseline。
 - baseline 规则：本 item 不 baseline；仅交付 planning dirty。
-- 当前结果：docs-only planning 已完成；Codex B review 已通过；未执行真实部署、未新增 deployment script、未运行 API / CLI。
+- 当前结果：`docs/MAC_MINI_MVP_DEPLOYMENT_RUNBOOK.md` 已新增并通过 Codex B review；未执行真实部署，未新增 deployment script，未运行 API / CLI。
 
-### Item 2：Phase 2.45 docs-only planning baseline
+### Item 2：Phase 2.45a docs-only runbook baseline
 
 - lane：Yellow Lane
 - 状态：codex_b_approved_next_prompt_ready
 - 条件：Codex B review 已通过；Codex A 只能按 `docs/NEXT_CODEX_A_PROMPT.md` 执行 selective docs-only baseline。
-- 目标：只提交 Phase 2.45 planning / handoff 文档 baseline。
+- 目标：只提交 Phase 2.45a runbook / handoff 文档 baseline。
 - 禁止动作：
   - 不进入 Phase 2.45a。
   - 不执行真实部署。
@@ -51,9 +51,16 @@
   - 不写 DB / facts / document_versions / OpenSearch / Qdrant。
   - 不执行 repair / backfill / reindex / cleanup / delete。
   - 不进入 rollout / Data Steward。
-- baseline 规则：允许 Codex A 执行一次 docs-only baseline；完成 commit / tag / push 后必须停止，不得进入 Phase 2.45a。
+- baseline 规则：允许 Codex A 执行一次 docs-only baseline；完成 commit / tag / push 后必须停止，不得进入 Phase 2.45b。
 
 ## Archived Queue
+
+### Phase 2.45 Mac mini MVP Server Deployment Planning
+
+- 类型：Yellow Lane
+- 状态：completed
+- 结果：commit `fa6aff4`，tag `phase-2.45-mac-mini-mvp-server-plan-baseline`。
+- 备注：Mac mini MVP server deployment planning 已 baseline；未执行真实部署、未新增 deployment script、未写 DB / facts / document_versions / OpenSearch / Qdrant。
 
 ### Phase 2.44d Explicit Local Issue Dry-run Route Planning
 
