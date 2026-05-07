@@ -3914,3 +3914,90 @@
 - risks: No real run record generated. Internal controlled MVP record does not imply production rollout, repair authorization, DB/index mutation, automatic tender/bid/business decision, or Data Steward implementation. Inherited dirty and untracked Mac mini docs remain out of scope.
 - next: Codex B review Phase 2.47b; if approved, either run combined docs baseline for Phase 2.47 / 2.47a / 2.47b or use checklist + run record template in a separate Mac mini operations thread.
 - commit/tag if any: none.
+## 2026-05-07 21:31 Phase 2.48b
+- goal: Implement bounded meeting transcript boundary trace display polish in Hermes main repo context rendering.
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_facts_agent_context.py`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `./.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py` passed.
+  - `./.venv/bin/python -m pytest -o addopts='' tests/agent/test_structured_citation_context.py tests/agent/test_facts_agent_context.py -q` passed: `30 passed`.
+  - `git diff --check` passed in Hermes main repo.
+  - Hermes_memory docs / ignored-state checks passed at closeout.
+- validation: Meeting transcript diagnostics now render independently from facts context when trace or evidence metadata indicates meeting transcript evidence.
+- risks: No Codex C targeted smoke yet; Phase 2.48b is display polish only, not meeting ingestion or retrieval behavior change.
+- next: Codex B review Phase 2.48b; then decide Phase 2.48c targeted smoke or combined baseline route.
+- commit/tag if any: none.
+
+## 2026-05-07 21:17 Phase 2.48a
+- goal: Implement bounded Excel citation display polish in Hermes main repo context rendering.
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_structured_citation_context.py`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `python -m py_compile agent/memory_kernel/context_builder.py` failed because bare `python` is not available in this shell.
+  - `python tests/agent/test_structured_citation_context.py` failed because bare `python` is not available in this shell.
+  - `./.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py` passed.
+  - `./.venv/bin/python tests/agent/test_structured_citation_context.py` passed but test file has no direct runner output.
+  - `./.venv/bin/python -m pytest -o addopts='' tests/agent/test_structured_citation_context.py -q` passed: `17 passed`.
+  - Hermes_memory docs / ignored-state checks passed at closeout.
+- validation: Excel citation display now labels multi-row ranges and row-only fallback without changing parser / ingestion / retrieval contract / memory kernel architecture.
+- risks: Meeting transcript boundary display tail remains for Phase 2.48b; no Codex C targeted smoke yet; out-of-scope dirty remains excluded.
+- next: Codex B review Phase 2.48a; then choose Phase 2.48b or targeted smoke.
+- commit/tag if any: none.
+
+## 2026-05-07 18:32 Phase 2.48
+- goal: Plan P2 display tail triage for Excel citation fallback display and meeting transcript boundary flag visibility.
+- changed_files:
+  - `docs/PHASE248_P2_DISPLAY_TAILS_TRIAGE_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git status --short`
+  - `git diff --check`
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`
+  - `git check-ignore -v reports/agent_runs/latest.json`
+  - `git check-ignore -v reports/internal_mvp_runs/example.json`
+  - `git check-ignore -v reports/internal_mvp_runs/example.md`
+  - `git check-ignore -v reports/internal_mvp_runs/latest.json`
+- validation: Planning complete; no smoke, no service start, no DB / facts / document_versions / audit_logs / OpenSearch / Qdrant writes.
+- risks: P2 display tails affect reviewer UX and run record consistency but do not block internal controlled MVP; out-of-scope dirty files remain excluded.
+- next: Codex B review; then choose Phase 2.48a Excel citation display polish or Phase 2.48b meeting transcript boundary display polish; Phase 2.48c targeted smoke after fix.
+- commit/tag if any: none.
+
+## 2026-05-07 21:45 Phase 2.48c
+- goal: Codex B reviewed Phase 2.48b and prepared Codex C targeted smoke prompt.
+- review: Phase 2.48b passed Codex B review; target tests `30 passed`; no retrieval contract / meeting ingestion / memory kernel architecture change observed.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `reports/agent_runs/latest.json` ignored state, and phase handoff docs.
+- validation: Hermes main py_compile / pytest and git diff checks were re-run; Hermes_memory diff / JSON / ignore checks passed.
+- risks: Codex C targeted smoke has not run yet; do not baseline 2.48a / 2.48b before smoke result.
+- next: Give the targeted smoke prompt in `docs/NEXT_CODEX_A_PROMPT.md` to Codex C.
+- commit/tag if any: none.
+
+## 2026-05-07 22:05 Phase 2.48 baseline prompt
+- goal: Record Codex C targeted smoke pass and prepare combined Git baseline prompt.
+- codex_c: session `20260507_215047_a81e78`; Excel citation display pass; meeting transcript boundary display pass; no facts replacement, no transcript-as-fact, no third-document contamination.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, phase handoff docs, ignored `reports/agent_runs/latest.json`.
+- next: Codex A should execute combined Phase 2.48 baseline with selective staging only.
+- commit/tag if any: none.

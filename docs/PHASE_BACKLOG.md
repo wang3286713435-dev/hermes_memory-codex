@@ -2,46 +2,26 @@
 
 ## 当前优先级
 
-1. Phase 2.47b Local Ignored Pilot Run Record Template Artifact 已完成，等待 Codex B review。
-2. 新增 `docs/INTERNAL_MVP_PILOT_RUN_RECORD_TEMPLATE.md` 与 `reports/internal_mvp_runs/` ignore / README 策略。
-3. Phase 2.47 planning、2.47a checklist、2.47b run record template 已形成可复用 docs artifact 包；建议 Codex B review 后合并 baseline。
-4. 当前落地判断：内部受控 MVP 可以开始；production rollout / 客户交付 / 自动审标 / 自动投标 / 自动经营决策仍禁止。
-5. Phase 2.47b 不运行 smoke，不启动服务，不生成真实 run record，不写 DB / facts / document_versions / OpenSearch / Qdrant，不执行 repair / backfill / reindex。
-6. 下一步候选：合并 Phase 2.47 / 2.47a / 2.47b docs baseline，或用户直接使用 checklist + run record template 开始 Day-0 / Day-1。
-7. Phase 2.47a checklist artifact 已完成并通过 Codex B review。
-8. Phase 2.47 Internal Controlled MVP Operating Loop Planning 已完成并通过 Codex B review。
-9. Phase 2.46d Mac mini local MVP smoke result baseline 已完成：commit `255c2e97fa6d644c2d83655e7ac919c8401f54f2`，tag `phase-2.46d-mac-mini-local-mvp-smoke-result-baseline`。
-10. Codex C smoke 结果：`Go`，P0=0，P1=0，P2=2；仅支持 internal controlled MVP continuation。
-11. Phase 2.46c prompt artifact baseline 已完成：commit `595c51d`，tag `phase-2.46c-codex-c-mac-mini-smoke-prompt-baseline`。
-12. Phase 2.46b Mac mini evidence attachment planning Git baseline 已完成：commit `01af018`，tag `phase-2.46b-mac-mini-evidence-attachment-plan-baseline`。
-13. Phase 2.46a checklist baseline 已完成：commit `e78c08e`，tag `phase-2.46a-mac-mini-day0-checklist-baseline`。
-14. Phase 2.46 planning baseline 已完成：commit `13e2206`，tag `phase-2.46-mac-mini-day0-setup-plan-baseline`。
-15. Mac mini 已到货且 smoke Go，但不等于 production rollout ready。
-5. Phase 2.45d Mac mini real-machine deployment record docs-only Git baseline 已完成：commit `e12f82a`，tag `phase-2.45d-deployment-record-plan-baseline`。
-6. Phase 2.45c read-only health-check script Git baseline 已完成：commit `fbad94f`，tag `phase-2.45c-health-check-dry-run-baseline`。
-7. Phase 2.45c 新增只读 dry-run runner 与单元测试，默认不访问真实 API / CLI，不执行真实部署。
-8. Phase 2.45b health-check / deploy-smoke dry-run planning Git baseline 已完成：commit `d70497c`，tag `phase-2.45b-health-check-dry-run-plan-baseline`。
-9. Phase 2.45a Mac mini MVP deployment runbook artifact Git baseline 已完成：commit `585d534`，tag `phase-2.45a-mac-mini-deployment-runbook-baseline`。
-10. Phase 2.45 Mac mini MVP server deployment planning Git baseline 已完成：commit `fa6aff4`，tag `phase-2.45-mac-mini-mvp-server-plan-baseline`。
-11. 遗留无关 dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`，不得被 Phase 2.46 baseline stage / commit。
-12. Mac mini 到货不等于 production rollout ready；Day-0 仍必须按人工 operator / evidence / stop conditions 推进。
-13. 继续禁止 production rollout、repair、Data Steward 实现、DB / facts / document_versions / OpenSearch / Qdrant 写入。
-11. Phase 2.44d 结论：未来若试跑真实 recorder workflow，必须使用用户显式授权、人工准备、路径明确、Git ignored 的 local input；不得提交真实 issue records / Pilot report。
-12. Phase 2.44c fake/temp-data sanitized issue intake dry-run artifact Git baseline 已完成：commit `cb29ed4`，tag `phase-2.44c-fake-issue-intake-dry-run-baseline`。
-13. Phase 2.44b sanitized issue intake dry-run / recorder workflow planning Git baseline 已完成：commit `0241c4d`，tag `phase-2.44b-sanitized-issue-intake-dry-run-plan-baseline`。
-14. Day-1 issue candidates 已记录：限价 Missing Evidence、主标书深层字段人工复核、Excel citation 降级、公司方向人工决策、trace display UX。
-15. Phase 2.44a MVP Pilot issue intake worksheet / sanitized template artifact Git baseline 已完成：commit `14c5640`，tag `phase-2.44a-pilot-issue-intake-worksheet-baseline`。
-8. Phase 2.43d `@主标书` alias/session Pause 最小修复与双仓 Git baseline 已完成：Hermes_memory commit `d62852b`，Hermes 主仓库 commit `9e8e5667`，tag `phase-2.43d-main-tender-alias-session-baseline`。
-9. Codex C Day-1 断点续跑已通过：session `20260506_143354_d4ad05`，`@主标书` Q1-Q2 resolved，`alias_missing=false`，`retrieval_suppressed=false`；10 条 query 为 `6 pass / 4 partial / 0 fail`，P0 为 0，Decision 为 `Go`。
-10. Phase 2.43b MVP Pilot Pre-flight Smoke Prompt baseline 已完成：commit `ef2e43f`，tag `phase-2.43b-mvp-pilot-preflight-smoke-prompt-baseline`。
-10. Phase 2.43a MVP Pilot Launch Packet / Operator Checklist Git baseline 已完成：commit `5423497`，tag `phase-2.43a-mvp-pilot-launch-packet-baseline`。
-11. Phase 2.43 Internal MVP Pilot Launch Candidate Planning Git baseline 已完成，commit `5141bb5`，tag `phase-2.43-mvp-pilot-launch-candidate-plan-baseline`。
-12. Phase 2.42b MVP Pilot Review Dry-run Input Template / Runbook Git baseline 已完成，commit `edd0e08`，tag `phase-2.42b-mvp-pilot-review-dry-run-template-baseline`。
-13. Phase 2.42a MVP Pilot review dry-run report generator Git baseline 已完成，commit `4c60b28`，tag `phase-2.42a-mvp-pilot-review-dry-run-generator-baseline`。
-14. Phase 2.42 MVP Pilot Review Dry-run Report planning baseline 已完成，commit `0e0d208`，tag `phase-2.42-mvp-pilot-review-dry-run-plan-baseline`。
-15. Phase 2.41a MVP Pilot Evidence Review Checklist artifact baseline 已完成，commit `a2e1042`，tag `phase-2.41a-mvp-pilot-evidence-review-checklist-baseline`。
-16. Phase 2.41 MVP Pilot Evidence Review / Go-No-Go planning baseline 已完成，commit `40f8380`，tag `phase-2.41-mvp-pilot-evidence-review-plan-baseline`。
-17. Phase 2.40a PRD Acceptance Matrix / MVP Evidence Pack artifact baseline 已完成，commit `e6f7fc2`，tag `phase-2.40a-prd-acceptance-matrix-artifact-baseline`。
+1. Phase 2.48b Meeting Transcript Boundary Trace Display Polish 已完成并通过 Codex B review。
+2. Hermes 主仓 meeting transcript context 现在稳定显示：
+   - `meeting_transcript_used=true`
+   - `transcript_as_fact=false`
+   - `evidence_required=true`
+   - `meeting_transcript_as_confirmed_fact=false`
+3. Phase 2.48b 不改 meeting ingestion contract / retrieval contract / memory kernel 主架构，不运行 smoke，不写 DB / index。
+4. Phase 2.48a Excel Citation Display Polish 已完成，Codex B review 通过。
+5. Hermes 主仓 Excel citation display 现在区分：
+   - `citation_precision=cell_range`
+   - `citation_precision=multi_row_range`
+   - `row_range_fallback=true`
+   - `citation_precision=row_range_fallback`
+6. 当前落地判断：内部受控 MVP 可以继续；production rollout / 客户交付 / 自动审标 / 自动投标 / 自动经营决策仍禁止。
+7. Codex C targeted smoke 已通过：Excel citation display 与 meeting transcript boundary display 均 pass；当前下一步是 Phase 2.48 combined Git baseline。
+8. Phase 2.47 combined docs artifact baseline 已完成：commit `bfe7981`，tag `phase-2.47-internal-mvp-operating-artifacts-baseline`。
+9. Phase 2.47 planning、2.47a checklist、2.47b run record template 已形成可复用 docs artifact 包。
+10. Phase 2.46d Mac mini local MVP smoke result baseline 已完成：commit `255c2e97fa6d644c2d83655e7ac919c8401f54f2`，tag `phase-2.46d-mac-mini-local-mvp-smoke-result-baseline`。
+11. Codex C smoke 结果：`Go`，P0=0，P1=0，P2=2；仅支持 internal controlled MVP continuation。
+12. Mac mini 已到货且 smoke Go，但不等于 production rollout ready。
 
 ## Day-1 Pilot 已知问题
 

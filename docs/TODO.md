@@ -2,16 +2,16 @@
 
 ## 0. 当前 MVP Pilot 状态
 
-1. Phase 2.47b Local Ignored Pilot Run Record Template Artifact 已完成，等待 Codex B review。
-2. 新增 `docs/INTERNAL_MVP_PILOT_RUN_RECORD_TEMPLATE.md` 与 `reports/internal_mvp_runs/.gitignore` / `README.md`，真实 run records 默认 ignored。
-3. Phase 2.47 planning、2.47a checklist、2.47b run record template 已形成可复用 docs artifact 包；建议 Codex B review 后合并 baseline。
-4. 当前结论：内部受控 MVP 可以开始；production rollout、客户交付、自动审标、自动投标、自动经营决策仍禁止。
-5. Phase 2.47b 不重跑 smoke，不启动服务，不生成真实 evidence / run record，不写 DB / facts / document_versions / OpenSearch / Qdrant，不执行 repair / backfill / reindex，不进入 rollout。
-6. 下一步：Codex B review 后执行 combined docs baseline，或用户直接使用 checklist + run record template 开始 Day-0 / Day-1。
-7. Phase 2.47a Internal MVP Daily Operator Checklist Artifact 已完成并通过 Codex B review。
-8. 新增 `docs/INTERNAL_MVP_DAILY_OPERATOR_CHECKLIST.md`，覆盖每日基本信息、启动前检查、固定 alias、daily query、边界检查、issue intake、Go/Pause/No-Go 与每日收尾。
-9. Phase 2.47 Internal Controlled MVP Operating Loop Planning 已完成并通过 Codex B review。
-10. Phase 2.47 新增 `docs/PHASE247_INTERNAL_MVP_OPERATING_LOOP_PLAN.md`，规划 Day 0 / Day 1-2 / Day 3-5 / Week 2 节奏、每日检查、人工角色、issue intake、热更新原则和低人工干预 baseline 策略。
+1. Phase 2.48b Meeting Transcript Boundary Trace Display Polish 已完成并通过 Codex B review。
+2. Hermes 主仓库 `ContextBuilder` 现在会在会议纪要证据场景输出独立 `Meeting transcript diagnostics:` 分区。
+3. meeting diagnostics 稳定显示 `meeting_transcript_used=true`、`transcript_as_fact=false`、`evidence_required=true`、`meeting_transcript_as_confirmed_fact=false`。
+4. Phase 2.48b 不改 meeting ingestion contract / retrieval contract / memory kernel 主架构，不运行 smoke，不写 DB / facts / document_versions / OpenSearch / Qdrant。
+5. Phase 2.48a Excel Citation Display Polish 已完成，Codex B review 通过。
+6. Excel citation display 已区分 `citation_precision=cell_range`、`citation_precision=multi_row_range`、`row_range_fallback=true` 与 `citation_precision=row_range_fallback`。
+7. 当前结论：内部受控 MVP 可以继续；production rollout、客户交付、自动审标、自动投标、自动经营决策仍禁止。
+8. Codex C targeted smoke 已通过；下一步执行 Phase 2.48a / 2.48b combined Git baseline，不进入 Phase 2.49。
+9. Phase 2.47 combined docs artifact baseline 已完成：commit `bfe7981`，tag `phase-2.47-internal-mvp-operating-artifacts-baseline`。
+10. Phase 2.47 planning、2.47a checklist、2.47b run record template 已形成可复用 docs artifact 包。
 11. Phase 2.46d Mac mini local MVP smoke result baseline 已完成：commit `255c2e97fa6d644c2d83655e7ac919c8401f54f2`，tag `phase-2.46d-mac-mini-local-mvp-smoke-result-baseline`。
 12. Codex C smoke 结果：`Go`，P0=0，P1=0，P2=2；只代表 internal controlled MVP continuation，不代表 production rollout。
 6. Phase 2.46c prompt artifact baseline 已完成：commit `595c51d`，tag `phase-2.46c-codex-c-mac-mini-smoke-prompt-baseline`。

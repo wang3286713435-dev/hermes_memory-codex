@@ -1,15 +1,14 @@
 # Active Phase
 
-- 当前 phase：Phase 2.47b Local Ignored Pilot Run Record Template Artifact
-- 本轮目标：新增内部受控 MVP 本地 ignored run record template 与 storage policy。
+- 当前 phase：Phase 2.48 P2 Display Tails Combined Baseline Prompt
+- 本轮目标：Codex C targeted smoke 已通过，准备 Phase 2.48a / 2.48b / 2.48c combined Git baseline。
 - 背景：
-  - Phase 2.47 planning 与 Phase 2.47a daily operator checklist 已完成并通过 Codex B review。
-  - Internal controlled MVP 可以开始；production rollout、客户交付、自动审标、自动投标、自动经营决策仍禁止。
-  - 本轮只创建本地记录模板和 ignored 存储策略，不生成真实 run record。
+  - Phase 2.48a Excel Citation Display Polish 已通过 Codex B review，允许进入 Phase 2.48b。
+  - 当前 P2：会议纪要行为正确，但 answer / trace display 未总是稳定显式打印 `transcript_as_fact=false`。
+  - 本轮只做 context / trace display polish，不改 meeting ingestion contract、retrieval contract 或 memory kernel 主架构。
 - 修改文件：
-  - `docs/INTERNAL_MVP_PILOT_RUN_RECORD_TEMPLATE.md`
-  - `reports/internal_mvp_runs/.gitignore`
-  - `reports/internal_mvp_runs/README.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_facts_agent_context.py`
   - `docs/ACTIVE_PHASE.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/HANDOFF_LOG.md`
@@ -19,33 +18,36 @@
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 新增 run record template，覆盖 metadata、environment、alias、daily query、issue summary、decision 与 boundary attestation。
-  - 新增 `reports/internal_mvp_runs/` Git ignore / README 策略。
-  - 明确真实 run records 默认 local ignored，不提交 raw transcript、secret、`.env` value、客户敏感内容。
-  - 明确 run record 不等于 production rollout approval。
+  - `ContextBuilder` 新增独立 `Meeting transcript diagnostics:` 分区。
+  - 当 trace 标记 `meeting_transcript_used=true`，或 retrieval item / citation metadata 显示 `content_profile=meeting_transcript` / `meeting_transcript=true` 时，context 稳定输出：
+    - `meeting_transcript_used=true`
+    - `transcript_as_fact=false`
+    - `evidence_required=true`
+    - `meeting_transcript_as_confirmed_fact=false`
+  - 保留 `[E]` / `[C]` structured location 中的 `content_profile=meeting_transcript; transcript_as_fact=false`。
+  - 补测试确认 transcript evidence 不会被标为 facts context，且 alias bind retrieval-only 场景也显示 meeting diagnostics。
 - 测试结果：
-  - `git diff --check`：通过。
-  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
-  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
-  - `git check-ignore -v reports/internal_mvp_runs/example.json || true`：通过。
-  - `git check-ignore -v reports/internal_mvp_runs/example.md || true`：通过。
-  - `git check-ignore -v reports/internal_mvp_runs/latest.json || true`：通过。
-  - `git status --short`：确认 Phase 2.47 / 2.47a / 2.47b 文档与 reports ignore/README 变更存在；遗留无关 dirty 与 out-of-scope untracked Mac mini 文档未纳入本轮范围。
+  - `./.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py`：通过。
+  - `./.venv/bin/python -m pytest -o addopts='' tests/agent/test_structured_citation_context.py tests/agent/test_facts_agent_context.py -q`：`30 passed`。
+  - `git diff --check`（Hermes 主仓库）：通过。
+  - Hermes_memory docs / ignored-state 校验待本轮收尾复跑。
 - live smoke 结果：
-  - 本轮不重跑 smoke。
+  - 本轮不运行 Codex C smoke。
   - 本轮不启动服务。
   - 本轮不运行 Hermes CLI chat。
   - 本轮不生成真实 internal MVP run record。
   - 本轮不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
 - 当前结论：
-  - Local ignored pilot run record template / storage policy 已创建。
-  - Phase 2.47 + 2.47a + 2.47b 已形成可复用 docs artifact 包，建议 Codex B review 后考虑合并 baseline。
+  - Phase 2.48a / 2.48b 已通过 Codex B review。
+  - Codex C targeted smoke 已通过：Excel citation display 与 meeting transcript boundary display 均 pass。
+  - 下一步只做 combined Git baseline，不进入 Phase 2.49。
 - 阻塞点 / 风险点：
-  - P2 display tails 仍存在：Excel citation range / row 展示、meeting `transcript_as_fact=false` 显式打印。
-  - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 是遗留无关 dirty，不得 stage / commit。
-  - `docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md` 与 `docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md` 是未跟踪 out-of-scope 文档，不在 Phase 2.47b 白名单内。
-- 是否建议 baseline：建议 Codex B review 后，将 Phase 2.47 + 2.47a + 2.47b 合并做 docs baseline。
-- 是否建议进入下一阶段：否；先 Codex B review Phase 2.47b artifact。
-- 下一轮建议：Codex B review；通过后执行 combined docs baseline，或用户直接使用 checklist + run record template 开始 Day-0 / Day-1。
-- 是否需要 Codex B 审核：是。
-- 是否需要 Codex C 真实终端验收：否；本轮只做 local record template artifact。
+  - 本轮未做 Codex C targeted smoke。
+  - Phase 2.48a / 2.48b 均完成后，建议由 Codex B 决定是否进入 Phase 2.48c targeted smoke。
+  - Hermes_memory 仍存在 out-of-scope dirty / untracked 文档，未纳入本轮。
+  - Hermes 主仓仍存在既有 unrelated dirty / untracked 文件，未纳入本轮。
+- 是否建议 baseline：是；执行 Phase 2.48 combined Git baseline。
+- 是否建议进入下一阶段：否；先完成 baseline，再评估 Phase 2.49 planning。
+- 下一轮建议：将 `docs/NEXT_CODEX_A_PROMPT.md` 发给 Codex A 执行 combined baseline。
+- 是否需要 Codex B 审核：已完成。
+- 是否需要 Codex C 真实终端验收：已完成。

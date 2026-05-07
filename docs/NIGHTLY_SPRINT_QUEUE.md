@@ -230,7 +230,7 @@
 ### Item 12：Phase 2.47b local ignored pilot run record template
 
 - lane：Green Lane
-- 状态：completed_waiting_codex_b_review
+- 状态：completed_baseline
 - 目标：新增本地 ignored pilot run record template / storage policy。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
@@ -243,13 +243,13 @@
   - 不运行 API / CLI smoke。
   - 不写 DB / facts / document_versions / OpenSearch / Qdrant。
   - 不进入 production rollout。
-- 完成后：等待 Codex B review；若通过，建议执行 Phase 2.47 / 2.47a / 2.47b combined docs baseline，或用户直接使用 checklist + run record template 开始 Day-0 / Day-1。
-- baseline 规则：默认不自动 baseline；需 Codex B 明确授权。
+- 完成后：Phase 2.47 / 2.47a / 2.47b combined docs baseline 已完成；用户可使用 checklist + run record template 开始 Day-0 / Day-1。
+- baseline 规则：已 baseline，commit `bfe7981`，tag `phase-2.47-internal-mvp-operating-artifacts-baseline`。
 
 ### Item 13：Phase 2.47 combined docs artifact baseline
 
 - lane：Yellow Lane
-- 状态：candidate_after_codex_b_review
+- 状态：completed
 - 目标：合并提交 Phase 2.47 planning、2.47a checklist、2.47b run record template 与交接文档。
 - 禁止动作：
   - 不进入 Phase 2.48。
@@ -257,7 +257,65 @@
   - 不生成真实 run record。
   - 不写 DB / facts / document_versions / OpenSearch / Qdrant。
   - 不进入 production rollout。
-- baseline 规则：需要 Codex B 明确授权。
+- baseline 规则：已完成，commit `bfe7981`，tag `phase-2.47-internal-mvp-operating-artifacts-baseline`。
+
+### Item 14：Phase 2.48 P2 display tails triage planning
+
+- lane：Green Lane
+- 状态：completed_waiting_codex_b_review
+- 目标：规划 Excel citation display tail 与 meeting transcript boundary flag tail 的 P2 分诊、候选小修和验收口径。
+- 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
+- 允许动作：
+  - 新增 `docs/PHASE248_P2_DISPLAY_TAILS_TRIAGE_PLAN.md`。
+  - 更新 Phase 2.48 交接文档与 ignored latest 状态。
+  - 运行 docs-only / ignore 校验。
+- 禁止动作：
+  - 不运行 smoke。
+  - 不启动服务。
+  - 不生成真实 run record。
+  - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+  - 不执行 repair / backfill / reindex / cleanup / delete。
+  - 不进入 production rollout。
+- 完成后：等待 Codex B review；通过后选择 Item 15 或 Item 16。
+- baseline 规则：本 item 默认不 baseline；需 Codex B 明确授权。
+
+### Item 15：Phase 2.48a Excel citation display polish
+
+- lane：Green Lane
+- 状态：completed_waiting_codex_b_review
+- 目标：仅在 renderer / citation summary 层补 Excel citation fallback 展示，例如 `row_range_fallback=true`；不改 parser。
+- 禁止动作：
+  - 不改 retrieval contract。
+  - 不改 memory kernel 主架构。
+  - 不改 ingestion / parser / indexing。
+  - 不执行 repair / backfill / reindex。
+  - 不进入 rollout。
+- 完成后：已完成 bounded implementation，等待 Codex B review；必要时由 Codex C targeted smoke。
+
+### Item 16：Phase 2.48b Meeting transcript boundary display polish
+
+- lane：Green Lane
+- 状态：completed_codex_b_review_passed
+- 目标：仅在 context / trace display 层稳定显示 `transcript_as_fact=false` 或等价 boundary statement。
+- 禁止动作：
+  - 不改 meeting ingestion contract。
+  - 不改 retrieval contract。
+  - 不改 memory kernel 主架构。
+  - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+  - 不进入 rollout。
+- 完成后：已完成 bounded implementation，等待 Codex B review；必要时由 Codex C targeted smoke。
+
+### Item 17：Phase 2.48c Codex C targeted smoke prompt
+
+- lane：Green Lane
+- 状态：completed_pass
+- 目标：为 Codex C 准备 targeted smoke，验证 Excel citation display fallback 与 meeting transcript boundary display。
+- 禁止动作：
+  - 不重跑 full Day-1，除非 targeted smoke 出现 P1/P0。
+  - 不启动 production rollout。
+  - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+  - 不执行 repair / backfill / reindex / cleanup / delete。
+- 完成后：停止等待 Codex B review；由 Codex B 决定是否 baseline。
 
 ## Archived Queue
 
@@ -309,3 +367,12 @@
 - 状态：completed
 - 结果：commit `fa6aff4`，tag `phase-2.45-mac-mini-mvp-server-plan-baseline`。
 - 备注：Mac mini MVP server deployment planning 已 baseline；未执行真实部署、未新增 deployment script、未写 DB / facts / document_versions / OpenSearch / Qdrant。
+
+### Item 18：Phase 2.48 combined Git baseline
+
+- lane：Yellow Lane
+- 状态：ready_for_codex_a_baseline
+- 目标：选择性提交 Phase 2.48 triage、2.48a、2.48b、2.48c 交接与测试结果。
+- 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
+- 禁止动作：不进入 Phase 2.49，不运行新 smoke，不写 DB / index，不进入 rollout。
+- baseline 规则：Codex B 已授权；必须 selective staging。
