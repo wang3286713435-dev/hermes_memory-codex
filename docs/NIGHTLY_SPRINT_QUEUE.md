@@ -10,28 +10,28 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.50 Internal MVP Daily Review Loop Runbook Artifact
+### Current Item：Phase 2.50a Internal MVP Daily Review Loop Fake Run Record Smoke
 
 - lane：Green Lane
-- 状态：codex_b_review_passed_baseline_in_progress
-- 目标：把内部受控 MVP 每日 operator 流程串成 runbook artifact，连接 run query、ignored run record、review dry-run 与 issue intake。
+- 状态：implemented_ready_for_codex_b_review
+- 目标：用临时 fake run record 验证 Phase 2.50 runbook 能串起 fake record、Phase 2.49 review bridge、review report、显式 output-dir 与 decision mapping。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 新增 `docs/PHASE250_INTERNAL_MVP_DAILY_REVIEW_LOOP_PLAN.md`。
-  - 更新 Phase 2.50 交接文档与 ignored latest 状态。
-  - 运行 docs / JSON / ignore 轻量检查。
+  - 新增 `docs/PHASE250A_INTERNAL_MVP_RUNBOOK_SMOKE_RESULT.md`。
+  - 使用 `mktemp` 临时 fake run records。
+  - 运行 Phase 2.49 runner 与目标 pytest。
+  - 更新 Phase 2.50a 交接文档与 ignored latest 状态。
 - 禁止动作：
-  - 不写业务功能代码、scripts 或 tests。
-  - 不读取真实 internal MVP run record。
-  - 不运行真实 Pilot。
+  - 不读取真实 internal MVP run records。
+  - 不使用 `reports/internal_mvp_runs/` 作为 smoke 输入 / 输出。
   - 不运行 API / CLI smoke。
   - 不启动 / 停止服务。
   - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
   - 不进入 rollout、repair 或 Data Steward 实现。
   - 不 stage / commit / tag / push。
-- 完成后：执行 Phase 2.50 docs-only Git baseline 后停下。
+- 完成后：等待 Codex B review；通过后只允许进入 Phase 2.50a docs-only Git baseline。
 - baseline 规则：Yellow Lane，默认夜间不可自动执行；需要 Codex B 明确授权。
-- 前置状态：Phase 2.49 Git baseline 已完成，commit `f23f248`，tag `phase-2.49-internal-mvp-run-record-review-baseline`。
+- 前置状态：Phase 2.50 Git baseline 已完成，commit `569cb3a4b2bd6460d805f80353589ce0866876a6`，tag `phase-2.50-internal-mvp-daily-review-loop-baseline`。
 
 ### Item 1：Phase 2.46 Mac mini Day-0 Real-machine Setup Planning
 

@@ -2,12 +2,12 @@
 
 ## 当前优先级
 
-1. Phase 2.50 Internal MVP Daily Review Loop Runbook Artifact 已通过 Codex B review，当前执行 docs-only Git baseline。
-2. Phase 2.49 Internal MVP Run Record Review Bridge Git baseline 已完成：commit `f23f248`，tag `phase-2.49-internal-mvp-run-record-review-baseline`。
-3. Phase 2.50 将 Phase 2.47 / 2.47b / 2.49 / 2.42a / 2.37 串成每日 operator 闭环：run query -> 填写 ignored run record -> review dry-run -> issue intake。
-4. Phase 2.50 只提供 runbook artifact，不读取真实 run record，不运行真实 Pilot，不运行 API / CLI，不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-5. Phase 2.50 的 `decision_hint=go` 只表示 internal controlled MVP continuation，不是 production rollout、客户交付、自动审标、自动投标或自动经营决策授权。
-6. 下一步：完成 Phase 2.50 docs-only baseline 后停下，不进入 repair、rollout、Data Steward 或 Phase 2.50a 实现。
+1. Phase 2.50a Internal MVP Daily Review Loop Fake Run Record Smoke 已完成，等待 Codex B review。
+2. Phase 2.50 Git baseline 已完成：commit `569cb3a4b2bd6460d805f80353589ce0866876a6`，tag `phase-2.50-internal-mvp-daily-review-loop-baseline`。
+3. Phase 2.50a 使用临时 fake run records 验证 `phase249_internal_mvp_run_record_review.py --input-run-record --review-report --output-dir` 链路；未读取真实 `reports/internal_mvp_runs/`。
+4. fake smoke 结果：未复核 visible Missing Evidence => `pause`；显式复核 Missing Evidence => `go`；facts-as-answer + third document contamination => `no_go`。
+5. Phase 2.50a 不运行 API / CLI，不启动服务，不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant，不进入 repair、rollout 或 Data Steward。
+6. 下一步：Codex B review Phase 2.50a smoke result；通过后只做 docs-only baseline，不进入 Phase 2.50b / 2.51。
 6. Phase 2.48b Meeting Transcript Boundary Trace Display Polish 已完成并通过 Codex B review。
 2. Hermes 主仓 meeting transcript context 现在稳定显示：
    - `meeting_transcript_used=true`

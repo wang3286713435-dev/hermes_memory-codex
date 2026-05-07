@@ -1,12 +1,12 @@
 # NEXT_CODEX_A_PROMPT
 
-这是 Codex A 的下一轮文件化执行入口。Codex B 已完成 Phase 2.50 runbook artifact review，结论：通过；现在授权执行 docs-only Git baseline。
+这是 Codex A 的下一轮文件化执行入口。Codex B 已完成 Phase 2.50a fake run record smoke review，结论：通过；现在授权执行 docs-only Git baseline。
 
 ## 本轮目标
 
-Phase 2.50 Internal MVP Daily Review Loop Runbook Artifact Git baseline。
+Phase 2.50a Internal MVP Daily Review Loop Fake Run Record Smoke Git baseline。
 
-只提交 Phase 2.50 runbook、交接文档和状态文档。不要进入 Phase 2.50a、Phase 2.51、真实 MVP Pilot、repair、rollout 或 Data Steward 实现。
+只提交 Phase 2.50a fake smoke 结果文档和交接状态文档。不要进入 Phase 2.50b、Phase 2.51、真实 MVP Pilot、repair、rollout 或 Data Steward 实现。
 
 ## Codex B Review 结论
 
@@ -14,22 +14,33 @@ Phase 2.50 Internal MVP Daily Review Loop Runbook Artifact Git baseline。
 
 已确认：
 
-1. `docs/PHASE250_INTERNAL_MVP_DAILY_REVIEW_LOOP_PLAN.md` 明确这是 internal controlled MVP daily review loop，不是 production rollout。
-2. operator 输入来自 `docs/INTERNAL_MVP_PILOT_RUN_RECORD_TEMPLATE.md`，真实 run records 保存在 ignored `reports/internal_mvp_runs/`。
-3. 命令模板使用显式 `--input-run-record` placeholder，不默认扫描 `reports/`。
-4. `decision_hint=go/pause/no_go` 解释清楚，`go` 没有被写成 rollout approval。
-5. issue intake 映射覆盖 facts/transcript/snapshot as answer、第三文件污染、隐藏 Missing Evidence、alias/session blocker。
-6. 人工责任边界覆盖投标、合同、采购、经营、客户沟通与 Data Steward。
-7. 存储和隐私策略明确真实 run record / review report 不入 Git。
-8. stop conditions 足够明确。
-9. Nightly Sprint 边界禁止真实 Pilot、读取真实 records、写 DB / index、自动 baseline。
-10. 后续候选保持为 fake smoke / evidence pack / Mac Mini operator checklist，不进入 repair 或 rollout。
+1. `docs/PHASE250A_INTERNAL_MVP_RUNBOOK_SMOKE_RESULT.md` 明确 fake smoke 使用 `mktemp` 临时目录。
+2. 没有读取真实 internal MVP run records。
+3. sanitized JSON / Markdown 只写入显式临时 output-dir。
+4. 未复核 visible Missing Evidence => `pause`，这是正确保守行为。
+5. 显式复核 Missing Evidence => `go`。
+6. `facts_as_answer=true` + third document contamination => `no_go`。
+7. safety flags 保持：`dry_run=true`、`production_rollout=false`、`repair_authorized=false`、`destructive_actions=[]`、`data_mutation=false`。
+8. 未运行 API / CLI，未启动服务，未写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+9. 未进入 rollout、repair、Data Steward、Phase 2.50b 或 Phase 2.51。
+
+Codex B 复核验证：
+
+```bash
+uv run python -m py_compile scripts/phase249_internal_mvp_run_record_review.py
+uv run pytest tests/test_phase249_internal_mvp_run_record_review.py tests/test_phase242a_mvp_pilot_review_dry_run.py -q
+git diff --check
+uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json
+git check-ignore -v reports/agent_runs/latest.json reports/internal_mvp_runs/example.json reports/internal_mvp_runs/example.md reports/internal_mvp_runs/latest.json
+```
+
+结果：`20 passed`，其余检查通过。
 
 ## Baseline 白名单
 
 只允许 stage / commit 以下文件：
 
-1. `docs/PHASE250_INTERNAL_MVP_DAILY_REVIEW_LOOP_PLAN.md`
+1. `docs/PHASE250A_INTERNAL_MVP_RUNBOOK_SMOKE_RESULT.md`
 2. `docs/ACTIVE_PHASE.md`
 3. `docs/PHASE_BACKLOG.md`
 4. `docs/HANDOFF_LOG.md`
@@ -48,11 +59,16 @@ Phase 2.50 Internal MVP Daily Review Loop Runbook Artifact Git baseline。
 2. `docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md`
 3. `docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`
 4. `reports/agent_runs/latest.json`（ignored）
+5. 任何 `reports/internal_mvp_runs/**/*.json`
+6. 任何 `reports/internal_mvp_runs/**/*.md`
+7. 任何 `reports/internal_mvp_runs/latest.*`
 
 ## 必跑验证
 
 ```bash
 cd /Users/Weishengsu/Hermes_memory
+uv run python -m py_compile scripts/phase249_internal_mvp_run_record_review.py
+uv run pytest tests/test_phase249_internal_mvp_run_record_review.py tests/test_phase242a_mvp_pilot_review_dry_run.py -q
 git diff --check
 uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json
 git check-ignore -v reports/agent_runs/latest.json
@@ -61,7 +77,6 @@ git check-ignore -v reports/internal_mvp_runs/example.md
 git check-ignore -v reports/internal_mvp_runs/latest.json
 ```
 
-不要运行 pytest。
 不要运行 API / CLI smoke。
 不要启动 / 停止服务。
 不要读取真实 internal MVP run records。
@@ -70,8 +85,8 @@ git check-ignore -v reports/internal_mvp_runs/latest.json
 ## Git baseline
 
 1. 只 stage 白名单 8 个文件。
-2. commit message：`docs: add phase 2.50 internal mvp daily review loop`
-3. tag：`phase-2.50-internal-mvp-daily-review-loop-baseline`
+2. commit message：`docs: add phase 2.50a internal mvp runbook smoke result`
+3. tag：`phase-2.50a-internal-mvp-runbook-smoke-baseline`
 4. push `origin/main`。
 5. push tag 到 `origin`。
 
@@ -79,10 +94,10 @@ git check-ignore -v reports/internal_mvp_runs/latest.json
 
 更新 `reports/agent_runs/latest.json`：
 
-1. `phase=Phase 2.50 Internal MVP Daily Review Loop Runbook Artifact Baseline`
+1. `phase=Phase 2.50a Internal MVP Daily Review Loop Fake Run Record Smoke Baseline`
 2. `status=baseline`
 3. 记录 commit hash、tag、push result。
-4. 记录验证结果。
+4. 记录验证结果：`20 passed`。
 5. `needs_codex_b_review=false`
 6. `needs_codex_c_validation=false`
 
@@ -90,9 +105,9 @@ git check-ignore -v reports/internal_mvp_runs/latest.json
 
 ## 硬禁止
 
-1. 不进入 Phase 2.50a。
+1. 不进入 Phase 2.50b。
 2. 不进入 Phase 2.51。
-3. 不新增功能代码、scripts 或测试。
+3. 不新增功能代码、scripts 或 tests。
 4. 不读取真实 reports / run records。
 5. 不默认扫描 `reports/`。
 6. 不运行 API / CLI smoke。
@@ -113,4 +128,4 @@ git check-ignore -v reports/internal_mvp_runs/latest.json
 4. 验证结果。
 5. final git status。
 6. out-of-scope dirty 是否仍保留。
-7. 是否建议进入 Phase 2.50a 或 Phase 2.51 planning。
+7. 是否建议进入 Phase 2.50b evidence pack 或 Phase 2.51 Mac Mini operator checklist planning。

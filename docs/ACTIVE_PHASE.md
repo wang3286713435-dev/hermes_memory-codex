@@ -1,15 +1,13 @@
 # Active Phase
 
-- 当前 phase：Phase 2.50 Internal MVP Daily Review Loop Runbook Artifact Baseline
-- 本轮目标：Codex B review 已通过，执行 Phase 2.50 docs-only Git baseline。
+- 当前 phase：Phase 2.50a Internal MVP Daily Review Loop Fake Run Record Smoke
+- 本轮目标：用临时 fake run record 验证 Phase 2.50 每日复盘 runbook 能串起 fake record、Phase 2.49 review bridge、review report、显式 output-dir 与 decision mapping。
 - 背景：
-  - Phase 2.49 Git baseline 已完成：commit `f23f248`，tag `phase-2.49-internal-mvp-run-record-review-baseline`。
-  - Phase 2.47b 已提供 ignored run record template 与 `reports/internal_mvp_runs/` 策略。
-  - Phase 2.49 已提供显式 `--input-run-record` review bridge runner。
-  - Phase 2.42a 已提供 MVP Pilot review dry-run report builder。
-  - Phase 2.37 已提供 issue intake / triage 基线。
+  - Phase 2.50 Git baseline 已完成：commit `569cb3a4b2bd6460d805f80353589ce0866876a6`，tag `phase-2.50-internal-mvp-daily-review-loop-baseline`。
+  - Phase 2.50a 只能使用临时 fake run record，不读取真实 `reports/internal_mvp_runs/`。
+  - 本轮不运行 API / CLI smoke，不启动 / 停止服务，不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
 - 修改文件：
-  - `docs/PHASE250_INTERNAL_MVP_DAILY_REVIEW_LOOP_PLAN.md`
+  - `docs/PHASE250A_INTERNAL_MVP_RUNBOOK_SMOKE_RESULT.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/HANDOFF_LOG.md`
@@ -19,31 +17,33 @@
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 新增 Phase 2.50 runbook artifact，明确内部受控 MVP 每日复盘链路，不代表 production rollout。
-  - 固化每日输入：operator 手工填写 `docs/INTERNAL_MVP_PILOT_RUN_RECORD_TEMPLATE.md`，真实 run record 保存在 ignored `reports/internal_mvp_runs/`。
-  - 固化每日命令模板：显式传入 `--input-run-record`，可选生成 review report，不默认扫描 `reports/`。
-  - 明确 `decision_hint=go/pause/no_go` 解释、issue intake 触发、人类责任边界、存储隐私、stop conditions 与 Nightly Sprint 边界。
-  - 记录后续候选：Phase 2.50a fake run record runbook smoke、Phase 2.50b MVP evidence pack、Phase 2.51 Mac Mini operator checklist / hot update runbook。
+  - 使用 `mktemp` 临时目录生成 fake run records。
+  - 执行 `phase249_internal_mvp_run_record_review.py --input-run-record ... --review-report --output-dir ...`。
+  - 验证 sanitized JSON / Markdown 输出生成到显式临时 output-dir。
+  - 验证未复核 visible Missing Evidence => `pause`。
+  - 验证显式复核 Missing Evidence => `go`。
+  - 验证 `facts_as_answer=true` + third document contamination => `no_go`。
+  - 未修改 runner / tests。
 - 测试结果：
+  - `uv run python -m py_compile scripts/phase249_internal_mvp_run_record_review.py`：通过。
+  - `uv run pytest tests/test_phase249_internal_mvp_run_record_review.py tests/test_phase242a_mvp_pilot_review_dry_run.py -q`：`20 passed`。
   - `git diff --check`：通过。
   - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
-  - `git check-ignore -v reports/agent_runs/latest.json`：命中 `reports/agent_runs/.gitignore`。
-  - `git check-ignore -v reports/internal_mvp_runs/example.json`：命中 `reports/internal_mvp_runs/.gitignore`。
-  - `git check-ignore -v reports/internal_mvp_runs/example.md`：命中 `reports/internal_mvp_runs/.gitignore`。
-  - `git check-ignore -v reports/internal_mvp_runs/latest.json`：命中 `reports/internal_mvp_runs/.gitignore`。
+  - `git check-ignore -v reports/agent_runs/latest.json reports/internal_mvp_runs/example.json reports/internal_mvp_runs/example.md reports/internal_mvp_runs/latest.json`：全部命中 ignored。
 - live smoke 结果：
-  - 本轮不运行 API / CLI smoke。
-  - 本轮不启动 / 停止服务。
-  - 本轮不读取真实 internal MVP run records。
-  - 本轮不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+  - fake_go_record：`decision_hint=pause`，review report decision `pause`，P0=0 / P1=0 / P2=2。
+  - fake_reviewed_go_record：`decision_hint=go`，review report decision `go`，P0=0 / P1=0 / P2=2。
+  - fake_unsafe_record：`decision_hint=no_go`，review report decision `no_go`，P0=2 / P1=1 / P2=0。
+  - 所有 case 固定 `dry_run=true`、`production_rollout=false`、`repair_authorized=false`、`destructive_actions=[]`、`data_mutation=false`。
 - 当前结论：
-  - Phase 2.50 docs-only runbook artifact 已通过 Codex B review，进入 Git baseline。
-  - 本轮未执行真实 MVP review，未生成真实 run record / review report，未进入 rollout、repair 或 Data Steward。
+  - Phase 2.50a fake smoke 已验证 runbook 链路可运行。
+  - 未复核 Missing Evidence 输出 `pause` 是正确保守行为，不是 runner bug。
+  - 本轮没有读取真实 run record，没有生成真实 Pilot report。
 - 阻塞点 / 风险点：
+  - 等待 Codex B review。
   - out-of-scope dirty 仍需保持排除：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、`docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md`、`docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`。
-  - Phase 2.50 是 operator runbook，不是 Pilot 执行证据。
-- 是否建议 baseline：是；执行 Phase 2.50 docs-only baseline。
-- 是否建议进入下一阶段：否；不要进入 Phase 2.50a / 2.51。
-- 下一轮建议：baseline 后停下，后续由 Codex B 决定是否进入 Phase 2.50a fake run record smoke 或 Phase 2.51 planning。
-- 是否需要 Codex B 审核：已完成。
+- 是否建议 baseline：否；先等待 Codex B review。
+- 是否建议进入下一阶段：否；不要进入 Phase 2.50b / 2.51。
+- 下一轮建议：Codex B review Phase 2.50a fake smoke result；通过后再写 docs-only baseline prompt。
+- 是否需要 Codex B 审核：是。
 - 是否需要 Codex C 真实终端验收：否。

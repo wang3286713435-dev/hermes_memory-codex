@@ -340,3 +340,5 @@
 - [Phase 2.49 Baseline] Git baseline 已完成：commit `f23f248`，tag `phase-2.49-internal-mvp-run-record-review-baseline`，`origin/main` 与 tag 已推送。
 - [Phase 2.50] 完成 Internal MVP Daily Review Loop docs-only runbook artifact：新增 `docs/PHASE250_INTERNAL_MVP_DAILY_REVIEW_LOOP_PLAN.md`，串联 run query、ignored run record、review dry-run 与 issue intake；本轮未读取真实 run record、未运行 API / CLI、未写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant，未进入 rollout、repair 或 Data Steward。
 - [Phase 2.50 Review] Codex B review 通过：runbook artifact 边界正确，`go` 未写成 rollout approval，真实 records / reports 默认 ignored；本轮执行 docs-only Git baseline，不进入 Phase 2.50a、Phase 2.51、repair、rollout 或 Data Steward。
+- [Phase 2.50 Baseline] Git baseline 已完成：commit `569cb3a4b2bd6460d805f80353589ce0866876a6`，tag `phase-2.50-internal-mvp-daily-review-loop-baseline`，`origin/main` 与 tag 已推送。
+- [Phase 2.50a] 完成 fake run record runbook smoke：使用 `mktemp` 临时目录验证 Phase 2.49 runner 的 explicit input / review report / explicit output-dir 链路；未复核 visible Missing Evidence => `pause`，显式复核 Missing Evidence => `go`，unsafe evidence / contamination => `no_go`；目标测试 `20 passed`，未读取真实 run record、未运行 API / CLI、未写 DB / index。

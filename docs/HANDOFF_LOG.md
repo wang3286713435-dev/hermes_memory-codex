@@ -4107,3 +4107,25 @@
 - risks: out-of-scope dirty must remain excluded.
 - next: Commit/tag/push Phase 2.50 docs-only baseline, then update ignored latest state.
 - commit/tag if any: pending.
+
+## 2026-05-08 00:34 Phase 2.50a
+- goal: Run fake internal MVP run record smoke for the Phase 2.50 daily review loop.
+- changed_files:
+  - `docs/PHASE250A_INTERNAL_MVP_RUNBOOK_SMOKE_RESULT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `uv run python -m py_compile scripts/phase249_internal_mvp_run_record_review.py`: passed.
+  - `uv run pytest tests/test_phase249_internal_mvp_run_record_review.py tests/test_phase242a_mvp_pilot_review_dry_run.py -q`: `20 passed`.
+  - `git diff --check`: passed.
+  - latest JSON / ignored path checks: passed.
+- validation: fake records in `mktemp` verified explicit input, `--review-report`, explicit output-dir, sanitized JSON / Markdown outputs, conservative `pause`, reviewed `go`, and unsafe `no_go`.
+- risks: Awaiting Codex B review; no real run record was read; no API / CLI smoke; no DB / index writes.
+- next: Run final light checks, then Codex B review; no baseline until explicitly authorized.
+- commit/tag if any: none.

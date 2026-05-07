@@ -2,12 +2,12 @@
 
 ## 0. 当前 MVP Pilot 状态
 
-1. Phase 2.50 Internal MVP Daily Review Loop Runbook Artifact 已通过 Codex B review，当前执行 docs-only Git baseline。
-2. Phase 2.49 Internal MVP Run Record Review Bridge Git baseline 已完成：commit `f23f248`，tag `phase-2.49-internal-mvp-run-record-review-baseline`。
-3. 新增 `docs/PHASE250_INTERNAL_MVP_DAILY_REVIEW_LOOP_PLAN.md`，把 run query、ignored run record、review dry-run、issue intake 串成每日 operator 闭环。
-4. Phase 2.50 明确真实 run records / review JSON / Markdown 默认 ignored，不入 Git；本轮不读取真实 run record，不运行 API / CLI，不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-5. `decision_hint=go` 只表示 internal controlled MVP 可继续，不代表 production rollout、客户交付、自动审标、自动投标或自动经营决策授权。
-6. 下一步：完成 Phase 2.50 docs-only baseline 后停下，不进入 repair、rollout、Data Steward 或 Phase 2.50a。
+1. Phase 2.50a Internal MVP Daily Review Loop Fake Run Record Smoke 已完成，等待 Codex B review。
+2. Phase 2.50 Git baseline 已完成：commit `569cb3a4b2bd6460d805f80353589ce0866876a6`，tag `phase-2.50-internal-mvp-daily-review-loop-baseline`。
+3. 新增 `docs/PHASE250A_INTERNAL_MVP_RUNBOOK_SMOKE_RESULT.md`，记录临时 fake run record smoke 结果。
+4. fake smoke 验证：未复核 visible Missing Evidence => `pause`；显式复核 Missing Evidence => `go`；facts-as-answer + third document contamination => `no_go`。
+5. 本轮只使用 `mktemp` 临时目录；未读取真实 run record，未运行 API / CLI，未写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+6. 下一步：Codex B review Phase 2.50a smoke result；通过后只做 docs-only baseline，不进入 repair、rollout、Data Steward、Phase 2.50b 或 Phase 2.51。
 7. Phase 2.49 Internal MVP Run Record Review Bridge review-fix 已通过 Codex B 复审并已完成 Git baseline。
 2. 新增本地只读 runner：`scripts/phase249_internal_mvp_run_record_review.py`，必须显式传入 `--input-run-record`，不默认扫描真实 `reports/`。
 3. runner 输出 sanitized review payload，可选 `--review-report` 调用 Phase 2.42a review dry-run report builder；固定 `dry_run=true`、`production_rollout=false`、`repair_authorized=false`、`destructive_actions=[]`、`data_mutation=false`。
