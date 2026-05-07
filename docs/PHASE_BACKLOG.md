@@ -2,12 +2,12 @@
 
 ## 当前优先级
 
-1. Phase 2.45c read-only health-check script 最小实现已完成，Codex B review 已通过。
-2. 当前唯一优先事项：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45c Git baseline。
-3. Runner 默认只检查 Git、env key-name、ignored runtime path；mount path 与 URL reachability 均需显式参数。
-4. Runner 必须保持 `dry_run=true`、`writes_db=false`、`repairs=false`、`rollout_approved=false`，且不得打印 secret values。
-5. Phase 2.45c 不运行真实 API / CLI smoke，不执行 Mac mini 部署，不访问真实 DB / OpenSearch / Qdrant。
-6. Phase 2.45c baseline 前不得进入 Phase 2.45d real-machine deployment record。
+1. Phase 2.45d Mac mini real-machine deployment record docs-only planning 已完成并通过 Codex B review。
+2. 当前唯一优先事项：执行 Phase 2.45d docs-only Git baseline；baseline 后停止，不进入 Phase 2.45e。
+3. Phase 2.45d 只规划 deployment record，不执行真实部署，不运行 health-check runner，不运行 API / CLI smoke。
+4. 真实 deployment record JSON / Markdown 默认必须 local ignored；提交到 Git 的只能是 sanitized plan / template。
+5. Phase 2.45c read-only health-check script Git baseline 已完成：commit `fbad94f`，tag `phase-2.45c-health-check-dry-run-baseline`。
+6. Phase 2.45c 新增只读 dry-run runner 与单元测试，默认不访问真实 API / CLI，不执行真实部署。
 7. Phase 2.45b health-check / deploy-smoke dry-run planning Git baseline 已完成：commit `d70497c`，tag `phase-2.45b-health-check-dry-run-plan-baseline`。
 8. Phase 2.45a Mac mini MVP deployment runbook artifact Git baseline 已完成：commit `585d534`，tag `phase-2.45a-mac-mini-deployment-runbook-baseline`。
 9. Phase 2.45 Mac mini MVP server deployment planning Git baseline 已完成：commit `fa6aff4`，tag `phase-2.45-mac-mini-mvp-server-plan-baseline`。

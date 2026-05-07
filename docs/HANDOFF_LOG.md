@@ -3480,3 +3480,52 @@
 - risks: baseline 必须 selective staging，排除 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.45d；继续禁止真实部署、DB/index writes、repair、rollout 与 Data Steward 实现。
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45c Git baseline。
 - commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
+
+## 2026-05-07 14:28 Phase 2.45d
+- goal: Confirm Phase 2.45c baseline and write next docs-only prompt for Mac mini real-machine deployment record planning.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - Phase 2.45c baseline checked：HEAD `fbad94f`，tag `phase-2.45c-health-check-dry-run-baseline`。
+  - `reports/agent_runs/latest.json` indicates baseline / pushed true。
+  - 本轮不运行 API / CLI，不运行 pytest，不运行 Phase 2.45c runner，不执行真实部署。
+- validation: 下一轮收缩为 docs-only planning，目标是规划 Mac mini real-machine deployment record / operator sign-off；本轮不写代码、不运行 runner、不进入 production rollout / Data Steward。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍为遗留无关 dirty，不得触碰；Phase 2.45d 完成后需 Codex B review，不自动 baseline。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45d planning。
+- commit/tag if any: 无；本轮只是 next prompt handoff，不提交 Git。
+## 2026-05-07 14:17 Phase 2.45d
+- goal: Plan Mac mini real-machine deployment record / operator sign-off; docs-only, no deployment and no smoke.
+- changed_files: `docs/PHASE245D_MAC_MINI_DEPLOYMENT_RECORD_PLAN.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/NIGHTLY_SPRINT_QUEUE.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON validation passed; latest ignore check passed; `git status --short` shows Phase 2.45d docs plus inherited unrelated PHASE238 dirty.
+- validation: Planning document defines record inputs, record output schema, operator checklist, stop conditions, storage policy, and future phase candidates.
+- risks: inherited unrelated dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope; planning must not be read as real deployment authorization.
+- next: Run docs-only validation, then request Codex B review; do not baseline or enter Phase 2.45e.
+- commit/tag if any: none.
+
+## 2026-05-07 14:39 Phase 2.45d
+- goal: Codex B review Phase 2.45d real-machine deployment record planning and write docs-only Git baseline prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：确认 Phase 2.45d 文档变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: Codex B review 通过。Planning 只定义 deployment record / operator sign-off 的人工记录边界，不是 deployment script，不授权真实部署 / API CLI smoke / DB index writes / rollout。
+- risks: baseline 必须 selective staging，排除 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.45e；继续禁止真实部署、repair、rollout 与 Data Steward 实现。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45d docs-only Git baseline。
+- commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
