@@ -168,7 +168,7 @@
 ### Item 9：Phase 2.46d local MVP smoke result intake baseline
 
 - lane：Yellow Lane
-- 状态：ready_for_codex_a_baseline
+- 状态：completed
 - 条件：Codex C smoke returned Go; Codex B reviewed and provided sanitized result summary.
 - 目标：记录 sanitized Mac mini local MVP smoke result，并做 docs-only Git baseline。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
@@ -185,6 +185,79 @@
   - 不执行 repair / backfill / reindex / cleanup / delete。
   - 不进入 rollout / Data Steward。
 - baseline 规则：本轮仅允许提交 sanitized result 文档与交接文件。
+- 当前结果：Git baseline 已完成，commit `255c2e97fa6d644c2d83655e7ac919c8401f54f2`，tag `phase-2.46d-mac-mini-local-mvp-smoke-result-baseline`。
+
+### Item 10：Phase 2.47 internal controlled MVP operating loop planning
+
+- lane：Green Lane
+- 状态：completed_codex_b_reviewed
+- 目标：把 Mac mini smoke `Go` 结果转化为内部受控 MVP 的运营闭环计划。
+- 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
+- 允许动作：
+  - 新增 `docs/PHASE247_INTERNAL_MVP_OPERATING_LOOP_PLAN.md`。
+  - 更新 Phase 2.47 交接文档与 ignored latest 状态。
+  - 运行 docs-only 校验。
+- 禁止动作：
+  - 不运行真实 smoke。
+  - 不启动服务。
+  - 不运行 health-check runner。
+  - 不生成真实 evidence / deployment record / pilot run record。
+  - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+  - 不执行 repair / backfill / reindex / cleanup / delete。
+  - 不进入 production rollout 或 Data Steward 实现。
+  - 不 stage / commit / tag / push，除非后续 prompt 明确授权 baseline。
+- 完成后：Codex B review 已通过；下一步执行 Item 11 daily operator checklist artifact。
+- baseline 规则：按低人工干预策略，docs-only planning 可先不单独 baseline；形成 reusable checklist / template 后再由 Codex B 决定是否合并 baseline。
+
+### Item 11：Phase 2.47a daily operator checklist artifact
+
+- lane：Green Lane
+- 状态：completed_codex_b_reviewed
+- 目标：将 Phase 2.47 operating loop 转成每日 operator checklist artifact。
+- 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
+- 允许动作：
+  - 新增 `docs/INTERNAL_MVP_DAILY_OPERATOR_CHECKLIST.md`。
+  - 更新 Phase 2.47a 交接文档与 ignored latest 状态。
+  - 运行 docs-only 校验。
+- 禁止动作：
+  - 不执行真实 operation。
+  - 不运行 API / CLI smoke。
+  - 不写 DB / facts / document_versions / OpenSearch / Qdrant。
+  - 不进入 production rollout。
+- 完成后：Codex B review 已通过；下一步执行 Item 12 local ignored pilot run record template。
+- baseline 规则：默认不单独 baseline；由 Codex B 判断是否与 Phase 2.47 planning 合并 baseline。
+
+### Item 12：Phase 2.47b local ignored pilot run record template
+
+- lane：Green Lane
+- 状态：completed_waiting_codex_b_review
+- 目标：新增本地 ignored pilot run record template / storage policy。
+- 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
+- 允许动作：
+  - 新增 `docs/INTERNAL_MVP_PILOT_RUN_RECORD_TEMPLATE.md`。
+  - 新增 `reports/internal_mvp_runs/.gitignore` 与 `reports/internal_mvp_runs/README.md`。
+  - 更新 Phase 2.47b 交接文档与 ignored latest 状态。
+  - 运行 docs-only / ignore 校验。
+- 禁止动作：
+  - 不生成真实 pilot run record。
+  - 不运行 API / CLI smoke。
+  - 不写 DB / facts / document_versions / OpenSearch / Qdrant。
+  - 不进入 production rollout。
+- 完成后：等待 Codex B review；若通过，建议执行 Phase 2.47 / 2.47a / 2.47b combined docs baseline，或用户直接使用 checklist + run record template 开始 Day-0 / Day-1。
+- baseline 规则：默认不自动 baseline；需 Codex B 明确授权。
+
+### Item 13：Phase 2.47 combined docs artifact baseline
+
+- lane：Yellow Lane
+- 状态：candidate_after_codex_b_review
+- 目标：合并提交 Phase 2.47 planning、2.47a checklist、2.47b run record template 与交接文档。
+- 禁止动作：
+  - 不进入 Phase 2.48。
+  - 不运行 smoke。
+  - 不生成真实 run record。
+  - 不写 DB / facts / document_versions / OpenSearch / Qdrant。
+  - 不进入 production rollout。
+- baseline 规则：需要 Codex B 明确授权。
 
 ## Archived Queue
 

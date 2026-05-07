@@ -1,0 +1,6 @@
+*.json
+*.md
+latest.*
+!README.md
+!.gitignore
+

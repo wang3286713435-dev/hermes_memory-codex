@@ -3843,3 +3843,74 @@
 - risks: result intake only; no smoke rerun, no service startup, no raw evidence, no DB / index writes, no repair and no rollout. Inherited unrelated dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope.
 - next: Run docs-only validation, commit/tag/push Phase 2.46d baseline, then stop for Codex B review and Phase 2.47 planning.
 - commit/tag if any: none yet.
+
+## 2026-05-07 17:49 Phase 2.47
+- goal: Plan the internal controlled MVP operating loop after Mac mini local MVP smoke returned `Go`.
+- changed_files:
+  - `docs/PHASE247_INTERNAL_MVP_OPERATING_LOOP_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：确认 Phase 2.47 文档 / handoff 变更存在，且遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 与未跟踪 `docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md` 未纳入本轮范围。
+- validation: Operating loop plan covers landing judgment, Day 0 / Day 1-2 / Day 3-5 / Week 2 rhythm, daily checks, human roles, issue intake, hot updates, non-goals, next phase candidates, and reduced-baseline policy.
+- risks: Internal controlled MVP can start, but production rollout, customer delivery, automatic tender / bid / business decisions, repair, Data Steward and DB / index mutations remain forbidden. P2 display tails remain. Inherited unrelated dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` and untracked `docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md` remain out of scope.
+- next: Codex B review Phase 2.47; if approved, choose Phase 2.47a daily operator checklist artifact or start Day-0 / Day-1 operations in a separate Mac mini operations thread.
+- commit/tag if any: none.
+
+## 2026-05-07 18:00 Phase 2.47a
+- goal: Create a reusable daily Operator checklist artifact for internal controlled MVP operation.
+- changed_files:
+  - `docs/INTERNAL_MVP_DAILY_OPERATOR_CHECKLIST.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：确认 Phase 2.47 / 2.47a 文档与交接变更存在；遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、未跟踪 `docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md`、`docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md` 未纳入本轮范围。
+- validation: Checklist covers daily metadata, startup checks, fixed alias checks, fixed daily queries, evidence boundaries, issue intake, Go/Pause/No-Go and closeout, while preserving no-rollout / no-repair / no-DB-index-mutation boundaries.
+- risks: Checklist is a human operating artifact, not proof that production rollout is ready. P2 display tails remain. Inherited dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` and untracked Mac mini docs stay out of scope.
+- next: Codex B review Phase 2.47a; if approved, choose Phase 2.47b local ignored pilot run record template or use the checklist in a separate Mac mini operations thread.
+- commit/tag if any: none.
+
+## 2026-05-07 18:15 Phase 2.47b
+- goal: Create a local ignored pilot run record template and storage policy for internal controlled MVP runs.
+- changed_files:
+  - `docs/INTERNAL_MVP_PILOT_RUN_RECORD_TEMPLATE.md`
+  - `reports/internal_mvp_runs/.gitignore`
+  - `reports/internal_mvp_runs/README.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git check-ignore -v reports/internal_mvp_runs/example.json || true`：通过。
+  - `git check-ignore -v reports/internal_mvp_runs/example.md || true`：通过。
+  - `git check-ignore -v reports/internal_mvp_runs/latest.json || true`：通过。
+  - `git status --short`：确认 Phase 2.47 / 2.47a / 2.47b 文档与 reports ignore/README 变更存在；遗留无关 dirty 与 out-of-scope untracked Mac mini 文档未纳入本轮范围。
+- validation: Template covers record metadata, environment summary, alias summary, daily query summary, issue summary, Go/Pause/No-Go decision and boundary attestation; `reports/internal_mvp_runs/` ignores real JSON / Markdown run records.
+- risks: No real run record generated. Internal controlled MVP record does not imply production rollout, repair authorization, DB/index mutation, automatic tender/bid/business decision, or Data Steward implementation. Inherited dirty and untracked Mac mini docs remain out of scope.
+- next: Codex B review Phase 2.47b; if approved, either run combined docs baseline for Phase 2.47 / 2.47a / 2.47b or use checklist + run record template in a separate Mac mini operations thread.
+- commit/tag if any: none.

@@ -1,13 +1,15 @@
 # Active Phase
 
-- 当前 phase：Phase 2.46d Mac Mini Local MVP Smoke Result Intake
-- 本轮目标：将 Codex C Mac mini local MVP smoke 的 `Go` 结果写成 sanitized 文档并做 docs-only baseline。
+- 当前 phase：Phase 2.47b Local Ignored Pilot Run Record Template Artifact
+- 本轮目标：新增内部受控 MVP 本地 ignored run record template 与 storage policy。
 - 背景：
-  - Phase 2.46c baseline 已完成：commit `595c51d`，tag `phase-2.46c-codex-c-mac-mini-smoke-prompt-baseline`。
-  - Codex C 已完成真实终端 smoke：session `20260507_170043_729824`。
-  - Codex C 结果：`Go`，P0=0，P1=0，P2=2。
+  - Phase 2.47 planning 与 Phase 2.47a daily operator checklist 已完成并通过 Codex B review。
+  - Internal controlled MVP 可以开始；production rollout、客户交付、自动审标、自动投标、自动经营决策仍禁止。
+  - 本轮只创建本地记录模板和 ignored 存储策略，不生成真实 run record。
 - 修改文件：
-  - `docs/PHASE246D_MAC_MINI_LOCAL_MVP_SMOKE_RESULT.md`
+  - `docs/INTERNAL_MVP_PILOT_RUN_RECORD_TEMPLATE.md`
+  - `reports/internal_mvp_runs/.gitignore`
+  - `reports/internal_mvp_runs/README.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/HANDOFF_LOG.md`
@@ -17,31 +19,33 @@
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 新增 sanitized smoke result 文档。
-  - 记录 API / CLI pass、alias 绑定结果、Q1-Q5 sanitized query summary、P0/P1/P2/P3、Go / Pause / No-Go。
-  - 明确 `Go` 只支持内部受控 MVP continuation，不是 production rollout approval。
-  - 明确 repair / rollout / Data Steward / 自动审标 / 自动投标 / 自动经营决策仍禁止。
+  - 新增 run record template，覆盖 metadata、environment、alias、daily query、issue summary、decision 与 boundary attestation。
+  - 新增 `reports/internal_mvp_runs/` Git ignore / README 策略。
+  - 明确真实 run records 默认 local ignored，不提交 raw transcript、secret、`.env` value、客户敏感内容。
+  - 明确 run record 不等于 production rollout approval。
 - 测试结果：
   - `git diff --check`：通过。
   - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
   - `git check-ignore -v reports/agent_runs/latest.json`：通过。
-  - `git status --short`：确认仅 Phase 2.46d 文档 / handoff 变更 + 遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+  - `git check-ignore -v reports/internal_mvp_runs/example.json || true`：通过。
+  - `git check-ignore -v reports/internal_mvp_runs/example.md || true`：通过。
+  - `git check-ignore -v reports/internal_mvp_runs/latest.json || true`：通过。
+  - `git status --short`：确认 Phase 2.47 / 2.47a / 2.47b 文档与 reports ignore/README 变更存在；遗留无关 dirty 与 out-of-scope untracked Mac mini 文档未纳入本轮范围。
 - live smoke 结果：
-  - 本轮未重跑 smoke。
-  - 本轮未启动服务。
-  - 本轮未运行 Hermes CLI chat。
-  - 本轮未运行 Phase 2.45c health-check runner。
-  - 本轮未访问 Postgres / OpenSearch / Qdrant。
-  - 本轮未写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+  - 本轮不重跑 smoke。
+  - 本轮不启动服务。
+  - 本轮不运行 Hermes CLI chat。
+  - 本轮不生成真实 internal MVP run record。
+  - 本轮不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
 - 当前结论：
-  - Phase 2.46d sanitized smoke result intake 已写入，等待 docs-only 验证与 baseline。
-  - 本轮不进入 Phase 2.47 实现。
+  - Local ignored pilot run record template / storage policy 已创建。
+  - Phase 2.47 + 2.47a + 2.47b 已形成可复用 docs artifact 包，建议 Codex B review 后考虑合并 baseline。
 - 阻塞点 / 风险点：
+  - P2 display tails 仍存在：Excel citation range / row 展示、meeting `transcript_as_fact=false` 显式打印。
   - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 是遗留无关 dirty，不得 stage / commit。
-  - P2 display tails 仍需后续跟踪：Excel row/range citation、meeting `transcript_as_fact=false` 显式展示。
-  - Internal controlled MVP smoke `Go` 不等于 production rollout、客户交付或自动决策授权。
-- 是否建议 baseline：是；只允许按白名单做 Phase 2.46d docs-only Git baseline。
-- 是否建议进入下一阶段：否；baseline 后再由 Codex B 规划 Phase 2.47。
-- 下一轮建议：完成 Phase 2.46d docs-only Git baseline 后，Codex B 规划 Phase 2.47 internal controlled MVP operating loop / issue intake。
-- 是否需要 Codex B 审核：baseline 后需要 Codex B 检查 commit / tag / push。
-- 是否需要 Codex C 真实终端验收：否；Codex C smoke 已完成，本轮只是结果归档。
+  - `docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md` 与 `docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md` 是未跟踪 out-of-scope 文档，不在 Phase 2.47b 白名单内。
+- 是否建议 baseline：建议 Codex B review 后，将 Phase 2.47 + 2.47a + 2.47b 合并做 docs baseline。
+- 是否建议进入下一阶段：否；先 Codex B review Phase 2.47b artifact。
+- 下一轮建议：Codex B review；通过后执行 combined docs baseline，或用户直接使用 checklist + run record template 开始 Day-0 / Day-1。
+- 是否需要 Codex B 审核：是。
+- 是否需要 Codex C 真实终端验收：否；本轮只做 local record template artifact。

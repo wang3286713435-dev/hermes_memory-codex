@@ -2,17 +2,21 @@
 
 ## 当前优先级
 
-1. Phase 2.46d Mac mini local MVP smoke result intake 已完成，当前正在执行 docs-only baseline。
-2. Codex C smoke 结果：`Go`，P0=0，P1=0，P2=2；仅支持 internal controlled MVP continuation。
-3. Phase 2.46d 不重跑 smoke，不启动服务，不写 DB / index，不进入 rollout。
-4. 下一步建议：baseline 后进入 Phase 2.47 planning，聚焦 internal controlled MVP operating loop / issue intake / P2 display tails。
-5. Phase 2.46c prompt artifact baseline 已完成：commit `595c51d`，tag `phase-2.46c-codex-c-mac-mini-smoke-prompt-baseline`。
-6. Phase 2.46b Mac mini evidence attachment planning Git baseline 已完成：commit `01af018`，tag `phase-2.46b-mac-mini-evidence-attachment-plan-baseline`。
-7. Phase 2.46a checklist baseline 已完成：commit `e78c08e`，tag `phase-2.46a-mac-mini-day0-checklist-baseline`。
-8. Phase 2.46 planning baseline 已完成：commit `13e2206`，tag `phase-2.46-mac-mini-day0-setup-plan-baseline`。
-9. Phase 2.45e sanitized deployment record template artifact Git baseline 已完成：commit `8bd7616`，tag `phase-2.45e-deployment-record-template-baseline`。
-10. Mac mini 已到货，但不等于 deployment executed 或 production rollout ready。
-11. 真实 deployment record JSON / Markdown 默认必须 local ignored；提交到 Git 的只能是 sanitized template / README / ignore 策略。
+1. Phase 2.47b Local Ignored Pilot Run Record Template Artifact 已完成，等待 Codex B review。
+2. 新增 `docs/INTERNAL_MVP_PILOT_RUN_RECORD_TEMPLATE.md` 与 `reports/internal_mvp_runs/` ignore / README 策略。
+3. Phase 2.47 planning、2.47a checklist、2.47b run record template 已形成可复用 docs artifact 包；建议 Codex B review 后合并 baseline。
+4. 当前落地判断：内部受控 MVP 可以开始；production rollout / 客户交付 / 自动审标 / 自动投标 / 自动经营决策仍禁止。
+5. Phase 2.47b 不运行 smoke，不启动服务，不生成真实 run record，不写 DB / facts / document_versions / OpenSearch / Qdrant，不执行 repair / backfill / reindex。
+6. 下一步候选：合并 Phase 2.47 / 2.47a / 2.47b docs baseline，或用户直接使用 checklist + run record template 开始 Day-0 / Day-1。
+7. Phase 2.47a checklist artifact 已完成并通过 Codex B review。
+8. Phase 2.47 Internal Controlled MVP Operating Loop Planning 已完成并通过 Codex B review。
+9. Phase 2.46d Mac mini local MVP smoke result baseline 已完成：commit `255c2e97fa6d644c2d83655e7ac919c8401f54f2`，tag `phase-2.46d-mac-mini-local-mvp-smoke-result-baseline`。
+10. Codex C smoke 结果：`Go`，P0=0，P1=0，P2=2；仅支持 internal controlled MVP continuation。
+11. Phase 2.46c prompt artifact baseline 已完成：commit `595c51d`，tag `phase-2.46c-codex-c-mac-mini-smoke-prompt-baseline`。
+12. Phase 2.46b Mac mini evidence attachment planning Git baseline 已完成：commit `01af018`，tag `phase-2.46b-mac-mini-evidence-attachment-plan-baseline`。
+13. Phase 2.46a checklist baseline 已完成：commit `e78c08e`，tag `phase-2.46a-mac-mini-day0-checklist-baseline`。
+14. Phase 2.46 planning baseline 已完成：commit `13e2206`，tag `phase-2.46-mac-mini-day0-setup-plan-baseline`。
+15. Mac mini 已到货且 smoke Go，但不等于 production rollout ready。
 5. Phase 2.45d Mac mini real-machine deployment record docs-only Git baseline 已完成：commit `e12f82a`，tag `phase-2.45d-deployment-record-plan-baseline`。
 6. Phase 2.45c read-only health-check script Git baseline 已完成：commit `fbad94f`，tag `phase-2.45c-health-check-dry-run-baseline`。
 7. Phase 2.45c 新增只读 dry-run runner 与单元测试，默认不访问真实 API / CLI，不执行真实部署。
