@@ -1,5 +1,7 @@
 # DEV_LOG
 
+- [Phase 2.46c] Codex B review 通过 Codex C Mac mini local MVP smoke prompt artifact；已写入 docs-only Git baseline prompt，仍禁止实际发起 Codex C、运行 smoke、启动服务、生成真实 evidence、DB/index 写入和 rollout。
+- [Phase 2.46c] Codex B 已确认 Phase 2.46b baseline 完成，写入下一步 Codex C local MVP smoke prompt artifact 提示词；本阶段仍只做 docs artifact，不运行 smoke、不启动服务、不生成真实 evidence、不写 DB/index 或 rollout。
 - [Phase 2.46b] Codex B review 通过 Mac mini evidence attachment planning artifact；已写入 docs-only Git baseline prompt，仍禁止真实 evidence、health-check runner、API/CLI smoke、DB/index 写入和 rollout。
 - [Phase 2.46b] Codex B 已确认 Phase 2.46a baseline 完成，写入下一步 human-run evidence attachment planning 提示词；本阶段仍只做 docs planning，不生成真实 evidence、不运行 health-check runner、API/CLI smoke、DB/index 写入或 rollout。
 - [Phase 2.46a] Codex B review 通过 Mac mini Day-0 setup checklist artifact；已写入 docs-only Git baseline prompt，仍禁止真实 setup、health-check runner、API/CLI smoke、DB/index 写入和 rollout。
@@ -313,3 +315,5 @@
 - [Phase 2.46a] 完成 Mac mini Day-0 setup checklist artifact：新增 `docs/MAC_MINI_DAY0_SETUP_CHECKLIST.md`，覆盖 operator metadata、物理检查、macOS 初始设置、目录结构、Git checkout、env key-name inventory、NAS / SSD、网络、runtime readiness、evidence placeholders、stop conditions 与 Go / Pause / No-Go sign-off；本轮未运行 runner、API / CLI smoke 或真实 setup，未写 DB / facts / document_versions / OpenSearch / Qdrant。
 - [Phase 2.46a] Git baseline 已完成：commit `e78c08e`，tag `phase-2.46a-mac-mini-day0-checklist-baseline`；下一步转入 Phase 2.46b human-run evidence attachment planning。
 - [Phase 2.46b] 完成 Mac mini evidence attachment planning：新增 `docs/PHASE246B_MAC_MINI_EVIDENCE_ATTACHMENT_PLAN.md`，明确 filled checklist、health-check JSON、env inventory、storage evidence、MVP smoke result、deployment record 的 ignored path、sanitized summary fields、Git policy、review workflow、Go/Pause/No-Go 与 stop conditions；本轮未生成真实 evidence，未运行 runner、API / CLI smoke 或真实 setup，未写 DB / facts / document_versions / OpenSearch / Qdrant。
+- [Phase 2.46b] Git baseline 已完成：commit `01af018`，tag `phase-2.46b-mac-mini-evidence-attachment-plan-baseline`；下一步转入 Phase 2.46c Codex C local MVP smoke prompt artifact。
+- [Phase 2.46c] 完成 Codex C local MVP smoke prompt artifact：新增 `docs/CODEX_C_MAC_MINI_LOCAL_MVP_SMOKE_PROMPT.md`，覆盖 API / CLI pre-flight、四个 alias、核心 smoke query、P0/P1/P2/P3、Go/Pause/No-Go 与 report format；本轮未运行真实 smoke，未启动服务，未生成真实 evidence，未写 DB / facts / document_versions / OpenSearch / Qdrant。

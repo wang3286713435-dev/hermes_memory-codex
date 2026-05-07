@@ -1,5 +1,43 @@
 # Handoff Log
 
+## 2026-05-07 Phase 2.46c
+- goal: Codex B review Phase 2.46c Codex C local MVP smoke prompt artifact，并写入 docs-only Git baseline prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+- validation: `docs/CODEX_C_MAC_MINI_LOCAL_MVP_SMOKE_PROMPT.md` 保持 prompt artifact 边界，覆盖 API/CLI pre-flight、alias、核心 query、P0 stop、Go/Pause/No-Go 与 no-rollout/no-DB/no-repair 规则；Codex B review 通过。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 是遗留无关 dirty，不得 stage / commit；`reports/agent_runs/latest.json` 是 ignored 本地状态文件，不得提交。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.46c docs-only Git baseline，baseline 后停止等待 Codex B review。
+- commit/tag if any: 无。
+
+## 2026-05-07 Phase 2.46c
+- goal: Codex B 检查 Phase 2.46b baseline，并写入 Phase 2.46c Codex C local MVP smoke prompt artifact 提示词。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `git status --short`：确认仅遗留无关 dirty + 本轮 handoff 文档。
+  - `git rev-parse --short origin/main`：确认 origin/main 为 `01af018`。
+  - `git tag --points-at HEAD`：确认 tag `phase-2.46b-mac-mini-evidence-attachment-plan-baseline`。
+- validation: Phase 2.46b baseline 完成；下一步只允许 Codex A 写 Codex C smoke prompt artifact，不运行真实 smoke、不启动服务、不生成真实 evidence、不写 DB / index 或 rollout。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty，不得 stage / commit。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.46c prompt artifact 后停止等待 Codex B review。
+- commit/tag if any: 无。
+
 ## 2026-05-07 Phase 2.46b
 - goal: Codex B review Phase 2.46b evidence attachment planning artifact，并写入 docs-only Git baseline prompt。
 - changed_files:
@@ -3760,4 +3798,26 @@
 - validation: Evidence attachment plan covers filled checklist, health-check JSON, env inventory, storage evidence, MVP smoke result, deployment record, ignored paths, sanitized summary fields, Git policy, review workflow, Go/Pause/No-Go, relationship to Phase 2.45c / 2.45e / 2.46a, and Phase 2.46c candidate.
 - risks: planning only; no real evidence, no runner, no API / CLI smoke, no true setup, no DB / index writes, no repair and no rollout. Inherited unrelated dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope.
 - next: Run docs-only validation, then wait for Codex B review; do not baseline or enter Phase 2.46c.
+- commit/tag if any: none.
+
+## 2026-05-07 16:17 Phase 2.46c
+- goal: Create a Codex C Mac mini local MVP smoke prompt artifact.
+- changed_files:
+  - `docs/CODEX_C_MAC_MINI_LOCAL_MVP_SMOKE_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：确认仅 Phase 2.46c docs / handoff 变更 + 遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: Prompt artifact covers Codex C role, API / CLI pre-flight, alias binding, core query set, P0 / P1 / P2 / P3 findings, Go / Pause / No-Go, report format, and local ignored evidence storage rule.
+- risks: artifact only; no real smoke, no service startup, no health-check runner, no evidence generation, no DB / index writes, no repair and no rollout. Inherited unrelated dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope.
+- next: Run docs-only validation, then wait for Codex B review; do not baseline or run Codex C smoke.
 - commit/tag if any: none.
