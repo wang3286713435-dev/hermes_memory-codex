@@ -3241,3 +3241,66 @@
 - risks: baseline 必须 selective staging，排除 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.44e；继续禁止 DB/index writes、repair、rollout 与 Data Steward 实现。
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.44d docs-only Git baseline。
 - commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
+
+## 2026-05-07 10:40 Phase 2.45
+- goal: Confirm Phase 2.44d baseline and write next docs-only planning prompt for Mac mini MVP server deployment.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - Phase 2.44d baseline checked：HEAD `dcdb7b4`，tag `phase-2.44d-explicit-local-issue-dry-run-plan-baseline`。
+  - `reports/agent_runs/latest.json` indicates baseline / pushed true。
+  - 本轮不运行 API / CLI，不运行 pytest，不执行真实部署。
+- validation: 下一轮收缩为 docs-only planning，目标是规划 Mac mini 内部 MVP 节点部署封装、热更新、NAS / 外接 SSD 边界、health check 与 smoke checklist；本轮不写代码、不新增部署脚本、不进入 production rollout / Data Steward。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍为遗留无关 dirty，不得触碰；Phase 2.45 完成后需 Codex B review，不自动 baseline。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45 planning。
+- commit/tag if any: 无；本轮只是 next prompt handoff，不提交 Git。
+
+## 2026-05-07 10:58 Phase 2.45
+- goal: Codex B review Phase 2.45 Mac mini MVP server deployment planning and write docs-only Git baseline prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：确认 Phase 2.45 文档 / handoff 变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: Codex B review 通过。Phase 2.45 planning 明确 internal controlled MVP server，不是 production rollout；Mac mini / NAS / external SSD 边界、热更新、health smoke、backup / rollback 与 stop conditions 清楚。
+- risks: baseline 必须 selective staging，排除 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.45a；继续禁止真实部署、deployment script、DB/index writes、repair、rollout 与 Data Steward 实现。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45 docs-only Git baseline。
+- commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
+
+## 2026-05-07 10:48 Phase 2.45
+- goal: Plan Mac mini internal MVP server deployment topology, update flow, storage boundaries, checks, and rollback.
+- changed_files:
+  - `docs/PHASE245_MAC_MINI_MVP_SERVER_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：通过；显示 Phase 2.45 文档变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: docs-only planning covers Mac mini hardware/network, service topology, directory strategy, NAS / external SSD boundaries, `.env` / secrets checklist, hot-update flow, health / MVP smoke, backup / rollback, stop conditions, and later Phase 2.45a / 2.45b / 2.45c candidates.
+- risks: Mac mini MVP node must not be interpreted as production rollout; NAS unavailable / wrong `.env` host / wrong Qdrant collection remain future deployment risks; inherited dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope.
+- next: Codex B review Phase 2.45 planning. Do not baseline or enter Phase 2.45a until reviewed.
+- commit/tag if any: 无；本轮不提交 Git。

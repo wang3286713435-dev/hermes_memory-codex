@@ -1,7 +1,7 @@
 # Active Phase
 
-- 当前 phase：Phase 2.44d Explicit Local Issue Dry-run Route Planning Baseline Prompt
-- 本轮目标：Codex B review Phase 2.44d planning，并写入 docs-only Git baseline 交接提示词。
+- 当前 phase：Phase 2.45 Mac mini MVP Server Deployment Planning Baseline Prompt
+- 本轮目标：Codex B review Phase 2.45 planning，并写入 docs-only Git baseline 交接提示词。
 - 修改文件：
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `docs/ACTIVE_PHASE.md`
@@ -12,30 +12,33 @@
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - Codex B review 结论：
-  - Phase 2.44d planning 边界正确。
-  - explicit local input 前置条件、local-only 字段、recorder workflow、validation commands、review gate、Git/storage policy 与 stop conditions 足够清楚。
-  - 可进入 Phase 2.44d docs-only Git baseline。
-  - 不进入 Phase 2.44e，不生成真实 issue records / Pilot report。
+  - Phase 2.45 planning 边界正确。
+  - Mac mini / NAS / 外接 SSD 职责边界清楚。
+  - 开发机 -> Git -> Mac mini 热更新流程保守且可回滚。
+  - `.env` / secrets 只写 checklist，未写真实 secret。
+  - health / MVP smoke 覆盖 alias、citation、Missing Evidence、facts_as_answer=false、transcript_as_fact=false。
+  - 可进入 Phase 2.45 docs-only Git baseline。
+  - 不进入 Phase 2.45a，不新增 deployment script，不执行真实部署。
 - 测试结果：
   - `git diff --check`：通过。
   - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
   - `git check-ignore -v reports/agent_runs/latest.json`：通过。
-  - `git status --short`：确认 Phase 2.44d 文档 / handoff 变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+  - `git status --short`：确认 Phase 2.45 文档 / handoff 变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
 - live smoke 结果：
   - 本轮不运行 API / CLI smoke。
-  - 本轮不生成真实 Pilot report 或真实 issue records。
+  - 本轮不执行真实 Mac mini 部署。
+  - 本轮不新增 deployment script。
   - 未写 DB / facts / document_versions / OpenSearch / Qdrant。
 - 当前结论：
-  - Phase 2.44d Codex B review 已通过。
-  - 下一轮由 Codex A 只做 Phase 2.44d docs-only Git baseline。
+  - Phase 2.45 Codex B review 已通过。
+  - 下一轮由 Codex A 只做 Phase 2.45 docs-only Git baseline。
 - 阻塞点 / 风险点：
   - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 是遗留无关 dirty，不得 stage / commit。
-  - 真实 issue records 与 raw output bundle 必须保持 ignored local artifact。
-  - `continue_with_manual_review` 不是 rollout approval。
-  - Day-1 P1/P2 尾项仍未修复，只进入记录 / 分诊规划。
-  - 继续禁止 production rollout、repair、Data Steward 实现、DB / facts / document_versions / OpenSearch / Qdrant 写入。
-- 是否建议 baseline：是；仅 Phase 2.44d docs-only baseline。
-- 是否建议进入下一阶段：否；baseline 完成后停止，等待用户决定是否进入 Phase 2.44e。
+  - Mac mini deployment planning 仍不是 production rollout。
+  - 真实 Mac mini 部署必须后续单独授权。
+  - Data Steward / BIM 继续后置，不进入 Phase 2.45。
+- 是否建议 baseline：是；仅 Phase 2.45 docs-only baseline。
+- 是否建议进入下一阶段：否；baseline 完成后停止，等待用户决定是否进入 Phase 2.45a。
 - 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 selective staging / commit / tag / push。
 - 是否需要 Codex B 审核：否，本轮已完成审核；baseline 后再做状态确认即可。
 - 是否需要 Codex C 真实终端验收：否。
