@@ -10,28 +10,43 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.50a Internal MVP Daily Review Loop Fake Run Record Smoke
+### Current Item：Phase 2.51 Mac Mini Internal MVP Operator / Hot Update Runbook Baseline
 
-- lane：Green Lane
-- 状态：implemented_ready_for_codex_b_review
-- 目标：用临时 fake run record 验证 Phase 2.50 runbook 能串起 fake record、Phase 2.49 review bridge、review report、显式 output-dir 与 decision mapping。
+- lane：Yellow Lane
+- 状态：baseline_authorized
+- 目标：提交 Phase 2.51 Mac Mini operator / hot update runbook 与 review-fix 后的交接文档。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 新增 `docs/PHASE250A_INTERNAL_MVP_RUNBOOK_SMOKE_RESULT.md`。
-  - 使用 `mktemp` 临时 fake run records。
-  - 运行 Phase 2.49 runner 与目标 pytest。
-  - 更新 Phase 2.50a 交接文档与 ignored latest 状态。
+  - 修改 `docs/PHASE251_MAC_MINI_INTERNAL_MVP_OPERATOR_RUNBOOK.md` 中的 run record 写入 / review 命令说明。
+  - 明确 canonical run record 是 `reports/internal_mvp_runs/<YYYYMMDD>_<session>.json`。
+  - 明确 Markdown 只作为 optional human notes，不得作为 `--input-run-record`。
+  - 更新 Phase 2.51 交接文档与 ignored latest 状态。
+  - 运行 docs / JSON / ignore 轻量检查。
 - 禁止动作：
+  - 不执行真实 Mac Mini 部署。
+  - 不拉取远端，不切换 tag，不启动 / 停止服务。
   - 不读取真实 internal MVP run records。
-  - 不使用 `reports/internal_mvp_runs/` 作为 smoke 输入 / 输出。
   - 不运行 API / CLI smoke。
-  - 不启动 / 停止服务。
   - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
   - 不进入 rollout、repair 或 Data Steward 实现。
   - 不 stage / commit / tag / push。
-- 完成后：等待 Codex B review；通过后只允许进入 Phase 2.50a docs-only Git baseline。
-- baseline 规则：Yellow Lane，默认夜间不可自动执行；需要 Codex B 明确授权。
-- 前置状态：Phase 2.50 Git baseline 已完成，commit `569cb3a4b2bd6460d805f80353589ce0866876a6`，tag `phase-2.50-internal-mvp-daily-review-loop-baseline`。
+- 完成后：停止，不自动进入 Phase 2.51a / 2.51b / 2.50b。
+- baseline 规则：Codex B 已授权本次 docs-only baseline；后续 baseline 仍需单独授权。
+- 前置状态：Phase 2.50a Git baseline 已完成，commit `232acf36d563e8f18e3b55ff5981a7ed3c39d766`，tag `phase-2.50a-internal-mvp-runbook-smoke-baseline`。
+
+### Next Candidate：Phase 2.51 post-baseline route planning
+
+- lane：Green Lane
+- 状态：pending
+- 目标：评审是否进入 Phase 2.51a fake deployment record dry-run smoke、Phase 2.51b minimal command sheet，或 Phase 2.50b evidence pack planning。
+- 禁止动作：
+  - 不执行真实 Mac Mini deployment。
+  - 不启动 / 停止服务。
+  - 不运行 API / CLI smoke。
+  - 不读取真实 reports / run records。
+  - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+  - 不执行 repair / backfill / reindex / cleanup / delete。
+  - 不进入 production rollout 或 Data Steward。
 
 ### Item 1：Phase 2.46 Mac mini Day-0 Real-machine Setup Planning
 

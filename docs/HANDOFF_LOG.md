@@ -4100,9 +4100,9 @@
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
 - tests:
-  - `git diff --check`: pending.
-  - `reports/agent_runs/latest.json` JSON check: pending.
-  - ignored path checks for agent run and internal MVP run records: pending.
+  - `git diff --check`: passed.
+  - `reports/agent_runs/latest.json` JSON check: passed.
+  - ignored path checks for agent run and internal MVP run records: passed.
 - validation: Baseline is limited to docs / handoff files; no real run record, API / CLI smoke, DB / index write, repair, rollout, or Data Steward implementation.
 - risks: out-of-scope dirty must remain excluded.
 - next: Commit/tag/push Phase 2.50 docs-only baseline, then update ignored latest state.
@@ -4129,3 +4129,65 @@
 - risks: Awaiting Codex B review; no real run record was read; no API / CLI smoke; no DB / index writes.
 - next: Run final light checks, then Codex B review; no baseline until explicitly authorized.
 - commit/tag if any: none.
+
+## 2026-05-08 01:09 Phase 2.51
+- goal: Create Mac Mini internal MVP operator / hot update runbook artifact.
+- changed_files:
+  - `docs/PHASE251_MAC_MINI_INTERNAL_MVP_OPERATOR_RUNBOOK.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: pending.
+  - `reports/agent_runs/latest.json` JSON check: pending.
+  - ignored path checks for agent run and internal MVP run records: pending.
+- validation: Runbook is docs-only and defines Mac Mini operator checks, reviewed-ref hot update, rollback, records, stop conditions, and strict no-rollout / no-repair boundaries.
+- risks: Awaiting Codex B review; no real deployment, API / CLI smoke, remote pull, tag checkout, DB / index writes, or real run record reads.
+- next: Run light checks, then Codex B review; no baseline until explicitly authorized.
+- commit/tag if any: none.
+
+## 2026-05-08 01:38 Phase 2.51 review-fix
+- goal: Fix Mac Mini operator runbook mismatch between Markdown run record example and Phase 2.49 JSON review input.
+- changed_files:
+  - `docs/PHASE251_MAC_MINI_INTERNAL_MVP_OPERATOR_RUNBOOK.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`: passed.
+  - ignored path checks for agent run, internal MVP run records, and deployment records: passed.
+- validation: Runbook now states the canonical Phase 2.49 bridge input is `reports/internal_mvp_runs/<YYYYMMDD>_<session>.json`; Markdown notes are optional human notes only and cannot be used as `--input-run-record`.
+- risks: Awaiting Codex B review; out-of-scope dirty remains excluded; no real deployment, run record read, API / CLI smoke, DB / index write, repair, or rollout occurred.
+- next: Codex B review Phase 2.51 review-fix; if accepted, write docs-only baseline prompt.
+- commit/tag if any: none.
+
+## 2026-05-08 01:51 Phase 2.51 baseline
+- goal: Execute docs-only Git baseline for Phase 2.51 Mac Mini internal MVP operator / hot update runbook.
+- changed_files:
+  - `docs/PHASE251_MAC_MINI_INTERNAL_MVP_OPERATOR_RUNBOOK.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+- tests:
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`: passed.
+  - ignored path checks for agent run, internal MVP run records, and deployment records: passed.
+- validation: Baseline is limited to docs / handoff files; no real Mac Mini deployment, service start/stop, API / CLI smoke, real run record read, DB / index write, repair, rollout, or Data Steward implementation.
+- risks: out-of-scope dirty remains excluded; Phase 2.51 is an operator runbook, not deployment evidence.
+- next: After baseline, plan whether to do Phase 2.51a fake deployment record dry-run smoke, Phase 2.51b minimal command sheet, or Phase 2.50b evidence pack planning.
+- commit/tag if any: pending.

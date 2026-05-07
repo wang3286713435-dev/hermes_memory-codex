@@ -2,12 +2,13 @@
 
 ## 当前优先级
 
-1. Phase 2.50a Internal MVP Daily Review Loop Fake Run Record Smoke 已完成，等待 Codex B review。
-2. Phase 2.50 Git baseline 已完成：commit `569cb3a4b2bd6460d805f80353589ce0866876a6`，tag `phase-2.50-internal-mvp-daily-review-loop-baseline`。
-3. Phase 2.50a 使用临时 fake run records 验证 `phase249_internal_mvp_run_record_review.py --input-run-record --review-report --output-dir` 链路；未读取真实 `reports/internal_mvp_runs/`。
-4. fake smoke 结果：未复核 visible Missing Evidence => `pause`；显式复核 Missing Evidence => `go`；facts-as-answer + third document contamination => `no_go`。
-5. Phase 2.50a 不运行 API / CLI，不启动服务，不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant，不进入 repair、rollout 或 Data Steward。
-6. 下一步：Codex B review Phase 2.50a smoke result；通过后只做 docs-only baseline，不进入 Phase 2.50b / 2.51。
+1. Phase 2.51 Mac Mini Internal MVP Operator / Hot Update Runbook Git baseline 已授权执行。
+2. Phase 2.50a Git baseline 已完成：commit `232acf36d563e8f18e3b55ff5981a7ed3c39d766`，tag `phase-2.50a-internal-mvp-runbook-smoke-baseline`。
+3. Phase 2.51 明确 Mac Mini 是内部受控 MVP 运行机，不是 production rollout / 客户交付 / 自动审标 / 自动经营决策环境。
+4. Phase 2.51 只提供 operator / hot update runbook artifact，不执行真实部署、不拉远端、不切 tag、不启动服务、不运行 API / CLI、不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+5. Phase 2.51 要求 Mac Mini 只拉取已 baseline commit / tag，拉取前记录当前 ref，拉取后做只读 health / smoke，失败时回滚上一 known-good tag。
+6. Phase 2.51 review-fix 已统一 run record 口径：canonical run record 是 `reports/internal_mvp_runs/<YYYYMMDD>_<session>.json`；Markdown 只能作为 optional human notes，不得作为 Phase 2.49 bridge 的 `--input-run-record`。
+7. baseline 后下一步只做路线规划：评审 Phase 2.51a fake deployment record dry-run smoke、Phase 2.51b minimal command sheet 或 Phase 2.50b evidence pack planning；不得自动进入 repair、rollout、Data Steward 或真实 Mac Mini deployment。
 6. Phase 2.48b Meeting Transcript Boundary Trace Display Polish 已完成并通过 Codex B review。
 2. Hermes 主仓 meeting transcript context 现在稳定显示：
    - `meeting_transcript_used=true`

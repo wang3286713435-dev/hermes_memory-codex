@@ -1,131 +1,87 @@
 # NEXT_CODEX_A_PROMPT
 
-这是 Codex A 的下一轮文件化执行入口。Codex B 已完成 Phase 2.50a fake run record smoke review，结论：通过；现在授权执行 docs-only Git baseline。
+这是 Codex A 的下一轮文件化执行入口。
+
+Phase 2.51 Mac Mini Internal MVP Operator / Hot Update Runbook baseline 已完成后，下一轮只允许做路线规划，不允许直接进入实现、真实 Mac Mini deployment、repair、rollout 或 Data Steward。
 
 ## 本轮目标
 
-Phase 2.50a Internal MVP Daily Review Loop Fake Run Record Smoke Git baseline。
+Phase 2.51 post-baseline route planning。
 
-只提交 Phase 2.50a fake smoke 结果文档和交接状态文档。不要进入 Phase 2.50b、Phase 2.51、真实 MVP Pilot、repair、rollout 或 Data Steward 实现。
+评审下一步是否进入以下候选之一：
 
-## Codex B Review 结论
+1. Phase 2.51a fake deployment record dry-run smoke。
+2. Phase 2.51b minimal operator command sheet。
+3. Phase 2.50b evidence pack planning。
 
-通过。
+## 背景
 
-已确认：
+Phase 2.51 runbook 已固化：
 
-1. `docs/PHASE250A_INTERNAL_MVP_RUNBOOK_SMOKE_RESULT.md` 明确 fake smoke 使用 `mktemp` 临时目录。
-2. 没有读取真实 internal MVP run records。
-3. sanitized JSON / Markdown 只写入显式临时 output-dir。
-4. 未复核 visible Missing Evidence => `pause`，这是正确保守行为。
-5. 显式复核 Missing Evidence => `go`。
-6. `facts_as_answer=true` + third document contamination => `no_go`。
-7. safety flags 保持：`dry_run=true`、`production_rollout=false`、`repair_authorized=false`、`destructive_actions=[]`、`data_mutation=false`。
-8. 未运行 API / CLI，未启动服务，未写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-9. 未进入 rollout、repair、Data Steward、Phase 2.50b 或 Phase 2.51。
+1. Mac Mini 是 internal controlled MVP 运行机，不是 production rollout / 客户交付 / 自动审标 / 自动经营决策环境。
+2. Mac Mini operator 只能拉取 reviewed baseline commit / tag。
+3. hot update 前必须记录 current ref，失败时回滚 previous known-good tag。
+4. canonical run record 是 `reports/internal_mvp_runs/<YYYYMMDD>_<session>.json`。
+5. Markdown notes 只能作为 optional human notes，不得作为 Phase 2.49 bridge 的 `--input-run-record`。
 
-Codex B 复核验证：
+## 规划候选
 
-```bash
-uv run python -m py_compile scripts/phase249_internal_mvp_run_record_review.py
-uv run pytest tests/test_phase249_internal_mvp_run_record_review.py tests/test_phase242a_mvp_pilot_review_dry_run.py -q
-git diff --check
-uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json
-git check-ignore -v reports/agent_runs/latest.json reports/internal_mvp_runs/example.json reports/internal_mvp_runs/example.md reports/internal_mvp_runs/latest.json
-```
+### A. Phase 2.51a fake deployment record dry-run smoke
 
-结果：`20 passed`，其余检查通过。
+目标：用 fake deployment / hot update record 验证 runbook 记录、review bridge 与 ignored report 策略是否顺畅。
 
-## Baseline 白名单
+边界：
 
-只允许 stage / commit 以下文件：
+- 只用 fake / temp 数据。
+- 不读取真实 Mac Mini reports。
+- 不执行真实 deployment。
+- 不写 DB / OpenSearch / Qdrant。
 
-1. `docs/PHASE250A_INTERNAL_MVP_RUNBOOK_SMOKE_RESULT.md`
-2. `docs/ACTIVE_PHASE.md`
-3. `docs/PHASE_BACKLOG.md`
-4. `docs/HANDOFF_LOG.md`
-5. `docs/NIGHTLY_SPRINT_QUEUE.md`
-6. `docs/NEXT_CODEX_A_PROMPT.md`
-7. `docs/TODO.md`
-8. `docs/DEV_LOG.md`
+### B. Phase 2.51b minimal operator command sheet
 
-不要 stage `reports/agent_runs/latest.json`。
+目标：把 runbook 中的命令提炼成一页可执行 command sheet，降低 operator 操作成本。
 
-## 必须排除
+边界：
 
-以下文件属于 out-of-scope dirty 或本地状态，必须保持排除：
+- docs-only。
+- 不新增 deployment script。
+- 不创建 cron / scheduler。
+- 不执行真实命令。
 
-1. `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
-2. `docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md`
-3. `docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`
-4. `reports/agent_runs/latest.json`（ignored）
-5. 任何 `reports/internal_mvp_runs/**/*.json`
-6. 任何 `reports/internal_mvp_runs/**/*.md`
-7. 任何 `reports/internal_mvp_runs/latest.*`
+### C. Phase 2.50b evidence pack planning
 
-## 必跑验证
+目标：规划 internal MVP daily review evidence pack 的目录、命名、人工复核字段与 Go / Pause / No-Go 证据挂接方式。
 
-```bash
-cd /Users/Weishengsu/Hermes_memory
-uv run python -m py_compile scripts/phase249_internal_mvp_run_record_review.py
-uv run pytest tests/test_phase249_internal_mvp_run_record_review.py tests/test_phase242a_mvp_pilot_review_dry_run.py -q
-git diff --check
-uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json
-git check-ignore -v reports/agent_runs/latest.json
-git check-ignore -v reports/internal_mvp_runs/example.json
-git check-ignore -v reports/internal_mvp_runs/example.md
-git check-ignore -v reports/internal_mvp_runs/latest.json
-```
+边界：
 
-不要运行 API / CLI smoke。
-不要启动 / 停止服务。
-不要读取真实 internal MVP run records。
-不要写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-
-## Git baseline
-
-1. 只 stage 白名单 8 个文件。
-2. commit message：`docs: add phase 2.50a internal mvp runbook smoke result`
-3. tag：`phase-2.50a-internal-mvp-runbook-smoke-baseline`
-4. push `origin/main`。
-5. push tag 到 `origin`。
-
-## Baseline 后更新 ignored 状态
-
-更新 `reports/agent_runs/latest.json`：
-
-1. `phase=Phase 2.50a Internal MVP Daily Review Loop Fake Run Record Smoke Baseline`
-2. `status=baseline`
-3. 记录 commit hash、tag、push result。
-4. 记录验证结果：`20 passed`。
-5. `needs_codex_b_review=false`
-6. `needs_codex_c_validation=false`
-
-`latest.json` 必须保持 ignored，不得 stage。
+- planning-only。
+- 不扫描真实 reports。
+- 不上传证据。
+- 不进入 rollout。
 
 ## 硬禁止
 
-1. 不进入 Phase 2.50b。
-2. 不进入 Phase 2.51。
-3. 不新增功能代码、scripts 或 tests。
-4. 不读取真实 reports / run records。
-5. 不默认扫描 `reports/`。
-6. 不运行 API / CLI smoke。
-7. 不启动 / 停止服务。
-8. 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-9. 不执行 repair / backfill / reindex / cleanup / delete。
-10. 不进入 production rollout。
-11. 不进入 Data Steward / BIM 实现。
-12. 不修改 retrieval contract。
-13. 不修改 memory kernel 主架构。
-14. 不 stage / commit out-of-scope dirty。
+1. 不执行真实 Mac Mini deployment。
+2. 不拉取远端或切换 tag。
+3. 不启动 / 停止服务。
+4. 不运行 API / CLI smoke，除非后续单独 prompt 明确授权。
+5. 不读取真实 reports / run records。
+6. 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+7. 不执行 repair / backfill / reindex / cleanup / delete / migration。
+8. 不进入 production rollout。
+9. 不进入 Data Steward / BIM 实现。
+10. 不修改 retrieval contract。
+11. 不修改 memory kernel 主架构。
 
-## 完成后输出
+## 输出要求
 
-1. commit hash。
-2. tag。
-3. push 结果。
-4. 验证结果。
-5. final git status。
-6. out-of-scope dirty 是否仍保留。
-7. 是否建议进入 Phase 2.50b evidence pack 或 Phase 2.51 Mac Mini operator checklist planning。
+只做规划与文档同步，不提交 Git。
+
+返回：
+
+1. 修改文件。
+2. 路线评审结论。
+3. 推荐下一步。
+4. 最小边界。
+5. 非目标。
+6. 是否建议开始实现。
