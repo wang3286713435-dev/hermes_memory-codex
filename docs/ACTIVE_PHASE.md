@@ -1,15 +1,13 @@
 # Active Phase
 
-- 当前 phase：Phase 2.45e Sanitized Deployment Record Template Baseline Prompt
-- 本轮目标：Codex B review Phase 2.45e artifact，并写入 docs-only Git baseline 交接提示词。
+- 当前 phase：Phase 2.46 Mac mini Day-0 Setup Baseline Prompt
+- 本轮目标：Codex B 审核 Phase 2.46 Day-0 planning artifact，并写入 docs-only Git baseline 提示词。
 - 背景：
-  - Phase 2.45d Git baseline 已完成：commit `e12f82a`，tag `phase-2.45d-deployment-record-plan-baseline`。
-  - Phase 2.45d 只规划了 real-machine deployment record / operator sign-off。
-  - 本轮只做 template artifact，不执行真实部署，不运行 runner，不运行 API / CLI。
+  - Phase 2.45e baseline 已完成：commit `8bd7616`，tag `phase-2.45e-deployment-record-template-baseline`。
+  - Mac mini 已到货。
+  - Phase 2.46 只做 planning，不运行 Phase 2.45c runner，不运行 API / CLI smoke，不写 DB / index。
 - 修改文件：
-  - `docs/MAC_MINI_DEPLOYMENT_RECORD_TEMPLATE.md`
-  - `reports/deployment_records/.gitignore`
-  - `reports/deployment_records/README.md`
+  - `docs/PHASE246_MAC_MINI_DAY0_SETUP_PLAN.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/HANDOFF_LOG.md`
@@ -18,20 +16,16 @@
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
-- Codex B review 结论：
-  - 新增 sanitized deployment record Markdown template。
-  - 模板固定声明 `record_type=mac_mini_deployment_record`、`deployment_executed_by_human=true`、`codex_executed_deployment=false`、`production_rollout_approved=false`。
-  - 模板包含 Git baseline、机器 / operator、env key-name checklist、NAS / external SSD、health-check evidence path、MVP smoke path、Go / Pause / No-Go、stop conditions、operator signoff。
-  - 新增 `reports/deployment_records/.gitignore`，默认忽略真实 JSON / Markdown / latest / log。
-  - 新增 `reports/deployment_records/README.md`，说明真实部署记录默认不入 Git，禁止 secrets / tokens / `.env` values / raw sensitive logs。
-  - artifact 边界正确，可进入 docs-only Git baseline。
-  - Mac mini 已到货，baseline 后可切入 Phase 2.46 Day-0 real-machine setup / internal MVP application prep。
+- 完成内容：
+  - 新增 Phase 2.46 Day-0 setup planning artifact。
+  - 明确人工 operator actions：开箱、系统更新、设备命名、目录、Git checkout、env key-name、NAS / SSD、10GbE / hostname / LAN IP、Docker / Python / uv / runtime checklist。
+  - 明确 evidence artifact placeholders：health-check dry-run JSON、deployment record、MVP smoke result、env inventory、storage mount evidence。
+  - 明确 stop conditions：secret 泄露、错误 Git ref、错误 `QDRANT_COLLECTION`、NAS / SSD 不可用、runtime 缺失、unknown dirty、repair / reindex / DB write / rollout 请求。
+  - 明确 Go / Pause / No-Go：Go 仅表示可进入下一步人工 setup checklist / dry-run planning，不是 production rollout。
 - 测试结果：
   - `git diff --check`：通过。
-  - `git check-ignore -v reports/deployment_records/example.json`：通过。
-  - `git check-ignore -v reports/deployment_records/example.md`：通过。
   - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
-  - `git status --short`：仅显示 Phase 2.45e artifact 变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+  - `git status --short`：确认仅 Phase 2.46 planning 文档变更 + 遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
 - live smoke 结果：
   - 未运行真实 API / CLI smoke。
   - 未运行 Hermes CLI chat。
@@ -39,15 +33,15 @@
   - 未访问 Postgres / OpenSearch / Qdrant。
   - 未执行真实 Mac mini 部署。
 - 当前结论：
-  - Phase 2.45e Codex B review 已通过。
-  - 下一轮由 Codex A 只做 Phase 2.45e docs-only Git baseline。
+  - Phase 2.46 planning artifact 已通过 Codex B review。
+  - `docs/NEXT_CODEX_A_PROMPT.md` 已切换为 Phase 2.46 docs-only Git baseline 任务。
+  - 本轮仍不执行真实 setup，不进入 Phase 2.46a。
 - 阻塞点 / 风险点：
   - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 是遗留无关 dirty，不得 stage / commit。
-  - template artifact 不等于真实 deployment record 或部署证明。
-  - 真实 deployment record JSON / Markdown 已设置未来 ignored，但本轮未生成真实记录。
-  - Data Steward / BIM 继续后置，不进入 Phase 2.45e。
-- 是否建议 baseline：是；仅 Phase 2.45e docs-only Git baseline。
-- 是否建议进入下一阶段：否；baseline 后停止，等待 Codex B 写入 Phase 2.46 Day-0 实机准备 prompt。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 selective staging / commit / tag / push。
-- 是否需要 Codex B 审核：否，本轮已完成审核；baseline 后再做状态确认即可。
-- 是否需要 Codex C 真实终端验收：否；Phase 2.45e 是 docs/artifact。
+  - Mac mini 到货不等于 deployment executed 或 production rollout ready。
+  - 真实 setup / smoke / deployment record 必须后续单独授权。
+- 是否建议 baseline：是；只允许 Codex A 按白名单做 Phase 2.46 docs-only Git baseline。
+- 是否建议进入下一阶段：否；不自动进入 Phase 2.46a。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.46 docs-only Git baseline 后停止。
+- 是否需要 Codex B 审核：当前 review 已通过；baseline 后仍需下一轮 Codex B 检查 commit / tag / push。
+- 是否需要 Codex C 真实终端验收：否；Phase 2.46 是 docs-only planning。

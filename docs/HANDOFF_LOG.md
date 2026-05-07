@@ -1,5 +1,24 @@
 # Handoff Log
 
+## 2026-05-07 Phase 2.46
+- goal: Codex B review Phase 2.46 Mac mini Day-0 setup planning，并写入 docs-only Git baseline prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+- validation: Phase 2.46 planning artifact 保持 planning-only，明确禁止真实部署、health-check runner、API / CLI smoke、DB / index write、repair / reindex / rollout；Codex B review 通过。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 是遗留无关 dirty，不得 stage / commit；`reports/agent_runs/latest.json` 是 ignored 本地状态文件，不得提交。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.46 docs-only Git baseline，baseline 后停止等待 Codex B review。
+- commit/tag if any: 无。
+
 ## 2026-04-27 01:32 Phase 2.27b
 - goal: 启用 Codex A 文件化交接协议，补齐 ACTIVE_PHASE、PHASE_BACKLOG、HANDOFF_LOG 与 latest.json。
 - changed_files:
@@ -3579,4 +3598,46 @@
 - validation: Template includes fixed boundary fields, Git baselines, machine/operator metadata, env key-name checklist, storage/mounts, optional evidence paths, stop conditions, Go/Pause/No-Go, operator signoff, and not-production-rollout statement.
 - risks: inherited unrelated dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope; template must not be treated as executed deployment proof.
 - next: Run artifact validation, then request Codex B review; do not baseline or enter Phase 2.45f.
+- commit/tag if any: none.
+
+## 2026-05-07 15:12 Phase 2.46
+- goal: Confirm Phase 2.45e baseline and write next planning prompt for Mac mini Day-0 real-machine setup / internal MVP application prep.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - Phase 2.45e baseline checked：HEAD `8bd7616`，tag `phase-2.45e-deployment-record-template-baseline`。
+  - remote main / tag 与本地 HEAD 对齐。
+  - `reports/agent_runs/latest.json` indicates baseline / pushed true。
+  - 本轮不运行 API / CLI，不运行 pytest，不运行 Phase 2.45c runner，不执行真实部署。
+- validation: 下一轮收缩为 Day-0 setup planning；目标是为 Mac mini 到货后的人工实机准备列出 operator actions、evidence artifacts、stop conditions 与 Go/Pause/No-Go。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍为遗留无关 dirty，不得触碰；Phase 2.46 完成后需 Codex B review，不自动 baseline；Mac mini 到货不等于 production rollout ready。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.46 planning。
+- commit/tag if any: 无；本轮只是 next prompt handoff，不提交 Git。
+
+## 2026-05-07 15:09 Phase 2.46
+- goal: Create Mac mini Day-0 real-machine setup / internal MVP application prep planning artifact.
+- changed_files:
+  - `docs/PHASE246_MAC_MINI_DAY0_SETUP_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git status --short`：确认仅 Phase 2.46 planning 文档变更 + 遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: Day-0 plan covers human operator setup, directory / Git / env key-name / NAS / SSD / network / runtime checklists, evidence artifact placeholders, stop conditions and Go / Pause / No-Go.
+- risks: planning only; no runner, API / CLI smoke, true deployment, DB / index writes, repair or rollout. Inherited unrelated dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope.
+- next: Wait for Codex B review; do not baseline or enter Phase 2.46a.
 - commit/tag if any: none.
