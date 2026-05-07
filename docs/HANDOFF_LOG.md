@@ -3430,3 +3430,53 @@
 - risks: baseline 必须 selective staging，排除 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.45c；继续禁止真实部署、health-check script、deployment script、DB/index writes、repair、rollout 与 Data Steward 实现。
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45b docs-only Git baseline。
 - commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
+
+## 2026-05-07 13:40 Phase 2.45c
+- goal: Confirm Phase 2.45b baseline and write next prompt for read-only health-check dry-run runner implementation.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - Phase 2.45b baseline checked：HEAD `d70497c`，tag `phase-2.45b-health-check-dry-run-plan-baseline`。
+  - `reports/agent_runs/latest.json` indicates baseline / pushed true。
+  - 本轮不运行 API / CLI，不运行 pytest，不执行真实部署。
+- validation: 下一轮收缩为 read-only health-check dry-run runner 最小实现；默认不访问真实 API / CLI，不执行真实部署，不写 DB / index，不进入 production rollout / Data Steward。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍为遗留无关 dirty，不得触碰；Phase 2.45c 完成后需 Codex B review，不自动 baseline。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45c implementation。
+- commit/tag if any: 无；本轮只是 next prompt handoff，不提交 Git。
+## 2026-05-07 13:56 Phase 2.45c
+- goal: Implement read-only health-check dry-run runner and tests; no real API / CLI smoke, no deployment, no DB/index writes.
+- changed_files: `scripts/phase245c_health_check_dry_run.py`, `tests/test_phase245c_health_check_dry_run.py`, `docs/PHASE245B_HEALTH_CHECK_DRY_RUN_PLAN.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/NIGHTLY_SPRINT_QUEUE.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `reports/agent_runs/latest.json`.
+- tests: py_compile passed; `tests/test_phase245c_health_check_dry_run.py` `9 passed`; default `--json` dry-run and json.tool passed; `git diff --check` passed.
+- validation: default dry-run returned `warn` with `2 passed / 1 warning / 0 failures`; warning is expected `git_dirty` due current phase dirty plus inherited unrelated dirty. Runner defaults to read-only checks only; `--check-url` is explicit HEAD / GET reachability only; no API / CLI smoke run.
+- risks: inherited unrelated dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope; default dry-run may return warn when worktree is dirty.
+- next: Run target validation, then request Codex B review; do not baseline or enter Phase 2.45d.
+- commit/tag if any: none.
+
+## 2026-05-07 14:05 Phase 2.45c
+- goal: Codex B review Phase 2.45c read-only health-check runner implementation and write Git baseline prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `uv run python -m py_compile scripts/phase245c_health_check_dry_run.py`：通过。
+  - `uv run pytest tests/test_phase245c_health_check_dry_run.py -q`：`9 passed`。
+  - `uv run python scripts/phase245c_health_check_dry_run.py --json`：通过，输出合法 JSON，当前 worktree dirty 因此 status 为 `warn`。
+  - `git diff --check`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+- validation: Codex B review 通过。Runner 只读，默认不访问真实 API / CLI / DB / OpenSearch / Qdrant；显式 URL 检查仅 HEAD / GET reachability，不发送 body / token，不 restart。
+- risks: baseline 必须 selective staging，排除 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.45d；继续禁止真实部署、DB/index writes、repair、rollout 与 Data Steward 实现。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45c Git baseline。
+- commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。

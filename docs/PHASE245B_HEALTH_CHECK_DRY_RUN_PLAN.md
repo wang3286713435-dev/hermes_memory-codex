@@ -219,6 +219,27 @@ Possible next step if Codex B review passes:
 
 ### Phase 2.45d: Mac mini Real-machine Deployment Record
 
+## 9. Phase 2.45c Implementation Note
+
+Phase 2.45c implements the first bounded version of the read-only health-check dry-run runner.
+
+Implemented scope:
+
+1. `scripts/phase245c_health_check_dry_run.py` emits JSON summary output.
+2. The runner keeps `dry_run=true`, `writes_db=false`, `repairs=false`, and `rollout_approved=false`.
+3. Default checks are limited to Git state, optional env-file key-name checks, optional mount path checks, ignored runtime path checks, and explicitly requested URL reachability checks.
+4. `.env` values are parsed only for key-name and `QDRANT_COLLECTION` comparison; secret values are never printed.
+5. `--check-url` is opt-in and limited to short-timeout HEAD / GET reachability with no body and no token.
+6. Default execution does not call Hermes_memory API, Hermes CLI, Postgres, OpenSearch, Qdrant, or MVP smoke prompts.
+
+Still out of scope:
+
+1. real Mac mini deployment.
+2. real API / CLI smoke.
+3. service restart, migration, repair, backfill, reindex, cleanup, or delete.
+4. DB / facts / document_versions / audit_logs / OpenSearch / Qdrant writes.
+5. production rollout or Data Steward / BIM implementation.
+
 Only after user explicitly authorizes real Mac mini setup:
 
 1. record operator-filled deployment checklist.

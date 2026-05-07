@@ -1,7 +1,7 @@
 # Active Phase
 
-- 当前 phase：Phase 2.45b Health-check / Deploy-smoke Dry-run Planning Baseline Prompt
-- 本轮目标：Codex B review Phase 2.45b planning，并写入 docs-only Git baseline 交接提示词。
+- 当前 phase：Phase 2.45c Read-only Health-check Script Baseline Prompt
+- 本轮目标：Codex B review Phase 2.45c implementation，并写入 Git baseline 交接提示词。
 - 修改文件：
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `docs/ACTIVE_PHASE.md`
@@ -12,31 +12,33 @@
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - Codex B review 结论：
-  - Phase 2.45b planning 边界正确。
-  - `docs/PHASE245B_HEALTH_CHECK_DRY_RUN_PLAN.md` 覆盖只读 health-check / deploy-smoke dry-run 候选检查、MVP smoke candidates、output schema、stop conditions、human-only 与 future bounded script 边界。
-  - Planning 明确不写脚本、不运行 API / CLI、不执行真实部署、不写 DB / index、不进入 production rollout / Data Steward。
-  - 可进入 Phase 2.45b docs-only Git baseline。
-  - 不进入 Phase 2.45c，不新增 health-check script，不执行真实 smoke。
+  - Phase 2.45c implementation 边界正确。
+  - `scripts/phase245c_health_check_dry_run.py` 是只读 dry-run runner，默认不访问真实 API / CLI / DB / OpenSearch / Qdrant。
+  - Runner 固定输出 `dry_run=true`、`writes_db=false`、`repairs=false`、`rollout_approved=false`。
+  - `--check-url` 仅在显式传入时做 HEAD / GET reachability，不发送 body / token，不尝试 restart。
+  - 可进入 Phase 2.45c Git baseline。
+  - 不进入 Phase 2.45d，不执行真实部署或真实 smoke。
 - 测试结果：
+  - `uv run python -m py_compile scripts/phase245c_health_check_dry_run.py`：通过。
+  - `uv run pytest tests/test_phase245c_health_check_dry_run.py -q`：`9 passed`。
+  - `uv run python scripts/phase245c_health_check_dry_run.py --json`：通过，输出合法 JSON，当前 worktree dirty 因此 status 为 `warn`。
   - `git diff --check`：通过。
-  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
   - `git check-ignore -v reports/agent_runs/latest.json`：通过。
-  - `git status --short`：确认 Phase 2.45b 文档 / handoff 变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
 - live smoke 结果：
-  - 本轮不运行 API / CLI smoke。
+  - 本轮不运行真实 API / CLI smoke。
+  - 本轮不运行 Hermes CLI chat。
+  - 本轮不访问 Postgres / OpenSearch / Qdrant。
   - 本轮不执行真实 Mac mini 部署。
-  - 本轮不新增 health-check script 或 deployment script。
-  - 未写 DB / facts / document_versions / OpenSearch / Qdrant。
 - 当前结论：
-  - Phase 2.45b Codex B review 已通过。
-  - 下一轮由 Codex A 只做 Phase 2.45b docs-only Git baseline。
+  - Phase 2.45c Codex B review 已通过。
+  - 下一轮由 Codex A 只做 Phase 2.45c Git baseline。
 - 阻塞点 / 风险点：
   - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 是遗留无关 dirty，不得 stage / commit。
-  - Health-check dry-run planning 仍不是 smoke 通过证明。
-  - 真实 Mac mini health-check script / deploy-smoke 必须后续单独授权。
-  - Data Steward / BIM 继续后置，不进入 Phase 2.45b。
-- 是否建议 baseline：是；仅 Phase 2.45b docs-only baseline。
-- 是否建议进入下一阶段：否；baseline 完成后停止，等待用户决定是否进入 Phase 2.45c。
+  - default dry-run 在 dirty worktree 下返回 `warn` 是诊断行为，不是失败。
+  - 真实 Mac mini health-check / deploy-smoke 必须后续单独授权。
+  - Data Steward / BIM 继续后置，不进入 Phase 2.45c。
+- 是否建议 baseline：是；仅 Phase 2.45c Git baseline。
+- 是否建议进入下一阶段：否；baseline 完成后停止，等待用户决定是否进入 Phase 2.45d 或后续 follow-up。
 - 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 selective staging / commit / tag / push。
 - 是否需要 Codex B 审核：否，本轮已完成审核；baseline 后再做状态确认即可。
 - 是否需要 Codex C 真实终端验收：否。

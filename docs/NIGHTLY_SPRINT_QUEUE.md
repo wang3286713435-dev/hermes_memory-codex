@@ -10,46 +10,43 @@
 
 ## Current Queue
 
-### Item 1：Phase 2.45b docs-only health-check dry-run planning baseline
+### Item 1：Phase 2.45c health-check dry-run implementation baseline
 
 - lane：Yellow Lane
 - 状态：codex_b_approved_next_prompt_ready
-- 目标：只提交 Phase 2.45b planning / handoff 文档 baseline；本轮不新增脚本、不运行真实 API / CLI。
+- 目标：只提交 Phase 2.45c 脚本 / 测试 / 文档 baseline；本轮不新增功能、不运行真实 API / CLI。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 只 stage Phase 2.45b 白名单文档。
-  - commit / tag / push Phase 2.45b docs-only baseline。
+  - 复跑 py_compile、目标 pytest、默认 `--json` dry-run、json.tool、git diff check。
+  - 只 stage Phase 2.45c 白名单文件。
+  - commit / tag / push Phase 2.45c baseline。
   - 更新 ignored latest 状态。
-  - 运行 baseline 前检查与 staged diff check。
 - 禁止动作：
   - 不修改 / stage `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
-  - 不修改代码、脚本、测试、migration 或 Hermes 主仓库。
-  - 不修改 Hermes_memory retrieval / indexing / facts / version governance / migration / schema。
+  - 不修改 app / migrations / Hermes 主仓库。
   - 不执行真实 Mac mini 部署。
-  - 不新增 health-check script 或 deployment script。
-  - 不运行 API / CLI smoke。
-  - 不生成 production rollout approval。
-  - 不授权 repair / cleanup / delete / reindex。
+  - 不新增 deployment script。
+  - 不运行真实 API / CLI smoke。
+  - 不自动 restart / migrate / repair / backfill / reindex / cleanup / delete。
   - 不写业务 DB、OpenSearch、Qdrant、facts 或 document_versions。
   - 不启动 Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
   - 不修改 retrieval contract 或 memory kernel 主架构。
   - 不自动发起 Codex C。
-- 完成后：停止等待 Codex B baseline confirmation，不得进入 Phase 2.45c。
-- baseline 规则：允许 Codex A 执行一次 docs-only baseline；完成 commit / tag / push 后必须停止。
+- 完成后：停止等待 Codex B baseline confirmation，不得进入 Phase 2.45d。
+- baseline 规则：允许 Codex A 执行一次 Git baseline；完成 commit / tag / push 后必须停止。
 - 当前结果：等待 Codex A 执行 baseline。
 
-### Item 2：Phase 2.45c read-only health-check script route planning
+### Item 2：Phase 2.45d Mac mini real-machine deployment record planning
 
 - lane：Green Lane
-- 状态：blocked_until_phase_2_45b_baseline
-- 条件：Phase 2.45b baseline 完成并由 Codex B 确认后才允许写下一步 prompt。
-- 目标：规划是否实现只读 health-check script；默认不写代码。
+- 状态：blocked_until_phase_2_45c_baseline_and_user_authorization
+- 条件：Phase 2.45c baseline 完成，且用户明确授权后才允许写下一步 prompt。
+- 目标：规划 Mac mini real-machine deployment record；默认不执行部署。
 - 禁止动作：
-  - 不直接实现脚本，除非下一轮 prompt 明确授权。
-  - 不新增 health-check script。
+  - 不进入 Phase 2.45d。
   - 不执行真实部署。
   - 不新增 deployment script。
-  - 不运行 API / CLI smoke。
+  - 不运行真实 API / CLI smoke，除非后续 prompt 明确授权。
   - 不写 DB / facts / document_versions / OpenSearch / Qdrant。
   - 不执行 repair / backfill / reindex / cleanup / delete。
   - 不进入 rollout / Data Steward。
@@ -57,12 +54,19 @@
 
 ## Archived Queue
 
-### Phase 2.45b Health-check / Deploy-smoke Dry-run Planning
+### Phase 2.45c Read-only Health-check Script Minimal Implementation
 
 - 类型：Green Lane
 - 状态：completed_codex_b_review_passed
-- 结果：planning dirty 已完成，Codex B review 通过，等待 docs-only baseline。
-- 备注：未新增 health-check script、未运行真实 API / CLI、未执行真实部署、未写 DB / facts / document_versions / OpenSearch / Qdrant。
+- 结果：implementation dirty 已完成，Codex B review 通过，等待 Git baseline。
+- 备注：新增只读 runner 与测试；未运行真实 API / CLI smoke，未执行真实部署，未写 DB / facts / document_versions / OpenSearch / Qdrant。
+
+### Phase 2.45b Health-check / Deploy-smoke Dry-run Planning
+
+- 类型：Yellow Lane
+- 状态：completed
+- 结果：commit `d70497c`，tag `phase-2.45b-health-check-dry-run-plan-baseline`。
+- 备注：health-check / deploy-smoke dry-run planning 已 baseline；未新增 health-check script、未运行真实 API / CLI、未执行真实部署、未写 DB / facts / document_versions / OpenSearch / Qdrant。
 
 ### Phase 2.45a Mac mini MVP Deployment Runbook Artifact
 
@@ -112,88 +116,3 @@
 - 状态：completed
 - 结果：Hermes_memory commit `d62852b`；Hermes 主仓库 commit `9e8e5667`；tag `phase-2.43d-main-tender-alias-session-baseline`。
 - 备注：`@主标书` alias/session Day-1 Pause blocker 已解除；Codex C continuation 结果为 Go，P0 为 0。
-
-### Phase 2.43b MVP Pilot Pre-flight Smoke Prompt Artifact
-
-- 类型：Yellow Lane
-- 状态：completed
-- 结果：commit `ef2e43f`，tag `phase-2.43b-mvp-pilot-preflight-smoke-prompt-baseline`。
-- 备注：pre-flight smoke prompt / runbook 已 baseline；Codex C pre-flight 返回 Go，但 Day-1 Pilot 后续触发 `@主标书` alias/session Pause。
-
-### Phase 2.43a MVP Pilot Launch Packet Git Baseline
-
-- 类型：Yellow Lane
-- 状态：completed
-- 结果：commit `5423497`，tag `phase-2.43a-mvp-pilot-launch-packet-baseline`。
-- 备注：只固化 launch packet / operator checklist；未启动真实 Pilot，未生成真实 report，未进入 rollout / repair / Data Steward。
-
-### Phase 2.43 Internal MVP Pilot Launch Candidate Planning
-
-- 类型：Yellow Lane
-- 状态：completed
-- 结果：commit `5141bb5`，tag `phase-2.43-mvp-pilot-launch-candidate-plan-baseline`。
-- 备注：只做 docs-only planning；未启动真实 Pilot，未生成真实 report，未进入 rollout / repair / Data Steward。
-
-### Phase 2.42b MVP Pilot review dry-run input template / runbook
-
-- 类型：Yellow Lane
-- 状态：completed
-- 结果：commit `edd0e08`，tag `phase-2.42b-mvp-pilot-review-dry-run-template-baseline`。
-- 备注：sanitized input template 与 runbook 已 baseline；未生成真实 MVP Pilot report，未进入 rollout / repair。
-
-### Phase 2.37 planning Git baseline
-
-- 类型：Yellow Lane
-- 状态：completed / stale archived
-- 结果：commit `8fd10b7`，tag `phase-2.37-pilot-issue-triage-plan-baseline`。
-- 备注：旧 Current Queue 已归档；不得再作为夜间当前任务。
-
-### Phase 2.36c tender deep-field diagnostics baseline
-
-- 类型：Yellow Lane
-- 状态：completed
-- 结果：Hermes_memory commit `d491a44`，tag `phase-2.36c-tender-deep-field-diagnostics-baseline`。
-- 备注：diagnostics 与 Missing Evidence 语义一致性已收口；deep-field recall 仍 partial。
-
-### Phase 2.35c Git baseline
-
-- 类型：Yellow Lane
-- 状态：completed
-- 结果：Hermes_memory commit `ec77c96`；Hermes 主仓库 commit `ead4e899`；tag `phase-2.35c-alias-session-baseline`。
-- 备注：alias/session 修复已收口；deep-field recall 仍 partial。
-
-### Phase 2.35 main tender deep-field retrieval implementation
-
-- 类型：Yellow Lane
-- 状态：implemented / validated partial
-- 结果：目标测试 `22 passed`；Codex C 复验安全边界通过，但最高投标限价和具体资质等级仍未命中。
-- 备注：不 baseline，进入 Phase 2.35b 小修 / 诊断。
-
-### Phase 2.34 compare false-positive baseline
-
-- 类型：Yellow Lane
-- 状态：completed
-- 结果：Hermes_memory commit `789ed22`；Hermes 主仓库 commit `5de49bf5`；tag `phase-2.34-compare-contamination-baseline`。
-- 备注：已通过 Codex C 复验；未进入 rollout。
-
-### Phase 2.33 MVP Pilot Day-1 run sheet baseline
-
-- 类型：Yellow Lane
-- 状态：completed
-- 结果：commit `bb9656b`，tag `phase-2.33-pilot-day1-run-sheet-baseline`，已推送 `origin/main` 与 tag。
-- 备注：docs-only baseline；未写代码、未进入 rollout。
-
-## Red Lane
-
-夜间禁止：
-
-1. production rollout。
-2. repair executor。
-3. DB mutation。
-4. default real reports / reviews scan。
-5. facts 自动抽取。
-6. facts 替代 retrieval evidence 或 final answer。
-7. migration。
-8. retrieval contract 修改。
-9. memory kernel 主架构修改。
-10. production cron / scheduler。
