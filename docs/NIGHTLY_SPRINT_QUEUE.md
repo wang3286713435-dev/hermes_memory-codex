@@ -153,7 +153,7 @@
 ### Item 8：Phase 2.46c Codex C smoke prompt artifact baseline
 
 - lane：Yellow Lane
-- 状态：ready_for_codex_a_baseline
+- 状态：completed
 - 条件：Codex B review 已通过；Codex A 必须严格按 `docs/NEXT_CODEX_A_PROMPT.md` 白名单执行。
 - 目标：只提交 Phase 2.46c prompt artifact / handoff 文档 baseline。
 - 禁止动作：
@@ -164,6 +164,27 @@
   - 不执行 repair / backfill / reindex / cleanup / delete。
   - 不进入 rollout / Data Steward。
 - baseline 规则：默认夜间不可自动执行；需要 Codex B 明确授权。
+
+### Item 9：Phase 2.46d local MVP smoke result intake baseline
+
+- lane：Yellow Lane
+- 状态：ready_for_codex_a_baseline
+- 条件：Codex C smoke returned Go; Codex B reviewed and provided sanitized result summary.
+- 目标：记录 sanitized Mac mini local MVP smoke result，并做 docs-only Git baseline。
+- 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
+- 允许动作：
+  - 新增 `docs/PHASE246D_MAC_MINI_LOCAL_MVP_SMOKE_RESULT.md`。
+  - 更新 Phase 2.46d 交接文档与 ignored latest 状态。
+  - 运行 docs-only 校验。
+  - 按白名单做 docs-only baseline。
+- 禁止动作：
+  - 不重跑 smoke。
+  - 不启动服务。
+  - 不生成真实 evidence / deployment record / smoke report。
+  - 不写 DB / facts / document_versions / OpenSearch / Qdrant。
+  - 不执行 repair / backfill / reindex / cleanup / delete。
+  - 不进入 rollout / Data Steward。
+- baseline 规则：本轮仅允许提交 sanitized result 文档与交接文件。
 
 ## Archived Queue
 

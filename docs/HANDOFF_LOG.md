@@ -3821,3 +3821,25 @@
 - risks: artifact only; no real smoke, no service startup, no health-check runner, no evidence generation, no DB / index writes, no repair and no rollout. Inherited unrelated dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope.
 - next: Run docs-only validation, then wait for Codex B review; do not baseline or run Codex C smoke.
 - commit/tag if any: none.
+
+## 2026-05-07 17:24 Phase 2.46d
+- goal: Record sanitized Mac mini local MVP smoke result and create docs-only baseline.
+- changed_files:
+  - `docs/PHASE246D_MAC_MINI_LOCAL_MVP_SMOKE_RESULT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：确认仅 Phase 2.46d docs / handoff 变更 + 遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: Sanitized smoke result records Go / P0=0 / P1=0 / P2=2, alias table, Q1-Q5 summary, P2 display tails, and permanent no-rollout / no-repair / no-automatic-decision boundaries.
+- risks: result intake only; no smoke rerun, no service startup, no raw evidence, no DB / index writes, no repair and no rollout. Inherited unrelated dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope.
+- next: Run docs-only validation, commit/tag/push Phase 2.46d baseline, then stop for Codex B review and Phase 2.47 planning.
+- commit/tag if any: none yet.

@@ -2,12 +2,12 @@
 
 ## 当前优先级
 
-1. Phase 2.46c Codex C local MVP smoke prompt artifact 已完成，Codex B review 已通过。
-2. Phase 2.46c 新增 `docs/CODEX_C_MAC_MINI_LOCAL_MVP_SMOKE_PROMPT.md`，用于后续显式授权时交给 Codex C 做本地 MVP smoke。
-3. Phase 2.46c artifact 不等于真实 smoke 执行，不生成真实 evidence，不启动服务，不写 DB / index，不进入 rollout。
-4. 推荐下一步：Codex A 按 `docs/NEXT_CODEX_A_PROMPT.md` 只做 Phase 2.46c docs-only Git baseline；不得自动发起 Codex C。
-5. Phase 2.46b Mac mini evidence attachment planning Git baseline 已完成：commit `01af018`，tag `phase-2.46b-mac-mini-evidence-attachment-plan-baseline`。
-6. Phase 2.46b baseline 已通过 Codex B 检查，origin/main 与 tag 对齐。
+1. Phase 2.46d Mac mini local MVP smoke result intake 已完成，当前正在执行 docs-only baseline。
+2. Codex C smoke 结果：`Go`，P0=0，P1=0，P2=2；仅支持 internal controlled MVP continuation。
+3. Phase 2.46d 不重跑 smoke，不启动服务，不写 DB / index，不进入 rollout。
+4. 下一步建议：baseline 后进入 Phase 2.47 planning，聚焦 internal controlled MVP operating loop / issue intake / P2 display tails。
+5. Phase 2.46c prompt artifact baseline 已完成：commit `595c51d`，tag `phase-2.46c-codex-c-mac-mini-smoke-prompt-baseline`。
+6. Phase 2.46b Mac mini evidence attachment planning Git baseline 已完成：commit `01af018`，tag `phase-2.46b-mac-mini-evidence-attachment-plan-baseline`。
 7. Phase 2.46a checklist baseline 已完成：commit `e78c08e`，tag `phase-2.46a-mac-mini-day0-checklist-baseline`。
 8. Phase 2.46 planning baseline 已完成：commit `13e2206`，tag `phase-2.46-mac-mini-day0-setup-plan-baseline`。
 9. Phase 2.45e sanitized deployment record template artifact Git baseline 已完成：commit `8bd7616`，tag `phase-2.45e-deployment-record-template-baseline`。
