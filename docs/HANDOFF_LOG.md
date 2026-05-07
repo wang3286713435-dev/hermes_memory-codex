@@ -4066,3 +4066,44 @@
 - validation: `20 passed`, py_compile passed, git diff check passed, manual edge probes passed.
 - next: Codex A should execute selective Phase 2.49 baseline only.
 - commit/tag if any: none.
+
+## 2026-05-07 23:35 Phase 2.50
+- goal: Create Internal MVP Daily Review Loop runbook artifact.
+- changed_files:
+  - `docs/PHASE250_INTERNAL_MVP_DAILY_REVIEW_LOOP_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: passed.
+  - `reports/agent_runs/latest.json` JSON check: passed.
+  - ignored path checks for agent run and internal MVP run records: passed.
+- validation: Runbook connects internal MVP query execution, ignored run record, Phase 2.49 review bridge, Phase 2.42a review dry-run, and Phase 2.37 issue intake without reading real records or running Pilot.
+- risks: Awaiting Codex B review; out-of-scope dirty remains excluded; `go` remains internal controlled MVP continuation only.
+- next: Run light checks, then Codex B review; no baseline until explicitly authorized.
+- commit/tag if any: none.
+
+## 2026-05-07 23:49 Phase 2.50 baseline
+- goal: Execute docs-only Git baseline after Codex B approved Phase 2.50 runbook artifact.
+- changed_files:
+  - `docs/PHASE250_INTERNAL_MVP_DAILY_REVIEW_LOOP_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+- tests:
+  - `git diff --check`: pending.
+  - `reports/agent_runs/latest.json` JSON check: pending.
+  - ignored path checks for agent run and internal MVP run records: pending.
+- validation: Baseline is limited to docs / handoff files; no real run record, API / CLI smoke, DB / index write, repair, rollout, or Data Steward implementation.
+- risks: out-of-scope dirty must remain excluded.
+- next: Commit/tag/push Phase 2.50 docs-only baseline, then update ignored latest state.
+- commit/tag if any: pending.

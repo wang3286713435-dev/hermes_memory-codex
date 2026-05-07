@@ -1,15 +1,15 @@
 # Active Phase
 
-- 当前 phase：Phase 2.49 Internal MVP Run Record Review Bridge Baseline Prompt
-- 本轮目标：Codex B 复审已通过，准备 Phase 2.49 Git baseline。
+- 当前 phase：Phase 2.50 Internal MVP Daily Review Loop Runbook Artifact Baseline
+- 本轮目标：Codex B review 已通过，执行 Phase 2.50 docs-only Git baseline。
 - 背景：
-  - Phase 2.47b 已提供 `INTERNAL_MVP_PILOT_RUN_RECORD_TEMPLATE.md` 与 ignored `reports/internal_mvp_runs/` 策略。
-  - Phase 2.42a 已提供 MVP Pilot review dry-run report generator。
-  - 当前缺口是 operator 填写 run record 后仍需人工整理成 review dry-run 输入。
+  - Phase 2.49 Git baseline 已完成：commit `f23f248`，tag `phase-2.49-internal-mvp-run-record-review-baseline`。
+  - Phase 2.47b 已提供 ignored run record template 与 `reports/internal_mvp_runs/` 策略。
+  - Phase 2.49 已提供显式 `--input-run-record` review bridge runner。
+  - Phase 2.42a 已提供 MVP Pilot review dry-run report builder。
+  - Phase 2.37 已提供 issue intake / triage 基线。
 - 修改文件：
-  - `scripts/phase249_internal_mvp_run_record_review.py`
-  - `tests/test_phase249_internal_mvp_run_record_review.py`
-  - `docs/PHASE249_INTERNAL_MVP_RUN_RECORD_REVIEW_PLAN.md`
+  - `docs/PHASE250_INTERNAL_MVP_DAILY_REVIEW_LOOP_PLAN.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/HANDOFF_LOG.md`
@@ -19,38 +19,31 @@
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 新增显式输入 runner：必须传 `--input-run-record <path>`，不默认扫描 `reports/`。
-  - 输出 sanitized `review_payload`，字段兼容 `phase242a_mvp_pilot_review_dry_run.build_review_report()`。
-  - 支持 `--review-report` 在内存中生成 Phase 2.42a review dry-run report。
-  - 支持 `--output-dir` 仅在用户显式指定时写 sanitized JSON / Markdown。
-  - 固定 safety flags：`dry_run=true`、`production_rollout=false`、`repair_authorized=false`、`destructive_actions=[]`、`data_mutation=false`。
-  - 将 `facts_as_answer=true`、`transcript_as_fact=true`、`snapshot_as_answer=true`、第三文件污染、P0 issue 映射为 P0 / `no_go`。
-  - 将未复核 alias missing / retrieval suppressed、隐藏或未复核 Missing Evidence 映射为 `pause`。
-  - review-fix：`issue_summary.p0_count > 0` 且 `issues=[]` 时生成 P0 placeholder，并输出 `decision_hint=no_go`。
-  - review-fix：`issue_summary.p1_count / p2_count / p3_count` 在缺少详细 issue 时生成 placeholder，P1 默认 blocking，P2/P3 non-blocking。
-  - review-fix：repair / data mutation boundary false 现在生成 P0 boundary item，并让 `decision_hint=no_go`。
-  - review-fix：`decide_hint()` 将 production rollout、repair、data mutation、facts/transcript/snapshot as answer、第三文件污染都视为 unsafe。
+  - 新增 Phase 2.50 runbook artifact，明确内部受控 MVP 每日复盘链路，不代表 production rollout。
+  - 固化每日输入：operator 手工填写 `docs/INTERNAL_MVP_PILOT_RUN_RECORD_TEMPLATE.md`，真实 run record 保存在 ignored `reports/internal_mvp_runs/`。
+  - 固化每日命令模板：显式传入 `--input-run-record`，可选生成 review report，不默认扫描 `reports/`。
+  - 明确 `decision_hint=go/pause/no_go` 解释、issue intake 触发、人类责任边界、存储隐私、stop conditions 与 Nightly Sprint 边界。
+  - 记录后续候选：Phase 2.50a fake run record runbook smoke、Phase 2.50b MVP evidence pack、Phase 2.51 Mac Mini operator checklist / hot update runbook。
 - 测试结果：
-  - `uv run python -m py_compile scripts/phase249_internal_mvp_run_record_review.py`：通过。
-  - `uv run pytest tests/test_phase249_internal_mvp_run_record_review.py tests/test_phase242a_mvp_pilot_review_dry_run.py -q`：`20 passed`。
   - `git diff --check`：通过。
   - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
-  - `git check-ignore -v reports/agent_runs/latest.json`：命中 ignored。
-  - `git check-ignore -v reports/internal_mvp_runs/example.json reports/internal_mvp_runs/example.md reports/internal_mvp_runs/latest.json`：均命中 ignored。
+  - `git check-ignore -v reports/agent_runs/latest.json`：命中 `reports/agent_runs/.gitignore`。
+  - `git check-ignore -v reports/internal_mvp_runs/example.json`：命中 `reports/internal_mvp_runs/.gitignore`。
+  - `git check-ignore -v reports/internal_mvp_runs/example.md`：命中 `reports/internal_mvp_runs/.gitignore`。
+  - `git check-ignore -v reports/internal_mvp_runs/latest.json`：命中 `reports/internal_mvp_runs/.gitignore`。
 - live smoke 结果：
   - 本轮不运行 API / CLI smoke。
   - 本轮不启动 / 停止服务。
   - 本轮不读取真实 internal MVP run records。
   - 本轮不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
 - 当前结论：
-  - Phase 2.49 review-fix 已完成，等待 Codex B 复审。
-  - 当前 `decision_hint` 与 Phase 2.42a review report 的 no-go/pause 安全语义已对齐。
+  - Phase 2.50 docs-only runbook artifact 已通过 Codex B review，进入 Git baseline。
+  - 本轮未执行真实 MVP review，未生成真实 run record / review report，未进入 rollout、repair 或 Data Steward。
 - 阻塞点 / 风险点：
-  - 未读取真实 run record；真实 operator 记录需后续人工提供显式 ignored path。
-  - `go` 仅表示 internal controlled MVP review 可继续，不是 rollout approval。
-  - out-of-scope dirty 仍需保持排除。
-- 是否建议 baseline：是；执行 Phase 2.49 Git baseline。
-- 是否建议进入下一阶段：否；先 baseline，再评估 Phase 2.50 planning。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中的 baseline prompt。
+  - out-of-scope dirty 仍需保持排除：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、`docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md`、`docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`。
+  - Phase 2.50 是 operator runbook，不是 Pilot 执行证据。
+- 是否建议 baseline：是；执行 Phase 2.50 docs-only baseline。
+- 是否建议进入下一阶段：否；不要进入 Phase 2.50a / 2.51。
+- 下一轮建议：baseline 后停下，后续由 Codex B 决定是否进入 Phase 2.50a fake run record smoke 或 Phase 2.51 planning。
 - 是否需要 Codex B 审核：已完成。
 - 是否需要 Codex C 真实终端验收：否。

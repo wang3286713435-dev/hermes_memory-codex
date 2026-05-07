@@ -10,27 +10,28 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.49 Internal MVP Run Record Review Bridge
+### Current Item：Phase 2.50 Internal MVP Daily Review Loop Runbook Artifact
 
 - lane：Green Lane
-- 状态：review_fix_ready_for_codex_b_review
-- 目标：将显式本地 internal MVP run record JSON 转换为 sanitized review dry-run payload / optional Phase 2.42a review report。
+- 状态：codex_b_review_passed_baseline_in_progress
+- 目标：把内部受控 MVP 每日 operator 流程串成 runbook artifact，连接 run query、ignored run record、review dry-run 与 issue intake。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 新增 `scripts/phase249_internal_mvp_run_record_review.py`。
-  - 新增 `tests/test_phase249_internal_mvp_run_record_review.py`。
-  - 新增 `docs/PHASE249_INTERNAL_MVP_RUN_RECORD_REVIEW_PLAN.md`。
-  - 更新 Phase 2.49 交接文档与 ignored latest 状态。
+  - 新增 `docs/PHASE250_INTERNAL_MVP_DAILY_REVIEW_LOOP_PLAN.md`。
+  - 更新 Phase 2.50 交接文档与 ignored latest 状态。
+  - 运行 docs / JSON / ignore 轻量检查。
 - 禁止动作：
-  - 不默认扫描真实 `reports/`。
-  - 不读取真实 internal MVP run records。
+  - 不写业务功能代码、scripts 或 tests。
+  - 不读取真实 internal MVP run record。
+  - 不运行真实 Pilot。
   - 不运行 API / CLI smoke。
   - 不启动 / 停止服务。
   - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
   - 不进入 rollout、repair 或 Data Steward 实现。
   - 不 stage / commit / tag / push。
-- 完成后：等待 Codex B review；通过后只允许进入 Phase 2.49 Git baseline。
-- review-fix：count-only P0/P1/P2/P3 summary 与 repair/data mutation boundary false 的 decision consistency 已修复。
+- 完成后：执行 Phase 2.50 docs-only Git baseline 后停下。
+- baseline 规则：Yellow Lane，默认夜间不可自动执行；需要 Codex B 明确授权。
+- 前置状态：Phase 2.49 Git baseline 已完成，commit `f23f248`，tag `phase-2.49-internal-mvp-run-record-review-baseline`。
 
 ### Item 1：Phase 2.46 Mac mini Day-0 Real-machine Setup Planning
 

@@ -337,3 +337,6 @@
 - [Phase 2.49 Review Fix] 完成决策一致性最小修复：count-only issue summary 会生成 P0/P1/P2/P3 placeholder；repair/data mutation boundary false 会生成 P0 boundary item 并输出 `decision_hint=no_go`；目标测试扩展后 `20 passed`，未读取真实 run record、未运行 API / CLI、未写 DB / index。
 
 - [Phase 2.49 Review Fix] Codex B 复审通过：count-only P0、repair boundary false、data mutation boundary false 均正确映射为 no-go；目标测试 `20 passed`，已写入 Phase 2.49 baseline prompt。
+- [Phase 2.49 Baseline] Git baseline 已完成：commit `f23f248`，tag `phase-2.49-internal-mvp-run-record-review-baseline`，`origin/main` 与 tag 已推送。
+- [Phase 2.50] 完成 Internal MVP Daily Review Loop docs-only runbook artifact：新增 `docs/PHASE250_INTERNAL_MVP_DAILY_REVIEW_LOOP_PLAN.md`，串联 run query、ignored run record、review dry-run 与 issue intake；本轮未读取真实 run record、未运行 API / CLI、未写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant，未进入 rollout、repair 或 Data Steward。
+- [Phase 2.50 Review] Codex B review 通过：runbook artifact 边界正确，`go` 未写成 rollout approval，真实 records / reports 默认 ignored；本轮执行 docs-only Git baseline，不进入 Phase 2.50a、Phase 2.51、repair、rollout 或 Data Steward。
