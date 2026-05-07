@@ -10,22 +10,23 @@
 
 ## Current Queue
 
-### Item 1：Phase 2.45a Mac mini MVP Deployment Runbook Artifact
+### Item 1：Phase 2.45b docs-only health-check dry-run planning baseline
 
-- lane：Green Lane
-- 状态：implemented_codex_b_review_passed_waiting_baseline
-- 目标：新增 Mac mini MVP deployment runbook / checklist artifact；本轮不执行真实部署、不新增 deployment script。
+- lane：Yellow Lane
+- 状态：codex_b_approved_next_prompt_ready
+- 目标：只提交 Phase 2.45b planning / handoff 文档 baseline；本轮不新增脚本、不运行真实 API / CLI。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 新增 `docs/MAC_MINI_MVP_DEPLOYMENT_RUNBOOK.md`。
-  - 更新 Phase 2.45a 交接文档与 ignored latest 状态。
-  - 运行 `git diff --check`、`latest.json` JSON 校验、ignore 检查与 `git status --short`。
+  - 只 stage Phase 2.45b 白名单文档。
+  - commit / tag / push Phase 2.45b docs-only baseline。
+  - 更新 ignored latest 状态。
+  - 运行 baseline 前检查与 staged diff check。
 - 禁止动作：
   - 不修改 / stage `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
   - 不修改代码、脚本、测试、migration 或 Hermes 主仓库。
   - 不修改 Hermes_memory retrieval / indexing / facts / version governance / migration / schema。
   - 不执行真实 Mac mini 部署。
-  - 不新增 deployment script。
+  - 不新增 health-check script 或 deployment script。
   - 不运行 API / CLI smoke。
   - 不生成 production rollout approval。
   - 不授权 repair / cleanup / delete / reindex。
@@ -33,27 +34,42 @@
   - 不启动 Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
   - 不修改 retrieval contract 或 memory kernel 主架构。
   - 不自动发起 Codex C。
-- 完成后：已完成 Codex B review；等待 Phase 2.45a docs-only baseline。
-- baseline 规则：本 item 不 baseline；仅交付 planning dirty。
-- 当前结果：`docs/MAC_MINI_MVP_DEPLOYMENT_RUNBOOK.md` 已新增并通过 Codex B review；未执行真实部署，未新增 deployment script，未运行 API / CLI。
+- 完成后：停止等待 Codex B baseline confirmation，不得进入 Phase 2.45c。
+- baseline 规则：允许 Codex A 执行一次 docs-only baseline；完成 commit / tag / push 后必须停止。
+- 当前结果：等待 Codex A 执行 baseline。
 
-### Item 2：Phase 2.45a docs-only runbook baseline
+### Item 2：Phase 2.45c read-only health-check script route planning
 
-- lane：Yellow Lane
-- 状态：codex_b_approved_next_prompt_ready
-- 条件：Codex B review 已通过；Codex A 只能按 `docs/NEXT_CODEX_A_PROMPT.md` 执行 selective docs-only baseline。
-- 目标：只提交 Phase 2.45a runbook / handoff 文档 baseline。
+- lane：Green Lane
+- 状态：blocked_until_phase_2_45b_baseline
+- 条件：Phase 2.45b baseline 完成并由 Codex B 确认后才允许写下一步 prompt。
+- 目标：规划是否实现只读 health-check script；默认不写代码。
 - 禁止动作：
-  - 不进入 Phase 2.45a。
+  - 不直接实现脚本，除非下一轮 prompt 明确授权。
+  - 不新增 health-check script。
   - 不执行真实部署。
   - 不新增 deployment script。
   - 不运行 API / CLI smoke。
   - 不写 DB / facts / document_versions / OpenSearch / Qdrant。
   - 不执行 repair / backfill / reindex / cleanup / delete。
   - 不进入 rollout / Data Steward。
-- baseline 规则：允许 Codex A 执行一次 docs-only baseline；完成 commit / tag / push 后必须停止，不得进入 Phase 2.45b。
+- baseline 规则：不适用；当前 blocked。
 
 ## Archived Queue
+
+### Phase 2.45b Health-check / Deploy-smoke Dry-run Planning
+
+- 类型：Green Lane
+- 状态：completed_codex_b_review_passed
+- 结果：planning dirty 已完成，Codex B review 通过，等待 docs-only baseline。
+- 备注：未新增 health-check script、未运行真实 API / CLI、未执行真实部署、未写 DB / facts / document_versions / OpenSearch / Qdrant。
+
+### Phase 2.45a Mac mini MVP Deployment Runbook Artifact
+
+- 类型：Yellow Lane
+- 状态：completed
+- 结果：commit `585d534`，tag `phase-2.45a-mac-mini-deployment-runbook-baseline`。
+- 备注：Mac mini deployment runbook artifact 已 baseline；未执行真实部署、未新增 deployment script、未写 DB / facts / document_versions / OpenSearch / Qdrant。
 
 ### Phase 2.45 Mac mini MVP Server Deployment Planning
 

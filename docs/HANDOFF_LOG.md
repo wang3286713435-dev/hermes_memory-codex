@@ -3324,6 +3324,26 @@
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45a docs-only Git baseline。
 - commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
 
+## 2026-05-07 13:01 Phase 2.45b
+- goal: Confirm Phase 2.45a baseline and write next docs-only planning prompt for health-check / deploy-smoke dry-run.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - Phase 2.45a baseline checked：HEAD `585d534`，tag `phase-2.45a-mac-mini-deployment-runbook-baseline`。
+  - `reports/agent_runs/latest.json` indicates baseline / pushed true。
+  - 本轮不运行 API / CLI，不运行 pytest，不执行真实部署。
+- validation: 下一轮收缩为 docs-only planning，目标是规划只读 health-check / deploy-smoke dry-run；本轮不写代码、不新增 health-check script、不进入 production rollout / Data Steward。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍为遗留无关 dirty，不得触碰；Phase 2.45b 完成后需 Codex B review，不自动 baseline。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45b planning。
+- commit/tag if any: 无；本轮只是 next prompt handoff，不提交 Git。
+
 ## 2026-05-07 10:48 Phase 2.45
 - goal: Plan Mac mini internal MVP server deployment topology, update flow, storage boundaries, checks, and rollback.
 - changed_files:
@@ -3367,3 +3387,46 @@
 - risks: 本 runbook 不是 production rollout；不得解释为真实部署授权；不新增 deployment script；遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍不得触碰。
 - next: Codex B review `docs/MAC_MINI_MVP_DEPLOYMENT_RUNBOOK.md`；若通过，只能进入 Phase 2.45a docs-only baseline prompt，不得进入 Phase 2.45b 或真实部署。
 - commit/tag if any: 无；本轮不提交 Git。
+
+## 2026-05-07 13:07 Phase 2.45b
+- goal: Plan read-only Mac mini health-check / deploy-smoke dry-run checks, output schema, and stop conditions.
+- changed_files:
+  - `docs/PHASE245B_HEALTH_CHECK_DRY_RUN_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：通过；显示 Phase 2.45b 文档变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: 新增 planning 文档覆盖 Git / env key / mount / service reachability / ignored path 候选检查、MVP smoke candidates、JSON schema、stop conditions、human-only 与 future bounded script 边界。
+- risks: 本规划不是 smoke 通过证明；不得新增 health-check script、deployment script 或执行真实部署；遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍不得触碰。
+- next: Codex B review `docs/PHASE245B_HEALTH_CHECK_DRY_RUN_PLAN.md`；若通过，只能进入 Phase 2.45b docs-only baseline prompt，不得进入 Phase 2.45c 或真实 smoke。
+- commit/tag if any: 无；本轮不提交 Git。
+
+## 2026-05-07 13:20 Phase 2.45b
+- goal: Codex B review Phase 2.45b health-check / deploy-smoke dry-run planning and write docs-only Git baseline prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：确认 Phase 2.45b 文档 / handoff 变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: Codex B review 通过。Planning 只定义 read-only health-check / deploy-smoke dry-run 候选检查、schema、stop conditions 与 human-only / future script 边界；不代表 smoke 通过或部署授权。
+- risks: baseline 必须 selective staging，排除 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.45c；继续禁止真实部署、health-check script、deployment script、DB/index writes、repair、rollout 与 Data Steward 实现。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45b docs-only Git baseline。
+- commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。

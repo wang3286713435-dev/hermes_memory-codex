@@ -2,15 +2,15 @@
 
 ## 0. 当前 MVP Pilot 状态
 
-1. Phase 2.45a Mac mini MVP deployment runbook artifact 已完成，Codex B review 已通过。
-2. 新增 `docs/MAC_MINI_MVP_DEPLOYMENT_RUNBOOK.md`，作为 Mac mini 到货后的人工部署前 checklist / 操作签核表。
-3. Runbook 覆盖 Day-0 准备、目录创建、环境变量与 secrets、repo checkout、服务启动顺序、部署 / 热更新、minimum smoke、备份 / 回滚、stop conditions 与 operator sign-off。
-4. Phase 2.45a 明确不执行真实部署、不新增 deployment script、不运行 API / CLI、不写 DB / facts / document_versions / OpenSearch / Qdrant。
-5. 当前唯一优先事项：执行 Phase 2.45a docs-only Git baseline；不得直接进入 Phase 2.45b 或实机部署。
-6. Phase 2.45 Mac mini MVP server deployment planning Git baseline 已完成：commit `fa6aff4`，tag `phase-2.45-mac-mini-mvp-server-plan-baseline`。
-7. Phase 2.45 明确 Mac mini 是 internal controlled MVP server，不是 production rollout；NAS 放原始企业文件与未来 BIM 大文件，Mac mini 本地只放代码、热索引、缓存、日志、临时处理区。
-8. Phase 2.44d explicit ignored local issue input dry-run route planning Git baseline 已完成：commit `dcdb7b4`，tag `phase-2.44d-explicit-local-issue-dry-run-plan-baseline`。
-9. Phase 2.44d 明确未来真实 recorder workflow dry-run 只能使用用户显式授权、人工准备、路径明确、Git ignored 的 local input；本阶段不生成真实 issue records / Pilot report。
+1. Phase 2.45b health-check / deploy-smoke dry-run planning 已完成，Codex B review 已通过。
+2. 新增 `docs/PHASE245B_HEALTH_CHECK_DRY_RUN_PLAN.md`，规划 Mac mini 到货后可选的只读 health-check / deploy-smoke dry-run。
+3. Phase 2.45b 覆盖 Git / `.env` key-name / NAS / external SSD / Postgres / OpenSearch / Qdrant / API `/health` / Hermes CLI / ignored runtime path 候选检查项。
+4. Phase 2.45b 规划 MVP smoke candidates、JSON output schema、stop conditions、human-only 与 future bounded script 边界。
+5. Phase 2.45b 明确不写脚本、不运行 API / CLI、不执行真实部署、不写 DB / facts / document_versions / OpenSearch / Qdrant。
+6. 当前唯一优先事项：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45b docs-only Git baseline，不得直接进入 Phase 2.45c 或实机 smoke。
+7. Phase 2.45a Mac mini MVP deployment runbook artifact Git baseline 已完成：commit `585d534`，tag `phase-2.45a-mac-mini-deployment-runbook-baseline`。
+8. Phase 2.45a runbook 是 Mac mini 到货后的人工部署前 checklist / 操作签核表，不是 deployment script 或 production rollout。
+9. Phase 2.45 Mac mini MVP server deployment planning Git baseline 已完成：commit `fa6aff4`，tag `phase-2.45-mac-mini-mvp-server-plan-baseline`。
 10. 遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 不得 stage / commit。
 11. 继续禁止真实 tracked issue records、默认扫描真实 `reports/` / `reviews/`、DB / facts / document_versions / OpenSearch / Qdrant 写入、repair / rollout / Data Steward。
 12. Phase 2.44c fake/temp-data sanitized issue intake dry-run artifact Git baseline 已完成：commit `cb29ed4`，tag `phase-2.44c-fake-issue-intake-dry-run-baseline`。
