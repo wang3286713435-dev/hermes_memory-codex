@@ -10,6 +10,28 @@
 
 ## Current Queue
 
+### Current Item：Phase 2.49 Internal MVP Run Record Review Bridge
+
+- lane：Green Lane
+- 状态：review_fix_ready_for_codex_b_review
+- 目标：将显式本地 internal MVP run record JSON 转换为 sanitized review dry-run payload / optional Phase 2.42a review report。
+- 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
+- 允许动作：
+  - 新增 `scripts/phase249_internal_mvp_run_record_review.py`。
+  - 新增 `tests/test_phase249_internal_mvp_run_record_review.py`。
+  - 新增 `docs/PHASE249_INTERNAL_MVP_RUN_RECORD_REVIEW_PLAN.md`。
+  - 更新 Phase 2.49 交接文档与 ignored latest 状态。
+- 禁止动作：
+  - 不默认扫描真实 `reports/`。
+  - 不读取真实 internal MVP run records。
+  - 不运行 API / CLI smoke。
+  - 不启动 / 停止服务。
+  - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+  - 不进入 rollout、repair 或 Data Steward 实现。
+  - 不 stage / commit / tag / push。
+- 完成后：等待 Codex B review；通过后只允许进入 Phase 2.49 Git baseline。
+- review-fix：count-only P0/P1/P2/P3 summary 与 repair/data mutation boundary false 的 decision consistency 已修复。
+
 ### Item 1：Phase 2.46 Mac mini Day-0 Real-machine Setup Planning
 
 - lane：Green Lane

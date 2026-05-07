@@ -1,14 +1,15 @@
 # Active Phase
 
-- 当前 phase：Phase 2.48 P2 Display Tails Combined Baseline Prompt
-- 本轮目标：Codex C targeted smoke 已通过，准备 Phase 2.48a / 2.48b / 2.48c combined Git baseline。
+- 当前 phase：Phase 2.49 Internal MVP Run Record Review Bridge Baseline Prompt
+- 本轮目标：Codex B 复审已通过，准备 Phase 2.49 Git baseline。
 - 背景：
-  - Phase 2.48a Excel Citation Display Polish 已通过 Codex B review，允许进入 Phase 2.48b。
-  - 当前 P2：会议纪要行为正确，但 answer / trace display 未总是稳定显式打印 `transcript_as_fact=false`。
-  - 本轮只做 context / trace display polish，不改 meeting ingestion contract、retrieval contract 或 memory kernel 主架构。
+  - Phase 2.47b 已提供 `INTERNAL_MVP_PILOT_RUN_RECORD_TEMPLATE.md` 与 ignored `reports/internal_mvp_runs/` 策略。
+  - Phase 2.42a 已提供 MVP Pilot review dry-run report generator。
+  - 当前缺口是 operator 填写 run record 后仍需人工整理成 review dry-run 输入。
 - 修改文件：
-  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
-  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_facts_agent_context.py`
+  - `scripts/phase249_internal_mvp_run_record_review.py`
+  - `tests/test_phase249_internal_mvp_run_record_review.py`
+  - `docs/PHASE249_INTERNAL_MVP_RUN_RECORD_REVIEW_PLAN.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/HANDOFF_LOG.md`
@@ -18,36 +19,38 @@
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - `ContextBuilder` 新增独立 `Meeting transcript diagnostics:` 分区。
-  - 当 trace 标记 `meeting_transcript_used=true`，或 retrieval item / citation metadata 显示 `content_profile=meeting_transcript` / `meeting_transcript=true` 时，context 稳定输出：
-    - `meeting_transcript_used=true`
-    - `transcript_as_fact=false`
-    - `evidence_required=true`
-    - `meeting_transcript_as_confirmed_fact=false`
-  - 保留 `[E]` / `[C]` structured location 中的 `content_profile=meeting_transcript; transcript_as_fact=false`。
-  - 补测试确认 transcript evidence 不会被标为 facts context，且 alias bind retrieval-only 场景也显示 meeting diagnostics。
+  - 新增显式输入 runner：必须传 `--input-run-record <path>`，不默认扫描 `reports/`。
+  - 输出 sanitized `review_payload`，字段兼容 `phase242a_mvp_pilot_review_dry_run.build_review_report()`。
+  - 支持 `--review-report` 在内存中生成 Phase 2.42a review dry-run report。
+  - 支持 `--output-dir` 仅在用户显式指定时写 sanitized JSON / Markdown。
+  - 固定 safety flags：`dry_run=true`、`production_rollout=false`、`repair_authorized=false`、`destructive_actions=[]`、`data_mutation=false`。
+  - 将 `facts_as_answer=true`、`transcript_as_fact=true`、`snapshot_as_answer=true`、第三文件污染、P0 issue 映射为 P0 / `no_go`。
+  - 将未复核 alias missing / retrieval suppressed、隐藏或未复核 Missing Evidence 映射为 `pause`。
+  - review-fix：`issue_summary.p0_count > 0` 且 `issues=[]` 时生成 P0 placeholder，并输出 `decision_hint=no_go`。
+  - review-fix：`issue_summary.p1_count / p2_count / p3_count` 在缺少详细 issue 时生成 placeholder，P1 默认 blocking，P2/P3 non-blocking。
+  - review-fix：repair / data mutation boundary false 现在生成 P0 boundary item，并让 `decision_hint=no_go`。
+  - review-fix：`decide_hint()` 将 production rollout、repair、data mutation、facts/transcript/snapshot as answer、第三文件污染都视为 unsafe。
 - 测试结果：
-  - `./.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py`：通过。
-  - `./.venv/bin/python -m pytest -o addopts='' tests/agent/test_structured_citation_context.py tests/agent/test_facts_agent_context.py -q`：`30 passed`。
-  - `git diff --check`（Hermes 主仓库）：通过。
-  - Hermes_memory docs / ignored-state 校验待本轮收尾复跑。
+  - `uv run python -m py_compile scripts/phase249_internal_mvp_run_record_review.py`：通过。
+  - `uv run pytest tests/test_phase249_internal_mvp_run_record_review.py tests/test_phase242a_mvp_pilot_review_dry_run.py -q`：`20 passed`。
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：命中 ignored。
+  - `git check-ignore -v reports/internal_mvp_runs/example.json reports/internal_mvp_runs/example.md reports/internal_mvp_runs/latest.json`：均命中 ignored。
 - live smoke 结果：
-  - 本轮不运行 Codex C smoke。
-  - 本轮不启动服务。
-  - 本轮不运行 Hermes CLI chat。
-  - 本轮不生成真实 internal MVP run record。
+  - 本轮不运行 API / CLI smoke。
+  - 本轮不启动 / 停止服务。
+  - 本轮不读取真实 internal MVP run records。
   - 本轮不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
 - 当前结论：
-  - Phase 2.48a / 2.48b 已通过 Codex B review。
-  - Codex C targeted smoke 已通过：Excel citation display 与 meeting transcript boundary display 均 pass。
-  - 下一步只做 combined Git baseline，不进入 Phase 2.49。
+  - Phase 2.49 review-fix 已完成，等待 Codex B 复审。
+  - 当前 `decision_hint` 与 Phase 2.42a review report 的 no-go/pause 安全语义已对齐。
 - 阻塞点 / 风险点：
-  - 本轮未做 Codex C targeted smoke。
-  - Phase 2.48a / 2.48b 均完成后，建议由 Codex B 决定是否进入 Phase 2.48c targeted smoke。
-  - Hermes_memory 仍存在 out-of-scope dirty / untracked 文档，未纳入本轮。
-  - Hermes 主仓仍存在既有 unrelated dirty / untracked 文件，未纳入本轮。
-- 是否建议 baseline：是；执行 Phase 2.48 combined Git baseline。
-- 是否建议进入下一阶段：否；先完成 baseline，再评估 Phase 2.49 planning。
-- 下一轮建议：将 `docs/NEXT_CODEX_A_PROMPT.md` 发给 Codex A 执行 combined baseline。
+  - 未读取真实 run record；真实 operator 记录需后续人工提供显式 ignored path。
+  - `go` 仅表示 internal controlled MVP review 可继续，不是 rollout approval。
+  - out-of-scope dirty 仍需保持排除。
+- 是否建议 baseline：是；执行 Phase 2.49 Git baseline。
+- 是否建议进入下一阶段：否；先 baseline，再评估 Phase 2.50 planning。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中的 baseline prompt。
 - 是否需要 Codex B 审核：已完成。
-- 是否需要 Codex C 真实终端验收：已完成。
+- 是否需要 Codex C 真实终端验收：否。

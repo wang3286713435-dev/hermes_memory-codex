@@ -2,7 +2,14 @@
 
 ## 0. 当前 MVP Pilot 状态
 
-1. Phase 2.48b Meeting Transcript Boundary Trace Display Polish 已完成并通过 Codex B review。
+1. Phase 2.49 Internal MVP Run Record Review Bridge review-fix 已通过 Codex B 复审，等待 Git baseline。
+2. 新增本地只读 runner：`scripts/phase249_internal_mvp_run_record_review.py`，必须显式传入 `--input-run-record`，不默认扫描真实 `reports/`。
+3. runner 输出 sanitized review payload，可选 `--review-report` 调用 Phase 2.42a review dry-run report builder；固定 `dry_run=true`、`production_rollout=false`、`repair_authorized=false`、`destructive_actions=[]`、`data_mutation=false`。
+4. unsafe signals：`facts_as_answer=true`、`transcript_as_fact=true`、`snapshot_as_answer=true`、第三文件污染、P0 issue => P0 / `no_go`；未复核 alias missing、retrieval suppressed、隐藏 Missing Evidence => `pause`。
+5. Review-fix 已修复：count-only `issue_summary.p0_count` 不再被忽略；repair/data mutation boundary false 不再允许 `decision_hint=go`。
+6. 本轮未读取真实 run record、未运行 API / CLI、未写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant，不进入 rollout、repair 或 Data Steward。
+7. 下一步：Phase 2.49 Git baseline，不进入 Phase 2.50。
+7. Phase 2.48b Meeting Transcript Boundary Trace Display Polish 已完成并通过 Codex B review。
 2. Hermes 主仓库 `ContextBuilder` 现在会在会议纪要证据场景输出独立 `Meeting transcript diagnostics:` 分区。
 3. meeting diagnostics 稳定显示 `meeting_transcript_used=true`、`transcript_as_fact=false`、`evidence_required=true`、`meeting_transcript_as_confirmed_fact=false`。
 4. Phase 2.48b 不改 meeting ingestion contract / retrieval contract / memory kernel 主架构，不运行 smoke，不写 DB / facts / document_versions / OpenSearch / Qdrant。

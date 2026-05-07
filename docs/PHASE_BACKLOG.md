@@ -2,7 +2,14 @@
 
 ## 当前优先级
 
-1. Phase 2.48b Meeting Transcript Boundary Trace Display Polish 已完成并通过 Codex B review。
+1. Phase 2.49 Internal MVP Run Record Review Bridge review-fix 已通过 Codex B 复审，等待 Git baseline。
+2. 新增 `scripts/phase249_internal_mvp_run_record_review.py`：显式读取 `--input-run-record`，输出 sanitized review payload，可选在内存中生成 Phase 2.42a review dry-run report。
+3. Review-fix 已补 count-only `issue_summary` placeholder：P0 => no-go，P1 => blocking pause，P2/P3 => non-blocking summary items。
+4. Review-fix 已补 repair / data mutation boundary false：会生成 P0 boundary item，`decision_hint=no_go`，同时保持 fixed output safety flags 为 false / empty。
+5. Phase 2.49 不默认扫描真实 `reports/`，不读取真实 run record，不运行 API / CLI，不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+6. Phase 2.49 的 `go` 仅表示 internal controlled MVP review 可继续，不是 production rollout、客户交付、自动审标或自动经营决策授权。
+7. 下一步：Phase 2.49 Git baseline，不进入 Phase 2.50。
+6. Phase 2.48b Meeting Transcript Boundary Trace Display Polish 已完成并通过 Codex B review。
 2. Hermes 主仓 meeting transcript context 现在稳定显示：
    - `meeting_transcript_used=true`
    - `transcript_as_fact=false`

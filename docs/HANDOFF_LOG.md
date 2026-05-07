@@ -4001,3 +4001,68 @@
 - changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, phase handoff docs, ignored `reports/agent_runs/latest.json`.
 - next: Codex A should execute combined Phase 2.48 baseline with selective staging only.
 - commit/tag if any: none.
+
+## 2026-05-07 22:37 Phase 2.49
+- goal: Implement Internal MVP run record to sanitized review dry-run bridge.
+- changed_files:
+  - `scripts/phase249_internal_mvp_run_record_review.py`
+  - `tests/test_phase249_internal_mvp_run_record_review.py`
+  - `docs/PHASE249_INTERNAL_MVP_RUN_RECORD_REVIEW_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `uv run python -m py_compile scripts/phase249_internal_mvp_run_record_review.py` passed.
+  - `uv run pytest tests/test_phase249_internal_mvp_run_record_review.py tests/test_phase242a_mvp_pilot_review_dry_run.py -q` passed: `16 passed`.
+  - `git diff --check` passed.
+  - `reports/agent_runs/latest.json` JSON check passed.
+  - `reports/agent_runs/latest.json` and `reports/internal_mvp_runs/example.json|example.md|latest.json` are ignored by Git.
+- validation: Runner requires explicit `--input-run-record`, outputs sanitized payload, maps unsafe evidence policy / contamination / P0 to `no_go`, maps unreviewed alias or Missing Evidence issues to `pause`, and can call Phase 2.42a review dry-run builder in memory.
+- risks: No real run record was read; no API / CLI smoke; out-of-scope dirty remains excluded.
+- next: Codex B review; if accepted, provide Phase 2.49 Git baseline prompt.
+- commit/tag if any: none.
+
+## 2026-05-07 23:06 Phase 2.49 Review Fix
+- goal: Fix Codex B review findings around run record bridge decision consistency.
+- changed_files:
+  - `scripts/phase249_internal_mvp_run_record_review.py`
+  - `tests/test_phase249_internal_mvp_run_record_review.py`
+  - `docs/PHASE249_INTERNAL_MVP_RUN_RECORD_REVIEW_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `uv run python -m py_compile scripts/phase249_internal_mvp_run_record_review.py` passed.
+  - `uv run pytest tests/test_phase249_internal_mvp_run_record_review.py tests/test_phase242a_mvp_pilot_review_dry_run.py -q` passed: `20 passed`.
+  - `git diff --check` passed.
+  - `reports/agent_runs/latest.json` JSON check passed.
+  - `reports/agent_runs/latest.json` and `reports/internal_mvp_runs/example.json|example.md|latest.json` are ignored by Git.
+- validation: `issue_summary.p0_count` now maps to no-go even without detailed issues; P1/P2/P3 count-only summary is preserved; repair/data mutation boundary false now maps to P0/no-go while fixed output safety flags remain false / empty.
+- risks: Awaiting Codex B re-review; no real run record was read; no API / CLI smoke; no DB / index writes.
+- next: Codex B review; if accepted, provide Phase 2.49 Git baseline prompt.
+- commit/tag if any: none.
+
+## 2026-05-07 22:55 Phase 2.49 review
+- goal: Codex B reviewed Phase 2.49 runner and tests.
+- result: blocked pending bounded review-fix.
+- findings: `issue_summary.p0_count` without issue items can still produce `decision_hint=go`; repair/data mutation boundary false can set evidence policy flags while `decision_hint` remains `go`.
+- validation: Existing tests pass (`16 passed`), but manual edge probes found decision consistency gaps.
+- next: Codex A should execute review-fix prompt in `docs/NEXT_CODEX_A_PROMPT.md`; no baseline.
+- commit/tag if any: none.
+
+## 2026-05-07 23:20 Phase 2.49 baseline prompt
+- goal: Codex B re-reviewed Phase 2.49 review-fix and prepared Git baseline prompt.
+- result: approved. Count-only P0/P1/P2/P3 summary and repair/data mutation boundary false mappings are now consistent with no-go/pause semantics.
+- validation: `20 passed`, py_compile passed, git diff check passed, manual edge probes passed.
+- next: Codex A should execute selective Phase 2.49 baseline only.
+- commit/tag if any: none.

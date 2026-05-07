@@ -331,3 +331,9 @@
 - [Phase 2.48c] Codex B review 已通过 Phase 2.48b，并写入 Codex C targeted smoke prompt；下一步只验证 Excel citation display 与 meeting transcript boundary display，不重跑 full Day-1，未写 DB / index，未进入 rollout。
 
 - [Phase 2.48c] Codex C targeted smoke 已通过：session `20260507_215047_a81e78`，Excel citation display 与 meeting transcript boundary display 均 pass，未出现 facts 替代 evidence、会议纪要当 confirmed facts 或第三文件污染；已写入 Phase 2.48 combined baseline prompt。
+- [Phase 2.49] 完成 Internal MVP Run Record Review Bridge 最小实现：新增显式输入 runner，将本地 ignored internal MVP run record JSON 转为 sanitized review payload，并可选在内存中生成 Phase 2.42a review dry-run report；目标测试 `9 passed`，未读取真实 run record，未运行 API / CLI，未写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+
+- [Phase 2.49 Review] Codex B review 发现两个阻塞点：`issue_summary.p0_count` 在 `issues=[]` 时未映射为 no-go；repair/data mutation boundary false 时 `decision_hint` 仍可能为 go。已写入 bounded review-fix prompt，暂不 baseline。
+- [Phase 2.49 Review Fix] 完成决策一致性最小修复：count-only issue summary 会生成 P0/P1/P2/P3 placeholder；repair/data mutation boundary false 会生成 P0 boundary item 并输出 `decision_hint=no_go`；目标测试扩展后 `20 passed`，未读取真实 run record、未运行 API / CLI、未写 DB / index。
+
+- [Phase 2.49 Review Fix] Codex B 复审通过：count-only P0、repair boundary false、data mutation boundary false 均正确映射为 no-go；目标测试 `20 passed`，已写入 Phase 2.49 baseline prompt。
