@@ -1,30 +1,37 @@
 # NEXT_CODEX_A_PROMPT
 
-这是 Codex A 的下一轮执行入口。Codex B 已完成 Phase 2.45d Mac mini Real-machine Deployment Record Planning review，并批准进入 **docs-only Git baseline**。
+这是 Codex A 的下一轮执行入口。Codex B 已完成 Phase 2.45e Sanitized Deployment Record Template Artifact review，并批准进入 **docs-only Git baseline**。
 
 ## 当前状态
 
-Phase 2.45d planning 已完成并通过 Codex B review：
+Phase 2.45e artifact 已完成并通过 Codex B review：
 
-1. 新增 `docs/PHASE245D_MAC_MINI_DEPLOYMENT_RECORD_PLAN.md`。
-2. Planning 覆盖 real-machine deployment record inputs、output schema、operator checklist、stop conditions、storage policy、Phase 2.45c runner relationship 与 future phase candidates。
-3. 规划明确 deployment record 是人工记录 / operator sign-off 模板，不是 deployment script。
-4. 真实部署、真实 API / CLI smoke、Phase 2.45c runner、service restart、migration、repair / backfill / reindex / cleanup / delete、DB / facts / document_versions / audit_logs / OpenSearch / Qdrant 写入均未执行。
+1. 新增 `docs/MAC_MINI_DEPLOYMENT_RECORD_TEMPLATE.md`。
+2. 新增 `reports/deployment_records/.gitignore`。
+3. 新增 `reports/deployment_records/README.md`。
+4. Template 固定声明：
+   - `record_type=mac_mini_deployment_record`
+   - `deployment_executed_by_human=true`
+   - `codex_executed_deployment=false`
+   - `production_rollout_approved=false`
+5. Template 覆盖 Git baseline、机器 / operator、env key-name checklist、NAS / external SSD、health-check evidence path、MVP smoke path、Go / Pause / No-Go、stop conditions、operator signoff。
+6. `reports/deployment_records/.gitignore` 默认忽略真实 deployment record JSON / Markdown / latest / logs。
+7. README 明确真实记录默认不入 Git，禁止 secrets / tokens / `.env` values / raw sensitive logs。
 
 Codex B review 结论：
 
-1. 文档边界正确。
-2. `docs/PHASE245D_MAC_MINI_DEPLOYMENT_RECORD_PLAN.md` 未把 deployment record 误写成真实部署授权。
-3. storage policy 明确真实 deployment record JSON / Markdown future local ignored。
-4. stop conditions 覆盖 health-check fail、Qdrant/env 错误、secret exposure、unknown dirty、evidence P0、repair/reindex/write DB/rollout 请求。
-5. 可进入 Phase 2.45d docs-only Git baseline。
-6. 不允许进入 Phase 2.45e。
+1. artifact 边界正确。
+2. template 未被写成真实 deployment proof 或 rollout approval。
+3. real deployment records 默认 ignored。
+4. 可进入 Phase 2.45e docs-only Git baseline。
+5. Mac mini 已到货，baseline 后主线可切入 Phase 2.46：Mac mini Day-0 real-machine setup / internal MVP application prep。
+6. 但 Phase 2.45e 本轮仍不得执行真实部署。
 
 ## 本轮目标
 
-只做 Phase 2.45d docs-only Git baseline。
+只做 Phase 2.45e docs-only Git baseline。
 
-不得新增功能、不得新增 deployment script、不得运行 Phase 2.45c runner、不得运行真实 API / CLI smoke、不得执行真实 Mac mini deployment、不得进入 Phase 2.45e。
+不得新增功能、不得新增 deployment script、不得运行 Phase 2.45c runner、不得运行真实 API / CLI smoke、不得执行真实 Mac mini deployment、不得进入 Phase 2.46。
 
 ## 必须复跑
 
@@ -32,16 +39,18 @@ Codex B review 结论：
 cd /Users/Weishengsu/Hermes_memory
 git status --short
 git diff --check
+git check-ignore -v reports/deployment_records/example.json
+git check-ignore -v reports/deployment_records/example.md
 uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json
-git check-ignore -v reports/agent_runs/latest.json
 ```
 
 确认：
 
-1. dirty 只包含 Phase 2.45d 白名单文件与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
-2. `reports/agent_runs/latest.json` 被 Git ignore 命中。
-3. 没有 scripts / tests / app / migrations / real reports / `.env` 被 staged。
-4. 没有真实 deployment record JSON / Markdown 被 staged。
+1. dirty 只包含 Phase 2.45e 白名单文件与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+2. `reports/deployment_records/example.json` 被 Git ignore 命中。
+3. `reports/deployment_records/example.md` 被 Git ignore 命中。
+4. `reports/agent_runs/latest.json` 被 Git ignore 命中。
+5. 没有 scripts / tests / app / migrations / real deployment records / `.env` 被 staged。
 
 不得运行：
 
@@ -55,14 +64,16 @@ git check-ignore -v reports/agent_runs/latest.json
 
 只能 stage 以下文件：
 
-1. `docs/PHASE245D_MAC_MINI_DEPLOYMENT_RECORD_PLAN.md`
-2. `docs/ACTIVE_PHASE.md`
-3. `docs/PHASE_BACKLOG.md`
-4. `docs/HANDOFF_LOG.md`
-5. `docs/NIGHTLY_SPRINT_QUEUE.md`
-6. `docs/NEXT_CODEX_A_PROMPT.md`
-7. `docs/TODO.md`
-8. `docs/DEV_LOG.md`
+1. `docs/MAC_MINI_DEPLOYMENT_RECORD_TEMPLATE.md`
+2. `reports/deployment_records/.gitignore`
+3. `reports/deployment_records/README.md`
+4. `docs/ACTIVE_PHASE.md`
+5. `docs/PHASE_BACKLOG.md`
+6. `docs/HANDOFF_LOG.md`
+7. `docs/NIGHTLY_SPRINT_QUEUE.md`
+8. `docs/NEXT_CODEX_A_PROMPT.md`
+9. `docs/TODO.md`
+10. `docs/DEV_LOG.md`
 
 不得 stage：
 
@@ -73,15 +84,18 @@ git check-ignore -v reports/agent_runs/latest.json
 5. `app/**`
 6. `migrations/**`
 7. Hermes 主仓库
-8. 真实 reports / reviews / run JSON
-9. `.env` 或 secret-bearing 文件
+8. 真实 deployment record JSON / Markdown
+9. 真实 reports / reviews / run JSON
+10. `.env` 或 secret-bearing 文件
 
 ## Commit / Tag / Push
 
 如果且仅如果 staged 文件完全匹配白名单，则执行：
 
 ```bash
-git add docs/PHASE245D_MAC_MINI_DEPLOYMENT_RECORD_PLAN.md \
+git add docs/MAC_MINI_DEPLOYMENT_RECORD_TEMPLATE.md \
+  reports/deployment_records/.gitignore \
+  reports/deployment_records/README.md \
   docs/ACTIVE_PHASE.md \
   docs/PHASE_BACKLOG.md \
   docs/HANDOFF_LOG.md \
@@ -89,36 +103,37 @@ git add docs/PHASE245D_MAC_MINI_DEPLOYMENT_RECORD_PLAN.md \
   docs/NEXT_CODEX_A_PROMPT.md \
   docs/TODO.md \
   docs/DEV_LOG.md
-git commit -m "docs: plan phase 2.45d deployment record"
-git tag phase-2.45d-deployment-record-plan-baseline
+git commit -m "docs: add phase 2.45e deployment record template"
+git tag phase-2.45e-deployment-record-template-baseline
 git push origin main
-git push origin phase-2.45d-deployment-record-plan-baseline
+git push origin phase-2.45e-deployment-record-template-baseline
 ```
 
 ## 硬边界
 
-1. 不进入 Phase 2.45e。
-2. 不执行真实部署。
-3. 不运行 Phase 2.45c runner。
-4. 不运行真实 API / CLI smoke。
-5. 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-6. 不执行 repair / backfill / reindex / cleanup / delete。
-7. 不新增 deployment script。
-8. 不进入 rollout / Data Steward。
-9. 不修改 retrieval contract。
-10. 不修改 memory kernel 主架构。
+1. 不进入 Phase 2.46。
+2. 不执行真实 Mac mini deployment。
+3. 不新增 deployment script。
+4. 不运行 Phase 2.45c runner。
+5. 不运行真实 API / CLI smoke。
+6. 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+7. 不执行 repair / backfill / reindex / cleanup / delete。
+8. 不进入 production rollout。
+9. 不进入 Data Steward / BIM 实现。
+10. 不修改 retrieval contract。
+11. 不修改 memory kernel 主架构。
 
 ## Baseline 后更新
 
 baseline 成功后更新 ignored `reports/agent_runs/latest.json`：
 
-1. `phase=Phase 2.45d Mac mini Real-machine Deployment Record Planning Baseline`
+1. `phase=Phase 2.45e Sanitized Deployment Record Template Artifact Baseline`
 2. `status=baseline`
 3. `git.commit=<new_commit>`
-4. `git.tag=phase-2.45d-deployment-record-plan-baseline`
+4. `git.tag=phase-2.45e-deployment-record-template-baseline`
 5. `git.pushed=true`
 6. `needs_codex_b_review=false`
-7. `next_recommendation=进入 Phase 2.45e 前先由 Codex B 检查 baseline 状态；不自动进入下一阶段。`
+7. `next_recommendation=Mac mini 已到货；进入 Phase 2.46 前先由 Codex B 检查 baseline 状态，并写入 Day-0 real-machine setup / internal MVP application prep prompt。`
 
 ## 返回要求
 

@@ -3529,3 +3529,54 @@
 - risks: baseline 必须 selective staging，排除 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.45e；继续禁止真实部署、repair、rollout 与 Data Steward 实现。
 - next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45d docs-only Git baseline。
 - commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
+
+## 2026-05-07 14:44 Phase 2.45e
+- goal: Confirm Phase 2.45d baseline and write next artifact prompt for sanitized Mac mini deployment record template.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - Phase 2.45d baseline checked：HEAD `e12f82a`，tag `phase-2.45d-deployment-record-plan-baseline`。
+  - remote main / tag 与本地 HEAD 对齐。
+  - `reports/agent_runs/latest.json` indicates baseline / pushed true。
+  - 本轮不运行 API / CLI，不运行 pytest，不运行 Phase 2.45c runner，不执行真实部署。
+- validation: 下一轮收缩为 sanitized deployment record template artifact 与 ignored local storage policy；不生成真实 deployment record，不进入 production rollout / Data Steward。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍为遗留无关 dirty，不得触碰；Phase 2.45e 完成后需 Codex B review，不自动 baseline。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45e artifact。
+- commit/tag if any: 无；本轮只是 next prompt handoff，不提交 Git。
+
+## 2026-05-07 15:02 Phase 2.45e
+- goal: Codex B review Phase 2.45e sanitized deployment record template artifact and write docs-only Git baseline prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `git check-ignore -v reports/deployment_records/example.json`：通过。
+  - `git check-ignore -v reports/deployment_records/example.md`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git status --short`：确认 Phase 2.45e artifact 变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: Codex B review 通过。Template 固定 no-rollout / human-executed / codex-not-deployed 边界，`reports/deployment_records/` 默认忽略真实 JSON / MD / latest / logs。
+- risks: baseline 必须 selective staging，排除 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`；baseline 后不得自动进入 Phase 2.46；继续禁止真实部署、repair、rollout 与 Data Steward 实现。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.45e docs-only Git baseline。
+- commit/tag if any: 无；本轮只是 baseline prompt handoff，不提交 Git。
+## 2026-05-07 14:32 Phase 2.45e
+- goal: Create sanitized Mac mini deployment record template and ignored local storage policy; no real deployment and no smoke.
+- changed_files: `docs/MAC_MINI_DEPLOYMENT_RECORD_TEMPLATE.md`, `reports/deployment_records/.gitignore`, `reports/deployment_records/README.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/NIGHTLY_SPRINT_QUEUE.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `reports/agent_runs/latest.json`.
+- tests: pending `git diff --check`, deployment record ignore checks, latest JSON validation, `git status --short`.
+- validation: Template includes fixed boundary fields, Git baselines, machine/operator metadata, env key-name checklist, storage/mounts, optional evidence paths, stop conditions, Go/Pause/No-Go, operator signoff, and not-production-rollout statement.
+- risks: inherited unrelated dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope; template must not be treated as executed deployment proof.
+- next: Run artifact validation, then request Codex B review; do not baseline or enter Phase 2.45f.
+- commit/tag if any: none.

@@ -10,16 +10,17 @@
 
 ## Current Queue
 
-### Item 1：Phase 2.45d Mac mini Real-machine Deployment Record Planning
+### Item 1：Phase 2.45e Sanitized Deployment Record Template Artifact
 
 - lane：Green Lane
 - 状态：completed_codex_b_review_passed
-- 目标：规划 Mac mini real-machine deployment record / operator sign-off；本轮不执行真实部署、不运行 health-check runner、不运行 API / CLI。
+- 目标：新增 sanitized deployment record template 与 ignored local storage policy；本轮不执行真实部署、不运行 health-check runner、不运行 API / CLI。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 新增 `docs/PHASE245D_MAC_MINI_DEPLOYMENT_RECORD_PLAN.md`。
-  - 更新 Phase 2.45d 交接文档与 ignored latest 状态。
-  - 运行 `git diff --check`、latest JSON 校验、ignore 检查与 `git status --short`。
+  - 新增 `docs/MAC_MINI_DEPLOYMENT_RECORD_TEMPLATE.md`。
+  - 新增 `reports/deployment_records/.gitignore` 与 `reports/deployment_records/README.md`。
+  - 更新 Phase 2.45e 交接文档与 ignored latest 状态。
+  - 运行 `git diff --check`、deployment record ignore 检查、latest JSON 校验与 `git status --short`。
 - 禁止动作：
   - 不修改 / stage `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
   - 不修改 scripts / tests / app / migrations / Hermes 主仓库。
@@ -32,18 +33,18 @@
   - 不启动 Data Steward 实现、DB schema、Neo4j、PostGIS、空间索引或 scheduler 工作。
   - 不修改 retrieval contract 或 memory kernel 主架构。
   - 不自动发起 Codex C。
-- 完成后：已通过 Codex B review；下一步只能进入 Item 2 docs-only baseline，不得进入 Phase 2.45e。
-- baseline 规则：本 item 不 baseline；仅交付 planning dirty。
-- 当前结果：Codex A 已新增 `docs/PHASE245D_MAC_MINI_DEPLOYMENT_RECORD_PLAN.md` 并同步交接状态；docs-only validation 通过，Codex B review 通过。
+- 完成后：已通过 Codex B review；下一步只能进入 Item 2 docs-only baseline，不得进入 Phase 2.46。
+- baseline 规则：本 item 不 baseline；仅交付 template artifact dirty。
+- 当前结果：Codex A 已新增 sanitized template 与 `reports/deployment_records/` ignore / README 策略；目标验证通过，Codex B review 通过。
 
-### Item 2：Phase 2.45d docs-only planning baseline
+### Item 2：Phase 2.45e template artifact baseline
 
 - lane：Yellow Lane
 - 状态：ready_for_codex_a_baseline
 - 条件：Codex B review 已通过；Codex A 可按 `docs/NEXT_CODEX_A_PROMPT.md` 做 selective docs-only baseline。
-- 目标：只提交 Phase 2.45d planning / handoff 文档 baseline。
+- 目标：只提交 Phase 2.45e template artifact / handoff 文档 baseline。
 - 禁止动作：
-  - 不进入 Phase 2.45e。
+  - 不进入 Phase 2.46。
   - 不执行真实部署。
   - 不新增 deployment script。
   - 不运行真实 API / CLI smoke，除非后续 prompt 明确授权。
@@ -53,6 +54,13 @@
 - baseline 规则：默认夜间不可自动执行；需要 Codex B 明确授权。
 
 ## Archived Queue
+
+### Phase 2.45d Mac mini Real-machine Deployment Record Planning
+
+- 类型：Yellow Lane
+- 状态：completed
+- 结果：commit `e12f82a`，tag `phase-2.45d-deployment-record-plan-baseline`。
+- 备注：deployment record planning 已 baseline；未执行真实部署、未运行 health-check runner、未运行 API / CLI smoke、未写 DB / facts / document_versions / OpenSearch / Qdrant。
 
 ### Phase 2.45c Read-only Health-check Script Baseline
 

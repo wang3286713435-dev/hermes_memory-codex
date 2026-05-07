@@ -1,13 +1,15 @@
 # Active Phase
 
-- 当前 phase：Phase 2.45d Mac mini Real-machine Deployment Record Baseline Prompt
-- 本轮目标：Codex B review Phase 2.45d planning，并写入 docs-only Git baseline 交接提示词。
+- 当前 phase：Phase 2.45e Sanitized Deployment Record Template Baseline Prompt
+- 本轮目标：Codex B review Phase 2.45e artifact，并写入 docs-only Git baseline 交接提示词。
 - 背景：
-  - Phase 2.45c Git baseline 已完成：commit `fbad94f`，tag `phase-2.45c-health-check-dry-run-baseline`。
-  - 当前已有只读 health-check dry-run runner，但实机部署记录仍缺模板化边界。
-  - 本轮只做 docs-only planning，不运行 runner、不运行 API / CLI、不写 DB / index。
+  - Phase 2.45d Git baseline 已完成：commit `e12f82a`，tag `phase-2.45d-deployment-record-plan-baseline`。
+  - Phase 2.45d 只规划了 real-machine deployment record / operator sign-off。
+  - 本轮只做 template artifact，不执行真实部署，不运行 runner，不运行 API / CLI。
 - 修改文件：
-  - `docs/PHASE245D_MAC_MINI_DEPLOYMENT_RECORD_PLAN.md`
+  - `docs/MAC_MINI_DEPLOYMENT_RECORD_TEMPLATE.md`
+  - `reports/deployment_records/.gitignore`
+  - `reports/deployment_records/README.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/HANDOFF_LOG.md`
@@ -17,17 +19,19 @@
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - Codex B review 结论：
-  - Phase 2.45d planning 边界正确。
-  - `docs/PHASE245D_MAC_MINI_DEPLOYMENT_RECORD_PLAN.md` 只定义人工 record / sign-off，不是 deployment script。
-  - record inputs、output schema、operator checklist、stop conditions、storage policy 与 future phase candidates 清楚。
-  - 真实 deployment record JSON / Markdown future local ignored，不入 Git。
-  - 可进入 Phase 2.45d docs-only Git baseline。
-  - 不进入 Phase 2.45e，不执行真实部署，不运行 API / CLI smoke。
+  - 新增 sanitized deployment record Markdown template。
+  - 模板固定声明 `record_type=mac_mini_deployment_record`、`deployment_executed_by_human=true`、`codex_executed_deployment=false`、`production_rollout_approved=false`。
+  - 模板包含 Git baseline、机器 / operator、env key-name checklist、NAS / external SSD、health-check evidence path、MVP smoke path、Go / Pause / No-Go、stop conditions、operator signoff。
+  - 新增 `reports/deployment_records/.gitignore`，默认忽略真实 JSON / Markdown / latest / log。
+  - 新增 `reports/deployment_records/README.md`，说明真实部署记录默认不入 Git，禁止 secrets / tokens / `.env` values / raw sensitive logs。
+  - artifact 边界正确，可进入 docs-only Git baseline。
+  - Mac mini 已到货，baseline 后可切入 Phase 2.46 Day-0 real-machine setup / internal MVP application prep。
 - 测试结果：
   - `git diff --check`：通过。
+  - `git check-ignore -v reports/deployment_records/example.json`：通过。
+  - `git check-ignore -v reports/deployment_records/example.md`：通过。
   - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
-  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
-  - `git status --short`：仅显示 Phase 2.45d 文档变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+  - `git status --short`：仅显示 Phase 2.45e artifact 变更与遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
 - live smoke 结果：
   - 未运行真实 API / CLI smoke。
   - 未运行 Hermes CLI chat。
@@ -35,15 +39,15 @@
   - 未访问 Postgres / OpenSearch / Qdrant。
   - 未执行真实 Mac mini 部署。
 - 当前结论：
-  - Phase 2.45d Codex B review 已通过。
-  - 下一轮由 Codex A 只做 Phase 2.45d docs-only Git baseline。
+  - Phase 2.45e Codex B review 已通过。
+  - 下一轮由 Codex A 只做 Phase 2.45e docs-only Git baseline。
 - 阻塞点 / 风险点：
   - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 是遗留无关 dirty，不得 stage / commit。
-  - deployment record planning 不等于真实部署授权。
-  - 真实 deployment record JSON / Markdown 必须 future local ignored，不能提交真实记录。
-  - Data Steward / BIM 继续后置，不进入 Phase 2.45d。
-- 是否建议 baseline：是；仅 Phase 2.45d docs-only Git baseline。
-- 是否建议进入下一阶段：否；baseline 后停止，等待用户决定是否进入 Phase 2.45e。
+  - template artifact 不等于真实 deployment record 或部署证明。
+  - 真实 deployment record JSON / Markdown 已设置未来 ignored，但本轮未生成真实记录。
+  - Data Steward / BIM 继续后置，不进入 Phase 2.45e。
+- 是否建议 baseline：是；仅 Phase 2.45e docs-only Git baseline。
+- 是否建议进入下一阶段：否；baseline 后停止，等待 Codex B 写入 Phase 2.46 Day-0 实机准备 prompt。
 - 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 selective staging / commit / tag / push。
 - 是否需要 Codex B 审核：否，本轮已完成审核；baseline 后再做状态确认即可。
-- 是否需要 Codex C 真实终端验收：否；Phase 2.45d 是 docs-only planning。
+- 是否需要 Codex C 真实终端验收：否；Phase 2.45e 是 docs/artifact。
