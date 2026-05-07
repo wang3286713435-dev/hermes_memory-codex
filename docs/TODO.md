@@ -2,13 +2,14 @@
 
 ## 0. 当前 MVP Pilot 状态
 
-1. Phase 2.46 Mac mini Day-0 real-machine setup / internal MVP application prep planning 已完成，Codex B review 已通过。
-2. Phase 2.46 新增 `docs/PHASE246_MAC_MINI_DAY0_SETUP_PLAN.md`，覆盖人工 operator actions、目录 / Git / env key-name、NAS / SSD、网络、runtime checklist、evidence placeholders、stop conditions 与 Go / Pause / No-Go。
-3. Phase 2.46 仍不执行真实部署，不运行 health-check runner，不运行 API / CLI smoke，不写 DB / index。
-4. 下一步只允许 Codex A 按 `docs/NEXT_CODEX_A_PROMPT.md` 做 docs-only Git baseline，不自动进入 Phase 2.46a。
-5. Phase 2.45e sanitized deployment record template artifact Git baseline 已完成：commit `8bd7616`，tag `phase-2.45e-deployment-record-template-baseline`。
-6. Mac mini 已到货；但不等于 deployment executed 或 production rollout ready。
-7. 真实 deployment record JSON / Markdown 默认必须 local ignored；提交到 Git 的只能是 sanitized template / README / ignore 策略。
+1. Phase 2.46a Mac mini Day-0 setup checklist artifact 已完成，Codex B review 已通过。
+2. Phase 2.46a 新增 `docs/MAC_MINI_DAY0_SETUP_CHECKLIST.md`，覆盖 operator metadata、物理检查、macOS 初始设置、目录结构、Git checkout、env key-name inventory、NAS / SSD、网络、runtime readiness、evidence placeholders、stop conditions 与 Go / Pause / No-Go sign-off。
+3. Phase 2.46a 仍是 docs-only / template-only，不执行真实 setup，不运行 health-check runner，不运行 API / CLI smoke，不写 DB / index。
+4. 下一步只允许 Codex A 按 `docs/NEXT_CODEX_A_PROMPT.md` 做 docs-only Git baseline，不自动进入 Phase 2.46b。
+5. Phase 2.46 Mac mini Day-0 real-machine setup / internal MVP application prep planning Git baseline 已完成：commit `13e2206`，tag `phase-2.46-mac-mini-day0-setup-plan-baseline`。
+6. Phase 2.45e sanitized deployment record template artifact Git baseline 已完成：commit `8bd7616`，tag `phase-2.45e-deployment-record-template-baseline`。
+7. Mac mini 已到货；但不等于 deployment executed 或 production rollout ready。
+8. 真实 deployment record JSON / Markdown 默认必须 local ignored；提交到 Git 的只能是 sanitized template / README / ignore 策略。
 5. Phase 2.45d Mac mini real-machine deployment record docs-only Git baseline 已完成：commit `e12f82a`，tag `phase-2.45d-deployment-record-plan-baseline`。
 6. Phase 2.45c read-only health-check script Git baseline 已完成：commit `fbad94f`，tag `phase-2.45c-health-check-dry-run-baseline`。
 7. Phase 2.45c runner 默认不访问真实 API / CLI，不执行真实 Mac mini 部署。

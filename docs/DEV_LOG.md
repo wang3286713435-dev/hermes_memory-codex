@@ -1,5 +1,7 @@
 # DEV_LOG
 
+- [Phase 2.46a] Codex B review 通过 Mac mini Day-0 setup checklist artifact；已写入 docs-only Git baseline prompt，仍禁止真实 setup、health-check runner、API/CLI smoke、DB/index 写入和 rollout。
+- [Phase 2.46a] Codex B 已确认 Phase 2.46 baseline 完成，写入下一步 Day-0 setup checklist artifact 提示词；本阶段仍只做 docs/template，不执行真实 Mac mini setup、API/CLI smoke、DB/index 写入或 rollout。
 - [Phase 2.46] Codex B review 通过 Mac mini Day-0 setup planning artifact；已写入 docs-only Git baseline prompt，仍禁止真实部署、API/CLI smoke、DB/index 写入、repair、rollout 与 Phase 2.46a 自动推进。
 - [Phase 2.1] 固化 dense backend `/search` 请求格式，传递 query、top_k、filters 与 1024 维约束，状态：完成。
 - [Phase 2.1] 增强 dense result 规范化，支持 snippet、metadata、embedding 与 dense 来源标记，状态：验证通过。
@@ -305,3 +307,5 @@
 - [Phase 2.45e] Git baseline 已完成：commit `8bd7616`，tag `phase-2.45e-deployment-record-template-baseline`；Mac mini 已到货，下一步转入 Phase 2.46 Day-0 real-machine setup / internal MVP application prep planning。
 - [Phase 2.46] Codex B 已写入下一轮 planning 入口：规划 Mac mini 到货后的人工 Day-0 实机准备、目录/Git/env/NAS/SSD/network/runtime checklist、evidence artifacts 与 stop conditions；本轮不执行真实部署、不运行 API / CLI smoke、不写 DB / index。
 - [Phase 2.46] 完成 Day-0 real-machine setup planning artifact：新增 `docs/PHASE246_MAC_MINI_DAY0_SETUP_PLAN.md`，明确人工 operator actions、Git/env/storage/network/runtime checklist、evidence placeholders、stop conditions、Go/Pause/No-Go 与后续 Phase 2.46a/2.46b/2.46c 候选；本轮未运行 runner、API / CLI smoke 或真实部署，未写 DB / facts / document_versions / OpenSearch / Qdrant。
+- [Phase 2.46] Git baseline 已完成：commit `13e2206`，tag `phase-2.46-mac-mini-day0-setup-plan-baseline`；下一步转入 Phase 2.46a Day-0 setup checklist artifact。
+- [Phase 2.46a] 完成 Mac mini Day-0 setup checklist artifact：新增 `docs/MAC_MINI_DAY0_SETUP_CHECKLIST.md`，覆盖 operator metadata、物理检查、macOS 初始设置、目录结构、Git checkout、env key-name inventory、NAS / SSD、网络、runtime readiness、evidence placeholders、stop conditions 与 Go / Pause / No-Go sign-off；本轮未运行 runner、API / CLI smoke 或真实 setup，未写 DB / facts / document_versions / OpenSearch / Qdrant。

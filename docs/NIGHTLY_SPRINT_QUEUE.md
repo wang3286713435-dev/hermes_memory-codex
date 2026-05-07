@@ -13,7 +13,7 @@
 ### Item 1：Phase 2.46 Mac mini Day-0 Real-machine Setup Planning
 
 - lane：Green Lane
-- 状态：completed_codex_b_review_passed
+- 状态：completed_baseline
 - 目标：规划 Mac mini 到货后的 Day-0 real-machine setup / internal MVP application prep；本轮不执行真实部署、不运行 health-check runner、不运行 API / CLI。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
@@ -34,12 +34,12 @@
   - 不自动发起 Codex C。
 - 完成后：Codex B review 已通过；下一步只允许执行 Item 2 docs-only baseline，不得进入 Phase 2.46a。
 - baseline 规则：本 item 不 baseline；baseline 由 Item 2 执行。
-- 当前结果：Codex A 已完成 planning artifact；Codex B review 已通过。
+- 当前结果：Git baseline 已完成，commit `13e2206`，tag `phase-2.46-mac-mini-day0-setup-plan-baseline`。
 
 ### Item 2：Phase 2.46 Day-0 setup planning baseline
 
 - lane：Yellow Lane
-- 状态：ready_for_codex_a_baseline
+- 状态：completed
 - 条件：Codex B review 已通过；Codex A 必须严格按 `docs/NEXT_CODEX_A_PROMPT.md` 白名单执行。
 - 目标：只提交 Phase 2.46 planning / handoff 文档 baseline。
 - 禁止动作：
@@ -47,6 +47,43 @@
   - 不执行真实部署。
   - 不新增 deployment script。
   - 不运行真实 API / CLI smoke，除非后续 prompt 明确授权。
+  - 不写 DB / facts / document_versions / OpenSearch / Qdrant。
+  - 不执行 repair / backfill / reindex / cleanup / delete。
+  - 不进入 rollout / Data Steward。
+- baseline 规则：默认夜间不可自动执行；需要 Codex B 明确授权。
+
+### Item 3：Phase 2.46a Day-0 setup checklist artifact
+
+- lane：Green Lane
+- 状态：completed_codex_b_review_passed
+- 目标：新增可人工填写的 Mac mini Day-0 setup checklist artifact。
+- 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
+- 允许动作：
+  - 新增 `docs/MAC_MINI_DAY0_SETUP_CHECKLIST.md`。
+  - 更新 Phase 2.46a 交接文档与 ignored latest 状态。
+  - 运行 docs-only 校验。
+- 禁止动作：
+  - 不执行真实 Mac mini setup。
+  - 不运行 health-check runner。
+  - 不运行 API / CLI smoke。
+  - 不写 DB / facts / document_versions / OpenSearch / Qdrant。
+  - 不新增 deployment script / scheduler / cron。
+  - 不进入 rollout 或 Data Steward 实现。
+  - 不 stage / commit / tag / push。
+- 完成后：Codex B review 已通过；下一步只允许执行 Item 4 docs-only baseline，不得进入 Phase 2.46b。
+- 当前结果：Codex A 已完成 `docs/MAC_MINI_DAY0_SETUP_CHECKLIST.md`；Codex B review 已通过。
+
+### Item 4：Phase 2.46a Day-0 setup checklist artifact baseline
+
+- lane：Yellow Lane
+- 状态：ready_for_codex_a_baseline
+- 条件：Codex B review 已通过；Codex A 必须严格按 `docs/NEXT_CODEX_A_PROMPT.md` 白名单执行。
+- 目标：只提交 Phase 2.46a checklist artifact / handoff 文档 baseline。
+- 禁止动作：
+  - 不进入 Phase 2.46b。
+  - 不执行真实 setup。
+  - 不运行 health-check runner。
+  - 不运行 API / CLI smoke。
   - 不写 DB / facts / document_versions / OpenSearch / Qdrant。
   - 不执行 repair / backfill / reindex / cleanup / delete。
   - 不进入 rollout / Data Steward。

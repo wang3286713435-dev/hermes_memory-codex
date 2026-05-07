@@ -1,5 +1,43 @@
 # Handoff Log
 
+## 2026-05-07 Phase 2.46a
+- goal: Codex B review Phase 2.46a Day-0 setup checklist artifact，并写入 docs-only Git baseline prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+- validation: `docs/MAC_MINI_DAY0_SETUP_CHECKLIST.md` 保持 sanitized / human-fillable，明确不记录 secret values，且不授权真实 setup、runner、smoke、DB / index writes 或 rollout；Codex B review 通过。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 是遗留无关 dirty，不得 stage / commit；`reports/agent_runs/latest.json` 是 ignored 本地状态文件，不得提交。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.46a docs-only Git baseline，baseline 后停止等待 Codex B review。
+- commit/tag if any: 无。
+
+## 2026-05-07 Phase 2.46a
+- goal: Codex B 检查 Phase 2.46 baseline，并写入 Phase 2.46a Day-0 setup checklist artifact 提示词。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `git show --name-only HEAD`：确认 Phase 2.46 commit 只包含白名单文档。
+  - `git rev-parse --short origin/main`：确认 origin/main 为 `13e2206`。
+  - `git tag --points-at HEAD`：确认 tag `phase-2.46-mac-mini-day0-setup-plan-baseline`。
+- validation: Phase 2.46 baseline 完成；下一步只允许 Codex A 创建 docs-only setup checklist artifact，不执行真实 setup、API / CLI smoke、health-check runner、DB / index write、repair / rollout。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty，不得 stage / commit。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.46a checklist artifact 后停止等待 Codex B review。
+- commit/tag if any: 无。
+
 ## 2026-05-07 Phase 2.46
 - goal: Codex B review Phase 2.46 Mac mini Day-0 setup planning，并写入 docs-only Git baseline prompt。
 - changed_files:
@@ -3640,4 +3678,26 @@
 - validation: Day-0 plan covers human operator setup, directory / Git / env key-name / NAS / SSD / network / runtime checklists, evidence artifact placeholders, stop conditions and Go / Pause / No-Go.
 - risks: planning only; no runner, API / CLI smoke, true deployment, DB / index writes, repair or rollout. Inherited unrelated dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope.
 - next: Wait for Codex B review; do not baseline or enter Phase 2.46a.
+- commit/tag if any: none.
+
+## 2026-05-07 15:25 Phase 2.46a
+- goal: Create sanitized, human-fillable Mac mini Day-0 setup checklist artifact.
+- changed_files:
+  - `docs/MAC_MINI_DAY0_SETUP_CHECKLIST.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：确认仅 Phase 2.46a docs / handoff 变更 + 遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: Checklist covers operator metadata, physical/macOS setup, remote access, workspace directories, Git refs, env key-name inventory, storage/network/runtime readiness, evidence placeholders, stop conditions, and Go/Pause/No-Go sign-off.
+- risks: checklist is a template, not deployment proof or rollout approval; inherited unrelated dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope.
+- next: Wait for Codex B review; do not baseline or enter Phase 2.46b.
 - commit/tag if any: none.
