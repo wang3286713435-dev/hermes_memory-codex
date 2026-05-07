@@ -76,11 +76,50 @@
 ### Item 4：Phase 2.46a Day-0 setup checklist artifact baseline
 
 - lane：Yellow Lane
-- 状态：ready_for_codex_a_baseline
+- 状态：completed
 - 条件：Codex B review 已通过；Codex A 必须严格按 `docs/NEXT_CODEX_A_PROMPT.md` 白名单执行。
 - 目标：只提交 Phase 2.46a checklist artifact / handoff 文档 baseline。
 - 禁止动作：
   - 不进入 Phase 2.46b。
+  - 不执行真实 setup。
+  - 不运行 health-check runner。
+  - 不运行 API / CLI smoke。
+  - 不写 DB / facts / document_versions / OpenSearch / Qdrant。
+  - 不执行 repair / backfill / reindex / cleanup / delete。
+  - 不进入 rollout / Data Steward。
+- baseline 规则：默认夜间不可自动执行；需要 Codex B 明确授权。
+
+### Item 5：Phase 2.46b human-run evidence attachment planning
+
+- lane：Green Lane
+- 状态：completed_codex_b_review_passed
+- 目标：规划 Mac mini 人工运行后的证据挂接 / 归档 / 引用方式。
+- 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
+- 允许动作：
+  - 新增 `docs/PHASE246B_MAC_MINI_EVIDENCE_ATTACHMENT_PLAN.md`。
+  - 更新 Phase 2.46b 交接文档与 ignored latest 状态。
+  - 运行 docs-only 校验。
+- 禁止动作：
+  - 不生成真实 health-check report、deployment record 或 smoke report。
+  - 不执行真实 Mac mini setup。
+  - 不运行 health-check runner。
+  - 不运行 API / CLI smoke。
+  - 不写 DB / facts / document_versions / OpenSearch / Qdrant。
+  - 不新增 deployment script / scheduler / cron。
+  - 不进入 rollout 或 Data Steward 实现。
+  - 不 stage / commit / tag / push。
+- 完成后：Codex B review 已通过；下一步只允许执行 Item 6 docs-only baseline，不得进入 Phase 2.46c。
+- 当前结果：Codex A 已完成 `docs/PHASE246B_MAC_MINI_EVIDENCE_ATTACHMENT_PLAN.md`；Codex B review 已通过。
+
+### Item 6：Phase 2.46b evidence attachment planning baseline
+
+- lane：Yellow Lane
+- 状态：ready_for_codex_a_baseline
+- 条件：Codex B review 已通过；Codex A 必须严格按 `docs/NEXT_CODEX_A_PROMPT.md` 白名单执行。
+- 目标：只提交 Phase 2.46b evidence attachment planning / handoff 文档 baseline。
+- 禁止动作：
+  - 不进入 Phase 2.46c。
+  - 不生成真实 evidence。
   - 不执行真实 setup。
   - 不运行 health-check runner。
   - 不运行 API / CLI smoke。

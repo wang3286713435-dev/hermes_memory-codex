@@ -4,9 +4,9 @@
 
 ## 当前任务
 
-Phase 2.46a Mac mini Day-0 setup checklist artifact docs-only Git baseline。
+Phase 2.46b Mac mini evidence attachment planning docs-only Git baseline。
 
-Codex B 已审核通过 Phase 2.46a checklist artifact。你本轮只允许完成文档基线提交，不进入 Phase 2.46b，不执行真实 Mac mini setup，不运行 API / CLI smoke。
+Codex B 已审核通过 Phase 2.46b planning artifact。你本轮只允许完成文档基线提交，不进入 Phase 2.46c，不执行真实 Mac mini setup，不运行 health-check runner，不运行 API / CLI smoke。
 
 ## 必读文件
 
@@ -18,20 +18,19 @@ Codex B 已审核通过 Phase 2.46a checklist artifact。你本轮只允许完�
 6. `docs/HANDOFF_LOG.md`
 7. `docs/TODO.md`
 8. `docs/DEV_LOG.md`
-9. `docs/PHASE246_MAC_MINI_DAY0_SETUP_PLAN.md`
-10. `docs/MAC_MINI_DAY0_SETUP_CHECKLIST.md`
-11. `reports/agent_runs/latest.json`
+9. `docs/PHASE246B_MAC_MINI_EVIDENCE_ATTACHMENT_PLAN.md`
+10. `reports/agent_runs/latest.json`
 
 ## 本轮目标
 
-只提交 Phase 2.46a Day-0 setup checklist artifact 文档基线。
+只提交 Phase 2.46b evidence attachment planning 文档基线。
 
 ## 允许 stage 的文件白名单
 
 只能 stage 以下文件：
 
 ```text
-docs/MAC_MINI_DAY0_SETUP_CHECKLIST.md
+docs/PHASE246B_MAC_MINI_EVIDENCE_ATTACHMENT_PLAN.md
 docs/ACTIVE_PHASE.md
 docs/PHASE_BACKLOG.md
 docs/HANDOFF_LOG.md
@@ -45,8 +44,9 @@ docs/DEV_LOG.md
 
 1. 不得 stage `reports/agent_runs/latest.json`，它是 ignored 本地状态文件。
 2. 不得 stage `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`，这是遗留无关 dirty。
-3. 不得 stage scripts / tests / app / migrations / reports real artifacts。
-4. 不得修改或 stage Hermes 主仓库。
+3. 不得 stage reports / deployment_records / real evidence artifacts。
+4. 不得 stage scripts / tests / app / migrations。
+5. 不得修改或 stage Hermes 主仓库。
 
 ## 轻量验证
 
@@ -61,16 +61,17 @@ git check-ignore -v reports/agent_runs/latest.json
 
 确认：
 
-1. dirty 只包含 Phase 2.46a 白名单文件 + 遗留无关 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+1. dirty 只包含 Phase 2.46b 白名单文件 + 遗留无关 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
 2. `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 不得被 staged。
 3. `reports/agent_runs/latest.json` 被 ignore 命中，不得被 staged。
+4. 没有真实 evidence / deployment record / smoke report 被 staged。
 
 ## Git baseline
 
 若验证通过，执行：
 
 ```bash
-git add docs/MAC_MINI_DAY0_SETUP_CHECKLIST.md \
+git add docs/PHASE246B_MAC_MINI_EVIDENCE_ATTACHMENT_PLAN.md \
   docs/ACTIVE_PHASE.md \
   docs/PHASE_BACKLOG.md \
   docs/HANDOFF_LOG.md \
@@ -79,20 +80,20 @@ git add docs/MAC_MINI_DAY0_SETUP_CHECKLIST.md \
   docs/TODO.md \
   docs/DEV_LOG.md
 
-git commit -m "docs: add phase 2.46a mac mini day0 checklist"
-git tag phase-2.46a-mac-mini-day0-checklist-baseline
+git commit -m "docs: plan phase 2.46b mac mini evidence attachment"
+git tag phase-2.46b-mac-mini-evidence-attachment-plan-baseline
 git push origin main
-git push origin phase-2.46a-mac-mini-day0-checklist-baseline
+git push origin phase-2.46b-mac-mini-evidence-attachment-plan-baseline
 ```
 
 提交后更新 ignored 本地状态文件 `reports/agent_runs/latest.json`：
 
-1. `phase`: `Phase 2.46a Mac mini Day-0 Setup Checklist Baseline`
+1. `phase`: `Phase 2.46b Mac mini Evidence Attachment Planning Baseline`
 2. `status`: `baseline`
 3. `git.commit`: 写入实际 commit hash
-4. `git.tag`: `phase-2.46a-mac-mini-day0-checklist-baseline`
+4. `git.tag`: `phase-2.46b-mac-mini-evidence-attachment-plan-baseline`
 5. `git.pushed`: `true`
-6. `next_recommendation`: `Codex B may plan Phase 2.46b human-run evidence attachment plan. Do not auto-enter Phase 2.46b.`
+6. `next_recommendation`: `Codex B may plan Phase 2.46c Codex C local MVP smoke prompt. Do not auto-enter Phase 2.46c.`
 7. `needs_codex_b_review`: `true`
 8. `needs_codex_c_validation`: `false`
 
@@ -100,18 +101,20 @@ git push origin phase-2.46a-mac-mini-day0-checklist-baseline
 
 本轮禁止：
 
-1. 不进入 Phase 2.46b。
+1. 不进入 Phase 2.46c。
 2. 不执行真实 Mac mini setup。
 3. 不运行 Phase 2.45c health-check runner。
 4. 不运行 API / CLI smoke。
-5. 不启动 Postgres / OpenSearch / Qdrant / Hermes_memory API / Hermes CLI。
-6. 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-7. 不执行 repair / backfill / reindex / cleanup / delete / migration。
-8. 不新增 deployment scripts / cron / scheduler / rollout automation。
-9. 不进入 production rollout。
-10. 不进入 Data Steward / BIM 实现。
-11. 不修改 retrieval contract。
-12. 不修改 memory kernel 主架构。
+5. 不生成真实 evidence / deployment record / MVP smoke report。
+6. 不启动 Postgres / OpenSearch / Qdrant / Hermes_memory API / Hermes CLI。
+7. 不读取或生成真实 secrets / `.env` values。
+8. 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+9. 不执行 repair / backfill / reindex / cleanup / delete / migration。
+10. 不新增 deployment scripts / cron / scheduler / rollout automation。
+11. 不进入 production rollout。
+12. 不进入 Data Steward / BIM 实现。
+13. 不修改 retrieval contract。
+14. 不修改 memory kernel 主架构。
 
 ## 完成后输出
 
@@ -123,4 +126,5 @@ git push origin phase-2.46a-mac-mini-day0-checklist-baseline
 4. 最终 `git status --short`。
 5. 明确 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 是否仍为未 staged 遗留 dirty。
 6. 明确没有提交 `reports/agent_runs/latest.json`。
-7. 下一步建议：等待 Codex B review，再规划 Phase 2.46b；不得自动进入下一阶段。
+7. 明确没有提交真实 evidence / deployment record / smoke report。
+8. 下一步建议：等待 Codex B review，再规划 Phase 2.46c；不得自动进入下一阶段。

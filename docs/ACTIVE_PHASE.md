@@ -1,13 +1,13 @@
 # Active Phase
 
-- 当前 phase：Phase 2.46a Mac mini Day-0 Setup Checklist Baseline Prompt
-- 本轮目标：Codex B 审核 Phase 2.46a checklist artifact，并写入 docs-only Git baseline 提示词。
+- 当前 phase：Phase 2.46b Mac mini Evidence Attachment Baseline Prompt
+- 本轮目标：Codex B 审核 Phase 2.46b evidence attachment planning artifact，并写入 docs-only Git baseline 提示词。
 - 背景：
-  - Phase 2.46 planning baseline 已完成：commit `13e2206`，tag `phase-2.46-mac-mini-day0-setup-plan-baseline`。
-  - Mac mini 已到货。
-  - Phase 2.46a 仍是 docs-only / template-only，不执行真实 setup，不运行 API / CLI smoke，不写 DB / index。
+  - Phase 2.46 baseline 已完成：commit `13e2206`，tag `phase-2.46-mac-mini-day0-setup-plan-baseline`。
+  - Phase 2.46a baseline 已完成：commit `e78c08e`，tag `phase-2.46a-mac-mini-day0-checklist-baseline`。
+  - Mac mini 已到货，但仍未执行真实 setup / smoke / deployment。
 - 修改文件：
-  - `docs/MAC_MINI_DAY0_SETUP_CHECKLIST.md`
+  - `docs/PHASE246B_MAC_MINI_EVIDENCE_ATTACHMENT_PLAN.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/HANDOFF_LOG.md`
@@ -17,30 +17,32 @@
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 新增 Day-0 setup checklist artifact。
-  - checklist 覆盖 record metadata、物理检查、macOS 初始设置、设备名 / 更新 / 远程访问、目录结构、Git checkout、env key-name inventory、NAS / SSD、10GbE / LAN IP / hostname、runtime readiness、evidence placeholders、stop conditions、Go / Pause / No-Go sign-off。
-  - 明确 checklist 不是 production rollout approval，也不授权 Codex 执行真实 setup / smoke / DB / index writes。
-  - Codex B review 通过，`docs/NEXT_CODEX_A_PROMPT.md` 已切换为 Phase 2.46a docs-only Git baseline 任务。
+  - 新增 Phase 2.46b evidence attachment planning artifact。
+  - 明确证据类型：filled Day-0 checklist、Phase 2.45c health-check JSON、env key-name inventory、storage mount evidence、MVP smoke result、deployment record。
+  - 明确每类证据的 ignored local path、sanitized summary fields、Git policy、review workflow、Go / Pause / No-Go 与 stop conditions。
+  - 明确 Codex 只能读取 sanitized summary 或人工明确授权的局部字段。
+  - Codex B review 通过，`docs/NEXT_CODEX_A_PROMPT.md` 已切换为 Phase 2.46b docs-only Git baseline 任务。
 - 测试结果：
   - `git diff --check`：通过。
   - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
   - `git check-ignore -v reports/agent_runs/latest.json`：通过。
-  - `git status --short`：确认仅 Phase 2.46a docs / handoff 变更 + 遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+  - `git status --short`：确认仅 Phase 2.46b 文档 / handoff 变更 + 遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
 - live smoke 结果：
   - 未运行真实 API / CLI smoke。
   - 未运行 Hermes CLI chat。
   - 未运行 Phase 2.45c health-check runner。
   - 未访问 Postgres / OpenSearch / Qdrant。
   - 未执行真实 Mac mini setup。
+  - 未生成真实 evidence artifact。
 - 当前结论：
-  - Phase 2.46a checklist artifact 已通过 Codex B review。
-  - 本轮只允许 docs-only baseline，不进入 Phase 2.46b。
+  - Phase 2.46b planning artifact 已通过 Codex B review。
+  - 本轮只允许 docs-only baseline，不进入 Phase 2.46c。
 - 阻塞点 / 风险点：
   - `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 是遗留无关 dirty，不得 stage / commit。
-  - checklist 是人工模板，不是部署执行证据。
-  - 真实 setup / smoke / deployment record 仍需后续单独授权。
-- 是否建议 baseline：是；只允许 Codex A 按白名单做 Phase 2.46a docs-only Git baseline。
-- 是否建议进入下一阶段：否；不自动进入 Phase 2.46b。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.46a docs-only Git baseline 后停止。
+  - evidence attachment planning 不是真实证据生成、deployment record 或 rollout approval。
+  - 真实 health-check / MVP smoke / deployment record 仍需后续单独授权。
+- 是否建议 baseline：是；只允许 Codex A 按白名单做 Phase 2.46b docs-only Git baseline。
+- 是否建议进入下一阶段：否；不自动进入 Phase 2.46c。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.46b docs-only Git baseline 后停止。
 - 是否需要 Codex B 审核：当前 review 已通过；baseline 后仍需下一轮 Codex B 检查 commit / tag / push。
-- 是否需要 Codex C 真实终端验收：否；Phase 2.46a 是 docs-only artifact。
+- 是否需要 Codex C 真实终端验收：否；Phase 2.46b 是 docs-only planning。

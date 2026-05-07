@@ -1,5 +1,43 @@
 # Handoff Log
 
+## 2026-05-07 Phase 2.46b
+- goal: Codex B review Phase 2.46b evidence attachment planning artifact，并写入 docs-only Git baseline prompt。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+- validation: `docs/PHASE246B_MAC_MINI_EVIDENCE_ATTACHMENT_PLAN.md` 保持 docs-only planning，明确真实 evidence 默认 ignored、sanitized summary 不含 secret、本轮不运行 setup / runner / smoke / DB / index writes / rollout；Codex B review 通过。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 是遗留无关 dirty，不得 stage / commit；`reports/agent_runs/latest.json` 是 ignored 本地状态文件，不得提交。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.46b docs-only Git baseline，baseline 后停止等待 Codex B review。
+- commit/tag if any: 无。
+
+## 2026-05-07 Phase 2.46b
+- goal: Codex B 检查 Phase 2.46a baseline，并写入 Phase 2.46b human-run evidence attachment planning 提示词。
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`
+- tests:
+  - `git status --short`：确认仅遗留无关 dirty + 本轮 handoff 文档。
+  - `git rev-parse --short origin/main`：确认 origin/main 为 `e78c08e`。
+  - `git tag --points-at HEAD`：确认 tag `phase-2.46a-mac-mini-day0-checklist-baseline`。
+- validation: Phase 2.46a baseline 完成；下一步只允许 Codex A 规划人工 evidence 挂接，不生成真实 evidence、不执行 setup、runner、smoke、DB / index writes 或 rollout。
+- risks: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 仍是遗留无关 dirty，不得 stage / commit。
+- next: Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.46b planning 后停止等待 Codex B review。
+- commit/tag if any: 无。
+
 ## 2026-05-07 Phase 2.46a
 - goal: Codex B review Phase 2.46a Day-0 setup checklist artifact，并写入 docs-only Git baseline prompt。
 - changed_files:
@@ -3700,4 +3738,26 @@
 - validation: Checklist covers operator metadata, physical/macOS setup, remote access, workspace directories, Git refs, env key-name inventory, storage/network/runtime readiness, evidence placeholders, stop conditions, and Go/Pause/No-Go sign-off.
 - risks: checklist is a template, not deployment proof or rollout approval; inherited unrelated dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope.
 - next: Wait for Codex B review; do not baseline or enter Phase 2.46b.
+- commit/tag if any: none.
+
+## 2026-05-07 15:54 Phase 2.46b
+- goal: Plan how Mac mini human-run Day-0 / MVP evidence should be attached, archived, referenced, and reviewed.
+- changed_files:
+  - `docs/PHASE246B_MAC_MINI_EVIDENCE_ATTACHMENT_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
+- tests:
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：确认仅 Phase 2.46b docs / handoff 变更 + 遗留无关 dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+- validation: Evidence attachment plan covers filled checklist, health-check JSON, env inventory, storage evidence, MVP smoke result, deployment record, ignored paths, sanitized summary fields, Git policy, review workflow, Go/Pause/No-Go, relationship to Phase 2.45c / 2.45e / 2.46a, and Phase 2.46c candidate.
+- risks: planning only; no real evidence, no runner, no API / CLI smoke, no true setup, no DB / index writes, no repair and no rollout. Inherited unrelated dirty `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains out of scope.
+- next: Run docs-only validation, then wait for Codex B review; do not baseline or enter Phase 2.46c.
 - commit/tag if any: none.

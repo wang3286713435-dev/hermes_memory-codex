@@ -1,5 +1,7 @@
 # DEV_LOG
 
+- [Phase 2.46b] Codex B review 通过 Mac mini evidence attachment planning artifact；已写入 docs-only Git baseline prompt，仍禁止真实 evidence、health-check runner、API/CLI smoke、DB/index 写入和 rollout。
+- [Phase 2.46b] Codex B 已确认 Phase 2.46a baseline 完成，写入下一步 human-run evidence attachment planning 提示词；本阶段仍只做 docs planning，不生成真实 evidence、不运行 health-check runner、API/CLI smoke、DB/index 写入或 rollout。
 - [Phase 2.46a] Codex B review 通过 Mac mini Day-0 setup checklist artifact；已写入 docs-only Git baseline prompt，仍禁止真实 setup、health-check runner、API/CLI smoke、DB/index 写入和 rollout。
 - [Phase 2.46a] Codex B 已确认 Phase 2.46 baseline 完成，写入下一步 Day-0 setup checklist artifact 提示词；本阶段仍只做 docs/template，不执行真实 Mac mini setup、API/CLI smoke、DB/index 写入或 rollout。
 - [Phase 2.46] Codex B review 通过 Mac mini Day-0 setup planning artifact；已写入 docs-only Git baseline prompt，仍禁止真实部署、API/CLI smoke、DB/index 写入、repair、rollout 与 Phase 2.46a 自动推进。
@@ -309,3 +311,5 @@
 - [Phase 2.46] 完成 Day-0 real-machine setup planning artifact：新增 `docs/PHASE246_MAC_MINI_DAY0_SETUP_PLAN.md`，明确人工 operator actions、Git/env/storage/network/runtime checklist、evidence placeholders、stop conditions、Go/Pause/No-Go 与后续 Phase 2.46a/2.46b/2.46c 候选；本轮未运行 runner、API / CLI smoke 或真实部署，未写 DB / facts / document_versions / OpenSearch / Qdrant。
 - [Phase 2.46] Git baseline 已完成：commit `13e2206`，tag `phase-2.46-mac-mini-day0-setup-plan-baseline`；下一步转入 Phase 2.46a Day-0 setup checklist artifact。
 - [Phase 2.46a] 完成 Mac mini Day-0 setup checklist artifact：新增 `docs/MAC_MINI_DAY0_SETUP_CHECKLIST.md`，覆盖 operator metadata、物理检查、macOS 初始设置、目录结构、Git checkout、env key-name inventory、NAS / SSD、网络、runtime readiness、evidence placeholders、stop conditions 与 Go / Pause / No-Go sign-off；本轮未运行 runner、API / CLI smoke 或真实 setup，未写 DB / facts / document_versions / OpenSearch / Qdrant。
+- [Phase 2.46a] Git baseline 已完成：commit `e78c08e`，tag `phase-2.46a-mac-mini-day0-checklist-baseline`；下一步转入 Phase 2.46b human-run evidence attachment planning。
+- [Phase 2.46b] 完成 Mac mini evidence attachment planning：新增 `docs/PHASE246B_MAC_MINI_EVIDENCE_ATTACHMENT_PLAN.md`，明确 filled checklist、health-check JSON、env inventory、storage evidence、MVP smoke result、deployment record 的 ignored path、sanitized summary fields、Git policy、review workflow、Go/Pause/No-Go 与 stop conditions；本轮未生成真实 evidence，未运行 runner、API / CLI smoke 或真实 setup，未写 DB / facts / document_versions / OpenSearch / Qdrant。
