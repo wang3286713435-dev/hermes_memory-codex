@@ -4191,3 +4191,60 @@
 - risks: out-of-scope dirty remains excluded; Phase 2.51 is an operator runbook, not deployment evidence.
 - next: After baseline, plan whether to do Phase 2.51a fake deployment record dry-run smoke, Phase 2.51b minimal command sheet, or Phase 2.50b evidence pack planning.
 - commit/tag if any: pending.
+
+## 2026-05-08 01:58 Phase 2.52
+- goal: Plan the next bounded step after the Phase 2.51 Mac Mini operator / hot update runbook baseline.
+- changed_files:
+  - `docs/PHASE252_POST_RUNBOOK_ROUTE_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`: passed.
+  - `git check-ignore -v reports/agent_runs/latest.json`: passed.
+- validation: Route review recommends Phase 2.51b minimal operator command sheet as the next docs-only step; Phase 2.51a fake dry-run smoke and Phase 2.50b evidence pack planning remain follow-up candidates.
+- risks: command sheet must not become a deployment script; out-of-scope dirty remains excluded; no real Mac Mini deployment, service start/stop, report read, DB/index write, repair, or rollout occurred.
+- next: Codex B review Phase 2.52 planning; if accepted, write Phase 2.51b docs-only command sheet prompt.
+- commit/tag if any: none.
+
+## 2026-05-08 02:07 Phase 2.51b
+- goal: Create a minimal Mac Mini operator command sheet from the Phase 2.51 runbook.
+- changed_files:
+  - `docs/MAC_MINI_OPERATOR_COMMAND_SHEET.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`: passed.
+  - ignored path checks for agent run, internal MVP run records, and deployment records: passed.
+- validation: Command sheet is docs-only and covers pre-check, repo state, hot update, health checks, canonical JSON run record, optional Markdown notes, Phase 2.49 review command, rollback, stop conditions, and never-do boundaries.
+- risks: command sheet must not be used as an unreviewed deployment script; out-of-scope dirty remains excluded; no real command, service, report read, DB/index write, repair, or rollout occurred.
+- next: Codex B review Phase 2.51b command sheet; if accepted, write docs-only baseline prompt.
+- commit/tag if any: none.
+
+## 2026-05-08 02:16 Phase 2.51b Codex B review
+- goal: Review the minimal Mac Mini operator command sheet and prepare the docs-only baseline prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`: passed.
+  - ignored path checks for agent run, internal MVP run records, and deployment records: passed.
+- validation: Codex B review passes. `docs/MAC_MINI_OPERATOR_COMMAND_SHEET.md` is docs-only, one-page operator-oriented, covers pre-check, repo state, hot update, health checks, canonical JSON run record, optional Markdown notes, Phase 2.49 review command, rollback, stop conditions, and never-do boundaries.
+- risks: Baseline must selectively stage only whitelisted docs files; out-of-scope dirty remains excluded; no real deployment, service start/stop, API / CLI smoke, report read, DB/index write, repair, rollout, or Data Steward implementation occurred.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.51b docs-only Git baseline, then stop.
+- commit/tag if any: none.

@@ -1,5 +1,7 @@
 # DEV_LOG
 
+- [Phase 2.51b] 完成 minimal Mac Mini operator command sheet artifact：新增一页式操作单，覆盖 pre-check、repo state、hot update、health checks、run record、review command、rollback、stop conditions 与 never-do；本轮 docs-only，未执行真实命令或部署。
+- [Phase 2.52] 完成 Phase 2.51 runbook baseline 后路线规划：推荐下一步优先做 Phase 2.51b minimal operator command sheet；2.51a fake deployment record dry-run smoke 与 2.50b evidence pack planning 后置候选。
 - [Phase 2.51] Codex B review 通过 Mac Mini operator / hot update runbook 及 review-fix；当前执行 docs-only Git baseline，仍不执行真实 Mac Mini deployment、API / CLI smoke、DB / index 写入、repair、rollout 或 Data Steward。
 - [Phase 2.51] Codex B review-fix 已完成：Mac Mini operator runbook 现在明确 canonical run record 是 `reports/internal_mvp_runs/<YYYYMMDD>_<session>.json`；Markdown 只作为 optional human notes，不得作为 Phase 2.49 bridge `--input-run-record`。
 - [Phase 2.46c] Codex B review 通过 Codex C Mac mini local MVP smoke prompt artifact；已写入 docs-only Git baseline prompt，仍禁止实际发起 Codex C、运行 smoke、启动服务、生成真实 evidence、DB/index 写入和 rollout。
@@ -346,3 +348,4 @@
 - [Phase 2.50a] 完成 fake run record runbook smoke：使用 `mktemp` 临时目录验证 Phase 2.49 runner 的 explicit input / review report / explicit output-dir 链路；未复核 visible Missing Evidence => `pause`，显式复核 Missing Evidence => `go`，unsafe evidence / contamination => `no_go`；目标测试 `20 passed`，未读取真实 run record、未运行 API / CLI、未写 DB / index。
 - [Phase 2.50a Baseline] Git baseline 已完成：commit `232acf36d563e8f18e3b55ff5981a7ed3c39d766`，tag `phase-2.50a-internal-mvp-runbook-smoke-baseline`，`origin/main` 与 tag 已推送。
 - [Phase 2.51] 完成 Mac Mini Internal MVP Operator / Hot Update docs-only runbook artifact：新增 `docs/PHASE251_MAC_MINI_INTERNAL_MVP_OPERATOR_RUNBOOK.md`，明确 Mac Mini 只运行已 baseline refs，覆盖 day-start checks、hot update、rollback、records、stop conditions 与严禁事项；本轮未执行真实部署、未拉远端、未启动服务、未运行 API / CLI、未写 DB / index。
+- [Phase 2.51b] Codex B review 通过 minimal Mac Mini operator command sheet；已写入 docs-only Git baseline prompt，baseline 仅允许 selective staging 白名单文档，仍禁止真实 Mac Mini deployment、API/CLI smoke、repair、rollout 或 Data Steward。

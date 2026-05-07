@@ -1,13 +1,13 @@
 # Active Phase
 
-- 当前 phase：Phase 2.51 Mac Mini Internal MVP Operator / Hot Update Runbook Git Baseline
-- 本轮目标：提交 Phase 2.51 Mac Mini operator / hot update runbook、review-fix 后的交接文档和状态文档。
+- 当前 phase：Phase 2.51b Minimal Mac Mini Operator Command Sheet Codex B Review
+- 本轮目标：Codex B review Phase 2.51b command sheet，并写入 docs-only Git baseline prompt。
 - 背景：
-  - Phase 2.50a Git baseline 已完成：commit `232acf36d563e8f18e3b55ff5981a7ed3c39d766`，tag `phase-2.50a-internal-mvp-runbook-smoke-baseline`。
-  - Codex B review 已确认 Phase 2.51 review-fix 通过。
-  - runbook 已统一 run record 口径：Phase 2.49 bridge 的 canonical input 是 JSON，不是 Markdown notes。
+  - Phase 2.51 baseline 已完成：commit `60b081acfa4771eaa5134be3cda2632885853663`，tag `phase-2.51-mac-mini-operator-runbook-baseline`。
+  - Phase 2.52 route planning 已完成但未单独 baseline；推荐下一步优先 Phase 2.51b command sheet。
+  - Phase 2.51b 是 docs-only artifact，不是 deployment script。
 - 修改文件：
-  - `docs/PHASE251_MAC_MINI_INTERNAL_MVP_OPERATOR_RUNBOOK.md`
+  - `docs/MAC_MINI_OPERATOR_COMMAND_SHEET.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/HANDOFF_LOG.md`
@@ -15,12 +15,13 @@
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
-  - `reports/agent_runs/latest.json`（ignored，本地状态，baseline 后更新）
+  - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 固化 Mac Mini internal MVP operator / hot update runbook。
-  - 固化 day-start checks、reviewed tag hot update、rollback、record、stop conditions、Go / Pause / No-Go 语义。
-  - 固化 run record review-fix：canonical run record 为 `reports/internal_mvp_runs/<YYYYMMDD>_<session>.json`；Markdown 仅作为 optional human notes。
-  - 明确 Phase 2.51 仍不是 production rollout、客户交付、自动审标、自动经营决策或真实部署证据。
+  - 新增一页式 Mac Mini operator command sheet。
+  - 覆盖 pre-check、repo state、hot update、health checks、daily run record、Phase 2.49 review command、rollback、stop conditions 与 never-do。
+  - 明确 canonical run record 是 `reports/internal_mvp_runs/<YYYYMMDD>_<session>.json`。
+  - 明确 Markdown notes 只是 optional human notes，不得作为 Phase 2.49 bridge input。
+  - 明确本轮未执行真实命令、未启动服务、未进入 rollout。
 - 测试结果：
   - `git diff --check`：通过。
   - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
@@ -37,13 +38,13 @@
   - 本轮不读取真实 internal MVP run records。
   - 本轮不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
 - 当前结论：
-  - Phase 2.51 docs-only baseline 已授权执行。
-  - baseline 后仍不自动进入 Phase 2.51a / 2.51b / 2.50b。
+  - Phase 2.51b docs-only command sheet artifact 已通过 Codex B review。
+  - 下一步只允许执行 docs-only Git baseline prompt，不进入真实 Mac Mini deployment。
 - 阻塞点 / 风险点：
+  - command sheet 可能被误当成脚本；文档已强调所有命令是模板，不能 ad-hoc 执行。
   - out-of-scope dirty 仍需保持排除：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、`docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md`、`docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`。
-  - Phase 2.51 runbook 仍不是部署执行证据；真实 Mac Mini 操作必须单独由 operator 执行并记录。
-- 是否建议 baseline：是；本轮执行 docs-only Git baseline。
-- 是否建议进入下一阶段：否；baseline 后先做路线规划。
-- 下一轮建议：评审是否进入 Phase 2.51a fake deployment record dry-run smoke、Phase 2.51b minimal command sheet，或 Phase 2.50b evidence pack planning。
-- 是否需要 Codex B 审核：否；本轮已按 Codex B baseline 授权执行。
+- 是否建议 baseline：是；仅限 docs-only selective staging baseline。
+- 是否建议进入下一阶段：否；不要进入 Phase 2.51a / 2.50b / rollout。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.51b docs-only Git baseline 后停止。
+- 是否需要 Codex B 审核：否；已完成。
 - 是否需要 Codex C 真实终端验收：否。

@@ -10,17 +10,15 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.51 Mac Mini Internal MVP Operator / Hot Update Runbook Baseline
+### Current Item：Phase 2.51b Minimal Mac Mini Operator Command Sheet Artifact
 
-- lane：Yellow Lane
-- 状态：baseline_authorized
-- 目标：提交 Phase 2.51 Mac Mini operator / hot update runbook 与 review-fix 后的交接文档。
+- lane：Green Lane
+- 状态：implemented_ready_for_codex_b_review
+- 目标：新增一页式 Mac Mini operator command sheet，降低热更新与记录误操作风险。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 修改 `docs/PHASE251_MAC_MINI_INTERNAL_MVP_OPERATOR_RUNBOOK.md` 中的 run record 写入 / review 命令说明。
-  - 明确 canonical run record 是 `reports/internal_mvp_runs/<YYYYMMDD>_<session>.json`。
-  - 明确 Markdown 只作为 optional human notes，不得作为 `--input-run-record`。
-  - 更新 Phase 2.51 交接文档与 ignored latest 状态。
+  - 新增 `docs/MAC_MINI_OPERATOR_COMMAND_SHEET.md`。
+  - 更新交接文档与 ignored latest 状态。
   - 运行 docs / JSON / ignore 轻量检查。
 - 禁止动作：
   - 不执行真实 Mac Mini 部署。
@@ -30,14 +28,14 @@
   - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
   - 不进入 rollout、repair 或 Data Steward 实现。
   - 不 stage / commit / tag / push。
-- 完成后：停止，不自动进入 Phase 2.51a / 2.51b / 2.50b。
-- baseline 规则：Codex B 已授权本次 docs-only baseline；后续 baseline 仍需单独授权。
-- 前置状态：Phase 2.50a Git baseline 已完成，commit `232acf36d563e8f18e3b55ff5981a7ed3c39d766`，tag `phase-2.50a-internal-mvp-runbook-smoke-baseline`。
+- 完成后：等待 Codex B review；通过后只允许进入 Phase 2.51b docs-only Git baseline。
+- baseline 规则：本 item 不 baseline；后续 baseline 仍需单独授权。
+- 前置状态：Phase 2.51 Git baseline 已完成，commit `60b081acfa4771eaa5134be3cda2632885853663`，tag `phase-2.51-mac-mini-operator-runbook-baseline`。
 
 ### Next Candidate：Phase 2.51 post-baseline route planning
 
 - lane：Green Lane
-- 状态：pending
+- 状态：completed_in_phase_2.52
 - 目标：评审是否进入 Phase 2.51a fake deployment record dry-run smoke、Phase 2.51b minimal command sheet，或 Phase 2.50b evidence pack planning。
 - 禁止动作：
   - 不执行真实 Mac Mini deployment。
@@ -46,6 +44,20 @@
   - 不读取真实 reports / run records。
   - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
   - 不执行 repair / backfill / reindex / cleanup / delete。
+  - 不进入 production rollout 或 Data Steward。
+
+### Recommended Next：Phase 2.51b minimal operator command sheet
+
+- lane：Green Lane
+- 状态：implemented_ready_for_codex_b_review
+- 目标：把 Phase 2.51 runbook 命令提炼成一页 docs-only operator command sheet。
+- 禁止动作：
+  - 不新增 deployment script。
+  - 不创建 cron / scheduler。
+  - 不执行真实命令。
+  - 不启动 / 停止服务。
+  - 不读取真实 reports / run records。
+  - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
   - 不进入 production rollout 或 Data Steward。
 
 ### Item 1：Phase 2.46 Mac mini Day-0 Real-machine Setup Planning

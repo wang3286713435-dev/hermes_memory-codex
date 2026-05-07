@@ -2,14 +2,14 @@
 
 ## 0. 当前 MVP Pilot 状态
 
-1. Phase 2.51 Mac Mini Internal MVP Operator / Hot Update Runbook Git baseline 已授权执行。
-2. Phase 2.50a Git baseline 已完成：commit `232acf36d563e8f18e3b55ff5981a7ed3c39d766`，tag `phase-2.50a-internal-mvp-runbook-smoke-baseline`。
-3. 新增 `docs/PHASE251_MAC_MINI_INTERNAL_MVP_OPERATOR_RUNBOOK.md`，覆盖 Mac Mini operator 角色、day-start checks、hot update、rollback、records、stop conditions 与严禁事项。
-4. Phase 2.51 review-fix 已修正 run record 口径：canonical run record 是 `reports/internal_mvp_runs/<YYYYMMDD>_<session>.json`，由 operator 按 template JSON blocks 手工整理 / 填写；Markdown 只能作为 optional human notes。
-5. `scripts/phase249_internal_mvp_run_record_review.py --input-run-record` 必须使用 canonical JSON，不得传 Markdown notes；如果 operator 只写了 Markdown notes，需先转为 sanitized JSON run record。
-6. Phase 2.51 不执行真实部署、不拉远端、不切 tag、不启动服务、不运行 API / CLI、不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-7. Mac Mini 只应拉取已 baseline commit / tag；`Go` 仍只表示 internal controlled MVP continuation，不代表 production rollout、客户交付、自动审标或自动经营决策授权。
-8. baseline 后下一步只做路线规划：评审 Phase 2.51a fake deployment record dry-run smoke、Phase 2.51b minimal command sheet 或 Phase 2.50b evidence pack planning；不得自动进入 repair、rollout、Data Steward 或真实 Mac Mini deployment。
+1. Phase 2.51b Minimal Mac Mini Operator Command Sheet Artifact 已完成，等待 Codex B review。
+2. Phase 2.51 Git baseline 已完成：commit `60b081acfa4771eaa5134be3cda2632885853663`，tag `phase-2.51-mac-mini-operator-runbook-baseline`。
+3. 新增 `docs/MAC_MINI_OPERATOR_COMMAND_SHEET.md`，覆盖 pre-check、repo state、hot update、health checks、daily run record、Phase 2.49 review command、rollback、stop conditions 与 never-do。
+4. Phase 2.52 route planning 已完成但未单独 baseline；后续可与 Phase 2.51b 一起收口。
+5. Phase 2.51a fake deployment record dry-run smoke 与 Phase 2.50b evidence pack planning 保留为后续候选。
+6. Phase 2.51b 不新增 deployment script、不创建 cron / scheduler、不执行真实命令、不启动 / 停止服务、不读取真实 reports / run records、不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+7. Phase 2.51 / 2.51b 继续明确 Mac Mini 只作为 internal controlled MVP 运行机，不代表 production rollout、客户交付、自动审标或自动经营决策授权。
+8. 下一步：Codex B review Phase 2.51b command sheet；通过后只做 docs-only baseline，不进入真实 deployment、repair、rollout 或 Data Steward。
 7. Phase 2.49 Internal MVP Run Record Review Bridge review-fix 已通过 Codex B 复审并已完成 Git baseline。
 2. 新增本地只读 runner：`scripts/phase249_internal_mvp_run_record_review.py`，必须显式传入 `--input-run-record`，不默认扫描真实 `reports/`。
 3. runner 输出 sanitized review payload，可选 `--review-report` 调用 Phase 2.42a review dry-run report builder；固定 `dry_run=true`、`production_rollout=false`、`repair_authorized=false`、`destructive_actions=[]`、`data_mutation=false`。

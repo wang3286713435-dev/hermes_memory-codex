@@ -2,13 +2,13 @@
 
 ## 当前优先级
 
-1. Phase 2.51 Mac Mini Internal MVP Operator / Hot Update Runbook Git baseline 已授权执行。
-2. Phase 2.50a Git baseline 已完成：commit `232acf36d563e8f18e3b55ff5981a7ed3c39d766`，tag `phase-2.50a-internal-mvp-runbook-smoke-baseline`。
-3. Phase 2.51 明确 Mac Mini 是内部受控 MVP 运行机，不是 production rollout / 客户交付 / 自动审标 / 自动经营决策环境。
-4. Phase 2.51 只提供 operator / hot update runbook artifact，不执行真实部署、不拉远端、不切 tag、不启动服务、不运行 API / CLI、不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-5. Phase 2.51 要求 Mac Mini 只拉取已 baseline commit / tag，拉取前记录当前 ref，拉取后做只读 health / smoke，失败时回滚上一 known-good tag。
-6. Phase 2.51 review-fix 已统一 run record 口径：canonical run record 是 `reports/internal_mvp_runs/<YYYYMMDD>_<session>.json`；Markdown 只能作为 optional human notes，不得作为 Phase 2.49 bridge 的 `--input-run-record`。
-7. baseline 后下一步只做路线规划：评审 Phase 2.51a fake deployment record dry-run smoke、Phase 2.51b minimal command sheet 或 Phase 2.50b evidence pack planning；不得自动进入 repair、rollout、Data Steward 或真实 Mac Mini deployment。
+1. Phase 2.51b Minimal Mac Mini Operator Command Sheet Artifact 已完成，等待 Codex B review。
+2. Phase 2.51 Git baseline 已完成：commit `60b081acfa4771eaa5134be3cda2632885853663`，tag `phase-2.51-mac-mini-operator-runbook-baseline`。
+3. 新增 `docs/MAC_MINI_OPERATOR_COMMAND_SHEET.md`，把 runbook 提炼为 pre-check、repo state、hot update、health checks、run record、review command、rollback、stop conditions 与 never-do。
+4. Phase 2.52 route planning 已完成但未单独 baseline；后续可与 Phase 2.51b 一起收口，减少纯规划 baseline。
+5. Phase 2.51b 不新增 deployment script、cron、scheduler，不执行真实命令，不启动 / 停止服务，不读取真实 reports / run records。
+6. Phase 2.51 / 2.51b 继续明确 Mac Mini 是内部受控 MVP 运行机，不是 production rollout / 客户交付 / 自动审标 / 自动经营决策环境。
+7. 下一步：Codex B review Phase 2.51b command sheet；通过后只做 docs-only baseline，不进入真实 deployment、repair、rollout 或 Data Steward。
 6. Phase 2.48b Meeting Transcript Boundary Trace Display Polish 已完成并通过 Codex B review。
 2. Hermes 主仓 meeting transcript context 现在稳定显示：
    - `meeting_transcript_used=true`
