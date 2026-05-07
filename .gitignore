@@ -14,7 +14,7 @@ dist/
 build/
 *.egg-info/
 uploads/
-storage/
+/storage/
 tmp/
 logs/
 .run/
