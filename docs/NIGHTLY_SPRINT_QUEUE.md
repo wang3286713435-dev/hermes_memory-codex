@@ -10,33 +10,31 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.51a Fake Deployment Record Dry-run Smoke
+### Current Item：Phase 2.50b Internal MVP Evidence Pack Planning
 
 - lane：Green Lane
 - 状态：implemented_ready_for_codex_b_review
-- 目标：用 fake / sanitized / temporary records 验证 deployment record、canonical internal MVP run record 与 Phase 2.49 bridge flow。
+- 目标：规划 internal MVP evidence pack 的目录、命名、人工复核字段、PRD matrix evidence_ref 挂接与 Go / Pause / No-Go 证据语义。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 在 `/tmp` 生成 fake records。
-  - 使用 fake canonical JSON run record 调用 Phase 2.49 bridge。
-  - 新增 `docs/PHASE251A_FAKE_DEPLOYMENT_RECORD_DRY_RUN.md`。
+  - 新增 `docs/PHASE250B_INTERNAL_MVP_EVIDENCE_PACK_PLAN.md`。
   - 更新交接文档与 ignored latest 状态。
+  - 运行 docs / JSON / ignore 轻量检查。
 - 禁止动作：
+  - 不生成真实 evidence pack。
+  - 不读取真实 reports / run records。
   - 不执行真实 Mac Mini deployment。
   - 不启动 / 停止服务。
   - 不运行 API / CLI smoke。
-  - 不读取真实 reports / run records。
   - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
   - 不执行 repair / backfill / reindex / cleanup / delete / migration。
   - 不进入 production rollout 或 Data Steward。
   - 不 stage / commit / tag / push。
-- 当前结果：
-  - fake deployment record JSON check 通过。
-  - fake internal MVP run record JSON check 通过。
-  - Phase 2.49 bridge fake canonical JSON input 通过，`decision_hint=go`，P0=0，P1=0，P2=2，P3=0。
-  - review outputs 只写入 `/tmp/hermes_phase251a_fake_smoke/review_out`。
 - 完成后：等待 Codex B review；通过后再决定是否 baseline。
-- 前置状态：Phase 2.51b Git baseline 已完成，commit `f64c53d677b886694adf221aa72e0ad6e89c40c9`，tag `phase-2.51b-mac-mini-operator-command-sheet-baseline`。
+- 当前结果：
+  - Evidence pack 最小组成、目录命名、manifest 字段、人工复核字段、PRD matrix linkage、redaction / ignore policy 与 Go / Pause / No-Go 语义已规划。
+  - 当前只做 docs-only planning，未生成真实 evidence pack。
+- 前置状态：Phase 2.51a baseline 已完成，commit `1aa6807f38d5a9242640a6822d35aeacafc3dc22`，tag `phase-2.51a-fake-deployment-record-dry-run-baseline`。
 
 ### Item 1：Phase 2.46 Mac mini Day-0 Real-machine Setup Planning
 

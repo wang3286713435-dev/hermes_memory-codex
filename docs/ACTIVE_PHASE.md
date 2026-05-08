@@ -1,13 +1,14 @@
 # Active Phase
 
-- 当前 phase：Phase 2.51a Fake Deployment Record Dry-run Smoke Codex B Review
-- 本轮目标：Codex B review Phase 2.51a fake dry-run artifact，并写入 docs-only Git baseline prompt。
+- 当前 phase：Phase 2.50b Internal MVP Evidence Pack Planning Codex B Review
+- 本轮目标：Codex B review Phase 2.50b evidence pack planning，并写入 docs-only Git baseline prompt。
 - 背景：
-  - Phase 2.51 baseline 已完成：commit `60b081acfa4771eaa5134be3cda2632885853663`，tag `phase-2.51-mac-mini-operator-runbook-baseline`。
-  - Phase 2.51b baseline 已完成：commit `f64c53d677b886694adf221aa72e0ad6e89c40c9`，tag `phase-2.51b-mac-mini-operator-command-sheet-baseline`。
-  - 本轮只使用 `/tmp` fake records，不读取真实 reports / run records，不执行真实 Mac Mini deployment。
+  - Phase 2.49 review bridge 已完成。
+  - Phase 2.50 / 2.50a 已验证 fake run record review loop。
+  - Phase 2.51 / 2.51b 已完成 Mac Mini operator runbook 与 command sheet。
+  - Phase 2.51a baseline 已完成：commit `1aa6807f38d5a9242640a6822d35aeacafc3dc22`，tag `phase-2.51a-fake-deployment-record-dry-run-baseline`。
 - 修改文件：
-  - `docs/PHASE251A_FAKE_DEPLOYMENT_RECORD_DRY_RUN.md`
+  - `docs/PHASE250B_INTERNAL_MVP_EVIDENCE_PACK_PLAN.md`
   - `docs/NEXT_CODEX_A_PROMPT.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/HANDOFF_LOG.md`
@@ -17,15 +18,10 @@
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 在 `/tmp/hermes_phase251a_fake_smoke` 生成 fake deployment record、fake canonical internal MVP run record 与 fake Markdown notes。
-  - fake deployment record JSON check 通过。
-  - fake internal MVP run record JSON check 通过。
-  - Phase 2.49 bridge 成功读取 fake canonical JSON run record，并只向 `/tmp/hermes_phase251a_fake_smoke/review_out` 写 sanitized review outputs。
-  - Markdown notes 未作为 Phase 2.49 bridge input。
+  - 新增 Phase 2.50b evidence pack planning 文档。
+  - 规划 evidence pack 最小组成、目录命名、manifest 字段、人工复核字段、PRD matrix linkage、redaction / ignore policy 与 Go / Pause / No-Go 语义。
+  - 明确真实 evidence pack 默认不入 Git，当前只做 planning。
 - 测试结果：
-  - `python3 -m json.tool /tmp/hermes_phase251a_fake_smoke/fake_deployment_record.json >/tmp/phase251a_fake_deployment_record_check.json`：通过。
-  - `python3 -m json.tool /tmp/hermes_phase251a_fake_smoke/fake_internal_mvp_run_record.json >/tmp/phase251a_fake_run_record_check.json`：通过。
-  - `uv run python scripts/phase249_internal_mvp_run_record_review.py --input-run-record /tmp/hermes_phase251a_fake_smoke/fake_internal_mvp_run_record.json --review-report --output-dir /tmp/hermes_phase251a_fake_smoke/review_out`：通过，`decision_hint=go`，P0=0，P1=0，P2=2，P3=0。
   - `git diff --check`：通过。
   - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
   - `git check-ignore -v reports/agent_runs/latest.json`：通过。
@@ -34,18 +30,18 @@
 - live smoke 结果：
   - 本轮不运行 API / CLI smoke。
   - 本轮不启动 / 停止服务。
-  - 本轮不执行真实 Mac Mini deployment。
   - 本轮不读取真实 internal MVP run records。
+  - 本轮不生成真实 evidence pack。
   - 本轮不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
 - 当前结论：
-  - Phase 2.51a fake dry-run smoke 已通过 Codex B review。
-  - 下一步只允许执行 docs-only Git baseline prompt，不进入真实 Mac Mini deployment。
-  - fake deployment record 只能证明字段形状 / operator flow 可理解，不能作为真实部署完成证据。
+  - Phase 2.50b docs-only planning 已通过 Codex B review。
+  - 下一步只允许执行 docs-only Git baseline prompt，不生成真实 evidence pack。
+  - Evidence pack 是内部受控 MVP 人工审阅证据包，不是 rollout approval。
 - 阻塞点 / 风险点：
-  - fake dry-run 结果不得被误读为真实 Mac Mini deployment、production rollout、customer delivery 或 automatic business decision。
+  - Evidence pack 不得被误读为 production rollout、customer delivery、automatic tender review、automatic bid、automatic business decision 或 repair authorization。
   - out-of-scope dirty 仍需保持排除：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、`docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md`、`docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`。
 - 是否建议 baseline：是；仅限 docs-only selective staging baseline。
-- 是否建议进入下一阶段：否；先完成 Phase 2.51a docs-only Git baseline。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.51a docs-only Git baseline 后停止。
+- 是否建议进入下一阶段：否；先完成 Phase 2.50b docs-only Git baseline。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.50b docs-only Git baseline 后停止。
 - 是否需要 Codex B 审核：否；已完成。
 - 是否需要 Codex C 真实终端验收：否。

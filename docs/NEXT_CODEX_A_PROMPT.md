@@ -1,25 +1,24 @@
 # NEXT_CODEX_A_PROMPT
 
-这是 Codex A 的下一轮文件化执行入口。Codex B 已 review Phase 2.51a Fake Deployment Record / Internal MVP Run Record Dry-run Smoke，结论：通过。下一轮只允许做 docs-only Git baseline。
+这是 Codex A 的下一轮文件化执行入口。Codex B 已 review Phase 2.50b Internal MVP Evidence Pack Planning，结论：通过。下一轮只允许做 docs-only Git baseline。
 
 ## 本轮目标
 
-Phase 2.51a Fake Deployment Record Dry-run Smoke Git Baseline。
+Phase 2.50b Internal MVP Evidence Pack Planning Git Baseline。
 
-只做 selective staging / commit / tag / push；不进入真实 Mac Mini deployment、Phase 2.50b、Phase 2.53、API / CLI smoke、repair、rollout 或 Data Steward。
+只做 selective staging / commit / tag / push；不生成真实 evidence pack，不进入 Phase 2.50c / 2.53、真实 Mac Mini deployment、API / CLI smoke、repair、rollout 或 Data Steward。
 
 ## Codex B Review 结论
 
 通过，理由：
 
-1. `docs/PHASE251A_FAKE_DEPLOYMENT_RECORD_DRY_RUN.md` 清楚说明本轮只使用 fake / sanitized / temporary records。
-2. fake deployment record 明确只是字段形状 / operator flow check，不是 deployment completion evidence。
-3. canonical internal MVP run record 明确为 JSON。
-4. Markdown notes 明确不是 Phase 2.49 bridge input。
-5. Phase 2.49 bridge 只读取 `/tmp/hermes_phase251a_fake_smoke/fake_internal_mvp_run_record.json`。
-6. review output 只写入 `/tmp/hermes_phase251a_fake_smoke/review_out`。
-7. fake review `decision_hint=go` 已被文档限定为 fake internal controlled MVP continuation，不是 rollout approval。
-8. 未读取真实 reports / run records，未启动 API / CLI / Docker，未写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant，未 repair，未 rollout。
+1. `docs/PHASE250B_INTERNAL_MVP_EVIDENCE_PACK_PLAN.md` 明确 evidence pack 是内部受控 MVP 人工审阅证据包。
+2. 文档明确 evidence pack 不是 production rollout approval、customer delivery、automatic tender review、automatic bid、automatic business decision 或 repair authorization。
+3. 最小组成覆盖 canonical run record JSON、Phase 2.49 review payload/report、operator sign-off、issue intake / triage summary、Codex C smoke / Pilot summary、optional deployment summary 和 human notes。
+4. 目录与命名保持真实 pack ignored、不入 Git。
+5. PRD Acceptance Matrix linkage 保守：`evidence_ref` 指向 sanitized summary / commit / tag，不指向 raw local report。
+6. Go / Pause / No-Go 语义保守，P0 / hidden Missing Evidence / evidence replacement / contamination / permissions / repair need 均不得软化。
+7. 未生成真实 evidence pack、未读取真实 reports、未运行 API / CLI、未写 DB / index、未进入 rollout。
 
 ## 必须先复核
 
@@ -42,7 +41,7 @@ git check-ignore -v reports/deployment_records/example.md
 
 只允许 stage 以下文件：
 
-1. `docs/PHASE251A_FAKE_DEPLOYMENT_RECORD_DRY_RUN.md`
+1. `docs/PHASE250B_INTERNAL_MVP_EVIDENCE_PACK_PLAN.md`
 2. `docs/ACTIVE_PHASE.md`
 3. `docs/PHASE_BACKLOG.md`
 4. `docs/HANDOFF_LOG.md`
@@ -69,7 +68,7 @@ git check-ignore -v reports/deployment_records/example.md
 
 ```bash
 cd /Users/Weishengsu/Hermes_memory
-git add docs/PHASE251A_FAKE_DEPLOYMENT_RECORD_DRY_RUN.md \
+git add docs/PHASE250B_INTERNAL_MVP_EVIDENCE_PACK_PLAN.md \
   docs/ACTIVE_PHASE.md \
   docs/PHASE_BACKLOG.md \
   docs/HANDOFF_LOG.md \
@@ -84,10 +83,10 @@ git diff --cached --name-only
 确认 staged 仅上述 8 个文件后：
 
 ```bash
-git commit -m "docs: baseline phase 2.51a fake deployment record dry-run"
-git tag phase-2.51a-fake-deployment-record-dry-run-baseline
+git commit -m "docs: baseline phase 2.50b internal mvp evidence pack plan"
+git tag phase-2.50b-internal-mvp-evidence-pack-plan-baseline
 git push origin main
-git push origin phase-2.51a-fake-deployment-record-dry-run-baseline
+git push origin phase-2.50b-internal-mvp-evidence-pack-plan-baseline
 ```
 
 ## Baseline 后复核
@@ -110,27 +109,28 @@ git tag --points-at HEAD
 
 1. 不写功能代码。
 2. 不新增 / 修改 scripts 或 tests。
-3. 不执行真实 Mac Mini deployment。
-4. 不启动 / 停止服务。
-5. 不运行 API / CLI smoke。
-6. 不读取真实 reports / run records。
-7. 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-8. 不执行 repair / backfill / reindex / cleanup / delete / migration。
-9. 不进入 production rollout。
-10. 不进入 Data Steward / BIM 实现。
-11. 不修改 retrieval contract。
-12. 不修改 memory kernel 主架构。
-13. baseline 后不得自动进入 Phase 2.50b / 2.53。
+3. 不生成真实 evidence pack。
+4. 不执行真实 Mac Mini deployment。
+5. 不启动 / 停止服务。
+6. 不运行 API / CLI smoke。
+7. 不读取真实 reports / run records。
+8. 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+9. 不执行 repair / backfill / reindex / cleanup / delete / migration。
+10. 不进入 production rollout。
+11. 不进入 Data Steward / BIM 实现。
+12. 不修改 retrieval contract。
+13. 不修改 memory kernel 主架构。
+14. baseline 后不得自动进入 Phase 2.50c / 2.53。
 
 ## 完成后状态
 
 更新 `reports/agent_runs/latest.json`（ignored）：
 
-1. `phase=Phase 2.51a Fake Deployment Record Dry-run Smoke Git Baseline`
+1. `phase=Phase 2.50b Internal MVP Evidence Pack Planning Git Baseline`
 2. `status=baseline`
 3. 记录 commit hash、tag、push 结果。
 4. `needs_codex_b_review=false`
 5. `needs_codex_c_validation=false`
-6. 下一步建议：进入下一阶段规划，优先考虑 Phase 2.50b evidence pack planning 或继续内部 MVP operator evidence work；仍不进入真实 deployment / rollout。
+6. 下一步建议：进入下一阶段规划，优先考虑 Phase 2.50c sanitized evidence pack template / fake artifact，或继续内部 MVP operator evidence work；仍不进入真实 evidence generation / deployment / rollout。
 
 完成后停止，等待 Codex B / 用户检查。

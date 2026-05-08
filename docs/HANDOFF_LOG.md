@@ -4306,3 +4306,61 @@
 - risks: Fake bridge `go` is not rollout approval; fake records must not be confused with real deployment evidence; out-of-scope dirty remains excluded.
 - next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.51a docs-only Git baseline, then stop.
 - commit/tag if any: none.
+
+## 2026-05-08 02:58 Phase 2.50b prompt
+- goal: After Phase 2.51a baseline, prepare the next bounded evidence pack planning prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: pending.
+  - `reports/agent_runs/latest.json` JSON check: pending.
+  - ignored path checks: pending.
+- validation: Next prompt is docs-only planning for internal MVP evidence pack; no real evidence generation, report scan, API/CLI smoke, DB/index write, repair, rollout, or Data Steward implementation.
+- risks: Evidence pack must not be confused with production rollout approval; out-of-scope dirty remains excluded.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.50b evidence pack planning, then stop for Codex B review.
+- commit/tag if any: none.
+
+## 2026-05-08 10:10 Phase 2.50b
+- goal: Plan the internal MVP evidence pack structure and review semantics.
+- changed_files:
+  - `docs/PHASE250B_INTERNAL_MVP_EVIDENCE_PACK_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`: passed.
+  - ignored path checks for agent run, internal MVP run records, and deployment records: passed.
+- validation: Evidence pack is planned as an internal controlled MVP human-review bundle with canonical run record JSON, Phase 2.49 review outputs, operator sign-off, issue intake / triage, Codex C smoke summary, optional deployment summary, and human notes.
+- risks: Evidence pack must not be treated as rollout approval, customer delivery, automatic review, automatic bid, business decision, or repair authorization.
+- next: Codex B review Phase 2.50b planning; if accepted, write docs-only Git baseline prompt.
+- commit/tag if any: none.
+
+## 2026-05-08 10:18 Phase 2.50b Codex B review
+- goal: Review Phase 2.50b internal MVP evidence pack planning and prepare the docs-only baseline prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`: passed.
+  - ignored path checks for agent run, internal MVP run records, and deployment records: passed.
+- validation: Codex B review passes. Evidence pack is scoped as an internal controlled MVP human-review bundle; it is not rollout approval, customer delivery, automatic tender review, automatic bid, automatic business decision, or repair authorization.
+- risks: Baseline must selectively stage only whitelisted docs files; real evidence packs remain ignored and are not generated in this phase; out-of-scope dirty remains excluded.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.50b docs-only Git baseline, then stop.
+- commit/tag if any: none.
