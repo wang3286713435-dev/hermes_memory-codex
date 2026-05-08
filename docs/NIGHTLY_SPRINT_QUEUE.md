@@ -10,19 +10,23 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.50c Sanitized Internal MVP Evidence Pack Template
+### Current Item：Phase 2.53 Natural Language File Import MVP Boundary Planning
 
 - lane：Green Lane
-- 状态：implemented_ready_for_codex_b_review
-- 目标：把 Phase 2.50b evidence pack planning 转成 sanitized JSON / Markdown template 与 phase artifact。
+- 状态：completed_baseline
+- 目标：规划自然语言导入单个本地文件的 MVP 边界与代码入口；为下一轮最小实现做准备。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 新增 `docs/PHASE250C_INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.md`。
-  - 新增 `docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.json`。
-  - 新增 `docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.md`。
+  - 新增 `docs/PHASE253_NATURAL_LANGUAGE_FILE_IMPORT_PLAN.md`。
+  - 只读勘查 Hermes_memory upload / ingestion 入口。
+  - 只读勘查 Hermes 主仓 CLI / adapter / alias 候选入口。
   - 更新交接文档与 ignored latest 状态。
-  - 运行 docs / JSON / ignore 轻量检查。
+  - 运行 docs / JSON 轻量检查。
 - 禁止动作：
+  - 不写功能代码。
+  - 不新增 scripts / tests。
+  - 不上传真实文件。
+  - 不递归扫描目录、NAS、网盘或 TB 级 BIM 文件池。
   - 不生成真实 evidence pack。
   - 不读取真实 reports / run records。
   - 不执行真实 Mac Mini deployment。
@@ -32,9 +36,9 @@
   - 不执行 repair / backfill / reindex / cleanup / delete / migration。
   - 不进入 production rollout 或 Data Steward。
   - 不 stage / commit / tag / push。
-- 完成后：已等待 Codex B review；通过后再决定是否 baseline。
-- 前置状态：Phase 2.50b baseline 已完成，commit `16bc72c02795a759af8a54169c8b9d41659d4477`，tag `phase-2.50b-internal-mvp-evidence-pack-plan-baseline`。
-- 当前结果：已新增 sanitized JSON / Markdown template 与 Phase 2.50c artifact；未生成真实 evidence pack。
+- 完成后：Phase 2.53 docs-only baseline 已执行；下一步等待用户 / Codex B 明确是否进入 Phase 2.53a mocked implementation。
+- 前置状态：Phase 2.50c baseline 已完成，commit `83109da`，tag `phase-2.50c-internal-mvp-evidence-pack-template-baseline`。
+- 当前结果：Codex A 已完成 Phase 2.53 planning artifact 与 docs-only baseline；未写功能代码、未上传真实文件、未运行 API / CLI smoke。
 
 ### Item 1：Phase 2.46 Mac mini Day-0 Real-machine Setup Planning
 

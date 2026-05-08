@@ -2,10 +2,12 @@
 
 ## 最新状态
 
-1. Phase 2.50c Sanitized Internal MVP Evidence Pack Template 已完成，等待 Codex B review。
-2. 新增 `docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.json`、`docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.md`、`docs/PHASE250C_INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.md`。
-3. 本阶段只创建 sanitized template，不生成真实 evidence pack、不读取真实 reports、不执行真实部署、不进入 production rollout。
-4. 下一步：Codex B review；通过后只做 Phase 2.50c docs-only baseline。
+1. Phase 2.53 Natural Language File Import MVP Boundary Planning docs-only Git baseline 已执行。
+2. 新增 `docs/PHASE253_NATURAL_LANGUAGE_FILE_IMPORT_PLAN.md`，明确自然语言导入仅限未来 MVP 的单个显式本地文件路径，复用现有 Hermes_memory upload / ingestion。
+3. 本轮只做规划与代码入口勘查；未写功能代码、未上传真实文件、未运行 API / CLI smoke、未写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+4. 规划结论：后续 Phase 2.53a 应先做 mocked parser / upload adapter / alias seed / trace tests；真实 upload smoke 需单独授权。
+5. Data Steward / BIM TB 级资产治理、目录递归导入、生产 rollout、repair / backfill / reindex 继续后置。
+6. 下一步优先进入 Phase 2.53a mocked implementation / tests；不直接真实上传文件。
 
 
 ## 最新状态

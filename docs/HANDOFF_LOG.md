@@ -4426,3 +4426,83 @@
 - risks: Templates must not be treated as real evidence packs, rollout approval, customer delivery, automatic decisions, or repair authorization; real pack generation still requires a separate phase and ignored storage.
 - next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.50c docs-only Git baseline, then stop.
 - commit/tag if any: none.
+
+## 2026-05-08 11:15 Phase 2.53 prompt
+- goal: After Phase 2.50c baseline, switch back to the practical MVP mainline and prepare natural language file import boundary planning.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: pending.
+  - `reports/agent_runs/latest.json` JSON check: pending.
+- validation: Next prompt is planning / entry-point discovery only for natural language single-file import. It forbids real upload, directory scan, NAS / TB BIM ingestion, API / CLI smoke, DB / index writes, repair, rollout, Data Steward implementation, retrieval contract changes, and memory kernel main architecture changes.
+- risks: Natural language import will eventually touch real user files, so Phase 2.53 must clarify explicit intent, fail-closed behavior, file size / path handling, and alias / trace output before implementation.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.53 planning, then stop for Codex B review.
+- commit/tag if any: Phase 2.50c baseline already completed at `83109da`, tag `phase-2.50c-internal-mvp-evidence-pack-template-baseline`.
+
+## 2026-05-08 11:55 Phase 2.53
+- goal: Complete Natural Language File Import MVP boundary planning and code-entry reconnaissance.
+- changed_files:
+  - `docs/PHASE253_NATURAL_LANGUAGE_FILE_IMPORT_PLAN.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`: passed.
+  - `git check-ignore -v reports/agent_runs/latest.json`: passed.
+- validation: Planning confirms future implementation should reuse existing Hermes_memory `/api/v1/documents/upload` / ingestion and add only Hermes main repo consumption-layer intent / adapter / alias / diagnostics. No real upload, API / CLI smoke, DB/index writes, repair, rollout, or Data Steward work.
+- risks: Future import touches real local files; Phase 2.53a must stay explicit single-file, mocked first, and fail closed. Directory / NAS / TB BIM import remains out of scope.
+- next: Codex B review Phase 2.53 planning; if accepted, choose docs-only baseline or Phase 2.53a mocked implementation prompt.
+- commit/tag if any: none.
+
+## 2026-05-08 12:09 Phase 2.53 baseline
+- goal: Perform docs-only Git baseline for Phase 2.53 Natural Language File Import MVP Boundary Planning.
+- changed_files:
+  - `docs/PHASE253_NATURAL_LANGUAGE_FILE_IMPORT_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+- tests:
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`: passed.
+  - `git check-ignore -v reports/agent_runs/latest.json`: passed.
+  - selective staged whitelist review: passed.
+- validation: Baseline is docs-only. No implementation, real upload, API / CLI smoke, DB/index write, repair, rollout, Data Steward, retrieval contract change, or memory kernel change.
+- risks: Phase 2.53a must still start with mocked implementation / tests; real upload smoke requires separate authorization.
+- next: Wait for user / Codex B direction before Phase 2.53a mocked implementation.
+- commit/tag if any: recorded in ignored `reports/agent_runs/latest.json` and final response after baseline.
+
+## 2026-05-08 12:10 Phase 2.53 Codex B review
+- goal: Review Phase 2.53 natural language file import planning and prepare a docs-only baseline prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`: passed.
+  - `git check-ignore -v reports/agent_runs/latest.json`: passed.
+- validation: Codex B review passes. The plan is explicit single-file import only, reuses existing Hermes_memory upload / ingestion, requires fail-closed behavior, and keeps directory / NAS / TB BIM / Data Steward / repair / rollout out of scope.
+- risks: Phase 2.53a will expand into implementation and likely Hermes main repo changes, so Phase 2.53 planning should be baselined first with selective staging.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.53 docs-only Git baseline, then stop.
+- commit/tag if any: none.

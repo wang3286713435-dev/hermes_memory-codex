@@ -2,6 +2,14 @@
 
 ## 最新状态
 
+1. Phase 2.53 Natural Language File Import MVP Boundary Planning docs-only Git baseline 已执行。
+2. 规划结论：自然语言导入应复用 Hermes_memory 现有 `/api/v1/documents/upload` 与 ingestion / version governance / OpenSearch / Qdrant 链路。
+3. 后续 Phase 2.53a 只应先做 mocked parser / adapter / alias seed / trace tests；真实 upload smoke 需单独授权。
+4. 本轮未写功能代码、未上传真实文件、未运行 API / CLI smoke、未写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+5. 继续排除 out-of-scope dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、`docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md`、`docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`。
+
+## 最新状态
+
 1. Phase 2.50c Sanitized Internal MVP Evidence Pack Template 已完成，等待 Codex B review。
 2. 新增 JSON / Markdown sanitized template 与 Phase 2.50c boundary artifact；未生成真实 evidence pack。
 3. 2.50c 只创建 docs / sanitized template，不读取真实 reports，不运行 API / CLI，不进入 rollout。
@@ -19,11 +27,11 @@
 
 ## 当前优先级
 
-1. 当前第一优先级：Codex B review Phase 2.50c sanitized evidence pack templates。
-2. 如 review 通过，下一步只做 Phase 2.50c docs-only Git baseline，不进入真实 evidence generation、deployment、repair、rollout 或 Data Steward。
-3. Evidence pack 后续只可作为内部受控 MVP review bundle，不能替代人工业务判断。
-4. 真实 evidence pack、run records、review outputs、deployment records 默认 ignored，不入 Git。
-5. 后续候选：Phase 2.50d evidence pack generator dry-run 后置；真实 evidence pack 生成需单独授权。
+1. 当前第一优先级：Phase 2.53a Natural Language File Import mocked implementation / tests。
+2. Phase 2.53a 仍不得直接上传真实文件；真实 upload smoke 需单独授权。
+3. Phase 2.53a 候选边界：自然语言 import intent parser、mocked upload adapter、post-upload alias seed、import diagnostics / fail-closed trace。
+4. 真实 upload smoke、真实文件导入、目录递归导入、NAS / TB BIM 文件池、Data Steward、rollout 均需单独授权。
+5. Phase 2.50c evidence pack 后续只可作为内部受控 MVP review bundle，不能替代人工业务判断。
 6. Phase 2.51a baseline 已完成：commit `1aa6807f38d5a9242640a6822d35aeacafc3dc22`，tag `phase-2.51a-fake-deployment-record-dry-run-baseline`。
 7. Phase 2.51 / 2.51a / 2.51b 继续明确 Mac Mini 是内部受控 MVP 运行机，不是 production rollout / 客户交付 / 自动审标 / 自动投标 / 自动经营决策环境。
 6. Phase 2.48b Meeting Transcript Boundary Trace Display Polish 已完成并通过 Codex B review。

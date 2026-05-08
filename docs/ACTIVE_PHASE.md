@@ -1,47 +1,46 @@
 # Active Phase
 
-- 当前 phase：Phase 2.50c Sanitized Internal MVP Evidence Pack Template Codex B Review
-- 本轮目标：Codex B review Phase 2.50c sanitized evidence pack templates，并写入 docs-only Git baseline prompt。
+- 当前 phase：Phase 2.53 Natural Language File Import MVP Boundary Planning Git Baseline
+- 本轮目标：完成 Phase 2.53 自然语言导入文件规划的 docs-only Git baseline，不进入实现。
 - 背景：
-  - Phase 2.50b baseline 已完成：commit `16bc72c02795a759af8a54169c8b9d41659d4477`，tag `phase-2.50b-internal-mvp-evidence-pack-plan-baseline`。
-  - Evidence pack 的结构与治理语义已规划；本轮只创建模板，不生成真实 evidence pack。
+  - Phase 2.50c baseline 已完成：commit `83109da`，tag `phase-2.50c-internal-mvp-evidence-pack-template-baseline`。
+  - Phase 2.53 planning 已完成并通过 Codex B review。
+  - 规划结论：未来自然语言导入文件能力应复用 Hermes_memory upload / ingestion，并只在 Hermes 主仓补消费层 intent / adapter / alias / diagnostics。
 - 修改文件：
-  - `docs/PHASE250C_INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.md`
-  - `docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.json`
-  - `docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.md`
+  - `docs/PHASE253_NATURAL_LANGUAGE_FILE_IMPORT_PLAN.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/HANDOFF_LOG.md`
   - `docs/NIGHTLY_SPRINT_QUEUE.md`
-  - `docs/NEXT_CODEX_A_PROMPT.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
-  - `reports/agent_runs/latest.json`（ignored，本地状态）
+  - `reports/agent_runs/latest.json`（ignored，本地状态，baseline 后记录 commit / tag）
 - 完成内容：
-  - 新增 sanitized evidence pack JSON template。
-  - 新增人工填写版 Markdown evidence pack template。
-  - 新增 Phase 2.50c artifact / boundary 文档。
-  - 更新交接状态，标记等待 Codex B review。
+  - 已复核 Phase 2.53 planning 与 Codex B review 结论。
+  - 已按白名单执行 docs-only baseline。
+  - 未进入 Phase 2.53a 实现。
+  - 未修改 Hermes 主仓库。
 - 测试结果：
-  - `python3 -m json.tool docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.json >/tmp/internal_mvp_evidence_pack_template_check.json`：passed。
   - `git diff --check`：passed。
   - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：passed。
-  - ignored report path checks：passed。
+  - `git check-ignore -v reports/agent_runs/latest.json`：passed。
+  - selective staging 白名单复核：passed。
 - live smoke 结果：
-  - 本轮不运行 API / CLI smoke。
-  - 本轮不启动 / 停止服务。
-  - 本轮不读取真实 internal MVP run records。
-  - 本轮不生成真实 evidence pack。
-  - 本轮不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+  - 未运行 API / CLI smoke。
+  - 未上传真实文件。
+  - 未写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+  - 未执行 repair / backfill / reindex / cleanup / delete。
 - 当前结论：
-  - Phase 2.50c 模板 artifact 已通过 Codex B review。
-  - 下一步只允许执行 docs-only Git baseline prompt，不生成真实 evidence pack。
-  - 模板不是 production rollout approval、customer delivery、automatic tender review、automatic bid、automatic business decision 或 repair authorization。
+  - Phase 2.53 planning 可作为后续 Phase 2.53a mocked implementation / tests 的边界输入。
+  - 本轮 baseline 不代表自然语言导入能力已经实现。
 - 阻塞点 / 风险点：
-  - 真实 evidence pack 生成仍需另开 phase、显式授权，并写入 ignored path。
-  - out-of-scope dirty 仍需保持排除：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、`docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md`、`docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`。
-- 是否建议 baseline：是；仅限 docs-only selective staging baseline。
-- 是否建议进入下一阶段：否；先完成 Phase 2.50c docs-only Git baseline。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.50c docs-only Git baseline 后停止。
-- 是否需要 Codex B 审核：否；已完成。
-- 是否需要 Codex C 真实终端验收：否。
+  - Phase 2.53a 仍必须先 mocked implementation，不得直接真实上传文件。
+  - 真实 upload smoke 需要单独授权。
+  - 目录导入、NAS / TB BIM 文件池、Data Steward、production rollout 继续后置。
+  - out-of-scope dirty 仍需排除：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、`docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md`、`docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`。
+- 是否建议 baseline：已执行 Phase 2.53 docs-only baseline。
+- 是否建议进入下一阶段：否；等待用户 / Codex B 确认后再进入 Phase 2.53a。
+- 下一轮建议：Phase 2.53a mocked implementation / tests；仍不做真实 upload smoke，除非另行授权。
+- 是否需要 Codex B 审核：否；Phase 2.53 planning 已 review 通过。
+- 是否需要 Codex C 真实终端验收：否；未来真实 upload smoke 需单独授权。
