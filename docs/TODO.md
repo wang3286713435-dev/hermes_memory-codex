@@ -2,6 +2,19 @@
 
 ## 最新状态
 
+1. Phase 2.55 planning 已通过 Codex B review，下一步只做 docs-only Git baseline。
+2. baseline 文件只允许 Phase 2.55 规划文档与交接文档，不得纳入 `PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
+3. baseline 后停止；Phase 2.55a 真实 upload smoke 必须等用户提供非敏感文件路径并明确授权。
+
+## 最新状态
+
+1. Phase 2.55 docs-only planning 已完成，新增 `docs/PHASE255_INTERNAL_MVP_REAL_UPLOAD_SMOKE_PLAN.md`。
+2. 规划内容覆盖小型非敏感单文件、pre-flight、smoke steps、trace/citation 验收、stop conditions、sanitized run record 与 Phase 2.55a authorization gate。
+3. 本轮未执行真实 upload、未运行 API / CLI smoke、未写 DB / index、未进入 Data Steward / BIM / NAS / TB 文件池。
+4. Phase 2.55a 默认不允许；必须由用户提供非敏感文件路径并明确授权后才可执行。
+
+## 最新状态
+
 1. Phase 2.54c Codex C 复测已通过，当前下一步只做 selective Git baseline。
 2. baseline 白名单：Hermes 主仓 `context_builder.py` / `test_session_document_scope.py`；Hermes_memory 交接文档。
 3. 必须排除既有无关 dirty：Hermes_memory `PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`，主仓 `hermes_memory_adapter.py` / `uv.lock` / PHASE211E 文档 / adapter reload 测试。

@@ -1,37 +1,34 @@
 # Active Phase
 
-- 当前 phase：Phase 2.54c File Steward UX Display Tail Baseline Prompt
-- 本轮目标：Codex C 真实终端复验通过，下一步只做 Phase 2.54c 双仓 selective Git baseline。
+- 当前 phase：Phase 2.55 Internal MVP Real Upload Smoke Planning Baseline Prompt
+- 本轮目标：Codex B review 已通过，下一步只做 Phase 2.55 docs-only Git baseline。
 - 修改文件：
-  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
-  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_session_document_scope.py`
+  - `/Users/Weishengsu/Hermes_memory/docs/PHASE255_INTERNAL_MVP_REAL_UPLOAD_SMOKE_PLAN.md`
   - `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
   - `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
   - `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
+  - `/Users/Weishengsu/Hermes_memory/docs/NIGHTLY_SPRINT_QUEUE.md`
   - `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
   - `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
   - `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`（ignored）
 - 完成内容：
-  - 在 `ContextBuilder` 的 `file_answer_metadata` 分支增加 required fields、echo required、source fields present 与 safety flags 邻近展示。
-  - 增加 `source_name` fallback：优先 evidence source，缺失时使用 metadata `source_name/file_name/source_title/title/document_title`，最后回退 `document_id`。
-  - 补测试覆盖 metadata display required fields、safety flags 和 source/title fallback。
+  - 新增 Phase 2.55 planning 文档，定义小型非敏感单文件 upload smoke 的边界、样本要求、pre-flight、smoke steps、trace/citation 字段、stop conditions、sanitized run record 与 Phase 2.55a authorization gate。
+  - 明确 Phase 2.55 不上传文件、不运行 API / CLI smoke、不写 DB / OpenSearch / Qdrant。
+  - 明确 Data Steward / BIM / NAS / TB 文件池继续后置。
 - 测试结果：
-  - 主仓 py_compile：通过。
-  - 主仓 targeted pytest：`74 passed`。
-  - Hermes_memory 静态检查通过：`git diff --check`、latest JSON、ignore。
+  - Hermes_memory `git diff --check`：通过。
+  - `latest.json` JSON 校验：通过。
+  - `latest.json` ignore 校验：通过。
 - live smoke 结果：
-  - Codex C targeted re-smoke 通过：session `20260508_181817_c7c9a3`。
-  - Q3 file answer metadata 可见 required fields、echo required、title/source_name/source_type/citation_count 与 safety flags。
-  - 可选 alias missing 快速回归通过。
-  - 未出现 metadata / facts / transcript / snapshot 替代 evidence，未出现第三文件污染。
+  - 未执行；本轮 docs-only planning。
 - 当前结论：
-  - Phase 2.54c display-tail fix 已实现，并通过 Codex B review 与 Codex C 真实终端复验。
-  - 本轮仍是展示层修复，不改 retrieval contract / adapter contract / memory kernel 主架构。
+  - Phase 2.55 planning 已完成并通过 Codex B review，当前主线 MVP 不受影响。
+  - Phase 2.55a 真实 upload smoke 默认不允许，必须由用户提供非敏感文件路径并显式授权。
 - 阻塞点 / 风险点：
-  - `source_name/source_type` 底层值为空时会显示 `Missing Evidence`，这是正确边界，不阻塞 baseline。
-  - metadata 只能作辅助展示，不得替代 retrieval evidence。
-- 是否建议 baseline：是，只做 selective Phase 2.54c baseline。
-- 是否建议进入下一阶段：否。不得进入 Phase 2.55。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 完成 selective baseline 后停止。
+  - 真实 upload 会产生测试 document/version/chunk/index 数据，必须等 Phase 2.55a 授权。
+  - 不允许 cleanup/delete/repair/reindex 作为 smoke 的隐含后续动作。
+- 是否建议 baseline：是，只做 Phase 2.55 docs-only baseline。
+- 是否建议进入下一阶段：否；不得进入 Phase 2.55a，除非用户明确授权并提供非敏感文件路径。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.55 docs-only baseline 后停止。
 - 是否需要 Codex B 审核：已完成。
-- 是否需要 Codex C 真实终端验收：已完成。
+- 是否需要 Codex C 真实终端验收：否，本轮 docs-only。

@@ -1,5 +1,59 @@
 # Handoff Log
 
+## 2026-05-08 Phase 2.55 Codex B review / baseline prompt
+- goal: Review Phase 2.55 Internal MVP real upload smoke planning and prepare docs-only baseline prompt.
+- review result: passed.
+- validation:
+  - Planning only; no upload, no API / CLI smoke, no DB / index writes.
+  - Sample boundary is small, non-sensitive, single file, user-authorized.
+  - Phase 2.55a authorization gate is explicit.
+  - Data Steward / BIM / NAS / TB file pool remains out of scope.
+- checks:
+  - `git diff --check`: passed.
+  - latest JSON validation: passed.
+  - latest ignore check: passed.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.55 docs-only baseline, then stop.
+- commit/tag if any: none.
+
+## 2026-05-08 23:56 Phase 2.55 Internal MVP Real Upload Smoke Planning
+- goal: Plan a small non-sensitive real upload smoke for the internal MVP without executing upload or API/CLI smoke.
+- changed_files:
+  - `docs/PHASE255_INTERNAL_MVP_REAL_UPLOAD_SMOKE_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - pending final docs-only checks: `git diff --check`, latest JSON check, latest ignore check.
+- validation: Planning document defines sample file requirements, pre-flight, smoke steps, expected trace/citation fields, stop conditions, sanitized run record, Phase 2.55a authorization gate, and Data Steward non-scope.
+- risks: Real upload remains unauthorized; Phase 2.55a requires user-provided non-sensitive file path and explicit authorization.
+- next: Codex B review; if accepted, do docs-only baseline. Do not enter Phase 2.55a without explicit authorization.
+- commit/tag if any: none.
+
+## 2026-05-08 Phase 2.55 planning prompt
+- goal: Start Phase 2.55 planning for an internal MVP real upload smoke without executing upload.
+- current baseline:
+  - Hermes main: `6e2c6b2fe`
+  - Hermes_memory: `744bb9e`
+  - tag: `phase-2.54c-file-steward-display-tail-baseline`
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` to create `docs/PHASE255_INTERNAL_MVP_REAL_UPLOAD_SMOKE_PLAN.md`, then stop for Codex B review.
+- forbidden scope: no real upload, no API / CLI smoke, no DB / index writes, no Data Steward / BIM / NAS / TB file pool, no repair, no rollout, no Git baseline.
+- commit/tag if any: none.
+
 ## 2026-05-08 Phase 2.54c Codex C re-smoke / baseline prompt
 - goal: Review Codex C targeted re-smoke and write selective Git baseline prompt.
 - Codex C result:

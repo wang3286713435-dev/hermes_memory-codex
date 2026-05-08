@@ -10,27 +10,28 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.54c File Steward UX Display Tail Fix
+### Current Item：Phase 2.55 Internal MVP Real Upload Smoke Planning
 
 - lane：Green Lane
-- 状态：codex_a_prompt_ready_after_codex_c_partial
-- 目标：修复 Q3 file answer metadata 展示尾项，让 source/title 与 safety flags 在最终 CLI 输出中稳定透出。
+- 状态：implemented_waiting_codex_b_review
+- 目标：规划小型非敏感文件真实导入 smoke 的范围、步骤、验收与授权门槛。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - Codex A 最小修改 Hermes 主仓 `ContextBuilder` 展示文案。
-  - 增加 / 调整目标测试，证明 file answer metadata 会输出 required fields 与 safety flags。
+  - 新增 Phase 2.55 planning 文档。
   - 更新 Hermes_memory 交接文档与 ignored latest 状态。
-  - 运行主仓目标测试与 Hermes_memory 静态检查。
+  - 运行 Hermes_memory docs-only 静态检查。
 - 禁止动作：
+  - 不写功能代码。
   - 不真实上传文件。
   - 不调用真实 upload。
   - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+  - 不运行 API / CLI smoke。
   - 不修改 retrieval contract 或 memory kernel 主架构。
   - 不进入 Data Steward / BIM / NAS / TB 文件池。
   - 不执行 repair / backfill / reindex / cleanup / delete / migration。
   - 不做 production rollout。
   - 不提交 Git。
-- 完成后：停止等待 Codex B review；不得自动写 Codex C prompt、不得 baseline、不得进入 Phase 2.55。
+- 完成后：已停止等待 Codex B review；不得自动进入 Phase 2.55a。
 
 ### Current Item：Phase 2.53a Natural Language File Import Parser / Dry-run Planner
 

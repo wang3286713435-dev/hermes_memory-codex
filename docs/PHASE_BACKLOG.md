@@ -2,6 +2,26 @@
 
 ## 最新状态
 
+1. Phase 2.55 planning 已通过 Codex B review：规划文件明确单文件、小型、非敏感、用户显式授权、sanitized run record 与 stop conditions。
+2. 当前进入 Phase 2.55 docs-only baseline prompt；baseline 后停止。
+3. Phase 2.55a 真实 upload smoke 仍未授权，必须等待用户提供非敏感文件路径并明确授权。
+
+## 最新状态
+
+1. Phase 2.55 docs-only planning 已完成：新增 `docs/PHASE255_INTERNAL_MVP_REAL_UPLOAD_SMOKE_PLAN.md`。
+2. 规划结论：后续 Phase 2.55a 只可在用户明确提供小型非敏感文件路径并授权后执行真实 upload smoke。
+3. Phase 2.55a 可允许产生测试 document/version/chunk/index 数据，但不得 cleanup/delete/repair/reindex。
+4. 当前仍不进入 Data Steward / BIM / NAS / TB 文件池，不进入 production rollout。
+
+## 最新状态
+
+1. Phase 2.54c baseline 已完成：Hermes 主仓 `6e2c6b2fe`，Hermes_memory `744bb9e`，tag `phase-2.54c-file-steward-display-tail-baseline`。
+2. 当前进入 Phase 2.55 Internal MVP Real Upload Smoke Planning。
+3. Phase 2.55 只规划小型非敏感文件真实导入 smoke；不执行 upload、不运行 API / CLI、不写 DB / index。
+4. Phase 2.55a 真实 upload smoke 需要用户明确提供非敏感文件路径并授权。
+
+## 最新状态
+
 1. Phase 2.54c Codex C targeted re-smoke 已通过：Q3 file answer metadata 可见 required fields、echo required、title/source_name/source_type/citation_count 与四个 safety flags。
 2. 可选 alias missing 快速回归通过；未出现 metadata / facts / transcript / snapshot 替代 evidence，未出现第三文件污染。
 3. 当前进入 Phase 2.54c selective Git baseline prompt；baseline 后停止，不自动进入 Phase 2.55。
