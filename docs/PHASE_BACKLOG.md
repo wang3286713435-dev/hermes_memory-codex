@@ -2,6 +2,28 @@
 
 ## 最新状态
 
+1. Phase 2.53b planning 已通过 Codex B review，下一步只做 docs-only Git baseline。
+2. Phase 2.53b baseline 白名单：`PHASE253B_NATURAL_IMPORT_INTEGRATION_PLAN.md` 与交接文档。
+3. baseline 不得纳入 `PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、Mac Mini untracked docs、Hermes 主仓 dirty 或任何代码。
+4. baseline 后停止等待 Codex B review，再决定 Phase 2.53c mocked adapter / kernel integration。
+
+## 最新状态
+
+1. Phase 2.53b docs-only planning 已完成：新增 `docs/PHASE253B_NATURAL_IMPORT_INTEGRATION_PLAN.md`。
+2. 推荐 Phase 2.53c 只做 mocked adapter / kernel integration tests：parser preflight、fake upload adapter、alias seed、diagnostics separation。
+3. Phase 2.53d 才可在用户显式授权后做小型非敏感文件真实 upload smoke。
+4. 当前仍不允许真实 upload、API / CLI smoke、DB / index 写入、目录 / NAS / TB BIM 文件池或 Data Steward。
+
+## 最新状态
+
+1. Phase 2.53a Git baseline 已完成：Hermes 主仓 commit `f15a56de7`，Hermes_memory commit `c841104`，tag `phase-2.53a-natural-file-import-parser-baseline`。
+2. 当前进入 Phase 2.53b Natural Language File Import Adapter / Kernel Integration Planning。
+3. Phase 2.53b 只做 docs-only planning：规划 parser 调用位置、upload adapter 接口、alias seed、import diagnostics 与 fail-closed 边界。
+4. Phase 2.53b 不写代码、不接真实 upload、不运行 API / CLI smoke、不上传真实文件。
+5. Phase 2.53c 才可考虑 mocked adapter / kernel integration；Phase 2.53d 才可在用户显式授权后做小文件真实 upload smoke。
+
+## 最新状态
+
 1. Phase 2.53a Codex B review 已通过：自然语言导入 parser / dry-run planner 的否定 intent 已 fail closed。
 2. 下一步只允许执行 Phase 2.53a selective Git baseline，不进入 Phase 2.53b。
 3. 本轮 baseline 白名单：Hermes 主仓 `natural_file_import.py` / `test_natural_file_import.py`，Hermes_memory 交接文档；不得 stage 既有 out-of-scope dirty / untracked docs。

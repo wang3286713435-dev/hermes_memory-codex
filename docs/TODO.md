@@ -2,6 +2,27 @@
 
 ## 最新状态
 
+1. Phase 2.53b planning 已通过 Codex B review，下一步只做 docs-only baseline。
+2. Phase 2.53b baseline 只提交规划文档和交接文档，不提交代码、不运行 API / CLI smoke、不真实上传文件。
+3. Phase 2.53c mocked adapter / kernel integration 是后续候选，必须在 baseline 后另行授权 / review。
+4. Phase 2.53d 真实 upload smoke 仍需用户显式授权和小型非敏感文件。
+
+## 最新状态
+
+1. Phase 2.53b docs-only planning 已完成：新增 `docs/PHASE253B_NATURAL_IMPORT_INTEGRATION_PLAN.md`。
+2. 规划结论：自然语言导入 parser 应作为 import preflight layer，在普通 retrieval / answer flow 前执行。
+3. 后续 Phase 2.53c 建议只做 mocked upload adapter / kernel integration tests，不真实上传。
+4. 后续 Phase 2.53d 才可在用户显式授权后做小型非敏感文件真实 upload smoke。
+
+## 最新状态
+
+1. Phase 2.53a Git baseline 已完成：Hermes 主仓 commit `f15a56de7`，Hermes_memory commit `c841104`，tag `phase-2.53a-natural-file-import-parser-baseline`。
+2. 当前进入 Phase 2.53b docs-only planning：自然语言导入 parser 如何接入 adapter / kernel / alias seed。
+3. Phase 2.53b 仍不真实上传文件，不运行 API / CLI smoke，不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+4. Data Steward / 企业数据库 / BIM / NAS / TB 文件池继续后置，不进入当前自然语言单文件导入 MVP。
+
+## 最新状态
+
 1. Phase 2.53a Codex B review 已通过，下一步执行 selective Git baseline。
 2. baseline 只纳入自然语言导入 parser / dry-run planner 与交接文档，不纳入 Data Steward、真实 upload、adapter / kernel integration 或无关 dirty。
 3. baseline 后先等待 Codex B review，再决定 Phase 2.53b adapter / alias seed / kernel integration planning。

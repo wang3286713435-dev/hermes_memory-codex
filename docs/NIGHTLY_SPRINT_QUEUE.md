@@ -13,8 +13,8 @@
 ### Current Item：Phase 2.53a Natural Language File Import Parser / Dry-run Planner
 
 - lane：Yellow Lane
-- 状态：codex_b_review_passed_waiting_selective_baseline
-- 目标：执行 Phase 2.53a selective Git baseline；不接真实 upload。
+- 状态：completed_baseline
+- 目标：Phase 2.53a selective Git baseline 已完成；不接真实 upload。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
   - 新增 Hermes 主仓 `agent/memory_kernel/natural_file_import.py`。
@@ -38,6 +38,47 @@
 - 完成后：baseline 后停止等待 Codex B review；不得自动进入 Phase 2.53b adapter / kernel integration。
 - 前置状态：Phase 2.53 baseline 已完成，commit `f92a342`，tag `phase-2.53-natural-language-file-import-plan-baseline`。
 - 当前结果：Codex B review 已通过，已写入 selective baseline prompt；主仓目标测试 `10 passed`；未接真实 upload。
+
+### Next Item：Phase 2.53b Natural Language File Import Adapter / Kernel Integration Planning
+
+- lane：Yellow Lane
+- 状态：codex_b_review_passed_waiting_docs_baseline
+- 目标：Phase 2.53b planning 已通过 review；下一步只做 docs-only baseline。
+- 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
+- 允许动作：
+  - 新增 `docs/PHASE253B_NATURAL_IMPORT_INTEGRATION_PLAN.md`。
+  - 更新交接文档与 ignored latest 状态。
+  - 运行 docs-only 校验。
+- 禁止动作：
+  - 不写功能代码。
+  - 不修改 Hermes 主仓 `agent/`、`tests/`、`run_agent.py`。
+  - 不新增 upload adapter / HTTP client。
+  - 不调用真实 Hermes_memory API。
+  - 不上传文件。
+  - 不读取真实文件内容。
+  - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+  - 不执行 repair / backfill / reindex / cleanup / delete / migration。
+  - 不进入 Data Steward / BIM TB 级管理。
+  - 不 stage / commit / tag / push。
+- 完成后：baseline 后停止等待 Codex B review；不得自动进入 Phase 2.53c。
+
+### Candidate Next Item：Phase 2.53c Mocked Natural Import Adapter / Kernel Integration
+
+- lane：Green Lane
+- 状态：candidate_after_codex_b_review
+- 目标：在 Codex B 通过 Phase 2.53b 后，使用 mocked upload adapter 验证 parser preflight、alias seed 和 import diagnostics 分离。
+- 任务入口：待 Codex B 写入 `docs/NEXT_CODEX_A_PROMPT.md`。
+- 允许动作：
+  - 仅使用 fake / mocked adapter。
+  - 增加 unit tests / direct assertions。
+  - 不调用真实 Hermes_memory API。
+- 禁止动作：
+  - 不上传真实文件。
+  - 不读取真实文件内容。
+  - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+  - 不执行 repair / backfill / reindex / cleanup / delete / migration。
+  - 不进入 Data Steward / BIM TB 级管理。
+- 完成后：等待 Codex B review；真实 upload smoke 仍必须后置 Phase 2.53d 并由用户显式授权。
 
 ### Item 1：Phase 2.46 Mac mini Day-0 Real-machine Setup Planning
 

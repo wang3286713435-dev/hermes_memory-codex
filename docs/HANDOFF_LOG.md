@@ -1,5 +1,45 @@
 # Handoff Log
 
+## 2026-05-08 14:55 Phase 2.53b Codex B review / baseline prompt
+- goal: Review Phase 2.53b integration planning and write docs-only Git baseline prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - Hermes_memory `git diff --check` passed.
+  - latest JSON check passed.
+  - `git check-ignore -v reports/agent_runs/latest.json` passed.
+- validation: Phase 2.53b planning is docs-only and correctly keeps real upload, API / CLI smoke, DB/index writes, adapter implementation, Data Steward, repair and rollout out of scope.
+- risks: Phase 2.53c mocked integration must be separately reviewed; Phase 2.53d real upload smoke requires explicit user authorization.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.53b docs-only Git baseline, then stop for Codex B review.
+- commit/tag if any: none.
+
+## 2026-05-08 14:05 Phase 2.53b prompt
+- goal: Write Phase 2.53b adapter / kernel integration planning prompt after Phase 2.53a baseline.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - Hermes_memory `git diff --check`: pending.
+  - latest JSON check: pending.
+  - `git check-ignore -v reports/agent_runs/latest.json`: pending.
+- validation: Next prompt is docs-only planning. It forbids code changes, upload adapter implementation, API / CLI smoke, real file upload, DB/index writes, Data Steward, repair, rollout, and Git baseline.
+- risks: Phase 2.53b must not drift into implementation; Phase 2.53c mocked integration and Phase 2.53d real upload smoke require separate authorization.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.53b planning, then stop for Codex B review.
+- commit/tag if any: Phase 2.53a baseline completed at Hermes_memory `c841104`, Hermes main `f15a56de7`, tag `phase-2.53a-natural-file-import-parser-baseline`.
+
 ## 2026-05-08 13:45 Phase 2.53a Codex B review / baseline prompt
 - goal: Review Phase 2.53a review-fix and write selective Git baseline prompt.
 - changed_files:
@@ -4614,4 +4654,24 @@
 - validation: Codex B review passes. The plan is explicit single-file import only, reuses existing Hermes_memory upload / ingestion, requires fail-closed behavior, and keeps directory / NAS / TB BIM / Data Steward / repair / rollout out of scope.
 - risks: Phase 2.53a will expand into implementation and likely Hermes main repo changes, so Phase 2.53 planning should be baselined first with selective staging.
 - next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.53 docs-only Git baseline, then stop.
+- commit/tag if any: none.
+
+## 2026-05-08 14:36 Phase 2.53b
+- goal: Plan Natural Language File Import adapter / kernel integration without implementing code.
+- changed_files:
+  - `docs/PHASE253B_NATURAL_IMPORT_INTEGRATION_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`: passed.
+  - `git check-ignore -v reports/agent_runs/latest.json`: passed.
+- validation: Planning only. No Hermes main repo code, upload adapter, real API / CLI smoke, file upload, filesystem content read, DB / index write, repair, rollout, or Data Steward work.
+- risks: Phase 2.53c mocked integration must not drift into real upload; Phase 2.53d real upload smoke requires explicit user authorization and a small non-sensitive file.
+- next: Codex B review Phase 2.53b; if accepted, decide docs baseline or Phase 2.53c mocked adapter / kernel integration prompt.
 - commit/tag if any: none.
