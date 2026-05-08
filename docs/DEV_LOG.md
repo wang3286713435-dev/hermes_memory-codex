@@ -1,5 +1,8 @@
 # DEV_LOG
 
+- [Phase 2.54b] Codex B review 通过 File Steward UX runtime display integration：`ContextBuilder` 新增 `File steward diagnostics:`，目标测试 `73 passed`，未改 retrieval contract、未调用 API、未真实 upload、未写 DB / index。已写入 selective Git baseline prompt。
+- [Phase 2.54b] 完成 File Steward UX runtime display integration：`ContextBuilder` 新增 `File steward diagnostics:` 分区，alias missing / retrieval suppressed、active document continuation、file answer metadata 均可在 enterprise context 中展示；目标测试 `73 passed`。本轮未改 retrieval contract、未调用 API、未真实 upload、未写 DB / index。
+- [Phase 2.54b] Codex B 确认 Phase 2.54a 双仓 baseline 完成：Hermes 主仓 `a34954c85`，Hermes_memory `eadb3ff`，tag `phase-2.54a-file-steward-ux-helper-baseline`。已写入 Phase 2.54b display integration prompt；本轮只允许接入 `ContextBuilder` 展示层，不改 retrieval contract、不真实 upload、不写 DB / index。
 - [Phase 2.54a] Codex B review 通过 File Steward UX helper：`file_steward_ux.py` 为纯 helper，目标测试 `6 passed`，未接 runtime、未真实 upload、未调用 API、未写 DB / index。已写入 selective Git baseline prompt。
 - [Phase 2.54a] 完成 File Steward UX helper 首轮最小实现：新增 alias failure helper、active document continuation hint、file answer metadata structure，固定保留 facts/transcript/snapshot/metadata 不作为 answer 且需要 retrieval evidence；主仓目标测试 `6 passed`。本轮未接真实 upload、API、DB、索引或 runtime integration。
 - [Phase 2.54a] Codex B 确认 Phase 2.53c 双仓 baseline 完成：Hermes 主仓 `1f4309abe`，Hermes_memory `4a06ef9`，tag `phase-2.53c-natural-import-mocked-integration-baseline`。已写入 Phase 2.54a File Steward UX helper implementation prompt；本轮只允许纯 helper + unit tests，不接真实 upload / API / DB / index / Data Steward / rollout。

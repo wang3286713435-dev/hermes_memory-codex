@@ -2,11 +2,19 @@
 
 ## 最新状态
 
-1. Phase 2.54a Enterprise Memory Native UX / File Steward UX minimum implementation 已通过 Codex B review，下一步只做 selective Git baseline。
-2. Hermes 主仓新增 `file_steward_ux.py` 与目标测试，覆盖 alias failure、active document continuation、file answer metadata。
-3. 2.54a helper 固定输出 `facts_as_answer=false`、`transcript_as_fact=false`、`snapshot_as_answer=false`、`metadata_as_answer=false`、`requires_retrieval_evidence=true`。
-4. 目标测试通过：主仓 `test_file_steward_ux.py` 为 `6 passed`。
-5. 当前只建议 baseline；真实 upload / runtime integration / Data Steward / DB-index 写入仍后置。
+1. Phase 2.54b File Steward UX runtime display integration 已通过 Codex B review，下一步只做 selective Git baseline。
+2. 主仓 `ContextBuilder` 已新增 `File steward diagnostics:`，展示 alias failure、active document continuation、file answer metadata。
+3. 目标测试通过：主仓 py_compile 通过，`test_file_steward_ux.py test_session_document_scope.py test_facts_agent_context.py` 为 `73 passed`。
+4. 本轮未接真实 upload、未调用 Hermes_memory API、未写 DB / OpenSearch / Qdrant、未进入 Data Steward。
+5. 下一步只做 baseline；不自动进入 Phase 2.54c / 2.53d。
+
+## 最新状态
+
+1. Phase 2.54a Git baseline 已完成，当前进入 Phase 2.54b File Steward UX runtime display integration。
+2. 2.54b 只允许把 helper 接入 `ContextBuilder` 的展示层，不改 retrieval contract。
+3. 目标体验：alias 失败时给明确下一步；active document 可继续时给提示；文件回答显示 metadata 但不把 metadata 当 answer。
+4. 继续固定 `facts_as_answer=false`、`transcript_as_fact=false`、`snapshot_as_answer=false`、`metadata_as_answer=false`、`requires_retrieval_evidence=true`。
+5. 真实 upload / Data Steward / DB-index 写入 / rollout 仍后置。
 
 ## 最新状态
 

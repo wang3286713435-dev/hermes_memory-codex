@@ -21,6 +21,17 @@ Phase 2.54a 已完成低风险 File Steward UX helper 首轮最小实现：
 4. 目标测试通过：`tests/agent/test_file_steward_ux.py` 为 `6 passed`。
 5. 当前仍是纯 helper，不接真实 API / upload，不读取真实文件内容，不写 DB / OpenSearch / Qdrant，不代表 runtime integration 已完成。
 
+## 1.2 Phase 2.54b Implementation Status
+
+Phase 2.54b 已完成 File Steward UX 的 runtime display integration：
+
+1. Hermes 主仓 `ContextBuilder` 新增 `File steward diagnostics:` 独立分区。
+2. alias missing / retrieval suppressed 场景会显示 alias failure helper 信息，包括 `auto_bind_allowed=false`、`retrieval_evidence_document_ids=[]` 与下一步建议。
+3. active document trace 会显示 continuation hint，并明确 `metadata_as_answer=false`、`requires_retrieval_evidence=true`。
+4. retrieval item / citation 场景会显示 file answer metadata，包括 document_id、version_id、title、source、source_type、citation_count。
+5. 目标回归通过：`tests/agent/test_file_steward_ux.py tests/agent/test_session_document_scope.py tests/agent/test_facts_agent_context.py` 为 `73 passed`。
+6. 本阶段仍不真实 upload、不调用 Hermes_memory API、不读真实文件、不写 DB / OpenSearch / Qdrant、不进入 Data Steward。
+
 ## 2. 与 Phase 2.53 的关系
 
 Phase 2.53 自然语言导入仍继续推进，但它不应被当成孤立功能。它属于更大的 File Steward UX 路线：

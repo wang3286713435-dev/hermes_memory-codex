@@ -1,25 +1,25 @@
 # Active Phase
 
-- 当前 phase：Phase 2.54a Enterprise Memory Native UX / File Steward UX Helper Baseline Prompt
-- 本轮目标：Codex B review 已通过，交给 Codex A 执行 Phase 2.54a selective Git baseline。
+- 当前 phase：Phase 2.54b File Steward UX Runtime Display Integration Baseline Prompt
+- 本轮目标：Codex B review 已通过，交给 Codex A 执行 Phase 2.54b selective Git baseline。
 - 背景：
-  - Phase 2.54a File Steward UX helper 已完成。
-  - Hermes 主仓目标测试 `6 passed`。
-  - 本轮仍为 pure helper，不接 runtime，不真实上传文件，不调用 Hermes_memory API，不写 DB / index。
+  - Phase 2.54b File Steward UX context display integration 已完成。
+  - Hermes 主仓目标测试 `73 passed`。
+  - 本轮只接入 `ContextBuilder` 展示层，未改 retrieval contract，未接真实 upload，未调用 Hermes_memory API，未写 DB / index。
 - 允许 baseline 文件：
-  - Hermes 主仓：`agent/memory_kernel/file_steward_ux.py`
-  - Hermes 主仓：`tests/agent/test_file_steward_ux.py`
+  - Hermes 主仓：`agent/memory_kernel/context_builder.py`
+  - Hermes 主仓：`tests/agent/test_session_document_scope.py`
   - Hermes_memory：`docs/PHASE254_ENTERPRISE_MEMORY_NATIVE_UX_PLAN.md`
   - Hermes_memory：交接文档
 - 当前结论：
-  - Phase 2.54a review 通过。
-  - 下一步只做 selective Git baseline，不进入 Phase 2.54b 或 Phase 2.53d。
+  - Phase 2.54b review 通过。
+  - 下一步只做 selective Git baseline，不进入 Phase 2.54c 或 Phase 2.53d。
 - 阻塞点 / 风险点：
   - 主仓存在既有 out-of-scope dirty：`agent/memory_kernel/adapters/hermes_memory_adapter.py`、`uv.lock`、`docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`、`tests/agent/test_memory_kernel_adapter_reload.py`。
   - Hermes_memory 仍存在 out-of-scope dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
-  - 2.54a helper 尚未接入 runtime；后续 runtime integration 必须单独 review。
-- 是否建议 baseline：是，只做 selective Phase 2.54a baseline。
-- 是否建议进入下一阶段：否；baseline 后先等待 Codex B review，再决定 Phase 2.54b。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.54a baseline 后停止。
+  - 2.54b 是 context display integration，不代表完整 File Steward runtime flow 已收口。
+- 是否建议 baseline：是，只做 selective Phase 2.54b baseline。
+- 是否建议进入下一阶段：否；baseline 后先等待 Codex B review，再决定 Phase 2.54c。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.54b baseline 后停止。
 - 是否需要 Codex B 审核：baseline 后需要。
-- 是否需要 Codex C 真实终端验收：否；本轮未接 runtime。
+- 是否需要 Codex C 真实终端验收：否；本轮未接真实 CLI / API。

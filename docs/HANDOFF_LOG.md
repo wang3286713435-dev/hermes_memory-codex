@@ -1,5 +1,69 @@
 # Handoff Log
 
+## 2026-05-08 16:30 Phase 2.54b Codex B review / selective baseline prompt
+- goal: Review File Steward UX context display integration and write selective Git baseline prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - 主仓：`./.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py agent/memory_kernel/file_steward_ux.py` passed.
+  - 主仓：`./.venv/bin/python -m pytest -o addopts='' tests/agent/test_file_steward_ux.py tests/agent/test_session_document_scope.py tests/agent/test_facts_agent_context.py -q` => `73 passed`.
+  - Hermes_memory：`git diff --check` passed.
+  - Hermes_memory：latest JSON check passed.
+  - Hermes_memory：`git check-ignore -v reports/agent_runs/latest.json` passed.
+- validation: Phase 2.54b only changes context display / diagnostics. No retrieval contract, runtime upload, API call, DB/index write, Data Steward, repair or rollout.
+- risks: baseline must use selective staging across two repos and exclude existing out-of-scope dirty files.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.54b selective Git baseline, then stop for Codex B review.
+- commit/tag if any: none.
+
+## 2026-05-08 16:11 Phase 2.54b
+- goal: Integrate File Steward UX helper into `ContextBuilder` display diagnostics.
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_session_document_scope.py`
+  - `docs/PHASE254_ENTERPRISE_MEMORY_NATIVE_UX_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - Hermes 主仓：`./.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py agent/memory_kernel/file_steward_ux.py` passed.
+  - Hermes 主仓：`./.venv/bin/python -m pytest -o addopts='' tests/agent/test_file_steward_ux.py tests/agent/test_session_document_scope.py tests/agent/test_facts_agent_context.py -q` => `73 passed`.
+  - Hermes_memory docs / latest checks pending final pass.
+- validation: `File steward diagnostics:` now renders alias failure, active document continuation and file answer metadata. No API, upload, DB, OpenSearch, Qdrant or retrieval contract changes.
+- risks: Display integration is not a full File Steward runtime flow; real upload and Data Steward remain out of scope.
+- next: Stop for Codex B review; if approved, write selective Git baseline prompt or plan Phase 2.54c.
+- commit/tag if any: none.
+
+## 2026-05-08 16:20 Phase 2.54b prompt
+- goal: Confirm Phase 2.54a baseline and write Phase 2.54b File Steward UX display integration prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - Hermes_memory `git diff --check`: pending.
+  - latest JSON check: pending.
+  - `git check-ignore -v reports/agent_runs/latest.json`: pending.
+- validation: Phase 2.54a baseline tag exists in both repos and remote tags are visible. Next task is bounded ContextBuilder display integration only.
+- risks: Phase 2.54b must not drift into retrieval contract changes, real upload, DB/index writes, Data Steward, repair or rollout.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.54b implementation, then stop for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-08 16:05 Phase 2.54a Codex B review / selective baseline prompt
 - goal: Review File Steward UX helper implementation and write selective Git baseline prompt.
 - changed_files:

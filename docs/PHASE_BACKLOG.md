@@ -2,10 +2,17 @@
 
 ## 最新状态
 
-1. Phase 2.54a File Steward UX helper 已通过 Codex B review，下一步只做 selective Git baseline。
-2. 新增 helper 覆盖 alias failure、active document continuation、file answer metadata display；仍是纯函数，不接 runtime。
-3. 目标测试 `6 passed`；未运行 API / CLI smoke，未真实 upload，未写 DB / OpenSearch / Qdrant。
-4. baseline 后再决定 Phase 2.54b planning；不自动进入 runtime integration 或真实 upload smoke。
+1. Phase 2.54b File Steward UX runtime display integration 已通过 Codex B review，下一步只做 selective Git baseline。
+2. `ContextBuilder` 已新增 `File steward diagnostics:`，可展示 alias failure、active document continuation 与 file answer metadata。
+3. 目标测试 `73 passed`；未运行 API / CLI smoke，未真实 upload，未写 DB / OpenSearch / Qdrant。
+4. baseline 后再决定 Phase 2.54c planning；不自动进入 runtime upload 或 Data Steward。
+
+## 最新状态
+
+1. Phase 2.54a 双仓 baseline 已完成：Hermes 主仓 `a34954c85`，Hermes_memory `eadb3ff`，tag `phase-2.54a-file-steward-ux-helper-baseline`。
+2. 当前进入 Phase 2.54b File Steward UX runtime display integration。
+3. 2.54b 只接入 `ContextBuilder` 展示层：alias failure helper、active document continuation、file answer metadata diagnostics。
+4. 当前仍不允许真实 upload、DB / index 写入、retrieval contract 修改、Data Steward 或 rollout。
 
 ## 最新状态
 
