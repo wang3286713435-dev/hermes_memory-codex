@@ -10,55 +10,33 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.51b Minimal Mac Mini Operator Command Sheet Artifact
+### Current Item：Phase 2.51a Fake Deployment Record Dry-run Smoke
 
 - lane：Green Lane
 - 状态：implemented_ready_for_codex_b_review
-- 目标：新增一页式 Mac Mini operator command sheet，降低热更新与记录误操作风险。
+- 目标：用 fake / sanitized / temporary records 验证 deployment record、canonical internal MVP run record 与 Phase 2.49 bridge flow。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 新增 `docs/MAC_MINI_OPERATOR_COMMAND_SHEET.md`。
+  - 在 `/tmp` 生成 fake records。
+  - 使用 fake canonical JSON run record 调用 Phase 2.49 bridge。
+  - 新增 `docs/PHASE251A_FAKE_DEPLOYMENT_RECORD_DRY_RUN.md`。
   - 更新交接文档与 ignored latest 状态。
-  - 运行 docs / JSON / ignore 轻量检查。
-- 禁止动作：
-  - 不执行真实 Mac Mini 部署。
-  - 不拉取远端，不切换 tag，不启动 / 停止服务。
-  - 不读取真实 internal MVP run records。
-  - 不运行 API / CLI smoke。
-  - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-  - 不进入 rollout、repair 或 Data Steward 实现。
-  - 不 stage / commit / tag / push。
-- 完成后：等待 Codex B review；通过后只允许进入 Phase 2.51b docs-only Git baseline。
-- baseline 规则：本 item 不 baseline；后续 baseline 仍需单独授权。
-- 前置状态：Phase 2.51 Git baseline 已完成，commit `60b081acfa4771eaa5134be3cda2632885853663`，tag `phase-2.51-mac-mini-operator-runbook-baseline`。
-
-### Next Candidate：Phase 2.51 post-baseline route planning
-
-- lane：Green Lane
-- 状态：completed_in_phase_2.52
-- 目标：评审是否进入 Phase 2.51a fake deployment record dry-run smoke、Phase 2.51b minimal command sheet，或 Phase 2.50b evidence pack planning。
 - 禁止动作：
   - 不执行真实 Mac Mini deployment。
   - 不启动 / 停止服务。
   - 不运行 API / CLI smoke。
   - 不读取真实 reports / run records。
   - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-  - 不执行 repair / backfill / reindex / cleanup / delete。
+  - 不执行 repair / backfill / reindex / cleanup / delete / migration。
   - 不进入 production rollout 或 Data Steward。
-
-### Recommended Next：Phase 2.51b minimal operator command sheet
-
-- lane：Green Lane
-- 状态：implemented_ready_for_codex_b_review
-- 目标：把 Phase 2.51 runbook 命令提炼成一页 docs-only operator command sheet。
-- 禁止动作：
-  - 不新增 deployment script。
-  - 不创建 cron / scheduler。
-  - 不执行真实命令。
-  - 不启动 / 停止服务。
-  - 不读取真实 reports / run records。
-  - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-  - 不进入 production rollout 或 Data Steward。
+  - 不 stage / commit / tag / push。
+- 当前结果：
+  - fake deployment record JSON check 通过。
+  - fake internal MVP run record JSON check 通过。
+  - Phase 2.49 bridge fake canonical JSON input 通过，`decision_hint=go`，P0=0，P1=0，P2=2，P3=0。
+  - review outputs 只写入 `/tmp/hermes_phase251a_fake_smoke/review_out`。
+- 完成后：等待 Codex B review；通过后再决定是否 baseline。
+- 前置状态：Phase 2.51b Git baseline 已完成，commit `f64c53d677b886694adf221aa72e0ad6e89c40c9`，tag `phase-2.51b-mac-mini-operator-command-sheet-baseline`。
 
 ### Item 1：Phase 2.46 Mac mini Day-0 Real-machine Setup Planning
 

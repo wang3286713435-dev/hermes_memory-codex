@@ -1,14 +1,23 @@
 # Phase Backlog
 
+## 最新状态
+
+1. Phase 2.51a fake deployment / internal MVP run record dry-run smoke 已实现，等待 Codex B review。
+2. fake JSON checks 与 Phase 2.49 bridge fake canonical JSON input 均通过；bridge output 只写入 `/tmp/hermes_phase251a_fake_smoke/review_out`。
+3. 2.51a 不读取真实 reports，不执行真实 Mac Mini deployment，不启动服务，不运行 API / CLI smoke，不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant，不进入 rollout。
+4. Phase 2.51b Git baseline 已完成：commit `f64c53d677b886694adf221aa72e0ad6e89c40c9`，tag `phase-2.51b-mac-mini-operator-command-sheet-baseline`。
+5. 继续排除 out-of-scope dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、`docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md`、`docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`。
+
+
 ## 当前优先级
 
-1. Phase 2.51b Minimal Mac Mini Operator Command Sheet Artifact 已完成，等待 Codex B review。
-2. Phase 2.51 Git baseline 已完成：commit `60b081acfa4771eaa5134be3cda2632885853663`，tag `phase-2.51-mac-mini-operator-runbook-baseline`。
-3. 新增 `docs/MAC_MINI_OPERATOR_COMMAND_SHEET.md`，把 runbook 提炼为 pre-check、repo state、hot update、health checks、run record、review command、rollback、stop conditions 与 never-do。
-4. Phase 2.52 route planning 已完成但未单独 baseline；后续可与 Phase 2.51b 一起收口，减少纯规划 baseline。
-5. Phase 2.51b 不新增 deployment script、cron、scheduler，不执行真实命令，不启动 / 停止服务，不读取真实 reports / run records。
-6. Phase 2.51 / 2.51b 继续明确 Mac Mini 是内部受控 MVP 运行机，不是 production rollout / 客户交付 / 自动审标 / 自动经营决策环境。
-7. 下一步：Codex B review Phase 2.51b command sheet；通过后只做 docs-only baseline，不进入真实 deployment、repair、rollout 或 Data Steward。
+1. 当前第一优先级：Codex B review Phase 2.51a fake dry-run smoke artifact。
+2. 如 review 通过，下一步只做 Phase 2.51a docs-only Git baseline，不进入真实 Mac Mini deployment、repair、rollout 或 Data Steward。
+3. Phase 2.51a fake deployment record 只验证字段和 operator flow，不代表部署完成。
+4. Phase 2.49 bridge input 必须是 canonical JSON run record；Markdown notes 只是人工可读 notes，不可作为 bridge input。
+5. Phase 2.51 Git baseline 已完成：commit `60b081acfa4771eaa5134be3cda2632885853663`，tag `phase-2.51-mac-mini-operator-runbook-baseline`。
+6. Phase 2.51b command sheet baseline 已完成：commit `f64c53d677b886694adf221aa72e0ad6e89c40c9`，tag `phase-2.51b-mac-mini-operator-command-sheet-baseline`。
+7. Phase 2.51 / 2.51a / 2.51b 继续明确 Mac Mini 是内部受控 MVP 运行机，不是 production rollout / 客户交付 / 自动审标 / 自动投标 / 自动经营决策环境。
 6. Phase 2.48b Meeting Transcript Boundary Trace Display Polish 已完成并通过 Codex B review。
 2. Hermes 主仓 meeting transcript context 现在稳定显示：
    - `meeting_transcript_used=true`

@@ -1,36 +1,36 @@
 # Active Phase
 
-- 当前 phase：Phase 2.51b Minimal Mac Mini Operator Command Sheet Codex B Review
-- 本轮目标：Codex B review Phase 2.51b command sheet，并写入 docs-only Git baseline prompt。
+- 当前 phase：Phase 2.51a Fake Deployment Record Dry-run Smoke Codex B Review
+- 本轮目标：Codex B review Phase 2.51a fake dry-run artifact，并写入 docs-only Git baseline prompt。
 - 背景：
   - Phase 2.51 baseline 已完成：commit `60b081acfa4771eaa5134be3cda2632885853663`，tag `phase-2.51-mac-mini-operator-runbook-baseline`。
-  - Phase 2.52 route planning 已完成但未单独 baseline；推荐下一步优先 Phase 2.51b command sheet。
-  - Phase 2.51b 是 docs-only artifact，不是 deployment script。
+  - Phase 2.51b baseline 已完成：commit `f64c53d677b886694adf221aa72e0ad6e89c40c9`，tag `phase-2.51b-mac-mini-operator-command-sheet-baseline`。
+  - 本轮只使用 `/tmp` fake records，不读取真实 reports / run records，不执行真实 Mac Mini deployment。
 - 修改文件：
-  - `docs/MAC_MINI_OPERATOR_COMMAND_SHEET.md`
-  - `docs/ACTIVE_PHASE.md`
-  - `docs/PHASE_BACKLOG.md`
-  - `docs/HANDOFF_LOG.md`
-  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/PHASE251A_FAKE_DEPLOYMENT_RECORD_DRY_RUN.md`
   - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 新增一页式 Mac Mini operator command sheet。
-  - 覆盖 pre-check、repo state、hot update、health checks、daily run record、Phase 2.49 review command、rollback、stop conditions 与 never-do。
-  - 明确 canonical run record 是 `reports/internal_mvp_runs/<YYYYMMDD>_<session>.json`。
-  - 明确 Markdown notes 只是 optional human notes，不得作为 Phase 2.49 bridge input。
-  - 明确本轮未执行真实命令、未启动服务、未进入 rollout。
+  - 在 `/tmp/hermes_phase251a_fake_smoke` 生成 fake deployment record、fake canonical internal MVP run record 与 fake Markdown notes。
+  - fake deployment record JSON check 通过。
+  - fake internal MVP run record JSON check 通过。
+  - Phase 2.49 bridge 成功读取 fake canonical JSON run record，并只向 `/tmp/hermes_phase251a_fake_smoke/review_out` 写 sanitized review outputs。
+  - Markdown notes 未作为 Phase 2.49 bridge input。
 - 测试结果：
+  - `python3 -m json.tool /tmp/hermes_phase251a_fake_smoke/fake_deployment_record.json >/tmp/phase251a_fake_deployment_record_check.json`：通过。
+  - `python3 -m json.tool /tmp/hermes_phase251a_fake_smoke/fake_internal_mvp_run_record.json >/tmp/phase251a_fake_run_record_check.json`：通过。
+  - `uv run python scripts/phase249_internal_mvp_run_record_review.py --input-run-record /tmp/hermes_phase251a_fake_smoke/fake_internal_mvp_run_record.json --review-report --output-dir /tmp/hermes_phase251a_fake_smoke/review_out`：通过，`decision_hint=go`，P0=0，P1=0，P2=2，P3=0。
   - `git diff --check`：通过。
   - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
-  - `git check-ignore -v reports/agent_runs/latest.json`：命中 `reports/agent_runs/.gitignore`。
-  - `git check-ignore -v reports/internal_mvp_runs/example.json`：命中 `reports/internal_mvp_runs/.gitignore`。
-  - `git check-ignore -v reports/internal_mvp_runs/example.md`：命中 `reports/internal_mvp_runs/.gitignore`。
-  - `git check-ignore -v reports/internal_mvp_runs/latest.json`：命中 `reports/internal_mvp_runs/.gitignore`。
-  - `git check-ignore -v reports/deployment_records/example.json`：命中 `reports/deployment_records/.gitignore`。
-  - `git check-ignore -v reports/deployment_records/example.md`：命中 `reports/deployment_records/.gitignore`。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git check-ignore -v reports/internal_mvp_runs/example.json` / `.md` / `latest.json`：通过。
+  - `git check-ignore -v reports/deployment_records/example.json` / `.md`：通过。
 - live smoke 结果：
   - 本轮不运行 API / CLI smoke。
   - 本轮不启动 / 停止服务。
@@ -38,13 +38,14 @@
   - 本轮不读取真实 internal MVP run records。
   - 本轮不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
 - 当前结论：
-  - Phase 2.51b docs-only command sheet artifact 已通过 Codex B review。
+  - Phase 2.51a fake dry-run smoke 已通过 Codex B review。
   - 下一步只允许执行 docs-only Git baseline prompt，不进入真实 Mac Mini deployment。
+  - fake deployment record 只能证明字段形状 / operator flow 可理解，不能作为真实部署完成证据。
 - 阻塞点 / 风险点：
-  - command sheet 可能被误当成脚本；文档已强调所有命令是模板，不能 ad-hoc 执行。
+  - fake dry-run 结果不得被误读为真实 Mac Mini deployment、production rollout、customer delivery 或 automatic business decision。
   - out-of-scope dirty 仍需保持排除：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、`docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md`、`docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`。
 - 是否建议 baseline：是；仅限 docs-only selective staging baseline。
-- 是否建议进入下一阶段：否；不要进入 Phase 2.51a / 2.50b / rollout。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.51b docs-only Git baseline 后停止。
+- 是否建议进入下一阶段：否；先完成 Phase 2.51a docs-only Git baseline。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.51a docs-only Git baseline 后停止。
 - 是否需要 Codex B 审核：否；已完成。
 - 是否需要 Codex C 真实终端验收：否。

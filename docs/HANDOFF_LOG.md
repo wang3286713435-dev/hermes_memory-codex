@@ -4248,3 +4248,61 @@
 - risks: Baseline must selectively stage only whitelisted docs files; out-of-scope dirty remains excluded; no real deployment, service start/stop, API / CLI smoke, report read, DB/index write, repair, rollout, or Data Steward implementation occurred.
 - next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.51b docs-only Git baseline, then stop.
 - commit/tag if any: none.
+
+## 2026-05-08 02:28 Phase 2.51a prompt
+- goal: After Phase 2.51b baseline, prepare the next bounded fake / temp-data dry-run smoke prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: pending.
+  - `reports/agent_runs/latest.json` JSON check: pending.
+  - ignored path checks: pending.
+- validation: Next prompt allows only fake / sanitized / temporary records under `/tmp`; no real Mac Mini deployment, API / CLI smoke, report read, DB/index write, repair, rollout, or Data Steward implementation.
+- risks: Fake deployment records must not be confused with real deployment evidence; out-of-scope dirty remains excluded.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.51a fake deployment record dry-run smoke, then stop for Codex B review.
+- commit/tag if any: none.
+
+## 2026-05-08 02:36 Phase 2.51a
+- goal: Execute fake deployment / internal MVP run record dry-run smoke with temporary sanitized records only.
+- changed_files:
+  - `docs/PHASE251A_FAKE_DEPLOYMENT_RECORD_DRY_RUN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `python3 -m json.tool /tmp/hermes_phase251a_fake_smoke/fake_deployment_record.json >/tmp/phase251a_fake_deployment_record_check.json`: passed.
+  - `python3 -m json.tool /tmp/hermes_phase251a_fake_smoke/fake_internal_mvp_run_record.json >/tmp/phase251a_fake_run_record_check.json`: passed.
+  - `uv run python scripts/phase249_internal_mvp_run_record_review.py --input-run-record /tmp/hermes_phase251a_fake_smoke/fake_internal_mvp_run_record.json --review-report --output-dir /tmp/hermes_phase251a_fake_smoke/review_out`: passed.
+- validation: Phase 2.49 bridge consumed fake canonical JSON only and wrote outputs under `/tmp/hermes_phase251a_fake_smoke/review_out`; Markdown notes were not bridge input.
+- risks: Fake deployment record must not be treated as real deployment evidence; fake bridge `go` is not rollout approval; out-of-scope dirty remains excluded.
+- next: Codex B review Phase 2.51a fake dry-run artifact; if accepted, write docs-only Git baseline prompt.
+- commit/tag if any: none.
+
+## 2026-05-08 02:46 Phase 2.51a Codex B review
+- goal: Review Phase 2.51a fake deployment / internal MVP run record dry-run artifact and prepare the docs-only baseline prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`: passed.
+  - ignored path checks for agent run, internal MVP run records, and deployment records: passed.
+- validation: Codex B review passes. Phase 2.51a uses only fake / sanitized / temporary records; the fake deployment record is not deployment evidence; the Phase 2.49 bridge consumed canonical JSON only; Markdown notes were not bridge input; outputs stayed under `/tmp`.
+- risks: Fake bridge `go` is not rollout approval; fake records must not be confused with real deployment evidence; out-of-scope dirty remains excluded.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.51a docs-only Git baseline, then stop.
+- commit/tag if any: none.
