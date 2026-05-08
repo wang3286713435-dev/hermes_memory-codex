@@ -2,6 +2,21 @@
 
 ## 最新状态
 
+1. Phase 2.53c mocked natural import integration 已通过 Codex B review，下一步只做 selective Git baseline。
+2. Hermes 主仓目标测试通过：`21 passed`；实现仍为 mocked-only，不调用真实 Hermes_memory API，不上传文件，不读真实文件内容。
+3. baseline 后优先进入 Phase 2.54a Enterprise Memory Native UX / File Steward UX，而不是继续小修 alias。
+4. Phase 2.53d 小型非敏感文件真实 upload smoke 继续后置，必须由用户显式授权。
+
+## 最新状态
+
+1. 本地 PR `LOCAL_PR_ENTERPRISE_MEMORY_USABILITY_PROPOSAL.md` 已采纳为后续主线方向：Hermes 要从“能检索文件的系统”升级为“原生理解企业文件记忆能力的主 Agent”。
+2. 新增 `docs/PHASE254_ENTERPRISE_MEMORY_NATIVE_UX_PLAN.md`，固化 File Steward UX 路线。
+3. Phase 2.53c 下一步不是小修 alias，而是 mocked natural import integration + Enterprise Memory Native UX bridge。
+4. 后续减少人工干预：Green Lane 一轮可包含 planning、mocked implementation、target tests、docs sync；只有真实 upload / DB / index / rollout / Data Steward 等风险扩大时才停。
+5. Phase 2.54a 后续重点：file discovery first、active document continuation、alias failure helper、file-answer metadata display。
+
+## 最新状态
+
 1. Phase 2.53b planning 已通过 Codex B review，下一步只做 docs-only Git baseline。
 2. Phase 2.53b baseline 白名单：`PHASE253B_NATURAL_IMPORT_INTEGRATION_PLAN.md` 与交接文档。
 3. baseline 不得纳入 `PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、Mac Mini untracked docs、Hermes 主仓 dirty 或任何代码。

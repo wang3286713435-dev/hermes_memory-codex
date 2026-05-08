@@ -10,6 +10,28 @@
 
 ## Current Queue
 
+### Current Item：Phase 2.53c Natural Import Mocked Integration + UX Bridge Baseline
+
+- lane：Yellow Lane
+- 状态：codex_b_review_passed_waiting_selective_baseline
+- 目标：Phase 2.53c mocked integration 已通过 Codex B review；下一步只做 selective Git baseline。
+- 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
+- 允许动作：
+  - Hermes 主仓只 stage `agent/memory_kernel/natural_file_import_flow.py`、`tests/agent/test_natural_file_import.py`、`tests/agent/test_natural_file_import_flow.py`。
+  - Hermes_memory 只 stage Phase 2.54 规划与交接文档白名单。
+  - 运行 py_compile、target pytest、docs 校验与 selective staged diff 复核。
+- 禁止动作：
+  - 不真实上传文件。
+  - 不调用真实 Hermes_memory API。
+  - 不读取真实文件内容。
+  - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+  - 不修改 retrieval contract 或 memory kernel 主架构。
+  - 不进入 Data Steward / BIM / NAS / TB 文件池。
+  - 不执行 repair / backfill / reindex / cleanup / delete / migration。
+  - 不做 production rollout。
+  - 不进入 Phase 2.53d / Phase 2.54a 实现。
+- 完成后：baseline 后停止等待 Codex B review；不得自动进入真实 upload smoke。
+
 ### Current Item：Phase 2.53a Natural Language File Import Parser / Dry-run Planner
 
 - lane：Yellow Lane
@@ -65,8 +87,8 @@
 ### Candidate Next Item：Phase 2.53c Mocked Natural Import Adapter / Kernel Integration
 
 - lane：Green Lane
-- 状态：candidate_after_codex_b_review
-- 目标：在 Codex B 通过 Phase 2.53b 后，使用 mocked upload adapter 验证 parser preflight、alias seed 和 import diagnostics 分离。
+- 状态：implemented_waiting_codex_b_review
+- 目标：使用 mocked upload adapter 验证 parser preflight、alias seed 和 import diagnostics 分离；实现已完成，等待 Codex B review。
 - 任务入口：待 Codex B 写入 `docs/NEXT_CODEX_A_PROMPT.md`。
 - 允许动作：
   - 仅使用 fake / mocked adapter。
@@ -79,6 +101,18 @@
   - 不执行 repair / backfill / reindex / cleanup / delete / migration。
   - 不进入 Data Steward / BIM TB 级管理。
 - 完成后：等待 Codex B review；真实 upload smoke 仍必须后置 Phase 2.53d 并由用户显式授权。
+
+### Candidate Next Item：Phase 2.54a File Steward UX
+
+- lane：Green Lane
+- 状态：candidate_after_codex_b_review
+- 目标：规划或实现 file discovery first、active document continuation、alias failure helper、file-answer metadata display。
+- 任务入口：待 Codex B 写入 `docs/NEXT_CODEX_A_PROMPT.md`。
+- 禁止动作：
+  - 不真实上传文件。
+  - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+  - 不放松 citation / evidence / Missing Evidence 边界。
+  - 不进入 Data Steward / BIM / NAS / TB 文件池。
 
 ### Item 1：Phase 2.46 Mac mini Day-0 Real-machine Setup Planning
 

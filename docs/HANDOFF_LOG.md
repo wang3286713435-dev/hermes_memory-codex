@@ -1,5 +1,48 @@
 # Handoff Log
 
+## 2026-05-08 16:10 Phase 2.53c Codex B review / selective baseline prompt
+- goal: Review mocked natural import integration and write selective Git baseline prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - 主仓：`./.venv/bin/python -m py_compile agent/memory_kernel/natural_file_import.py agent/memory_kernel/natural_file_import_flow.py` passed.
+  - 主仓：`./.venv/bin/python -m pytest -o addopts='' tests/agent/test_natural_file_import.py tests/agent/test_natural_file_import_flow.py -q` => `21 passed`.
+  - Hermes_memory：`git diff --check` passed.
+  - Hermes_memory：latest JSON check passed.
+  - Hermes_memory：`git check-ignore -v reports/agent_runs/latest.json` passed.
+- validation: Phase 2.53c remains mocked-only; no real upload, API / CLI smoke, DB/index write, Data Steward, repair or rollout.
+- risks: baseline must use selective staging across two repos and must exclude existing out-of-scope dirty files.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.53c selective Git baseline, then stop for Codex B review.
+- commit/tag if any: none.
+
+## 2026-05-08 15:20 Phase 2.54 route adjustment
+- goal: Adopt local PR proposal into mainline and write a larger Phase 2.53c implementation handoff.
+- changed_files:
+  - `docs/PHASE254_ENTERPRISE_MEMORY_NATIVE_UX_PLAN.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - Hermes_memory `git diff --check`: pending.
+  - latest JSON check: pending.
+  - `git check-ignore -v reports/agent_runs/latest.json`: pending.
+- validation: The local PR is adopted as usability direction, not as production rollout or evidence-boundary relaxation. The next implementation remains mocked-only and forbids real upload / DB / index / Data Steward work.
+- risks: Phase 2.53c must not drift into real upload; Phase 2.54 must not become project-level alias rewrite or memory kernel architecture rewrite.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.53c mocked integration + UX bridge, then stop for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-08 14:55 Phase 2.53b Codex B review / baseline prompt
 - goal: Review Phase 2.53b integration planning and write docs-only Git baseline prompt.
 - changed_files:
@@ -4674,4 +4717,28 @@
 - validation: Planning only. No Hermes main repo code, upload adapter, real API / CLI smoke, file upload, filesystem content read, DB / index write, repair, rollout, or Data Steward work.
 - risks: Phase 2.53c mocked integration must not drift into real upload; Phase 2.53d real upload smoke requires explicit user authorization and a small non-sensitive file.
 - next: Codex B review Phase 2.53b; if accepted, decide docs baseline or Phase 2.53c mocked adapter / kernel integration prompt.
+- commit/tag if any: none.
+
+## 2026-05-08 15:19 Phase 2.53c
+- goal: Implement mocked natural import integration and bridge it into Enterprise Memory Native UX planning.
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/natural_file_import_flow.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_natural_file_import.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_natural_file_import_flow.py`
+  - `docs/PHASE254_ENTERPRISE_MEMORY_NATIVE_UX_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `./.venv/bin/python -m py_compile agent/memory_kernel/natural_file_import.py agent/memory_kernel/natural_file_import_flow.py`: passed.
+  - `./.venv/bin/python -m pytest -o addopts='' tests/agent/test_natural_file_import.py tests/agent/test_natural_file_import_flow.py -q`: `21 passed`.
+  - Hermes_memory `git diff --check`: passed.
+  - latest JSON check: passed.
+- validation: Mocked-only implementation. No real Hermes_memory API call, no real upload, no file content read, no DB / facts / versions / audit_logs / OpenSearch / Qdrant writes, no repair, no rollout, no Data Steward work.
+- risks: Phase 2.53d real upload smoke still requires explicit user authorization and a small non-sensitive file; Phase 2.54 UX work must not relax evidence boundaries.
+- next: Wait for Codex B review; do not baseline yet.
 - commit/tag if any: none.

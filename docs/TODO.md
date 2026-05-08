@@ -2,6 +2,22 @@
 
 ## 最新状态
 
+1. Phase 2.53c mocked natural import integration 已完成并通过 Codex B review，下一步只做 selective Git baseline。
+2. Hermes 主仓新增 mocked import preflight flow：no intent 继续 normal flow，fail-closed import 返回 diagnostics，mocked upload success 返回 document_id / version_id。
+3. alias seed 仅在 mocked upload success 且 document_id / version_id 存在时输出 session alias seed diagnostics。
+4. 当前仍为 mocked-only：未调用真实 Hermes_memory API，未上传真实文件，未写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+5. baseline 后优先进入 Phase 2.54a Enterprise Memory Native UX / File Steward UX；Phase 2.53d 真实 upload smoke 仍需用户单独授权。
+
+## 最新状态
+
+1. 已采纳本地 PR `LOCAL_PR_ENTERPRISE_MEMORY_USABILITY_PROPOSAL.md`：企业文件记忆 usability 成为后续主线，不再只围绕 alias 小修。
+2. 新增 Phase 2.54 Enterprise Memory Native UX 规划：让 Hermes 更像原生知道“找文件、锁文件、围绕文件工作”是自己的核心能力。
+3. 下一步 Phase 2.53c：mocked natural import integration + File Steward UX bridge；不真实上传。
+4. 后续 Phase 2.54a：file discovery first / active document continuation / alias failure helper / file-answer ergonomics。
+5. 继续禁止 production rollout、真实 upload、DB / index 写入、Data Steward / BIM / NAS / TB 文件池，除非进入单独授权阶段。
+
+## 最新状态
+
 1. Phase 2.53b planning 已通过 Codex B review，下一步只做 docs-only baseline。
 2. Phase 2.53b baseline 只提交规划文档和交接文档，不提交代码、不运行 API / CLI smoke、不真实上传文件。
 3. Phase 2.53c mocked adapter / kernel integration 是后续候选，必须在 baseline 后另行授权 / review。
