@@ -2,6 +2,14 @@
 
 ## 最新状态
 
+1. Phase 2.50c Sanitized Internal MVP Evidence Pack Template 已完成，等待 Codex B review。
+2. 新增 `docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.json`、`docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.md`、`docs/PHASE250C_INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.md`。
+3. 本阶段只创建 sanitized template，不生成真实 evidence pack、不读取真实 reports、不执行真实部署、不进入 production rollout。
+4. 下一步：Codex B review；通过后只做 Phase 2.50c docs-only baseline。
+
+
+## 最新状态
+
 1. Phase 2.50b internal MVP evidence pack planning 已完成，等待 Codex B review。
 2. Evidence pack 被定义为内部受控 MVP 人工审阅证据包，不是 production rollout approval、customer delivery、automatic tender review、automatic bid、automatic business decision 或 repair authorization。
 3. 本轮不生成真实 evidence pack、不读取真实 reports、不运行 API / CLI、不启动服务、不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
@@ -10,14 +18,14 @@
 
 ## 0. 当前 MVP Pilot 状态
 
-1. Phase 2.50b internal MVP evidence pack planning 已完成，等待 Codex B review。
-2. Evidence pack 最小组成已规划：canonical run record JSON、Phase 2.49 review payload/report、operator sign-off summary、issue intake / triage summary、Codex C smoke / Pilot summary、optional deployment summary 和 human notes。
-3. 真实 evidence pack 默认放在 ignored local path，不提交 Git。
+1. Phase 2.50c internal MVP evidence pack sanitized template 已完成，等待 Codex B review。
+2. Evidence pack 最小组成已规划并模板化：canonical run record JSON、Phase 2.49 review payload/report、operator sign-off summary、issue intake / triage summary、Codex C smoke / Pilot summary、optional deployment summary 和 human notes。
+3. 真实 evidence pack 默认放在 ignored local path，不提交 Git；本轮没有生成真实 pack。
 4. Phase 2.51a fake deployment / internal MVP run record dry-run baseline 已完成：commit `1aa6807f38d5a9242640a6822d35aeacafc3dc22`，tag `phase-2.51a-fake-deployment-record-dry-run-baseline`。
 5. Phase 2.51b Minimal Mac Mini Operator Command Sheet baseline 已完成：commit `f64c53d677b886694adf221aa72e0ad6e89c40c9`，tag `phase-2.51b-mac-mini-operator-command-sheet-baseline`。
 6. Phase 2.51 Git baseline 已完成：commit `60b081acfa4771eaa5134be3cda2632885853663`，tag `phase-2.51-mac-mini-operator-runbook-baseline`。
 7. Phase 2.50b 不新增 generator、不生成真实 evidence pack、不读取真实 reports / run records、不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-8. 下一步：Codex B review Phase 2.50b planning；通过后只做 docs-only baseline，不进入真实 evidence generation、deployment、repair、rollout 或 Data Steward。
+8. 下一步：Codex B review Phase 2.50c templates；通过后只做 docs-only baseline，不进入真实 evidence generation、deployment、repair、rollout 或 Data Steward。
 7. Phase 2.49 Internal MVP Run Record Review Bridge review-fix 已通过 Codex B 复审并已完成 Git baseline。
 2. 新增本地只读 runner：`scripts/phase249_internal_mvp_run_record_review.py`，必须显式传入 `--input-run-record`，不默认扫描真实 `reports/`。
 3. runner 输出 sanitized review payload，可选 `--review-report` 调用 Phase 2.42a review dry-run report builder；固定 `dry_run=true`、`production_rollout=false`、`repair_authorized=false`、`destructive_actions=[]`、`data_mutation=false`。

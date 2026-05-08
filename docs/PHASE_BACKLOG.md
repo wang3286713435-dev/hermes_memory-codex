@@ -2,6 +2,14 @@
 
 ## 最新状态
 
+1. Phase 2.50c Sanitized Internal MVP Evidence Pack Template 已完成，等待 Codex B review。
+2. 新增 JSON / Markdown sanitized template 与 Phase 2.50c boundary artifact；未生成真实 evidence pack。
+3. 2.50c 只创建 docs / sanitized template，不读取真实 reports，不运行 API / CLI，不进入 rollout。
+4. 继续排除 out-of-scope dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、`docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md`、`docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`。
+
+
+## 最新状态
+
 1. Phase 2.50b internal MVP evidence pack planning 已完成，等待 Codex B review。
 2. Evidence pack 被定义为内部受控 MVP 人工审阅证据包，不是 production rollout approval、customer delivery、automatic tender review、automatic bid、automatic business decision 或 repair authorization。
 3. 本轮不生成真实 evidence pack、不读取真实 reports、不运行 API / CLI、不启动服务、不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant、不进入 rollout。
@@ -11,11 +19,11 @@
 
 ## 当前优先级
 
-1. 当前第一优先级：Codex B review Phase 2.50b evidence pack planning artifact。
-2. 如 review 通过，下一步只做 Phase 2.50b docs-only Git baseline，不进入真实 evidence generation、deployment、repair、rollout 或 Data Steward。
+1. 当前第一优先级：Codex B review Phase 2.50c sanitized evidence pack templates。
+2. 如 review 通过，下一步只做 Phase 2.50c docs-only Git baseline，不进入真实 evidence generation、deployment、repair、rollout 或 Data Steward。
 3. Evidence pack 后续只可作为内部受控 MVP review bundle，不能替代人工业务判断。
 4. 真实 evidence pack、run records、review outputs、deployment records 默认 ignored，不入 Git。
-5. 后续候选：Phase 2.50c evidence pack fake artifact / sanitized template；Phase 2.50d evidence pack generator dry-run 后置。
+5. 后续候选：Phase 2.50d evidence pack generator dry-run 后置；真实 evidence pack 生成需单独授权。
 6. Phase 2.51a baseline 已完成：commit `1aa6807f38d5a9242640a6822d35aeacafc3dc22`，tag `phase-2.51a-fake-deployment-record-dry-run-baseline`。
 7. Phase 2.51 / 2.51a / 2.51b 继续明确 Mac Mini 是内部受控 MVP 运行机，不是 production rollout / 客户交付 / 自动审标 / 自动投标 / 自动经营决策环境。
 6. Phase 2.48b Meeting Transcript Boundary Trace Display Polish 已完成并通过 Codex B review。

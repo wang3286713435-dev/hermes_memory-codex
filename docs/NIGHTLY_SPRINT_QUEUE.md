@@ -10,14 +10,16 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.50b Internal MVP Evidence Pack Planning
+### Current Item：Phase 2.50c Sanitized Internal MVP Evidence Pack Template
 
 - lane：Green Lane
 - 状态：implemented_ready_for_codex_b_review
-- 目标：规划 internal MVP evidence pack 的目录、命名、人工复核字段、PRD matrix evidence_ref 挂接与 Go / Pause / No-Go 证据语义。
+- 目标：把 Phase 2.50b evidence pack planning 转成 sanitized JSON / Markdown template 与 phase artifact。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 新增 `docs/PHASE250B_INTERNAL_MVP_EVIDENCE_PACK_PLAN.md`。
+  - 新增 `docs/PHASE250C_INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.md`。
+  - 新增 `docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.json`。
+  - 新增 `docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.md`。
   - 更新交接文档与 ignored latest 状态。
   - 运行 docs / JSON / ignore 轻量检查。
 - 禁止动作：
@@ -30,11 +32,9 @@
   - 不执行 repair / backfill / reindex / cleanup / delete / migration。
   - 不进入 production rollout 或 Data Steward。
   - 不 stage / commit / tag / push。
-- 完成后：等待 Codex B review；通过后再决定是否 baseline。
-- 当前结果：
-  - Evidence pack 最小组成、目录命名、manifest 字段、人工复核字段、PRD matrix linkage、redaction / ignore policy 与 Go / Pause / No-Go 语义已规划。
-  - 当前只做 docs-only planning，未生成真实 evidence pack。
-- 前置状态：Phase 2.51a baseline 已完成，commit `1aa6807f38d5a9242640a6822d35aeacafc3dc22`，tag `phase-2.51a-fake-deployment-record-dry-run-baseline`。
+- 完成后：已等待 Codex B review；通过后再决定是否 baseline。
+- 前置状态：Phase 2.50b baseline 已完成，commit `16bc72c02795a759af8a54169c8b9d41659d4477`，tag `phase-2.50b-internal-mvp-evidence-pack-plan-baseline`。
+- 当前结果：已新增 sanitized JSON / Markdown template 与 Phase 2.50c artifact；未生成真实 evidence pack。
 
 ### Item 1：Phase 2.46 Mac mini Day-0 Real-machine Setup Planning
 

@@ -4364,3 +4364,65 @@
 - risks: Baseline must selectively stage only whitelisted docs files; real evidence packs remain ignored and are not generated in this phase; out-of-scope dirty remains excluded.
 - next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.50b docs-only Git baseline, then stop.
 - commit/tag if any: none.
+
+## 2026-05-08 10:31 Phase 2.50c prompt
+- goal: After Phase 2.50b baseline, prepare the next bounded sanitized evidence pack template prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: pending.
+  - `reports/agent_runs/latest.json` JSON check: pending.
+  - ignored path checks: pending.
+- validation: Next prompt is docs / sanitized template only; no real evidence generation, report scan, API/CLI smoke, DB/index write, repair, rollout, or Data Steward implementation.
+- risks: Evidence pack template must not be confused with real evidence pack or production rollout approval; out-of-scope dirty remains excluded.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.50c sanitized evidence pack template, then stop for Codex B review.
+- commit/tag if any: none.
+
+## 2026-05-08 10:41 Phase 2.50c
+- goal: Create sanitized internal MVP evidence pack JSON / Markdown templates and phase boundary artifact.
+- changed_files:
+  - `docs/PHASE250C_INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.md`
+  - `docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.json`
+  - `docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `python3 -m json.tool docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.json >/tmp/internal_mvp_evidence_pack_template_check.json`: passed.
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`: passed.
+  - ignored path checks: passed.
+- validation: Templates are placeholder / sanitized only and explicitly not rollout approval, customer delivery, automatic tender review, automatic bid, automatic business decision, or repair authorization.
+- risks: Future real evidence pack generation still requires separate phase, explicit authorization, and ignored storage.
+- next: Codex B review Phase 2.50c templates; if accepted, write docs-only baseline prompt.
+- commit/tag if any: none.
+
+## 2026-05-08 10:50 Phase 2.50c Codex B review
+- goal: Review Phase 2.50c sanitized evidence pack templates and prepare the docs-only baseline prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `python3 -m json.tool docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.json >/tmp/internal_mvp_evidence_pack_template_check.json`: passed.
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`: passed.
+  - ignored path checks for agent run, internal MVP run records, and deployment records: passed.
+- validation: Codex B review passes. JSON / Markdown templates are sanitized placeholder artifacts; safety fields are present; no real IDs, customer content, local paths, secrets, or raw output were found beyond placeholder / redaction checklist text.
+- risks: Templates must not be treated as real evidence packs, rollout approval, customer delivery, automatic decisions, or repair authorization; real pack generation still requires a separate phase and ignored storage.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.50c docs-only Git baseline, then stop.
+- commit/tag if any: none.

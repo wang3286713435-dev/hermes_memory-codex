@@ -1,0 +1,102 @@
+{
+  "record_type": "internal_mvp_evidence_pack_template",
+  "template_only": true,
+  "sanitized": true,
+  "production_rollout": false,
+  "customer_delivery": false,
+  "automatic_tender_review": false,
+  "automatic_bid": false,
+  "automatic_business_decision": false,
+  "repair_authorized": false,
+  "data_mutation": false,
+  "date": "YYYY-MM-DD",
+  "session_id": "placeholder_sanitized_session_id",
+  "operator": "placeholder_operator_role_or_name",
+  "reviewer": "placeholder_reviewer_role_or_name",
+  "source_files": {
+    "run_record_json": "placeholder_ignored_run_record_json_ref",
+    "phase249_review_payload": "placeholder_phase249_review_payload_ref",
+    "phase249_review_report": "placeholder_phase249_review_report_ref",
+    "issue_summary": "placeholder_issue_summary_ref",
+    "codex_c_smoke_summary": "placeholder_codex_c_smoke_summary_ref",
+    "operator_signoff_summary": "placeholder_operator_signoff_summary_ref",
+    "deployment_record_summary": "placeholder_optional_deployment_record_summary_ref",
+    "human_notes": "placeholder_optional_human_notes_ref"
+  },
+  "summary": {
+    "p0_count": 0,
+    "p1_count": 0,
+    "p2_count": 0,
+    "p3_count": 0,
+    "citation_coverage": {
+      "queries_total": 0,
+      "queries_with_document_id": 0,
+      "queries_with_version_id": 0,
+      "queries_with_chunk_id": 0,
+      "queries_with_structured_citation": 0,
+      "coverage_notes": "placeholder_sanitized_coverage_notes"
+    },
+    "missing_evidence": {
+      "visible": true,
+      "hidden": false,
+      "rewritten_as_certain_answer": false,
+      "human_reviewed": false,
+      "items": []
+    },
+    "evidence_policy_flags": {
+      "facts_as_answer": false,
+      "transcript_as_fact": false,
+      "snapshot_as_answer": false
+    },
+    "third_document_contamination": {
+      "observed": false,
+      "target_documents_only": true,
+      "notes": "placeholder_sanitized_contamination_notes"
+    }
+  },
+  "decision": {
+    "status": "pending_review",
+    "allowed_values": [
+      "go",
+      "pause",
+      "no_go",
+      "pending_review"
+    ],
+    "reason": "placeholder_human_review_reason",
+    "human_owner": "placeholder_human_owner"
+  },
+  "prd_acceptance_links": [
+    {
+      "capability_area": "placeholder_capability_area",
+      "status": "partial",
+      "evidence_ref": "placeholder_sanitized_evidence_ref"
+    }
+  ],
+  "not_claimable": [
+    "production_ready",
+    "customer_delivery_ready",
+    "automatic_tender_review",
+    "automatic_bid",
+    "automatic_business_decision",
+    "repair_executor_ready",
+    "facts_auto_extraction_complete",
+    "facts_replace_retrieval_evidence",
+    "data_steward_implemented",
+    "tb_scale_bim_full_parsing",
+    "complete_knowledge_graph_or_multi_agent_system"
+  ],
+  "redaction_confirmed": {
+    "no_secrets": true,
+    "no_env_values": true,
+    "no_tokens_or_passwords": true,
+    "no_raw_model_output": true,
+    "no_raw_transcript": true,
+    "no_customer_source_text": true,
+    "no_real_document_ids": true,
+    "no_real_fact_ids": true,
+    "no_real_session_ids": true,
+    "no_local_absolute_paths": true,
+    "stored_in_ignored_path_when_real": true
+  },
+  "destructive_actions": []
+}

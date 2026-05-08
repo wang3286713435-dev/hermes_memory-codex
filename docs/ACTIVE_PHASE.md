@@ -1,32 +1,32 @@
 # Active Phase
 
-- 当前 phase：Phase 2.50b Internal MVP Evidence Pack Planning Codex B Review
-- 本轮目标：Codex B review Phase 2.50b evidence pack planning，并写入 docs-only Git baseline prompt。
+- 当前 phase：Phase 2.50c Sanitized Internal MVP Evidence Pack Template Codex B Review
+- 本轮目标：Codex B review Phase 2.50c sanitized evidence pack templates，并写入 docs-only Git baseline prompt。
 - 背景：
-  - Phase 2.49 review bridge 已完成。
-  - Phase 2.50 / 2.50a 已验证 fake run record review loop。
-  - Phase 2.51 / 2.51b 已完成 Mac Mini operator runbook 与 command sheet。
-  - Phase 2.51a baseline 已完成：commit `1aa6807f38d5a9242640a6822d35aeacafc3dc22`，tag `phase-2.51a-fake-deployment-record-dry-run-baseline`。
+  - Phase 2.50b baseline 已完成：commit `16bc72c02795a759af8a54169c8b9d41659d4477`，tag `phase-2.50b-internal-mvp-evidence-pack-plan-baseline`。
+  - Evidence pack 的结构与治理语义已规划；本轮只创建模板，不生成真实 evidence pack。
 - 修改文件：
-  - `docs/PHASE250B_INTERNAL_MVP_EVIDENCE_PACK_PLAN.md`
-  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/PHASE250C_INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.md`
+  - `docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.json`
+  - `docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.md`
   - `docs/ACTIVE_PHASE.md`
-  - `docs/HANDOFF_LOG.md`
   - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
   - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（ignored，本地状态）
 - 完成内容：
-  - 新增 Phase 2.50b evidence pack planning 文档。
-  - 规划 evidence pack 最小组成、目录命名、manifest 字段、人工复核字段、PRD matrix linkage、redaction / ignore policy 与 Go / Pause / No-Go 语义。
-  - 明确真实 evidence pack 默认不入 Git，当前只做 planning。
+  - 新增 sanitized evidence pack JSON template。
+  - 新增人工填写版 Markdown evidence pack template。
+  - 新增 Phase 2.50c artifact / boundary 文档。
+  - 更新交接状态，标记等待 Codex B review。
 - 测试结果：
-  - `git diff --check`：通过。
-  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：通过。
-  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
-  - `git check-ignore -v reports/internal_mvp_runs/example.json` / `.md` / `latest.json`：通过。
-  - `git check-ignore -v reports/deployment_records/example.json` / `.md`：通过。
+  - `python3 -m json.tool docs/INTERNAL_MVP_EVIDENCE_PACK_TEMPLATE.json >/tmp/internal_mvp_evidence_pack_template_check.json`：passed。
+  - `git diff --check`：passed。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：passed。
+  - ignored report path checks：passed。
 - live smoke 结果：
   - 本轮不运行 API / CLI smoke。
   - 本轮不启动 / 停止服务。
@@ -34,14 +34,14 @@
   - 本轮不生成真实 evidence pack。
   - 本轮不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
 - 当前结论：
-  - Phase 2.50b docs-only planning 已通过 Codex B review。
+  - Phase 2.50c 模板 artifact 已通过 Codex B review。
   - 下一步只允许执行 docs-only Git baseline prompt，不生成真实 evidence pack。
-  - Evidence pack 是内部受控 MVP 人工审阅证据包，不是 rollout approval。
+  - 模板不是 production rollout approval、customer delivery、automatic tender review、automatic bid、automatic business decision 或 repair authorization。
 - 阻塞点 / 风险点：
-  - Evidence pack 不得被误读为 production rollout、customer delivery、automatic tender review、automatic bid、automatic business decision 或 repair authorization。
+  - 真实 evidence pack 生成仍需另开 phase、显式授权，并写入 ignored path。
   - out-of-scope dirty 仍需保持排除：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、`docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md`、`docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`。
 - 是否建议 baseline：是；仅限 docs-only selective staging baseline。
-- 是否建议进入下一阶段：否；先完成 Phase 2.50b docs-only Git baseline。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.50b docs-only Git baseline 后停止。
+- 是否建议进入下一阶段：否；先完成 Phase 2.50c docs-only Git baseline。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.50c docs-only Git baseline 后停止。
 - 是否需要 Codex B 审核：否；已完成。
 - 是否需要 Codex C 真实终端验收：否。
