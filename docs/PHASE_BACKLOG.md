@@ -2,10 +2,18 @@
 
 ## 最新状态
 
-1. Phase 2.53c mocked natural import integration 已通过 Codex B review，下一步只做 selective Git baseline。
-2. Hermes 主仓目标测试通过：`21 passed`；实现仍为 mocked-only，不调用真实 Hermes_memory API，不上传文件，不读真实文件内容。
-3. baseline 后优先进入 Phase 2.54a Enterprise Memory Native UX / File Steward UX，而不是继续小修 alias。
+1. Phase 2.54a File Steward UX helper 已通过 Codex B review，下一步只做 selective Git baseline。
+2. 新增 helper 覆盖 alias failure、active document continuation、file answer metadata display；仍是纯函数，不接 runtime。
+3. 目标测试 `6 passed`；未运行 API / CLI smoke，未真实 upload，未写 DB / OpenSearch / Qdrant。
+4. baseline 后再决定 Phase 2.54b planning；不自动进入 runtime integration 或真实 upload smoke。
+
+## 最新状态
+
+1. Phase 2.53c 双仓 baseline 已完成：Hermes 主仓 `1f4309abe`，Hermes_memory `4a06ef9`，tag `phase-2.53c-natural-import-mocked-integration-baseline`。
+2. 当前进入 Phase 2.54a Enterprise Memory Native UX / File Steward UX minimum implementation。
+3. Phase 2.54a 只做纯 helper + unit tests：alias failure helper、active document continuation hint、file answer metadata display structure。
 4. Phase 2.53d 小型非敏感文件真实 upload smoke 继续后置，必须由用户显式授权。
+5. Data Steward / BIM / NAS / TB 文件池仍是后置产品线，不进入当前 MVP 主线实现。
 
 ## 最新状态
 

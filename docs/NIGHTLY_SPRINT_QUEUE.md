@@ -10,15 +10,15 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.53c Natural Import Mocked Integration + UX Bridge Baseline
+### Current Item：Phase 2.54a Enterprise Memory Native UX / File Steward UX Helper Baseline
 
 - lane：Yellow Lane
 - 状态：codex_b_review_passed_waiting_selective_baseline
-- 目标：Phase 2.53c mocked integration 已通过 Codex B review；下一步只做 selective Git baseline。
+- 目标：Phase 2.54a File Steward UX helper 已通过 review；下一步只做 selective Git baseline。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - Hermes 主仓只 stage `agent/memory_kernel/natural_file_import_flow.py`、`tests/agent/test_natural_file_import.py`、`tests/agent/test_natural_file_import_flow.py`。
-  - Hermes_memory 只 stage Phase 2.54 规划与交接文档白名单。
+  - Hermes 主仓只 stage `agent/memory_kernel/file_steward_ux.py` 与 `tests/agent/test_file_steward_ux.py`。
+  - Hermes_memory 只 stage Phase 2.54a 交接文档白名单。
   - 运行 py_compile、target pytest、docs 校验与 selective staged diff 复核。
 - 禁止动作：
   - 不真实上传文件。
@@ -26,10 +26,12 @@
   - 不读取真实文件内容。
   - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
   - 不修改 retrieval contract 或 memory kernel 主架构。
+  - 不修改 `context_builder.py`、`kernel.py`、`orchestrator.py`、`hermes_memory_adapter.py`。
   - 不进入 Data Steward / BIM / NAS / TB 文件池。
   - 不执行 repair / backfill / reindex / cleanup / delete / migration。
   - 不做 production rollout。
-  - 不进入 Phase 2.53d / Phase 2.54a 实现。
+  - 不进入 Phase 2.54b 或 Phase 2.53d。
+- 当前结果：Codex B review 通过，目标测试 `6 passed`；未真实 upload、未调用 API、未写 DB / index。
 - 完成后：baseline 后停止等待 Codex B review；不得自动进入真实 upload smoke。
 
 ### Current Item：Phase 2.53a Natural Language File Import Parser / Dry-run Planner

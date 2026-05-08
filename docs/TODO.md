@@ -2,11 +2,19 @@
 
 ## 最新状态
 
-1. Phase 2.53c mocked natural import integration 已完成并通过 Codex B review，下一步只做 selective Git baseline。
-2. Hermes 主仓新增 mocked import preflight flow：no intent 继续 normal flow，fail-closed import 返回 diagnostics，mocked upload success 返回 document_id / version_id。
-3. alias seed 仅在 mocked upload success 且 document_id / version_id 存在时输出 session alias seed diagnostics。
-4. 当前仍为 mocked-only：未调用真实 Hermes_memory API，未上传真实文件，未写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-5. baseline 后优先进入 Phase 2.54a Enterprise Memory Native UX / File Steward UX；Phase 2.53d 真实 upload smoke 仍需用户单独授权。
+1. Phase 2.54a Enterprise Memory Native UX / File Steward UX minimum implementation 已通过 Codex B review，下一步只做 selective Git baseline。
+2. Hermes 主仓新增 `file_steward_ux.py` 与目标测试，覆盖 alias failure、active document continuation、file answer metadata。
+3. 2.54a helper 固定输出 `facts_as_answer=false`、`transcript_as_fact=false`、`snapshot_as_answer=false`、`metadata_as_answer=false`、`requires_retrieval_evidence=true`。
+4. 目标测试通过：主仓 `test_file_steward_ux.py` 为 `6 passed`。
+5. 当前只建议 baseline；真实 upload / runtime integration / Data Steward / DB-index 写入仍后置。
+
+## 最新状态
+
+1. Phase 2.53c 双仓 baseline 已完成：mocked natural import integration 已固化，但仍不等于真实 upload 能力。
+2. 当前进入 Phase 2.54a Enterprise Memory Native UX / File Steward UX minimum implementation。
+3. 2.54a 只允许新增纯 helper 与目标测试：alias failure helper、active document continuation hint、file answer metadata display structure。
+4. 继续禁止真实 upload、API / CLI smoke、DB / index 写入、Data Steward / BIM / NAS / TB 文件池、repair 与 rollout。
+5. Phase 2.53d 真实 upload smoke 仍需用户单独授权和小型非敏感文件。
 
 ## 最新状态
 

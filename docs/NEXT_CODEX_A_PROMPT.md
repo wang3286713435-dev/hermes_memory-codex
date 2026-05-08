@@ -1,36 +1,40 @@
 # NEXT_CODEX_A_PROMPT
 
-这是 Codex A 的下一轮文件化执行入口。Codex B 已完成 Phase 2.53c mocked integration review，允许进入 selective Git baseline。
+这是 Codex A 的下一轮文件化执行入口。Codex B 已完成 Phase 2.54a File Steward UX helper review，允许进入 selective Git baseline。
 
 ## 本轮目标
 
-Phase 2.53c Natural Import Mocked Integration + Enterprise Memory Native UX Bridge selective Git baseline。
+Phase 2.54a Enterprise Memory Native UX / File Steward UX helper selective Git baseline。
 
-本轮只做 selective staging / commit / tag / push，不进入 Phase 2.53d，不做真实 upload smoke，不进入 Phase 2.54a 实现。
+本轮只做 selective staging / commit / tag / push，不进入 Phase 2.54b，不接 runtime，不做真实 upload，不运行 API / CLI smoke，不写 DB / index，不进入 Data Steward / BIM / NAS / TB 文件池。
 
 ## Codex B 审核结论
 
 Review 通过：
 
-1. `natural_file_import_flow.py` 仍为 mocked-only，不调用真实 Hermes_memory API。
-2. no import intent 不拦截 normal flow。
-3. fail-closed import 返回 diagnostics，不创建 retrieval evidence。
-4. mocked upload success 返回 document_id / version_id / chunk_count / indexed_count。
-5. alias seed 只在 mocked upload 成功且 document_id / version_id 存在时发生。
-6. upload failed / missing document_id / missing version_id 均 fail closed，且 alias not bound。
-7. safe flags 保持 false。
-8. import diagnostics 与 retrieval evidence 分离。
-9. Phase 2.54 Enterprise Memory Native UX 已固化为后续主线，不放松 evidence boundary。
+1. `file_steward_ux.py` 是纯 Python helper。
+2. helper 不调用 Hermes_memory API，不读取真实文件内容，不调用 upload adapter。
+3. helper 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+4. alias failure helper 能区分无候选、多候选、active document 可用等状态，且 `auto_bind_allowed=false`。
+5. active document continuation hint 只给继续工作建议，不把 metadata 当 answer。
+6. file answer metadata 输出 document_id / version_id / title / source / evidence_scope / citation_count。
+7. 所有 helper 固定保留：
+   - `facts_as_answer=false`
+   - `transcript_as_fact=false`
+   - `snapshot_as_answer=false`
+   - `metadata_as_answer=false`
+   - `requires_retrieval_evidence=true`
+8. 本轮未修改 runtime：`context_builder.py`、`kernel.py`、`orchestrator.py`、`hermes_memory_adapter.py` 均未纳入本阶段。
 
 ## 已通过测试
 
 ```bash
 cd /Users/Weishengsu/.hermes/hermes-agent
-./.venv/bin/python -m py_compile agent/memory_kernel/natural_file_import.py agent/memory_kernel/natural_file_import_flow.py
-./.venv/bin/python -m pytest -o addopts='' tests/agent/test_natural_file_import.py tests/agent/test_natural_file_import_flow.py -q
+./.venv/bin/python -m py_compile agent/memory_kernel/file_steward_ux.py
+./.venv/bin/python -m pytest -o addopts='' tests/agent/test_file_steward_ux.py -q
 ```
 
-结果：`21 passed`。
+结果：`6 passed`。
 
 Hermes_memory 校验已通过：
 
@@ -44,9 +48,8 @@ git check-ignore -v reports/agent_runs/latest.json
 
 Hermes 主仓 `/Users/Weishengsu/.hermes/hermes-agent` 只允许 stage：
 
-1. `agent/memory_kernel/natural_file_import_flow.py`
-2. `tests/agent/test_natural_file_import.py`
-3. `tests/agent/test_natural_file_import_flow.py`
+1. `agent/memory_kernel/file_steward_ux.py`
+2. `tests/agent/test_file_steward_ux.py`
 
 不得 stage Hermes 主仓既有 out-of-scope dirty：
 
@@ -77,17 +80,17 @@ Hermes_memory `/Users/Weishengsu/Hermes_memory` 只允许 stage：
 
 在 `/Users/Weishengsu/.hermes/hermes-agent`：
 
-1. 只 stage 允许的 3 个 Phase 2.53c 文件。
+1. 只 stage 允许的 2 个 Phase 2.54a 文件。
 2. commit message：
 
 ```text
-feat: add mocked natural import preflight flow
+feat: add file steward UX helpers
 ```
 
 3. tag：
 
 ```text
-phase-2.53c-natural-import-mocked-integration-baseline
+phase-2.54a-file-steward-ux-helper-baseline
 ```
 
 4. 推送到当前可写远端 / 分支；如仍按既定策略使用 `backup2`，沿用 `backup2`，不要推不可写 origin。
@@ -96,20 +99,20 @@ phase-2.53c-natural-import-mocked-integration-baseline
 
 在 `/Users/Weishengsu/Hermes_memory`：
 
-1. 只 stage 允许的 8 个 Phase 2.53c / 2.54 bridge 文档文件。
+1. 只 stage 允许的 8 个 Phase 2.54a 文件。
 2. commit message：
 
 ```text
-docs: bridge natural import to enterprise memory ux
+docs: baseline file steward UX helper
 ```
 
 3. tag：
 
 ```text
-phase-2.53c-natural-import-mocked-integration-baseline
+phase-2.54a-file-steward-ux-helper-baseline
 ```
 
-4. 推送当前分支；如需要同步到 `origin/main`，必须确保只推包含 Phase 2.53c / 2.54 bridge 的合法提交，且不覆盖既有 main 历史。
+4. 推送当前分支；如需要同步到 `origin/main`，必须确保只推包含 Phase 2.54a 的合法提交，且不覆盖既有 main 历史。
 
 ## 验证命令
 
@@ -117,8 +120,8 @@ phase-2.53c-natural-import-mocked-integration-baseline
 
 ```bash
 cd /Users/Weishengsu/.hermes/hermes-agent
-./.venv/bin/python -m py_compile agent/memory_kernel/natural_file_import.py agent/memory_kernel/natural_file_import_flow.py
-./.venv/bin/python -m pytest -o addopts='' tests/agent/test_natural_file_import.py tests/agent/test_natural_file_import_flow.py -q
+./.venv/bin/python -m py_compile agent/memory_kernel/file_steward_ux.py
+./.venv/bin/python -m pytest -o addopts='' tests/agent/test_file_steward_ux.py -q
 git status --short
 
 cd /Users/Weishengsu/Hermes_memory
@@ -132,31 +135,27 @@ git status --short
 
 ## 禁止事项
 
-1. 不进入 Phase 2.53d。
-2. 不进入 Phase 2.54a 实现。
-3. 不调用真实 Hermes_memory API。
-4. 不上传文件。
-5. 不读取真实文件内容。
-6. 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-7. 不执行 repair / backfill / reindex / cleanup / delete / migration。
-8. 不修改 `DocumentIngestResponse` / ingestion contract / retrieval contract。
-9. 不修改 memory kernel 主架构。
-10. 不进入 Data Steward / BIM / NAS / TB 文件池。
+1. 不进入 Phase 2.54b。
+2. 不接入 `context_builder.py` / `kernel.py` / `orchestrator.py` runtime。
+3. 不修改 `hermes_memory_adapter.py`。
+4. 不真实上传文件。
+5. 不调用 Hermes_memory API。
+6. 不读取真实文件内容。
+7. 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+8. 不进入 Phase 2.53d 真实 upload smoke。
+9. 不进入 Data Steward / BIM / NAS / TB 文件池。
+10. 不执行 repair / backfill / reindex / cleanup / delete / migration。
 11. 不做 production rollout。
-12. 不 stage / commit / tag / push 任何无关 dirty。
 
-## 输出要求
+## 完成后交接
 
-返回精简报告：
+baseline 后必须停止，等待 Codex B review。
 
-1. 本轮目标。
-2. 两仓 staged 文件。
-3. 测试结果。
-4. commit hash。
-5. tag。
-6. push 结果。
-7. 最终 git status。
-8. 当前保留的 out-of-scope dirty。
-9. 是否建议进入 Phase 2.54a。
+输出必须包含：
 
-baseline 完成后停止，等待 Codex B review，不得自动继续下一阶段。
+1. 双仓 commit hash。
+2. tag。
+3. push 结果。
+4. 最终 `git status --short`。
+5. 是否有 out-of-scope dirty 保留。
+6. 下一步建议。

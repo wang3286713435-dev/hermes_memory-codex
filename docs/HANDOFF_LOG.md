@@ -1,5 +1,69 @@
 # Handoff Log
 
+## 2026-05-08 16:05 Phase 2.54a Codex B review / selective baseline prompt
+- goal: Review File Steward UX helper implementation and write selective Git baseline prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - 主仓：`./.venv/bin/python -m py_compile agent/memory_kernel/file_steward_ux.py` passed.
+  - 主仓：`./.venv/bin/python -m pytest -o addopts='' tests/agent/test_file_steward_ux.py -q` => `6 passed`.
+  - Hermes_memory：`git diff --check` passed.
+  - Hermes_memory：latest JSON check passed.
+  - Hermes_memory：`git check-ignore -v reports/agent_runs/latest.json` passed.
+- validation: Phase 2.54a helper is pure and not runtime integration; no real upload, API / CLI smoke, DB/index write, Data Steward, repair or rollout.
+- risks: baseline must use selective staging across two repos and exclude existing out-of-scope dirty files.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.54a selective Git baseline, then stop for Codex B review.
+- commit/tag if any: none.
+
+## 2026-05-08 15:52 Phase 2.54a
+- goal: Implement low-risk File Steward UX helper for alias failure, active document continuation and file answer metadata display.
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/file_steward_ux.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_file_steward_ux.py`
+  - `docs/PHASE254_ENTERPRISE_MEMORY_NATIVE_UX_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - Hermes 主仓：`./.venv/bin/python -m py_compile agent/memory_kernel/file_steward_ux.py` passed.
+  - Hermes 主仓：`./.venv/bin/python -m pytest -o addopts='' tests/agent/test_file_steward_ux.py -q` => `6 passed`.
+  - Hermes_memory docs / latest checks pending final pass.
+- validation: Helper is pure Python and does not call API, upload adapter, filesystem, DB, OpenSearch or Qdrant. Safe answer flags remain false and retrieval evidence remains required.
+- risks: Helper is not runtime integration yet; real upload smoke, API / CLI smoke, Data Steward and DB/index writes remain out of scope.
+- next: Stop for Codex B review; if approved, write selective Git baseline prompt or plan Phase 2.54b.
+- commit/tag if any: none.
+
+## 2026-05-08 16:40 Phase 2.54a prompt
+- goal: Confirm Phase 2.53c baseline and write Phase 2.54a Enterprise Memory Native UX helper implementation prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - Hermes_memory `git diff --check`: pending.
+  - latest JSON check: pending.
+  - `git check-ignore -v reports/agent_runs/latest.json`: pending.
+- validation: Phase 2.53c baseline tag exists in both repos and remote tags are visible. Next task is bounded helper-only work with no runtime contract changes.
+- risks: Phase 2.54a helper must not drift into runtime integration, real upload, DB/index writes, Data Steward, repair or rollout.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.54a helper implementation, then stop for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-08 16:10 Phase 2.53c Codex B review / selective baseline prompt
 - goal: Review mocked natural import integration and write selective Git baseline prompt.
 - changed_files:

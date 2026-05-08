@@ -6,6 +6,21 @@ Phase 2.54 正式采纳 `LOCAL_PR_ENTERPRISE_MEMORY_USABILITY_PROPOSAL.md` 的�
 
 这不是 production rollout、自动审标、Data Steward 实现、retrieval contract 大改或 memory kernel 主架构重写授权。它是内部 MVP 进入真实使用前必须补齐的 usability 主线。
 
+## 1.1 Phase 2.54a Implementation Status
+
+Phase 2.54a 已完成低风险 File Steward UX helper 首轮最小实现：
+
+1. Hermes 主仓新增纯 helper：`agent/memory_kernel/file_steward_ux.py`。
+2. 覆盖 alias failure helper、active document continuation hint、file answer metadata display structure。
+3. helper 输出固定保留 evidence safety flags：
+   - `facts_as_answer=false`
+   - `transcript_as_fact=false`
+   - `snapshot_as_answer=false`
+   - `metadata_as_answer=false`
+   - `requires_retrieval_evidence=true`
+4. 目标测试通过：`tests/agent/test_file_steward_ux.py` 为 `6 passed`。
+5. 当前仍是纯 helper，不接真实 API / upload，不读取真实文件内容，不写 DB / OpenSearch / Qdrant，不代表 runtime integration 已完成。
+
 ## 2. 与 Phase 2.53 的关系
 
 Phase 2.53 自然语言导入仍继续推进，但它不应被当成孤立功能。它属于更大的 File Steward UX 路线：

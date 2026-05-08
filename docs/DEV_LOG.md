@@ -1,5 +1,8 @@
 # DEV_LOG
 
+- [Phase 2.54a] Codex B review 通过 File Steward UX helper：`file_steward_ux.py` 为纯 helper，目标测试 `6 passed`，未接 runtime、未真实 upload、未调用 API、未写 DB / index。已写入 selective Git baseline prompt。
+- [Phase 2.54a] 完成 File Steward UX helper 首轮最小实现：新增 alias failure helper、active document continuation hint、file answer metadata structure，固定保留 facts/transcript/snapshot/metadata 不作为 answer 且需要 retrieval evidence；主仓目标测试 `6 passed`。本轮未接真实 upload、API、DB、索引或 runtime integration。
+- [Phase 2.54a] Codex B 确认 Phase 2.53c 双仓 baseline 完成：Hermes 主仓 `1f4309abe`，Hermes_memory `4a06ef9`，tag `phase-2.53c-natural-import-mocked-integration-baseline`。已写入 Phase 2.54a File Steward UX helper implementation prompt；本轮只允许纯 helper + unit tests，不接真实 upload / API / DB / index / Data Steward / rollout。
 - [Phase 2.53c] Codex B review 通过 mocked natural import integration + Enterprise Memory Native UX bridge；主仓目标测试 `21 passed`。已写入 selective Git baseline prompt，仍禁止真实 upload、API / CLI smoke、DB / index 写入、Data Steward 和 rollout。
 - [Phase 2.54] 采纳本地 PR `LOCAL_PR_ENTERPRISE_MEMORY_USABILITY_PROPOSAL.md`：后续主线从“只做可检索”提升到 Enterprise Memory Native UX / File Steward UX。新增 Phase 2.54 规划，并把下一步 Codex A 任务调整为 Phase 2.53c mocked natural import integration + UX bridge；不真实上传、不运行 API / CLI smoke、不进入 Data Steward。
 - [Phase 2.53b] Codex B review 通过 natural import integration planning；已写入 docs-only Git baseline prompt。baseline 只允许规划文档与交接文档，不进入 Phase 2.53c、不写代码、不真实 upload、不运行 API / CLI smoke、不进入 Data Steward。
