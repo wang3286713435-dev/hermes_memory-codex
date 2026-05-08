@@ -1,5 +1,6 @@
 # DEV_LOG
 
+- [Phase 2.53a] Codex B review 通过 natural file import parser / dry-run planner review-fix；否定导入 intent 已 fail closed，目标测试 `10 passed`。已写入 Phase 2.53a selective Git baseline prompt，仍禁止真实 upload、API / CLI smoke、DB / index 写入、adapter / kernel integration、Data Steward 与 rollout。
 - [Phase 2.51b] 完成 minimal Mac Mini operator command sheet artifact：新增一页式操作单，覆盖 pre-check、repo state、hot update、health checks、run record、review command、rollback、stop conditions 与 never-do；本轮 docs-only，未执行真实命令或部署。
 - [Phase 2.52] 完成 Phase 2.51 runbook baseline 后路线规划：推荐下一步优先做 Phase 2.51b minimal operator command sheet；2.51a fake deployment record dry-run smoke 与 2.50b evidence pack planning 后置候选。
 - [Phase 2.51] Codex B review 通过 Mac Mini operator / hot update runbook 及 review-fix；当前执行 docs-only Git baseline，仍不执行真实 Mac Mini deployment、API / CLI smoke、DB / index 写入、repair、rollout 或 Data Steward。
@@ -361,4 +362,8 @@
 - [Phase 2.53] Phase 2.50c baseline 完成后，Codex B 将主线切回 Mac Mini 内部 MVP 实用入口：自然语言导入文件。已写入下一轮边界规划 / 代码入口勘查 prompt；本轮仍不写功能代码、不上传真实文件、不运行 API / CLI smoke、不写 DB / index、不进入 rollout 或 Data Steward。
 - [Phase 2.53] 完成 Natural Language File Import MVP 边界规划与代码入口勘查：新增 `docs/PHASE253_NATURAL_LANGUAGE_FILE_IMPORT_PLAN.md`，确认未来实现应复用 Hermes_memory `/api/v1/documents/upload` / ingestion / version governance / OpenSearch / Qdrant 链路，并在 Hermes 主仓补 import intent、upload adapter、alias seed 与 diagnostics；本轮未写功能代码、未上传真实文件、未运行 API / CLI smoke、未写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant，未进入 repair、rollout 或 Data Steward。
 - [Phase 2.53 Baseline] 执行 Natural Language File Import MVP Boundary Planning docs-only Git baseline；该 baseline 仅固化规划与交接状态，不代表自然语言导入能力已实现，不运行真实 upload smoke，不进入 rollout、repair、Data Steward 或 Hermes 主仓修改。
+- [Phase 2.53a] 完成 Natural Language File Import parser / dry-run planner 最小实现：Hermes 主仓新增 `agent/memory_kernel/natural_file_import.py` 与 `tests/agent/test_natural_file_import.py`，支持显式导入 intent、单文件路径、标题 / document_type / source_type / alias 解析，并对普通查看 / 总结、missing path、multiple paths、directory / bulk / NAS / BIM batch fail closed；本轮不访问文件系统、不调用 Hermes_memory API、不上传真实文件、不写 DB / index、不进入 adapter / kernel integration。
+- [Phase 2.53a Review Fix] 修复否定导入 intent：`不要导入 / 不要上传 / 不要收录` 等返回 `detected=false`，不会进入导入 dry-run；补充测试后主仓 `test_natural_file_import.py` 为 `10 passed`。同时恢复非本轮删除的 `docs/MAC_MINI_MVP_DEPLOYMENT_RUNBOOK.md` 与 `docs/MVP_PILOT_RUNBOOK.md`，本轮仍不接真实 upload adapter、不调用 API、不写 DB / index。
 - [Phase 2.53] Codex B review 通过 Natural Language File Import planning；因下一步将进入 Phase 2.53a mocked implementation 并可能跨 Hermes 主仓，已写入 docs-only Git baseline prompt，避免规划文档与实现代码混在一个提交。
+- [Phase 2.53a] Phase 2.53 baseline 完成后，Codex B 写入自然语言导入文件 parser / dry-run planner 实现入口：仅允许新增 Hermes 主仓 parser 模块与测试，暂不接 upload adapter / kernel integration，不上传真实文件、不调用 API、不写 DB / index。
+- [Phase 2.53a Review] Codex B review 暂不建议 baseline：parser 仍会把 `不要导入 / 不要上传 / 不要收录` 识别为有效导入；同时 Hermes_memory 出现 out-of-scope tracked docs deletion，需要恢复 `docs/MAC_MINI_MVP_DEPLOYMENT_RUNBOOK.md` 与 `docs/MVP_PILOT_RUNBOOK.md`。已写入最小 review-fix prompt。

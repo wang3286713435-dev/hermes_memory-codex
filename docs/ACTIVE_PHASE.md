@@ -1,46 +1,44 @@
 # Active Phase
 
-- 当前 phase：Phase 2.53 Natural Language File Import MVP Boundary Planning Git Baseline
-- 本轮目标：完成 Phase 2.53 自然语言导入文件规划的 docs-only Git baseline，不进入实现。
+- 当前 phase：Phase 2.53a Natural Language File Import Parser / Dry-run Planner Git Baseline Prompt
+- 本轮目标：Codex B review 已通过，交给 Codex A 执行 Phase 2.53a selective Git baseline。
 - 背景：
-  - Phase 2.50c baseline 已完成：commit `83109da`，tag `phase-2.50c-internal-mvp-evidence-pack-template-baseline`。
-  - Phase 2.53 planning 已完成并通过 Codex B review。
-  - 规划结论：未来自然语言导入文件能力应复用 Hermes_memory upload / ingestion，并只在 Hermes 主仓补消费层 intent / adapter / alias / diagnostics。
+  - Phase 2.53 planning baseline 已完成：commit `f92a342`，tag `phase-2.53-natural-language-file-import-plan-baseline`。
+  - Phase 2.53a parser / diagnostics 初版已完成。
+  - Codex B review 发现否定导入 intent 会误触发；Codex A 已完成 review-fix。
+  - Codex B 已复核 review-fix：否定导入 intent fail-closed，目标测试 `10 passed`。
 - 修改文件：
-  - `docs/PHASE253_NATURAL_LANGUAGE_FILE_IMPORT_PLAN.md`
-  - `docs/NEXT_CODEX_A_PROMPT.md`
-  - `docs/ACTIVE_PHASE.md`
-  - `docs/PHASE_BACKLOG.md`
-  - `docs/HANDOFF_LOG.md`
-  - `docs/NIGHTLY_SPRINT_QUEUE.md`
-  - `docs/TODO.md`
-  - `docs/DEV_LOG.md`
-  - `reports/agent_runs/latest.json`（ignored，本地状态，baseline 后记录 commit / tag）
-- 完成内容：
-  - 已复核 Phase 2.53 planning 与 Codex B review 结论。
-  - 已按白名单执行 docs-only baseline。
-  - 未进入 Phase 2.53a 实现。
-  - 未修改 Hermes 主仓库。
+  - Hermes 主仓：`/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/natural_file_import.py`
+  - Hermes 主仓：`/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_natural_file_import.py`
+  - Hermes_memory：`docs/NEXT_CODEX_A_PROMPT.md`
+  - Hermes_memory：`docs/ACTIVE_PHASE.md`
+  - Hermes_memory：`docs/PHASE_BACKLOG.md`
+  - Hermes_memory：`docs/HANDOFF_LOG.md`
+  - Hermes_memory：`docs/NIGHTLY_SPRINT_QUEUE.md`
+  - Hermes_memory：`docs/TODO.md`
+  - Hermes_memory：`docs/DEV_LOG.md`
+  - Hermes_memory：`reports/agent_runs/latest.json`（ignored，本地状态）
+- Codex B review 结论：
+  - `不要导入 / 不要上传 / 不要收录` 等否定 intent 返回 `detected=false`。
+  - Parser 仍不访问文件系统、不调用 API、不读取真实文件内容。
+  - Diagnostics 仍固定 `dry_run=true`、`ingestion_status=not_executed` 和 safe answer flags false。
+  - 误删 tracked docs 已恢复，且不得纳入本轮 staged / commit。
 - 测试结果：
-  - `git diff --check`：passed。
-  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：passed。
-  - `git check-ignore -v reports/agent_runs/latest.json`：passed。
-  - selective staging 白名单复核：passed。
-- live smoke 结果：
-  - 未运行 API / CLI smoke。
-  - 未上传真实文件。
-  - 未写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-  - 未执行 repair / backfill / reindex / cleanup / delete。
+  - 主仓：`./.venv/bin/python -m py_compile agent/memory_kernel/natural_file_import.py`：passed。
+  - 主仓：`./.venv/bin/python -m pytest -o addopts='' tests/agent/test_natural_file_import.py -q`：`10 passed`。
+  - Hermes_memory：`git diff --check`：passed。
+  - Hermes_memory：`uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`：passed。
+  - Hermes_memory：`git check-ignore -v reports/agent_runs/latest.json`：passed。
 - 当前结论：
-  - Phase 2.53 planning 可作为后续 Phase 2.53a mocked implementation / tests 的边界输入。
-  - 本轮 baseline 不代表自然语言导入能力已经实现。
+  - Phase 2.53a review-fix 通过 Codex B review。
+  - 下一步只做 Git baseline，不进入 Phase 2.53b。
 - 阻塞点 / 风险点：
-  - Phase 2.53a 仍必须先 mocked implementation，不得直接真实上传文件。
-  - 真实 upload smoke 需要单独授权。
-  - 目录导入、NAS / TB BIM 文件池、Data Steward、production rollout 继续后置。
-  - out-of-scope dirty 仍需排除：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、`docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md`、`docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`。
-- 是否建议 baseline：已执行 Phase 2.53 docs-only baseline。
-- 是否建议进入下一阶段：否；等待用户 / Codex B 确认后再进入 Phase 2.53a。
-- 下一轮建议：Phase 2.53a mocked implementation / tests；仍不做真实 upload smoke，除非另行授权。
-- 是否需要 Codex B 审核：否；Phase 2.53 planning 已 review 通过。
-- 是否需要 Codex C 真实终端验收：否；未来真实 upload smoke 需单独授权。
+  - 主仓存在既有 out-of-scope dirty：`agent/memory_kernel/adapters/hermes_memory_adapter.py`、`uv.lock`、`docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`、`tests/agent/test_memory_kernel_adapter_reload.py`。
+  - Hermes_memory 仍存在 out-of-scope dirty / untracked：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、`docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md`、`docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`、`docs/CURRENT_STAGE_INTERNAL_MVP_USER_MANUAL.md`。
+  - Phase 2.53b adapter / kernel integration 仍需单独 planning / review。
+  - 真实 upload smoke 仍需单独授权。
+- 是否建议 baseline：是，只做 selective Phase 2.53a baseline。
+- 是否建议进入下一阶段：否；baseline 后先等待 Codex B review，再决定 Phase 2.53b。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.53a baseline 后停止。
+- 是否需要 Codex B 审核：baseline 后需要。
+- 是否需要 Codex C 真实终端验收：否；真实 upload smoke 后续需要另行授权。

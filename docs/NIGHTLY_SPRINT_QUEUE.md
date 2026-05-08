@@ -10,22 +10,21 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.53 Natural Language File Import MVP Boundary Planning
+### Current Item：Phase 2.53a Natural Language File Import Parser / Dry-run Planner
 
-- lane：Green Lane
-- 状态：completed_baseline
-- 目标：规划自然语言导入单个本地文件的 MVP 边界与代码入口；为下一轮最小实现做准备。
+- lane：Yellow Lane
+- 状态：codex_b_review_passed_waiting_selective_baseline
+- 目标：执行 Phase 2.53a selective Git baseline；不接真实 upload。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - 新增 `docs/PHASE253_NATURAL_LANGUAGE_FILE_IMPORT_PLAN.md`。
-  - 只读勘查 Hermes_memory upload / ingestion 入口。
-  - 只读勘查 Hermes 主仓 CLI / adapter / alias 候选入口。
+  - 新增 Hermes 主仓 `agent/memory_kernel/natural_file_import.py`。
+  - 新增 Hermes 主仓 `tests/agent/test_natural_file_import.py`。
   - 更新交接文档与 ignored latest 状态。
-  - 运行 docs / JSON 轻量检查。
+  - 运行 py_compile 与目标测试 / direct assertion fallback。
 - 禁止动作：
-  - 不写功能代码。
-  - 不新增 scripts / tests。
   - 不上传真实文件。
+  - 不调用真实 Hermes_memory API。
+  - 不修改 adapter / kernel / orchestrator / context_builder / session scope。
   - 不递归扫描目录、NAS、网盘或 TB 级 BIM 文件池。
   - 不生成真实 evidence pack。
   - 不读取真实 reports / run records。
@@ -36,9 +35,9 @@
   - 不执行 repair / backfill / reindex / cleanup / delete / migration。
   - 不进入 production rollout 或 Data Steward。
   - 不 stage / commit / tag / push。
-- 完成后：Phase 2.53 docs-only baseline 已执行；下一步等待用户 / Codex B 明确是否进入 Phase 2.53a mocked implementation。
-- 前置状态：Phase 2.50c baseline 已完成，commit `83109da`，tag `phase-2.50c-internal-mvp-evidence-pack-template-baseline`。
-- 当前结果：Codex A 已完成 Phase 2.53 planning artifact 与 docs-only baseline；未写功能代码、未上传真实文件、未运行 API / CLI smoke。
+- 完成后：baseline 后停止等待 Codex B review；不得自动进入 Phase 2.53b adapter / kernel integration。
+- 前置状态：Phase 2.53 baseline 已完成，commit `f92a342`，tag `phase-2.53-natural-language-file-import-plan-baseline`。
+- 当前结果：Codex B review 已通过，已写入 selective baseline prompt；主仓目标测试 `10 passed`；未接真实 upload。
 
 ### Item 1：Phase 2.46 Mac mini Day-0 Real-machine Setup Planning
 

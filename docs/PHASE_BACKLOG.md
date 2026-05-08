@@ -2,11 +2,18 @@
 
 ## 最新状态
 
-1. Phase 2.53 Natural Language File Import MVP Boundary Planning docs-only Git baseline 已执行。
-2. 规划结论：自然语言导入应复用 Hermes_memory 现有 `/api/v1/documents/upload` 与 ingestion / version governance / OpenSearch / Qdrant 链路。
-3. 后续 Phase 2.53a 只应先做 mocked parser / adapter / alias seed / trace tests；真实 upload smoke 需单独授权。
-4. 本轮未写功能代码、未上传真实文件、未运行 API / CLI smoke、未写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-5. 继续排除 out-of-scope dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、`docs/MAC_MINI_MINIMAL_MVP_DEPLOY_GUIDE.md`、`docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`。
+1. Phase 2.53a Codex B review 已通过：自然语言导入 parser / dry-run planner 的否定 intent 已 fail closed。
+2. 下一步只允许执行 Phase 2.53a selective Git baseline，不进入 Phase 2.53b。
+3. 本轮 baseline 白名单：Hermes 主仓 `natural_file_import.py` / `test_natural_file_import.py`，Hermes_memory 交接文档；不得 stage 既有 out-of-scope dirty / untracked docs。
+4. Phase 2.53b adapter / alias seed / kernel integration 后置；真实 upload smoke 仍需单独授权。
+
+## 最新状态
+
+1. Phase 2.53a Natural Language File Import Parser / Dry-run Planner review-fix 已完成，等待 Codex B review。
+2. 否定导入 intent 已 fail closed：`不要导入 / 不要上传 / 不要收录` 等返回 `detected=false`。
+3. Hermes_memory out-of-scope tracked docs deletion 已恢复：`docs/MAC_MINI_MVP_DEPLOYMENT_RUNBOOK.md`、`docs/MVP_PILOT_RUNBOOK.md`。
+4. 主仓目标测试通过：py_compile passed，`tests/agent/test_natural_file_import.py` 为 `10 passed`。
+5. adapter / alias seed / kernel integration 后置 Phase 2.53b；真实 upload smoke 需单独授权。
 
 ## 最新状态
 
@@ -27,9 +34,9 @@
 
 ## 当前优先级
 
-1. 当前第一优先级：Phase 2.53a Natural Language File Import mocked implementation / tests。
-2. Phase 2.53a 仍不得直接上传真实文件；真实 upload smoke 需单独授权。
-3. Phase 2.53a 候选边界：自然语言 import intent parser、mocked upload adapter、post-upload alias seed、import diagnostics / fail-closed trace。
+1. 当前第一优先级：Codex B review Phase 2.53a review-fix。
+2. 如 review 通过，下一步可选择 Phase 2.53a baseline 或 Phase 2.53b adapter / kernel integration planning。
+3. Phase 2.53b 前仍不得直接上传真实文件；真实 upload smoke 需单独授权。
 4. 真实 upload smoke、真实文件导入、目录递归导入、NAS / TB BIM 文件池、Data Steward、rollout 均需单独授权。
 5. Phase 2.50c evidence pack 后续只可作为内部受控 MVP review bundle，不能替代人工业务判断。
 6. Phase 2.51a baseline 已完成：commit `1aa6807f38d5a9242640a6822d35aeacafc3dc22`，tag `phase-2.51a-fake-deployment-record-dry-run-baseline`。

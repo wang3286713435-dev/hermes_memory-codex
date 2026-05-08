@@ -1,5 +1,27 @@
 # Handoff Log
 
+## 2026-05-08 13:45 Phase 2.53a Codex B review / baseline prompt
+- goal: Review Phase 2.53a review-fix and write selective Git baseline prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - 主仓：`./.venv/bin/python -m py_compile agent/memory_kernel/natural_file_import.py` passed.
+  - 主仓：`./.venv/bin/python -m pytest -o addopts='' tests/agent/test_natural_file_import.py -q` => `10 passed`.
+  - Hermes_memory：`git diff --check` passed.
+  - Hermes_memory：latest JSON check passed.
+  - Hermes_memory：`git check-ignore -v reports/agent_runs/latest.json` passed.
+- validation: Negated import intent now returns `detected=false`; parser remains pure dry-run with no filesystem read, API call, upload, DB/index write, adapter integration, repair, rollout, or Data Steward work.
+- risks: Both repos still contain out-of-scope dirty / untracked files; Phase 2.53a baseline must use selective staging only.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.53a Git baseline, then stop for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-07 Phase 2.46c
 - goal: Codex B review Phase 2.46c Codex C local MVP smoke prompt artifact，并写入 docs-only Git baseline prompt。
 - changed_files:
@@ -4487,6 +4509,93 @@
 - risks: Phase 2.53a must still start with mocked implementation / tests; real upload smoke requires separate authorization.
 - next: Wait for user / Codex B direction before Phase 2.53a mocked implementation.
 - commit/tag if any: recorded in ignored `reports/agent_runs/latest.json` and final response after baseline.
+
+## 2026-05-08 12:30 Phase 2.53a prompt
+- goal: After Phase 2.53 planning baseline, prepare the first bounded implementation slice for natural language file import.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: pending.
+  - `reports/agent_runs/latest.json` JSON check: pending.
+- validation: Next prompt is implementation but narrowed to parser / dry-run diagnostics only. It forbids real upload, API access, DB/index writes, adapter/kernel integration, Data Steward, repair, rollout, and Git baseline.
+- risks: Hermes main repo has existing dirty files; Phase 2.53a prompt intentionally only allows adding a new parser module and test to avoid mixing unrelated changes.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.53a parser / dry-run planner, then stop for Codex B review.
+- commit/tag if any: Phase 2.53 baseline completed at `f92a342`, tag `phase-2.53-natural-language-file-import-plan-baseline`.
+
+## 2026-05-08 13:03 Phase 2.53a
+- goal: Implement a pure natural language file import parser / dry-run diagnostics layer.
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/natural_file_import.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_natural_file_import.py`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `./.venv/bin/python -m py_compile agent/memory_kernel/natural_file_import.py`: passed.
+  - `./.venv/bin/python -m pytest tests/agent/test_natural_file_import.py -q`: blocked by repo default `-n` addopts / missing xdist.
+  - `./.venv/bin/python -m pytest -o addopts='' tests/agent/test_natural_file_import.py -q`: `9 passed`.
+  - Hermes_memory `git diff --check`: passed.
+  - latest JSON check: passed.
+  - `git check-ignore -v reports/agent_runs/latest.json`: passed.
+- validation: Parser / diagnostics are pure and dry-run only; no filesystem existence check, API call, upload, DB/index write, adapter integration, kernel integration, repair, rollout, or Data Steward work.
+- risks: Future Phase 2.53b adapter / kernel integration must avoid existing main-repo dirty and still not run real upload smoke without explicit authorization.
+- next: Codex B review Phase 2.53a; if accepted, decide baseline or Phase 2.53b integration planning.
+- commit/tag if any: none.
+
+## 2026-05-08 13:22 Phase 2.53a review-fix
+- goal: Fix negated natural import intent and restore out-of-scope deleted tracked docs.
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/natural_file_import.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_natural_file_import.py`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `./.venv/bin/python -m py_compile agent/memory_kernel/natural_file_import.py`: passed.
+  - `./.venv/bin/python -m pytest -o addopts='' tests/agent/test_natural_file_import.py -q`: `10 passed`.
+  - Hermes_memory `git diff --check`: passed.
+  - latest JSON check: passed.
+  - `git check-ignore -v reports/agent_runs/latest.json`: passed.
+- validation: Negated import requests now return `detected=false`; restored deleted runbook docs are no longer shown as deleted. No API call, upload, DB/index write, adapter integration, repair, rollout, or Data Steward work.
+- risks: Existing out-of-scope dirty remains in both repos; Phase 2.53b must still be separately reviewed.
+- next: Codex B review Phase 2.53a review-fix; if accepted, decide baseline or Phase 2.53b planning.
+- commit/tag if any: none.
+
+## 2026-05-08 13:20 Phase 2.53a Codex B review
+- goal: Review Phase 2.53a parser / dry-run planner and prepare a minimal review-fix prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - Hermes main target test rerun: `9 passed`.
+  - Hermes_memory `git diff --check`: passed.
+  - latest JSON check: passed.
+- validation: Parser is pure / dry-run and does not call API or filesystem. However, negated import prompts such as `不要导入 /tmp/demo.pdf` are currently treated as successful import intents.
+- risks: Out-of-scope tracked deletions appeared in Hermes_memory: `docs/MAC_MINI_MVP_DEPLOYMENT_RUNBOOK.md` and `docs/MVP_PILOT_RUNBOOK.md`. These must be restored before any baseline.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.53a review-fix, then stop for Codex B review.
+- commit/tag if any: none.
 
 ## 2026-05-08 12:10 Phase 2.53 Codex B review
 - goal: Review Phase 2.53 natural language file import planning and prepare a docs-only baseline prompt.
