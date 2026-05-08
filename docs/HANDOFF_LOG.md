@@ -1,5 +1,87 @@
 # Handoff Log
 
+## 2026-05-08 Phase 2.54c Codex C re-smoke / baseline prompt
+- goal: Review Codex C targeted re-smoke and write selective Git baseline prompt.
+- Codex C result:
+  - API / CLI available.
+  - session_id: `20260508_181817_c7c9a3`.
+  - `@主标书` alias binding: pass.
+  - Q3 file answer metadata: pass.
+  - required fields, echo required, title/source_name/source_type/citation_count and safety flags were visible.
+  - no metadata / facts / transcript / snapshot replacing retrieval evidence.
+  - no third-document contamination.
+- validation: `source_name/source_type` values may be `Missing Evidence` when underlying metadata is empty; this is a display/value completeness tail, not an evidence-boundary blocker.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.54c selective Git baseline, then stop.
+- commit/tag if any: none.
+
+## 2026-05-08 Phase 2.54c Codex B review / Codex C re-smoke prompt
+- goal: Review Phase 2.54c display-tail fix and prepare a bounded Codex C real-terminal re-smoke prompt.
+- review result: passed.
+- reviewed main repo files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_session_document_scope.py`
+- tests rerun:
+  - `/Users/Weishengsu/.hermes/hermes-agent/.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py agent/memory_kernel/file_steward_ux.py`: passed.
+  - `/Users/Weishengsu/.hermes/hermes-agent/.venv/bin/python -m pytest -o addopts='' tests/agent/test_file_steward_ux.py tests/agent/test_session_document_scope.py tests/agent/test_facts_agent_context.py -q`: `74 passed`.
+  - Hermes_memory `git diff --check`: passed.
+  - latest JSON validation: passed.
+  - latest ignore check: passed.
+- validation: Diff is display-layer only and keeps metadata as display-only. No retrieval contract, adapter contract, DB/index, upload, Data Steward, repair, or rollout work.
+- out_of_scope_dirty:
+  - Hermes_memory: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`.
+  - Hermes main: `agent/memory_kernel/adapters/hermes_memory_adapter.py`, `uv.lock`, `docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`, `tests/agent/test_memory_kernel_adapter_reload.py`.
+- next: Codex C should execute `docs/NEXT_CODEX_C_PROMPT.md` and only re-smoke Q3 file answer metadata display-tail behavior.
+- commit/tag if any: none.
+
+## 2026-05-08 17:56 Phase 2.54c File Steward UX display-tail fix
+- goal: Fix Q3 file answer metadata CLI display tail so title/source and safety flags are harder for the model to omit.
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_session_document_scope.py`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - 主仓：`./.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py agent/memory_kernel/file_steward_ux.py` passed.
+  - 主仓：`./.venv/bin/python -m pytest -o addopts='' tests/agent/test_file_steward_ux.py tests/agent/test_session_document_scope.py tests/agent/test_facts_agent_context.py -q` => `74 passed`.
+- validation: Display-layer only; file metadata diagnostics now expose required fields, echo requirement, source fields presence and safety flags near file metadata.
+- risks: Needs Codex C CLI re-smoke after Codex B review; metadata must stay display-only and cannot replace retrieval evidence.
+- next: Codex B review; if accepted, Codex C reruns Q3 file answer metadata targeted smoke.
+- commit/tag if any: none.
+
+## 2026-05-08 16:50 Phase 2.54c Codex C smoke prompt
+- goal: Confirm Phase 2.54b baseline and write Codex C targeted CLI smoke prompt for File Steward UX diagnostics.
+- changed_files:
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - Hermes_memory `git diff --check`: pending.
+  - latest JSON check: pending.
+  - `git check-ignore -v reports/agent_runs/latest.json`: pending.
+- validation: Phase 2.54b baseline tag exists in both repos and remote tags are visible. Next task is Codex C real-terminal smoke only.
+- risks: Real CLI may not print exact context section names; accept equivalent fields / semantics as partial if boundaries remain safe.
+- next: Codex C should execute `docs/NEXT_CODEX_C_PROMPT.md`; Codex A should stay idle.
+- commit/tag if any: none.
+
 ## 2026-05-08 16:30 Phase 2.54b Codex B review / selective baseline prompt
 - goal: Review File Steward UX context display integration and write selective Git baseline prompt.
 - changed_files:
@@ -4869,4 +4951,24 @@
 - validation: Mocked-only implementation. No real Hermes_memory API call, no real upload, no file content read, no DB / facts / versions / audit_logs / OpenSearch / Qdrant writes, no repair, no rollout, no Data Steward work.
 - risks: Phase 2.53d real upload smoke still requires explicit user authorization and a small non-sensitive file; Phase 2.54 UX work must not relax evidence boundaries.
 - next: Wait for Codex B review; do not baseline yet.
+- commit/tag if any: none.
+
+## 2026-05-08 Phase 2.54c Codex C smoke review
+- goal: Convert Codex C File Steward UX targeted CLI smoke result into a bounded Codex A display-tail fix prompt.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- Codex C validation:
+  - Q1 alias missing: pass.
+  - Q2 active document continuation: pass.
+  - Q3 file answer metadata: partial.
+- validation summary: Core evidence boundary is safe; no facts / transcript / snapshot / metadata replacement and no third-file contamination were observed. The remaining blocker is UX display completeness: source/title and safety flags are not stable in final CLI output.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for a minimal `ContextBuilder` display-tail fix, then stop for Codex B review.
+- forbidden scope: no real upload, no DB / index writes, no retrieval contract change, no memory kernel architecture change, no Data Steward / BIM / NAS / TB file pool, no repair, no rollout, no Git baseline.
 - commit/tag if any: none.

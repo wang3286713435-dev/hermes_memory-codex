@@ -1,25 +1,37 @@
 # Active Phase
 
-- 当前 phase：Phase 2.54b File Steward UX Runtime Display Integration Baseline Prompt
-- 本轮目标：Codex B review 已通过，交给 Codex A 执行 Phase 2.54b selective Git baseline。
-- 背景：
-  - Phase 2.54b File Steward UX context display integration 已完成。
-  - Hermes 主仓目标测试 `73 passed`。
-  - 本轮只接入 `ContextBuilder` 展示层，未改 retrieval contract，未接真实 upload，未调用 Hermes_memory API，未写 DB / index。
-- 允许 baseline 文件：
-  - Hermes 主仓：`agent/memory_kernel/context_builder.py`
-  - Hermes 主仓：`tests/agent/test_session_document_scope.py`
-  - Hermes_memory：`docs/PHASE254_ENTERPRISE_MEMORY_NATIVE_UX_PLAN.md`
-  - Hermes_memory：交接文档
+- 当前 phase：Phase 2.54c File Steward UX Display Tail Baseline Prompt
+- 本轮目标：Codex C 真实终端复验通过，下一步只做 Phase 2.54c 双仓 selective Git baseline。
+- 修改文件：
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/context_builder.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_session_document_scope.py`
+  - `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
+  - `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
+  - `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
+  - `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
+  - `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
+  - `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`（ignored）
+- 完成内容：
+  - 在 `ContextBuilder` 的 `file_answer_metadata` 分支增加 required fields、echo required、source fields present 与 safety flags 邻近展示。
+  - 增加 `source_name` fallback：优先 evidence source，缺失时使用 metadata `source_name/file_name/source_title/title/document_title`，最后回退 `document_id`。
+  - 补测试覆盖 metadata display required fields、safety flags 和 source/title fallback。
+- 测试结果：
+  - 主仓 py_compile：通过。
+  - 主仓 targeted pytest：`74 passed`。
+  - Hermes_memory 静态检查通过：`git diff --check`、latest JSON、ignore。
+- live smoke 结果：
+  - Codex C targeted re-smoke 通过：session `20260508_181817_c7c9a3`。
+  - Q3 file answer metadata 可见 required fields、echo required、title/source_name/source_type/citation_count 与 safety flags。
+  - 可选 alias missing 快速回归通过。
+  - 未出现 metadata / facts / transcript / snapshot 替代 evidence，未出现第三文件污染。
 - 当前结论：
-  - Phase 2.54b review 通过。
-  - 下一步只做 selective Git baseline，不进入 Phase 2.54c 或 Phase 2.53d。
+  - Phase 2.54c display-tail fix 已实现，并通过 Codex B review 与 Codex C 真实终端复验。
+  - 本轮仍是展示层修复，不改 retrieval contract / adapter contract / memory kernel 主架构。
 - 阻塞点 / 风险点：
-  - 主仓存在既有 out-of-scope dirty：`agent/memory_kernel/adapters/hermes_memory_adapter.py`、`uv.lock`、`docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`、`tests/agent/test_memory_kernel_adapter_reload.py`。
-  - Hermes_memory 仍存在 out-of-scope dirty：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`。
-  - 2.54b 是 context display integration，不代表完整 File Steward runtime flow 已收口。
-- 是否建议 baseline：是，只做 selective Phase 2.54b baseline。
-- 是否建议进入下一阶段：否；baseline 后先等待 Codex B review，再决定 Phase 2.54c。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.54b baseline 后停止。
-- 是否需要 Codex B 审核：baseline 后需要。
-- 是否需要 Codex C 真实终端验收：否；本轮未接真实 CLI / API。
+  - `source_name/source_type` 底层值为空时会显示 `Missing Evidence`，这是正确边界，不阻塞 baseline。
+  - metadata 只能作辅助展示，不得替代 retrieval evidence。
+- 是否建议 baseline：是，只做 selective Phase 2.54c baseline。
+- 是否建议进入下一阶段：否。不得进入 Phase 2.55。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 完成 selective baseline 后停止。
+- 是否需要 Codex B 审核：已完成。
+- 是否需要 Codex C 真实终端验收：已完成。

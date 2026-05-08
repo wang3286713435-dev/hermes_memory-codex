@@ -2,6 +2,39 @@
 
 ## 最新状态
 
+1. Phase 2.54c Codex C targeted re-smoke 已通过：Q3 file answer metadata 可见 required fields、echo required、title/source_name/source_type/citation_count 与四个 safety flags。
+2. 可选 alias missing 快速回归通过；未出现 metadata / facts / transcript / snapshot 替代 evidence，未出现第三文件污染。
+3. 当前进入 Phase 2.54c selective Git baseline prompt；baseline 后停止，不自动进入 Phase 2.55。
+
+## 最新状态
+
+1. Phase 2.54c display-tail fix 已通过 Codex B review：主仓 py_compile 通过，targeted pytest `74 passed`，Hermes_memory 静态检查通过。
+2. 当前已写入 Codex C targeted re-smoke prompt，只重测 Q3 file answer metadata，不扩大为完整 Pilot smoke。
+3. 通过前不得 baseline，不得进入 Phase 2.55。
+
+## 最新状态
+
+1. Phase 2.54c display-tail fix 已完成：`ContextBuilder` 的 file answer metadata diagnostics 现在明确要求回显 `document_id/version_id/title/source_name/source_type/citation_count` 与 safety flags。
+2. 主仓目标测试通过：py_compile 通过，`tests/agent/test_file_steward_ux.py tests/agent/test_session_document_scope.py tests/agent/test_facts_agent_context.py` 为 `74 passed`。
+3. 本轮仍未执行真实 CLI smoke、未上传文件、未写 DB / OpenSearch / Qdrant、未改 retrieval contract 或 memory kernel 主架构。
+4. 下一步必须先由 Codex B review；通过后再由 Codex C 重跑 Q3 file answer metadata targeted smoke，不自动 baseline 或进入 Phase 2.55。
+
+## 最新状态
+
+1. Phase 2.54c Codex C targeted CLI smoke 已完成：Q1 alias missing 与 Q2 active document continuation 均通过，Q3 file answer metadata 为 partial。
+2. 当前最小阻塞点不是 evidence 安全边界，而是最终 CLI 输出中 `source/title` 与 `metadata_as_answer=false` / `facts_as_answer=false` / `snapshot_as_answer=false` flags 未稳定透出。
+3. 已写入 Phase 2.54c display tail fix prompt：下一步 Codex A 只允许做 `ContextBuilder` 展示层最小增强与目标测试。
+4. 仍不允许真实 upload、DB / index 写入、retrieval contract 修改、Data Steward / BIM / NAS / TB 文件池或 rollout。
+
+## 最新状态
+
+1. Phase 2.54b baseline 已完成：Hermes 主仓 `5e824a884`，Hermes_memory `12dc641`，tag `phase-2.54b-file-steward-context-display-baseline`。
+2. 当前进入 Phase 2.54c File Steward UX targeted CLI smoke。
+3. 下一步由 Codex C 验证真实 CLI 是否能展示 alias failure、active document continuation、file answer metadata，并保持 evidence 边界。
+4. 本轮不写新功能、不真实 upload、不进入 Data Steward 或 rollout。
+
+## 最新状态
+
 1. Phase 2.54b File Steward UX runtime display integration 已通过 Codex B review，下一步只做 selective Git baseline。
 2. `ContextBuilder` 已新增 `File steward diagnostics:`，可展示 alias failure、active document continuation 与 file answer metadata。
 3. 目标测试 `73 passed`；未运行 API / CLI smoke，未真实 upload，未写 DB / OpenSearch / Qdrant。

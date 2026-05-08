@@ -1,167 +1,143 @@
 # NEXT_CODEX_A_PROMPT
 
-这是 Codex A 的下一轮文件化执行入口。Codex B 已完成 Phase 2.54b File Steward UX runtime display integration review，允许进入 selective Git baseline。
+这是 Codex A 的下一轮文件化执行入口。请只做 Phase 2.54c File Steward UX display-tail selective Git baseline。不要进入 Phase 2.55，不要做新功能，不要运行真实 upload / API / CLI smoke。
 
-## 本轮目标
+## 1. 背景
 
-Phase 2.54b File Steward UX runtime display integration selective Git baseline。
+Phase 2.54c display-tail fix 已完成并通过 Codex B review 与 Codex C 真实终端复验。
 
-本轮只做 selective staging / commit / tag / push，不进入 Phase 2.54c，不做真实 upload，不运行 API / CLI smoke，不写 DB / index，不进入 Data Steward / BIM / NAS / TB 文件池。
+已完成事实：
 
-## Codex B 审核结论
+1. Hermes 主仓 display-layer fix：
+   - `ContextBuilder` 的 `file_answer_metadata` 分支增加 required fields、echo required、source fields present 与 safety flags 邻近展示。
+   - `source_name` 增加 metadata fallback。
+2. 主仓测试：
+   - py_compile 通过。
+   - targeted pytest：`74 passed`。
+3. Codex C 真实终端复验：
+   - API `/health=200 OK`，Hermes CLI 可用。
+   - session_id：`20260508_181817_c7c9a3`
+   - `@主标书` 绑定通过。
+   - Q3 file answer metadata：pass。
+   - `file_answer_metadata_required_fields` 可见。
+   - `file_answer_metadata_echo_required=true` 可见。
+   - `title/source_name/source_type/citation_count` 字段可见。
+   - `metadata_as_answer=false`、`facts_as_answer=false`、`snapshot_as_answer=false`、`requires_retrieval_evidence=true` 全部可见。
+   - 未出现 metadata / facts / transcript / snapshot 替代 evidence。
+   - 未出现第三文件污染。
 
-Review 通过：
+保留尾项：`source_name/source_type` 的底层值为空时会显示 `Missing Evidence`，这是正确边界，不阻塞 baseline。
 
-1. `ContextBuilder` 新增 `File steward diagnostics:` 独立分区。
-2. alias missing / retrieval suppressed 场景显示 alias failure helper：
-   - `auto_bind_allowed=false`
-   - `retrieval_evidence_document_ids=[]`
-   - `next_action=...`
-3. active document trace 显示 continuation hint，并保留：
-   - `metadata_as_answer=false`
-   - `requires_retrieval_evidence=true`
-4. retrieval item / citation 场景显示 file answer metadata：
-   - `document_id`
-   - `version_id`
-   - `title`
-   - `source_name`
-   - `source_type`
-   - `citation_count`
-5. 新增 display integration 未修改 retrieval contract。
-6. 未修改 `kernel.py`、`orchestrator.py`、`hermes_memory_adapter.py`。
-7. 未调用真实 Hermes_memory API，未上传文件，未写 DB / OpenSearch / Qdrant。
-8. facts / transcript / snapshot / metadata 仍不得替代 evidence。
+## 2. 本轮目标
 
-## 已通过测试
+执行 Phase 2.54c 双仓 selective Git baseline。
 
-```bash
-cd /Users/Weishengsu/.hermes/hermes-agent
-./.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py agent/memory_kernel/file_steward_ux.py
-./.venv/bin/python -m pytest -o addopts='' tests/agent/test_file_steward_ux.py tests/agent/test_session_document_scope.py tests/agent/test_facts_agent_context.py -q
-```
+建议 tag：
 
-结果：`73 passed`。
+`phase-2.54c-file-steward-display-tail-baseline`
 
-Hermes_memory 校验已通过：
+建议 commit message：
 
-```bash
-git diff --check
-uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json
-git check-ignore -v reports/agent_runs/latest.json
-```
+`chore: baseline phase 2.54c file steward display tail`
 
-## 允许 stage 的文件
+## 3. 允许 stage / commit 的文件
 
-Hermes 主仓 `/Users/Weishengsu/.hermes/hermes-agent` 只允许 stage：
+Hermes 主仓 `/Users/Weishengsu/.hermes/hermes-agent` 只允许：
 
 1. `agent/memory_kernel/context_builder.py`
 2. `tests/agent/test_session_document_scope.py`
 
-不得 stage Hermes 主仓既有 out-of-scope dirty：
+Hermes_memory `/Users/Weishengsu/Hermes_memory` 只允许：
 
-1. `agent/memory_kernel/adapters/hermes_memory_adapter.py`
-2. `uv.lock`
-3. `docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`
-4. `tests/agent/test_memory_kernel_adapter_reload.py`
-
-Hermes_memory `/Users/Weishengsu/Hermes_memory` 只允许 stage：
-
-1. `docs/PHASE254_ENTERPRISE_MEMORY_NATIVE_UX_PLAN.md`
-2. `docs/NEXT_CODEX_A_PROMPT.md`
-3. `docs/ACTIVE_PHASE.md`
-4. `docs/PHASE_BACKLOG.md`
-5. `docs/HANDOFF_LOG.md`
-6. `docs/NIGHTLY_SPRINT_QUEUE.md`
+1. `docs/ACTIVE_PHASE.md`
+2. `docs/PHASE_BACKLOG.md`
+3. `docs/HANDOFF_LOG.md`
+4. `docs/NIGHTLY_SPRINT_QUEUE.md`
+5. `docs/NEXT_CODEX_A_PROMPT.md`
+6. `docs/NEXT_CODEX_C_PROMPT.md`
 7. `docs/TODO.md`
 8. `docs/DEV_LOG.md`
 
-不得 stage：
+`reports/agent_runs/latest.json` 是 ignored 本地状态，只更新，不 stage。
 
-1. `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
-2. `reports/agent_runs/latest.json`
+## 4. 禁止 stage / 修改的既有 dirty
 
-## Git baseline 要求
+Hermes_memory 禁止纳入：
 
-### Hermes 主仓
+- `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
 
-在 `/Users/Weishengsu/.hermes/hermes-agent`：
+Hermes 主仓禁止纳入：
 
-1. 只 stage 允许的 2 个 Phase 2.54b 文件。
-2. commit message：
+- `agent/memory_kernel/adapters/hermes_memory_adapter.py`
+- `uv.lock`
+- `docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`
+- `tests/agent/test_memory_kernel_adapter_reload.py`
 
-```text
-feat: render file steward diagnostics in context
-```
+如果发现 staged 文件超出白名单，必须停止并 reset staged，不要 commit。
 
-3. tag：
+## 5. baseline 前检查
 
-```text
-phase-2.54b-file-steward-context-display-baseline
-```
-
-4. 推送到当前可写远端 / 分支；如仍按既定策略使用 `backup2`，沿用 `backup2`，不要推不可写 origin。
-
-### Hermes_memory
-
-在 `/Users/Weishengsu/Hermes_memory`：
-
-1. 只 stage 允许的 8 个 Phase 2.54b 文件。
-2. commit message：
-
-```text
-docs: baseline file steward context display
-```
-
-3. tag：
-
-```text
-phase-2.54b-file-steward-context-display-baseline
-```
-
-4. 推送当前分支；如需要同步到 `origin/main`，必须确保只推包含 Phase 2.54b 的合法提交，且不覆盖既有 main 历史。
-
-## 验证命令
-
-执行：
+Hermes 主仓 `/Users/Weishengsu/.hermes/hermes-agent`：
 
 ```bash
-cd /Users/Weishengsu/.hermes/hermes-agent
 ./.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py agent/memory_kernel/file_steward_ux.py
 ./.venv/bin/python -m pytest -o addopts='' tests/agent/test_file_steward_ux.py tests/agent/test_session_document_scope.py tests/agent/test_facts_agent_context.py -q
-git status --short
+git diff --check
+```
 
-cd /Users/Weishengsu/Hermes_memory
+Hermes_memory `/Users/Weishengsu/Hermes_memory`：
+
+```bash
 git diff --check
 uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json
 git check-ignore -v reports/agent_runs/latest.json
-git status --short
 ```
 
-必须确认 stage 只包含白名单文件。
+不需要再跑 API / CLI smoke；Codex C 已完成。
 
-## 禁止事项
+## 6. Git 操作要求
 
-1. 不进入 Phase 2.54c。
-2. 不进入 Phase 2.53d 真实 upload smoke。
-3. 不修改 `kernel.py`、`orchestrator.py`、`hermes_memory_adapter.py`。
-4. 不修改 retrieval contract。
-5. 不真实上传文件。
-6. 不调用 Hermes_memory API。
-7. 不读取真实文件内容。
-8. 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-9. 不进入 Data Steward / BIM / NAS / TB 文件池。
-10. 不执行 repair / backfill / reindex / cleanup / delete / migration。
-11. 不做 production rollout。
+### Hermes 主仓
 
-## 完成后交接
+1. 只 stage 白名单 2 个文件。
+2. commit。
+3. tag `phase-2.54c-file-steward-display-tail-baseline`。
+4. 推送到可写远端 `backup2` 的当前工作分支。
+5. 推送 tag 到 `backup2`。
 
-baseline 后必须停止，等待 Codex B review。
+### Hermes_memory
 
-输出必须包含：
+1. 只 stage 白名单 8 个文档文件。
+2. commit。
+3. tag `phase-2.54c-file-steward-display-tail-baseline`。
+4. 推送 `origin` 当前分支。
+5. 推送 tag 到 `origin`。
 
-1. 双仓 commit hash。
-2. tag。
-3. push 结果。
-4. 最终 `git status --short`。
-5. 是否有 out-of-scope dirty 保留。
-6. 下一步建议。
+## 7. 完成后更新 ignored latest
+
+更新 `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`：
+
+1. `status=baseline`
+2. 写入双仓 commit hash。
+3. 写入 tag。
+4. 写入 push 结果。
+5. 写入最终 git status。
+6. `needs_codex_b_review=false`
+7. `needs_codex_c_validation=false`
+
+仍不要 stage `latest.json`。
+
+## 8. 完成后输出
+
+请输出：
+
+1. 修改 / staged 文件。
+2. 测试结果。
+3. Hermes 主仓 commit hash。
+4. Hermes_memory commit hash。
+5. tag。
+6. push 结果。
+7. 最终 git status。
+8. 是否建议进入下一阶段。
+
+完成 baseline 后停止。不要进入 Phase 2.55，不要写下一阶段 prompt。

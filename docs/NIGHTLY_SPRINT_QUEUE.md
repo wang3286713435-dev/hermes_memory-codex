@@ -10,29 +10,27 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.54b File Steward UX Runtime Display Integration Baseline
+### Current Item：Phase 2.54c File Steward UX Display Tail Fix
 
-- lane：Yellow Lane
-- 状态：codex_b_review_passed_waiting_selective_baseline
-- 目标：Phase 2.54b display integration 已通过 review；下一步只做 selective Git baseline。
+- lane：Green Lane
+- 状态：codex_a_prompt_ready_after_codex_c_partial
+- 目标：修复 Q3 file answer metadata 展示尾项，让 source/title 与 safety flags 在最终 CLI 输出中稳定透出。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 允许动作：
-  - Hermes 主仓只 stage `agent/memory_kernel/context_builder.py` 与 `tests/agent/test_session_document_scope.py`。
-  - Hermes_memory 只 stage Phase 2.54b 交接文档白名单。
-  - 运行 py_compile、target pytest、docs 校验与 selective staged diff 复核。
+  - Codex A 最小修改 Hermes 主仓 `ContextBuilder` 展示文案。
+  - 增加 / 调整目标测试，证明 file answer metadata 会输出 required fields 与 safety flags。
+  - 更新 Hermes_memory 交接文档与 ignored latest 状态。
+  - 运行主仓目标测试与 Hermes_memory 静态检查。
 - 禁止动作：
   - 不真实上传文件。
-  - 不调用真实 Hermes_memory API。
-  - 不读取真实文件内容。
+  - 不调用真实 upload。
   - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
   - 不修改 retrieval contract 或 memory kernel 主架构。
-  - 不修改 `context_builder.py`、`kernel.py`、`orchestrator.py`、`hermes_memory_adapter.py`。
   - 不进入 Data Steward / BIM / NAS / TB 文件池。
   - 不执行 repair / backfill / reindex / cleanup / delete / migration。
   - 不做 production rollout。
-  - 不进入 Phase 2.54c 或 Phase 2.53d。
-- 当前结果：Codex B review 通过，目标测试 `73 passed`；未真实 upload、未调用 API、未写 DB / index。
-- 完成后：baseline 后停止等待 Codex B review；不得自动进入真实 upload smoke。
+  - 不提交 Git。
+- 完成后：停止等待 Codex B review；不得自动写 Codex C prompt、不得 baseline、不得进入 Phase 2.55。
 
 ### Current Item：Phase 2.53a Natural Language File Import Parser / Dry-run Planner
 

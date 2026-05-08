@@ -2,6 +2,41 @@
 
 ## 最新状态
 
+1. Phase 2.54c Codex C 复测已通过，当前下一步只做 selective Git baseline。
+2. baseline 白名单：Hermes 主仓 `context_builder.py` / `test_session_document_scope.py`；Hermes_memory 交接文档。
+3. 必须排除既有无关 dirty：Hermes_memory `PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`，主仓 `hermes_memory_adapter.py` / `uv.lock` / PHASE211E 文档 / adapter reload 测试。
+4. baseline 后停止，不进入 Phase 2.55、不真实 upload、不进入 Data Steward。
+
+## 最新状态
+
+1. Phase 2.54c display-tail fix 已通过 Codex B review。
+2. 已写入 Codex C 复测入口：`docs/NEXT_CODEX_C_PROMPT.md`。
+3. 复测只验证 Q3 file answer metadata 的 `title/source_name/source_type/citation_count` 与 safety flags，不进入完整 Pilot smoke。
+4. 复测通过后再决定 Phase 2.54c baseline；当前不进入 Phase 2.55。
+
+## 最新状态
+
+1. Phase 2.54c display-tail fix 已完成：file answer metadata diagnostics 增加 required fields / echo required / safety flags 邻近展示。
+2. `source_name` 已增加 metadata fallback，避免 evidence 本身缺 source_name 时真实 CLI 无稳定 source/title 可回显。
+3. 主仓目标测试通过：py_compile 通过，targeted pytest `74 passed`。
+4. 下一步：Codex B review；通过后 Codex C 重跑 Q3 file answer metadata targeted smoke。本轮不 baseline、不进入 Phase 2.55。
+
+## 最新状态
+
+1. Phase 2.54c Codex C 真实终端复验已完成：Q1 alias missing 与 Q2 active document continuation 为 pass，Q3 file answer metadata 为 partial。
+2. Q3 最小尾项：`document_id/version_id/citation_count` 可见，但 `source/title` 与 `metadata_as_answer=false` / `facts_as_answer=false` / `snapshot_as_answer=false` 未在最终 CLI 输出中稳定透出。
+3. 已写入 Codex A 下一步 prompt：只做 File Steward UX display-tail fix，优先增强 `ContextBuilder` 中 file answer metadata 诊断文案与目标测试。
+4. 本轮仍不进入真实 upload、Data Steward / BIM / NAS / TB 文件池、DB / index 写入、repair 或 rollout。
+
+## 最新状态
+
+1. Phase 2.54b baseline 已完成，当前进入 Phase 2.54c 真实终端展示复验。
+2. Codex C 需验证 `File steward diagnostics` / 等价字段、`auto_bind_allowed=false`、`metadata_as_answer=false`、`requires_retrieval_evidence=true`。
+3. 如果真实 CLI 只显示等价语义但未逐字显示字段，可判 partial；若 metadata / facts / transcript 替代 evidence 则 fail。
+4. 本轮不写新功能、不进入真实 upload、不进入 Data Steward / BIM / NAS / TB 文件池。
+
+## 最新状态
+
 1. Phase 2.54b File Steward UX runtime display integration 已通过 Codex B review，下一步只做 selective Git baseline。
 2. 主仓 `ContextBuilder` 已新增 `File steward diagnostics:`，展示 alias failure、active document continuation、file answer metadata。
 3. 目标测试通过：主仓 py_compile 通过，`test_file_steward_ux.py test_session_document_scope.py test_facts_agent_context.py` 为 `73 passed`。
