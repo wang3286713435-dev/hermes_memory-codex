@@ -8,8 +8,9 @@
 4. 当前 MVP 主线继续在原分支推进，不因 DB 分支阻塞。
 5. DB-2 planning / Ralph Stop hook guard 已 baseline：commit `56f9e47`，tag `phase-db2-planning-ralph-guard-baseline`。
 6. DB-1a contract review-fix 已 baseline：commit `e21a1c9`，tag `phase-db1a-contract-review-fix-baseline`；malformed cursor review-fix 已 baseline：commit `e16df1a`，tag `phase-db1a-malformed-cursor-review-fix-baseline`。
-7. 当前 DB-2 仅进入 fake-adapter dry-run preview 第一片，测试 Codex 独立复测无 P0/P1/P2 blocker。
-8. 下一步建议固化 DB-2 dry-run preview baseline；不得自动进入 migration、真实 MySQL / NAS / REST 联调、DB/index 写入、catalog retrieval 或 selective indexing。
+7. DB-2 dry-run preview 已 baseline：commit `6780d20`，tag `phase-db2-dry-run-preview-baseline`。
+8. 当前 DB-2 仅进入 temporary DB proof-of-contract：用 SQLite 内存库验证资产目录字段和写入规则，不写 migration、不连接真实 MySQL / NAS / REST、不进入 DB-3 retrieval。
+9. 下一步建议测试 Codex 独立复测 temporary DB proof；通过后再决定是否 baseline。不得自动进入 migration、真实平台联调、DB/index 写入、catalog retrieval 或 selective indexing。
 
 ## 最新状态
 

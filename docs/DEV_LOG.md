@@ -1,5 +1,9 @@
 # DEV_LOG
 
+- [DB-2] 测试 Codex 独立复测通过 temporary DB proof-of-contract：`DB2_TEMP_DB_QA_OPEN_FINDINGS: 0`，`P0 findings: 0`。复测确认 SQLite temporary DB 只接受内存库、拒绝文件型 / attached file DB、只创建 `external_asset_catalog_contract`、重复 apply 不重复插行，deny / evidence / write flags 均符合边界；额外 probe `4 passed` 且 lint 通过。当前可执行 selective baseline，仍不授权 migration、真实 MySQL / NAS / REST、documents / chunks、OpenSearch / Qdrant、DB-3 retrieval 或 selective indexing。
+
+- [DB-2] 进入 temporary DB proof-of-contract：用户授权范围限定为临时数据库演练，不写 migration，不连接真实 MySQL / NAS / REST，不进入 DB-3 retrieval。新增 `AssetCatalogTemporaryMirrorStore`，只接受 SQLite 内存库连接，创建临时 `external_asset_catalog_contract` 表并按 `asset_uid` 幂等写入 preview rows。新增 `DB2_DATABASE_TEAM_HANDOFF.md`，用白话说明后续与数据库团队确认表名、主键、权限默认 deny、checkpoint、索引和 migration 授权条件。
+
 - [DB-2] 测试 Codex 独立复测通过：`DB1A_DB2_QA_OPEN_FINDINGS: 0`，`P0 findings: 0`。复测覆盖 DB-1 cursor/filter/malformed cursor probe 与 DB-2 mirror dry-run boundary probe，`npm test` 为 `24 passed`，`npm run lint` 通过，额外 probe `16 passed`。当前允许进入的范围仅限 fake-adapter dry-run preview；migration、真实 MySQL / NAS / REST、DB/index 写入、retrieval 和 selective indexing 仍未授权。
 
 - [DB-2] 完成 Asset Catalog Mirror dry-run preview 第一片：新增 `AssetCatalogMirrorPreviewer` 与 preview dataclasses，只读取 DB-1 fake adapter / fake fixtures，输出 `would_upsert` / `would_deny` / `would_mark_moved` / `would_mark_stale` / `would_mark_missing` / `would_require_human_review` / missing-record `would_skip`。summary 和 item 的 `writes_db`、`writes_documents`、`writes_chunks`、`writes_opensearch`、`writes_qdrant` 固定为 `false`；catalog-only evidence 保持 `asset_catalog_evidence`、`metadata_only`、`content_evidence_available=false`；checkpoint preview 只使用 `event_id` / `after_event_id`，不写 checkpoint。

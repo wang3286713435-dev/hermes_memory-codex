@@ -8,8 +8,9 @@
 4. DB 分支禁止连接真实 MySQL / NAS，禁止扫描 `/Volumes/zyzn/卓羽智能项目`，禁止写 `documents` / `chunks` / OpenSearch / Qdrant。
 5. 当前 MVP 主线继续优先推进内部可用能力，不被 DB/NAS/BIM 前置工作阻塞。
 6. DB-2 planning / Ralph guard 已 baseline，DB-1a cursor/filter review-fix 已 baseline。
-7. DB-2 fake-adapter dry-run preview 第一片已实现并由测试 Codex 独立复测：无 P0/P1/P2 blocker。
-8. 下一步：固化 DB-2 dry-run preview baseline；baseline 后不得自动进入 migration、真实 MySQL / NAS / REST 联调、documents / chunks / OpenSearch / Qdrant 写入、DB-3 retrieval 或 selective indexing。
+7. DB-2 fake-adapter dry-run preview 第一片已 baseline：commit `6780d20`，tag `phase-db2-dry-run-preview-baseline`。
+8. 当前任务：temporary DB proof-of-contract，只用 SQLite 内存库验证未来资产目录表写入规则。
+9. 下一步：测试 Codex 独立复测 temporary DB proof；通过后再决定是否 baseline。baseline 后不得自动进入 migration、真实 MySQL / NAS / REST 联调、documents / chunks / OpenSearch / Qdrant 写入、DB-3 retrieval 或 selective indexing。
 
 ## 最新状态
 

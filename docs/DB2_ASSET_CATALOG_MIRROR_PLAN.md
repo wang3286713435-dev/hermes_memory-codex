@@ -2,7 +2,7 @@
 
 日期：2026-05-09
 分支：`codex/data-steward-db0-contract`
-状态：dry-run sync preview 第一片已授权并实现；migration、真实平台接入、写入和 DB-3 retrieval 未授权
+状态：dry-run sync preview 已 baseline；temporary DB proof-of-contract 已授权并实现中；migration、真实平台接入和 DB-3 retrieval 未授权
 
 ## 1. Scope
 
@@ -19,7 +19,7 @@ DB-2 planning / implementation 结论：
 1. 可以规划 `external_asset_catalog` 或等价 mirror。
 2. planning 已完成 Codex B review，用户已授权进入 DB-2 最小 dry-run preview implementation。
 3. migration 是否允许仍需用户显式授权。
-4. 当前只允许 fake adapter 上的 catalog mirror dry-run preview；不得写 migration，不得连接真实 MySQL / NAS / REST，不得写 `documents` / `chunks` / OpenSearch / Qdrant。
+4. 当前只允许 fake adapter 上的 catalog mirror dry-run preview 和 SQLite 内存库 proof-of-contract；不得写 migration，不得连接真实 MySQL / NAS / REST，不得写 `documents` / `chunks` / OpenSearch / Qdrant。
 
 ## 2. Non-goals
 
@@ -187,12 +187,40 @@ DB-2 planning 后的 future implementation tests 应只使用 fake fixtures、te
 2. migration 不触碰现有 `documents` / `chunks` / retrieval tables。
 3. rollback path 清晰。
 
+## 7.1 Temporary DB Proof-of-Contract
+
+DB-2 temporary DB proof-of-contract 只使用测试创建的 SQLite 内存库。
+
+它验证：
+
+1. dry-run preview 可以落成一张临时资产目录表。
+2. 临时表只保存 catalog metadata，不创建 `documents` / `chunks` / index 表。
+3. `asset_uid` 可以作为幂等 upsert 主键。
+4. `permission_tags` 缺失导致的 `would_deny` 和 `missing_permission_tags` 可以保存。
+5. `citation_status=metadata_only`、`evidence_kind=asset_catalog_evidence`、`content_evidence_available=false` 可以保存。
+6. `last_event_id` 可以作为后续真实同步 checkpoint 的候选字段。
+
+它不代表：
+
+1. 正式数据库表已创建。
+2. migration 已授权。
+3. 真实 MySQL 已接入。
+4. 真实 NAS 已扫描。
+5. DB-3 retrieval 已开始。
+
 ## 8. Implementation Gate
 
 DB-2 dry-run preview 第一片已满足：
 
 1. DB-2 plan 通过 Codex B review。
 2. 用户明确授权“进入 DB-2 implementation”。
+
+DB-2 temporary DB proof-of-contract 已满足：
+
+1. 用户明确授权只做临时数据库 proof-of-contract。
+2. 用户明确禁止 migration。
+3. 用户明确禁止真实 MySQL / NAS / REST。
+4. 用户明确禁止进入 DB-3 retrieval。
 
 后续任何 DB-2 extension 或 migration 前必须重新满足：
 

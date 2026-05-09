@@ -1,11 +1,53 @@
 # Handoff Log
 
+## 2026-05-09 DB-2 Temporary DB proof-of-contract
+- goal: Prove the DB-2 catalog mirror fields and write rules against a disposable SQLite in-memory database.
+- branch: `codex/data-steward-db0-contract`
+- worktree: `/Users/Weishengsu/Hermes_memory_db0`
+- authorization: temporary DB proof-of-contract only; no migration, no real MySQL / NAS / REST, no DB-3 retrieval.
+- changed_files:
+  - `app/services/asset_catalog/__init__.py`
+  - `app/services/asset_catalog/temp_db.py`
+  - `tests/test_data_steward_asset_catalog_temp_db.py`
+  - `package.json`
+  - `docs/DB2_DATABASE_TEAM_HANDOFF.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md`
+  - `docs/DEV_LOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+- validation:
+  - TDD RED: `uv run --extra dev pytest tests/test_data_steward_asset_catalog_temp_db.py -q` failed on missing `AssetCatalogTemporaryMirrorStore` import.
+  - TDD GREEN: same command passed with `5 passed`.
+  - `npm test`: `29 passed`.
+  - `npm run lint`: passed.
+  - Existing QA probes: `32 passed`.
+  - `py_compile` for asset catalog modules and config: passed.
+  - Four fake fixture JSON validations: passed.
+  - `git diff --check`: passed.
+  - Boundary grep: no migration, real MySQL / NAS / REST, production index write, or DB-3 retrieval implementation; matches are docs hard stops, `nas://fake` fixtures, SQLite in-memory tests, and write flag names.
+  - Test Codex independent QA: `DB2_TEMP_DB_QA_OPEN_FINDINGS: 0`, `P0 findings: 0`.
+  - Test Codex extra probe `tests/test_db2_temp_db_probe.py`: `4 passed`; probe lint passed.
+- implemented:
+  - `AssetCatalogTemporaryMirrorStore` creates only `external_asset_catalog_contract` in SQLite memory.
+  - `apply_preview()` writes preview rows by `asset_uid` idempotently.
+  - Summary flags distinguish `temporary_db=true` from `writes_production_db=false`.
+  - Written rows preserve permission, action, reason, catalog-only evidence, and `last_event_id`.
+- db_team_handoff:
+  - Added `docs/DB2_DATABASE_TEAM_HANDOFF.md`.
+  - The document explains table purpose, fields/questions for DB developers, migration authorization conditions, and forbidden next steps.
+- forbidden scope respected so far: no migration, no real platform connection, no documents / chunks writes, no OpenSearch / Qdrant writes, no catalog retrieval, no selective indexing.
+- next: complete selective Git baseline for DB-2 temporary DB proof-of-contract. After baseline, stop; do not enter migration, real platform integration, DB-3 retrieval, or selective indexing without explicit authorization.
+
 ## 2026-05-09 DB-2 Asset Catalog Mirror dry-run preview baseline
 - goal: Baseline the first DB-2 implementation slice after independent QA found no P0/P1/P2 blockers.
 - branch: `codex/data-steward-db0-contract`
 - worktree: `/Users/Weishengsu/Hermes_memory_db0`
 - baseline:
-  - DB-2 dry-run preview commit/tag: pending selective baseline.
+  - DB-2 dry-run preview commit: `6780d20`
+  - DB-2 dry-run preview tag: `phase-db2-dry-run-preview-baseline`
   - Previous DB-2 planning / Ralph guard commit: `56f9e47`
   - Previous DB-2 planning / Ralph guard tag: `phase-db2-planning-ralph-guard-baseline`
 - changed_files:
@@ -42,7 +84,7 @@
   - `tests/test_db1_contract_probe_round3.py`
   - `tests/test_db2_mirror_probe.py`
 - forbidden scope respected: no migration, no model changes, no real MySQL / NAS / REST, no documents / chunks writes, no OpenSearch / Qdrant writes, no catalog retrieval, no selective indexing, no retrieval contract or memory kernel architecture change.
-- next: complete selective Git baseline for DB-2 dry-run preview. After baseline, stop; do not enter temporary DB proof-of-contract, migration, real platform integration, or DB-3 retrieval without explicit authorization.
+- next: dry-run preview baseline completed; temporary DB proof-of-contract required separate user authorization and is tracked in the entry above.
 
 ## 2026-05-09 DB-2 Asset Catalog Mirror docs-only plan / Ralph Stop Hook Guard
 - goal: Create the DB-2 Asset Catalog Mirror docs-only plan without implementation, then configure project-level Ralph Standalone Stop hook guard.

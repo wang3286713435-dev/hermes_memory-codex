@@ -1,55 +1,54 @@
 # Active Phase
 
-- 当前 phase：DB-2 Asset Catalog Mirror Dry-run Preview Baseline
+- 当前 phase：DB-2 Temporary DB Proof-of-Contract Baseline
 - 当前分支：`codex/data-steward-db0-contract`
 - 当前 baseline：
-  - DB-1a fake adapter baseline：commit `e9d1556`，tag `phase-db1a-fake-view-adapter-baseline`
-  - DB-2 planning / Ralph guard baseline：commit `56f9e47`，tag `phase-db2-planning-ralph-guard-baseline`
-  - DB-1a contract review-fix baseline：commit `e21a1c9`，tag `phase-db1a-contract-review-fix-baseline`
+  - DB-2 dry-run preview baseline：commit `6780d20`，tag `phase-db2-dry-run-preview-baseline`
   - DB-1a malformed cursor review-fix baseline：commit `e16df1a`，tag `phase-db1a-malformed-cursor-review-fix-baseline`
-- 本轮目标：在测试 Codex 独立确认 DB-1a / DB-2 当前边界无 P0/P1/P2 blocker 后，固化 DB-2 fake-adapter dry-run preview 第一片 baseline。
+  - DB-1a contract review-fix baseline：commit `e21a1c9`，tag `phase-db1a-contract-review-fix-baseline`
+  - DB-2 planning / Ralph guard baseline：commit `56f9e47`，tag `phase-db2-planning-ralph-guard-baseline`
+  - DB-1a fake adapter baseline：commit `e9d1556`，tag `phase-db1a-fake-view-adapter-baseline`
+- 本轮授权：只做临时数据库 proof-of-contract，不写 migration，不连接真实 MySQL / NAS / REST，不进入 DB-3 retrieval。
+- 本轮目标：用测试创建的 SQLite 内存库证明 DB-2 资产目录字段、主键、权限、状态和 checkpoint 规则能落成表。
 - 修改文件：
   - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/__init__.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/mirror_preview.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/tests/test_data_steward_asset_catalog_mirror.py`
+  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/temp_db.py`
+  - `/Users/Weishengsu/Hermes_memory_db0/tests/test_data_steward_asset_catalog_temp_db.py`
   - `/Users/Weishengsu/Hermes_memory_db0/package.json`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_DATABASE_TEAM_HANDOFF.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/ACTIVE_PHASE.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/DEV_LOG.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/HANDOFF_LOG.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/NEXT_CODEX_A_PROMPT.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/PHASE_BACKLOG.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/TODO.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/DEV_LOG.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/HANDOFF_LOG.md`
 - 完成内容：
-  - 新增 `AssetCatalogMirrorPreviewer`，只读取 DB-1 fake adapter / fake fixtures。
-  - 新增 dry-run preview dataclasses 与 summary，所有 write flags 固定 `false`。
-  - 覆盖 preview actions：`would_upsert`、`would_deny`、`would_mark_moved`、`would_mark_stale`、`would_mark_missing`、`would_require_human_review`、missing record `would_skip`。
-  - 保持 catalog-only evidence 边界：`evidence_kind=asset_catalog_evidence`、`citation_status=metadata_only`、`content_evidence_available=false`。
-  - checkpoint preview 只输出 `last_event_id_candidate`，使用 `AuditEventView.event_id` 与 `after_event_id` window，不写 checkpoint。
-  - `package.json` 的 `npm test` / `npm run lint` 扩展到 DB-2 mirror preview 目标测试。
-  - `DB2_ASSET_CATALOG_MIRROR_PLAN.md` 已从 docs-only planning 状态更新为 dry-run preview 第一片已授权 / 已实现，且继续锁住 migration、真实平台、写入和 DB-3 retrieval 边界。
-- 测试结果：
-  - 测试 Codex 独立复测：`DB1A_DB2_QA_OPEN_FINDINGS: 0`，`P0 findings: 0`，无 P0/P1/P2 blocker。
-  - `npm test`：`24 passed`。
+  - 新增 `AssetCatalogTemporaryMirrorStore`，只接受 SQLite 内存库连接。
+  - 新增临时表 `external_asset_catalog_contract`，用于证明未来资产目录表字段和写入规则。
+  - 临时写入按 `asset_uid` 幂等 upsert，重复运行不新增重复行。
+  - 临时写入 summary 明确 `temporary_db=true`、`writes_production_db=false`、`writes_documents=false`、`writes_chunks=false`、`writes_opensearch=false`、`writes_qdrant=false`。
+  - 临时表保留 preview action、reason、permission、sync/checksum 状态、catalog-only evidence 字段和 `last_event_id`。
+  - 新增 `DB2_DATABASE_TEAM_HANDOFF.md`，用白话说明后续如何与数据库团队对接真实数据库。
+- 当前验证状态：
+  - TDD RED：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_temp_db.py -q` 初始因缺少 `AssetCatalogTemporaryMirrorStore` import 失败。
+  - TDD GREEN：同一命令后续为 `5 passed`。
+  - `npm test`：`29 passed`。
   - `npm run lint`：`All checks passed!`。
-  - `uv run --extra dev pytest tests/test_db1_contract_probe.py tests/test_db1_contract_probe_round2.py -q`：`16 passed`。
-  - 测试 Codex probe：`uv run --extra dev pytest tests/test_db1_contract_probe_round3.py tests/test_db2_mirror_probe.py -q`：`16 passed`。
-  - `uv run python -m py_compile app/services/asset_catalog/contracts.py app/services/asset_catalog/fake_adapter.py app/services/asset_catalog/mirror_preview.py app/core/config.py`：passed。
+  - QA probe：`uv run --extra dev pytest tests/test_db1_contract_probe.py tests/test_db1_contract_probe_round2.py tests/test_db1_contract_probe_round3.py tests/test_db2_mirror_probe.py -q`：`32 passed`。
+  - `uv run python -m py_compile app/services/asset_catalog/contracts.py app/services/asset_catalog/fake_adapter.py app/services/asset_catalog/mirror_preview.py app/services/asset_catalog/temp_db.py app/core/config.py`：passed。
   - 四个 fake fixture JSON validation：passed。
   - `git diff --check`：passed。
-  - Boundary grep：`app/services/asset_catalog` 内无真实 MySQL / NAS / REST、migration、retrieval / memory-kernel 改动或 index write path；仅出现 dry-run write flag 字段名和测试断言。
+  - Boundary grep：无 migration、真实 MySQL / NAS / REST、真实 index 写入或 DB-3 retrieval 实现；命中仅为 docs 禁止项、fake fixture `nas://fake`、SQLite 内存库测试和 write flag 字段。
+  - 测试 Codex 独立复测：`DB2_TEMP_DB_QA_OPEN_FINDINGS: 0`，`P0 findings: 0`；额外 probe `tests/test_db2_temp_db_probe.py` 为 `4 passed`，probe lint 通过。
 - 当前结论：
-  - DB-1a 历史 cursor / filter probe 已全部通过。
-  - DB-2 已进入且仅完成 fake-adapter dry-run preview 第一片。
-  - 没有 P0/P1/P2 blocker。
-  - 可以执行 DB-2 dry-run preview baseline。
+  - 当前实现仍只触碰临时内存库。
+  - 未新增 migration。
+  - 未连接真实 MySQL / NAS / REST。
+  - 未进入 DB-3 retrieval / selective indexing。
 - 阻塞点 / 风险点：
-  - migration 仍未授权。
-  - 真实 MySQL / NAS / REST 仍未授权。
-  - `documents` / `chunks` / OpenSearch / Qdrant 写入仍未授权。
-  - DB-3 catalog retrieval / selective indexing 仍未授权。
-  - DB 分支不得扫描 `/Volumes/zyzn/卓羽智能项目`。
-- 是否建议 baseline：是，本轮执行 DB-2 dry-run preview baseline。
-- 是否建议进入下一阶段：baseline 后停止；下一步需单独决定 DB-2 temporary DB proof-of-contract 或 migration authorization，不自动进入。
-- 是否需要 Codex B 审核：本轮 Codex B review 无 OPEN findings。
-- 是否需要 Claude 开发 Agent：否，本轮无修复需求。
+  - 真实数据库表结构仍需数据库团队确认。
+  - migration 仍需用户单独授权。
+  - 真实平台同步仍需用户单独授权。
+- 是否建议 baseline：是，本轮执行 DB-2 temporary DB proof-of-contract baseline。
+- 是否建议进入下一阶段：否。
