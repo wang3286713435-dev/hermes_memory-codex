@@ -1,16 +1,11 @@
 # NEXT_CODEX_C_PROMPT
 
-## No Codex C Task
+## No Codex C Task For Phase 2.56b
 
-Phase 2.56a Natural Import Real Adapter Skeleton 已由 Codex A 实现，并由 Codex B review。
+Phase 2.56b 是 docs-only planning。
 
-Codex B 结论：
+本轮没有真实 upload、API / CLI smoke、DB / OpenSearch / Qdrant 写入，也没有用户侧终端行为变化。
 
-1. 真实 upload 默认关闭。
-2. adapter skeleton 与 flow tests 通过。
-3. 本轮没有真实 API / CLI 行为。
-4. 不需要 Codex C 真实终端验收。
+Codex C 暂无任务。
 
-当前下一步是 Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.56a selective Git baseline。
-
-Codex C 暂无任务。不得自行上传文件、启动 API / CLI smoke、执行 cleanup / delete / repair / backfill / reindex。
+如后续进入 Phase 2.56c，并由用户显式授权小型非敏感文件真实自然语言导入 smoke，才需要 Codex C 做真实终端验收。

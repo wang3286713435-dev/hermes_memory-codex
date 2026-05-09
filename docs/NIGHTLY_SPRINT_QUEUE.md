@@ -10,23 +10,21 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.56a Natural Import Real Adapter Skeleton
+### Current Item：Phase 2.56b Natural Import Real Smoke Planning
 
-- lane：Yellow Lane
-- 状态：codex_b_review_passed_waiting_dual_repo_baseline
-- 目标：对 Phase 2.56a natural import adapter skeleton 做 dual-repo selective Git baseline。
+- lane：Green Lane
+- 状态：codex_b_review_passed_waiting_docs_baseline
+- 目标：规划自然语言触发单文件真实导入 smoke 的授权门槛、执行步骤、验收字段和停止条件。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 结果：
-  - Hermes 主仓新增 feature-flagged upload adapter skeleton。
-  - 默认 `enabled=false` / `real_upload_enabled=false`。
-  - 有效导入请求未显式启用时 fail-closed：`real_upload_disabled`，不调用 adapter。
-  - fake adapter success 需显式 `real_upload_enabled=True`。
-  - Codex B 复跑目标测试 `25 passed`。
+  - 新增 `docs/PHASE256B_NATURAL_IMPORT_REAL_SMOKE_PLAN.md`。
+  - 授权门槛、样本要求、执行步骤、验收字段、stop conditions 与 run record 已规划。
+  - 未执行真实 upload、API / CLI smoke 或 DB / index 写入。
 - 允许动作：
-  - 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中的 selective baseline。
-  - 只 stage 两个仓库白名单文件。
-  - 运行 py_compile、目标测试、Hermes_memory 静态检查。
-  - commit / tag / push Phase 2.56a baseline。
+  - 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中的 docs-only selective baseline。
+  - 只 stage 白名单 Phase 2.56b 文档与交接文件。
+  - 运行 docs-only 静态 / JSON 检查。
+  - commit / tag / push Phase 2.56b planning baseline。
 - 禁止动作：
   - 不调用真实 Hermes_memory upload API。
   - 不上传文件。
@@ -37,7 +35,17 @@
   - 不进入 Data Steward / DB / NAS / BIM 分支实现。
   - 不做 production rollout。
   - 不 stage 既有无关 dirty。
-- 完成后：停止等待 Codex B review；不得自动进入 Phase 2.56b。
+- 完成后：停止等待 Codex B review；不得自动进入 Phase 2.56c。
+
+### Previous Item：Phase 2.56a Natural Import Real Adapter Skeleton
+
+- lane：Yellow Lane
+- 状态：completed_baseline
+- 目标：实现 feature-flagged natural import real adapter skeleton。
+- 结果：
+  - Hermes 主仓 commit `0264ca079`。
+  - Hermes_memory commit `dea0523`。
+  - tag `phase-2.56a-natural-import-adapter-skeleton-baseline`。
 
 ### Previous Item：Phase 2.55a Internal MVP Real Upload Smoke Baseline
 

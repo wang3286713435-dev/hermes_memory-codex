@@ -1,5 +1,72 @@
 # Handoff Log
 
+## 2026-05-09 12:07 Phase 2.56b Codex B Review
+
+- goal: Review Phase 2.56b docs-only planning and prepare baseline prompt.
+- review:
+  - Planning covers authorization gate, sample requirements, execution steps, validation fields, stop conditions, run record, and non-goals.
+  - No real upload, no API / CLI smoke, no DB / OpenSearch / Qdrant writes.
+  - Phase 2.56c remains gated by explicit user authorization.
+- checks:
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json`: passed.
+  - `git check-ignore -v reports/agent_runs/latest.json`: passed.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for docs-only selective baseline.
+- risks: Existing unrelated dirty files remain out of scope and must not be staged.
+- commit/tag if any: none.
+
+## 2026-05-09 12:20 Phase 2.56b Natural Import Real Smoke Planning
+
+- goal: Plan the user-authorized natural-language real small-file import smoke.
+- changed_files:
+  - `docs/PHASE256B_NATURAL_IMPORT_REAL_SMOKE_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json`: passed.
+  - `git check-ignore -v reports/agent_runs/latest.json`: passed.
+- validation:
+  - Planning only.
+  - No real upload API call.
+  - No file upload.
+  - No DB / OpenSearch / Qdrant writes.
+  - Authorization gate and stop conditions documented.
+- risks:
+  - Phase 2.56c still requires explicit user authorization and a small non-sensitive file path.
+  - Cleanup/delete/repair/reindex remains unauthorized by default.
+- next: Codex B review; if accepted, write docs-only baseline prompt.
+- commit/tag if any: none.
+
+## 2026-05-09 11:56 Phase 2.56b Planning Prompt
+
+- goal: After Phase 2.56a baseline, prepare a docs-only planning prompt for a future user-authorized natural-language real import smoke.
+- baseline confirmed:
+  - Hermes main commit `0264ca079`.
+  - Hermes_memory commit `dea0523`.
+  - tag `phase-2.56a-natural-import-adapter-skeleton-baseline`.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- validation: prompt handoff only; no upload, no API / CLI smoke, no DB / index writes.
+- risks: Phase 2.56c real smoke still needs explicit user authorization and a small non-sensitive file.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` to create Phase 2.56b planning docs, then stop for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-09 11:50 Phase 2.56a Codex B Review
 
 - goal: Review Phase 2.56a Natural Import Real Adapter Skeleton and prepare dual-repo selective baseline prompt.

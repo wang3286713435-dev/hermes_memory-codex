@@ -1,5 +1,13 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.56b Natural Import Real Smoke Planning
+
+1. Phase 2.56b planning 已通过 Codex B review。
+2. 规划覆盖授权门槛、样本要求、执行步骤、验收字段、stop conditions、run record 与非目标。
+3. 下一步只做 docs-only selective Git baseline。
+4. baseline 必须排除 `PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 与 DB/NAS 草稿。
+5. Phase 2.56c 才可在用户显式授权后执行真实自然语言导入 smoke。
+
 ## Phase 2.56a Natural Import Real Adapter Skeleton
 
 1. Phase 2.56a implementation 已通过 Codex B review。

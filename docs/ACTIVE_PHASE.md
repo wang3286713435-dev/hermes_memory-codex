@@ -1,15 +1,9 @@
 # Active Phase
 
-- 当前 phase：Phase 2.56a Natural Import Real Adapter Skeleton Codex B Review
-- 本轮目标：审查 Phase 2.56a 实现并写入 selective dual-repo Git baseline prompt。
+- 当前 phase：Phase 2.56b Natural Import Real Smoke Planning Codex B Review
+- 本轮目标：review Phase 2.56b planning，并写入 docs-only baseline prompt。
 - 修改文件：
-  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/natural_file_import_flow.py`
-  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/natural_file_upload_adapter.py`
-  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_natural_file_import_flow.py`
-  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_natural_file_upload_adapter.py`
-  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
-  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
-  - `/Users/Weishengsu/Hermes_memory/docs/PHASE256_NATURAL_IMPORT_REAL_ADAPTER_PLAN.md`
+  - `/Users/Weishengsu/Hermes_memory/docs/PHASE256B_NATURAL_IMPORT_REAL_SMOKE_PLAN.md`
   - `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
   - `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
   - `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
@@ -20,34 +14,29 @@
   - `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
   - `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`（ignored）
 - 完成内容：
-  - 新增 Hermes 主仓 `FeatureFlaggedHermesMemoryUploadAdapter` skeleton。
-  - `enabled=False` 为默认状态；有效导入请求在未显式启用时 fail-closed，返回 `real_upload_disabled`。
-  - `run_natural_file_import_preflight()` 增加 `real_upload_enabled=False` 默认参数。
-  - fake adapter success 仅在显式 `real_upload_enabled=True` 时执行，可返回 `document_id/version_id` 并 seed session alias。
-  - upload failure / missing document_id / missing version_id 均不绑定 alias。
-  - import diagnostics 保持非 retrieval evidence：`retrieval_evidence_document_ids=[]`、`import_diagnostics_as_retrieval_evidence=false`。
-  - 目录 / NAS / 批量 / BIM / unsupported extension 继续 fail-closed。
-  - Codex B 已复核 diff 与测试，并写入 dual-repo selective baseline prompt。
+  - 新增 Phase 2.56b planning 文档。
+  - 明确 Phase 2.56c 真实 smoke 的授权门槛：小型非敏感单文件、显式授权、接受测试 document/version/chunk/index 记录、默认不授权 cleanup/delete/repair/reindex。
+  - 明确执行步骤：parser preflight、filesystem metadata check、feature flag scoped enable、existing Hermes_memory upload path、alias seed、retrieval smoke、sanitized run record。
+  - 明确验收字段：`natural_import_detected`、`real_upload_enabled`、`upload_adapter_status`、`ingestion_status`、`document_id`、`version_id`、`chunk_count`、`indexed_count`、`alias_resolution.status`、retrieval evidence 与 safety flags。
+  - 明确 stop conditions：API/CLI 不可用、path / directory / NAS / BIM / bulk / unsupported extension、upload / alias / retrieval / citation / third-document contamination、需要 cleanup/delete/repair/reindex 才能继续。
+  - Codex B 已 review 规划内容，并写入 docs-only baseline prompt。
 - 测试结果：
-  - Hermes 主仓 py_compile：通过。
-  - Hermes 主仓目标 pytest：`25 passed`。
-  - Hermes_memory `git diff --check`：通过。
-  - Hermes_memory latest JSON 校验：通过。
-  - Hermes_memory latest ignore check：通过。
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
 - live smoke 结果：
   - 本轮未运行 API / CLI smoke。
   - 本轮未调用真实 Hermes_memory upload API。
   - 本轮未上传文件。
 - 当前结论：
-  - Phase 2.56a implementation 已通过 Codex B review。
-  - 真实 upload 仍默认关闭；本轮只建立 adapter skeleton 和测试边界。
-  - 不需要 Codex C 真实终端验收。
+  - Phase 2.56b docs-only planning 已通过 Codex B review。
+  - Phase 2.56c 真实自然语言导入 smoke 仍必须由用户提供小型非敏感文件并显式授权。
 - 阻塞点 / 风险点：
-  - 仍未接 `run_agent.py` 真实执行路径。
-  - 真实自然语言导入 smoke 必须后置 Phase 2.56b，并需要用户显式授权小型非敏感文件。
+  - 真实 upload adapter 尚未接入 runtime user path。
+  - 真实 smoke 会产生测试 document/version/chunk/index 记录；cleanup/delete 不默认授权。
   - 既有无关 dirty 仍需排除，不得纳入本轮 review / baseline。
-- 是否建议 baseline：是；已写入 selective dual-repo baseline prompt。
-- 是否建议进入下一阶段：否；必须先完成 2.56a baseline。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 2.56a baseline。
+- 是否建议 baseline：是；已写入 docs-only baseline prompt。
+- 是否建议进入下一阶段：否；必须先完成 Phase 2.56b baseline。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 2.56b docs-only baseline。
 - 是否需要 Codex B 审核：baseline 后需要 Codex B 复核 commit / tag / push。
 - 是否需要 Codex C 真实终端验收：否。

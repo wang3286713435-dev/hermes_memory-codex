@@ -2,6 +2,14 @@
 
 ## 最新状态
 
+1. Phase 2.56b Natural Import Real Smoke docs-only planning 已通过 Codex B review。
+2. 当前已写入 docs-only selective baseline prompt。
+3. baseline 仅允许 Phase 2.56b planning 与交接文档。
+4. 仍不得执行真实 upload、API / CLI smoke、DB / OpenSearch / Qdrant 写入。
+5. baseline 后停止等待 Codex B review；不得自动进入 Phase 2.56c。
+
+## 最新状态
+
 1. Phase 2.56a Natural Import Real Adapter Skeleton 已通过 Codex B review。
 2. Hermes 主仓 feature-flagged upload adapter skeleton 保持真实 upload 默认关闭。
 3. Codex B 已复跑目标测试：py_compile 通过，natural import 三组测试 `25 passed`。

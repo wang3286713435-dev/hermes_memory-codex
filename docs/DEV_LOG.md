@@ -1,5 +1,8 @@
 # DEV_LOG
 
+- [Phase 2.56b Review] Codex B review 通过：planning 覆盖授权门槛、样本要求、执行步骤、验收字段、stop conditions、run record 与非目标；本轮无真实 upload / API / CLI / DB-index 行为。已写入 docs-only baseline prompt。
+- [Phase 2.56b] 完成 Natural Import Real Smoke docs-only planning：新增 `PHASE256B_NATURAL_IMPORT_REAL_SMOKE_PLAN.md`，明确自然语言触发真实小文件导入 smoke 的授权门槛、样本要求、执行步骤、验收字段、stop conditions 与 sanitized run record。未执行 upload、未运行 API / CLI smoke、未写 DB / OpenSearch / Qdrant。
+- [Phase 2.56b Prompt] Phase 2.56a baseline 已确认：Hermes 主仓 `0264ca079`，Hermes_memory `dea0523`，tag `phase-2.56a-natural-import-adapter-skeleton-baseline`。已写入 Phase 2.56b docs-only planning prompt，下一步只规划自然语言触发真实小文件导入 smoke 的授权门槛、执行步骤、验收字段与 stop conditions；不执行真实 upload。
 - [Phase 2.56a Review] Codex B review 通过：`FeatureFlaggedHermesMemoryUploadAdapter` 默认 disabled，fake adapter 只有 `real_upload_enabled=True` 才执行；import diagnostics 不作为 retrieval evidence。已复跑 Hermes 主仓 py_compile 与 targeted pytest，`25 passed`；Hermes_memory 静态 / latest JSON / ignore 检查通过。已写入 dual-repo selective baseline prompt。
 - [Phase 2.56a] 完成 natural import real adapter skeleton：Hermes 主仓新增 feature-flagged upload adapter，默认 `enabled=false`；有效导入请求未显式启用时 fail-closed 为 `real_upload_disabled`，fake adapter success 需 `real_upload_enabled=True`。主仓目标测试 `25 passed`；本轮未调用真实 upload API、未上传文件、未写 DB / OpenSearch / Qdrant。
 - [Phase 2.56a Prompt] Phase 2.55a baseline 已确认：`1a41475` / `phase-2.55a-internal-mvp-upload-smoke-baseline`。下一步主线进入 Natural Import Real Adapter Skeleton：只做 feature-flagged adapter skeleton 与 fake / disabled tests，真实 upload 默认关闭，不触发 API / CLI smoke，不写 DB / OpenSearch / Qdrant，不进入 Data Steward / DB / NAS / BIM 分支。
