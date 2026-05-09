@@ -2,8 +2,6 @@
 
 当前没有 Codex C 真实终端复验任务。
 
-Phase 2.55 是 docs-only planning，已经通过 Codex B review。下一步只允许 Codex A 执行 docs-only baseline：
+DB-0a 是 docs-only contract baseline，不连接真实 MySQL / NAS，不运行 API / CLI smoke，不写 DB / OpenSearch / Qdrant。
 
-`/Users/Weishengsu/Hermes_memory/docs/NEXT_CODEX_A_PROMPT.md`
-
-请 Codex C 暂停，不要运行 API / CLI smoke，不要上传文件，不要修改代码或文档，不要写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant，不要进入 production rollout、repair 或 Data Steward。
+请 Codex C 暂停。后续 DB-1a fake adapter 如需验证，也应通过单元测试 / contract tests，而不是真实终端 smoke。

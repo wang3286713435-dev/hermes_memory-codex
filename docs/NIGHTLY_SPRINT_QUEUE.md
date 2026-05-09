@@ -10,6 +10,27 @@
 
 ## Current Queue
 
+### Current DB Branch Item：DB-0a Data Steward DB/NAS Contract Baseline
+
+- lane：Yellow Lane
+- 状态：implemented_waiting_static_checks
+- 目标：在独立 DB 分支固化 DB / NAS / BIM 接入契约，不影响 MVP 主线。
+- 任务入口：当前 Codex B 直接执行。
+- 允许动作：
+  - docs-only contract baseline。
+  - 更新交接文档。
+  - 运行静态检查。
+- 禁止动作：
+  - 不连接真实 MySQL。
+  - 不连接真实 NAS。
+  - 不扫描 `/Volumes/zyzn/卓羽智能项目`。
+  - 不写 `documents` / `chunks`。
+  - 不写 OpenSearch / Qdrant。
+  - 不新增 migration。
+  - 不改 retrieval contract 或 memory kernel 主架构。
+  - 不影响当前 MVP 主线分支。
+- 完成后：停止等待用户确认是否进入 DB-1a。
+
 ### Current Item：Phase 2.55 Internal MVP Real Upload Smoke Planning
 
 - lane：Green Lane

@@ -1,5 +1,7 @@
 # DEV_LOG
 
+- [DB-0a] 新建独立 DB worktree / 分支 `codex/data-steward-db0-contract`，用于数据管家 DB / NAS / BIM 资产治理前置工作。已固化 `DB_NAS_HERMES_INTEGRATION_CONTRACT.md` 与 `DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`，并新增 `PHASE_DB0_DATA_STEWARD_BRANCH_PLAN.md`。本轮明确“数据管家 = Hermes 企业 Agent 产品名；DB / NAS / BIM 接入 = 数据管家资产治理模块之一”。本轮 docs-only，不连接真实 MySQL / NAS，不写 documents / chunks / OpenSearch / Qdrant，不改 retrieval contract 或 memory kernel 主架构。
+
 - [Phase 2.55] Codex B review 通过 Internal MVP real upload smoke planning：规划保持 docs-only，真实 upload 后置到 Phase 2.55a，且必须由用户提供非敏感文件路径并显式授权。已写入 docs-only baseline prompt；不运行 API/CLI、不上传、不写 DB/index、不进入 Data Steward。
 - [Phase 2.55] 完成 Internal MVP real upload smoke docs-only planning：新增 `PHASE255_INTERNAL_MVP_REAL_UPLOAD_SMOKE_PLAN.md`，明确小型非敏感单文件、pre-flight、upload/ingestion/index/alias/evidence smoke steps、trace/citation 字段、stop conditions、sanitized run record 与 Phase 2.55a 授权门槛。本轮未执行 upload、未运行 API/CLI、未写 DB/index、不进入 Data Steward 或 rollout。
 - [Phase 2.55] Phase 2.54c baseline 已完成，开始进入 Internal MVP real upload smoke planning。已写入 Codex A docs-only planning prompt：只规划小型非敏感文件真实导入 smoke，不执行 upload、不运行 API/CLI、不写 DB/index、不进入 Data Steward / BIM / NAS / TB 文件池。

@@ -1,5 +1,26 @@
 # Handoff Log
 
+## 2026-05-09 DB-0a Data Steward DB/NAS contract branch
+- goal: Create an independent DB branch for Data Steward / DB / NAS / BIM asset governance without blocking the MVP branch.
+- branch: `codex/data-steward-db0-contract`
+- worktree: `/Users/Weishengsu/Hermes_memory_db0`
+- changed_files:
+  - `docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`
+  - `docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`
+  - `docs/PHASE_DB0_DATA_STEWARD_BRANCH_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- validation: docs-only branch setup; no real MySQL, NAS, REST, OpenSearch, Qdrant, documents/chunks, or API/CLI smoke.
+- next: run static checks, then DB-0a baseline on this branch. DB-1a fake fixtures / fake adapter comes later.
+- forbidden scope: no real platform connection, no NAS scan, no full BIM parsing, no schema migration, no retrieval contract or memory kernel architecture change.
+
 ## 2026-05-08 Phase 2.55 Codex B review / baseline prompt
 - goal: Review Phase 2.55 Internal MVP real upload smoke planning and prepare docs-only baseline prompt.
 - review result: passed.

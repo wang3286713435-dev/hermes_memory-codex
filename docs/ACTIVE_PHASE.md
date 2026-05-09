@@ -1,34 +1,39 @@
 # Active Phase
 
-- 当前 phase：Phase 2.55 Internal MVP Real Upload Smoke Planning Baseline Prompt
-- 本轮目标：Codex B review 已通过，下一步只做 Phase 2.55 docs-only Git baseline。
+- 当前 phase：DB-0a Data Steward DB/NAS Contract Branch Baseline
+- 当前分支：`codex/data-steward-db0-contract`
+- 本轮目标：在独立 DB 分支固化数据管家 DB / NAS / BIM 接入契约，不影响当前 MVP 主线。
 - 修改文件：
-  - `/Users/Weishengsu/Hermes_memory/docs/PHASE255_INTERNAL_MVP_REAL_UPLOAD_SMOKE_PLAN.md`
-  - `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
-  - `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
-  - `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
-  - `/Users/Weishengsu/Hermes_memory/docs/NIGHTLY_SPRINT_QUEUE.md`
-  - `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
-  - `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
-  - `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`（ignored）
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/PHASE_DB0_DATA_STEWARD_BRANCH_PLAN.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/ACTIVE_PHASE.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/PHASE_BACKLOG.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/HANDOFF_LOG.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/NEXT_CODEX_A_PROMPT.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/NEXT_CODEX_C_PROMPT.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/TODO.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/DEV_LOG.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/reports/agent_runs/latest.json`（ignored）
 - 完成内容：
-  - 新增 Phase 2.55 planning 文档，定义小型非敏感单文件 upload smoke 的边界、样本要求、pre-flight、smoke steps、trace/citation 字段、stop conditions、sanitized run record 与 Phase 2.55a authorization gate。
-  - 明确 Phase 2.55 不上传文件、不运行 API / CLI smoke、不写 DB / OpenSearch / Qdrant。
-  - 明确 Data Steward / BIM / NAS / TB 文件池继续后置。
+  - 新建独立 worktree / 分支，避免污染当前 MVP 主线 dirty。
+  - 固化 DB / NAS / BIM 接入契约。
+  - 明确“数据管家 = Hermes 企业 Agent 产品名；DB / NAS / BIM 接入 = 数据管家资产治理模块”。
+  - 明确 DB-0 / DB-1 只做契约、fake fixtures、fake adapter 与 contract tests，不连接真实 MySQL / NAS。
+  - 写入 DB-1a fake fixture / fake adapter 下一步任务入口。
 - 测试结果：
-  - Hermes_memory `git diff --check`：通过。
-  - `latest.json` JSON 校验：通过。
-  - `latest.json` ignore 校验：通过。
-- live smoke 结果：
-  - 未执行；本轮 docs-only planning。
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/db0_latest_check.json`：通过。
+  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
+  - `git status --short`：仅 DB-0a 契约 / 交接文件变更。
 - 当前结论：
-  - Phase 2.55 planning 已完成并通过 Codex B review，当前主线 MVP 不受影响。
-  - Phase 2.55a 真实 upload smoke 默认不允许，必须由用户提供非敏感文件路径并显式授权。
+  - DB-0 分支可以并行推进，不影响 MVP 主线。
+  - 合回主线必须保持 feature flag off、catalog-only 与 document evidence 分层、permission_tags 缺失默认 deny。
 - 阻塞点 / 风险点：
-  - 真实 upload 会产生测试 document/version/chunk/index 数据，必须等 Phase 2.55a 授权。
-  - 不允许 cleanup/delete/repair/reindex 作为 smoke 的隐含后续动作。
-- 是否建议 baseline：是，只做 Phase 2.55 docs-only baseline。
-- 是否建议进入下一阶段：否；不得进入 Phase 2.55a，除非用户明确授权并提供非敏感文件路径。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.55 docs-only baseline 后停止。
-- 是否需要 Codex B 审核：已完成。
+  - 真实 MySQL / NAS / REST / index 写入仍未授权。
+  - DB 分支不得扫描 `/Volumes/zyzn/卓羽智能项目`。
+- 是否建议 baseline：待静态检查后建议 DB-0a baseline。
+- 是否建议进入下一阶段：baseline 后再进入 DB-1a fake fixtures / fake adapter。
+- 是否需要 Codex B 审核：本轮执行者即 Codex B；baseline 后仍需用户确认是否启动 Codex A DB-1a。
 - 是否需要 Codex C 真实终端验收：否，本轮 docs-only。
