@@ -346,6 +346,18 @@
 8. DB-4B 前仍需单独授权、只读 DSN、企业 Agent 专用只读账号和样例数据暴露确认。
 9. 本阶段仍不接真实 MySQL / NAS / REST，不写 migration，不写 documents/chunks/OpenSearch/Qdrant，不进入真实 retrieval/indexing。
 
+## DB-4B Readonly Connector Shell
+
+1. 用户已授权 DB-4B：共享 dev / staging 账号到位前先做 disabled-by-default connector shell。
+2. 默认 `platform_asset_readonly_db_enabled=false`。
+3. 默认 sample mode 是 `structure_only`，只生成 `WHERE 1 = 0` 字段握手 SQL。
+4. 显式 `limit` 模式最多 `LIMIT 30`。
+5. 只允许四个稳定 View，不允许业务底表。
+6. disabled 时不得调用 connection factory。
+7. rows 只进入 DB-4A preflight validator。
+8. 本阶段仍不 import MySQL driver、不连接真实 MySQL、不写 migration、不扫 NAS、不触发 REST、不写 documents/chunks/OpenSearch/Qdrant。
+9. DB-4C live smoke 必须等共享 dev / staging 只读账号和用户单独授权。
+
 ## 后置项
 
 1. 完整 AI 审标 / 自动审标：后置，当前只做 retrieval evidence 与 trace 改善。

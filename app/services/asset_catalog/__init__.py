@@ -10,6 +10,11 @@ from app.services.asset_catalog.mirror_preview import (
     AssetCatalogMirrorPreviewItem,
     AssetCatalogMirrorPreviewSummary,
 )
+from app.services.asset_catalog.readonly_connector import (
+    DB4B_READONLY_MAX_SAMPLE_LIMIT,
+    DB4B_READONLY_SAMPLE_MODES,
+    AssetCatalogReadonlyConnectorShell,
+)
 from app.services.asset_catalog.readonly_preflight import (
     DB4A_READONLY_CONTRACT_VERSION,
     DB4A_REQUIRED_VIEW_FIELDS,
@@ -39,6 +44,7 @@ __all__ = [
     "AssetCatalogReadonlyPreflightFinding",
     "AssetCatalogReadonlyPreflightResult",
     "AssetCatalogReadonlyPreflightValidator",
+    "AssetCatalogReadonlyConnectorShell",
     "AssetCatalogRetrievalDecision",
     "AssetCatalogRetrievalGuard",
     "AssetCatalogRetrievalRequest",
@@ -48,6 +54,8 @@ __all__ = [
     "AssetViewRecord",
     "DB4A_READONLY_CONTRACT_VERSION",
     "DB4A_REQUIRED_VIEW_FIELDS",
+    "DB4B_READONLY_MAX_SAMPLE_LIMIT",
+    "DB4B_READONLY_SAMPLE_MODES",
     "FakePlatformAssetCatalogAdapter",
     "VIEW_CONTRACT_VERSIONS",
 ]

@@ -217,6 +217,30 @@
 - next: if user explicitly continues, create `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md` as docs-only planning. Do not write implementation before Codex B review and explicit user authorization.
 - commit/tag if any: pending tag `phase-db3c-missing-evidence-response-review-fix-baseline`.
 
+## 2026-05-09 DB-4B Readonly Connector Shell
+- goal: Add a disabled-by-default readonly connector shell that can be tested without shared dev credentials.
+- changed_files:
+  - `app/services/asset_catalog/readonly_connector.py`
+  - `app/services/asset_catalog/__init__.py`
+  - `app/core/config.py`
+  - `tests/test_data_steward_asset_catalog_readonly_connector.py`
+  - `docs/DB4B_READONLY_CONNECTOR_SHELL.md`
+  - `package.json`
+  - phase handoff docs
+- validation:
+  - TDD RED: target test initially failed because `AssetCatalogReadonlyConnectorShell` did not exist.
+  - TDD GREEN: target test now passes, `7 passed`.
+  - target regression: readonly connector + preflight tests passed, `12 passed`.
+  - `npm test`: `60 passed`.
+  - `npm run lint`: `All checks passed!`.
+  - py_compile: passed.
+  - `git diff --check`: passed.
+  - boundary grep: no real MySQL driver / DB connect / NAS / REST / documents / chunks / OpenSearch / Qdrant / DML / DDL path in DB-4B code; hits are docs prohibitions, business-table rejection tests, and false write flags.
+- boundary: connector shell only; no real MySQL driver import, no real connection, no migration, no NAS/REST, no documents/chunks, no OpenSearch/Qdrant, no real retrieval/indexing.
+- next:
+  - Run full validation and baseline DB-4B if clean.
+  - DB-4C live smoke can only start after separate user authorization plus shared dev/staging readonly DSN and credentials.
+
 ## 2026-05-09 DB-4A Readonly DB Preflight Skeleton
 - goal: Absorb the database team's connection/View contract into a local readonly preflight validator without opening a database connection.
 - changed_files:
