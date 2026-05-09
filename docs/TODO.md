@@ -953,3 +953,16 @@
    - OpenSearch / Qdrant
    - DB-3 retrieval / selective indexing
 5. DB-3 第一片必须等用户单独授权，不能由 DB-2 handoff 自动触发。
+
+## DB-3A Catalog Retrieval Guard TODO
+
+1. Review `app/services/asset_catalog/retrieval_guard.py`。
+2. Review `tests/test_data_steward_asset_catalog_retrieval_guard.py`。
+3. Run:
+   - `npm test`
+   - `npm run lint`
+   - `git diff --check`
+4. Confirm no code path connects real MySQL / NAS / REST.
+5. Confirm no code path writes `documents` / `chunks` / OpenSearch / Qdrant.
+6. If clean, create DB-3A baseline.
+7. DB-3B may add temporary DB backed guard only after DB-3A review.

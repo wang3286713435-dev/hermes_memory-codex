@@ -289,6 +289,18 @@
 7. 当前仍不写 migration、不连接真实 MySQL / NAS / REST、不写 `documents` / `chunks` / OpenSearch / Qdrant、不进入 DB-3 retrieval。
 8. 下一步只建议 Codex B review + validation + baseline；DB-3 必须等待用户单独授权。
 
+## DB-3A Catalog Retrieval Guard
+
+1. DB-2 schema handoff freeze baseline 已完成：commit `bd24284`，tag `phase-db2-schema-handoff-freeze-baseline`。
+2. 用户已授权继续 DB-3。
+3. DB-3A 第一片只做 fake-preview-only catalog retrieval guard，不接真实 MySQL / NAS / REST，不写 migration，不写 OpenSearch / Qdrant。
+4. 已新增 `AssetCatalogRetrievalGuard`，用于把 catalog metadata lookup 与 prompt-ready document evidence 分层。
+5. `catalog_lookup` 只返回授权、active、allowed、would_upsert 的 metadata rows。
+6. `content_answer` 不返回 catalog metadata 或 prompt items，而是返回 Missing Evidence reason `asset_catalog_only`。
+7. 缺 `allowed_project_ids` 返回 `permission_scope_required`。
+8. denied / moved / stale / missing / human-review rows 不成为 catalog result。
+9. DB-3B 候选是 temporary DB backed guard 和 Missing Evidence response DTO，仍不得接真实 MySQL。
+
 ## 后置项
 
 1. 完整 AI 审标 / 自动审标：后置，当前只做 retrieval evidence 与 trace 改善。

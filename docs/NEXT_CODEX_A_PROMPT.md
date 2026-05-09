@@ -1,6 +1,6 @@
 # NEXT_CODEX_A_PROMPT
 
-当前 DB-2 Asset Catalog Mirror dry-run preview、temporary DB proof-of-contract、schema contract freeze、schema review response 均已 baseline。当前新增 DB-2 schema handoff freeze 文档。
+当前 DB-3A Catalog Retrieval Guard 已进入实现 review 阶段。
 
 已完成 baseline / review 事实：
 
@@ -12,58 +12,55 @@
 6. DB-2 temporary DB proof-of-contract 已 baseline：commit `53337fe`，tag `phase-db2-temp-db-proof-baseline`。
 7. DB-2 schema contract freeze 已 baseline：commit `64e139a`，tag `phase-db2-schema-contract-freeze-baseline`。
 8. DB-2 schema review response 已 baseline：commit `cffac1f`，tag `phase-db2-schema-review-response-baseline`。
-9. 测试 Codex 已独立复测 dry-run preview 和 temporary DB proof 边界，均无 P0/P1/P2。
+9. DB-2 schema handoff freeze 已 baseline：commit `bd24284`，tag `phase-db2-schema-handoff-freeze-baseline`。
 
-当前允许状态：
+当前 DB-3A 允许范围：
 
-1. 只允许 DB-2 schema handoff freeze review / validation / baseline。
-2. 不写 migration。
-3. 不连接真实 MySQL / NAS / REST。
-4. 不进入 DB-3 retrieval / selective indexing。
+1. fake preview only catalog retrieval guard。
+2. 权限 / project scope fail-closed。
+3. catalog metadata lookup 与 prompt-ready evidence 分层。
+4. content answer 返回 Missing Evidence。
 
-本轮需要阅读：
+当前 DB-3A 禁止范围：
 
-1. `docs/DB2_SCHEMA_CONTRACT.md`
-2. `docs/DB2_VIEW_FIELD_MAPPING.md`
-3. `docs/DB2_CHECKPOINT_AND_ROLLBACK_CONTRACT.md`
-4. `docs/DB2_PERMISSION_DEFAULTS.md`
-5. `docs/DB2_FAKE_FIXTURE_ACCEPTANCE_CASES.md`
-6. `docs/DB2_DATABASE_TEAM_HANDOFF.md`
-7. `docs/DB_BRANCH_ACCEPTANCE_AND_MERGE_CHECKLIST.md`
-8. `docs/DATA_STEWARD_BRANCH_ROADMAP.md`
-9. `.claude/ralph/PROMPT.md`
+1. 不写 migration。
+2. 不连接真实 MySQL / NAS / REST。
+3. 不读真实文件正文。
+4. 不写 `documents` / `chunks`。
+5. 不写 OpenSearch / Qdrant。
+6. 不创建 embedding。
+7. 不改 memory kernel 主架构。
+8. 不接真实权限系统。
 
-下一步建议：
+本轮需要 review：
 
-1. 先做 Codex B review：检查 DB-2 handoff freeze 文档是否覆盖字段合同、View 映射、checkpoint / rollback、权限默认值和 fixture acceptance。
-2. 运行验证：
-   - `npm test`
-   - `npm run lint`
-   - `git diff --check`
-3. 若无 P0/P1/P2，做 DB-2 schema handoff freeze baseline。
-4. Baseline 后，再由用户单独授权是否进入 DB-3。
+1. `app/services/asset_catalog/retrieval_guard.py`
+2. `tests/test_data_steward_asset_catalog_retrieval_guard.py`
+3. `docs/DB3_CATALOG_RETRIEVAL_GUARD.md`
+4. `package.json`
 
-DB-3 不得自动启动。进入 DB-3 前必须再次确认：
+验证命令：
 
-1. DB-2 schema contract 已冻结。
-2. View 字段映射已冻结。
-3. checkpoint / rollback 合同已冻结。
-4. fake fixture 通过。
-5. temp DB proof-of-contract 通过。
-6. 权限默认 `DENIED` 规则通过测试。
-7. catalog-only 不进入 retrieval 通过测试。
-8. 数据库 / NAS 团队单独授权真实平台对接。
-9. 用户单独授权 DB-3 范围。
+1. `npm test`
+2. `npm run lint`
+3. `uv run python -m py_compile app/services/asset_catalog/contracts.py app/services/asset_catalog/fake_adapter.py app/services/asset_catalog/mirror_preview.py app/services/asset_catalog/temp_db.py app/services/asset_catalog/retrieval_guard.py app/core/config.py`
+4. `git diff --check`
 
-禁止：
+Review checklist：
 
-1. 不自动进入新的功能代码。
-2. 不进入 DB-2 migration。
-3. 不连接真实 MySQL / NAS / REST。
-4. 不扫描 `/Volumes/zyzn/卓羽智能项目`。
-5. 不改 retrieval contract。
-6. 不改 memory kernel 主架构。
-7. 不写 OpenSearch / Qdrant。
-8. 不自动 baseline，除非当前 review / validation 通过。
+1. `prompt_items` 必须始终为空。
+2. `content_answer` 对 visible catalog-only asset 必须返回 `asset_catalog_only`。
+3. 缺 `allowed_project_ids` 必须返回 `permission_scope_required`。
+4. denied / moved / stale / missing / human-review rows 不得成为 catalog result。
+5. 所有 write flags 必须为 false。
+6. 不得新增真实 DB / NAS / REST / OpenSearch / Qdrant 代码路径。
 
-即使用户希望快速进入 DB-3，也必须先完成本轮 DB-2 handoff freeze review / baseline，然后由用户明确授权 DB-3 的第一片范围。
+若 review / validation 通过，建议做 DB-3A baseline。
+
+下一步 DB-3B 候选：
+
+1. temporary DB backed guard，只读 `external_asset_catalog_contract`。
+2. Missing Evidence response DTO。
+3. project scope 与 permission scope 组合测试。
+
+DB-3B 仍不得接真实 MySQL；真实数据库接入需要用户单独授权。

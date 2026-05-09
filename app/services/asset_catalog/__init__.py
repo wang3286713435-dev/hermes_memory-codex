@@ -10,6 +10,12 @@ from app.services.asset_catalog.mirror_preview import (
     AssetCatalogMirrorPreviewItem,
     AssetCatalogMirrorPreviewSummary,
 )
+from app.services.asset_catalog.retrieval_guard import (
+    AssetCatalogMetadataItem,
+    AssetCatalogRetrievalDecision,
+    AssetCatalogRetrievalGuard,
+    AssetCatalogRetrievalRequest,
+)
 from app.services.asset_catalog.temp_db import (
     AssetCatalogTemporaryMirrorStore,
     AssetCatalogTemporaryMirrorWriteSummary,
@@ -20,6 +26,10 @@ __all__ = [
     "AssetCatalogMirrorPreviewItem",
     "AssetCatalogMirrorPreviewSummary",
     "AssetCatalogMirrorPreviewer",
+    "AssetCatalogMetadataItem",
+    "AssetCatalogRetrievalDecision",
+    "AssetCatalogRetrievalGuard",
+    "AssetCatalogRetrievalRequest",
     "AssetCatalogTemporaryMirrorStore",
     "AssetCatalogTemporaryMirrorWriteSummary",
     "AssetViewPage",

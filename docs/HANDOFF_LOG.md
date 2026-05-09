@@ -217,6 +217,28 @@
 - next: if user explicitly continues, create `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md` as docs-only planning. Do not write implementation before Codex B review and explicit user authorization.
 - commit/tag if any: none.
 
+## 2026-05-09 DB-3A Catalog Retrieval Guard
+- goal: Implement the first DB-3 guard that keeps catalog metadata out of prompt-ready document evidence.
+- changed_files:
+  - `app/services/asset_catalog/retrieval_guard.py`
+  - `app/services/asset_catalog/__init__.py`
+  - `tests/test_data_steward_asset_catalog_retrieval_guard.py`
+  - `docs/DB3_CATALOG_RETRIEVAL_GUARD.md`
+  - `package.json`
+  - phase handoff docs
+- validation:
+  - TDD RED: `uv run --extra dev pytest tests/test_data_steward_asset_catalog_retrieval_guard.py -q` failed on missing `AssetCatalogRetrievalGuard`.
+  - TDD GREEN: same target test passed, `5 passed`.
+  - `npm test`: `34 passed`.
+  - `npm run lint`: `All checks passed!`.
+  - py_compile: passed.
+  - `git diff --check`: passed.
+  - boundary grep: no real MySQL / NAS / REST / OpenSearch / Qdrant write path; hits are fake fixtures, docs prohibitions, and write-flag fields.
+  - review-fix: denied counts are scoped to allowed projects so out-of-scope denied assets do not leak.
+- boundary: fake preview only; no real MySQL / NAS / REST, no migration, no documents/chunks, no OpenSearch/Qdrant.
+- next: Run full validation and review. DB-3B may add temporary DB backed guard, still without real DB.
+- commit/tag if any: none.
+
 ## 2026-05-09 DB-2 Schema Handoff Freeze
 - goal: Freeze DB-2 schema handoff before any real database integration.
 - changed_files:
