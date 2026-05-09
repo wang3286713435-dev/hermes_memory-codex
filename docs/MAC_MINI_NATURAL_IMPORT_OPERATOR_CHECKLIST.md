@@ -154,3 +154,28 @@ Readiness output is a dry-run gate only:
 - `no_go`: stop for Codex B / human owner review.
 
 This runner does not start services, upload files, run Hermes CLI smoke, write DB/index state, execute repair, or approve production rollout.
+
+## 10. Issue Intake After Internal MVP Use
+
+When internal controlled MVP use exposes an issue, create a local issue template:
+
+```bash
+uv run python scripts/phase261a_mvp_issue_intake.py \
+  --new-template \
+  --output-json /tmp/hermes_issue_template.json
+```
+
+After filling the local JSON, validate and summarize it:
+
+```bash
+uv run python scripts/phase261a_mvp_issue_intake.py \
+  --input-json /tmp/hermes_issue_template.json
+```
+
+The issue intake helper is dry-run and read-only. It does not upload files, create external issues, write DB/index state, repair data, or approve rollout.
+
+Escalation guide:
+
+- `no_go`: stop affected workflow and send to Codex B / human owner.
+- `pause`: request Codex B triage before continuing that workflow.
+- `ready`: keep the issue for Codex B review while continuing controlled use if Phase 2.60 readiness remains `go`.

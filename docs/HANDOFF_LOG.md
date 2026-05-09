@@ -1,5 +1,106 @@
 # Handoff Log
 
+## 2026-05-09 Phase 2.61a Codex B Review
+
+- goal: Review Phase 2.61a local issue intake runner and prepare selective Git baseline prompt.
+- review:
+  - `scripts/phase261a_mvp_issue_intake.py` is local and dry-run.
+  - It supports `--new-template`, `--input-json`, and explicit `--output-json`.
+  - P0 / dangerous fields route to `no_go`; P1 routes to `pause`; valid P2/P3 routes to `ready`.
+  - It does not write DB, create external issues, repair data, upload files, run API/CLI smoke, or rollout.
+- verification:
+  - `uv run python -m py_compile scripts/phase261a_mvp_issue_intake.py`: passed.
+  - `uv run pytest tests/test_phase261a_mvp_issue_intake.py tests/test_phase260_mvp_local_readiness_pack.py -q`: `15 passed`.
+  - `git diff --check`: passed.
+  - latest JSON validation: passed.
+  - `uv run python scripts/phase261a_mvp_issue_intake.py --new-template`: passed.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- next: Codex A should execute Phase 2.61a selective baseline and stop. Do not enter Phase 2.61b during baseline.
+
+## 2026-05-09 17:50 Phase 2.61a Internal MVP Issue Intake Runner
+
+- goal: Implement a local dry-run issue intake template / validator / summary generator for internal MVP operator feedback.
+- changed_files:
+  - `scripts/phase261a_mvp_issue_intake.py`
+  - `tests/test_phase261a_mvp_issue_intake.py`
+  - `docs/PHASE261_INTERNAL_MVP_OPERATOR_FLOW_PLAN.md`
+  - `docs/MAC_MINI_NATURAL_IMPORT_OPERATOR_CHECKLIST.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `uv run python -m py_compile scripts/phase261a_mvp_issue_intake.py`: passed.
+  - `uv run pytest tests/test_phase261a_mvp_issue_intake.py -q`: `9 passed`.
+  - full target verification to run at end of turn.
+- validation: runner is dry-run/read-only; no upload, API/CLI smoke, DB/index write, external issue creation, repair, or rollout.
+- risks: real issue JSON may contain sensitive business context; future storage must be ignored by default.
+- next: Codex B review; if accepted, prepare selective baseline prompt or a follow-up for ignored issue storage policy.
+- commit/tag if any: none.
+
+## 2026-05-09 Phase 2.61a Codex A Prompt
+
+- goal: Move from Phase 2.61 planning to Phase 2.61a local issue intake runner.
+- review:
+  - Phase 2.61 planning is accepted.
+  - Issue intake should be local, dry-run, and useful for Mac mini internal MVP feedback.
+  - It must not write DB, create external issues, repair data, or enter rollout.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- next: Codex A should execute Phase 2.61a and stop for Codex B review.
+- forbidden: no upload, no API/CLI smoke, no DB/index writes, no external issue creation, no repair, no rollout.
+
+## 2026-05-09 17:40 Phase 2.61 Internal MVP Operator Flow Planning
+
+- goal: Plan internal MVP operator flow and issue intake so Mac mini controlled-use issues can be captured and routed without chat-copy drift.
+- changed_files:
+  - `docs/PHASE261_INTERNAL_MVP_OPERATOR_FLOW_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests: docs-only; `git diff --check` and latest JSON validation to run at end of turn.
+- validation: no code, no upload, no API/CLI smoke, no DB/index writes, no repair/backfill/reindex, no rollout.
+- risks: Phase 2.61a must remain local dry-run issue intake; it must not become DB issue tracking, automatic external issue creation, automatic business judgement, repair, or rollout.
+- next: Codex B review. If accepted, prepare Phase 2.61a local issue intake template / dry-run validator prompt.
+- commit/tag if any: none.
+
+## 2026-05-09 Phase 2.61 Codex A Prompt
+
+- goal: Move from Phase 2.60 baseline to Phase 2.61 docs-only planning for internal MVP operator flow / issue intake.
+- baseline confirmed:
+  - commit `f445182`.
+  - tag `phase-2.60-mvp-local-readiness-pack-baseline`.
+  - pushed according to ignored latest state.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- next: Codex A should execute Phase 2.61 docs-only planning and stop for Codex B review.
+- forbidden: no code implementation, no upload, no API/CLI smoke, no DB/index writes, no Data Steward, no rollout.
+
 ## 2026-05-09 Phase 2.60 Codex B Review
 
 - goal: Review Phase 2.60 Internal MVP Launch Readiness Pack and prepare selective Git baseline prompt.

@@ -2,11 +2,21 @@
 
 ## 最新状态
 
-1. Phase 2.60 Internal MVP Launch Readiness Pack 最小实现已完成，等待 Codex B review。
+1. Phase 2.61 planning 已完成并经 Codex B review 通过。
+2. Phase 2.61a Internal MVP Issue Intake Runner 已完成 implementation，等待 Codex B review。
+3. 新增只读本地 issue template / validator / summary generator，把 Mac mini 真实试用问题结构化回收。
+4. 目标测试覆盖 template、P2 ready、P1 pause、P0 no_go、dangerous flags、缺 operator judgement、批量统计和 explicit output path。
+5. 后续候选：Codex B review 后 selective baseline；或规划本地 ignored issue records 存储策略。
+6. 本阶段不得写 DB、不得自动创建外部 issue、不得生成真实业务结论、不得进入 repair 或 rollout。
+7. 当前仍禁止真实上传、API/CLI smoke、DB/index 写入、repair/backfill/reindex、Data Steward、production rollout。
+
+## 历史状态
+
+1. Phase 2.60 Internal MVP Launch Readiness Pack 最小实现已完成并 baseline。
 2. 新增只读本地 readiness runner：`scripts/phase260_mvp_local_readiness_pack.py`。
 3. 该 runner 只输出 Go / Pause / No-Go，不上传文件、不启动服务、不运行 Hermes CLI smoke、不写 DB/index、不执行 repair。
 4. 目标测试已覆盖 skip API health go、latest 缺失 pause、危险 env flag no_go、API health failure pause、显式 output JSON、固定 safety fields。
-5. 下一步建议 Codex B review；通过后只做 selective baseline，不进入真实 upload、Data Steward 或 production rollout。
+5. baseline 后进入 Phase 2.61 planning，不进入真实 upload、Data Steward 或 production rollout。
 
 ## 历史状态
 

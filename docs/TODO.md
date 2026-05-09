@@ -1,5 +1,30 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.61a Internal MVP Issue Intake Runner
+
+1. Phase 2.61 planning 已完成并经 Codex B review 通过。
+2. 当前下一步：实现本地 issue intake template / dry-run validator / summary generator。
+3. 目标是把 Mac mini 真实试用问题结构化回收，减少人工复制长聊天记录。
+4. 本阶段不写 DB、不创建外部 issue、不 repair、不 rollout。
+5. Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成后交 Codex B review。
+
+## Phase 2.61 Internal MVP Operator Flow / Issue Intake Planning
+
+1. Phase 2.60 baseline 已完成：`f445182` / `phase-2.60-mvp-local-readiness-pack-baseline`。
+2. Phase 2.61 docs-only planning 已完成：新增 `docs/PHASE261_INTERNAL_MVP_OPERATOR_FLOW_PLAN.md`。
+3. 规划已定义使用前 readiness gate、使用中记录字段、P0/P1/P2/P3 分级、Codex A/B/C/D 分工和 Phase 2.61a 候选。
+4. 推荐下一步：Codex B review。通过后再写 Phase 2.61a local issue intake template / dry-run validator prompt。
+5. 当前仍不允许真实上传、API/CLI smoke、DB/index 写入、Data Steward、production rollout。
+
+## Phase 2.61a Internal MVP Issue Intake Runner
+
+1. Phase 2.61a implementation 已完成，等待 Codex B review。
+2. 新增 `scripts/phase261a_mvp_issue_intake.py`，支持 `--new-template` 与 `--input-json`。
+3. 新增 `tests/test_phase261a_mvp_issue_intake.py`，目标测试当前为 `9 passed`。
+4. runner 固定 `dry_run=true`、`read_only=true`、`destructive_actions=[]`、`external_issue_created=false`、`repair_attempted=false`、`production_rollout=false`。
+5. P0 或危险字段会输出 `no_go`；P1 输出 `pause`；合法 P2/P3 输出 `ready`。
+6. 当前不写 DB、不创建外部 issue、不写默认 reports 路径、不进入 repair 或 rollout。
+
 ## Phase 2.60 Internal MVP Launch Readiness Pack
 
 1. Phase 2.59 baseline 已完成：`2603a87` / `phase-2.59-natural-import-second-smoke-plan-baseline`。

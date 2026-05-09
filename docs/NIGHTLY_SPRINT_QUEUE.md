@@ -10,30 +10,28 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.60 Internal MVP Launch Readiness Pack
+### Current Item：Phase 2.61a Codex B Review
 
 - lane：Green Lane
-- 状态：implemented_waiting_codex_b_review
-- 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
-- 目标：实现只读 local readiness runner、目标测试与 Mac mini operator 文档同步，让本地 MVP 更接近内部真实使用。
-- 允许动作：只读脚本、unit tests、offline dry-run、文档同步、ignored latest 更新。
-- 禁止动作：真实上传、第二文件 smoke、Hermes CLI query smoke、自动启动服务、DB/index 写入、repair/backfill/reindex、Data Steward/DB/NAS/BIM 实现、production rollout、baseline。
-- 完成结果：runner、目标测试、readiness plan、operator checklist update 已完成。
-- 下一步：停止等待 Codex B review。
+- 状态：pending_review
+- 目标：审核 Phase 2.61a issue intake runner、测试和边界。
+- 允许动作：review、路线裁决、下一轮 bounded prompt。
+- 禁止动作：代码实现、真实上传、第二文件 smoke、API/CLI smoke、自动启动服务、DB/index 写入、repair/backfill/reindex、Data Steward/DB/NAS/BIM 实现、production rollout。
+- 完成后：如通过，由 Codex B 写入 selective baseline prompt 或后续 ignored issue storage policy planning prompt。
 
-### Next Candidate：Phase 2.60 Codex B Review
-
-- lane：Green Lane
-- 状态：pending_current_item
-- 目标：审核 2.60 diff、测试结果、readiness dry-run 输出和边界。
-- 禁止动作：实现新功能、真实上传、DB/index 写入、rollout。
-
-### Next Candidate：Phase 2.60 Git Baseline
+### Next Candidate：Phase 2.61a Git Baseline
 
 - lane：Yellow Lane
 - 状态：pending_codex_b_review
 - 目标：仅在 Codex B 明确通过后 selective baseline。
 - 禁止动作：自动跨 phase 继续开发。
+
+### Next Candidate：Phase 2.61b Local Issue Storage Policy
+
+- lane：Green Lane
+- 状态：pending_codex_b_review
+- 目标：规划真实 operator issue records 的 ignored storage policy / README / optional template directory。
+- 禁止动作：DB 写入、外部 issue 自动创建、真实业务结论、repair/backfill/reindex、production rollout。
 
 ## Red Lane / 当前禁止
 

@@ -1,5 +1,9 @@
 # DEV_LOG
 
+- [Phase 2.61a] 完成 Internal MVP issue intake runner 最小实现：新增只读 `phase261a_mvp_issue_intake.py`，支持生成 issue 模板、校验单条 / 批量 issue、统计 P0/P1/P2/P3，并按 ready / pause / no_go 输出 operator next steps；目标测试 `9 passed`，本轮未上传、未运行 API/CLI smoke、未写 DB/index、未创建外部 issue、未进入 repair 或 rollout。
+- [Phase 2.61a Prompt] Codex B review Phase 2.61 planning 通过，已写入 Phase 2.61a Local Issue Intake Runner prompt。目标是用只读本地模板 / validator / summary generator 回收 Mac mini 真实试用问题；本阶段不写 DB、不创建外部 issue、不 repair、不 rollout。
+- [Phase 2.61] 完成 Internal MVP Operator Flow / Issue Intake docs-only planning：新增 `PHASE261_INTERNAL_MVP_OPERATOR_FLOW_PLAN.md`，定义 readiness gate、使用中 issue 记录字段、P0/P1/P2/P3 分级、Codex A/B/C/D 分工和 Phase 2.61a local issue intake dry-run 候选；本轮未写代码、未运行 API/CLI smoke、未上传、未写 DB/index、未进入 rollout。
+- [Phase 2.61 Prompt] Phase 2.60 baseline 已完成：commit `f445182`，tag `phase-2.60-mvp-local-readiness-pack-baseline`。Codex B 已写入 Phase 2.61 docs-only planning prompt，目标是规划内部 MVP operator flow / issue intake，让 Mac mini 真实试用问题可结构化回收；本轮仍不进入真实上传、API/CLI smoke、DB/index 写入、Data Steward 或 rollout。
 - [Phase 2.60 Prompt] 用户明确要求暂不做第二真实文件 smoke，优先让 Mac mini 本地 MVP 尽快进入真实内部使用场景。Codex B 已写入 Phase 2.60 Internal MVP Launch Readiness Pack：新增只读 readiness runner、目标测试和 operator 文档同步；不上传文件、不跑真实 API/CLI smoke、不写 DB/index、不进入 Data Steward 或 rollout。
 - [Phase 2.59 Baseline] Phase 2.59 docs-only planning 已 baseline：commit `2603a87`，tag `phase-2.59-natural-import-second-smoke-plan-baseline`。第二真实文件 smoke 仍需用户提供具体小型非敏感文件路径并明确授权后，由 Codex C 执行 `docs/NEXT_CODEX_C_PROMPT.md`。
 - [Phase 2.57a Prompt] Phase 2.57 baseline 已完成，下一步进入 Natural Import Evidence Template / Runbook Dry-run：只做本地 dry-run 脚本、测试与文档同步，不上传文件、不运行 API/CLI smoke、不写 DB/index。
