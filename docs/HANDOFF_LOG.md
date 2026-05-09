@@ -5590,3 +5590,37 @@
 - review_result: accepted for selective baseline.
 - next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.58 baseline only.
 - commit/tag if any: none yet.
+
+## 2026-05-09 Phase 2.59 Handoff Prompt
+- goal: Plan second user-authorized natural import smoke and prepare Codex C pending authorization template.
+- next: Codex A should execute docs-only planning from NEXT_CODEX_A_PROMPT, then stop for Codex B review.
+- hard_boundaries: no upload, no API/CLI smoke, no DB/index writes, no repair/backfill/reindex, no Data Steward implementation.
+- commit/tag if any: none.
+
+## 2026-05-09 16:43 Phase 2.59 Natural Import Second Smoke Planning
+- goal: Complete docs-only planning for a second user-authorized natural import smoke and Codex C pending authorization template.
+- changed_files:
+  - `docs/PHASE259_NATURAL_IMPORT_SECOND_SMOKE_PLAN.md`
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/MAC_MINI_NATURAL_IMPORT_OPERATOR_CHECKLIST.md`
+  - `docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_phase259_check.json`: passed.
+- validation:
+  - Codex C pending authorization template now requires `<AUTHORIZED_FILE_PATH>`, `<ALIAS>`, and `<OPERATOR>` before execution.
+  - Operator checklist requires dry-run template and `--review-json` before requesting real smoke authorization.
+  - No real upload, API call, Hermes CLI smoke, DB write, OpenSearch write, or Qdrant write.
+- risks:
+  - Second real smoke still requires explicit user authorization and a small non-sensitive file path.
+  - Historical unrelated dirty remains and must not be staged with Phase 2.59.
+- next: Codex B review Phase 2.59 docs-only planning; if accepted, prepare selective docs-only baseline.
+- commit/tag if any: none.

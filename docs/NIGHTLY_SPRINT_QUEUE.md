@@ -10,12 +10,13 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.58 Selective Git Baseline
+### Current Item：Phase 2.59 Natural Import Second Smoke Planning
 
-- lane：Yellow Lane
-- 状态：codex_b_review_passed_baseline_prompt_ready
+- lane：Green Lane
+- 状态：implemented_waiting_codex_b_review
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
-- 目标：只执行 Phase 2.58 selective Git baseline。
-- 允许动作：轻量验证、白名单 staging、commit、tag、push、更新 ignored latest。
-- 禁止动作：上传文件、API/CLI smoke、DB/index 写入、repair/backfill/reindex、Data Steward/DB/NAS 实现、rollout、进入下一阶段。
-- 完成后：停止等待 Codex B review。
+- 目标：规划第二个用户授权文件 natural import smoke 与 Codex C 待授权模板。
+- 允许动作：docs-only planning、git diff/json/status checks、ignored latest 更新。
+- 禁止动作：上传文件、API/CLI smoke、DB/index 写入、repair/backfill/reindex、Data Steward/DB/NAS 实现、rollout、baseline。
+- 完成结果：Phase 2.59 planning、Codex C pending authorization template、operator checklist update 已完成。
+- 下一步：停止等待 Codex B review；通过后再执行 docs-only baseline。

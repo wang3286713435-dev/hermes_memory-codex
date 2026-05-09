@@ -427,3 +427,6 @@
 - [Phase 2.58 Review Fix] 验证通过：`uv run python -m py_compile scripts/phase257a_natural_import_evidence_template.py` 通过，`uv run pytest tests/test_phase257a_natural_import_evidence_template.py -q` 为 `14 passed`；未上传文件、未调用 API / CLI、未写 DB / index。
 
 - [Phase 2.58 Review] Codex B review passed: py_compile passed, targeted pytest `14 passed`, bypass/upload review guards verified. Wrote selective baseline prompt.
+
+- [Phase 2.59 Prompt] Phase 2.58 baseline 完成后，写入第二个自然语言导入 smoke 的 planning prompt 与 Codex C 待授权模板；不自动上传。
+- [Phase 2.59] 完成 Natural Import Second Smoke docs-only planning：补齐第二真实文件授权 gate、执行流程、Codex C 待授权模板、operator checklist 的 second-file smoke 流程与 Phase 2.57 计划同步；本轮未上传文件、未运行 API/CLI smoke、未写 DB / facts / versions / audit_logs / OpenSearch / Qdrant，未进入 cleanup / repair / backfill / reindex / Data Steward / rollout。

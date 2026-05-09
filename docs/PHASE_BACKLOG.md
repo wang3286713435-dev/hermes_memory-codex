@@ -2,6 +2,22 @@
 
 ## 最新状态
 
+1. Phase 2.59 docs-only planning 已完成：第二真实文件 natural import smoke 的授权 gate、Codex C 待授权模板与 operator checklist 已同步。
+2. 当前不得自动上传文件、运行 API/CLI smoke、写 DB/index 或进入 Data Steward / rollout。
+3. 第二真实文件 smoke 必须等待用户提供小型非敏感文件路径并明确授权。
+4. Codex C 只可在授权后执行 `docs/NEXT_CODEX_C_PROMPT.md`；direct API upload 不能替代 Hermes CLI natural-language import path。
+5. 下一步建议 Codex B review Phase 2.59；通过后再做 docs-only baseline。
+
+## 历史状态
+
+1. Phase 2.58 baseline 已完成：commit `4a2c57e`，tag `phase-2.58-natural-import-operator-pack-baseline`。
+2. 当前进入 Phase 2.59 Natural Import Second Smoke Planning。
+3. 本轮只规划第二个小型非敏感文件真实 natural import smoke 的授权门槛、Codex C 模板和验收字段。
+4. 当前不上传文件、不运行 API/CLI smoke、不写 DB/index、不进入 Data Steward。
+5. 真实第二文件 smoke 必须等待用户提供路径并明确授权。
+
+## 最新状态
+
 1. Phase 2.58 已通过 Codex B review，下一步执行 selective Git baseline。
 2. 复核证据：py_compile 通过，targeted pytest `14 passed`，git diff/check 与 latest JSON 校验通过。
 3. baseline 白名单限定 operator pack 脚本、测试、Mac mini checklist 与交接文档。

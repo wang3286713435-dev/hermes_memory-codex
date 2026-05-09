@@ -115,3 +115,19 @@ Record at minimum:
 ## 7. Storage Policy
 
 Sanitized local run records may be saved under ignored internal MVP report paths. Do not commit real evidence JSON, source files, local latest pointers, or operator notes containing sensitive paths or business details.
+
+## 8. Second-file Smoke Authorization
+
+Before any second real natural import smoke, run the dry-run evidence template and `--review-json` helper. Only request user authorization when the review status is `ready_for_operator_authorization`. Do not substitute direct API upload for the Hermes CLI natural-language path.
+
+Second-file authorization flow:
+
+1. Fill source path, alias, session id, and operator in the dry-run template.
+2. Confirm `go_pause_no_go=ReadyForAuthorizedSmoke`.
+3. Review the dry-run JSON and confirm `review_status=ready_for_operator_authorization`.
+4. Ask the user to authorize the concrete file path; do not infer authorization from previous smoke runs.
+5. Hand off to Codex C using `docs/NEXT_CODEX_C_PROMPT.md`.
+6. During real smoke, record whether returned document ids contain only the newly imported document.
+7. If any Pause / No-Go condition appears, stop without cleanup, repair, backfill, reindex, or rollout.
+
+The second-file smoke should produce an ignored sanitized run record. Real evidence JSON and source files must remain untracked.

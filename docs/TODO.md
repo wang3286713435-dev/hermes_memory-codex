@@ -1052,3 +1052,12 @@
 2. Next step is selective Git baseline only.
 3. Do not upload files, run API/CLI smoke, or stage historical dirty / DB-NAS drafts.
 4. After baseline, plan Phase 2.59; do not auto-upload.
+
+# Phase 2.59 Natural Import Second Smoke Planning
+
+1. Phase 2.58 baseline 已完成；下一步规划第二个用户授权小文件 natural import smoke。
+2. 本轮只写授权门槛、Codex C 待授权模板和验收字段，不上传文件。
+3. 真实 smoke 必须由用户提供文件路径并明确授权。
+4. Phase 2.59 docs-only planning 已完成：新增第二真实文件授权 gate、Codex C 待授权模板、operator checklist 流程与 Phase 2.57 计划同步。
+5. 下一步建议 Codex B review；通过后再做 docs-only baseline。
+6. 第二真实文件 smoke 仍不得自动执行；必须等待用户提供小型非敏感文件路径并明确授权。

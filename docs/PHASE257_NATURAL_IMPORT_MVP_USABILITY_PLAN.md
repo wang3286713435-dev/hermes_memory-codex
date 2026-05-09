@@ -156,3 +156,11 @@ Phase 2.58 extends the dry-run template into an operator pack:
 - `docs/MAC_MINI_NATURAL_IMPORT_OPERATOR_CHECKLIST.md` provides the Mac mini operator checklist for preflight, authorization, evidence recording, and Go/Pause/No-Go.
 
 Phase 2.58 still does not run real upload, API smoke, CLI smoke, Data Steward, DB/NAS/TB file pool, repair, or rollout.
+
+## 12. Phase 2.59 Second Smoke Planning
+
+Phase 2.59 plans a second user-authorized small-file natural import smoke. It remains planning-only until the user provides a concrete file path and explicit authorization. The Phase 2.58 dry-run template and review helper are required before requesting that authorization.
+
+The second smoke must be executed through the Hermes CLI natural-language import path by Codex C after authorization. Direct API upload is not valid substitute evidence. Required validation includes document/version/chunk/index ids, same-session alias persistence, retrieval citation, third-document contamination check, safety flags, and ignored sanitized run record storage.
+
+Phase 2.59 does not authorize upload by itself. It only prepares the authorization gate, Codex C prompt template, and operator checklist updates.
