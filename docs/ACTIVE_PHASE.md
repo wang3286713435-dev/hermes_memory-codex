@@ -1,54 +1,53 @@
 # Active Phase
 
-- 当前 phase：Phase 2.55a Internal MVP Real Upload Smoke Codex B Review
-- 本轮目标：完成 Codex B review，并将 selective Git baseline 任务写入 `docs/NEXT_CODEX_A_PROMPT.md`。
+- 当前 phase：Phase 2.56a Natural Import Real Adapter Skeleton Codex B Review
+- 本轮目标：审查 Phase 2.56a 实现并写入 selective dual-repo Git baseline prompt。
 - 修改文件：
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/natural_file_import_flow.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/natural_file_upload_adapter.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_natural_file_import_flow.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_natural_file_upload_adapter.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `/Users/Weishengsu/Hermes_memory/docs/PHASE256_NATURAL_IMPORT_REAL_ADAPTER_PLAN.md`
   - `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
   - `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
   - `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
   - `/Users/Weishengsu/Hermes_memory/docs/NIGHTLY_SPRINT_QUEUE.md`
-  - `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
-  - `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
   - `/Users/Weishengsu/Hermes_memory/docs/NEXT_CODEX_A_PROMPT.md`
   - `/Users/Weishengsu/Hermes_memory/docs/NEXT_CODEX_C_PROMPT.md`
+  - `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
+  - `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
   - `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`（ignored）
-  - `/Users/Weishengsu/Hermes_memory/reports/internal_mvp_runs/phase255a_real_upload_smoke_20260509_102038.json`（ignored）
 - 完成内容：
-  - 完成授权文件 pre-flight：普通 `.docx` 文件，`49894 bytes`，可读。
-  - 使用既有 `scripts/run_local_api.sh` 启动 Hermes_memory API，`/health` 返回 `status=ok`。
-  - 复用既有 `/api/v1/documents/upload` 完成单文件 upload / ingestion。
-  - 新增测试 document：`document_id=06e59241-95e9-44ff-a73d-35d2f52a359b`。
-  - 新增 version：`version_id=7dc57676-c707-4f44-9688-0b77058f07a0`。
-  - ingestion 完成：`chunk_count=26`，`indexed_count=26`。
-  - DB / version / chunk 可诊断；dense ingestion 写入 Qdrant `hermes_chunks`，`indexed_count=26`，`failed_count=0`。
-  - OpenSearch 通过 `document_id.keyword` / match 查询可查到 `26` 条；普通 `term document_id` 因 mapping 返回 `0`，已记录为诊断注意事项。
-  - API hybrid retrieval 返回 `5` 条，document/version 均只来自新上传文件。
-  - Hermes CLI 完成 `@核心技术大纲` alias bind 与同 session retrieval smoke。
-  - CLI 输出 citation fields、`metadata_as_answer=false`、`facts_as_answer=false`、`snapshot_as_answer=false`、`requires_retrieval_evidence=true`，未发现第三文件污染。
-  - 已生成 ignored sanitized run record。
+  - 新增 Hermes 主仓 `FeatureFlaggedHermesMemoryUploadAdapter` skeleton。
+  - `enabled=False` 为默认状态；有效导入请求在未显式启用时 fail-closed，返回 `real_upload_disabled`。
+  - `run_natural_file_import_preflight()` 增加 `real_upload_enabled=False` 默认参数。
+  - fake adapter success 仅在显式 `real_upload_enabled=True` 时执行，可返回 `document_id/version_id` 并 seed session alias。
+  - upload failure / missing document_id / missing version_id 均不绑定 alias。
+  - import diagnostics 保持非 retrieval evidence：`retrieval_evidence_document_ids=[]`、`import_diagnostics_as_retrieval_evidence=false`。
+  - 目录 / NAS / 批量 / BIM / unsupported extension 继续 fail-closed。
+  - Codex B 已复核 diff 与测试，并写入 dual-repo selective baseline prompt。
 - 测试结果：
-  - `git status --short`：已复核；本轮相关文档与 ignored run record 存在，另有既有无关 dirty。
-  - `git diff --check`：通过。
-  - `uv run python -m json.tool reports/agent_runs/latest.json`：通过。
-  - run record JSON 校验：通过。
-  - `git check-ignore`：`reports/agent_runs/latest.json` 与 `reports/internal_mvp_runs/phase255a_real_upload_smoke_20260509_102038.json` 均被 ignore。
+  - Hermes 主仓 py_compile：通过。
+  - Hermes 主仓目标 pytest：`25 passed`。
+  - Hermes_memory `git diff --check`：通过。
+  - Hermes_memory latest JSON 校验：通过。
+  - Hermes_memory latest ignore check：通过。
 - live smoke 结果：
-  - API pre-flight：通过。
-  - CLI pre-flight：通过。
-  - Upload / ingestion：通过。
-  - API retrieval：通过。
-  - CLI alias / retrieval：通过。
+  - 本轮未运行 API / CLI smoke。
+  - 本轮未调用真实 Hermes_memory upload API。
+  - 本轮未上传文件。
 - 当前结论：
-  - Phase 2.55a 单文件内部 MVP upload smoke 已通过 Codex B review。
-  - 不需要 Codex C targeted validation。
-  - 可进入 Phase 2.55a selective Git baseline。
-  - 本轮产生的授权测试 document / version / chunk / OpenSearch / Qdrant 记录保留；不执行 cleanup / delete。
+  - Phase 2.56a implementation 已通过 Codex B review。
+  - 真实 upload 仍默认关闭；本轮只建立 adapter skeleton 和测试边界。
+  - 不需要 Codex C 真实终端验收。
 - 阻塞点 / 风险点：
-  - 本轮不会清理上传测试数据；后续若要清理必须另起 phase 并显式授权。
-  - API SearchResponse 顶层 `citations` 数组为空，但 result-level citation fields 与 CLI citations 可见；建议 Codex B 判断是否列为展示尾项。
-  - OpenSearch `document_id` 字段 mapping 对 plain term count 不友好，需使用 `.keyword` 或 match；不影响本轮 retrieval 通过。
-- 是否建议 baseline：是；已写入 selective baseline prompt。
-- 是否建议进入下一阶段：否；必须先完成 Phase 2.55a baseline。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 2.55a selective Git baseline。
+  - 仍未接 `run_agent.py` 真实执行路径。
+  - 真实自然语言导入 smoke 必须后置 Phase 2.56b，并需要用户显式授权小型非敏感文件。
+  - 既有无关 dirty 仍需排除，不得纳入本轮 review / baseline。
+- 是否建议 baseline：是；已写入 selective dual-repo baseline prompt。
+- 是否建议进入下一阶段：否；必须先完成 2.56a baseline。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 2.56a baseline。
 - 是否需要 Codex B 审核：baseline 后需要 Codex B 复核 commit / tag / push。
 - 是否需要 Codex C 真实终端验收：否。

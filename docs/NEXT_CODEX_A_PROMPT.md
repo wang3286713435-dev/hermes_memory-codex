@@ -1,42 +1,66 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.55a Codex B Review Passed - Selective Git Baseline
+## Phase 2.56a Codex B Review Passed - Selective Dual-repo Git Baseline
 
-你是 Codex A。本轮只做 Phase 2.55a Internal MVP Real Upload Smoke 的 selective Git baseline。
+你是 Codex A。本轮只做 Phase 2.56a Natural Import Real Adapter Skeleton 的双仓 selective Git baseline。
 
-Codex B 已审核 Codex A 交接、ignored run record 与本地状态，结论如下：
+Codex B 已独立 review 并复跑测试，结论如下：
 
-1. Phase 2.55a 单文件真实 upload / ingestion / retrieval smoke 通过。
-2. API hybrid retrieval 与 Hermes CLI retrieval 均只返回新上传 document evidence。
-3. `metadata_as_answer=false`、`facts_as_answer=false`、`snapshot_as_answer=false`、`requires_retrieval_evidence=true` 边界保持。
-4. 未发现第三文件污染。
-5. 不需要 Codex C targeted validation。
-6. API 顶层 `citations=[]` 但 result-level / CLI citations 可见，记录为 P2 展示尾项，不阻塞 baseline。
+1. Phase 2.56a 实现符合边界：真实 upload 默认关闭。
+2. `FeatureFlaggedHermesMemoryUploadAdapter(enabled=False)` 不调用 client，返回 `real_upload_disabled`。
+3. fake adapter success 只有 `real_upload_enabled=True` 时才执行。
+4. upload failure / missing document_id / missing version_id 均不绑定 alias。
+5. import diagnostics 不作为 retrieval evidence。
+6. 目录 / NAS / 批量 / BIM / unsupported extension 继续 fail-closed。
+7. Codex B 复跑通过：
+   - Hermes 主仓 py_compile 通过。
+   - Hermes 主仓 targeted pytest：`25 passed`。
+   - Hermes_memory `git diff --check` 通过。
+   - Hermes_memory `latest.json` JSON / ignore 检查通过。
 
-## 必读文件
+## Baseline 目标
 
-1. `docs/AGENT_OPERATING_PROTOCOL.md`
+1. Hermes 主仓提交 Phase 2.56a 相关代码 / 测试 / 文档。
+2. Hermes_memory 提交 Phase 2.56a 规划 / 交接文档。
+3. 创建并推送同一个 tag：`phase-2.56a-natural-import-adapter-skeleton-baseline`。
+4. baseline 后停止等待 Codex B review；不得进入 Phase 2.56b。
+
+## Hermes 主仓白名单
+
+工作目录：`/Users/Weishengsu/.hermes/hermes-agent`
+
+只允许 stage / commit：
+
+1. `agent/memory_kernel/natural_file_import_flow.py`
+2. `agent/memory_kernel/natural_file_upload_adapter.py`
+3. `tests/agent/test_natural_file_import_flow.py`
+4. `tests/agent/test_natural_file_upload_adapter.py`
+5. `docs/TODO.md`
+6. `docs/DEV_LOG.md`
+
+不得 stage：
+
+1. `agent/memory_kernel/adapters/hermes_memory_adapter.py`
+2. `uv.lock`
+3. `docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`
+4. `tests/agent/test_memory_kernel_adapter_reload.py`
+5. 任何其他文件。
+
+## Hermes_memory 白名单
+
+工作目录：`/Users/Weishengsu/Hermes_memory`
+
+只允许 stage / commit：
+
+1. `docs/PHASE256_NATURAL_IMPORT_REAL_ADAPTER_PLAN.md`
 2. `docs/ACTIVE_PHASE.md`
 3. `docs/PHASE_BACKLOG.md`
 4. `docs/HANDOFF_LOG.md`
 5. `docs/NIGHTLY_SPRINT_QUEUE.md`
-6. `docs/TODO.md`
-7. `docs/DEV_LOG.md`
-8. `reports/agent_runs/latest.json`
-9. `reports/internal_mvp_runs/phase255a_real_upload_smoke_20260509_102038.json`
-
-## 白名单文件
-
-只允许 stage / commit 以下 tracked 文件：
-
-1. `docs/ACTIVE_PHASE.md`
-2. `docs/PHASE_BACKLOG.md`
-3. `docs/HANDOFF_LOG.md`
-4. `docs/NIGHTLY_SPRINT_QUEUE.md`
-5. `docs/NEXT_CODEX_A_PROMPT.md`
-6. `docs/NEXT_CODEX_C_PROMPT.md`
-7. `docs/TODO.md`
-8. `docs/DEV_LOG.md`
+6. `docs/NEXT_CODEX_A_PROMPT.md`
+7. `docs/NEXT_CODEX_C_PROMPT.md`
+8. `docs/TODO.md`
+9. `docs/DEV_LOG.md`
 
 不得 stage：
 
@@ -44,44 +68,87 @@ Codex B 已审核 Codex A 交接、ignored run record 与本地状态，结论�
 2. `docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`
 3. `docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`
 4. `reports/agent_runs/latest.json`
-5. `reports/internal_mvp_runs/*.json`
-6. 任何 app / scripts / tests / migrations 文件
+5. 任何 app / scripts / tests / migrations 文件。
 
-## Baseline 步骤
+## Baseline 前验证
 
-1. 复核 `git status --short`，确认除白名单 tracked docs 外没有其他待 stage 文件被纳入。
-2. 运行：
-   - `git diff --check`
-   - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`
-   - `uv run python -m json.tool reports/internal_mvp_runs/phase255a_real_upload_smoke_20260509_102038.json >/tmp/phase255a_run_record_check.json`
-   - `git check-ignore -v reports/agent_runs/latest.json`
-   - `git check-ignore -v reports/internal_mvp_runs/phase255a_real_upload_smoke_20260509_102038.json`
-3. selective stage 白名单 8 个 tracked docs。
-4. 复核 staged diff：不得包含 DB / NAS / Data Steward branch docs，不得包含 `PHASE238...`，不得包含 ignored run record。
-5. commit：
-   - `chore: baseline phase 2.55a internal mvp upload smoke`
-6. tag：
-   - `phase-2.55a-internal-mvp-upload-smoke-baseline`
-7. push 当前分支到 origin，并 push tag。
-8. 更新 ignored `reports/agent_runs/latest.json` 为 baseline 状态。
-9. 停止等待 Codex B review；不得自动进入 Phase 2.56。
+Hermes 主仓运行：
+
+```bash
+./.venv/bin/python -m py_compile \
+  agent/memory_kernel/natural_file_import.py \
+  agent/memory_kernel/natural_file_import_flow.py \
+  agent/memory_kernel/natural_file_upload_adapter.py
+
+./.venv/bin/python -m pytest -o addopts='' \
+  tests/agent/test_natural_file_import.py \
+  tests/agent/test_natural_file_import_flow.py \
+  tests/agent/test_natural_file_upload_adapter.py -q
+```
+
+Hermes_memory 运行：
+
+```bash
+git diff --check
+uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json
+git check-ignore -v reports/agent_runs/latest.json
+```
+
+## Git 操作
+
+Hermes 主仓：
+
+1. selective stage 白名单文件。
+2. 复核 staged diff 不包含禁止文件。
+3. commit message：
+   - `feat: add phase 2.56a natural import adapter skeleton`
+4. push 当前分支到 `backup2` 的既有可写分支。
+
+Hermes_memory：
+
+1. selective stage 白名单文件。
+2. 复核 staged diff 不包含禁止文件。
+3. commit message：
+   - `docs: baseline phase 2.56a natural import adapter skeleton`
+4. push 当前分支到 `origin`。
+
+Tag：
+
+1. 在两个仓库创建 tag：`phase-2.56a-natural-import-adapter-skeleton-baseline`。
+2. Hermes 主仓 tag 推送到 `backup2`。
+3. Hermes_memory tag 推送到 `origin`。
+
+## 完成后更新
+
+更新 ignored `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`：
+
+1. `status=baseline`
+2. 写入两个仓库 commit hash。
+3. 写入 tag。
+4. 写入 push 结果。
+5. `needs_codex_b_review=true`
+6. `needs_codex_c_validation=false`
+
+不要 stage `latest.json`。
 
 ## 硬边界
 
-1. 不执行 cleanup / delete / repair / backfill / reindex / migration。
-2. 不再次上传文件。
-3. 不读取或输出上传文件正文。
-4. 不修改 app / scripts / tests / migrations / Hermes 主仓代码。
-5. 不修改 retrieval contract。
-6. 不修改 memory kernel 主架构。
-7. 不进入 Data Steward / BIM asset catalog / Graph / Spatial Index / subagent scheduler。
-8. 不进入 production rollout。
+1. 不调用真实 Hermes_memory upload API。
+2. 不上传文件。
+3. 不启动 API / CLI smoke。
+4. 不写 DB / facts / document_versions / audit_logs。
+5. 不写 OpenSearch / Qdrant。
+6. 不 cleanup / delete / repair / backfill / reindex / migration。
+7. 不修改 retrieval contract。
+8. 不修改 memory kernel 主架构。
+9. 不进入 Data Steward / DB / NAS / BIM 分支实现。
+10. 不进入 production rollout。
+11. baseline 后停止，不进入 Phase 2.56b。
 
 ## 完成报告必须包含
 
-1. commit hash。
-2. tag。
-3. push 结果。
-4. 最终 `git status --short`。
-5. 明确说明 ignored run record 未入库。
-6. 当前 P2 展示尾项：API 顶层 `citations=[]` 但 result-level / CLI citations 可见。
+1. Hermes 主仓 commit hash / push 结果。
+2. Hermes_memory commit hash / push 结果。
+3. tag 与 tag push 结果。
+4. 最终两个仓库 `git status --short`。
+5. 明确说明真实 upload 仍默认关闭，未运行 API / CLI smoke。

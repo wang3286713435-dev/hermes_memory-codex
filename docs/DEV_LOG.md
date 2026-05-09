@@ -1,5 +1,8 @@
 # DEV_LOG
 
+- [Phase 2.56a Review] Codex B review 通过：`FeatureFlaggedHermesMemoryUploadAdapter` 默认 disabled，fake adapter 只有 `real_upload_enabled=True` 才执行；import diagnostics 不作为 retrieval evidence。已复跑 Hermes 主仓 py_compile 与 targeted pytest，`25 passed`；Hermes_memory 静态 / latest JSON / ignore 检查通过。已写入 dual-repo selective baseline prompt。
+- [Phase 2.56a] 完成 natural import real adapter skeleton：Hermes 主仓新增 feature-flagged upload adapter，默认 `enabled=false`；有效导入请求未显式启用时 fail-closed 为 `real_upload_disabled`，fake adapter success 需 `real_upload_enabled=True`。主仓目标测试 `25 passed`；本轮未调用真实 upload API、未上传文件、未写 DB / OpenSearch / Qdrant。
+- [Phase 2.56a Prompt] Phase 2.55a baseline 已确认：`1a41475` / `phase-2.55a-internal-mvp-upload-smoke-baseline`。下一步主线进入 Natural Import Real Adapter Skeleton：只做 feature-flagged adapter skeleton 与 fake / disabled tests，真实 upload 默认关闭，不触发 API / CLI smoke，不写 DB / OpenSearch / Qdrant，不进入 Data Steward / DB / NAS / BIM 分支。
 - [Phase 2.55a Review] Codex B review 通过：单文件真实 upload / ingestion / retrieval smoke 已验证；不需要 Codex C targeted validation；已写入 selective Git baseline prompt。保留 P2 展示尾项：API 顶层 `citations=[]`，但 result-level / CLI citations 可见。
 - [Phase 2.55a] 完成用户授权单个 `.docx` 文件内部 MVP upload smoke：既有 `/api/v1/documents/upload` 成功生成 `document_id=06e59241-95e9-44ff-a73d-35d2f52a359b`、`version_id=7dc57676-c707-4f44-9688-0b77058f07a0`、`chunk_count=26`；DB/version/chunk、OpenSearch、Qdrant dense 均可诊断；API hybrid retrieval 与 Hermes CLI alias / retrieval smoke 只返回新上传文件 evidence，safety flags 保持 false/required，未发现第三文件污染。已写入 ignored sanitized run record；本轮不 cleanup / delete / repair / backfill / reindex，不 baseline，等待 Codex B review。
 

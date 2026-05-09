@@ -1,5 +1,15 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.56a Natural Import Real Adapter Skeleton
+
+1. Phase 2.56a implementation 已通过 Codex B review。
+2. 真实 upload 默认关闭；`real_upload_enabled=False` 时 valid import fail-closed 为 `real_upload_disabled`。
+3. Codex B 复跑 Hermes 主仓 py_compile 与 targeted pytest，结果 `25 passed`。
+4. 下一步只做 dual-repo selective Git baseline。
+5. baseline 必须排除 Hermes 主仓既有 dirty：`hermes_memory_adapter.py`、`uv.lock`、PHASE211E 文档、adapter reload 测试。
+6. baseline 必须排除 Hermes_memory 既有 dirty：`PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 与 DB/NAS 草稿。
+7. Phase 2.56b 才可在用户显式授权后做自然语言导入真实小文件 smoke。
+
 ## Phase 2.55a Codex B Review / Baseline Prompt
 
 1. Phase 2.55a 单文件真实 upload smoke 已通过 Codex B review。

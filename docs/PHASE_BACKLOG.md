@@ -2,6 +2,14 @@
 
 ## 最新状态
 
+1. Phase 2.56a Natural Import Real Adapter Skeleton 已通过 Codex B review。
+2. Hermes 主仓 feature-flagged upload adapter skeleton 保持真实 upload 默认关闭。
+3. Codex B 已复跑目标测试：py_compile 通过，natural import 三组测试 `25 passed`。
+4. 当前已写入 dual-repo selective baseline prompt。
+5. baseline 后停止等待 Codex B review；不得自动进入 Phase 2.56b。
+
+## 最新状态
+
 1. Phase 2.55a 单文件内部 MVP 真实 upload smoke 已通过 Codex B review。
 2. 不需要 Codex C targeted validation；API 顶层 `citations=[]` 记录为 P2 展示尾项，不阻塞 baseline。
 3. 当前已写入 Phase 2.55a selective Git baseline prompt。

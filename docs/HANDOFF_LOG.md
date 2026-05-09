@@ -1,5 +1,74 @@
 # Handoff Log
 
+## 2026-05-09 11:50 Phase 2.56a Codex B Review
+
+- goal: Review Phase 2.56a Natural Import Real Adapter Skeleton and prepare dual-repo selective baseline prompt.
+- review:
+  - `FeatureFlaggedHermesMemoryUploadAdapter` defaults to disabled.
+  - fake adapter is not called unless `real_upload_enabled=True`.
+  - upload success / failure / missing id behavior is covered by tests.
+  - import diagnostics remain separate from retrieval evidence.
+  - no real upload API / CLI smoke was run.
+- tests:
+  - Hermes main py_compile: passed.
+  - Hermes main targeted pytest: `25 passed`.
+  - Hermes_memory `git diff --check`: passed.
+  - Hermes_memory latest JSON / ignore checks: passed.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for selective dual-repo baseline.
+- risks:
+  - Existing unrelated dirty files remain and must not be staged.
+  - Real natural-language upload remains unauthorized until future Phase 2.56b.
+- commit/tag if any: none.
+
+## 2026-05-09 12:05 Phase 2.56a Natural Import Real Adapter Skeleton
+
+- goal: Add a feature-flagged natural file upload adapter skeleton in Hermes main while keeping real upload disabled by default.
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/natural_file_import_flow.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/natural_file_upload_adapter.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_natural_file_import_flow.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_natural_file_upload_adapter.py`
+  - Hermes main `docs/TODO.md`, `docs/DEV_LOG.md`
+  - Hermes_memory phase handoff docs and ignored latest state.
+- tests:
+  - `./.venv/bin/python -m py_compile agent/memory_kernel/natural_file_import.py agent/memory_kernel/natural_file_import_flow.py agent/memory_kernel/natural_file_upload_adapter.py`: passed.
+  - `./.venv/bin/python -m pytest -o addopts='' tests/agent/test_natural_file_import.py tests/agent/test_natural_file_import_flow.py tests/agent/test_natural_file_upload_adapter.py -q`: `25 passed`.
+- validation:
+  - Real upload remains disabled by default.
+  - Valid import with adapter but no feature flag returns `real_upload_disabled` and does not call adapter.
+  - Fake adapter success requires `real_upload_enabled=True`.
+  - Upload failure does not bind alias.
+  - Import diagnostics are not retrieval evidence.
+- risks:
+  - No real upload API / CLI smoke was run.
+  - `run_agent.py` runtime path remains out of scope.
+  - Phase 2.56b real natural import smoke still requires user authorization.
+- next: Codex B review; if accepted, write selective Git baseline prompt.
+- commit/tag if any: none.
+
+## 2026-05-09 11:31 Phase 2.56a Natural Import Real Adapter Skeleton Prompt
+
+- goal: Continue MVP mainline after Phase 2.55a baseline by preparing a bounded Codex A prompt for natural-language import real upload adapter skeleton.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- validation:
+  - Phase 2.55a baseline confirmed at commit `1a41475`, tag `phase-2.55a-internal-mvp-upload-smoke-baseline`.
+  - Phase 2.56a prompt keeps real upload disabled by default and requires fake / disabled adapter tests.
+  - Data Steward / DB / NAS branch remains separate.
+- risks:
+  - Real natural-language upload remains unauthorized until a future Phase 2.56b.
+  - Feature flag must stay off by default to avoid accidental ingestion.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md`, then stop for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-09 11:20 Phase 2.55a Codex B Review
 
 - Codex B 已审核 Phase 2.55a upload smoke 交接与 ignored run record。

@@ -10,39 +10,41 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.55a Internal MVP Real Upload Smoke Baseline
+### Current Item：Phase 2.56a Natural Import Real Adapter Skeleton
 
 - lane：Yellow Lane
-- 状态：codex_b_review_passed_waiting_selective_baseline
-- 目标：对 Phase 2.55a upload smoke 文档交接做 selective Git baseline。
+- 状态：codex_b_review_passed_waiting_dual_repo_baseline
+- 目标：对 Phase 2.56a natural import adapter skeleton 做 dual-repo selective Git baseline。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 结果：
-  - `document_id=06e59241-95e9-44ff-a73d-35d2f52a359b`
-  - `version_id=7dc57676-c707-4f44-9688-0b77058f07a0`
-  - `chunk_count=26`
-  - API / CLI smoke pass
-  - run record: `reports/internal_mvp_runs/phase255a_real_upload_smoke_20260509_102038.json`（ignored）
-  - Codex B review passed
-  - Codex C targeted validation not required
-  - P2 display tail: API top-level `citations=[]`, result-level / CLI citations visible
+  - Hermes 主仓新增 feature-flagged upload adapter skeleton。
+  - 默认 `enabled=false` / `real_upload_enabled=false`。
+  - 有效导入请求未显式启用时 fail-closed：`real_upload_disabled`，不调用 adapter。
+  - fake adapter success 需显式 `real_upload_enabled=True`。
+  - Codex B 复跑目标测试 `25 passed`。
 - 允许动作：
   - 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中的 selective baseline。
-  - 只 stage 白名单 8 个 tracked docs。
-  - 运行 `git diff --check`、JSON 校验与 ignored 文件检查。
-  - commit / tag / push Phase 2.55a baseline。
-  - 更新 ignored latest 状态。
-  - 运行静态检查与 JSON / ignore 检查。
+  - 只 stage 两个仓库白名单文件。
+  - 运行 py_compile、目标测试、Hermes_memory 静态检查。
+  - commit / tag / push Phase 2.56a baseline。
 - 禁止动作：
-  - 不修改代码 / schema / migration。
-  - 不递归上传目录。
-  - 不上传 NAS / BIM / TB 文件池。
-  - 不读取或输出文件正文。
+  - 不调用真实 Hermes_memory upload API。
+  - 不上传文件。
+  - 不运行 API / CLI smoke。
+  - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
   - 不执行 cleanup / delete / repair / backfill / reindex / migration。
   - 不修改 retrieval contract 或 memory kernel 主架构。
-  - 不进入 Data Steward / BIM / NAS / TB 文件池。
+  - 不进入 Data Steward / DB / NAS / BIM 分支实现。
   - 不做 production rollout。
-  - 不纳入 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、DB / NAS 草稿或 ignored run records。
-- 完成后：停止等待 Codex B review；不得自动进入 Phase 2.56。
+  - 不 stage 既有无关 dirty。
+- 完成后：停止等待 Codex B review；不得自动进入 Phase 2.56b。
+
+### Previous Item：Phase 2.55a Internal MVP Real Upload Smoke Baseline
+
+- lane：Yellow Lane
+- 状态：completed_baseline
+- 目标：对 Phase 2.55a upload smoke 文档交接做 selective Git baseline。
+- 结果：commit `1a41475`，tag `phase-2.55a-internal-mvp-upload-smoke-baseline`。
 
 ### Previous Item：Phase 2.55 Internal MVP Real Upload Smoke Planning
 
