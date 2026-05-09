@@ -1,34 +1,54 @@
 # Active Phase
 
-- 当前 phase：Phase 2.55 Internal MVP Real Upload Smoke Planning Baseline Prompt
-- 本轮目标：Codex B review 已通过，下一步只做 Phase 2.55 docs-only Git baseline。
+- 当前 phase：Phase 2.55a Internal MVP Real Upload Smoke Codex B Review
+- 本轮目标：完成 Codex B review，并将 selective Git baseline 任务写入 `docs/NEXT_CODEX_A_PROMPT.md`。
 - 修改文件：
-  - `/Users/Weishengsu/Hermes_memory/docs/PHASE255_INTERNAL_MVP_REAL_UPLOAD_SMOKE_PLAN.md`
   - `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
   - `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
   - `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
   - `/Users/Weishengsu/Hermes_memory/docs/NIGHTLY_SPRINT_QUEUE.md`
   - `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
   - `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
+  - `/Users/Weishengsu/Hermes_memory/docs/NEXT_CODEX_A_PROMPT.md`
+  - `/Users/Weishengsu/Hermes_memory/docs/NEXT_CODEX_C_PROMPT.md`
   - `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`（ignored）
+  - `/Users/Weishengsu/Hermes_memory/reports/internal_mvp_runs/phase255a_real_upload_smoke_20260509_102038.json`（ignored）
 - 完成内容：
-  - 新增 Phase 2.55 planning 文档，定义小型非敏感单文件 upload smoke 的边界、样本要求、pre-flight、smoke steps、trace/citation 字段、stop conditions、sanitized run record 与 Phase 2.55a authorization gate。
-  - 明确 Phase 2.55 不上传文件、不运行 API / CLI smoke、不写 DB / OpenSearch / Qdrant。
-  - 明确 Data Steward / BIM / NAS / TB 文件池继续后置。
+  - 完成授权文件 pre-flight：普通 `.docx` 文件，`49894 bytes`，可读。
+  - 使用既有 `scripts/run_local_api.sh` 启动 Hermes_memory API，`/health` 返回 `status=ok`。
+  - 复用既有 `/api/v1/documents/upload` 完成单文件 upload / ingestion。
+  - 新增测试 document：`document_id=06e59241-95e9-44ff-a73d-35d2f52a359b`。
+  - 新增 version：`version_id=7dc57676-c707-4f44-9688-0b77058f07a0`。
+  - ingestion 完成：`chunk_count=26`，`indexed_count=26`。
+  - DB / version / chunk 可诊断；dense ingestion 写入 Qdrant `hermes_chunks`，`indexed_count=26`，`failed_count=0`。
+  - OpenSearch 通过 `document_id.keyword` / match 查询可查到 `26` 条；普通 `term document_id` 因 mapping 返回 `0`，已记录为诊断注意事项。
+  - API hybrid retrieval 返回 `5` 条，document/version 均只来自新上传文件。
+  - Hermes CLI 完成 `@核心技术大纲` alias bind 与同 session retrieval smoke。
+  - CLI 输出 citation fields、`metadata_as_answer=false`、`facts_as_answer=false`、`snapshot_as_answer=false`、`requires_retrieval_evidence=true`，未发现第三文件污染。
+  - 已生成 ignored sanitized run record。
 - 测试结果：
-  - Hermes_memory `git diff --check`：通过。
-  - `latest.json` JSON 校验：通过。
-  - `latest.json` ignore 校验：通过。
+  - `git status --short`：已复核；本轮相关文档与 ignored run record 存在，另有既有无关 dirty。
+  - `git diff --check`：通过。
+  - `uv run python -m json.tool reports/agent_runs/latest.json`：通过。
+  - run record JSON 校验：通过。
+  - `git check-ignore`：`reports/agent_runs/latest.json` 与 `reports/internal_mvp_runs/phase255a_real_upload_smoke_20260509_102038.json` 均被 ignore。
 - live smoke 结果：
-  - 未执行；本轮 docs-only planning。
+  - API pre-flight：通过。
+  - CLI pre-flight：通过。
+  - Upload / ingestion：通过。
+  - API retrieval：通过。
+  - CLI alias / retrieval：通过。
 - 当前结论：
-  - Phase 2.55 planning 已完成并通过 Codex B review，当前主线 MVP 不受影响。
-  - Phase 2.55a 真实 upload smoke 默认不允许，必须由用户提供非敏感文件路径并显式授权。
+  - Phase 2.55a 单文件内部 MVP upload smoke 已通过 Codex B review。
+  - 不需要 Codex C targeted validation。
+  - 可进入 Phase 2.55a selective Git baseline。
+  - 本轮产生的授权测试 document / version / chunk / OpenSearch / Qdrant 记录保留；不执行 cleanup / delete。
 - 阻塞点 / 风险点：
-  - 真实 upload 会产生测试 document/version/chunk/index 数据，必须等 Phase 2.55a 授权。
-  - 不允许 cleanup/delete/repair/reindex 作为 smoke 的隐含后续动作。
-- 是否建议 baseline：是，只做 Phase 2.55 docs-only baseline。
-- 是否建议进入下一阶段：否；不得进入 Phase 2.55a，除非用户明确授权并提供非敏感文件路径。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成 Phase 2.55 docs-only baseline 后停止。
-- 是否需要 Codex B 审核：已完成。
-- 是否需要 Codex C 真实终端验收：否，本轮 docs-only。
+  - 本轮不会清理上传测试数据；后续若要清理必须另起 phase 并显式授权。
+  - API SearchResponse 顶层 `citations` 数组为空，但 result-level citation fields 与 CLI citations 可见；建议 Codex B 判断是否列为展示尾项。
+  - OpenSearch `document_id` 字段 mapping 对 plain term count 不友好，需使用 `.keyword` 或 match；不影响本轮 retrieval 通过。
+- 是否建议 baseline：是；已写入 selective baseline prompt。
+- 是否建议进入下一阶段：否；必须先完成 Phase 2.55a baseline。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 2.55a selective Git baseline。
+- 是否需要 Codex B 审核：baseline 后需要 Codex B 复核 commit / tag / push。
+- 是否需要 Codex C 真实终端验收：否。

@@ -1,5 +1,66 @@
 # Handoff Log
 
+## 2026-05-09 11:20 Phase 2.55a Codex B Review
+
+- Codex B 已审核 Phase 2.55a upload smoke 交接与 ignored run record。
+- 结论：单文件真实 upload / ingestion / retrieval smoke 通过；API / CLI evidence 均只来自新上传 document；安全边界保持。
+- 不需要 Codex C targeted validation。
+- P2 展示尾项：API `SearchResponse.citations=[]`，但 result-level citation fields 与 CLI citations 可见；不阻塞 baseline。
+- 已写入 `docs/NEXT_CODEX_A_PROMPT.md`：下一步只做 Phase 2.55a selective Git baseline。
+- 禁止：cleanup / delete / repair / backfill / reindex / migration、再次上传、Data Steward / BIM / NAS、production rollout。
+
+## 2026-05-09 10:20 Phase 2.55a Internal MVP Real Upload Smoke
+- goal: Execute one user-authorized small `.docx` upload / ingestion / retrieval smoke and generate an ignored sanitized run record.
+- changed_files:
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+  - `reports/internal_mvp_runs/phase255a_real_upload_smoke_20260509_102038.json`（ignored）
+- tests:
+  - upload response: completed.
+  - DB/version/chunk diagnostic: completed.
+  - OpenSearch diagnostic: `document_id.keyword` count `26`.
+  - Qdrant dense diagnostic: `indexed_count=26`, `failed_count=0`.
+  - API hybrid retrieval: only new document evidence.
+  - Hermes CLI alias / retrieval smoke: pass.
+- validation:
+  - document_id: `06e59241-95e9-44ff-a73d-35d2f52a359b`.
+  - version_id: `7dc57676-c707-4f44-9688-0b77058f07a0`.
+  - chunk_count: `26`.
+  - safety flags: metadata/facts/snapshot as answer are false; retrieval evidence required; no third-document contamination.
+- risks:
+  - Test document/version/chunk/index records remain; cleanup/delete/repair/reindex is not authorized.
+  - API SearchResponse top-level `citations` array was empty, while result-level citation fields and CLI citations were present.
+  - Plain OpenSearch `term document_id` count returns 0 due mapping; `.keyword` / match count returns 26.
+- next: Codex B review; decide whether Codex C targeted validation, baseline, or Phase 2.56 planning is needed.
+- commit/tag if any: none.
+
+## 2026-05-09 Phase 2.55a Codex A upload smoke prompt
+- goal: Convert user-provided file authorization into a bounded Codex A real upload smoke prompt.
+- authorized_file:
+  - `/Users/Weishengsu/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files/wxid_sn2cczdp4u2l12_c2fd/msg/file/2026-05/卓羽智能核心技术能力汇报 PPT 大纲V1.0.docx`
+  - size: `49894 bytes`
+  - extension: `.docx`
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- validation: prompt handoff only; no upload, no API / CLI smoke, no DB / OpenSearch / Qdrant write performed by Codex B.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.55a single-file upload smoke, then stop for Codex B review.
+- forbidden scope: no cleanup / delete / repair / backfill / reindex / migration, no directory / NAS / BIM / TB upload, no production rollout, no Data Steward implementation, no Git baseline.
+
 ## 2026-05-08 Phase 2.55 Codex B review / baseline prompt
 - goal: Review Phase 2.55 Internal MVP real upload smoke planning and prepare docs-only baseline prompt.
 - review result: passed.

@@ -2,6 +2,30 @@
 
 ## 最新状态
 
+1. Phase 2.55a 单文件内部 MVP 真实 upload smoke 已通过 Codex B review。
+2. 不需要 Codex C targeted validation；API 顶层 `citations=[]` 记录为 P2 展示尾项，不阻塞 baseline。
+3. 当前已写入 Phase 2.55a selective Git baseline prompt。
+4. baseline 白名单仅包含 8 个 Phase 2.55a 交接文档；不得纳入旧 dirty、DB / NAS 草稿或 ignored run records。
+5. baseline 后停止等待 Codex B review；不得自动进入 Phase 2.56。
+
+## 最新状态
+
+1. Phase 2.55a 单文件内部 MVP 真实 upload smoke 已完成并通过。
+2. 新上传文件：`document_id=06e59241-95e9-44ff-a73d-35d2f52a359b`，`version_id=7dc57676-c707-4f44-9688-0b77058f07a0`，`chunk_count=26`。
+3. API hybrid retrieval 与 Hermes CLI alias / retrieval smoke 均只返回新上传文件 evidence；无第三文件污染，metadata/facts/snapshot 未替代 retrieval evidence。
+4. 本轮已生成 ignored sanitized run record：`reports/internal_mvp_runs/phase255a_real_upload_smoke_20260509_102038.json`。
+5. 当前下一步：等待 Codex B review；不自动 baseline，不进入 Phase 2.56，不执行 cleanup / delete / repair / backfill / reindex。
+
+## 最新状态
+
+1. 用户已提供并授权一个小型 `.docx` 文件用于 Phase 2.55a 内部 MVP 真实 upload smoke。
+2. 授权文件：`/Users/Weishengsu/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files/wxid_sn2cczdp4u2l12_c2fd/msg/file/2026-05/卓羽智能核心技术能力汇报 PPT 大纲V1.0.docx`，大小 `49894 bytes`。
+3. Codex B 已写入 `docs/NEXT_CODEX_A_PROMPT.md`：只允许 Codex A 执行单文件 upload / ingestion / retrieval smoke 与 ignored sanitized run record。
+4. 本轮不直接上传；不授权 cleanup / delete / repair / backfill / reindex / migration；Data Steward / BIM / NAS / TB 文件池继续后置。
+5. 下一步：Codex A 执行 Phase 2.55a prompt，完成后停止等待 Codex B review。
+
+## 最新状态
+
 1. Phase 2.55 planning 已通过 Codex B review：规划文件明确单文件、小型、非敏感、用户显式授权、sanitized run record 与 stop conditions。
 2. 当前进入 Phase 2.55 docs-only baseline prompt；baseline 后停止。
 3. Phase 2.55a 真实 upload smoke 仍未授权，必须等待用户提供非敏感文件路径并明确授权。

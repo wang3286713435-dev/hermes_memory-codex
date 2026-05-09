@@ -1,5 +1,31 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.55a Codex B Review / Baseline Prompt
+
+1. Phase 2.55a 单文件真实 upload smoke 已通过 Codex B review。
+2. 不需要 Codex C targeted validation。
+3. 下一步仅执行 selective Git baseline，不进入 Phase 2.56。
+4. baseline 白名单：`ACTIVE_PHASE.md`、`PHASE_BACKLOG.md`、`HANDOFF_LOG.md`、`NIGHTLY_SPRINT_QUEUE.md`、`NEXT_CODEX_A_PROMPT.md`、`NEXT_CODEX_C_PROMPT.md`、`TODO.md`、`DEV_LOG.md`。
+5. 不得纳入旧 dirty `PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、DB / NAS 契约草稿或 ignored run records。
+6. P2 展示尾项：API 顶层 `citations=[]`，但 result-level / CLI citations 可见；后续可在 UX polish 中处理。
+
+## Phase 2.55a Internal MVP Real Upload Smoke Result
+
+1. Phase 2.55a 单文件内部 MVP upload smoke 已完成并通过。
+2. 授权文件已通过既有 `/api/v1/documents/upload` 入库：`document_id=06e59241-95e9-44ff-a73d-35d2f52a359b`，`version_id=7dc57676-c707-4f44-9688-0b77058f07a0`，`chunk_count=26`。
+3. API hybrid retrieval 与 Hermes CLI alias / retrieval smoke 均只返回新上传文件 evidence，未发现第三文件污染。
+4. 安全边界保持：`metadata_as_answer=false`、`facts_as_answer=false`、`snapshot_as_answer=false`、`requires_retrieval_evidence=true`。
+5. 后续等待 Codex B review；不自动 baseline、不自动进入 Phase 2.56、不执行 cleanup / delete / repair / backfill / reindex。
+6. 可选尾项：API `SearchResponse.citations` 顶层数组为空但 result-level citation fields 与 CLI citations 可见；由 Codex B 判断是否进入展示 / contract 外尾项。
+
+## Phase 2.55a Internal MVP Real Upload Smoke
+
+1. 用户已授权单个小型 `.docx` 文件用于内部 MVP upload smoke：`/Users/Weishengsu/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files/wxid_sn2cczdp4u2l12_c2fd/msg/file/2026-05/卓羽智能核心技术能力汇报 PPT 大纲V1.0.docx`。
+2. 下一步 Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`：仅做单文件 upload / ingestion / retrieval smoke 与 ignored sanitized run record。
+3. 本轮允许 upload smoke 产生测试 document / version / chunk / index 记录；不允许 cleanup / delete / repair / backfill / reindex / migration。
+4. 继续禁止目录递归上传、NAS / BIM / TB 文件池、Data Steward 实现、production rollout、自动审标或自动经营决策。
+5. Codex A 完成后必须停止等待 Codex B review；是否需要 Codex C targeted validation 由 Codex B 再判断。
+
 ## 最新状态
 
 1. Phase 2.55 planning 已通过 Codex B review，下一步只做 docs-only Git baseline。

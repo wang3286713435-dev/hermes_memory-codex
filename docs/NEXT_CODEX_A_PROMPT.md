@@ -1,103 +1,87 @@
 # NEXT_CODEX_A_PROMPT
 
-这是 Codex A 的下一轮文件化执行入口。请只做 Phase 2.55 Internal MVP Real Upload Smoke Planning docs-only Git baseline。不要进入 Phase 2.55a，不要执行真实 upload，不要运行 API / CLI smoke。
+## Phase 2.55a Codex B Review Passed - Selective Git Baseline
 
-## 1. 背景
+你是 Codex A。本轮只做 Phase 2.55a Internal MVP Real Upload Smoke 的 selective Git baseline。
 
-Phase 2.55 docs-only planning 已完成并通过 Codex B review。
+Codex B 已审核 Codex A 交接、ignored run record 与本地状态，结论如下：
 
-新增规划文档：
+1. Phase 2.55a 单文件真实 upload / ingestion / retrieval smoke 通过。
+2. API hybrid retrieval 与 Hermes CLI retrieval 均只返回新上传 document evidence。
+3. `metadata_as_answer=false`、`facts_as_answer=false`、`snapshot_as_answer=false`、`requires_retrieval_evidence=true` 边界保持。
+4. 未发现第三文件污染。
+5. 不需要 Codex C targeted validation。
+6. API 顶层 `citations=[]` 但 result-level / CLI citations 可见，记录为 P2 展示尾项，不阻塞 baseline。
 
-`/Users/Weishengsu/Hermes_memory/docs/PHASE255_INTERNAL_MVP_REAL_UPLOAD_SMOKE_PLAN.md`
+## 必读文件
 
-Codex B review 结论：
-
-1. 规划方向正确：从已有文件验收推进到小型非敏感单文件真实导入 smoke。
-2. 边界清楚：本轮没有执行 upload、API / CLI smoke、DB / index 写入。
-3. Phase 2.55a 授权门槛清楚：必须由用户提供非敏感文件路径并显式授权。
-4. Data Steward / BIM / NAS / TB 文件池明确后置。
-5. 不影响当前内部 MVP 主线。
-
-## 2. 本轮目标
-
-执行 Phase 2.55 docs-only Git baseline。
-
-建议 commit message：
-
-`docs: plan phase 2.55 internal mvp upload smoke`
-
-建议 tag：
-
-`phase-2.55-internal-mvp-upload-smoke-plan-baseline`
-
-## 3. 允许 stage / commit 的文件
-
-只允许 stage 以下 Hermes_memory 文件：
-
-1. `docs/PHASE255_INTERNAL_MVP_REAL_UPLOAD_SMOKE_PLAN.md`
+1. `docs/AGENT_OPERATING_PROTOCOL.md`
 2. `docs/ACTIVE_PHASE.md`
 3. `docs/PHASE_BACKLOG.md`
 4. `docs/HANDOFF_LOG.md`
 5. `docs/NIGHTLY_SPRINT_QUEUE.md`
-6. `docs/NEXT_CODEX_A_PROMPT.md`
-7. `docs/NEXT_CODEX_C_PROMPT.md`
-8. `docs/TODO.md`
-9. `docs/DEV_LOG.md`
+6. `docs/TODO.md`
+7. `docs/DEV_LOG.md`
+8. `reports/agent_runs/latest.json`
+9. `reports/internal_mvp_runs/phase255a_real_upload_smoke_20260509_102038.json`
 
-`reports/agent_runs/latest.json` 是 ignored 本地状态，只更新，不 stage。
+## 白名单文件
 
-## 4. 禁止 stage / 修改的既有 dirty
+只允许 stage / commit 以下 tracked 文件：
 
-禁止纳入：
+1. `docs/ACTIVE_PHASE.md`
+2. `docs/PHASE_BACKLOG.md`
+3. `docs/HANDOFF_LOG.md`
+4. `docs/NIGHTLY_SPRINT_QUEUE.md`
+5. `docs/NEXT_CODEX_A_PROMPT.md`
+6. `docs/NEXT_CODEX_C_PROMPT.md`
+7. `docs/TODO.md`
+8. `docs/DEV_LOG.md`
 
-- `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
+不得 stage：
 
-如果 staged 文件超出白名单，必须停止并 reset staged，不要 commit。
+1. `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
+2. `docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`
+3. `docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`
+4. `reports/agent_runs/latest.json`
+5. `reports/internal_mvp_runs/*.json`
+6. 任何 app / scripts / tests / migrations 文件
 
-## 5. baseline 前检查
+## Baseline 步骤
 
-在 `/Users/Weishengsu/Hermes_memory` 运行：
+1. 复核 `git status --short`，确认除白名单 tracked docs 外没有其他待 stage 文件被纳入。
+2. 运行：
+   - `git diff --check`
+   - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json`
+   - `uv run python -m json.tool reports/internal_mvp_runs/phase255a_real_upload_smoke_20260509_102038.json >/tmp/phase255a_run_record_check.json`
+   - `git check-ignore -v reports/agent_runs/latest.json`
+   - `git check-ignore -v reports/internal_mvp_runs/phase255a_real_upload_smoke_20260509_102038.json`
+3. selective stage 白名单 8 个 tracked docs。
+4. 复核 staged diff：不得包含 DB / NAS / Data Steward branch docs，不得包含 `PHASE238...`，不得包含 ignored run record。
+5. commit：
+   - `chore: baseline phase 2.55a internal mvp upload smoke`
+6. tag：
+   - `phase-2.55a-internal-mvp-upload-smoke-baseline`
+7. push 当前分支到 origin，并 push tag。
+8. 更新 ignored `reports/agent_runs/latest.json` 为 baseline 状态。
+9. 停止等待 Codex B review；不得自动进入 Phase 2.56。
 
-```bash
-git diff --check
-uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run_check.json
-git check-ignore -v reports/agent_runs/latest.json
-```
+## 硬边界
 
-本轮 docs-only，不运行 pytest，不运行 API / CLI smoke，不启动服务，不上传文件。
+1. 不执行 cleanup / delete / repair / backfill / reindex / migration。
+2. 不再次上传文件。
+3. 不读取或输出上传文件正文。
+4. 不修改 app / scripts / tests / migrations / Hermes 主仓代码。
+5. 不修改 retrieval contract。
+6. 不修改 memory kernel 主架构。
+7. 不进入 Data Steward / BIM asset catalog / Graph / Spatial Index / subagent scheduler。
+8. 不进入 production rollout。
 
-## 6. Git 操作
+## 完成报告必须包含
 
-1. 只 stage 白名单文件。
-2. commit。
-3. tag `phase-2.55-internal-mvp-upload-smoke-plan-baseline`。
-4. push 当前分支到 `origin`。
-5. push tag 到 `origin`。
-
-## 7. 完成后更新 ignored latest
-
-更新 `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`：
-
-1. `status=baseline`
-2. 写入 commit hash。
-3. 写入 tag。
-4. 写入 push 结果。
-5. 写入最终 git status。
-6. `needs_codex_b_review=false`
-7. `needs_codex_c_validation=false`
-
-仍不要 stage `latest.json`。
-
-## 8. 完成后输出
-
-请输出：
-
-1. staged 文件。
-2. 检查结果。
-3. commit hash。
-4. tag。
-5. push 结果。
-6. 最终 git status。
-7. 是否建议进入下一阶段。
-
-完成 baseline 后停止。不要进入 Phase 2.55a；Phase 2.55a 必须等待用户提供小型非敏感文件路径并明确授权。
+1. commit hash。
+2. tag。
+3. push 结果。
+4. 最终 `git status --short`。
+5. 明确说明 ignored run record 未入库。
+6. 当前 P2 展示尾项：API 顶层 `citations=[]` 但 result-level / CLI citations 可见。

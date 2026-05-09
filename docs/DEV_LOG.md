@@ -1,5 +1,10 @@
 # DEV_LOG
 
+- [Phase 2.55a Review] Codex B review 通过：单文件真实 upload / ingestion / retrieval smoke 已验证；不需要 Codex C targeted validation；已写入 selective Git baseline prompt。保留 P2 展示尾项：API 顶层 `citations=[]`，但 result-level / CLI citations 可见。
+- [Phase 2.55a] 完成用户授权单个 `.docx` 文件内部 MVP upload smoke：既有 `/api/v1/documents/upload` 成功生成 `document_id=06e59241-95e9-44ff-a73d-35d2f52a359b`、`version_id=7dc57676-c707-4f44-9688-0b77058f07a0`、`chunk_count=26`；DB/version/chunk、OpenSearch、Qdrant dense 均可诊断；API hybrid retrieval 与 Hermes CLI alias / retrieval smoke 只返回新上传文件 evidence，safety flags 保持 false/required，未发现第三文件污染。已写入 ignored sanitized run record；本轮不 cleanup / delete / repair / backfill / reindex，不 baseline，等待 Codex B review。
+
+- [Phase 2.55a] 用户已提供并授权一个小型 `.docx` 文件用于内部 MVP 真实 upload smoke：`/Users/Weishengsu/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files/wxid_sn2cczdp4u2l12_c2fd/msg/file/2026-05/卓羽智能核心技术能力汇报 PPT 大纲V1.0.docx`（`49894 bytes`）。Codex B 已写入 `docs/NEXT_CODEX_A_PROMPT.md`，授权范围仅限单文件 upload / ingestion / retrieval smoke 与 ignored sanitized run record；不授权 cleanup / delete / repair / backfill / reindex / migration，不进入 Data Steward / BIM / NAS / TB 文件池或 production rollout。本轮 Codex B 未上传、未运行 API / CLI smoke、未写 DB / OpenSearch / Qdrant。
+
 - [Phase 2.55] Codex B review 通过 Internal MVP real upload smoke planning：规划保持 docs-only，真实 upload 后置到 Phase 2.55a，且必须由用户提供非敏感文件路径并显式授权。已写入 docs-only baseline prompt；不运行 API/CLI、不上传、不写 DB/index、不进入 Data Steward。
 - [Phase 2.55] 完成 Internal MVP real upload smoke docs-only planning：新增 `PHASE255_INTERNAL_MVP_REAL_UPLOAD_SMOKE_PLAN.md`，明确小型非敏感单文件、pre-flight、upload/ingestion/index/alias/evidence smoke steps、trace/citation 字段、stop conditions、sanitized run record 与 Phase 2.55a 授权门槛。本轮未执行 upload、未运行 API/CLI、未写 DB/index、不进入 Data Steward 或 rollout。
 - [Phase 2.55] Phase 2.54c baseline 已完成，开始进入 Internal MVP real upload smoke planning。已写入 Codex A docs-only planning prompt：只规划小型非敏感文件真实导入 smoke，不执行 upload、不运行 API/CLI、不写 DB/index、不进入 Data Steward / BIM / NAS / TB 文件池。

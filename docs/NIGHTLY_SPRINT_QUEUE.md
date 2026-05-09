@@ -10,28 +10,46 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.55 Internal MVP Real Upload Smoke Planning
+### Current Item：Phase 2.55a Internal MVP Real Upload Smoke Baseline
 
-- lane：Green Lane
-- 状态：implemented_waiting_codex_b_review
-- 目标：规划小型非敏感文件真实导入 smoke 的范围、步骤、验收与授权门槛。
+- lane：Yellow Lane
+- 状态：codex_b_review_passed_waiting_selective_baseline
+- 目标：对 Phase 2.55a upload smoke 文档交接做 selective Git baseline。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
+- 结果：
+  - `document_id=06e59241-95e9-44ff-a73d-35d2f52a359b`
+  - `version_id=7dc57676-c707-4f44-9688-0b77058f07a0`
+  - `chunk_count=26`
+  - API / CLI smoke pass
+  - run record: `reports/internal_mvp_runs/phase255a_real_upload_smoke_20260509_102038.json`（ignored）
+  - Codex B review passed
+  - Codex C targeted validation not required
+  - P2 display tail: API top-level `citations=[]`, result-level / CLI citations visible
 - 允许动作：
-  - 新增 Phase 2.55 planning 文档。
-  - 更新 Hermes_memory 交接文档与 ignored latest 状态。
-  - 运行 Hermes_memory docs-only 静态检查。
+  - 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中的 selective baseline。
+  - 只 stage 白名单 8 个 tracked docs。
+  - 运行 `git diff --check`、JSON 校验与 ignored 文件检查。
+  - commit / tag / push Phase 2.55a baseline。
+  - 更新 ignored latest 状态。
+  - 运行静态检查与 JSON / ignore 检查。
 - 禁止动作：
-  - 不写功能代码。
-  - 不真实上传文件。
-  - 不调用真实 upload。
-  - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
-  - 不运行 API / CLI smoke。
+  - 不修改代码 / schema / migration。
+  - 不递归上传目录。
+  - 不上传 NAS / BIM / TB 文件池。
+  - 不读取或输出文件正文。
+  - 不执行 cleanup / delete / repair / backfill / reindex / migration。
   - 不修改 retrieval contract 或 memory kernel 主架构。
   - 不进入 Data Steward / BIM / NAS / TB 文件池。
-  - 不执行 repair / backfill / reindex / cleanup / delete / migration。
   - 不做 production rollout。
-  - 不提交 Git。
-- 完成后：已停止等待 Codex B review；不得自动进入 Phase 2.55a。
+  - 不纳入 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、DB / NAS 草稿或 ignored run records。
+- 完成后：停止等待 Codex B review；不得自动进入 Phase 2.56。
+
+### Previous Item：Phase 2.55 Internal MVP Real Upload Smoke Planning
+
+- lane：Green Lane
+- 状态：completed_baseline
+- 目标：规划小型非敏感文件真实导入 smoke 的范围、步骤、验收与授权门槛。
+- 结果：commit `7326a8f`，tag `phase-2.55-internal-mvp-upload-smoke-plan-baseline`。
 
 ### Current Item：Phase 2.53a Natural Language File Import Parser / Dry-run Planner
 
