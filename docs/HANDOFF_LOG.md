@@ -217,6 +217,30 @@
 - next: if user explicitly continues, create `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md` as docs-only planning. Do not write implementation before Codex B review and explicit user authorization.
 - commit/tag if any: pending tag `phase-db3c-missing-evidence-response-review-fix-baseline`.
 
+## 2026-05-09 DB-4A Readonly DB Preflight Skeleton
+- goal: Absorb the database team's connection/View contract into a local readonly preflight validator without opening a database connection.
+- changed_files:
+  - `app/services/asset_catalog/readonly_preflight.py`
+  - `app/services/asset_catalog/__init__.py`
+  - `app/core/config.py`
+  - `tests/test_data_steward_asset_catalog_readonly_preflight.py`
+  - `docs/DB4A_READONLY_DB_PREFLIGHT_PLAN.md`
+  - `package.json`
+  - phase handoff docs
+- validation:
+  - TDD RED: target test initially failed because DB-4A exports/config did not exist.
+  - TDD RED: unsupported View contract drift test initially failed because unexpected View names were ignored.
+  - TDD GREEN: target test now passes, `5 passed`.
+  - `npm test`: `53 passed`.
+  - `npm run lint`: `All checks passed!`.
+  - py_compile: passed.
+  - `git diff --check`: passed.
+  - boundary grep: no real DB / NAS / REST / OpenSearch / Qdrant / documents / chunks write path in DB-4A code; hits are docs prohibitions and false write flags.
+- boundary: no real MySQL connection, no migration, no NAS/REST, no documents/chunks, no OpenSearch/Qdrant, no real retrieval/indexing.
+- next:
+  - Run full validation and baseline DB-4A if clean.
+  - DB-4B can only start after separate user authorization plus staging/dev readonly DSN and agent readonly credentials.
+
 ## 2026-05-09 DB-3D Temp DB Missing Evidence Response Smoke
 - goal: Compose DB-3B temporary DB backed preview with DB-3A guard and DB-3C Missing Evidence response DTO.
 - changed_files:

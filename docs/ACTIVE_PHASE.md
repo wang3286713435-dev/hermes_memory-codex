@@ -1,119 +1,67 @@
 # Active Phase
 
-- 当前 phase：DB-3D Temp DB Missing Evidence Response Smoke
+- 当前 phase：DB-4A Readonly DB Preflight Skeleton
 - 当前分支：`codex/data-steward-db0-contract`
 - 当前 baseline：
+  - DB-3D Temp DB Missing Evidence response baseline：commit `54fd3d0`，tag `phase-db3d-temp-db-missing-evidence-response-baseline`
   - DB-3C Missing Evidence response review-fix baseline：commit `84e718a`，tag `phase-db3c-missing-evidence-response-review-fix-baseline`
-  - DB-3C Missing Evidence response baseline：commit `dcdb66f`，tag `phase-db3c-missing-evidence-response-baseline`
+  - DB-3B temporary DB backed guard baseline：commit `8fd46a3`，tag `phase-db3b-temp-db-backed-guard-baseline`
+  - DB-3A catalog retrieval guard baseline：commit `fda6c87`，tag `phase-db3a-catalog-retrieval-guard-baseline`
   - DB-2 schema handoff freeze baseline：commit `bd24284`，tag `phase-db2-schema-handoff-freeze-baseline`
-  - DB-2 schema review response baseline：commit `cffac1f`，tag `phase-db2-schema-review-response-baseline`
-  - DB-2 schema contract freeze baseline：commit `64e139a`，tag `phase-db2-schema-contract-freeze-baseline`
-  - DB-2 temporary DB proof-of-contract baseline：commit `53337fe`，tag `phase-db2-temp-db-proof-baseline`
-  - DB-2 dry-run preview baseline：commit `6780d20`，tag `phase-db2-dry-run-preview-baseline`
-  - DB-1a malformed cursor review-fix baseline：commit `e16df1a`，tag `phase-db1a-malformed-cursor-review-fix-baseline`
-  - DB-1a contract review-fix baseline：commit `e21a1c9`，tag `phase-db1a-contract-review-fix-baseline`
-  - DB-2 planning / Ralph guard baseline：commit `56f9e47`，tag `phase-db2-planning-ralph-guard-baseline`
-  - DB-1a fake adapter baseline：commit `e9d1556`，tag `phase-db1a-fake-view-adapter-baseline`
-- 本轮授权：只做 DB-3D temporary DB backed guard + Missing Evidence response DTO 组合 smoke，不接真实 MySQL，不写 migration，不扫 NAS，不写 documents/chunks/OpenSearch/Qdrant，不进入真实 retrieval/indexing。
-- 本轮目标：证明 SQLite memory temporary mirror rows 可以通过 guard 生成 Missing Evidence response，且仍保持空 prompt_items 和 false write flags。
-- 本轮修改文件：
-  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/response.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/tests/test_data_steward_asset_catalog_temp_db_missing_evidence_response.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB3D_TEMP_DB_MISSING_EVIDENCE_RESPONSE_SMOKE.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/package.json`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/ACTIVE_PHASE.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/DEV_LOG.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/HANDOFF_LOG.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/NEXT_CODEX_A_PROMPT.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/PHASE_BACKLOG.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/TODO.md`
-- 既有 DB-3C 文件仍保留：
-  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/__init__.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/tests/test_data_steward_asset_catalog_missing_evidence_response.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB3C_MISSING_EVIDENCE_RESPONSE_DTO.md`
-- 完成内容：
-  - 新增 `AssetCatalogRetrievalGuard`，只消费 DB-2 fake preview，不连接真实 DB。
-  - 新增 `AssetCatalogRetrievalRequest` / `AssetCatalogRetrievalDecision` / `AssetCatalogMetadataItem`。
-  - catalog lookup 只返回授权、active、allowed、would_upsert 的 metadata rows。
-  - content answer 对 catalog-only 资产返回 Missing Evidence reason `asset_catalog_only`。
-  - 缺项目 scope 返回 `permission_scope_required`。
-  - denied / moved / stale / missing / requires-human-review rows 不进入 catalog result 或 prompt items。
-  - `package.json` validation 纳入 DB-3A 测试。
-  - 新增 `DB3_CATALOG_RETRIEVAL_GUARD.md` 记录边界。
-  - 新增 `AssetCatalogTemporaryMirrorStore.load_retrieval_preview()`，只读加载 SQLite memory temp DB 中的 `external_asset_catalog_contract`。
-  - temp DB backed rows 可复用 `AssetCatalogRetrievalGuard` 执行 catalog lookup / content answer guard。
-  - file-backed SQLite 继续拒绝。
-  - `package.json` validation 纳入 DB-3B 测试。
-  - 新增 `DB3B_TEMP_DB_BACKED_GUARD.md` 记录边界。
-  - 新增 `AssetCatalogMissingEvidenceResponse` DTO。
-  - DTO 只接受 Missing Evidence decision，非 Missing Evidence catalog lookup 会被拒绝。
-  - DB3C-QA-001 review-fix：DTO 现在拒绝空字符串和空白字符串 reason。
-  - DTO 固定输出 `response_kind=missing_evidence`、reason、空 `prompt_items` 和 false write flags。
-  - 覆盖 `asset_catalog_only`、`permission_scope_required`、`no_authorized_catalog_metadata` 三个 reason。
-  - `package.json` validation 纳入 DB-3C 测试。
-  - 新增 `DB3C_MISSING_EVIDENCE_RESPONSE_DTO.md` 记录边界。
-  - 新增 `AssetCatalogMissingEvidenceResponse.from_preview()`，把 preview + request 接到 guard + response DTO。
-  - 新增 DB-3D temp DB backed response smoke，覆盖 `asset_catalog_only`、`permission_scope_required` 和 catalog lookup 拒绝包装。
-  - `package.json` validation 纳入 DB-3D 测试。
-  - 新增 `DB3D_TEMP_DB_MISSING_EVIDENCE_RESPONSE_SMOKE.md` 记录真实数据库接入前置门槛。
-- 当前验证状态：
-  - TDD RED：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_temp_db.py -q` 初始因缺少 `AssetCatalogTemporaryMirrorStore` import 失败。
-  - TDD GREEN：同一命令后续为 `5 passed`。
-  - `npm test`：`29 passed`。
-  - `npm run lint`：`All checks passed!`。
-  - QA probe：`uv run --extra dev pytest tests/test_db1_contract_probe.py tests/test_db1_contract_probe_round2.py tests/test_db1_contract_probe_round3.py tests/test_db2_mirror_probe.py -q`：`32 passed`。
-  - `uv run python -m py_compile app/services/asset_catalog/contracts.py app/services/asset_catalog/fake_adapter.py app/services/asset_catalog/mirror_preview.py app/services/asset_catalog/temp_db.py app/core/config.py`：passed。
-  - 四个 fake fixture JSON validation：passed。
-  - `git diff --check`：passed。
-  - Boundary grep：无 migration、真实 MySQL / NAS / REST、真实 index 写入或 DB-3 retrieval 实现；命中仅为 docs 禁止项、fake fixture `nas://fake`、SQLite 内存库测试和 write flag 字段。
-  - 测试 Codex 独立复测：`DB2_TEMP_DB_QA_OPEN_FINDINGS: 0`，`P0 findings: 0`；额外 probe `tests/test_db2_temp_db_probe.py` 为 `4 passed`，probe lint 通过。
-  - 本轮 handoff freeze validation：`npm test` 为 `29 passed`。
-  - 本轮 handoff freeze validation：`npm run lint` 为 `All checks passed!`。
-  - 本轮 handoff freeze validation：`git diff --check` 通过。
-  - 本轮 QA probe rerun：`uv run --extra dev pytest tests/test_db1_contract_probe.py tests/test_db1_contract_probe_round2.py tests/test_db1_contract_probe_round3.py tests/test_db2_mirror_probe.py tests/test_db2_temp_db_probe.py -q` 为 `36 passed`。
-  - 本轮 QA probe lint：`uv run --extra dev ruff check ...` 为 `All checks passed!`。
-  - DB-3A TDD RED：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_retrieval_guard.py -q` 因无法 import `AssetCatalogRetrievalGuard` 失败。
-  - DB-3A TDD GREEN：同一命令后续为 `5 passed`。
-  - DB-3A full validation：`npm test` 为 `34 passed`。
-  - DB-3A full validation：`npm run lint` 为 `All checks passed!`。
-  - DB-3A py_compile：passed。
-  - DB-3A `git diff --check`：passed。
-  - DB-3A boundary grep：命中仅为 fake fixtures `nas://fake`、禁止项文档、write flag 字段、fake adapter 读取 fixture；无真实 MySQL / NAS / REST / OpenSearch / Qdrant 写路径。
-  - DB-3A review-fix：补充跨项目 denied count 不泄露测试，先 RED 后 GREEN。
-  - DB-3B TDD RED：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_temp_db_retrieval_guard.py -q` 因缺少 `load_retrieval_preview` 失败。
-  - DB-3B TDD GREEN：同一命令后续为 `3 passed`。
-  - DB-3B targeted lint：`All checks passed!`。
-  - DB-3B full validation：`npm test` 为 `37 passed`。
-  - DB-3B full validation：`npm run lint` 为 `All checks passed!`。
-  - DB-3B py_compile：passed。
-  - DB-3B `git diff --check`：passed。
-  - DB-3B boundary grep：命中仅为禁止项文档与 false write flags；无真实 MySQL / NAS / REST / OpenSearch / Qdrant 写路径。
-  - DB-3C TDD RED：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_missing_evidence_response.py -q` 因无法 import `AssetCatalogMissingEvidenceResponse` 失败。
-  - DB-3C targeted test：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_missing_evidence_response.py -q` 为 `8 passed`。
-  - DB-3C QA probe：`uv run --extra dev pytest tests/test_db3c_missing_evidence_response_probe.py -q` 为 `11 passed`。
-  - DB-3C targeted lint：初次 import 顺序不合规，ruff fix 后 `All checks passed!`。
-  - DB-3C full validation：`npm test` 为 `45 passed`。
-  - DB-3C full validation：`npm run lint` 为 `All checks passed!`。
-  - DB-3C py_compile：passed。
-  - DB-3C `git diff --check`：passed。
-  - DB-3C boundary grep：命中仅为禁止项文档与 false write flags；无真实 MySQL / NAS / REST / OpenSearch / Qdrant 写路径。
-  - DB-3C review-fix QA：`DB3C_REVIEW_FIX_QA_OPEN_FINDINGS: 0`，`P0 findings: 0`。
-  - DB-3D TDD RED：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_temp_db_missing_evidence_response.py -q` 因缺少 `from_preview` 失败。
-  - DB-3D TDD GREEN：同一命令后续为 `3 passed`。
-  - DB-3D full validation：`npm test` 为 `48 passed`。
-  - DB-3D full validation：`npm run lint` 为 `All checks passed!`。
-  - DB-3D py_compile：passed。
-  - DB-3D `git diff --check`：passed。
-  - DB-3D boundary grep：命中仅为禁止项文档与 false write flags；无真实 MySQL / NAS / REST / OpenSearch / Qdrant 写路径。
-- 当前结论：
-  - 当前变更为 DB-3D temporary DB backed Missing Evidence response smoke 代码与文档。
-  - 未新增 migration。
-  - 未连接真实 MySQL / NAS / REST。
-  - 未进入真实 retrieval / selective indexing / OpenSearch / Qdrant。
-- 阻塞点 / 风险点：
-  - 数据库团队仍需确认最终命名空间、JSON/JSONB、约束、索引命名和 down migration policy。
-  - 平台团队仍需确认 event_id 单调性、project_id 类型、source View 和时间字段。
-  - migration 仍需用户单独授权。
-  - 真实平台同步仍需用户单独授权。
-- 是否建议 baseline：DB-3D full validation 已通过，建议 baseline 后交给测试 agent 独立复测。
-- 是否建议进入下一阶段：否。
+- 本轮授权：基于数据库团队连接合同继续 DB-4A，只做本地只读预检骨架；不连接真实 MySQL，不写 migration，不扫 NAS，不触发 REST，不写 documents/chunks/OpenSearch/Qdrant，不进入真实 retrieval/indexing。
+- 本轮目标：把四个稳定 SQL View 的字段合同、`source_system=delivery_platform`、`source_contract_version=delivery_platform.asset_views.v1`、权限缺失默认 deny 和 `event_id` checkpoint candidate 固化成本地 preflight validator。
+
+## 本轮修改文件
+
+1. `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/readonly_preflight.py`
+2. `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/__init__.py`
+3. `/Users/Weishengsu/Hermes_memory_db0/app/core/config.py`
+4. `/Users/Weishengsu/Hermes_memory_db0/tests/test_data_steward_asset_catalog_readonly_preflight.py`
+5. `/Users/Weishengsu/Hermes_memory_db0/docs/DB4A_READONLY_DB_PREFLIGHT_PLAN.md`
+6. `/Users/Weishengsu/Hermes_memory_db0/package.json`
+7. `/Users/Weishengsu/Hermes_memory_db0/docs/ACTIVE_PHASE.md`
+8. `/Users/Weishengsu/Hermes_memory_db0/docs/DEV_LOG.md`
+9. `/Users/Weishengsu/Hermes_memory_db0/docs/HANDOFF_LOG.md`
+10. `/Users/Weishengsu/Hermes_memory_db0/docs/NEXT_CODEX_A_PROMPT.md`
+11. `/Users/Weishengsu/Hermes_memory_db0/docs/PHASE_BACKLOG.md`
+12. `/Users/Weishengsu/Hermes_memory_db0/docs/TODO.md`
+
+## 完成内容
+
+1. 新增 `AssetCatalogReadonlyPreflightValidator`，只接收内存 rows，不打开数据库连接。
+2. 支持四个约定 View：`ProjectAssetView`、`FileAssetView`、`ModelAssetView`、`AuditEventView`。
+3. 校验每个 View 的数据库团队确认字段清单。
+4. unsupported View 会产生 `unsupported_source_view` finding，防止绕过 contract review。
+5. 缺 required field 会产生 `missing_required_field` finding，并跳过该 row 的 preview。
+6. 归一化 `asset_uid = delivery_platform + ":" + source_view + ":" + source_id`。
+7. 权限字段缺失默认 `permission_status=denied`、`action=would_deny`、`reason=missing_permission_contract`。
+8. `AuditEventView.event_id` 只作为 `last_event_id_candidate`，不写 checkpoint。
+9. 新增只读 DB 配置开关，默认 off，DSN/user 默认空。
+10. 新增 DB-4A handoff 文档，明确 DB-4B 真实只读 smoke 的前置条件。
+
+## 当前验证状态
+
+1. TDD RED：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_readonly_preflight.py -q` 初始因缺少 DB-4A exports/config 失败。
+2. TDD RED：unsupported View 测试初始失败，因为未知 View 被忽略。
+3. TDD GREEN：同一目标测试当前为 `5 passed`。
+4. `npm test`：`53 passed`。
+5. `npm run lint`：`All checks passed!`。
+6. py_compile：passed。
+7. `git diff --check`：passed。
+8. boundary grep：DB-4A 代码无真实 MySQL / NAS / REST / OpenSearch / Qdrant / documents / chunks 写路径；命中仅为文档禁止项与 false write flag 字段。
+
+## 当前结论
+
+DB-4A 当前仍是本地 contract/preflight 骨架，不代表已接入真实数据库。真实数据库只读 smoke 可以作为 DB-4B 候选，但必须等用户单独授权，并由平台/运维提供企业 Agent 专用只读 DSN 与账号。
+
+## 继续禁止
+
+1. 不连接真实 MySQL。
+2. 不创建 production migration。
+3. 不写 `external_asset_catalog`。
+4. 不扫描真实 NAS。
+5. 不读取真实文件正文。
+6. 不触发真实 REST 动作。
+7. 不写 `documents` / `chunks`。
+8. 不写 OpenSearch / Qdrant。
+9. 不进入 DB-3/DB-4 后续真实 retrieval/indexing。

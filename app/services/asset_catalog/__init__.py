@@ -10,6 +10,13 @@ from app.services.asset_catalog.mirror_preview import (
     AssetCatalogMirrorPreviewItem,
     AssetCatalogMirrorPreviewSummary,
 )
+from app.services.asset_catalog.readonly_preflight import (
+    DB4A_READONLY_CONTRACT_VERSION,
+    DB4A_REQUIRED_VIEW_FIELDS,
+    AssetCatalogReadonlyPreflightFinding,
+    AssetCatalogReadonlyPreflightResult,
+    AssetCatalogReadonlyPreflightValidator,
+)
 from app.services.asset_catalog.response import AssetCatalogMissingEvidenceResponse
 from app.services.asset_catalog.retrieval_guard import (
     AssetCatalogMetadataItem,
@@ -29,6 +36,9 @@ __all__ = [
     "AssetCatalogMirrorPreviewer",
     "AssetCatalogMetadataItem",
     "AssetCatalogMissingEvidenceResponse",
+    "AssetCatalogReadonlyPreflightFinding",
+    "AssetCatalogReadonlyPreflightResult",
+    "AssetCatalogReadonlyPreflightValidator",
     "AssetCatalogRetrievalDecision",
     "AssetCatalogRetrievalGuard",
     "AssetCatalogRetrievalRequest",
@@ -36,6 +46,8 @@ __all__ = [
     "AssetCatalogTemporaryMirrorWriteSummary",
     "AssetViewPage",
     "AssetViewRecord",
+    "DB4A_READONLY_CONTRACT_VERSION",
+    "DB4A_REQUIRED_VIEW_FIELDS",
     "FakePlatformAssetCatalogAdapter",
     "VIEW_CONTRACT_VERSIONS",
 ]

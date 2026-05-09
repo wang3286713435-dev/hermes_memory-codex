@@ -334,6 +334,18 @@
 7. 本阶段仍不接真实 MySQL / NAS / REST，不写 migration，不写 documents/chunks/OpenSearch/Qdrant。
 8. DB-3D QA 通过后，可考虑 DB-4A 真实数据库只读 staging preflight；production migration / write / indexing 仍需单独授权。
 
+## DB-4A Readonly DB Preflight Skeleton
+
+1. 用户已授权 DB-4A：基于数据库团队连接合同做本地只读预检骨架。
+2. DB-4A 只接收内存 rows，不打开真实 DB 连接。
+3. 只允许 `ProjectAssetView`、`FileAssetView`、`ModelAssetView`、`AuditEventView`。
+4. `source_system` 固定为 `delivery_platform`。
+5. `source_contract_version` 固定为 `delivery_platform.asset_views.v1`。
+6. 权限字段缺失时必须 `would_deny`，reason 为 `missing_permission_contract`。
+7. `AuditEventView.event_id` 只作为 checkpoint candidate，不写 checkpoint。
+8. DB-4B 前仍需单独授权、只读 DSN、企业 Agent 专用只读账号和样例数据暴露确认。
+9. 本阶段仍不接真实 MySQL / NAS / REST，不写 migration，不写 documents/chunks/OpenSearch/Qdrant，不进入真实 retrieval/indexing。
+
 ## 后置项
 
 1. 完整 AI 审标 / 自动审标：后置，当前只做 retrieval evidence 与 trace 改善。

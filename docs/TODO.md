@@ -11,9 +11,9 @@
 7. DB-2 fake-adapter dry-run preview 第一片已 baseline：commit `6780d20`，tag `phase-db2-dry-run-preview-baseline`。
 8. DB-2 temporary DB proof-of-contract 已 baseline：commit `53337fe`，tag `phase-db2-temp-db-proof-baseline`。
 9. DB-2 schema contract freeze 已 baseline：commit `64e139a`，tag `phase-db2-schema-contract-freeze-baseline`。
-10. DB-3A Catalog Retrieval Guard 已 baseline；DB-3B Temporary DB Backed Guard 已 baseline。
-11. 当前任务：DB-3D Temp DB Missing Evidence Response Smoke；只把 temporary DB backed preview 接到 guard 和 response DTO，不接真实 MySQL / NAS / REST，不写 migration，不写 documents / chunks / OpenSearch / Qdrant。
-12. 下一步：DB-3D baseline 后交给测试 agent 独立复测；复测通过后可考虑 DB-4A 真实数据库只读 staging preflight，但不得自动进入 production migration、真实写入、真实 retrieval、selective indexing 或 DB-5。
+10. DB-3A Catalog Retrieval Guard、DB-3B Temporary DB Backed Guard、DB-3C Missing Evidence Response DTO、DB-3D Temp DB Missing Evidence Response Smoke 均已 baseline。
+11. 当前任务：DB-4A Readonly DB Preflight Skeleton；只把数据库团队连接合同落到本地预检骨架，不接真实 MySQL / NAS / REST，不写 migration，不写 documents / chunks / OpenSearch / Qdrant。
+12. 下一步：DB-4A baseline 后交给测试 agent 独立复测；复测通过后可考虑 DB-4B 真实只读 staging/dev smoke，但不得自动进入 production migration、真实写入、真实 retrieval、selective indexing 或 DB-5。
 
 ## 最新状态
 
@@ -1009,3 +1009,18 @@
 7. Confirm no real MySQL / NAS / REST path exists.
 8. Confirm no documents/chunks/OpenSearch/Qdrant writes exist.
 9. If clean, baseline DB-3D and prepare an independent QA prompt.
+
+## DB-4A Readonly DB Preflight Skeleton TODO
+
+1. Review `app/services/asset_catalog/readonly_preflight.py`.
+2. Review `tests/test_data_steward_asset_catalog_readonly_preflight.py`.
+3. Run:
+   - `npm test`
+   - `npm run lint`
+   - `git diff --check`
+4. Confirm DB-4A does not connect to real MySQL.
+5. Confirm unsupported View names create contract findings.
+6. Confirm missing required View fields create findings and skip preview rows.
+7. Confirm permission fields missing default to denied / Missing Evidence safe path.
+8. Confirm all write flags are false.
+9. If clean, baseline DB-4A and prepare an independent QA prompt.

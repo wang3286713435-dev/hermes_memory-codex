@@ -32,6 +32,10 @@ class Settings(BaseSettings):
     platform_asset_sync_write_enabled: bool = False
     platform_asset_mcp_enabled: bool = False
     platform_asset_semantic_index_enabled: bool = False
+    platform_asset_readonly_db_enabled: bool = False
+    platform_asset_readonly_db_dsn: str | None = None
+    platform_asset_readonly_db_user: str | None = None
+    platform_asset_readonly_db_contract_version: str = "delivery_platform.asset_views.v1"
 
     vector_store_provider: str = "qdrant"
     vector_dimension: int = 1024
