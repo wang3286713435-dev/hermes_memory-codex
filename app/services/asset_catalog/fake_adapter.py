@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import base64
+import binascii
 import json
 from pathlib import Path
 from typing import Any
@@ -273,14 +274,21 @@ class FakePlatformAssetCatalogAdapter:
         try:
             raw = base64.urlsafe_b64decode(cursor.encode("ascii")).decode("utf-8")
             payload = json.loads(raw)
-        except (ValueError, json.JSONDecodeError) as exc:
+        except (binascii.Error, UnicodeError, ValueError) as exc:
             raise ValueError("invalid cursor") from exc
 
+        if not isinstance(payload, dict):
+            raise ValueError("invalid cursor")
         if payload.get("source_view") != expected_view:
             raise ValueError("cursor source_view mismatch")
         if payload.get("filter_fingerprint") != self._filter_fingerprint(filters):
             raise ValueError("cursor filter mismatch")
-        offset = int(payload["offset"])
+        if "offset" not in payload:
+            raise ValueError("invalid cursor")
+        try:
+            offset = int(payload["offset"])
+        except (TypeError, ValueError) as exc:
+            raise ValueError("invalid cursor") from exc
         if offset < 0:
             raise ValueError("cursor offset must be non-negative")
         return offset

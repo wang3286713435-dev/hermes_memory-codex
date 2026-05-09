@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import base64
+import json
+
 import pytest
 
 from app.core.config import Settings
@@ -8,6 +11,11 @@ from app.services.asset_catalog import VIEW_CONTRACT_VERSIONS, FakePlatformAsset
 
 def _items(page):
     return [item.to_dict() for item in page.items]
+
+
+def _cursor(payload):
+    raw = json.dumps(payload, separators=(",", ":")).encode("utf-8")
+    return base64.urlsafe_b64encode(raw).decode("ascii")
 
 
 def test_data_steward_feature_flags_default_off() -> None:
@@ -167,3 +175,34 @@ def test_cursor_filter_context_mismatch_raises_value_error() -> None:
             cursor=first_page.next_cursor,
             filters={"project_id": "99-丰图既有建模项目"},
         )
+
+
+@pytest.mark.parametrize(
+    "cursor",
+    [
+        "not valid base64",
+        "不是 ascii cursor",
+        _cursor("not an object"),
+        _cursor([]),
+        _cursor({"source_view": "FileAssetView", "filter_fingerprint": "{}"}),
+        _cursor(
+            {
+                "source_view": "FileAssetView",
+                "filter_fingerprint": "{}",
+                "offset": -1,
+            }
+        ),
+        _cursor(
+            {
+                "source_view": "FileAssetView",
+                "filter_fingerprint": "{}",
+                "offset": "not-an-int",
+            }
+        ),
+    ],
+)
+def test_malformed_cursor_payloads_raise_value_error(cursor: str) -> None:
+    adapter = FakePlatformAssetCatalogAdapter()
+
+    with pytest.raises(ValueError):
+        adapter.list_file_assets(cursor=cursor)
