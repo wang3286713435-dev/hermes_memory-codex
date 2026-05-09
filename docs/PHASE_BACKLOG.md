@@ -323,6 +323,17 @@
 7. 本阶段仍不接真实 MySQL / NAS / REST，不写 migration，不写 documents/chunks/OpenSearch/Qdrant。
 8. 下一步建议 review-fix baseline 后交给测试 agent 独立复测。
 
+## DB-3D Temp DB Missing Evidence Response Smoke
+
+1. 用户已授权 DB-3D：只做 temporary DB backed guard + Missing Evidence response DTO 组合 smoke。
+2. 已新增 `AssetCatalogMissingEvidenceResponse.from_preview()`。
+3. DB-3D 只消费 preview DTO，不连接真实 MySQL。
+4. temp DB content answer 必须生成 `asset_catalog_only` response。
+5. 缺 scope 必须生成 `permission_scope_required` response。
+6. 授权 catalog lookup 不得被包装为 Missing Evidence response。
+7. 本阶段仍不接真实 MySQL / NAS / REST，不写 migration，不写 documents/chunks/OpenSearch/Qdrant。
+8. DB-3D QA 通过后，可考虑 DB-4A 真实数据库只读 staging preflight；production migration / write / indexing 仍需单独授权。
+
 ## 后置项
 
 1. 完整 AI 审标 / 自动审标：后置，当前只做 retrieval evidence 与 trace 改善。

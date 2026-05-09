@@ -217,6 +217,30 @@
 - next: if user explicitly continues, create `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md` as docs-only planning. Do not write implementation before Codex B review and explicit user authorization.
 - commit/tag if any: pending tag `phase-db3c-missing-evidence-response-review-fix-baseline`.
 
+## 2026-05-09 DB-3D Temp DB Missing Evidence Response Smoke
+- goal: Compose DB-3B temporary DB backed preview with DB-3A guard and DB-3C Missing Evidence response DTO.
+- changed_files:
+  - `app/services/asset_catalog/response.py`
+  - `tests/test_data_steward_asset_catalog_temp_db_missing_evidence_response.py`
+  - `docs/DB3D_TEMP_DB_MISSING_EVIDENCE_RESPONSE_SMOKE.md`
+  - `package.json`
+  - phase handoff docs
+- validation:
+  - TDD RED: `uv run --extra dev pytest tests/test_data_steward_asset_catalog_temp_db_missing_evidence_response.py -q` failed because `from_preview` did not exist.
+  - TDD GREEN: same target test passed, `3 passed`.
+  - targeted lint passed.
+  - `npm test`: `48 passed`.
+  - `npm run lint`: `All checks passed!`.
+  - py_compile: passed.
+  - `git diff --check`: passed.
+  - boundary grep: no real MySQL / NAS / REST / OpenSearch / Qdrant write path; hits are docs prohibitions and false write-flag fields.
+- boundary: temporary DB backed smoke only; no real MySQL / NAS / REST, no migration, no documents/chunks, no OpenSearch/Qdrant.
+- real_db_gate:
+  - After DB-3D QA passes, consider DB-4A read-only staging database preflight.
+  - DB-4A should use read-only credentials and normalize rows into preview DTOs only.
+  - Migration, mirror writes, NAS scan, documents/chunks, OpenSearch/Qdrant, and real indexing remain separately gated.
+- commit/tag if any: pending tag `phase-db3d-temp-db-missing-evidence-response-baseline`.
+
 ## 2026-05-09 DB-3C Missing Evidence Response DTO review-fix
 - goal: Close QA finding `DB3C-QA-001` by rejecting empty or whitespace Missing Evidence reasons.
 - changed_files:

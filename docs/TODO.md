@@ -12,8 +12,8 @@
 8. DB-2 temporary DB proof-of-contract 已 baseline：commit `53337fe`，tag `phase-db2-temp-db-proof-baseline`。
 9. DB-2 schema contract freeze 已 baseline：commit `64e139a`，tag `phase-db2-schema-contract-freeze-baseline`。
 10. DB-3A Catalog Retrieval Guard 已 baseline；DB-3B Temporary DB Backed Guard 已 baseline。
-11. 当前任务：DB-3C Missing Evidence response DTO；只包装 guard 的 Missing Evidence decision，不接真实 MySQL / NAS / REST，不写 migration，不写 documents / chunks / OpenSearch / Qdrant。
-12. 下一步：DB-3C review-fix baseline 后交给测试 agent 独立复测；不得自动进入真实数据库接入、真实 retrieval、selective indexing 或 DB-4/DB-5。
+11. 当前任务：DB-3D Temp DB Missing Evidence Response Smoke；只把 temporary DB backed preview 接到 guard 和 response DTO，不接真实 MySQL / NAS / REST，不写 migration，不写 documents / chunks / OpenSearch / Qdrant。
+12. 下一步：DB-3D baseline 后交给测试 agent 独立复测；复测通过后可考虑 DB-4A 真实数据库只读 staging preflight，但不得自动进入 production migration、真实写入、真实 retrieval、selective indexing 或 DB-5。
 
 ## 最新状态
 
@@ -994,3 +994,18 @@
 6. Confirm no real MySQL / NAS / REST path exists.
 7. Confirm no documents/chunks/OpenSearch/Qdrant writes exist.
 8. If clean, baseline DB-3C review-fix and prepare an independent QA prompt.
+
+## DB-3D Temp DB Missing Evidence Response Smoke TODO
+
+1. Review `AssetCatalogMissingEvidenceResponse.from_preview()`.
+2. Review `tests/test_data_steward_asset_catalog_temp_db_missing_evidence_response.py`.
+3. Run:
+   - `npm test`
+   - `npm run lint`
+   - `git diff --check`
+4. Confirm temp DB backed content answer returns `asset_catalog_only`.
+5. Confirm missing scope returns `permission_scope_required`.
+6. Confirm catalog lookup is not wrapped as Missing Evidence response.
+7. Confirm no real MySQL / NAS / REST path exists.
+8. Confirm no documents/chunks/OpenSearch/Qdrant writes exist.
+9. If clean, baseline DB-3D and prepare an independent QA prompt.

@@ -3,9 +3,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Literal
 
+from app.services.asset_catalog.mirror_preview import AssetCatalogMirrorPreview
 from app.services.asset_catalog.retrieval_guard import (
     AssetCatalogMetadataItem,
     AssetCatalogRetrievalDecision,
+    AssetCatalogRetrievalGuard,
     AssetCatalogRetrievalIntent,
     AssetCatalogRetrievalRequest,
 )
@@ -59,6 +61,19 @@ class AssetCatalogMissingEvidenceResponse:
             writes_chunks=decision.writes_chunks,
             writes_opensearch=decision.writes_opensearch,
             writes_qdrant=decision.writes_qdrant,
+        )
+
+    @classmethod
+    def from_preview(
+        cls,
+        preview: AssetCatalogMirrorPreview,
+        request: AssetCatalogRetrievalRequest,
+        guard: AssetCatalogRetrievalGuard | None = None,
+    ) -> AssetCatalogMissingEvidenceResponse:
+        active_guard = guard or AssetCatalogRetrievalGuard()
+        return cls.from_decision(
+            request,
+            active_guard.evaluate(preview, request),
         )
 
     def to_dict(self) -> dict[str, Any]:
