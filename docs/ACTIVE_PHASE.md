@@ -1,6 +1,6 @@
 # Active Phase
 
-- 当前 phase：DB-3B Temporary DB Backed Guard
+- 当前 phase：DB-3C Missing Evidence Response DTO
 - 当前分支：`codex/data-steward-db0-contract`
 - 当前 baseline：
   - DB-2 schema handoff freeze baseline：commit `bd24284`，tag `phase-db2-schema-handoff-freeze-baseline`
@@ -12,16 +12,13 @@
   - DB-1a contract review-fix baseline：commit `e21a1c9`，tag `phase-db1a-contract-review-fix-baseline`
   - DB-2 planning / Ralph guard baseline：commit `56f9e47`，tag `phase-db2-planning-ralph-guard-baseline`
   - DB-1a fake adapter baseline：commit `e9d1556`，tag `phase-db1a-fake-view-adapter-baseline`
-- 本轮授权：只做 temporary DB backed catalog retrieval guard，不接真实 MySQL，不写 migration，不扫 NAS，不写 documents/chunks/OpenSearch/Qdrant，不进入真实 retrieval/indexing。
-- 本轮目标：让 DB-3A guard 能消费 DB-2 temporary mirror proof 表的 rows，形成真实数据库接入前的只读 proof-of-contract。
-- 修改文件：
-  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/retrieval_guard.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/temp_db.py`
+- 本轮授权：只做 Missing Evidence response DTO，不接真实 MySQL，不写 migration，不扫 NAS，不写 documents/chunks/OpenSearch/Qdrant，不进入真实 retrieval/indexing。
+- 本轮目标：把 catalog retrieval guard 的 Missing Evidence decision 转成稳定 response object，固定 reason、空 prompt_items 和 false write flags。
+- 本轮修改文件：
+  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/response.py`
   - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/__init__.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/tests/test_data_steward_asset_catalog_retrieval_guard.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/tests/test_data_steward_asset_catalog_temp_db_retrieval_guard.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB3_CATALOG_RETRIEVAL_GUARD.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB3B_TEMP_DB_BACKED_GUARD.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/tests/test_data_steward_asset_catalog_missing_evidence_response.py`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB3C_MISSING_EVIDENCE_RESPONSE_DTO.md`
   - `/Users/Weishengsu/Hermes_memory_db0/package.json`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/ACTIVE_PHASE.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/DEV_LOG.md`
@@ -40,6 +37,12 @@
   - file-backed SQLite 继续拒绝。
   - `package.json` validation 纳入 DB-3B 测试。
   - 新增 `DB3B_TEMP_DB_BACKED_GUARD.md` 记录边界。
+  - 新增 `AssetCatalogMissingEvidenceResponse` DTO。
+  - DTO 只接受 Missing Evidence decision，非 Missing Evidence catalog lookup 会被拒绝。
+  - DTO 固定输出 `response_kind=missing_evidence`、reason、空 `prompt_items` 和 false write flags。
+  - 覆盖 `asset_catalog_only`、`permission_scope_required`、`no_authorized_catalog_metadata` 三个 reason。
+  - `package.json` validation 纳入 DB-3C 测试。
+  - 新增 `DB3C_MISSING_EVIDENCE_RESPONSE_DTO.md` 记录边界。
 - 当前验证状态：
   - TDD RED：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_temp_db.py -q` 初始因缺少 `AssetCatalogTemporaryMirrorStore` import 失败。
   - TDD GREEN：同一命令后续为 `5 passed`。
@@ -72,8 +75,16 @@
   - DB-3B py_compile：passed。
   - DB-3B `git diff --check`：passed。
   - DB-3B boundary grep：命中仅为禁止项文档与 false write flags；无真实 MySQL / NAS / REST / OpenSearch / Qdrant 写路径。
+  - DB-3C TDD RED：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_missing_evidence_response.py -q` 因无法 import `AssetCatalogMissingEvidenceResponse` 失败。
+  - DB-3C targeted test：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_missing_evidence_response.py -q` 为 `6 passed`。
+  - DB-3C targeted lint：初次 import 顺序不合规，ruff fix 后 `All checks passed!`。
+  - DB-3C full validation：`npm test` 为 `43 passed`。
+  - DB-3C full validation：`npm run lint` 为 `All checks passed!`。
+  - DB-3C py_compile：passed。
+  - DB-3C `git diff --check`：passed。
+  - DB-3C boundary grep：命中仅为禁止项文档与 false write flags；无真实 MySQL / NAS / REST / OpenSearch / Qdrant 写路径。
 - 当前结论：
-  - 当前变更为 DB-3B temporary DB backed guard 代码与文档。
+  - 当前变更为 DB-3C Missing Evidence response DTO 代码与文档。
   - 未新增 migration。
   - 未连接真实 MySQL / NAS / REST。
   - 未进入真实 retrieval / selective indexing / OpenSearch / Qdrant。
@@ -82,5 +93,5 @@
   - 平台团队仍需确认 event_id 单调性、project_id 类型、source View 和时间字段。
   - migration 仍需用户单独授权。
   - 真实平台同步仍需用户单独授权。
-- 是否建议 baseline：DB-3B validation 已通过，建议 Codex B review 后 baseline。
+- 是否建议 baseline：DB-3C full validation 已通过，建议 baseline 后交给测试 agent 独立复测。
 - 是否建议进入下一阶段：否。

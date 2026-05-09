@@ -10,6 +10,7 @@ from app.services.asset_catalog.mirror_preview import (
     AssetCatalogMirrorPreviewItem,
     AssetCatalogMirrorPreviewSummary,
 )
+from app.services.asset_catalog.response import AssetCatalogMissingEvidenceResponse
 from app.services.asset_catalog.retrieval_guard import (
     AssetCatalogMetadataItem,
     AssetCatalogRetrievalDecision,
@@ -27,6 +28,7 @@ __all__ = [
     "AssetCatalogMirrorPreviewSummary",
     "AssetCatalogMirrorPreviewer",
     "AssetCatalogMetadataItem",
+    "AssetCatalogMissingEvidenceResponse",
     "AssetCatalogRetrievalDecision",
     "AssetCatalogRetrievalGuard",
     "AssetCatalogRetrievalRequest",

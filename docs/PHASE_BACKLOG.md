@@ -9,11 +9,12 @@
 5. DB-2 planning / Ralph Stop hook guard 已 baseline：commit `56f9e47`，tag `phase-db2-planning-ralph-guard-baseline`。
 6. DB-1a contract review-fix 已 baseline：commit `e21a1c9`，tag `phase-db1a-contract-review-fix-baseline`；malformed cursor review-fix 已 baseline：commit `e16df1a`，tag `phase-db1a-malformed-cursor-review-fix-baseline`。
 7. DB-2 dry-run preview 已 baseline：commit `6780d20`，tag `phase-db2-dry-run-preview-baseline`。
-8. 当前 DB-2 仅进入 temporary DB proof-of-contract：用 SQLite 内存库验证资产目录字段和写入规则，不写 migration、不连接真实 MySQL / NAS / REST、不进入 DB-3 retrieval。
+8. DB-2 temporary DB proof-of-contract 用 SQLite 内存库验证资产目录字段和写入规则，不写 migration、不连接真实 MySQL / NAS / REST。
 9. DB-2 temporary DB proof-of-contract 已 baseline：commit `53337fe`，tag `phase-db2-temp-db-proof-baseline`。
 10. DB-2 schema contract freeze 已 baseline：commit `64e139a`，tag `phase-db2-schema-contract-freeze-baseline`。
-11. 当前新增 `DB2_SCHEMA_REVIEW_RESPONSE.md`，吸收数据库 / NAS / 交付平台侧确认；`external_asset_sync_checkpoint` 纳入 mirror-only checkpoint 候选表。
-12. 下一步建议继续 schema review 或等待 migration 授权；不得自动进入 migration、真实平台联调、DB/index 写入、catalog retrieval 或 selective indexing。
+11. DB-3A Catalog Retrieval Guard 已 baseline：commit `fda6c87`，tag `phase-db3a-catalog-retrieval-guard-baseline`。
+12. DB-3B Temporary DB Backed Guard 已 baseline：commit `8fd46a3`，tag `phase-db3b-temp-db-backed-guard-baseline`。
+13. 当前 DB-3C 只做 Missing Evidence response DTO；不得自动进入 migration、真实平台联调、DB/index 写入、真实 retrieval 或 selective indexing。
 
 ## 最新状态
 
@@ -308,6 +309,16 @@
 3. 已新增 `AssetCatalogTemporaryMirrorStore.load_retrieval_preview()`。
 4. 该方法把 temp DB rows 还原为 `AssetCatalogMirrorPreview`，复用 DB-3A guard。
 5. file-backed SQLite 继续拒绝，防止误接真实文件型 DB。
+6. 本阶段仍不接真实 MySQL / NAS / REST，不写 migration，不写 documents/chunks/OpenSearch/Qdrant。
+7. 下一步建议 full validation、Codex B review、QA prompt，之后再 baseline。
+
+## DB-3C Missing Evidence Response DTO
+
+1. 用户已授权 DB-3C：只做 Missing Evidence response DTO。
+2. 已新增 `AssetCatalogMissingEvidenceResponse`。
+3. DTO 只接受 `decision.missing_evidence=True` 且 reason 非空的 decision。
+4. DTO 固定输出 `response_kind=missing_evidence`、query、intent、reason、空 `prompt_items`、false write flags。
+5. 覆盖 reason：`asset_catalog_only`、`permission_scope_required`、`no_authorized_catalog_metadata`。
 6. 本阶段仍不接真实 MySQL / NAS / REST，不写 migration，不写 documents/chunks/OpenSearch/Qdrant。
 7. 下一步建议 full validation、Codex B review、QA prompt，之后再 baseline。
 

@@ -217,6 +217,28 @@
 - next: if user explicitly continues, create `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md` as docs-only planning. Do not write implementation before Codex B review and explicit user authorization.
 - commit/tag if any: none.
 
+## 2026-05-09 DB-3C Missing Evidence Response DTO
+- goal: Convert DB-3 guard Missing Evidence decisions into a stable response DTO.
+- changed_files:
+  - `app/services/asset_catalog/response.py`
+  - `app/services/asset_catalog/__init__.py`
+  - `tests/test_data_steward_asset_catalog_missing_evidence_response.py`
+  - `docs/DB3C_MISSING_EVIDENCE_RESPONSE_DTO.md`
+  - `package.json`
+  - phase handoff docs
+- validation:
+  - TDD RED: `uv run --extra dev pytest tests/test_data_steward_asset_catalog_missing_evidence_response.py -q` failed on missing `AssetCatalogMissingEvidenceResponse`.
+  - Target test: same target test passed, `6 passed`.
+  - targeted lint passed after import order fix.
+  - `npm test`: `43 passed`.
+  - `npm run lint`: `All checks passed!`.
+  - py_compile: passed.
+  - `git diff --check`: passed.
+  - boundary grep: no real MySQL / NAS / REST / OpenSearch / Qdrant write path; hits are docs prohibitions and false write-flag fields.
+- boundary: DTO only; no real MySQL / NAS / REST, no migration, no documents/chunks, no OpenSearch/Qdrant.
+- next: DB-3C baseline and independent QA prompt. Real MySQL remains separately gated.
+- commit/tag if any: none.
+
 ## 2026-05-09 DB-3B Temporary DB Backed Guard
 - goal: Let the DB-3A guard consume DB-2 temporary mirror rows without real database integration.
 - changed_files:
