@@ -1,5 +1,6 @@
 # DEV_LOG
 
+- [Phase 2.57a Prompt] Phase 2.57 baseline 已完成，下一步进入 Natural Import Evidence Template / Runbook Dry-run：只做本地 dry-run 脚本、测试与文档同步，不上传文件、不运行 API/CLI smoke、不写 DB/index。
 - [Phase 2.57] 完成 Natural Import MVP Usability / Evidence docs-only planning：新增 `docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md`，明确单文件自然语言导入 operator flow、evidence pack 字段、Go / Pause / No-Go、Mac mini runbook outline 与非目标。本轮未上传文件、未运行 API / CLI、未写 DB / OpenSearch / Qdrant，未进入 DB/NAS/Data Steward 或 rollout。
 - [Phase 2.56e] 完成 Natural Import Real Upload Client + Real Smoke：Hermes 主仓新增真实 upload client，feature flag 开启时调用 Hermes_memory `/api/v1/documents/upload`；自然语言导入用户授权 `.docx` 成功，`document_id=ee54b72c-b88b-4fad-be54-007240285356`，`version_id=950da5fe-dd7c-4eba-8764-916b556d14ce`，alias `@C塔人力测算` 持久化后同 session retrieval 只命中新导入文档。Hermes 主仓目标测试 `34 passed`；本轮未 cleanup/delete/repair/backfill/reindex，未进入 rollout。
 - [Phase 2.56e Prompt] Phase 2.56d baseline 已确认：Hermes 主仓 `65089d5c8`、Hermes_memory `4773abe`、tag `phase-2.56d-natural-import-runtime-wiring-baseline`。下一步进入真实 upload client wiring + 用户授权文件自然语言导入 smoke；必须由 CLI 自然语言命令触发，不得绕普通 upload path 声称成功；cleanup/delete/repair/backfill/reindex、Data Steward、production rollout 仍禁止。
@@ -415,3 +416,14 @@
 - [Phase 2.57] Wrote Codex A docs-only planning prompt for Natural Import MVP evidence pack / Mac mini operator runbook after Phase 2.56e baseline.
 
 - [Phase 2.57] Codex B review passed for docs-only planning; wrote selective baseline prompt. No Codex C needed.
+- [Phase 2.57a] 完成 Natural Import Evidence Template / Runbook Dry-run 最小实现：新增 `scripts/phase257a_natural_import_evidence_template.py` 与 `tests/test_phase257a_natural_import_evidence_template.py`；runner 只读取文件 metadata，不读取正文，不上传、不调用 API / CLI、不写 DB / index，输出固定 dry-run / no-upload / no-repair flags，并将 `--output` 限定到 `reports/internal_mvp_runs/`。
+- [Phase 2.57a] 验证通过：`uv run python -m py_compile scripts/phase257a_natural_import_evidence_template.py` 通过，`uv run pytest tests/test_phase257a_natural_import_evidence_template.py -q` 为 `7 passed`；dry-run 示例输出 `ReadyForAuthorizedSmoke`，无真实 upload / API / CLI / DB / index 写入。
+
+- [Phase 2.58 Prompt] 为加快主线节奏，Phase 2.57a runner 不单独 baseline，继续打包进入 Natural Import Operator Pack：补 dry-run review helper、Mac mini operator checklist 与文档 runbook；仍不上传文件、不运行 API/CLI smoke、不写 DB/index。
+- [Phase 2.58 Review] Codex B review 发现 dry-run review helper 需补齐 `plain_upload_bypass_used=true` 与 `real_file_uploaded=true` 阻断，已写入 review-fix prompt；不进入 baseline。
+- [Phase 2.58] 完成 Natural Import Operator Pack 最小实现：`phase257a_natural_import_evidence_template.py` 新增 `--review-json` 只读 review helper，输出 `review_status`、`blocking_reasons`、`warning_reasons` 与 `safe_to_request_real_smoke_authorization`；新增 `docs/MAC_MINI_NATURAL_IMPORT_OPERATOR_CHECKLIST.md`，明确 preflight、授权、执行、evidence record、Go/Pause/No-Go 与 direct API upload 不算自然语言导入成功。
+- [Phase 2.58] 验证通过：py_compile 通过，`uv run pytest tests/test_phase257a_natural_import_evidence_template.py -q` 为 `12 passed`；dry-run template 示例为 `ReadyForAuthorizedSmoke`，review-json 示例为 `ready_for_operator_authorization`；未上传文件、未调用 API / CLI、未写 DB / index。
+- [Phase 2.58 Review Fix] 已补齐 `plain_upload_bypass_used=true` 与 `real_file_uploaded=true` 阻断；这两类记录现在均返回 `review_status=pause` 且 `safe_to_request_real_smoke_authorization=false`，避免 direct API bypass / 已发生 upload 记录被误当作 dry-run 授权模板。
+- [Phase 2.58 Review Fix] 验证通过：`uv run python -m py_compile scripts/phase257a_natural_import_evidence_template.py` 通过，`uv run pytest tests/test_phase257a_natural_import_evidence_template.py -q` 为 `14 passed`；未上传文件、未调用 API / CLI、未写 DB / index。
+
+- [Phase 2.58 Review] Codex B review passed: py_compile passed, targeted pytest `14 passed`, bypass/upload review guards verified. Wrote selective baseline prompt.

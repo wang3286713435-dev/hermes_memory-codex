@@ -10,12 +10,12 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.57 Docs-only Selective Baseline
+### Current Item：Phase 2.58 Selective Git Baseline
 
 - lane：Yellow Lane
 - 状态：codex_b_review_passed_baseline_prompt_ready
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
-- 目标：只执行 Phase 2.57 docs-only selective Git baseline。
-- 允许动作：轻量检查、白名单 staging、commit、tag、push、更新 ignored latest。
-- 禁止动作：上传文件、API/CLI smoke、代码修改、DB/index 写入、repair/backfill/reindex、Data Steward/DB/NAS 实现、rollout、进入下一阶段。
+- 目标：只执行 Phase 2.58 selective Git baseline。
+- 允许动作：轻量验证、白名单 staging、commit、tag、push、更新 ignored latest。
+- 禁止动作：上传文件、API/CLI smoke、DB/index 写入、repair/backfill/reindex、Data Steward/DB/NAS 实现、rollout、进入下一阶段。
 - 完成后：停止等待 Codex B review。

@@ -126,10 +126,33 @@ Operators must not directly edit DB, OpenSearch, Qdrant, facts, versions, or aud
 
 ## 8. Follow-Up Candidates
 
-- Phase 2.57a: natural import evidence template / runbook runner dry-run.
+- Phase 2.57a: natural import evidence template / runbook runner dry-run. Completed implementation pending Codex B review.
 - Phase 2.57b: second small-file real import validation, only with fresh explicit user authorization.
 - Phase 2.58: Mac mini MVP operator checklist update for natural import.
 
 ## 9. Current Recommendation
 
 Proceed to Codex B review. If accepted, baseline Phase 2.57 as docs-only planning.
+
+## 10. Phase 2.57a Dry-run Evidence Template
+
+Phase 2.57a adds `scripts/phase257a_natural_import_evidence_template.py`, a read-only local template generator for natural import evidence packs.
+
+The runner only checks source file metadata with `Path.is_file()`, file size, file name, and suffix. It does not read file body content, upload files, call Hermes_memory API, call Hermes CLI, write DB/index data, or authorize cleanup/repair/backfill/reindex/rollout.
+
+The dry-run output includes `dry_run=true`, `real_upload_called=false`, `plain_upload_bypass_used=false`, `cleanup_authorized=false`, `repair_authorized=false`, `backfill_authorized=false`, `reindex_authorized=false`, `rollout_authorized=false`, source metadata, alias, session id, operator, `go_pause_no_go`, missing fields, and required next steps.
+
+`ReadyForAuthorizedSmoke` only means a future real natural-language CLI smoke has enough preflight metadata to ask for explicit user authorization. It is not upload success, production readiness, rollout readiness, or direct API upload evidence.
+
+## 11. Phase 2.58 Natural Import Operator Pack
+
+Phase 2.58 extends the dry-run template into an operator pack:
+
+- `--review-json` reads an existing evidence template JSON and emits a sanitized review summary.
+- Review mode is local and read-only; it does not upload, call API, call Hermes CLI, write DB/index data, or execute cleanup/repair/backfill/reindex.
+- Review status can be `ready_for_operator_authorization`, `pause`, or `no_go`.
+- Dangerous authorization flags such as cleanup, repair, backfill, reindex, or rollout force `no_go`.
+- `real_upload_called=true` forces `pause` because review mode is meant for dry-run authorization templates, not post-upload success evidence.
+- `docs/MAC_MINI_NATURAL_IMPORT_OPERATOR_CHECKLIST.md` provides the Mac mini operator checklist for preflight, authorization, evidence recording, and Go/Pause/No-Go.
+
+Phase 2.58 still does not run real upload, API smoke, CLI smoke, Data Steward, DB/NAS/TB file pool, repair, or rollout.

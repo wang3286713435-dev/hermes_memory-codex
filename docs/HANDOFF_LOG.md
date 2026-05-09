@@ -5476,3 +5476,117 @@
 - review_result: accepted for docs-only selective baseline.
 - next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.57 baseline only.
 - commit/tag if any: none yet.
+
+## 2026-05-09 Phase 2.57a Handoff Prompt
+- goal: Start Phase 2.57a Natural Import Evidence Template / Runbook Dry-run after Phase 2.57 baseline.
+- changed_files: ACTIVE_PHASE, PHASE_BACKLOG, NIGHTLY_SPRINT_QUEUE, NEXT_CODEX_A_PROMPT, NEXT_CODEX_C_PROMPT, HANDOFF_LOG, TODO, DEV_LOG, ignored latest.
+- next: Codex A should implement only the dry-run evidence template runner and tests, then stop for Codex B review.
+- hard_boundaries: no upload, no API/CLI smoke, no DB/index writes, no file body reads, no Data Steward implementation.
+- commit/tag if any: none.
+
+## 2026-05-09 15:02 Phase 2.57a
+- goal: Implement natural import evidence template / runbook dry-run runner.
+- changed_files:
+  - `scripts/phase257a_natural_import_evidence_template.py`
+  - `tests/test_phase257a_natural_import_evidence_template.py`
+  - `docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `uv run python -m py_compile scripts/phase257a_natural_import_evidence_template.py`: passed.
+  - `uv run pytest tests/test_phase257a_natural_import_evidence_template.py -q`: `7 passed`.
+- validation:
+  - Local dry-run example returned `ReadyForAuthorizedSmoke`.
+  - No real upload, API call, Hermes CLI smoke, DB write, OpenSearch write, or Qdrant write.
+- risks:
+  - This is an evidence template only; future real natural import smoke still requires explicit user authorization.
+  - Historical unrelated dirty remains and must not be staged with Phase 2.57a.
+- next: Codex B review Phase 2.57a; if accepted, prepare selective Git baseline.
+- commit/tag if any: none.
+
+## 2026-05-09 15:17 Phase 2.58
+- goal: Extend natural import dry-run runner into an operator pack with review helper and Mac mini checklist.
+- changed_files:
+  - `scripts/phase257a_natural_import_evidence_template.py`
+  - `tests/test_phase257a_natural_import_evidence_template.py`
+  - `docs/MAC_MINI_NATURAL_IMPORT_OPERATOR_CHECKLIST.md`
+  - `docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `uv run pytest tests/test_phase257a_natural_import_evidence_template.py -q`: `12 passed`.
+  - Final py_compile / diff / latest JSON checks are recorded in `reports/agent_runs/latest.json`.
+- validation:
+  - Dry-run template example returned `ReadyForAuthorizedSmoke`.
+  - Review-json example returned `ready_for_operator_authorization`.
+  - No real upload, API call, Hermes CLI smoke, DB write, OpenSearch write, or Qdrant write.
+- risks:
+  - Operator pack remains preflight/review tooling only; future real smoke still needs explicit user authorization.
+  - Historical unrelated dirty remains and must not be staged with Phase 2.58.
+- next: Codex B review Phase 2.58; if accepted, prepare selective Git baseline.
+- commit/tag if any: none.
+
+## 2026-05-09 Phase 2.58 Handoff Prompt
+- goal: Reduce manual intervention by bundling Phase 2.57a runner with review helper and Mac mini operator checklist before baseline.
+- decision: Do not baseline 2.57a alone; continue within same dry-run/no-upload boundary.
+- next: Codex A should implement review-json mode, operator checklist doc, tests, and documentation sync; then stop for Codex B review.
+- hard_boundaries: no upload, no API/CLI smoke, no file body reads, no DB/index writes, no repair/backfill/reindex, no Data Steward implementation.
+- commit/tag if any: none.
+
+## 2026-05-09 Phase 2.58 Codex B Review Fix
+- finding: `build_review_summary()` blocks `real_upload_called=true` but does not yet block `plain_upload_bypass_used=true` or `real_file_uploaded=true`.
+- risk: direct API bypass or already-uploaded evidence could be misread as a dry-run authorization template.
+- next: Codex A should add blocking reasons and tests for both fields, then stop for Codex B review.
+- commit/tag if any: none.
+
+## 2026-05-09 16:30 Phase 2.58 Review Fix
+- goal: Block direct API bypass / already-uploaded records in natural import dry-run review helper.
+- changed_files:
+  - `scripts/phase257a_natural_import_evidence_template.py`
+  - `tests/test_phase257a_natural_import_evidence_template.py`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `uv run python -m py_compile scripts/phase257a_natural_import_evidence_template.py`: passed.
+  - `uv run pytest tests/test_phase257a_natural_import_evidence_template.py -q`: `14 passed`.
+- validation:
+  - `plain_upload_bypass_used=true` now returns `review_status=pause`.
+  - `real_file_uploaded=true` now returns `review_status=pause`.
+  - No real upload, API call, Hermes CLI smoke, DB write, OpenSearch write, or Qdrant write.
+- risks:
+  - Operator pack remains preflight/review tooling only; future real smoke still needs explicit user authorization.
+  - Historical unrelated dirty remains and must not be staged with Phase 2.58.
+- next: Codex B review Phase 2.58 review-fix; if accepted, prepare selective Git baseline.
+- commit/tag if any: none.
+
+## 2026-05-09 Phase 2.58 Codex B Review
+- goal: Review Natural Import Operator Pack and prepare selective baseline.
+- verification:
+  - py_compile: passed.
+  - targeted pytest: `14 passed`.
+  - git diff/check and latest JSON validation: passed.
+  - demo review confirms `plain_upload_bypass_used=true` and `real_file_uploaded=true` return `pause`.
+- review_result: accepted for selective baseline.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.58 baseline only.
+- commit/tag if any: none yet.

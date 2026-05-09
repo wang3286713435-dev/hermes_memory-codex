@@ -1,8 +1,8 @@
 # NEXT_CODEX_C_PROMPT
 
-## No Codex C Task For Phase 2.57 Baseline
+## No Codex C Task For Phase 2.58 Baseline
 
-当前下一步是 Phase 2.57 docs-only selective baseline。
+当前下一步是 Phase 2.58 selective Git baseline。
 
 Codex C 暂无任务。不要运行 API / CLI smoke，不要上传文件。
 

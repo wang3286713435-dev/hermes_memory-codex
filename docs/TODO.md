@@ -1019,9 +1019,36 @@
 2. Next is docs-only planning for evidence pack / Mac mini operator runbook.
 3. No file upload, no code, no DB/index mutation, no Data Steward implementation in this phase.
 
+# Phase 2.57a Natural Import Evidence Template / Runbook Dry-run
+
+1. Phase 2.57 baseline 已完成；下一步做只读 evidence template / runbook dry-run runner。
+2. 目标是减少 operator 手工复制字段，先生成可测试 JSON 模板，不执行真实上传。
+3. 禁止 API/CLI smoke、真实 upload、DB/index 写入、repair/backfill/reindex、Data Steward / DB / NAS 实现。
+4. Phase 2.57a 最小实现已完成：新增 dry-run runner 与 targeted tests。
+5. 验证通过：py_compile 通过，`tests/test_phase257a_natural_import_evidence_template.py` 为 `7 passed`。
+6. 当前等待 Codex B review；不自动 baseline，不进入 Phase 2.57b。
+
 # Phase 2.57 Baseline Gate
 
 1. Codex B review passed for Natural Import MVP Usability / Evidence Planning.
 2. Next step is docs-only selective Git baseline.
 3. No upload, no API/CLI smoke, no code, no DB/index writes.
 4. After baseline, consider Phase 2.57a evidence template / runbook runner dry-run.
+
+# Phase 2.58 Natural Import Operator Pack
+
+1. Phase 2.57a runner 已完成但暂不单独 baseline，继续打包 review helper 与 Mac mini operator checklist。
+2. 本轮目标是减少 operator 手工复制字段：生成 evidence template、复核 dry-run JSON、给出 Go/Pause/No-Go 前置判断。
+3. Codex B review-fix：review helper 必须阻断 `plain_upload_bypass_used=true` 与 `real_file_uploaded=true`，避免 direct API upload 或已上传记录被误当作 dry-run 授权模板。
+4. 禁止 API/CLI smoke、真实 upload、DB/index 写入、repair/backfill/reindex、Data Steward / DB / NAS 实现。
+5. Phase 2.58 最小实现已完成：新增 `--review-json` dry-run review helper 与 Mac mini operator checklist。
+6. Review-fix 已完成：`plain_upload_bypass_used=true` 与 `real_file_uploaded=true` 会被判为 `pause`，避免 direct API bypass / 已发生 upload 记录被当作 dry-run 授权模板。
+7. 验证通过：py_compile 通过，targeted pytest `14 passed`。
+8. 当前等待 Codex B review；不自动 baseline，不进入真实 upload smoke。
+
+# Phase 2.58 Baseline Gate
+
+1. Codex B review passed for Natural Import Operator Pack.
+2. Next step is selective Git baseline only.
+3. Do not upload files, run API/CLI smoke, or stage historical dirty / DB-NAS drafts.
+4. After baseline, plan Phase 2.59; do not auto-upload.

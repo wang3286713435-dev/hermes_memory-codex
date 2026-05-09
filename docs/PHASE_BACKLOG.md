@@ -2,6 +2,46 @@
 
 ## 最新状态
 
+1. Phase 2.58 已通过 Codex B review，下一步执行 selective Git baseline。
+2. 复核证据：py_compile 通过，targeted pytest `14 passed`，git diff/check 与 latest JSON 校验通过。
+3. baseline 白名单限定 operator pack 脚本、测试、Mac mini checklist 与交接文档。
+4. 严禁 stage 历史无关 `PHASE238...`、DB/NAS 草稿、ignored latest。
+5. baseline 后停止；Phase 2.59 才可规划第二个真实自然语言导入 smoke 或进一步 operator runbook。
+
+## 最新状态
+
+1. Phase 2.58 review-fix 已完成：dry-run review helper 已阻断 `plain_upload_bypass_used=true` 与 `real_file_uploaded=true`。
+2. `phase257a_natural_import_evidence_template.py` 已扩展 `--review-json` dry-run review helper。
+3. 新增 `docs/MAC_MINI_NATURAL_IMPORT_OPERATOR_CHECKLIST.md`，覆盖 preflight、授权、执行、evidence record、Go/Pause/No-Go 与禁止事项。
+4. 验证通过：py_compile 通过，targeted pytest `14 passed`。
+5. 当前仍不允许真实 upload、API/CLI smoke、DB/index 写入、repair/backfill/reindex 或 rollout；下一步只建议 Codex B review / selective baseline。
+
+## 历史状态
+
+1. Phase 2.57a evidence template runner 已实现并通过目标测试，但按新节奏暂不单独 baseline。
+2. Phase 2.58 Natural Import Operator Pack 已完成 operator checklist 与 review helper。
+3. Codex B review-fix 已补齐 bypass/upload 阻断：`plain_upload_bypass_used=true` 与 `real_file_uploaded=true` 会 pause。
+4. 当前等待 Codex B review；若通过再做一次 selective baseline，减少人工确认和碎片化 baseline。
+5. Data Steward / DB / NAS / TB 文件池仍不进入当前主线实现。
+
+## 最新状态
+
+1. Phase 2.57a Natural Import Evidence Template / Runbook Dry-run 最小实现已完成，等待 Codex B review。
+2. 新增只读脚本 `scripts/phase257a_natural_import_evidence_template.py` 与测试 `tests/test_phase257a_natural_import_evidence_template.py`。
+3. 验证通过：py_compile 通过，Phase 2.57a targeted pytest `7 passed`。
+4. 本轮未上传文件、未调用 API / CLI、未写 DB / facts / versions / OpenSearch / Qdrant。
+5. 下一步只建议 Codex B review；通过后再 selective baseline，不自动进入 Phase 2.57b。
+
+## 历史状态
+
+1. Phase 2.57 baseline 已完成：commit `ae71f51`，tag `phase-2.57-natural-import-mvp-usability-plan-baseline`。
+2. 当前进入 Phase 2.57a Natural Import Evidence Template / Runbook Dry-run。
+3. Phase 2.57a 允许新增只读脚本和测试，用于生成 / 校验 natural import evidence pack 模板。
+4. 严禁真实 upload、API/CLI smoke、读取文件正文、DB/index 写入、repair/backfill/reindex、DB/NAS/Data Steward 实现。
+5. 完成后停止等待 Codex B review，不自动 baseline。
+
+## 历史状态
+
 1. Phase 2.57 planning 已通过 Codex B review，下一步执行 docs-only selective Git baseline。
 2. baseline 白名单仅包含 `PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md` 与交接文档。
 3. 不得 stage 历史无关 `PHASE238...`、DB/NAS 草稿或 ignored latest。
