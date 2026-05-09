@@ -1,52 +1,45 @@
 # NEXT_CODEX_A_PROMPT
 
-当前 DB-1a fake View fixtures / fake adapter contract tests 已 baseline。
+当前 DB-2 Asset Catalog Mirror dry-run preview 第一片准备 baseline。
 
-baseline:
+已完成 baseline / review 事实：
 
-1. commit：`e9d1556`
-2. tag：`phase-db1a-fake-view-adapter-baseline`
+1. DB-1a fake View fixtures / fake adapter contract tests 已 baseline：commit `e9d1556`，tag `phase-db1a-fake-view-adapter-baseline`。
+2. DB-2 planning / Ralph Stop hook guard 已 baseline：commit `56f9e47`，tag `phase-db2-planning-ralph-guard-baseline`。
+3. DB-1a contract review-fix 已 baseline：commit `e21a1c9`，tag `phase-db1a-contract-review-fix-baseline`。
+4. DB-1a malformed cursor review-fix 已 baseline：commit `e16df1a`，tag `phase-db1a-malformed-cursor-review-fix-baseline`。
+5. 测试 Codex 已独立复测当前 DB-1a / DB-2 边界：`DB1A_DB2_QA_OPEN_FINDINGS: 0`，`P0 findings: 0`。
 
-DB-2 Asset Catalog Mirror planning 与 Ralph Stop hook guard 已通过 Codex B review，并进入 baseline。
+当前允许状态：
 
-本 baseline 后，下一轮只允许在用户显式授权时进入一个极窄 DB-2 implementation slice；未授权前继续停在 planning / review 状态。
+1. DB-2 仅允许 fake-adapter dry-run preview 第一片 baseline。
+2. baseline 后停止，不自动进入 DB-2 migration、temporary DB proof-of-contract、真实平台接入或 DB-3 retrieval。
 
 1. 阅读：
    - `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md`
    - `docs/DB_BRANCH_ACCEPTANCE_AND_MERGE_CHECKLIST.md`
    - `docs/DATA_STEWARD_BRANCH_ROADMAP.md`
-   - `docs/DB2_ASSET_CATALOG_MIRROR_PLANNING_PROMPT.md`
    - `.claude/ralph/PROMPT.md`
-2. 如用户授权 implementation，先再次确认 DB-2 plan 是否仍保持：
-   - docs-only
+2. 如用户授权下一片 DB-2，先再次确认 DB-2 plan 是否仍保持：
    - no migration unless explicitly authorized
    - no real MySQL / NAS / REST
    - no `documents` / `chunks`
    - no OpenSearch / Qdrant
    - no catalog retrieval
    - no retrieval contract or memory kernel architecture change
-3. 下一步 implementation slice 如被授权，建议只做其中一个：
-   - dry-run sync preview contract tests
+3. 下一步 DB-2 slice 如被授权，建议只做其中一个：
    - temporary DB / fixture DB proof-of-contract tests
-   - mirror field dataclass / DTO draft without migration
-4. Review DB-2 plan 是否明确：
-   - proposed mirror fields
-   - sync preview contract
-   - checkpoint policy
-   - permission / evidence boundary
-   - testing plan
-   - implementation gate
-   - hard stop conditions
-   - future implementation prompt remains unauthorized
+   - mirror field DTO refinement without migration
+   - migration authorization decision document
 
 禁止：
 
-1. 不写功能代码。
-2. 不进入 DB-2 implementation。
+1. 不自动进入新的功能代码。
+2. 不进入 DB-2 migration。
 3. 不连接真实 MySQL / NAS / REST。
 4. 不扫描 `/Volumes/zyzn/卓羽智能项目`。
 5. 不改 retrieval contract。
 6. 不改 memory kernel 主架构。
 7. 不自动 baseline。
 
-即使 baseline 已完成，仍需用户显式授权才可进入 DB-2 implementation。
+即使 DB-2 dry-run preview baseline 已完成，仍需用户显式授权才可进入下一片 DB-2。

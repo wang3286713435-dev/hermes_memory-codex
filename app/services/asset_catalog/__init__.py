@@ -4,8 +4,18 @@ from app.services.asset_catalog.contracts import (
     AssetViewRecord,
 )
 from app.services.asset_catalog.fake_adapter import FakePlatformAssetCatalogAdapter
+from app.services.asset_catalog.mirror_preview import (
+    AssetCatalogMirrorPreview,
+    AssetCatalogMirrorPreviewer,
+    AssetCatalogMirrorPreviewItem,
+    AssetCatalogMirrorPreviewSummary,
+)
 
 __all__ = [
+    "AssetCatalogMirrorPreview",
+    "AssetCatalogMirrorPreviewItem",
+    "AssetCatalogMirrorPreviewSummary",
+    "AssetCatalogMirrorPreviewer",
     "AssetViewPage",
     "AssetViewRecord",
     "FakePlatformAssetCatalogAdapter",

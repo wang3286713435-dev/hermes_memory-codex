@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "uv run --extra dev pytest tests/test_data_steward_fake_adapter.py -q",
-    "lint": "uv run --extra dev ruff check app/services/asset_catalog tests/test_data_steward_fake_adapter.py app/core/config.py"
+    "test": "uv run --extra dev pytest tests/test_data_steward_fake_adapter.py tests/test_data_steward_asset_catalog_mirror.py -q",
+    "lint": "uv run --extra dev ruff check app/services/asset_catalog tests/test_data_steward_fake_adapter.py tests/test_data_steward_asset_catalog_mirror.py app/core/config.py"
   }
 }

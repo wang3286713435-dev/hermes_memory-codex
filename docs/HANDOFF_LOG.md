@@ -1,5 +1,49 @@
 # Handoff Log
 
+## 2026-05-09 DB-2 Asset Catalog Mirror dry-run preview baseline
+- goal: Baseline the first DB-2 implementation slice after independent QA found no P0/P1/P2 blockers.
+- branch: `codex/data-steward-db0-contract`
+- worktree: `/Users/Weishengsu/Hermes_memory_db0`
+- baseline:
+  - DB-2 dry-run preview commit/tag: pending selective baseline.
+  - Previous DB-2 planning / Ralph guard commit: `56f9e47`
+  - Previous DB-2 planning / Ralph guard tag: `phase-db2-planning-ralph-guard-baseline`
+- changed_files:
+  - `app/services/asset_catalog/__init__.py`
+  - `app/services/asset_catalog/mirror_preview.py`
+  - `tests/test_data_steward_asset_catalog_mirror.py`
+  - `package.json`
+  - `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `docs/HANDOFF_LOG.md`
+- validation:
+  - Test Codex independent QA: `DB1A_DB2_QA_OPEN_FINDINGS: 0`, `P0 findings: 0`.
+  - `npm test`: `24 passed`.
+  - `npm run lint`: passed.
+  - `uv run --extra dev pytest tests/test_db1_contract_probe.py tests/test_db1_contract_probe_round2.py -q`: `16 passed`.
+  - Test Codex probes `tests/test_db1_contract_probe_round3.py` / `tests/test_db2_mirror_probe.py`: `16 passed`.
+  - `uv run python -m py_compile app/services/asset_catalog/contracts.py app/services/asset_catalog/fake_adapter.py app/services/asset_catalog/mirror_preview.py app/core/config.py`: passed.
+  - Four fake fixture JSON validations: passed.
+  - `git diff --check`: passed.
+  - Boundary grep: no real MySQL / NAS / REST, migration, retrieval / memory-kernel changes, or index write paths inside `app/services/asset_catalog`; only dry-run write flag names and tests.
+- scope: DB-2 fake-adapter dry-run preview only.
+- implemented:
+  - `AssetCatalogMirrorPreviewer` over DB-1 fake adapter / fake fixtures.
+  - Preview summary and items with write flags fixed false.
+  - Preview actions for active, denied, moved, stale, missing, checksum-missing, and missing-record cases.
+  - Catalog-only evidence boundary and event-id checkpoint preview.
+- probe_files_not_for_baseline:
+  - `tests/test_db1_contract_probe.py`
+  - `tests/test_db1_contract_probe_round2.py`
+  - `tests/test_db1_contract_probe_round3.py`
+  - `tests/test_db2_mirror_probe.py`
+- forbidden scope respected: no migration, no model changes, no real MySQL / NAS / REST, no documents / chunks writes, no OpenSearch / Qdrant writes, no catalog retrieval, no selective indexing, no retrieval contract or memory kernel architecture change.
+- next: complete selective Git baseline for DB-2 dry-run preview. After baseline, stop; do not enter temporary DB proof-of-contract, migration, real platform integration, or DB-3 retrieval without explicit authorization.
+
 ## 2026-05-09 DB-2 Asset Catalog Mirror docs-only plan / Ralph Stop Hook Guard
 - goal: Create the DB-2 Asset Catalog Mirror docs-only plan without implementation, then configure project-level Ralph Standalone Stop hook guard.
 - branch: `codex/data-steward-db0-contract`

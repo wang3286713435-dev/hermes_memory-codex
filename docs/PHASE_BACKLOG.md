@@ -6,8 +6,10 @@
 2. DB-1a fake View fixtures / fake adapter contract tests 已 baseline：commit `e9d1556`，tag `phase-db1a-fake-view-adapter-baseline`。
 3. “数据管家”统一指 Hermes 企业 Agent；DB / NAS / BIM 接入只是数据管家的资产治理能力模块之一。
 4. 当前 MVP 主线继续在原分支推进，不因 DB 分支阻塞。
-5. 本轮新增 `DB2_ASSET_CATALOG_MIRROR_PLANNING_PROMPT.md` 与 `DB2_ASSET_CATALOG_MIRROR_PLAN.md`，只定义 DB-2 planning / review gate。
-6. 下一步建议 Codex B review DB-2 plan；不得自动进入 DB-2 implementation、migration、真实 MySQL / NAS 联调或 indexing。
+5. DB-2 planning / Ralph Stop hook guard 已 baseline：commit `56f9e47`，tag `phase-db2-planning-ralph-guard-baseline`。
+6. DB-1a contract review-fix 已 baseline：commit `e21a1c9`，tag `phase-db1a-contract-review-fix-baseline`；malformed cursor review-fix 已 baseline：commit `e16df1a`，tag `phase-db1a-malformed-cursor-review-fix-baseline`。
+7. 当前 DB-2 仅进入 fake-adapter dry-run preview 第一片，测试 Codex 独立复测无 P0/P1/P2 blocker。
+8. 下一步建议固化 DB-2 dry-run preview baseline；不得自动进入 migration、真实 MySQL / NAS / REST 联调、DB/index 写入、catalog retrieval 或 selective indexing。
 
 ## 最新状态
 

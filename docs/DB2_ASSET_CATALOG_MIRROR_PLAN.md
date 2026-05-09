@@ -2,7 +2,7 @@
 
 日期：2026-05-09
 分支：`codex/data-steward-db0-contract`
-状态：docs-only planning，implementation 未授权；planning / Ralph guard baseline 已由用户授权
+状态：dry-run sync preview 第一片已授权并实现；migration、真实平台接入、写入和 DB-3 retrieval 未授权
 
 ## 1. Scope
 
@@ -14,12 +14,12 @@ DB-2 的目标是规划 Hermes_memory 自有 asset catalog mirror，用于保存
 2. tag：`phase-db1a-fake-view-adapter-baseline`
 3. 数据源：DB-1 fake `ProjectAssetView` / `FileAssetView` / `ModelAssetView` / `AuditEventView`。
 
-DB-2 planning 结论：
+DB-2 planning / implementation 结论：
 
 1. 可以规划 `external_asset_catalog` 或等价 mirror。
-2. implementation 前必须 Codex B review。
+2. planning 已完成 Codex B review，用户已授权进入 DB-2 最小 dry-run preview implementation。
 3. migration 是否允许仍需用户显式授权。
-4. 当前仅允许 planning / Ralph guard baseline；不得写 DB-2 implementation code，不得写 migration。
+4. 当前只允许 fake adapter 上的 catalog mirror dry-run preview；不得写 migration，不得连接真实 MySQL / NAS / REST，不得写 `documents` / `chunks` / OpenSearch / Qdrant。
 
 ## 2. Non-goals
 
@@ -189,15 +189,18 @@ DB-2 planning 后的 future implementation tests 应只使用 fake fixtures、te
 
 ## 8. Implementation Gate
 
-DB-2 implementation 前必须满足：
+DB-2 dry-run preview 第一片已满足：
 
 1. DB-2 plan 通过 Codex B review。
 2. 用户明确授权“进入 DB-2 implementation”。
-3. 用户明确是否允许 migration。
-4. implementation prompt 明确白名单文件。
-5. implementation prompt 明确禁止真实 MySQL / NAS / REST。
-6. implementation prompt 明确 tests 只用 fake fixtures / temporary DB / fixture DB。
-7. implementation prompt 明确不进入 DB-3 catalog retrieval。
+
+后续任何 DB-2 extension 或 migration 前必须重新满足：
+
+1. 用户明确是否允许 migration。
+2. implementation prompt 明确白名单文件。
+3. implementation prompt 明确禁止真实 MySQL / NAS / REST，除非用户另行授权真实平台联调。
+4. implementation prompt 明确 tests 只用 fake fixtures / temporary DB / fixture DB，除非用户另行授权。
+5. implementation prompt 明确不进入 DB-3 catalog retrieval。
 
 推荐初次 implementation 白名单仅限：
 
@@ -223,7 +226,7 @@ DB-2 implementation 前必须满足：
 
 ## 10. Future Implementation Prompt Draft
 
-以下 prompt 是草案，尚未授权执行。
+以下 prompt 的 dry-run preview 部分已作为 DB-2 第一片执行；migration、DB 写入、真实平台接入和 DB-3 retrieval 仍未授权。
 
 ```text
 当前分支：codex/data-steward-db0-contract。

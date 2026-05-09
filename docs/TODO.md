@@ -7,8 +7,9 @@
 3. DB-1a 已 baseline：fake `ProjectAssetView` / `FileAssetView` / `ModelAssetView` / `AuditEventView` fixtures 与 fake adapter contract tests，commit `e9d1556`，tag `phase-db1a-fake-view-adapter-baseline`。
 4. DB 分支禁止连接真实 MySQL / NAS，禁止扫描 `/Volumes/zyzn/卓羽智能项目`，禁止写 `documents` / `chunks` / OpenSearch / Qdrant。
 5. 当前 MVP 主线继续优先推进内部可用能力，不被 DB/NAS/BIM 前置工作阻塞。
-6. DB-2 planning prompt / plan 已完成；不得自动进入 DB-2 mirror implementation、migration、真实 MySQL / NAS 联调或 indexing。
-7. 下一步：Codex B review `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md`；通过后仍需用户显式授权才可写 implementation。
+6. DB-2 planning / Ralph guard 已 baseline，DB-1a cursor/filter review-fix 已 baseline。
+7. DB-2 fake-adapter dry-run preview 第一片已实现并由测试 Codex 独立复测：无 P0/P1/P2 blocker。
+8. 下一步：固化 DB-2 dry-run preview baseline；baseline 后不得自动进入 migration、真实 MySQL / NAS / REST 联调、documents / chunks / OpenSearch / Qdrant 写入、DB-3 retrieval 或 selective indexing。
 
 ## 最新状态
 

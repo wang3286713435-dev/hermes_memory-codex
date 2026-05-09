@@ -1,5 +1,9 @@
 # DEV_LOG
 
+- [DB-2] 测试 Codex 独立复测通过：`DB1A_DB2_QA_OPEN_FINDINGS: 0`，`P0 findings: 0`。复测覆盖 DB-1 cursor/filter/malformed cursor probe 与 DB-2 mirror dry-run boundary probe，`npm test` 为 `24 passed`，`npm run lint` 通过，额外 probe `16 passed`。当前允许进入的范围仅限 fake-adapter dry-run preview；migration、真实 MySQL / NAS / REST、DB/index 写入、retrieval 和 selective indexing 仍未授权。
+
+- [DB-2] 完成 Asset Catalog Mirror dry-run preview 第一片：新增 `AssetCatalogMirrorPreviewer` 与 preview dataclasses，只读取 DB-1 fake adapter / fake fixtures，输出 `would_upsert` / `would_deny` / `would_mark_moved` / `would_mark_stale` / `would_mark_missing` / `would_require_human_review` / missing-record `would_skip`。summary 和 item 的 `writes_db`、`writes_documents`、`writes_chunks`、`writes_opensearch`、`writes_qdrant` 固定为 `false`；catalog-only evidence 保持 `asset_catalog_evidence`、`metadata_only`、`content_evidence_available=false`；checkpoint preview 只使用 `event_id` / `after_event_id`，不写 checkpoint。
+
 - [DB-2/Ralph] 按 Ralph implementation-template 补齐项目级 Standalone Stop hook 配置：新增 `.claude/settings.json`、`ralph-stop-hook.cjs`、`PROMPT.md`、guardrails/findings/memory 文件和 macOS/Windows launcher。Stop hook 以 `RALPH_ACTIVE=1` 为第一保护，launcher 默认 `RALPH_MAX_ITERATIONS=10`；prompt 将 DB-2 限定为 boundary audit，只允许修复 `tests` 与既有 asset-catalog source surface 的验证失败，不允许 migration、真实 MySQL / NAS / REST、documents / chunks / OpenSearch / Qdrant、retrieval contract 或 memory kernel 改动。新增最小 `package.json` 仅用于映射用户指定的 `npm test` / `npm run lint` 到 DB-1a 目标 pytest / ruff；两条 npm validation commands 均已通过，`.claude/ralph/findings.md` 无 `Status: OPEN` findings。
 
 - [DB-2/Ralph] Codex B review 通过 DB-2 planning / Ralph guard baseline scope：当前 diff 无 `app` / `tests` / `migrations` / `scripts` 实现改动，DB-2 仍停留在 docs-only planning 与项目级 guard 配置；用户已授权执行 selective baseline，tag 计划为 `phase-db2-planning-ralph-guard-baseline`。
