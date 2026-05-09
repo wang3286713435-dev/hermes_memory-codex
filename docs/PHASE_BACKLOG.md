@@ -273,6 +273,22 @@
 42. 当前白名单未允许修改 `run_agent.py`；本轮未接入真正 post-answer retry / replacement，仍需 Codex C 真实终端复验。
 43. 下一步等待 Codex B review；通过后建议 Codex C 重跑 Q1/Q2/Q3；通过后再由 Codex B 写入 Phase 2.38d Git baseline prompt。
 
+## DB-2 Schema Handoff Freeze
+
+1. DB-2 dry-run preview baseline 已完成：commit `6780d20`，tag `phase-db2-dry-run-preview-baseline`。
+2. DB-2 temporary DB proof-of-contract baseline 已完成：commit `53337fe`，tag `phase-db2-temp-db-proof-baseline`。
+3. DB-2 schema contract freeze baseline 已完成：commit `64e139a`，tag `phase-db2-schema-contract-freeze-baseline`。
+4. DB-2 schema review response baseline 已完成：commit `cffac1f`，tag `phase-db2-schema-review-response-baseline`。
+5. 当前 DB-2 handoff freeze 已新增 / 更新：
+   - `docs/DB2_SCHEMA_CONTRACT.md`
+   - `docs/DB2_VIEW_FIELD_MAPPING.md`
+   - `docs/DB2_CHECKPOINT_AND_ROLLBACK_CONTRACT.md`
+   - `docs/DB2_PERMISSION_DEFAULTS.md`
+   - `docs/DB2_FAKE_FIXTURE_ACCEPTANCE_CASES.md`
+6. Handoff freeze 明确 `external_asset_catalog`、三段式 `asset_uid`、`source_system=delivery_platform`、四个 `source_view`、`source_contract_version`、checkpoint scope key、权限默认 `DENIED` 和 catalog-only Missing Evidence。
+7. 当前仍不写 migration、不连接真实 MySQL / NAS / REST、不写 `documents` / `chunks` / OpenSearch / Qdrant、不进入 DB-3 retrieval。
+8. 下一步只建议 Codex B review + validation + baseline；DB-3 必须等待用户单独授权。
+
 ## 后置项
 
 1. 完整 AI 审标 / 自动审标：后置，当前只做 retrieval evidence 与 trace 改善。

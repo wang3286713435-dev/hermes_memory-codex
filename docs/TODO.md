@@ -932,3 +932,24 @@
 6. 已新增 `reports/mvp_pilot_reviews/.gitignore` 与 `README.md`；真实 report JSON / Markdown 默认 ignored，不入 Git。
 7. 当前不运行 API / CLI smoke，不写 DB / facts / versions / OpenSearch / Qdrant，不进入 production rollout、repair 或 Data Steward 实现。
 8. 下一步需 Codex B review Phase 2.42a；通过后再单独决定是否 Git baseline。
+
+## DB-2 Schema Handoff Freeze TODO
+
+1. Review 本轮 DB-2 handoff freeze 文档：
+   - `docs/DB2_SCHEMA_CONTRACT.md`
+   - `docs/DB2_VIEW_FIELD_MAPPING.md`
+   - `docs/DB2_CHECKPOINT_AND_ROLLBACK_CONTRACT.md`
+   - `docs/DB2_PERMISSION_DEFAULTS.md`
+   - `docs/DB2_FAKE_FIXTURE_ACCEPTANCE_CASES.md`
+2. 验证命令：
+   - `npm test`
+   - `npm run lint`
+   - `git diff --check`
+3. 若无 P0/P1/P2，执行 DB-2 schema handoff freeze baseline。
+4. Baseline 前后仍禁止：
+   - 真实 migration
+   - 真实 MySQL / NAS / REST
+   - `documents` / `chunks`
+   - OpenSearch / Qdrant
+   - DB-3 retrieval / selective indexing
+5. DB-3 第一片必须等用户单独授权，不能由 DB-2 handoff 自动触发。

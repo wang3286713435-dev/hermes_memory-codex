@@ -2,7 +2,7 @@
 
 日期：2026-05-09
 分支：`codex/data-steward-db0-contract`
-状态：dry-run sync preview 与 temporary DB proof-of-contract 已 baseline；schema review response docs-only；migration、真实平台接入和 DB-3 retrieval 未授权
+状态：dry-run sync preview 与 temporary DB proof-of-contract 已 baseline；schema handoff freeze docs-only；migration、真实平台接入和 DB-3 retrieval 未授权
 
 ## 1. Scope
 
@@ -20,6 +20,7 @@ DB-2 planning / implementation 结论：
 2. planning 已完成 Codex B review，用户已授权进入 DB-2 最小 dry-run preview implementation。
 3. migration 是否允许仍需用户显式授权。
 4. 当前只允许 fake adapter 上的 catalog mirror dry-run preview、SQLite 内存库 proof-of-contract 和 docs-only schema review；不得写 migration，不得连接真实 MySQL / NAS / REST，不得写 `documents` / `chunks` / OpenSearch / Qdrant。
+5. DB-2 handoff freeze 文档已拆分为 schema contract、View mapping、checkpoint / rollback、permission defaults 和 fake fixture acceptance cases。
 
 ## 2. Non-goals
 
@@ -49,7 +50,7 @@ DB-2 mirror 的 P0 字段应只覆盖 catalog mirror 最小闭环。字段可以
 | `source_system` | P0 required | fixture / platform source | 例如 `delivery_platform` |
 | `source_id` | P0 required | platform asset id | 平台 file id / model id / project id |
 | `source_view` | P0 required | View name | `ProjectAssetView` / `FileAssetView` / `ModelAssetView` / `AuditEventView` |
-| `contract_version` | P0 required | View contract | adapter 必须绑定并保存 |
+| `source_contract_version` | P0 required | View contract | 真实 mirror schema 字段；DB-1a fake adapter 的 `contract_version` 输入需映射到此字段 |
 | `project_id` | P0 required for project assets | View row | 项目边界和权限过滤依据 |
 | `project_scope` | P0 required | adapter normalized | 服务级同步后的项目范围 |
 | `source_path` | P0 for file/model | View row | 当前路径或平台存储路径 |
@@ -83,7 +84,7 @@ DB-2 首先应实现 dry-run sync preview 语义；写 DB 前必须有单独授�
 |---|---|
 | `asset_uid` | 目标资产 |
 | `source_view` | 来源 View |
-| `contract_version` | View contract version |
+| `source_contract_version` | View contract version |
 | `project_id` | 项目边界 |
 | `action` | preview action |
 | `reason` | action 原因 |

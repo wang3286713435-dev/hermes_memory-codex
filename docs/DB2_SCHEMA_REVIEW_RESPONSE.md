@@ -2,7 +2,29 @@
 
 日期：2026-05-09
 分支：`codex/data-steward-db0-contract`
-状态：docs-only schema review response；未授权 migration；未接真实 MySQL / NAS / REST
+状态：docs-only schema review response；已补齐 handoff freeze 文档；未授权 migration；未接真实 MySQL / NAS / REST
+
+## 0. 本轮接续交接结论
+
+已基于数据库 / NAS / 数字化交付平台侧第二轮确认，补齐 DB-2 到真实数据库前的冻结文档：
+
+1. `docs/DB2_SCHEMA_CONTRACT.md`
+2. `docs/DB2_VIEW_FIELD_MAPPING.md`
+3. `docs/DB2_CHECKPOINT_AND_ROLLBACK_CONTRACT.md`
+4. `docs/DB2_PERMISSION_DEFAULTS.md`
+5. `docs/DB2_FAKE_FIXTURE_ACCEPTANCE_CASES.md`
+
+本轮仍是 docs-only handoff freeze：
+
+1. 不创建生产 migration。
+2. 不连接真实 MySQL。
+3. 不扫描真实 NAS。
+4. 不读取真实文件内容。
+5. 不写 `documents` / `chunks`。
+6. 不写 OpenSearch / Qdrant。
+7. 不进入 DB-3 retrieval / indexing。
+
+交接握手口径：DB-2 schema / mapping / checkpoint / permission / fixture acceptance 合同已可进入 review 和 baseline。DB-3 只能在用户单独授权、测试 agent 复测通过、并明确 DB-3 范围后启动，不能由本 docs-only handoff 自动触发。
 
 ## 1. 本轮结论
 
@@ -18,7 +40,7 @@
 6. `external_asset_sync_checkpoint` 纳入 DB-2 schema contract 的真实 migration 候选表。
 7. DB-2 真实 migration 仍未授权。
 
-## 2. 对 14 个问题的明确回答
+## 2. 对 15 个问题的明确回答
 
 1. 最终表名是否确定为 `external_asset_catalog`？
    - 已确认。默认使用 `external_asset_catalog`；只有数据库团队要求 Hermes 命名空间时才使用 `hermes_external_asset_catalog`。
@@ -30,13 +52,13 @@
    - 已确认。DB-2 当前固定为 `ProjectAssetView`、`FileAssetView`、`ModelAssetView`、`AuditEventView`。新增 View 必须走 contract version review。
 
 4. 是否将 View contract version 写入 mirror 表或同步 checkpoint？
-   - 已确认需要。`contract_version` 写入 `external_asset_catalog`；`source_contract_version` 写入 `external_asset_sync_checkpoint`。
+   - 已确认需要。`source_contract_version` 写入 `external_asset_catalog` 与 `external_asset_sync_checkpoint`。DB-1a fake adapter 的 `contract_version` 字段仅作为 fake contract 输入名，真实 mirror schema 使用 `source_contract_version`。
 
 5. 是否新增 `external_asset_sync_checkpoint` 表？
    - 已确认纳入 schema contract。它只服务 mirror 同步，不存正文、不存 embedding、不影响 `documents` / `chunks`。
 
 6. checkpoint rollback 记录保存在哪里？
-   - 初版保存在 `external_asset_sync_checkpoint`。每个 checkpoint row 使用 `checkpoint_scope_key` 标识 `source_system + source_view (+ project_id)`，并保存 `run_id`、`last_event_id`、`overlap_started_at`、`last_synced_at` 和 `status`。更完整的 run history 可在后续 DB-2.x 评估，不阻塞当前 schema freeze。
+   - 初版保存在 `external_asset_sync_checkpoint`。每个 checkpoint row 使用 `checkpoint_scope_key` 标识 `source_system + source_view (+ project_id)`，并保存 `run_id`、`last_event_id`、`overlap_started_at`、`last_synced_at`、`last_success_at`、错误摘要和本 run 计数。更完整的 run history 可在后续 DB-2.x 评估，不阻塞当前 schema freeze。
 
 7. MySQL JSON 字段是否确认使用 JSON 类型，而不是 TEXT？
    - 已确认目标 MySQL 使用 `JSON` 类型。若目标库为 PostgreSQL，等价使用 `JSONB`。初版不依赖 JSON 内部索引。
@@ -65,7 +87,7 @@
     - 已有边界定义：catalog-only 资产在正文回答场景必须返回 Missing Evidence，reason 建议为 `asset_catalog_only`。最终用户可见响应格式属于 DB-3 retrieval / answer contract，DB-2 不实现。
 
 15. DB-3 启动条件是什么？
-    - DB-3 只能在 DB-2 migration / fake fixtures / temporary DB proof / schema review 均通过后，由用户单独授权启动。DB-3 还必须明确 permission filter、Missing Evidence、catalog-only 与 document evidence 分层，并通过 Codex review 与测试 agent 复测。
+    - DB-3 只能在 DB-2 schema handoff freeze / fake fixtures / temporary DB proof / schema review 均通过后，由用户单独授权启动。真实 migration 仍需单独授权，不是 DB-3 自动前提或自动动作。DB-3 还必须明确 permission filter、Missing Evidence、catalog-only 与 document evidence 分层，并通过 Codex review 与测试 agent 复测。
 
 ## 3. 当前 View 已有字段
 

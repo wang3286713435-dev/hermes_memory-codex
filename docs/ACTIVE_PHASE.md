@@ -1,6 +1,6 @@
 # Active Phase
 
-- 当前 phase：DB-2 Schema Review Response
+- 当前 phase：DB-2 Schema Handoff Freeze
 - 当前分支：`codex/data-steward-db0-contract`
 - 当前 baseline：
   - DB-2 dry-run preview baseline：commit `6780d20`，tag `phase-db2-dry-run-preview-baseline`
@@ -8,24 +8,27 @@
   - DB-1a contract review-fix baseline：commit `e21a1c9`，tag `phase-db1a-contract-review-fix-baseline`
   - DB-2 planning / Ralph guard baseline：commit `56f9e47`，tag `phase-db2-planning-ralph-guard-baseline`
   - DB-1a fake adapter baseline：commit `e9d1556`，tag `phase-db1a-fake-view-adapter-baseline`
-- 本轮授权：只做临时数据库 proof-of-contract，不写 migration，不连接真实 MySQL / NAS / REST，不进入 DB-3 retrieval。
-- 本轮目标：吸收数据库 / NAS / 数字化交付平台侧确认，更新 schema contract；仍不写 migration。
+- 本轮授权：只做 DB-2 schema / mapping / checkpoint / rollback / permission / fixture acceptance docs-only handoff freeze；不写 migration，不连接真实 MySQL / NAS / REST，不进入 DB-3 retrieval。
+- 本轮目标：基于数据库 / NAS / 数字化交付平台侧第二轮确认，冻结 DB-2 到真实数据库前的字段合同、View 映射、checkpoint、rollback、权限默认值和 fake fixture 验收口径。
 - 修改文件：
   - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_SCHEMA_CONTRACT.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_SCHEMA_REVIEW_RESPONSE.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_VIEW_FIELD_MAPPING.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_CHECKPOINT_AND_ROLLBACK_CONTRACT.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_PERMISSION_DEFAULTS.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_FAKE_FIXTURE_ACCEPTANCE_CASES.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_DATABASE_TEAM_HANDOFF.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/ACTIVE_PHASE.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/DEV_LOG.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/HANDOFF_LOG.md`
 - 完成内容：
-  - 新增 `DB2_SCHEMA_REVIEW_RESPONSE.md`，逐项回答平台侧 14 个问题。
-  - 更新 `DB2_SCHEMA_CONTRACT.md`：确认 `source_system=delivery_platform`，固定当前四个 `source_view`，加入 View contract version 字段策略。
-  - 区分当前 View 已有字段与目标 / 预留字段。
-  - 将 `external_asset_sync_checkpoint` 纳入 DB-2 schema contract 的 migration 候选表。
-  - 明确 MySQL 使用 JSON 类型、timestamp 统一 UTC、开发 / 预生产 / 生产 rollback 差异。
-  - 明确 lifecycle 未提供时默认 `ACTIVE`，一次扫描缺失只写 candidate / data quality，不直接判定删除。
-  - 明确 DB-2 真实 migration 仍保持未授权状态。
+  - 重写 `DB2_SCHEMA_CONTRACT.md` 为 DB-2 handoff freeze 版本，包含最终 `external_asset_catalog` 字段矩阵、逻辑 SQL、索引和 DB-3 gate。
+  - 新增 `DB2_VIEW_FIELD_MAPPING.md`，分别冻结 Project / File / Model / AuditEvent View 到 catalog 的字段映射。
+  - 新增 `DB2_CHECKPOINT_AND_ROLLBACK_CONTRACT.md`，冻结 `external_asset_sync_checkpoint` schema、scope key、run_id、overlap window、失败恢复和 rollback。
+  - 新增 `DB2_PERMISSION_DEFAULTS.md`，冻结权限 fail-closed、Missing Evidence 和 catalog-only 边界。
+  - 新增 `DB2_FAKE_FIXTURE_ACCEPTANCE_CASES.md`，冻结 fake fixture / temp DB proof 验收 case。
+  - 更新 `DB2_SCHEMA_REVIEW_RESPONSE.md` 与 `DB2_DATABASE_TEAM_HANDOFF.md`，明确 DB-3 仍需单独授权。
 - 当前验证状态：
   - TDD RED：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_temp_db.py -q` 初始因缺少 `AssetCatalogTemporaryMirrorStore` import 失败。
   - TDD GREEN：同一命令后续为 `5 passed`。
@@ -37,8 +40,13 @@
   - `git diff --check`：passed。
   - Boundary grep：无 migration、真实 MySQL / NAS / REST、真实 index 写入或 DB-3 retrieval 实现；命中仅为 docs 禁止项、fake fixture `nas://fake`、SQLite 内存库测试和 write flag 字段。
   - 测试 Codex 独立复测：`DB2_TEMP_DB_QA_OPEN_FINDINGS: 0`，`P0 findings: 0`；额外 probe `tests/test_db2_temp_db_probe.py` 为 `4 passed`，probe lint 通过。
+  - 本轮 handoff freeze validation：`npm test` 为 `29 passed`。
+  - 本轮 handoff freeze validation：`npm run lint` 为 `All checks passed!`。
+  - 本轮 handoff freeze validation：`git diff --check` 通过。
+  - 本轮 QA probe rerun：`uv run --extra dev pytest tests/test_db1_contract_probe.py tests/test_db1_contract_probe_round2.py tests/test_db1_contract_probe_round3.py tests/test_db2_mirror_probe.py tests/test_db2_temp_db_probe.py -q` 为 `36 passed`。
+  - 本轮 QA probe lint：`uv run --extra dev ruff check ...` 为 `All checks passed!`。
 - 当前结论：
-  - 当前变更为 docs-only schema review response。
+  - 当前变更为 docs-only schema handoff freeze。
   - 未新增 migration。
   - 未连接真实 MySQL / NAS / REST。
   - 未进入 DB-3 retrieval / selective indexing。
@@ -47,5 +55,5 @@
   - 平台团队仍需确认 event_id 单调性、project_id 类型、source View 和时间字段。
   - migration 仍需用户单独授权。
   - 真实平台同步仍需用户单独授权。
-- 是否建议 baseline：待 review / validation 后决定。
+- 是否建议 baseline：建议做 DB-2 schema handoff freeze baseline；DB-3 仍需用户单独授权。
 - 是否建议进入下一阶段：否。

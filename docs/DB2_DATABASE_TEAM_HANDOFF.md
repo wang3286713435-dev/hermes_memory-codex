@@ -19,10 +19,14 @@
 5. 没有写 OpenSearch / Qdrant。
 6. 没有进入 DB-3 检索。
 
-DB-2 到真实数据库前的表结构、主键、权限字段、索引、checkpoint 和 rollback 契约已单独维护在：
+DB-2 到真实数据库前的表结构、主键、权限字段、索引、checkpoint、rollback、View 映射和 fake fixture 验收契约已单独维护在：
 
 1. `docs/DB2_SCHEMA_CONTRACT.md`
 2. `docs/DB2_SCHEMA_REVIEW_RESPONSE.md`
+3. `docs/DB2_VIEW_FIELD_MAPPING.md`
+4. `docs/DB2_CHECKPOINT_AND_ROLLBACK_CONTRACT.md`
+5. `docs/DB2_PERMISSION_DEFAULTS.md`
+6. `docs/DB2_FAKE_FIXTURE_ACCEPTANCE_CASES.md`
 
 如果本文与 `DB2_SCHEMA_CONTRACT.md` 存在冲突，以 `DB2_SCHEMA_CONTRACT.md` 为准。
 
@@ -51,6 +55,9 @@ DB-2 到真实数据库前的表结构、主键、权限字段、索引、checkp
 9. `source_system` 默认固定为 `delivery_platform`。
 10. 当前 `source_view` 固定为 `ProjectAssetView` / `FileAssetView` / `ModelAssetView` / `AuditEventView`。
 11. `external_asset_sync_checkpoint` 纳入 schema contract 的 migration 候选表。
+12. `source_contract_version` 写入 catalog mirror 与 checkpoint。
+13. Checkpoint scope key 默认 `source_system + ":" + source_view`，未来可扩展为 `source_system + ":" + source_view + ":" + project_id`。
+14. 每次 sync run 必须有 `run_id`，失败恢复从上一个成功 checkpoint + overlap window 继续。
 
 待数据库团队确认：
 
@@ -60,6 +67,7 @@ DB-2 到真实数据库前的表结构、主键、权限字段、索引、checkp
 4. 索引命名、长度限制和字符集 / collation。
 5. 预生产是否允许 migration down drop 新表；生产是否采用 forward migration。
 6. 是否需要 checkpoint history 表；初版只冻结 current checkpoint 表。
+7. MySQL 8 下各 `VARCHAR` 长度、utf8mb4、索引名和唯一键长度是否符合内部规范。
 
 待平台团队确认：
 
@@ -88,10 +96,14 @@ DB-2 到真实数据库前的表结构、主键、权限字段、索引、checkp
 2. `docs/DB2_DATABASE_TEAM_HANDOFF.md`
 3. `docs/DB2_SCHEMA_CONTRACT.md`
 4. `docs/DB2_SCHEMA_REVIEW_RESPONSE.md`
-5. `app/services/asset_catalog/mirror_preview.py`
-6. `app/services/asset_catalog/temp_db.py`
-7. `tests/test_data_steward_asset_catalog_mirror.py`
-8. `tests/test_data_steward_asset_catalog_temp_db.py`
+5. `docs/DB2_VIEW_FIELD_MAPPING.md`
+6. `docs/DB2_CHECKPOINT_AND_ROLLBACK_CONTRACT.md`
+7. `docs/DB2_PERMISSION_DEFAULTS.md`
+8. `docs/DB2_FAKE_FIXTURE_ACCEPTANCE_CASES.md`
+9. `app/services/asset_catalog/mirror_preview.py`
+10. `app/services/asset_catalog/temp_db.py`
+11. `tests/test_data_steward_asset_catalog_mirror.py`
+12. `tests/test_data_steward_asset_catalog_temp_db.py`
 
 这些材料说明了字段、状态、权限默认 deny、catalog-only evidence 边界和临时库写入演练。
 
@@ -106,3 +118,18 @@ DB-2 到真实数据库前的表结构、主键、权限字段、索引、checkp
 5. 做正文解析。
 6. 做检索回答。
 7. 改 memory kernel 主架构。
+
+## 7. DB-3 握手
+
+本交接完成后，只代表 DB-2 schema / field mapping / checkpoint / rollback / permission defaults 合同可进入 review 和 baseline。
+
+进入 DB-3 仍需用户单独授权，并且必须先满足：
+
+1. 本轮文档 baseline 完成。
+2. fake fixture acceptance case 通过。
+3. temporary DB proof-of-contract 通过。
+4. 权限默认 `DENIED` 和 catalog-only 不进入 retrieval 的测试通过。
+5. 测试 agent 独立复测无 P0/P1/P2。
+6. 数据库 / NAS 团队明确授权真实平台对接范围。
+
+DB-3 才允许讨论 selective indexing、preview index、full text、semantic index、Hermes_memory evidence pack、OpenSearch / Qdrant 写入。DB-3 不自动继承 DB-2 授权。

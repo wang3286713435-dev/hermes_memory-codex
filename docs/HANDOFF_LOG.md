@@ -217,6 +217,32 @@
 - next: if user explicitly continues, create `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md` as docs-only planning. Do not write implementation before Codex B review and explicit user authorization.
 - commit/tag if any: none.
 
+## 2026-05-09 DB-2 Schema Handoff Freeze
+- goal: Freeze DB-2 schema handoff before any real database integration.
+- changed_files:
+  - `docs/DB2_SCHEMA_CONTRACT.md`
+  - `docs/DB2_VIEW_FIELD_MAPPING.md`
+  - `docs/DB2_CHECKPOINT_AND_ROLLBACK_CONTRACT.md`
+  - `docs/DB2_PERMISSION_DEFAULTS.md`
+  - `docs/DB2_FAKE_FIXTURE_ACCEPTANCE_CASES.md`
+  - `docs/DB2_SCHEMA_REVIEW_RESPONSE.md`
+  - `docs/DB2_DATABASE_TEAM_HANDOFF.md`
+  - `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+- validation:
+  - `npm test`: `29 passed`.
+  - `npm run lint`: `All checks passed!`.
+  - `git diff --check`: passed.
+  - QA probes: `36 passed`.
+  - QA probe lint: `All checks passed!`.
+- boundary: docs-only; no migration, no real MySQL / NAS / REST, no documents/chunks, no OpenSearch/Qdrant, no DB-3 retrieval.
+- next: Run validation, then Codex B review / baseline if clean. DB-3 still needs separate user authorization.
+- commit/tag if any: none.
+
 ## 2026-05-09 DB-1a Fake View Fixtures / Fake Adapter Contract Tests
 - goal: Implement DB-1a fake View fixtures and read-only fake adapter contract tests on `codex/data-steward-db0-contract`.
 - branch: `codex/data-steward-db0-contract`
