@@ -301,6 +301,16 @@
 8. denied / moved / stale / missing / human-review rows 不成为 catalog result。
 9. DB-3B 候选是 temporary DB backed guard 和 Missing Evidence response DTO，仍不得接真实 MySQL。
 
+## DB-3B Temporary DB Backed Guard
+
+1. 用户已授权 DB-3B：只做 temporary DB backed catalog retrieval guard。
+2. DB-3B 只读 SQLite memory temporary mirror table `external_asset_catalog_contract`。
+3. 已新增 `AssetCatalogTemporaryMirrorStore.load_retrieval_preview()`。
+4. 该方法把 temp DB rows 还原为 `AssetCatalogMirrorPreview`，复用 DB-3A guard。
+5. file-backed SQLite 继续拒绝，防止误接真实文件型 DB。
+6. 本阶段仍不接真实 MySQL / NAS / REST，不写 migration，不写 documents/chunks/OpenSearch/Qdrant。
+7. 下一步建议 full validation、Codex B review、QA prompt，之后再 baseline。
+
 ## 后置项
 
 1. 完整 AI 审标 / 自动审标：后置，当前只做 retrieval evidence 与 trace 改善。

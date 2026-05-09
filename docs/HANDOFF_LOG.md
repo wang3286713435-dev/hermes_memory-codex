@@ -217,6 +217,27 @@
 - next: if user explicitly continues, create `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md` as docs-only planning. Do not write implementation before Codex B review and explicit user authorization.
 - commit/tag if any: none.
 
+## 2026-05-09 DB-3B Temporary DB Backed Guard
+- goal: Let the DB-3A guard consume DB-2 temporary mirror rows without real database integration.
+- changed_files:
+  - `app/services/asset_catalog/temp_db.py`
+  - `tests/test_data_steward_asset_catalog_temp_db_retrieval_guard.py`
+  - `docs/DB3B_TEMP_DB_BACKED_GUARD.md`
+  - `package.json`
+  - phase handoff docs
+- validation:
+  - TDD RED: `uv run --extra dev pytest tests/test_data_steward_asset_catalog_temp_db_retrieval_guard.py -q` failed on missing `load_retrieval_preview`.
+  - TDD GREEN: same target test passed, `3 passed`.
+  - targeted lint passed.
+  - `npm test`: `37 passed`.
+  - `npm run lint`: `All checks passed!`.
+  - py_compile: passed.
+  - `git diff --check`: passed.
+  - boundary grep: no real MySQL / NAS / REST / OpenSearch / Qdrant write path; hits are docs prohibitions and false write-flag fields.
+- boundary: SQLite memory temporary DB only; no real MySQL / NAS / REST, no migration, no documents/chunks, no OpenSearch/Qdrant.
+- next: Run full validation and review. Real MySQL remains separately gated.
+- commit/tag if any: none.
+
 ## 2026-05-09 DB-3A Catalog Retrieval Guard
 - goal: Implement the first DB-3 guard that keeps catalog metadata out of prompt-ready document evidence.
 - changed_files:

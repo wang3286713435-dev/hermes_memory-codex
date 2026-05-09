@@ -966,3 +966,16 @@
 5. Confirm no code path writes `documents` / `chunks` / OpenSearch / Qdrant.
 6. If clean, create DB-3A baseline.
 7. DB-3B may add temporary DB backed guard only after DB-3A review.
+
+## DB-3B Temporary DB Backed Guard TODO
+
+1. Review `AssetCatalogTemporaryMirrorStore.load_retrieval_preview()`.
+2. Review `tests/test_data_steward_asset_catalog_temp_db_retrieval_guard.py`.
+3. Run:
+   - `npm test`
+   - `npm run lint`
+   - `git diff --check`
+4. Confirm file-backed SQLite remains rejected.
+5. Confirm no real MySQL / NAS / REST path exists.
+6. Confirm no documents/chunks/OpenSearch/Qdrant writes exist.
+7. If clean, prepare DB-3B QA prompt or baseline per user instruction.

@@ -1,6 +1,6 @@
 # Active Phase
 
-- 当前 phase：DB-3A Catalog Retrieval Guard
+- 当前 phase：DB-3B Temporary DB Backed Guard
 - 当前分支：`codex/data-steward-db0-contract`
 - 当前 baseline：
   - DB-2 schema handoff freeze baseline：commit `bd24284`，tag `phase-db2-schema-handoff-freeze-baseline`
@@ -12,13 +12,16 @@
   - DB-1a contract review-fix baseline：commit `e21a1c9`，tag `phase-db1a-contract-review-fix-baseline`
   - DB-2 planning / Ralph guard baseline：commit `56f9e47`，tag `phase-db2-planning-ralph-guard-baseline`
   - DB-1a fake adapter baseline：commit `e9d1556`，tag `phase-db1a-fake-view-adapter-baseline`
-- 本轮授权：进入 DB-3 的最小安全片；只做 fake preview 上的 catalog retrieval guard，不写 migration，不连接真实 MySQL / NAS / REST，不写 OpenSearch / Qdrant。
-- 本轮目标：实现 catalog-only 与 document evidence 分层的第一道代码 guard，确保授权 catalog metadata 可做 lookup，但不会进入 prompt-ready 正文 evidence。
+- 本轮授权：只做 temporary DB backed catalog retrieval guard，不接真实 MySQL，不写 migration，不扫 NAS，不写 documents/chunks/OpenSearch/Qdrant，不进入真实 retrieval/indexing。
+- 本轮目标：让 DB-3A guard 能消费 DB-2 temporary mirror proof 表的 rows，形成真实数据库接入前的只读 proof-of-contract。
 - 修改文件：
   - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/retrieval_guard.py`
+  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/temp_db.py`
   - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/__init__.py`
   - `/Users/Weishengsu/Hermes_memory_db0/tests/test_data_steward_asset_catalog_retrieval_guard.py`
+  - `/Users/Weishengsu/Hermes_memory_db0/tests/test_data_steward_asset_catalog_temp_db_retrieval_guard.py`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/DB3_CATALOG_RETRIEVAL_GUARD.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB3B_TEMP_DB_BACKED_GUARD.md`
   - `/Users/Weishengsu/Hermes_memory_db0/package.json`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/ACTIVE_PHASE.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/DEV_LOG.md`
@@ -32,6 +35,11 @@
   - denied / moved / stale / missing / requires-human-review rows 不进入 catalog result 或 prompt items。
   - `package.json` validation 纳入 DB-3A 测试。
   - 新增 `DB3_CATALOG_RETRIEVAL_GUARD.md` 记录边界。
+  - 新增 `AssetCatalogTemporaryMirrorStore.load_retrieval_preview()`，只读加载 SQLite memory temp DB 中的 `external_asset_catalog_contract`。
+  - temp DB backed rows 可复用 `AssetCatalogRetrievalGuard` 执行 catalog lookup / content answer guard。
+  - file-backed SQLite 继续拒绝。
+  - `package.json` validation 纳入 DB-3B 测试。
+  - 新增 `DB3B_TEMP_DB_BACKED_GUARD.md` 记录边界。
 - 当前验证状态：
   - TDD RED：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_temp_db.py -q` 初始因缺少 `AssetCatalogTemporaryMirrorStore` import 失败。
   - TDD GREEN：同一命令后续为 `5 passed`。
@@ -56,8 +64,16 @@
   - DB-3A `git diff --check`：passed。
   - DB-3A boundary grep：命中仅为 fake fixtures `nas://fake`、禁止项文档、write flag 字段、fake adapter 读取 fixture；无真实 MySQL / NAS / REST / OpenSearch / Qdrant 写路径。
   - DB-3A review-fix：补充跨项目 denied count 不泄露测试，先 RED 后 GREEN。
+  - DB-3B TDD RED：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_temp_db_retrieval_guard.py -q` 因缺少 `load_retrieval_preview` 失败。
+  - DB-3B TDD GREEN：同一命令后续为 `3 passed`。
+  - DB-3B targeted lint：`All checks passed!`。
+  - DB-3B full validation：`npm test` 为 `37 passed`。
+  - DB-3B full validation：`npm run lint` 为 `All checks passed!`。
+  - DB-3B py_compile：passed。
+  - DB-3B `git diff --check`：passed。
+  - DB-3B boundary grep：命中仅为禁止项文档与 false write flags；无真实 MySQL / NAS / REST / OpenSearch / Qdrant 写路径。
 - 当前结论：
-  - 当前变更为 DB-3A 最小 guard 代码与文档。
+  - 当前变更为 DB-3B temporary DB backed guard 代码与文档。
   - 未新增 migration。
   - 未连接真实 MySQL / NAS / REST。
   - 未进入真实 retrieval / selective indexing / OpenSearch / Qdrant。
@@ -66,5 +82,5 @@
   - 平台团队仍需确认 event_id 单调性、project_id 类型、source View 和时间字段。
   - migration 仍需用户单独授权。
   - 真实平台同步仍需用户单独授权。
-- 是否建议 baseline：DB-3A validation 已通过，建议 Codex B review 后 baseline。
+- 是否建议 baseline：DB-3B validation 已通过，建议 Codex B review 后 baseline。
 - 是否建议进入下一阶段：否。
