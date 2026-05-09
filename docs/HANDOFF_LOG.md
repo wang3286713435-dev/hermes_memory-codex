@@ -1,5 +1,97 @@
 # Handoff Log
 
+## 2026-05-09 Phase 2.56d Codex B Review
+
+- goal: Review Phase 2.56d runtime wiring implementation and prepare selective Git baseline prompt.
+- review:
+  - Runtime hook is connected in `run_agent.py` before normal memory kernel retrieval / LLM answer.
+  - Non-import prompts are not intercepted.
+  - Default disabled path fail-closes with `real_upload_enabled=false`, `upload_adapter_status=disabled`, `ingestion_status=not_executed`.
+  - Enabled-without-client path fail-closes with `upload_client_not_configured`.
+  - No real upload API call, no real file upload, no DB / OpenSearch / Qdrant write.
+- verification:
+  - Hermes main py_compile: passed.
+  - Hermes main targeted pytest: `28 passed`.
+  - Hermes_memory `git diff --check`: passed.
+  - latest JSON validation and ignore checks: passed.
+  - CLI disabled-path smoke: passed.
+  - CLI enabled-without-client smoke: passed.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/TODO.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- next: Codex A should execute the Phase 2.56d selective Git baseline prompt and stop. Do not enter Phase 2.56e during baseline.
+- commit/tag if any: none.
+
+## 2026-05-09 Phase 2.56d Codex B Prompt
+
+- goal: Convert Phase 2.56c blocked result into a bounded Codex A implementation prompt for natural import runtime wiring.
+- review:
+  - Phase 2.56c correctly stopped at `runtime_not_wired_to_real_upload_adapter`.
+  - No ordinary `/api/v1/documents/upload` bypass was used.
+  - No document/version/chunk/index records were created.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- next: Codex A should execute Phase 2.56d: minimal runtime preflight hook, fake adapter tests, docs sync. No real upload, no API upload call, no DB/index writes, no baseline.
+- codex_c: No Codex C task until Phase 2.56d is reviewed and Phase 2.56e real smoke is explicitly prepared.
+
+## 2026-05-09 12:29 Phase 2.56c User Authorization
+
+- goal: Record user authorization and prepare Phase 2.56c real natural-language import smoke prompt.
+- authorized_file:
+  - `/Users/Weishengsu/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files/wxid_sn2cczdp4u2l12_c2fd/msg/file/2026-05/C塔项目人力配置及成本测算表0506.docx`
+  - type: regular file
+  - size: `16885 bytes`
+  - file type: Microsoft Word 2007+ `.docx`
+- authorization:
+  - user authorized natural-language import path upload.
+  - user accepts test document/version/chunk/OpenSearch/Qdrant records.
+  - cleanup/delete/repair/backfill/reindex not authorized by default.
+  - internal controlled MVP smoke only, not production rollout.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- validation: metadata only; file content not read.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.56c smoke and stop for Codex B review.
+- commit/tag if any: none.
+
+## 2026-05-09 12:23 Phase 2.56c Authorization Gate
+
+- goal: Confirm Phase 2.56b baseline and move the next real natural-language import smoke behind explicit user authorization.
+- baseline confirmed:
+  - commit `683cf02`.
+  - tag `phase-2.56b-natural-import-real-smoke-plan-baseline`.
+  - origin branch and tag pushed.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- validation: no upload, no API / CLI smoke, no DB / index writes.
+- next: wait for user authorization before Phase 2.56c execution prompt.
+- commit/tag if any: none.
+
 ## 2026-05-09 12:07 Phase 2.56b Codex B Review
 
 - goal: Review Phase 2.56b docs-only planning and prepare baseline prompt.
@@ -5222,4 +5314,58 @@
 - validation summary: Core evidence boundary is safe; no facts / transcript / snapshot / metadata replacement and no third-file contamination were observed. The remaining blocker is UX display completeness: source/title and safety flags are not stable in final CLI output.
 - next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for a minimal `ContextBuilder` display-tail fix, then stop for Codex B review.
 - forbidden scope: no real upload, no DB / index writes, no retrieval contract change, no memory kernel architecture change, no Data Steward / BIM / NAS / TB file pool, no repair, no rollout, no Git baseline.
+- commit/tag if any: none.
+
+## 2026-05-09 12:37 Phase 2.56c
+- goal: Execute the user-authorized natural-language single-file import real smoke without bypassing the natural import runtime path.
+- changed_files:
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/internal_mvp_runs/phase256c_natural_import_real_smoke_20260509_123736.json`（ignored）
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - File metadata preflight: passed; target is readable Microsoft Word 2007+ `.docx`, `16885 bytes`.
+  - Natural import parser preflight: passed; `natural_import_detected=true`, alias `@C塔人力测算`, no parser failure.
+  - Hermes_memory API `/health`: passed after starting local API helper; local process stopped after verification.
+  - Hermes CLI help: passed.
+- validation: Blocked before upload. Static runtime check found `run_agent.py` does not call `run_natural_file_import_preflight()` and does not configure a real upload adapter. No ordinary `/api/v1/documents/upload` bypass was used.
+- risks: Natural language import remains parser / adapter skeleton only until runtime wiring is implemented; no document/version/chunk/index records were created for this Phase 2.56c attempt.
+- next: Codex B review blocked result, then plan Phase 2.56d runtime wiring minimum implementation. Continue to forbid cleanup/delete/repair/backfill/reindex/rollout.
+- commit/tag if any: none.
+
+## 2026-05-09 13:41 Phase 2.56d
+- goal: Implement minimum runtime wiring for natural-language file import without real upload.
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/run_agent.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/natural_file_import_flow.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/natural_file_import_runtime.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_natural_file_import_runtime.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `docs/PHASE256D_NATURAL_IMPORT_RUNTIME_WIRING_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - Hermes main py_compile for `run_agent.py` and natural import modules: passed.
+  - Hermes main targeted pytest: `28 passed`.
+  - Hermes_memory `git diff --check`: passed.
+  - Hermes_memory latest JSON validation and ignore check: passed.
+- validation:
+  - Runtime disabled-path CLI smoke passed with `natural_import_detected=true`, `real_upload_enabled=false`, `upload_adapter_status=disabled`, `ingestion_status=not_executed`.
+  - Runtime enabled-without-client CLI smoke passed with `upload_client_not_configured` fail-closed and no retrieval evidence.
+  - No real Hermes_memory upload API call, no real file upload, no DB / OpenSearch / Qdrant write.
+- risks:
+  - Real upload adapter client remains unconfigured; Phase 2.56d only proves runtime preflight hook and fake adapter paths.
+  - Phase 2.56e real smoke requires Codex B review first.
+- next: Codex B review Phase 2.56d; if accepted, write Phase 2.56e prompt to reuse the user-authorized `.docx` file for real natural-language import smoke.
 - commit/tag if any: none.

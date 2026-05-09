@@ -1,5 +1,13 @@
 # DEV_LOG
 
+- [Phase 2.56d Review] Codex B review 通过：runtime hook 已接入 `run_agent.py`，默认 disabled 与 enabled-without-client 均 fail-closed；复跑 py_compile、targeted pytest `28 passed`、disabled-path CLI smoke、enabled-without-client CLI smoke 均通过。已写入双仓 selective Git baseline prompt；baseline 后停止，不进入 Phase 2.56e。
+- [Phase 2.56d] 完成 Natural Import Runtime Wiring 最小实现：Hermes 主仓 `run_agent.py` 在普通 memory kernel retrieval / LLM answer 前调用 natural import runtime hook；默认真实 upload disabled，明确导入 intent 返回 structured diagnostics 并 fail-closed，不进入普通 retrieval 乱答。新增 fake adapter runtime tests，py_compile 通过，natural import 目标测试 `28 passed`；disabled-path CLI smoke 通过。本轮未调用真实 upload API、未上传文件、未写 DB / OpenSearch / Qdrant。
+- [Phase 2.56d] Codex B review 确认 Phase 2.56c blocked 结果成立：自然语言导入 parser 命中，但 Hermes 主仓 runtime 尚未接入 `run_natural_file_import_preflight()` 或真实 upload adapter；Codex A 没有绕普通 upload path 声称成功，边界正确。
+- [Phase 2.56d] 已写入下一轮 Codex A 任务：只做 runtime wiring minimum implementation、fake / mocked adapter tests 与交接文档同步；默认真实 upload 关闭，不复用用户授权文件，不调用真实 Hermes_memory upload API，不写 DB / OpenSearch / Qdrant。
+
+- [Phase 2.56c] 执行用户授权的自然语言单文件真实导入 smoke 到 stop condition：文件 preflight、API `/health`、Hermes CLI help、parser preflight 均通过；但 Hermes 主仓 runtime 尚未接入 `run_natural_file_import_preflight()` / 真实 upload adapter，故记录 `runtime_not_wired_to_real_upload_adapter` 并停止。本轮未绕过普通 upload path，未上传文件，未写 DB / OpenSearch / Qdrant，未执行 alias bind 或 retrieval smoke。
+- [Phase 2.56c Authorization] 用户已授权单文件自然语言导入真实 smoke：`C塔项目人力配置及成本测算表0506.docx`，metadata preflight 为 regular file、`16885 bytes`、Microsoft Word 2007+。已写入 Codex A 执行 prompt；要求优先验证自然语言导入路径，若 runtime 未接真实 upload adapter 则报告 blocked，不得绕过成普通 upload 后声称通过。
+- [Phase 2.56c Gate] Phase 2.56b baseline 已确认：`683cf02` / `phase-2.56b-natural-import-real-smoke-plan-baseline`。已将下一步设置为 Phase 2.56c 授权等待状态：真实自然语言导入 smoke 必须由用户重新提供小型非敏感文件路径并明确授权；未授权前不调用 upload API、不上传、不运行 API / CLI smoke。
 - [Phase 2.56b Review] Codex B review 通过：planning 覆盖授权门槛、样本要求、执行步骤、验收字段、stop conditions、run record 与非目标；本轮无真实 upload / API / CLI / DB-index 行为。已写入 docs-only baseline prompt。
 - [Phase 2.56b] 完成 Natural Import Real Smoke docs-only planning：新增 `PHASE256B_NATURAL_IMPORT_REAL_SMOKE_PLAN.md`，明确自然语言触发真实小文件导入 smoke 的授权门槛、样本要求、执行步骤、验收字段、stop conditions 与 sanitized run record。未执行 upload、未运行 API / CLI smoke、未写 DB / OpenSearch / Qdrant。
 - [Phase 2.56b Prompt] Phase 2.56a baseline 已确认：Hermes 主仓 `0264ca079`，Hermes_memory `dea0523`，tag `phase-2.56a-natural-import-adapter-skeleton-baseline`。已写入 Phase 2.56b docs-only planning prompt，下一步只规划自然语言触发真实小文件导入 smoke 的授权门槛、执行步骤、验收字段与 stop conditions；不执行真实 upload。

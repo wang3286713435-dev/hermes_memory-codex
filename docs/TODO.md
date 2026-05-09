@@ -1,5 +1,30 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.56d Natural Import Runtime Wiring
+
+1. Phase 2.56d runtime wiring 最小实现已通过 Codex B review，下一步只做 selective Git baseline。
+2. Hermes 主仓新增 runtime preflight hook；自然语言导入 intent 会在普通 retrieval / LLM answer 前被拦截。
+3. 默认真实 upload 关闭，返回 `real_upload_enabled=false`、`upload_adapter_status=disabled`、`ingestion_status=not_executed`。
+4. fake adapter success / failure / missing id 测试通过；runtime disabled-path CLI smoke 通过。
+5. 本轮未调用真实 Hermes_memory upload API、未上传真实文件、未写 DB / OpenSearch / Qdrant。
+6. baseline 后停止；后续 Phase 2.56e 才可复用用户授权文件做真实自然语言导入 smoke。
+
+## Phase 2.56c Natural Import Real Smoke Result
+
+1. Phase 2.56c 已执行到 stop condition：`runtime_not_wired_to_real_upload_adapter`。
+2. 已通过文件 metadata preflight、Hermes_memory API health、Hermes CLI help、natural import parser preflight。
+3. Hermes 主仓 runtime 尚未把 `run_natural_file_import_preflight()` 接入 `run_agent.py` 用户路径，也未配置真实 upload adapter。
+4. 本轮未调用普通 upload path 绕过验证，未上传文件，未写 DB / OpenSearch / Qdrant，未绑定 alias，未做 retrieval smoke。
+5. 下一步建议：Codex B review 后规划 Phase 2.56d runtime wiring 最小实现；继续禁止 cleanup / delete / repair / backfill / reindex / rollout。
+
+## Phase 2.56c Natural Import Real Smoke Authorization Gate
+
+1. 用户已授权 Phase 2.56c 单文件自然语言导入真实 smoke。
+2. 授权文件：`/Users/Weishengsu/Library/Containers/com.tencent.xinWeChat/Data/Documents/xwechat_files/wxid_sn2cczdp4u2l12_c2fd/msg/file/2026-05/C塔项目人力配置及成本测算表0506.docx`。
+3. 文件 metadata：regular file，`16885 bytes`，Microsoft Word 2007+ `.docx`。
+4. 用户接受产生测试 document/version/chunk/OpenSearch/Qdrant 记录；cleanup/delete/repair/reindex 默认不授权。
+5. 下一步 Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`；必须优先验证自然语言导入路径，不得绕过成普通 upload 后声称通过。
+
 ## Phase 2.56b Natural Import Real Smoke Planning
 
 1. Phase 2.56b planning 已通过 Codex B review。

@@ -10,32 +10,48 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.56b Natural Import Real Smoke Planning
+### Current Item：Phase 2.56d Selective Git Baseline
 
-- lane：Green Lane
-- 状态：codex_b_review_passed_waiting_docs_baseline
-- 目标：规划自然语言触发单文件真实导入 smoke 的授权门槛、执行步骤、验收字段和停止条件。
+- lane：Yellow Lane
+- 状态：codex_b_review_passed_waiting_baseline
+- 目标：对 Phase 2.56d runtime wiring 做双仓 selective Git baseline。
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
 - 结果：
-  - 新增 `docs/PHASE256B_NATURAL_IMPORT_REAL_SMOKE_PLAN.md`。
-  - 授权门槛、样本要求、执行步骤、验收字段、stop conditions 与 run record 已规划。
-  - 未执行真实 upload、API / CLI smoke 或 DB / index 写入。
+  - `run_agent.py` 已接入 natural import runtime hook。
+  - 默认真实 upload disabled，导入 intent fail-closed。
+  - fake adapter tests 与 disabled-path CLI smoke 通过。
 - 允许动作：
-  - 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中的 docs-only selective baseline。
-  - 只 stage 白名单 Phase 2.56b 文档与交接文件。
-  - 运行 docs-only 静态 / JSON 检查。
-  - commit / tag / push Phase 2.56b planning baseline。
+  - 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中的 selective baseline。
+  - 只 stage 白名单文件。
+  - commit / tag / push Phase 2.56d baseline。
 - 禁止动作：
   - 不调用真实 Hermes_memory upload API。
   - 不上传文件。
-  - 不运行 API / CLI smoke。
+  - 不运行真实 API / CLI upload smoke。
   - 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
   - 不执行 cleanup / delete / repair / backfill / reindex / migration。
   - 不修改 retrieval contract 或 memory kernel 主架构。
   - 不进入 Data Steward / DB / NAS / BIM 分支实现。
   - 不做 production rollout。
-  - 不 stage 既有无关 dirty。
-- 完成后：停止等待 Codex B review；不得自动进入 Phase 2.56c。
+  - 不 stage / commit / tag / push。
+- 完成后：停止等待 Codex B review；不得自动进入 Phase 2.56e。
+
+### Previous Item：Phase 2.56c Natural Import Real Smoke Authorization Gate
+
+- lane：Yellow Lane
+- 状态：blocked_waiting_runtime_wiring
+- 目标：执行用户授权的单文件自然语言导入真实 smoke。
+- 结果：
+  - 文件 metadata preflight、API health、CLI help、parser preflight 均通过。
+  - 真实导入未执行；未绕过普通 upload path。
+  - 最小阻塞点：runtime 未接入 natural import preflight / upload adapter。
+
+### Previous Item：Phase 2.56b Natural Import Real Smoke Planning
+
+- lane：Green Lane
+- 状态：completed_baseline
+- 目标：规划自然语言触发单文件真实导入 smoke 的授权门槛、执行步骤、验收字段和停止条件。
+- 结果：commit `683cf02`，tag `phase-2.56b-natural-import-real-smoke-plan-baseline`。
 
 ### Previous Item：Phase 2.56a Natural Import Real Adapter Skeleton
 

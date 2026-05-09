@@ -2,6 +2,54 @@
 
 ## 最新状态
 
+1. Phase 2.56d 已通过 Codex B review。
+2. 当前已写入双仓 selective Git baseline prompt。
+3. baseline 白名单仅包含 Phase 2.56d runtime wiring 代码、测试与交接文档。
+4. baseline 后停止，不自动进入 Phase 2.56e。
+5. Phase 2.56e 才可规划真实自然语言导入 smoke；当前不得上传真实文件或调用真实 upload API。
+
+## 最新状态
+
+1. Phase 2.56d Natural Import Runtime Wiring Minimum Implementation 已完成。
+2. Hermes 主仓 runtime 现已在普通 retrieval / LLM answer 前调用 natural import preflight hook。
+3. 默认真实 upload 仍关闭；明确导入 intent 会 fail-closed 返回 diagnostics，不进入普通 retrieval 乱答。
+4. fake adapter success / failure / missing id 测试通过；runtime disabled-path CLI smoke 通过。
+5. 下一步必须先由 Codex B review；通过后才可进入 Phase 2.56e 真实自然语言导入 smoke。
+
+## 最新状态
+
+1. Phase 2.56c blocked 结果已由 Codex B review：parser / adapter skeleton 可用，但 CLI runtime 尚未接入 natural import preflight / upload adapter。
+2. 下一步进入 Phase 2.56d Natural Import Runtime Wiring Minimum Implementation。
+3. 2.56d 只允许最小 runtime hook、fake / mocked adapter tests 与交接文档同步。
+4. 2.56d 不执行真实 upload，不复用用户授权文件，不调用真实 Hermes_memory upload API。
+5. 2.56d 完成后必须停给 Codex B review；通过后再规划 Phase 2.56e 真实自然语言导入 smoke。
+
+## 最新状态
+
+1. Phase 2.56c 用户授权单文件自然语言导入 smoke 已执行到 stop condition。
+2. 文件 preflight、API health、Hermes CLI help、parser preflight 均通过。
+3. 真实导入未执行，原因：Hermes 主仓 runtime 尚未调用 natural import preflight，也未配置真实 upload adapter。
+4. 本轮未绕过为普通 `/api/v1/documents/upload`；未产生新的 document/version/chunk/OpenSearch/Qdrant 记录。
+5. 下一步建议先由 Codex B review blocked 结果，再规划 Phase 2.56d runtime wiring 最小实现。
+
+## 最新状态
+
+1. 用户已授权 Phase 2.56c Natural Import Real Smoke。
+2. 授权文件：`C塔项目人力配置及成本测算表0506.docx`，regular file，`16885 bytes`。
+3. 下一步由 Codex A 执行自然语言导入真实 smoke，并生成 ignored sanitized run record。
+4. 如果 runtime 尚未接入真实 upload adapter，必须报告 blocked，不得绕过成普通 upload 后声称自然语言导入通过。
+5. cleanup / delete / repair / backfill / reindex、production rollout、Data Steward / DB / NAS / BIM 仍禁止。
+
+## 最新状态
+
+1. Phase 2.56b baseline 已完成：commit `683cf02`，tag `phase-2.56b-natural-import-real-smoke-plan-baseline`。
+2. 当前处于 Phase 2.56c Natural Import Real Smoke Authorization Gate。
+3. 真实自然语言导入 smoke 需要用户重新提供小型非敏感文件路径并明确授权。
+4. 未授权前不得调用真实 upload API、不得上传文件、不得运行 API / CLI smoke。
+5. Data Steward / DB / NAS / BIM 分支继续独立，不进入当前授权门槛。
+
+## 最新状态
+
 1. Phase 2.56b Natural Import Real Smoke docs-only planning 已通过 Codex B review。
 2. 当前已写入 docs-only selective baseline prompt。
 3. baseline 仅允许 Phase 2.56b planning 与交接文档。

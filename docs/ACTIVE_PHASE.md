@@ -1,9 +1,15 @@
 # Active Phase
 
-- 当前 phase：Phase 2.56b Natural Import Real Smoke Planning Codex B Review
-- 本轮目标：review Phase 2.56b planning，并写入 docs-only baseline prompt。
+- 当前 phase：Phase 2.56d Codex B Review Passed / Selective Git Baseline
+- 本轮目标：对 Phase 2.56d runtime wiring 最小实现做双仓 selective Git baseline；不进入 Phase 2.56e。
 - 修改文件：
-  - `/Users/Weishengsu/Hermes_memory/docs/PHASE256B_NATURAL_IMPORT_REAL_SMOKE_PLAN.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/run_agent.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/natural_file_import_flow.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/natural_file_import_runtime.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_natural_file_import_runtime.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `/Users/Weishengsu/Hermes_memory/docs/PHASE256D_NATURAL_IMPORT_RUNTIME_WIRING_PLAN.md`
   - `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
   - `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
   - `/Users/Weishengsu/Hermes_memory/docs/HANDOFF_LOG.md`
@@ -14,29 +20,32 @@
   - `/Users/Weishengsu/Hermes_memory/docs/DEV_LOG.md`
   - `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`（ignored）
 - 完成内容：
-  - 新增 Phase 2.56b planning 文档。
-  - 明确 Phase 2.56c 真实 smoke 的授权门槛：小型非敏感单文件、显式授权、接受测试 document/version/chunk/index 记录、默认不授权 cleanup/delete/repair/reindex。
-  - 明确执行步骤：parser preflight、filesystem metadata check、feature flag scoped enable、existing Hermes_memory upload path、alias seed、retrieval smoke、sanitized run record。
-  - 明确验收字段：`natural_import_detected`、`real_upload_enabled`、`upload_adapter_status`、`ingestion_status`、`document_id`、`version_id`、`chunk_count`、`indexed_count`、`alias_resolution.status`、retrieval evidence 与 safety flags。
-  - 明确 stop conditions：API/CLI 不可用、path / directory / NAS / BIM / bulk / unsupported extension、upload / alias / retrieval / citation / third-document contamination、需要 cleanup/delete/repair/reindex 才能继续。
-  - Codex B 已 review 规划内容，并写入 docs-only baseline prompt。
+  - 新增 `natural_file_import_runtime.py`，封装 `maybe_handle_natural_file_import(...)`。
+  - `run_agent.py` 在普通 memory kernel retrieval / LLM answer 前调用 natural import runtime hook。
+  - 非导入 prompt 返回 `None`，保持原有 conversation flow。
+  - 明确导入 intent 默认 `HERMES_NATURAL_IMPORT_REAL_UPLOAD_ENABLED=false`，fail-closed 返回 structured diagnostics。
+  - fake adapter success / failure / missing id 路径通过单元测试验证。
+  - runtime disabled-path CLI smoke 返回 natural import diagnostics，未进入普通 retrieval / LLM answer。
 - 测试结果：
+  - `./.venv/bin/python -m py_compile run_agent.py agent/memory_kernel/natural_file_import.py agent/memory_kernel/natural_file_import_flow.py agent/memory_kernel/natural_file_upload_adapter.py agent/memory_kernel/natural_file_import_runtime.py`：通过。
+  - `./.venv/bin/python -m pytest -o addopts='' tests/agent/test_natural_file_import.py tests/agent/test_natural_file_import_flow.py tests/agent/test_natural_file_import_runtime.py -q`：`28 passed`。
   - `git diff --check`：通过。
   - `uv run python -m json.tool reports/agent_runs/latest.json`：通过。
   - `git check-ignore -v reports/agent_runs/latest.json`：通过。
 - live smoke 结果：
-  - 本轮未运行 API / CLI smoke。
-  - 本轮未调用真实 Hermes_memory upload API。
-  - 本轮未上传文件。
+  - `HERMES_NATURAL_IMPORT_REAL_UPLOAD_ENABLED=0 ./.venv/bin/hermes chat -Q --max-turns 1 -q '请把 /tmp/demo.docx 导入企业记忆，并绑定为 @测试文件'`：通过。
+  - 输出 `natural_import_detected=true`、`real_upload_enabled=false`、`upload_adapter_status=disabled`、`ingestion_status=not_executed`、`import_diagnostics_as_retrieval_evidence=false`。
+  - `HERMES_NATURAL_IMPORT_REAL_UPLOAD_ENABLED=true` 但无真实 client 时：通过，输出 `upload_client_not_configured` 并 fail-closed。
+  - 本轮未调用真实 Hermes_memory upload API，未上传真实文件。
 - 当前结论：
-  - Phase 2.56b docs-only planning 已通过 Codex B review。
-  - Phase 2.56c 真实自然语言导入 smoke 仍必须由用户提供小型非敏感文件并显式授权。
+  - Phase 2.56d runtime wiring minimum implementation 已通过 Codex B review。
+  - 允许执行 selective Git baseline。
+  - 尚未证明真实自然语言导入成功。
 - 阻塞点 / 风险点：
-  - 真实 upload adapter 尚未接入 runtime user path。
-  - 真实 smoke 会产生测试 document/version/chunk/index 记录；cleanup/delete 不默认授权。
-  - 既有无关 dirty 仍需排除，不得纳入本轮 review / baseline。
-- 是否建议 baseline：是；已写入 docs-only baseline prompt。
-- 是否建议进入下一阶段：否；必须先完成 Phase 2.56b baseline。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 2.56b docs-only baseline。
-- 是否需要 Codex B 审核：baseline 后需要 Codex B 复核 commit / tag / push。
-- 是否需要 Codex C 真实终端验收：否。
+  - 真实 upload adapter client 仍未接入；当前 runtime 只完成 preflight hook 与 fail-closed / fake adapter 验证。
+  - Phase 2.56e 真实 smoke 前仍需 Codex B review。
+- 是否建议 baseline：是；已写入 selective baseline prompt。
+- 是否建议进入下一阶段：否；baseline 后停止，等待 Codex B review commit/tag/push。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.56d baseline。
+- 是否需要 Codex B 审核：baseline 后需要。
+- 是否需要 Codex C 真实终端验收：否，Phase 2.56e 前再安排。

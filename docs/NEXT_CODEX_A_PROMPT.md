@@ -1,22 +1,64 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.56b Codex B Review Passed - Docs-only Git Baseline
+## Phase 2.56d Codex B Review Passed - Selective Git Baseline
 
-你是 Codex A。本轮只做 Phase 2.56b Natural Import Real Smoke Planning 的 docs-only Git baseline。
+你是 Codex A。本轮只做 Phase 2.56d Natural Import Runtime Wiring Minimum Implementation 的双仓 selective Git baseline。
 
-Codex B 已 review Phase 2.56b planning，结论如下：
+Codex B 已完成复核：
 
-1. 规划覆盖授权门槛、样本要求、执行步骤、验收字段、stop conditions、run record 和非目标。
-2. 明确 Phase 2.56b 不执行真实 upload、不运行 API / CLI smoke、不写 DB / OpenSearch / Qdrant。
-3. 明确 Phase 2.56c 才可在用户显式授权后执行真实自然语言导入 smoke。
-4. Data Steward / DB / NAS / BIM 继续后置且独立。
-5. 文档检查通过：`git diff --check`、latest JSON 校验、latest ignore 检查。
+1. Hermes 主仓 runtime hook 已接入 `run_agent.py`。
+2. 非导入 prompt 不被拦截。
+3. 明确导入 prompt 默认 `real_upload_enabled=false`，会 fail-closed 返回 diagnostics。
+4. `HERMES_NATURAL_IMPORT_REAL_UPLOAD_ENABLED=true` 但没有真实 client 时，会返回 `upload_client_not_configured`，不进入普通 retrieval。
+5. 未调用真实 Hermes_memory upload API。
+6. 未上传真实文件。
+7. 未写 DB / OpenSearch / Qdrant。
 
-## 白名单文件
+Codex B 已复跑验证：
+
+1. Hermes 主仓 py_compile：通过。
+2. Hermes 主仓 targeted pytest：`28 passed`。
+3. Hermes_memory `git diff --check`：通过。
+4. `reports/agent_runs/latest.json` JSON 校验：通过。
+5. disabled-path CLI smoke：通过。
+6. enabled-without-client CLI smoke：通过。
+
+## 本轮目标
+
+只做 Git baseline。
+
+不得进入 Phase 2.56e。
+不得真实上传用户文件。
+不得实现真实 upload client。
+
+## Hermes 主仓白名单
+
+工作目录：`/Users/Weishengsu/.hermes/hermes-agent`
 
 只允许 stage / commit：
 
-1. `docs/PHASE256B_NATURAL_IMPORT_REAL_SMOKE_PLAN.md`
+1. `run_agent.py`
+2. `agent/memory_kernel/natural_file_import_flow.py`
+3. `agent/memory_kernel/natural_file_import_runtime.py`
+4. `tests/agent/test_natural_file_import_runtime.py`
+5. `docs/TODO.md`
+6. `docs/DEV_LOG.md`
+
+不得 stage：
+
+1. `agent/memory_kernel/adapters/hermes_memory_adapter.py`
+2. `uv.lock`
+3. `docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`
+4. `tests/agent/test_memory_kernel_adapter_reload.py`
+5. 任何未在白名单内的文件。
+
+## Hermes_memory 白名单
+
+工作目录：`/Users/Weishengsu/Hermes_memory`
+
+只允许 stage / commit：
+
+1. `docs/PHASE256D_NATURAL_IMPORT_RUNTIME_WIRING_PLAN.md`
 2. `docs/ACTIVE_PHASE.md`
 3. `docs/PHASE_BACKLOG.md`
 4. `docs/HANDOFF_LOG.md`
@@ -32,11 +74,28 @@ Codex B 已 review Phase 2.56b planning，结论如下：
 2. `docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`
 3. `docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`
 4. `reports/agent_runs/latest.json`
-5. 任何 app / scripts / tests / migrations 文件。
+5. `reports/internal_mvp_runs/*.json`
+6. 任何 app / scripts / tests / migrations 文件。
 
-## 验证
+## 必跑检查
 
-运行：
+Hermes 主仓：
+
+```bash
+./.venv/bin/python -m py_compile \
+  run_agent.py \
+  agent/memory_kernel/natural_file_import.py \
+  agent/memory_kernel/natural_file_import_flow.py \
+  agent/memory_kernel/natural_file_upload_adapter.py \
+  agent/memory_kernel/natural_file_import_runtime.py
+
+./.venv/bin/python -m pytest -o addopts='' \
+  tests/agent/test_natural_file_import.py \
+  tests/agent/test_natural_file_import_flow.py \
+  tests/agent/test_natural_file_import_runtime.py -q
+```
+
+Hermes_memory：
 
 ```bash
 git diff --check
@@ -44,50 +103,69 @@ uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_agent_run
 git check-ignore -v reports/agent_runs/latest.json
 ```
 
+Staged diff 复核：
+
+1. `git diff --cached --name-only` 必须只包含白名单。
+2. `git diff --cached --check` 必须通过。
+
 ## Git 操作
 
+Hermes 主仓：
+
 1. selective stage 白名单文件。
-2. 复核 staged diff 不包含禁止文件。
-3. commit message：
-   - `docs: plan phase 2.56b natural import real smoke`
-4. tag：
-   - `phase-2.56b-natural-import-real-smoke-plan-baseline`
-5. push 当前分支到 `origin`。
-6. push tag 到 `origin`。
+2. commit message：
+   - `feat: wire natural import runtime preflight`
 
-## 完成后更新
+Hermes_memory：
 
-更新 ignored `reports/agent_runs/latest.json`：
+1. selective stage 白名单文件。
+2. commit message：
+   - `docs: baseline phase 2.56d natural import runtime wiring`
+
+Tag：
+
+1. tag name：
+   - `phase-2.56d-natural-import-runtime-wiring-baseline`
+2. 两个仓库都打同名 tag。
+
+Push：
+
+1. Hermes 主仓推送到既有可写远端 / 分支，沿用本项目既定策略；不要推不可写 `origin`。
+2. Hermes_memory 推送当前分支到 `origin`，并推送 tag。
+
+## 完成后更新 ignored latest
+
+更新 `/Users/Weishengsu/Hermes_memory/reports/agent_runs/latest.json`：
 
 1. `status=baseline`
-2. 写入 commit hash。
+2. 写入两个仓库 commit hash。
 3. 写入 tag。
 4. 写入 push 结果。
 5. `needs_codex_b_review=true`
 6. `needs_codex_c_validation=false`
+7. 下一步建议：Phase 2.56e real natural-language import smoke planning / prompt。
 
 不要 stage `latest.json`。
 
-## 硬边界
+## 硬禁止
 
-1. 不调用真实 Hermes_memory upload API。
-2. 不上传文件。
-3. 不启动 API / CLI smoke。
-4. 不写 DB / facts / document_versions / audit_logs。
-5. 不写 OpenSearch / Qdrant。
-6. 不 cleanup / delete / repair / backfill / reindex / migration。
-7. 不修改 retrieval contract。
-8. 不修改 memory kernel 主架构。
-9. 不进入 Data Steward / DB / NAS / BIM 分支实现。
-10. 不进入 production rollout。
-11. baseline 后停止，不进入 Phase 2.56c。
+1. 不上传真实文件。
+2. 不调用真实 Hermes_memory upload API。
+3. 不写 DB / facts / document_versions / audit_logs / OpenSearch / Qdrant。
+4. 不执行 cleanup / delete / repair / backfill / reindex / migration。
+5. 不修改 retrieval contract。
+6. 不修改 memory kernel 主架构。
+7. 不进入 Data Steward / DB / NAS / BIM 分支实现。
+8. 不进入 production rollout。
+9. baseline 后停止，不进入 Phase 2.56e。
 
 ## 完成报告必须包含
 
-1. staged 文件。
+1. 两个仓库 staged 文件。
 2. 检查结果。
-3. commit hash。
-4. tag。
-5. push 结果。
-6. 最终 `git status --short`。
-7. 明确说明未执行真实 upload / API / CLI smoke。
+3. Hermes 主仓 commit hash。
+4. Hermes_memory commit hash。
+5. tag。
+6. push 结果。
+7. 最终 git status。
+8. 明确说明未执行真实 upload / API upload call / DB-index 写入。
