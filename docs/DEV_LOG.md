@@ -1,5 +1,7 @@
 # DEV_LOG
 
+- [DB-2] 新增真实数据库前 schema contract freeze：`DB2_SCHEMA_CONTRACT.md`。已确认默认表名 `external_asset_catalog`、真实 mirror `asset_uid = source_system + ":" + source_view + ":" + source_id`、`UNIQUE(source_system, source_view, source_id)`、权限默认 `DENIED`、初版 JSON 权限字段、moved / stale / missing 保留、最小索引、checkpoint 兜底和 rollback 契约。`project_id` 暂不冻结为 `BIGINT`，因当前 fake fixtures 已有非数字项目 ID；待平台团队确认后再决定是否收窄类型。本轮 docs-only，不授权 migration 或真实数据库连接。
+
 - [DB-2] 测试 Codex 独立复测通过 temporary DB proof-of-contract：`DB2_TEMP_DB_QA_OPEN_FINDINGS: 0`，`P0 findings: 0`。复测确认 SQLite temporary DB 只接受内存库、拒绝文件型 / attached file DB、只创建 `external_asset_catalog_contract`、重复 apply 不重复插行，deny / evidence / write flags 均符合边界；额外 probe `4 passed` 且 lint 通过。当前可执行 selective baseline，仍不授权 migration、真实 MySQL / NAS / REST、documents / chunks、OpenSearch / Qdrant、DB-3 retrieval 或 selective indexing。
 
 - [DB-2] 进入 temporary DB proof-of-contract：用户授权范围限定为临时数据库演练，不写 migration，不连接真实 MySQL / NAS / REST，不进入 DB-3 retrieval。新增 `AssetCatalogTemporaryMirrorStore`，只接受 SQLite 内存库连接，创建临时 `external_asset_catalog_contract` 表并按 `asset_uid` 幂等写入 preview rows。新增 `DB2_DATABASE_TEAM_HANDOFF.md`，用白话说明后续与数据库团队确认表名、主键、权限默认 deny、checkpoint、索引和 migration 授权条件。

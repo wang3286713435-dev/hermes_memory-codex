@@ -1,5 +1,38 @@
 # Handoff Log
 
+## 2026-05-09 DB-2 Schema Contract Freeze
+- goal: Freeze the pre-migration schema contract for the real asset catalog mirror.
+- branch: `codex/data-steward-db0-contract`
+- worktree: `/Users/Weishengsu/Hermes_memory_db0`
+- scope: docs-only schema contract; no migration, no real MySQL / NAS / REST, no DB-3 retrieval.
+- changed_files:
+  - `docs/DB2_SCHEMA_CONTRACT.md`
+  - `docs/DB2_DATABASE_TEAM_HANDOFF.md`
+  - `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md`
+  - `docs/DEV_LOG.md`
+  - `docs/HANDOFF_LOG.md`
+- confirmed:
+  - Default table name: `external_asset_catalog`.
+  - Namespace fallback: `hermes_external_asset_catalog`.
+  - Real mirror primary key format: `source_system:source_view:source_id`.
+  - Unique constraint: `UNIQUE(source_system, source_view, source_id)`.
+  - DB-level default `permission_status='DENIED'`.
+  - Initial `permission_tags` and `project_scope` as JSON.
+  - moved / stale / missing retained in catalog table.
+  - DB-2 does not touch `documents`, `chunks`, Qdrant, or OpenSearch.
+- technical note: `project_id` remains `VARCHAR(128)` in the contract until the platform team proves it is always numeric; current fake fixtures include non-numeric project IDs.
+- pending_database_team:
+  - Final table name with or without Hermes namespace.
+  - JSON/JSONB/text JSON choice.
+  - Whether to split permission tags into `external_asset_permissions`.
+  - CHECK constraints, index naming, charset/collation, and down migration policy.
+- pending_platform_team:
+  - Official `source_system`, `source_view`, stable `source_id` rules.
+  - Whether `event_id` is monotonic.
+  - Fallback cursor when event_id is unavailable.
+  - Project ID type and timestamp source fields.
+- next: database and platform teams review `docs/DB2_SCHEMA_CONTRACT.md`; migration remains unauthorized until user explicitly approves.
+
 ## 2026-05-09 DB-2 Temporary DB proof-of-contract
 - goal: Prove the DB-2 catalog mirror fields and write rules against a disposable SQLite in-memory database.
 - branch: `codex/data-steward-db0-contract`

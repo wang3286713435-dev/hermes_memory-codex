@@ -2,7 +2,7 @@
 
 日期：2026-05-09
 分支：`codex/data-steward-db0-contract`
-状态：dry-run sync preview 已 baseline；temporary DB proof-of-contract 已授权并实现中；migration、真实平台接入和 DB-3 retrieval 未授权
+状态：dry-run sync preview 与 temporary DB proof-of-contract 已 baseline；schema contract freeze docs-only；migration、真实平台接入和 DB-3 retrieval 未授权
 
 ## 1. Scope
 
@@ -19,7 +19,7 @@ DB-2 planning / implementation 结论：
 1. 可以规划 `external_asset_catalog` 或等价 mirror。
 2. planning 已完成 Codex B review，用户已授权进入 DB-2 最小 dry-run preview implementation。
 3. migration 是否允许仍需用户显式授权。
-4. 当前只允许 fake adapter 上的 catalog mirror dry-run preview 和 SQLite 内存库 proof-of-contract；不得写 migration，不得连接真实 MySQL / NAS / REST，不得写 `documents` / `chunks` / OpenSearch / Qdrant。
+4. 当前只允许 fake adapter 上的 catalog mirror dry-run preview、SQLite 内存库 proof-of-contract 和 docs-only schema contract freeze；不得写 migration，不得连接真实 MySQL / NAS / REST，不得写 `documents` / `chunks` / OpenSearch / Qdrant。
 
 ## 2. Non-goals
 
@@ -45,7 +45,7 @@ DB-2 mirror 的 P0 字段应只覆盖 catalog mirror 最小闭环。字段可以
 
 | 字段 | 必需性 | 来源 | 说明 |
 |---|---|---|---|
-| `asset_uid` | P0 required | adapter normalized | Hermes_memory 内部资产唯一键，格式为 `source_system + ":" + source_id` |
+| `asset_uid` | P0 required | adapter normalized | DB-1a fake adapter 使用 `source_system + ":" + source_id`；真实 mirror schema contract 冻结为 `source_system + ":" + source_view + ":" + source_id` |
 | `source_system` | P0 required | fixture / platform source | 例如 `delivery_platform` |
 | `source_id` | P0 required | platform asset id | 平台 file id / model id / project id |
 | `source_view` | P0 required | View name | `ProjectAssetView` / `FileAssetView` / `ModelAssetView` / `AuditEventView` |

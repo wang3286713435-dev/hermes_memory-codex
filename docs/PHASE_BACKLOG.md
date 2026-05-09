@@ -10,7 +10,9 @@
 6. DB-1a contract review-fix 已 baseline：commit `e21a1c9`，tag `phase-db1a-contract-review-fix-baseline`；malformed cursor review-fix 已 baseline：commit `e16df1a`，tag `phase-db1a-malformed-cursor-review-fix-baseline`。
 7. DB-2 dry-run preview 已 baseline：commit `6780d20`，tag `phase-db2-dry-run-preview-baseline`。
 8. 当前 DB-2 仅进入 temporary DB proof-of-contract：用 SQLite 内存库验证资产目录字段和写入规则，不写 migration、不连接真实 MySQL / NAS / REST、不进入 DB-3 retrieval。
-9. 下一步建议测试 Codex 独立复测 temporary DB proof；通过后再决定是否 baseline。不得自动进入 migration、真实平台联调、DB/index 写入、catalog retrieval 或 selective indexing。
+9. DB-2 temporary DB proof-of-contract 已 baseline：commit `53337fe`，tag `phase-db2-temp-db-proof-baseline`。
+10. 当前新增 `DB2_SCHEMA_CONTRACT.md`，用于冻结真实数据库接入前的表结构、主键、权限字段、索引、checkpoint 和 rollback 契约；本轮 docs-only，不写 migration。
+11. 下一步建议数据库团队 / 平台团队 review schema contract；不得自动进入 migration、真实平台联调、DB/index 写入、catalog retrieval 或 selective indexing。
 
 ## 最新状态
 

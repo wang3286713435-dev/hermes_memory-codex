@@ -1,6 +1,6 @@
 # Active Phase
 
-- 当前 phase：DB-2 Temporary DB Proof-of-Contract Baseline
+- 当前 phase：DB-2 Schema Contract Freeze
 - 当前分支：`codex/data-steward-db0-contract`
 - 当前 baseline：
   - DB-2 dry-run preview baseline：commit `6780d20`，tag `phase-db2-dry-run-preview-baseline`
@@ -9,27 +9,23 @@
   - DB-2 planning / Ralph guard baseline：commit `56f9e47`，tag `phase-db2-planning-ralph-guard-baseline`
   - DB-1a fake adapter baseline：commit `e9d1556`，tag `phase-db1a-fake-view-adapter-baseline`
 - 本轮授权：只做临时数据库 proof-of-contract，不写 migration，不连接真实 MySQL / NAS / REST，不进入 DB-3 retrieval。
-- 本轮目标：用测试创建的 SQLite 内存库证明 DB-2 资产目录字段、主键、权限、状态和 checkpoint 规则能落成表。
+- 本轮目标：冻结真实数据库接入前的表结构、主键、权限字段、索引、checkpoint 和 rollback 契约；仍不写 migration。
 - 修改文件：
-  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/__init__.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/temp_db.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/tests/test_data_steward_asset_catalog_temp_db.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/package.json`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_SCHEMA_CONTRACT.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_DATABASE_TEAM_HANDOFF.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/ACTIVE_PHASE.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/ACTIVE_PHASE.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/DEV_LOG.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/HANDOFF_LOG.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/NEXT_CODEX_A_PROMPT.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/PHASE_BACKLOG.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/TODO.md`
 - 完成内容：
-  - 新增 `AssetCatalogTemporaryMirrorStore`，只接受 SQLite 内存库连接。
-  - 新增临时表 `external_asset_catalog_contract`，用于证明未来资产目录表字段和写入规则。
-  - 临时写入按 `asset_uid` 幂等 upsert，重复运行不新增重复行。
-  - 临时写入 summary 明确 `temporary_db=true`、`writes_production_db=false`、`writes_documents=false`、`writes_chunks=false`、`writes_opensearch=false`、`writes_qdrant=false`。
-  - 临时表保留 preview action、reason、permission、sync/checksum 状态、catalog-only evidence 字段和 `last_event_id`。
-  - 新增 `DB2_DATABASE_TEAM_HANDOFF.md`，用白话说明后续如何与数据库团队对接真实数据库。
+  - 新增 `DB2_SCHEMA_CONTRACT.md`，单独冻结真实数据库前 schema contract。
+  - 接受默认表名 `external_asset_catalog`，并保留 `hermes_external_asset_catalog` 作为命名空间备选。
+  - 接受真实 mirror `asset_uid = source_system + ":" + source_view + ":" + source_id`。
+  - 接受 `UNIQUE(source_system, source_view, source_id)`。
+  - 冻结 `permission_status` 数据库默认 `DENIED`。
+  - 冻结最小索引、checkpoint、lifecycle、rollback 和真实接入门槛。
+  - 将 `project_id` 暂定为 `VARCHAR(128)`，等待平台团队确认是否永远是数字。
+  - 更新 `DB2_DATABASE_TEAM_HANDOFF.md` 指向 schema contract，并明确已确认、待数据库团队确认、待平台团队确认、禁止事项和真实接入门槛。
 - 当前验证状态：
   - TDD RED：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_temp_db.py -q` 初始因缺少 `AssetCatalogTemporaryMirrorStore` import 失败。
   - TDD GREEN：同一命令后续为 `5 passed`。
@@ -42,13 +38,14 @@
   - Boundary grep：无 migration、真实 MySQL / NAS / REST、真实 index 写入或 DB-3 retrieval 实现；命中仅为 docs 禁止项、fake fixture `nas://fake`、SQLite 内存库测试和 write flag 字段。
   - 测试 Codex 独立复测：`DB2_TEMP_DB_QA_OPEN_FINDINGS: 0`，`P0 findings: 0`；额外 probe `tests/test_db2_temp_db_probe.py` 为 `4 passed`，probe lint 通过。
 - 当前结论：
-  - 当前实现仍只触碰临时内存库。
+  - 当前变更为 docs-only schema freeze。
   - 未新增 migration。
   - 未连接真实 MySQL / NAS / REST。
   - 未进入 DB-3 retrieval / selective indexing。
 - 阻塞点 / 风险点：
-  - 真实数据库表结构仍需数据库团队确认。
+  - 数据库团队仍需确认最终命名空间、JSON/JSONB、约束、索引命名和 down migration policy。
+  - 平台团队仍需确认 event_id 单调性、project_id 类型、source View 和时间字段。
   - migration 仍需用户单独授权。
   - 真实平台同步仍需用户单独授权。
-- 是否建议 baseline：是，本轮执行 DB-2 temporary DB proof-of-contract baseline。
+- 是否建议 baseline：待 review / validation 后决定。
 - 是否建议进入下一阶段：否。

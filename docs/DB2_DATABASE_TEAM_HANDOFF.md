@@ -19,6 +19,12 @@
 5. 没有写 OpenSearch / Qdrant。
 6. 没有进入 DB-3 检索。
 
+DB-2 到真实数据库前的表结构、主键、权限字段、索引、checkpoint 和 rollback 契约已单独冻结在：
+
+1. `docs/DB2_SCHEMA_CONTRACT.md`
+
+如果本文与 `DB2_SCHEMA_CONTRACT.md` 存在冲突，以 `DB2_SCHEMA_CONTRACT.md` 为准。
+
 ## 2. 给数据库团队的白话说明
 
 我们要新增的是一张“企业资产目录表”。
@@ -29,20 +35,34 @@
 
 > Hermes 数据管家需要一张资产目录 mirror 表，用来保存平台侧项目 / 文件 / BIM 模型资产的稳定元数据。DB-2 阶段只同步 catalog，不写正文 evidence，不写 documents/chunks，不写向量或搜索索引。权限标签缺失时必须默认不可见。
 
-## 3. 真实表需要数据库团队确认的点
+## 3. 真实表契约摘要
 
-建议先让数据库团队确认这些问题：
+已确认：
 
 1. 表名是否使用 `external_asset_catalog`。
-2. 主键是否使用 `asset_uid`，格式为 `source_system + ":" + source_id`。
-3. 是否需要同时加唯一约束：`source_system` + `source_view` + `source_id`。
-4. `permission_tags` 和 `project_scope` 用 JSON 字段、文本数组，还是单独子表。
-5. `last_event_id` 是否作为增量同步 checkpoint 的主要字段。
-6. `project_id`、`source_view`、`permission_status`、`sync_status`、`last_event_id` 是否需要索引。
-7. `permission_tags` 缺失时，数据库默认值是否也要落成 `permission_status='denied'`。
-8. moved / stale / missing 资产是否保留在表里，还是进入单独历史表。
-9. 是否需要保留 `created_at`、`updated_at`、`modified_at`、`last_seen_at` 四类时间字段。
-10. rollback 策略：如果 migration 失败，是否允许直接 drop 新表。
+2. 主键使用 `asset_uid`，真实 mirror 格式为 `source_system + ":" + source_view + ":" + source_id`。
+3. 增加 `UNIQUE (source_system, source_view, source_id)`。
+4. `permission_status` 数据库默认值必须是 `DENIED`。
+5. `permission_tags` 和 `project_scope` 初版使用 JSON 字段。
+6. moved / stale / missing 资产保留在 catalog 表中，不直接删除。
+7. `last_event_id` 是主要 checkpoint 候选字段，但不能作为唯一依据。
+8. DB-2 不触碰 `documents` / `chunks` / Qdrant / OpenSearch。
+
+待数据库团队确认：
+
+1. 最终表名使用 `external_asset_catalog` 还是 `hermes_external_asset_catalog`。
+2. JSON 字段使用 MySQL `JSON`、PostgreSQL `JSONB`，还是文本 JSON。
+3. 是否后续拆出 `external_asset_permissions` 子表。
+4. 枚举字段是否需要数据库层 `CHECK` 约束。
+5. 索引命名、长度限制和字符集 / collation。
+6. 预生产是否允许 migration down drop 新表；生产是否采用 forward migration。
+
+待平台团队确认：
+
+1. `source_system`、`source_view`、`source_id` 的正式来源和稳定性。
+2. `AuditEventView.event_id` 是否单调递增。
+3. 无 event_id 时是否可用 `created_at + source_view cursor` 兜底。
+4. `project_id` 是否永远是数字；未确认前 schema contract 使用 `VARCHAR(128)`。
 
 ## 4. 真实数据库接入前的硬条件
 
@@ -61,10 +81,11 @@
 
 1. `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md`
 2. `docs/DB2_DATABASE_TEAM_HANDOFF.md`
-3. `app/services/asset_catalog/mirror_preview.py`
-4. `app/services/asset_catalog/temp_db.py`
-5. `tests/test_data_steward_asset_catalog_mirror.py`
-6. `tests/test_data_steward_asset_catalog_temp_db.py`
+3. `docs/DB2_SCHEMA_CONTRACT.md`
+4. `app/services/asset_catalog/mirror_preview.py`
+5. `app/services/asset_catalog/temp_db.py`
+6. `tests/test_data_steward_asset_catalog_mirror.py`
+7. `tests/test_data_steward_asset_catalog_temp_db.py`
 
 这些材料说明了字段、状态、权限默认 deny、catalog-only evidence 边界和临时库写入演练。
 
