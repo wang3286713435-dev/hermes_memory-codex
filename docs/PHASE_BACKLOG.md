@@ -317,10 +317,11 @@
 1. 用户已授权 DB-3C：只做 Missing Evidence response DTO。
 2. 已新增 `AssetCatalogMissingEvidenceResponse`。
 3. DTO 只接受 `decision.missing_evidence=True` 且 reason 非空的 decision。
-4. DTO 固定输出 `response_kind=missing_evidence`、query、intent、reason、空 `prompt_items`、false write flags。
-5. 覆盖 reason：`asset_catalog_only`、`permission_scope_required`、`no_authorized_catalog_metadata`。
-6. 本阶段仍不接真实 MySQL / NAS / REST，不写 migration，不写 documents/chunks/OpenSearch/Qdrant。
-7. 下一步建议 full validation、Codex B review、QA prompt，之后再 baseline。
+4. QA review-fix：reason 为 `None`、空字符串或空白字符串时必须拒绝。
+5. DTO 固定输出 `response_kind=missing_evidence`、query、intent、reason、空 `prompt_items`、false write flags。
+6. 覆盖 reason：`asset_catalog_only`、`permission_scope_required`、`no_authorized_catalog_metadata`。
+7. 本阶段仍不接真实 MySQL / NAS / REST，不写 migration，不写 documents/chunks/OpenSearch/Qdrant。
+8. 下一步建议 review-fix baseline 后交给测试 agent 独立复测。
 
 ## 后置项
 

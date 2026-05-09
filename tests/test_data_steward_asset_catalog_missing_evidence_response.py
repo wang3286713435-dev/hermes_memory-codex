@@ -100,7 +100,10 @@ def test_missing_evidence_response_rejects_catalog_lookup_decision() -> None:
         AssetCatalogMissingEvidenceResponse.from_decision(request, _decision(request))
 
 
-def test_missing_evidence_response_rejects_missing_reason() -> None:
+@pytest.mark.parametrize("missing_reason", [None, "", "   "])
+def test_missing_evidence_response_rejects_missing_reason(
+    missing_reason: str | None,
+) -> None:
     request = AssetCatalogRetrievalRequest(
         query="summarize missing reason",
         intent="content_answer",
@@ -111,7 +114,7 @@ def test_missing_evidence_response_rejects_missing_reason() -> None:
         catalog_items=(),
         prompt_items=(),
         missing_evidence=True,
-        missing_evidence_reason=None,
+        missing_evidence_reason=missing_reason,
         denied_count=0,
         skipped_count=0,
     )

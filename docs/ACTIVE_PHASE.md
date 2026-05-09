@@ -1,8 +1,9 @@
 # Active Phase
 
-- 当前 phase：DB-3C Missing Evidence Response DTO
+- 当前 phase：DB-3C Missing Evidence Response DTO review-fix
 - 当前分支：`codex/data-steward-db0-contract`
 - 当前 baseline：
+  - DB-3C Missing Evidence response baseline：commit `dcdb66f`，tag `phase-db3c-missing-evidence-response-baseline`
   - DB-2 schema handoff freeze baseline：commit `bd24284`，tag `phase-db2-schema-handoff-freeze-baseline`
   - DB-2 schema review response baseline：commit `cffac1f`，tag `phase-db2-schema-review-response-baseline`
   - DB-2 schema contract freeze baseline：commit `64e139a`，tag `phase-db2-schema-contract-freeze-baseline`
@@ -39,6 +40,7 @@
   - 新增 `DB3B_TEMP_DB_BACKED_GUARD.md` 记录边界。
   - 新增 `AssetCatalogMissingEvidenceResponse` DTO。
   - DTO 只接受 Missing Evidence decision，非 Missing Evidence catalog lookup 会被拒绝。
+  - DB3C-QA-001 review-fix：DTO 现在拒绝空字符串和空白字符串 reason。
   - DTO 固定输出 `response_kind=missing_evidence`、reason、空 `prompt_items` 和 false write flags。
   - 覆盖 `asset_catalog_only`、`permission_scope_required`、`no_authorized_catalog_metadata` 三个 reason。
   - `package.json` validation 纳入 DB-3C 测试。
@@ -76,9 +78,10 @@
   - DB-3B `git diff --check`：passed。
   - DB-3B boundary grep：命中仅为禁止项文档与 false write flags；无真实 MySQL / NAS / REST / OpenSearch / Qdrant 写路径。
   - DB-3C TDD RED：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_missing_evidence_response.py -q` 因无法 import `AssetCatalogMissingEvidenceResponse` 失败。
-  - DB-3C targeted test：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_missing_evidence_response.py -q` 为 `6 passed`。
+  - DB-3C targeted test：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_missing_evidence_response.py -q` 为 `8 passed`。
+  - DB-3C QA probe：`uv run --extra dev pytest tests/test_db3c_missing_evidence_response_probe.py -q` 为 `11 passed`。
   - DB-3C targeted lint：初次 import 顺序不合规，ruff fix 后 `All checks passed!`。
-  - DB-3C full validation：`npm test` 为 `43 passed`。
+  - DB-3C full validation：`npm test` 为 `45 passed`。
   - DB-3C full validation：`npm run lint` 为 `All checks passed!`。
   - DB-3C py_compile：passed。
   - DB-3C `git diff --check`：passed。
@@ -93,5 +96,5 @@
   - 平台团队仍需确认 event_id 单调性、project_id 类型、source View 和时间字段。
   - migration 仍需用户单独授权。
   - 真实平台同步仍需用户单独授权。
-- 是否建议 baseline：DB-3C full validation 已通过，建议 baseline 后交给测试 agent 独立复测。
+- 是否建议 baseline：DB3C-QA-001 review-fix validation 已通过，建议 baseline 后交给测试 agent 独立复测。
 - 是否建议进入下一阶段：否。

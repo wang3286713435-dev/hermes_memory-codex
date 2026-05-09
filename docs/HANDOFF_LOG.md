@@ -215,6 +215,26 @@
 - scope: docs-only planning prompt / review gate.
 - forbidden scope respected: no DB-2 implementation, no migration, no real MySQL / NAS / REST, no documents / chunks writes, no OpenSearch / Qdrant writes, no retrieval contract or memory kernel architecture change.
 - next: if user explicitly continues, create `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md` as docs-only planning. Do not write implementation before Codex B review and explicit user authorization.
+- commit/tag if any: pending tag `phase-db3c-missing-evidence-response-review-fix-baseline`.
+
+## 2026-05-09 DB-3C Missing Evidence Response DTO review-fix
+- goal: Close QA finding `DB3C-QA-001` by rejecting empty or whitespace Missing Evidence reasons.
+- changed_files:
+  - `app/services/asset_catalog/response.py`
+  - `tests/test_data_steward_asset_catalog_missing_evidence_response.py`
+  - `docs/DB3C_MISSING_EVIDENCE_RESPONSE_DTO.md`
+  - phase handoff docs
+- validation:
+  - QA probe before fix: `uv run --extra dev pytest tests/test_db3c_missing_evidence_response_probe.py -q` failed on `test_probe_rejects_empty_reason`.
+  - TDD RED: formal target test failed for `""` and `"   "` reasons.
+  - Target test after fix: `8 passed`.
+  - QA probe after fix: `11 passed`.
+  - `npm test`: `45 passed`.
+  - `npm run lint`: `All checks passed!`.
+  - py_compile: passed.
+  - `git diff --check`: passed.
+- boundary: review-fix only; no real MySQL / NAS / REST, no migration, no documents/chunks, no OpenSearch/Qdrant.
+- next: DB-3C review-fix baseline and independent QA rerun. Real MySQL remains separately gated.
 - commit/tag if any: none.
 
 ## 2026-05-09 DB-3C Missing Evidence Response DTO

@@ -35,7 +35,10 @@ class AssetCatalogMissingEvidenceResponse:
     ) -> AssetCatalogMissingEvidenceResponse:
         if not decision.missing_evidence:
             raise ValueError("expected missing evidence decision")
-        if decision.missing_evidence_reason is None:
+        if (
+            decision.missing_evidence_reason is None
+            or not decision.missing_evidence_reason.strip()
+        ):
             raise ValueError("missing evidence decision requires a reason")
         if decision.prompt_items:
             raise ValueError("missing evidence response cannot include prompt items")

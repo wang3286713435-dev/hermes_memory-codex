@@ -13,7 +13,7 @@
 9. DB-2 schema contract freeze 已 baseline：commit `64e139a`，tag `phase-db2-schema-contract-freeze-baseline`。
 10. DB-3A Catalog Retrieval Guard 已 baseline；DB-3B Temporary DB Backed Guard 已 baseline。
 11. 当前任务：DB-3C Missing Evidence response DTO；只包装 guard 的 Missing Evidence decision，不接真实 MySQL / NAS / REST，不写 migration，不写 documents / chunks / OpenSearch / Qdrant。
-12. 下一步：DB-3C baseline 后交给测试 agent 独立复测；不得自动进入真实数据库接入、真实 retrieval、selective indexing 或 DB-4/DB-5。
+12. 下一步：DB-3C review-fix baseline 后交给测试 agent 独立复测；不得自动进入真实数据库接入、真实 retrieval、selective indexing 或 DB-4/DB-5。
 
 ## 最新状态
 
@@ -993,4 +993,4 @@
 5. Confirm reason is stable for `asset_catalog_only`, `permission_scope_required`, and `no_authorized_catalog_metadata`.
 6. Confirm no real MySQL / NAS / REST path exists.
 7. Confirm no documents/chunks/OpenSearch/Qdrant writes exist.
-8. If clean, baseline DB-3C and prepare an independent QA prompt.
+8. If clean, baseline DB-3C review-fix and prepare an independent QA prompt.

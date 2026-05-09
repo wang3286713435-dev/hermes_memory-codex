@@ -43,7 +43,7 @@ from app.services.asset_catalog import AssetCatalogMissingEvidenceResponse
 `AssetCatalogMissingEvidenceResponse.from_decision(request, decision)` 只接受：
 
 1. `decision.missing_evidence is True`
-2. `decision.missing_evidence_reason` 非空
+2. `decision.missing_evidence_reason` 非空，且不能是空白字符串
 3. `decision.prompt_items` 为空
 4. write flags 全 false
 
@@ -83,8 +83,9 @@ DTO 不生成回答、不生成 citation、不生成 prompt context。
 2. 缺项目权限范围生成 `permission_scope_required` response。
 3. 无授权 catalog metadata 生成 `no_authorized_catalog_metadata` response。
 4. 非 Missing Evidence decision 被拒绝。
-5. 含 `prompt_items` 的 Missing Evidence decision 被拒绝。
-6. `to_dict()` 输出稳定字段，且 write flags 全 false。
+5. `None`、空字符串、空白字符串 reason 被拒绝。
+6. 含 `prompt_items` 的 Missing Evidence decision 被拒绝。
+7. `to_dict()` 输出稳定字段，且 write flags 全 false。
 
 ## 6. 下一步
 

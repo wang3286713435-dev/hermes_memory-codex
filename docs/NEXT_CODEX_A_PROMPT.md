@@ -1,6 +1,6 @@
 # NEXT_CODEX_A_PROMPT
 
-当前 DB-3C Missing Evidence Response DTO 已完成本地实现与 validation，下一步建议执行 baseline 后交给测试 agent 独立复测。
+当前 DB-3C Missing Evidence Response DTO 已完成 QA review-fix，下一步建议执行 baseline 后交给测试 agent 独立复测。
 
 已完成 baseline / review 事实：
 
@@ -13,6 +13,9 @@
 7. DB-2 schema contract freeze 已 baseline：commit `64e139a`，tag `phase-db2-schema-contract-freeze-baseline`。
 8. DB-2 schema review response 已 baseline：commit `cffac1f`，tag `phase-db2-schema-review-response-baseline`。
 9. DB-2 schema handoff freeze 已 baseline：commit `bd24284`，tag `phase-db2-schema-handoff-freeze-baseline`。
+10. DB-3A catalog retrieval guard 已 baseline：commit `fda6c87`，tag `phase-db3a-catalog-retrieval-guard-baseline`。
+11. DB-3B temporary DB backed guard 已 baseline：commit `8fd46a3`，tag `phase-db3b-temp-db-backed-guard-baseline`。
+12. DB-3C Missing Evidence response baseline 已完成：commit `dcdb66f`，tag `phase-db3c-missing-evidence-response-baseline`。
 
 当前 DB-3C 允许范围：
 
@@ -20,6 +23,7 @@
 2. 只包装 guard 的 Missing Evidence decision。
 3. 固定 reason、空 `prompt_items`、false write flags。
 4. 覆盖 `asset_catalog_only`、`permission_scope_required`、`no_authorized_catalog_metadata`。
+5. QA review-fix：拒绝 `None`、空字符串、空白字符串 reason。
 
 当前 DB-3C 禁止范围：
 
@@ -55,7 +59,7 @@ Review checklist：
 5. 所有 write flags 必须为 false。
 6. 不得新增真实 DB / NAS / REST / OpenSearch / Qdrant 代码路径。
 
-若 review / validation 通过，建议做 DB-3C baseline，并请测试 agent 独立复测。
+若 review / validation 通过，建议做 DB-3C review-fix baseline，并请测试 agent 独立复测。
 
 下一步 DB-3D 候选：
 
