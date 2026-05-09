@@ -131,3 +131,26 @@ Second-file authorization flow:
 7. If any Pause / No-Go condition appears, stop without cleanup, repair, backfill, reindex, or rollout.
 
 The second-file smoke should produce an ignored sanitized run record. Real evidence JSON and source files must remain untracked.
+
+## 9. Internal MVP Launch Readiness
+
+Before internal controlled MVP use, run the Phase 2.60 local readiness pack:
+
+```bash
+uv run python scripts/phase260_mvp_local_readiness_pack.py --skip-api-health
+```
+
+If the API should be checked and is already running:
+
+```bash
+uv run python scripts/phase260_mvp_local_readiness_pack.py \
+  --api-url http://127.0.0.1:8000
+```
+
+Readiness output is a dry-run gate only:
+
+- `go`: internal controlled MVP use may proceed under human operator supervision.
+- `pause`: fix prerequisites and rerun; do not upload or repair automatically.
+- `no_go`: stop for Codex B / human owner review.
+
+This runner does not start services, upload files, run Hermes CLI smoke, write DB/index state, execute repair, or approve production rollout.

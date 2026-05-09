@@ -1,5 +1,13 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.60 Internal MVP Launch Readiness Pack
+
+1. Phase 2.59 baseline 已完成：`2603a87` / `phase-2.59-natural-import-second-smoke-plan-baseline`。
+2. 当前用户选择暂不执行第二真实文件 smoke，优先把本地 MVP 推进到 Mac mini 内部真实使用前的 readiness 形态。
+3. 下一步 Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`：实现只读 local readiness runner、目标测试和 operator 文档同步。
+4. 本阶段不上传文件、不运行真实 API/CLI smoke、不写 DB/index、不进入 Data Steward、不开 production rollout。
+5. 完成后交 Codex B review；不自动 baseline。
+
 ## Phase 2.57 Natural Import MVP Usability / Evidence Planning
 
 1. Phase 2.57 docs-only planning 已完成。
@@ -1061,3 +1069,12 @@
 4. Phase 2.59 docs-only planning 已完成：新增第二真实文件授权 gate、Codex C 待授权模板、operator checklist 流程与 Phase 2.57 计划同步。
 5. 下一步建议 Codex B review；通过后再做 docs-only baseline。
 6. 第二真实文件 smoke 仍不得自动执行；必须等待用户提供小型非敏感文件路径并明确授权。
+
+# Phase 2.60 Internal MVP Launch Readiness Pack
+
+1. Phase 2.59 baseline 已完成：commit `2603a87`，tag `phase-2.59-natural-import-second-smoke-plan-baseline`。
+2. Phase 2.60 已完成最小实现：新增只读 local readiness runner、目标测试与 Mac mini operator checklist 同步。
+3. Runner 输出 `go` / `pause` / `no_go`，固定 `dry_run=true`、`read_only=true`、`destructive_actions=[]`、`real_upload_called=false`、`api_smoke_called=false`、`cli_smoke_called=false`、`db_or_index_written=false`、`production_rollout=false`。
+4. 本轮未上传文件、未执行 API / CLI smoke、未写 DB / facts / versions / audit_logs / OpenSearch / Qdrant。
+5. 下一步建议 Codex B review；通过后再 selective baseline。
+6. 第二真实文件 smoke 仍保留为用户授权后 Codex C 任务，不阻塞 Phase 2.60 review。

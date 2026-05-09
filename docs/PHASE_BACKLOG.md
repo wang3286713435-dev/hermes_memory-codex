@@ -2,6 +2,22 @@
 
 ## 最新状态
 
+1. Phase 2.60 Internal MVP Launch Readiness Pack 最小实现已完成，等待 Codex B review。
+2. 新增只读本地 readiness runner：`scripts/phase260_mvp_local_readiness_pack.py`。
+3. 该 runner 只输出 Go / Pause / No-Go，不上传文件、不启动服务、不运行 Hermes CLI smoke、不写 DB/index、不执行 repair。
+4. 目标测试已覆盖 skip API health go、latest 缺失 pause、危险 env flag no_go、API health failure pause、显式 output JSON、固定 safety fields。
+5. 下一步建议 Codex B review；通过后只做 selective baseline，不进入真实 upload、Data Steward 或 production rollout。
+
+## 历史状态
+
+1. Phase 2.59 baseline 已完成：commit `2603a87`，tag `phase-2.59-natural-import-second-smoke-plan-baseline`。
+2. 用户决定暂不做第二真实文件 smoke，优先推进 Mac mini 内部 MVP 可用版本。
+3. 当前进入 Phase 2.60 Internal MVP Launch Readiness Pack。
+4. Phase 2.60 目标：实现只读本地 readiness runner + 测试 + 文档同步，帮助 operator 判断是否可进入内部受控 MVP 使用。
+5. 本阶段继续禁止真实上传、API/CLI smoke、DB/index 写入、repair/backfill/reindex、Data Steward、production rollout。
+
+## 历史状态
+
 1. Phase 2.59 docs-only planning 已完成：第二真实文件 natural import smoke 的授权 gate、Codex C 待授权模板与 operator checklist 已同步。
 2. 当前不得自动上传文件、运行 API/CLI smoke、写 DB/index 或进入 Data Steward / rollout。
 3. 第二真实文件 smoke 必须等待用户提供小型非敏感文件路径并明确授权。

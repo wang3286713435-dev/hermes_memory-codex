@@ -1,5 +1,7 @@
 # DEV_LOG
 
+- [Phase 2.60 Prompt] 用户明确要求暂不做第二真实文件 smoke，优先让 Mac mini 本地 MVP 尽快进入真实内部使用场景。Codex B 已写入 Phase 2.60 Internal MVP Launch Readiness Pack：新增只读 readiness runner、目标测试和 operator 文档同步；不上传文件、不跑真实 API/CLI smoke、不写 DB/index、不进入 Data Steward 或 rollout。
+- [Phase 2.59 Baseline] Phase 2.59 docs-only planning 已 baseline：commit `2603a87`，tag `phase-2.59-natural-import-second-smoke-plan-baseline`。第二真实文件 smoke 仍需用户提供具体小型非敏感文件路径并明确授权后，由 Codex C 执行 `docs/NEXT_CODEX_C_PROMPT.md`。
 - [Phase 2.57a Prompt] Phase 2.57 baseline 已完成，下一步进入 Natural Import Evidence Template / Runbook Dry-run：只做本地 dry-run 脚本、测试与文档同步，不上传文件、不运行 API/CLI smoke、不写 DB/index。
 - [Phase 2.57] 完成 Natural Import MVP Usability / Evidence docs-only planning：新增 `docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md`，明确单文件自然语言导入 operator flow、evidence pack 字段、Go / Pause / No-Go、Mac mini runbook outline 与非目标。本轮未上传文件、未运行 API / CLI、未写 DB / OpenSearch / Qdrant，未进入 DB/NAS/Data Steward 或 rollout。
 - [Phase 2.56e] 完成 Natural Import Real Upload Client + Real Smoke：Hermes 主仓新增真实 upload client，feature flag 开启时调用 Hermes_memory `/api/v1/documents/upload`；自然语言导入用户授权 `.docx` 成功，`document_id=ee54b72c-b88b-4fad-be54-007240285356`，`version_id=950da5fe-dd7c-4eba-8764-916b556d14ce`，alias `@C塔人力测算` 持久化后同 session retrieval 只命中新导入文档。Hermes 主仓目标测试 `34 passed`；本轮未 cleanup/delete/repair/backfill/reindex，未进入 rollout。
@@ -430,3 +432,4 @@
 
 - [Phase 2.59 Prompt] Phase 2.58 baseline 完成后，写入第二个自然语言导入 smoke 的 planning prompt 与 Codex C 待授权模板；不自动上传。
 - [Phase 2.59] 完成 Natural Import Second Smoke docs-only planning：补齐第二真实文件授权 gate、执行流程、Codex C 待授权模板、operator checklist 的 second-file smoke 流程与 Phase 2.57 计划同步；本轮未上传文件、未运行 API/CLI smoke、未写 DB / facts / versions / audit_logs / OpenSearch / Qdrant，未进入 cleanup / repair / backfill / reindex / Data Steward / rollout。
+- [Phase 2.60] 完成 Internal MVP Launch Readiness Pack 最小实现：新增 `scripts/phase260_mvp_local_readiness_pack.py` 与 `tests/test_phase260_mvp_local_readiness_pack.py`，用于本地只读检查 Git / latest 状态、operator 文档、second-smoke gate、run_local_api helper、optional API health、危险授权 env flags 与 Data Steward not active；runner 固定 dry-run / read-only / no-upload / no-CLI-smoke / no-DB-index-write / no-rollout safety fields。本轮仅执行目标测试与 offline dry-run，未上传文件、未运行真实 API / CLI smoke、未写 DB / facts / versions / audit_logs / OpenSearch / Qdrant，未进入 repair / backfill / reindex / Data Steward / production rollout。

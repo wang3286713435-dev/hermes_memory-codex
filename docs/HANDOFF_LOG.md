@@ -1,5 +1,25 @@
 # Handoff Log
 
+## 2026-05-09 Phase 2.60 Codex B Review
+
+- goal: Review Phase 2.60 Internal MVP Launch Readiness Pack and prepare selective Git baseline prompt.
+- review:
+  - `scripts/phase260_mvp_local_readiness_pack.py` is read-only and does not start services, upload files, run CLI smoke, write DB/index, repair, backfill, reindex, or rollout.
+  - Dangerous env flags force `no_go`.
+  - Missing latest/API health failures pause instead of mutating state.
+  - Offline readiness dry-run reports `status=go`.
+- verification:
+  - `uv run python -m py_compile scripts/phase260_mvp_local_readiness_pack.py`: passed.
+  - `uv run pytest tests/test_phase260_mvp_local_readiness_pack.py tests/test_phase257a_natural_import_evidence_template.py -q`: `20 passed`.
+  - `git diff --check`: passed.
+  - latest JSON validation: passed.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/HANDOFF_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- next: Codex A should execute Phase 2.60 selective baseline and stop. Do not enter Phase 2.61 during baseline.
+
 ## 2026-05-09 Phase 2.56e Codex A Prompt
 
 - goal: Move from Phase 2.56d baseline to Phase 2.56e real upload client wiring and user-authorized natural-language import smoke.
@@ -5624,3 +5644,41 @@
   - Historical unrelated dirty remains and must not be staged with Phase 2.59.
 - next: Codex B review Phase 2.59 docs-only planning; if accepted, prepare selective docs-only baseline.
 - commit/tag if any: none.
+
+## 2026-05-09 17:19 Phase 2.60 Internal MVP Launch Readiness Pack
+- goal: Implement a read-only local readiness runner for Mac mini internal controlled MVP use before operator entry.
+- changed_files:
+  - `scripts/phase260_mvp_local_readiness_pack.py`
+  - `tests/test_phase260_mvp_local_readiness_pack.py`
+  - `docs/PHASE260_INTERNAL_MVP_LAUNCH_READINESS_PLAN.md`
+  - `docs/MAC_MINI_NATURAL_IMPORT_OPERATOR_CHECKLIST.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `uv run pytest tests/test_phase260_mvp_local_readiness_pack.py -q`: `6 passed`.
+  - Full required validation recorded in `reports/agent_runs/latest.json`.
+- validation:
+  - Runner supports offline `--skip-api-health` readiness report.
+  - Dangerous authorization env flags produce `no_go`.
+  - Missing latest.json or API health failure produces `pause`.
+  - No real upload, API smoke, Hermes CLI smoke, DB write, OpenSearch write, or Qdrant write.
+- risks:
+  - Readiness `go` is only internal controlled MVP operator entry, not production rollout approval.
+  - Second real natural import smoke remains separately authorization-gated.
+  - Historical unrelated dirty remains and must not be staged with Phase 2.60.
+- next: Codex B review Phase 2.60; if accepted, prepare selective baseline.
+- commit/tag if any: none.
+# Phase 2.60 Handoff - Codex B Prompt
+
+- 时间：2026-05-09
+- 角色：Codex B
+- 状态：`docs/NEXT_CODEX_A_PROMPT.md` 已写入 Phase 2.60 Internal MVP Launch Readiness Pack。
+- 背景：Phase 2.59 baseline 已完成；用户决定暂不执行第二真实文件 smoke，优先让 Mac mini 本地 MVP 进入内部真实使用场景。
+- 下一步：Codex A 执行 2.60，只做只读 readiness runner、测试与文档同步。
+- 禁止：真实上传、API/CLI smoke、自动启动服务、DB/index 写入、repair/backfill/reindex、Data Steward、production rollout。
