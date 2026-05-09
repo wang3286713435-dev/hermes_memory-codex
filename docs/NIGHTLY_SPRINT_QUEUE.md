@@ -10,18 +10,12 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.56e Selective Git Baseline
+### Current Item：Phase 2.57 Docs-only Selective Baseline
 
 - lane：Yellow Lane
 - 状态：codex_b_review_passed_baseline_prompt_ready
 - 任务入口：`docs/NEXT_CODEX_A_PROMPT.md`
-- 目标：只执行 Phase 2.56e 双仓 selective Git baseline。
-- 允许动作：轻量验证、白名单 staging、commit、tag、push、更新 ignored latest 状态。
-- 禁止动作：再次真实 upload、cleanup/delete/repair/backfill/reindex、DB/facts/version/OpenSearch/Qdrant 写入、Data Steward/DB/NAS 实现、production rollout。
-- 完成后：停止等待 Codex B review；不得自动进入 Phase 2.57。
-
-### Next Candidate：Phase 2.57 Natural Import MVP Evidence / Operator Usability Planning
-
-- lane：Green Lane
-- 状态：candidate_after_phase_256e_baseline
-- 目标：规划自然语言导入的 MVP evidence pack、Mac mini operator runbook 和少量可用性回归；不扩大到 NAS/TB/Data Steward。
+- 目标：只执行 Phase 2.57 docs-only selective Git baseline。
+- 允许动作：轻量检查、白名单 staging、commit、tag、push、更新 ignored latest。
+- 禁止动作：上传文件、API/CLI smoke、代码修改、DB/index 写入、repair/backfill/reindex、Data Steward/DB/NAS 实现、rollout、进入下一阶段。
+- 完成后：停止等待 Codex B review。

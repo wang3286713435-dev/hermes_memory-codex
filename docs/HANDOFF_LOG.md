@@ -5435,3 +5435,44 @@
 - risks: real test document/version/chunk/index records exist and must not be automatically cleaned up; bulk/NAS/TB remains out of scope.
 - next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.56e selective baseline only.
 - commit/tag if any: none yet.
+
+## 2026-05-09 Phase 2.57 Handoff Prompt
+- goal: After Phase 2.56e baseline, prepare Codex A prompt for Natural Import MVP usability / evidence planning.
+- changed_files: ACTIVE_PHASE, PHASE_BACKLOG, NIGHTLY_SPRINT_QUEUE, NEXT_CODEX_A_PROMPT, NEXT_CODEX_C_PROMPT, HANDOFF_LOG, TODO, DEV_LOG, ignored latest.
+- next: Codex A should execute docs-only Phase 2.57 planning and stop for Codex B review.
+- commit/tag if any: none.
+
+## 2026-05-09 14:53 Phase 2.57
+- goal: Plan Natural Import MVP usability, evidence pack, Mac mini operator flow, and Go / Pause / No-Go.
+- changed_files:
+  - `docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: passed.
+  - latest JSON validation: passed.
+- validation:
+  - Docs-only planning; no API / CLI smoke, no upload, no DB / index write.
+- risks:
+  - Second real import validation must require fresh explicit user authorization.
+  - Existing Phase 2.56e test records must not be automatically cleaned up.
+  - Historical unrelated dirty remains: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`, `docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`, `docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`.
+- next: Codex B review Phase 2.57 planning; if accepted, run docs-only selective baseline.
+- commit/tag if any: none.
+
+## 2026-05-09 Phase 2.57 Codex B Review
+- goal: Review Natural Import MVP Usability / Evidence docs-only planning and prepare selective baseline.
+- verification:
+  - `git diff --check`: passed.
+  - latest JSON validation: passed.
+  - planning doc covers operator flow, evidence pack, Go/Pause/No-Go, Mac mini runbook outline, and non-goals.
+- review_result: accepted for docs-only selective baseline.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.57 baseline only.
+- commit/tag if any: none yet.

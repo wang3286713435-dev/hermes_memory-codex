@@ -1,5 +1,15 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.57 Natural Import MVP Usability / Evidence Planning
+
+1. Phase 2.57 docs-only planning 已完成。
+2. 新增 `docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md`。
+3. 后续候选：
+   - Phase 2.57a：自然语言导入 evidence template / runbook runner dry-run。
+   - Phase 2.57b：第二个小文件真实导入验证，但必须重新取得用户显式授权。
+   - Phase 2.58：Mac mini MVP operator checklist 更新。
+4. 当前禁止：API / CLI smoke、上传文件、DB / index 写入、cleanup / repair / reindex、Data Steward、production rollout。
+
 ## Phase 2.56e Natural Import Real Upload Client
 
 1. Phase 2.56e implementation + real smoke 已完成，等待 Codex B review。
@@ -1002,3 +1012,16 @@
 2. Next step is selective dual-repo Git baseline only.
 3. Do not rerun real upload or cleanup the created test records.
 4. After baseline, plan Phase 2.57 around natural import MVP evidence / operator usability, not DB/NAS/Data Steward implementation.
+
+# Phase 2.57 Natural Import MVP Usability Planning
+
+1. Phase 2.56e baseline complete; natural import real upload works for one authorized `.docx`.
+2. Next is docs-only planning for evidence pack / Mac mini operator runbook.
+3. No file upload, no code, no DB/index mutation, no Data Steward implementation in this phase.
+
+# Phase 2.57 Baseline Gate
+
+1. Codex B review passed for Natural Import MVP Usability / Evidence Planning.
+2. Next step is docs-only selective Git baseline.
+3. No upload, no API/CLI smoke, no code, no DB/index writes.
+4. After baseline, consider Phase 2.57a evidence template / runbook runner dry-run.

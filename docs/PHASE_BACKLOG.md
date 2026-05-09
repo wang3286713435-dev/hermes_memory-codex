@@ -2,6 +2,30 @@
 
 ## 最新状态
 
+1. Phase 2.57 planning 已通过 Codex B review，下一步执行 docs-only selective Git baseline。
+2. baseline 白名单仅包含 `PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md` 与交接文档。
+3. 不得 stage 历史无关 `PHASE238...`、DB/NAS 草稿或 ignored latest。
+4. baseline 后停止；Phase 2.57a 才可规划 evidence template / runbook runner dry-run。
+5. 继续禁止真实 upload、API/CLI smoke、DB/index 写入、Data Steward 实现和 rollout。
+
+## 最新状态
+
+1. Phase 2.57 Natural Import MVP Usability / Evidence Planning 已完成 docs-only 规划。
+2. 新增 `docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md`。
+3. 规划覆盖 operator flow、evidence pack、Go / Pause / No-Go、Mac mini runbook outline 与非目标。
+4. 本轮未上传文件、未运行 API / CLI、未写代码、未写 DB / OpenSearch / Qdrant。
+5. 下一步需要 Codex B review；通过后再做 docs-only baseline。
+
+## 最新状态
+
+1. Phase 2.56e baseline 已完成：Hermes 主仓 `be4b3a375`，Hermes_memory `7e07e4b`，tag `phase-2.56e-natural-import-real-upload-smoke-baseline`。
+2. 当前进入 Phase 2.57 Natural Import MVP Usability / Evidence Planning。
+3. Phase 2.57 只做 docs-only planning：自然语言导入 evidence pack、Mac mini operator runbook、Go/Pause/No-Go。
+4. 不上传文件、不运行 API / CLI smoke、不写代码、不写 DB / index、不进入 DB/NAS/Data Steward。
+5. 完成后交 Codex B review，不自动 baseline。
+
+## 最新状态
+
 1. Phase 2.56e 已通过 Codex B review，下一步执行 selective Git baseline。
 2. 复核证据：主仓 py_compile 通过，natural import 目标测试 `34 passed`，Hermes_memory `git diff --check` 与 run record JSON / ignore 检查通过。
 3. baseline 白名单限定 Phase 2.56e：真实 upload client、runtime wiring、upload client tests、交接文档。
