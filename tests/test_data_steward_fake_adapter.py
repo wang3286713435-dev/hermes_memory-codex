@@ -136,6 +136,16 @@ def test_unmatched_filter_returns_empty_page_with_correct_metadata() -> None:
     assert page.contract_version == VIEW_CONTRACT_VERSIONS["FileAssetView"]
 
 
+def test_unknown_filter_field_returns_empty_page() -> None:
+    adapter = FakePlatformAssetCatalogAdapter()
+
+    page = adapter.list_file_assets(filters={"not_a_contract_field": None})
+
+    assert page.items == ()
+    assert page.has_more is False
+    assert page.next_cursor is None
+
+
 def test_cursor_source_view_mismatch_raises_value_error() -> None:
     adapter = FakePlatformAssetCatalogAdapter()
 
@@ -144,3 +154,16 @@ def test_cursor_source_view_mismatch_raises_value_error() -> None:
 
     with pytest.raises(ValueError, match="cursor source_view mismatch"):
         adapter.list_project_assets(cursor=first_page.next_cursor)
+
+
+def test_cursor_filter_context_mismatch_raises_value_error() -> None:
+    adapter = FakePlatformAssetCatalogAdapter()
+
+    first_page = adapter.list_file_assets(limit=1, filters={"project_id": "101-C塔"})
+    assert first_page.next_cursor is not None
+
+    with pytest.raises(ValueError, match="cursor filter"):
+        adapter.list_file_assets(
+            cursor=first_page.next_cursor,
+            filters={"project_id": "99-丰图既有建模项目"},
+        )

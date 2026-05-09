@@ -87,12 +87,17 @@ class FakePlatformAssetCatalogAdapter:
         filters: dict[str, Any] | None = None,
     ) -> AssetViewPage:
         page_limit = self._normalize_limit(limit)
-        start = self._decode_cursor(cursor, source_view) if cursor else 0
-        records = self._filter_records(self._records[source_view], filters or {})
+        normalized_filters = filters or {}
+        start = self._decode_cursor(cursor, source_view, normalized_filters) if cursor else 0
+        records = self._filter_records(self._records[source_view], normalized_filters)
         page_items = records[start : start + page_limit]
         next_offset = start + len(page_items)
         has_more = next_offset < len(records)
-        next_cursor = self._encode_cursor(source_view, next_offset) if has_more else None
+        next_cursor = (
+            self._encode_cursor(source_view, next_offset, normalized_filters)
+            if has_more
+            else None
+        )
 
         return AssetViewPage(
             source_view=source_view,
@@ -219,7 +224,9 @@ class FakePlatformAssetCatalogAdapter:
                 if int(payload.get("event_id", -1)) <= int(expected):
                     return False
                 continue
-            actual = payload.get(key)
+            if key not in payload:
+                return False
+            actual = payload[key]
             if isinstance(expected, (list, tuple, set)):
                 if isinstance(actual, list):
                     if not set(actual).intersection(expected):
@@ -240,11 +247,29 @@ class FakePlatformAssetCatalogAdapter:
             raise ValueError("limit must be positive")
         return min(limit, MAX_PAGE_LIMIT)
 
-    def _encode_cursor(self, source_view: SourceView, offset: int) -> str:
-        payload = json.dumps({"source_view": source_view, "offset": offset}, separators=(",", ":"))
+    def _encode_cursor(
+        self,
+        source_view: SourceView,
+        offset: int,
+        filters: dict[str, Any],
+    ) -> str:
+        payload = json.dumps(
+            {
+                "source_view": source_view,
+                "offset": offset,
+                "filter_fingerprint": self._filter_fingerprint(filters),
+            },
+            ensure_ascii=False,
+            separators=(",", ":"),
+        )
         return base64.urlsafe_b64encode(payload.encode("utf-8")).decode("ascii")
 
-    def _decode_cursor(self, cursor: str, expected_view: SourceView) -> int:
+    def _decode_cursor(
+        self,
+        cursor: str,
+        expected_view: SourceView,
+        filters: dict[str, Any],
+    ) -> int:
         try:
             raw = base64.urlsafe_b64decode(cursor.encode("ascii")).decode("utf-8")
             payload = json.loads(raw)
@@ -253,7 +278,36 @@ class FakePlatformAssetCatalogAdapter:
 
         if payload.get("source_view") != expected_view:
             raise ValueError("cursor source_view mismatch")
+        if payload.get("filter_fingerprint") != self._filter_fingerprint(filters):
+            raise ValueError("cursor filter mismatch")
         offset = int(payload["offset"])
         if offset < 0:
             raise ValueError("cursor offset must be non-negative")
         return offset
+
+    def _filter_fingerprint(self, filters: dict[str, Any]) -> str:
+        return json.dumps(
+            self._canonical_filter_value(filters),
+            ensure_ascii=False,
+            separators=(",", ":"),
+            sort_keys=True,
+        )
+
+    def _canonical_filter_value(self, value: Any) -> Any:
+        if isinstance(value, dict):
+            return {
+                str(key): self._canonical_filter_value(value[key])
+                for key in sorted(value, key=str)
+            }
+        if isinstance(value, (list, tuple, set)):
+            items = [self._canonical_filter_value(item) for item in value]
+            return sorted(
+                items,
+                key=lambda item: json.dumps(
+                    item,
+                    ensure_ascii=False,
+                    separators=(",", ":"),
+                    sort_keys=True,
+                ),
+            )
+        return value
