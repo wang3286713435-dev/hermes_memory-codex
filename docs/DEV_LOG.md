@@ -1,5 +1,7 @@
 # DEV_LOG
 
+- [Phase 2.56e] 完成 Natural Import Real Upload Client + Real Smoke：Hermes 主仓新增真实 upload client，feature flag 开启时调用 Hermes_memory `/api/v1/documents/upload`；自然语言导入用户授权 `.docx` 成功，`document_id=ee54b72c-b88b-4fad-be54-007240285356`，`version_id=950da5fe-dd7c-4eba-8764-916b556d14ce`，alias `@C塔人力测算` 持久化后同 session retrieval 只命中新导入文档。Hermes 主仓目标测试 `34 passed`；本轮未 cleanup/delete/repair/backfill/reindex，未进入 rollout。
+- [Phase 2.56e Prompt] Phase 2.56d baseline 已确认：Hermes 主仓 `65089d5c8`、Hermes_memory `4773abe`、tag `phase-2.56d-natural-import-runtime-wiring-baseline`。下一步进入真实 upload client wiring + 用户授权文件自然语言导入 smoke；必须由 CLI 自然语言命令触发，不得绕普通 upload path 声称成功；cleanup/delete/repair/backfill/reindex、Data Steward、production rollout 仍禁止。
 - [Phase 2.56d Review] Codex B review 通过：runtime hook 已接入 `run_agent.py`，默认 disabled 与 enabled-without-client 均 fail-closed；复跑 py_compile、targeted pytest `28 passed`、disabled-path CLI smoke、enabled-without-client CLI smoke 均通过。已写入双仓 selective Git baseline prompt；baseline 后停止，不进入 Phase 2.56e。
 - [Phase 2.56d] 完成 Natural Import Runtime Wiring 最小实现：Hermes 主仓 `run_agent.py` 在普通 memory kernel retrieval / LLM answer 前调用 natural import runtime hook；默认真实 upload disabled，明确导入 intent 返回 structured diagnostics 并 fail-closed，不进入普通 retrieval 乱答。新增 fake adapter runtime tests，py_compile 通过，natural import 目标测试 `28 passed`；disabled-path CLI smoke 通过。本轮未调用真实 upload API、未上传文件、未写 DB / OpenSearch / Qdrant。
 - [Phase 2.56d] Codex B review 确认 Phase 2.56c blocked 结果成立：自然语言导入 parser 命中，但 Hermes 主仓 runtime 尚未接入 `run_natural_file_import_preflight()` 或真实 upload adapter；Codex A 没有绕普通 upload path 声称成功，边界正确。
@@ -406,3 +408,5 @@
 - [Phase 2.53] Codex B review 通过 Natural Language File Import planning；因下一步将进入 Phase 2.53a mocked implementation 并可能跨 Hermes 主仓，已写入 docs-only Git baseline prompt，避免规划文档与实现代码混在一个提交。
 - [Phase 2.53a] Phase 2.53 baseline 完成后，Codex B 写入自然语言导入文件 parser / dry-run planner 实现入口：仅允许新增 Hermes 主仓 parser 模块与测试，暂不接 upload adapter / kernel integration，不上传真实文件、不调用 API、不写 DB / index。
 - [Phase 2.53a Review] Codex B review 暂不建议 baseline：parser 仍会把 `不要导入 / 不要上传 / 不要收录` 识别为有效导入；同时 Hermes_memory 出现 out-of-scope tracked docs deletion，需要恢复 `docs/MAC_MINI_MVP_DEPLOYMENT_RUNBOOK.md` 与 `docs/MVP_PILOT_RUNBOOK.md`。已写入最小 review-fix prompt。
+
+- [Phase 2.56e] Codex B review passed: py_compile passed, targeted pytest `34 passed`, Hermes_memory diff/check JSON/ignore verification passed. Wrote selective dual-repo baseline prompt; no Codex C retest needed to avoid duplicate upload records.

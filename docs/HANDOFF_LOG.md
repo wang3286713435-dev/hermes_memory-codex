@@ -1,5 +1,25 @@
 # Handoff Log
 
+## 2026-05-09 Phase 2.56e Codex A Prompt
+
+- goal: Move from Phase 2.56d baseline to Phase 2.56e real upload client wiring and user-authorized natural-language import smoke.
+- baseline confirmed:
+  - Hermes main commit `65089d5c8`.
+  - Hermes_memory commit `4773abe`.
+  - tag `phase-2.56d-natural-import-runtime-wiring-baseline`.
+  - both repos pushed to configured remotes.
+- changed_files:
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/NEXT_CODEX_C_PROMPT.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- next: Codex A should execute Phase 2.56e: implement real Hermes_memory upload client, run natural-language import command using the user-authorized `.docx`, seed alias, run minimal retrieval smoke, and stop for Codex B review.
+- forbidden: no extra files, no directory/NAS/BIM import, no cleanup/delete/repair/backfill/reindex, no production rollout, no Data Steward implementation, no Git baseline.
+
 ## 2026-05-09 Phase 2.56d Codex B Review
 
 - goal: Review Phase 2.56d runtime wiring implementation and prepare selective Git baseline prompt.
@@ -5369,3 +5389,49 @@
   - Phase 2.56e real smoke requires Codex B review first.
 - next: Codex B review Phase 2.56d; if accepted, write Phase 2.56e prompt to reuse the user-authorized `.docx` file for real natural-language import smoke.
 - commit/tag if any: none.
+
+## 2026-05-09 14:22 Phase 2.56e
+- goal: Implement real Hermes_memory upload client for natural-language import and run the user-authorized `.docx` real smoke.
+- changed_files:
+  - `/Users/Weishengsu/.hermes/hermes-agent/run_agent.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/hermes_memory_upload_client.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_hermes_memory_upload_client.py`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+  - `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/internal_mvp_runs/phase256e_natural_import_real_upload_smoke_20260509_142027.json`（ignored）
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - Hermes main py_compile: passed.
+  - Hermes main targeted pytest: `34 passed`.
+  - Hermes_memory `git diff --check`: passed.
+  - `reports/agent_runs/latest.json` JSON / ignore checks: passed.
+- validation:
+  - Real natural-language import succeeded through CLI runtime path.
+  - Imported document `ee54b72c-b88b-4fad-be54-007240285356`, version `950da5fe-dd7c-4eba-8764-916b556d14ce`, `chunk_count=1`, `indexed_count=1`.
+  - Alias `@C塔人力测算` persisted in session `20260509_142027_53f458`.
+  - Same-session retrieval returned citation/evidence only from the newly imported document.
+- risks:
+  - Test document/version/chunk/index records now exist and must not be automatically cleaned up.
+  - Only one small `.docx` was validated; bulk/NAS/TB file pool remains out of scope.
+- next: Codex B review Phase 2.56e; if accepted, run selective dual-repo baseline only.
+- commit/tag if any: none.
+
+## 2026-05-09 Phase 2.56e Codex B Review
+- goal: Review Phase 2.56e Natural Import Real Upload Client + Real Smoke and prepare selective Git baseline.
+- verification:
+  - Hermes main py_compile: passed.
+  - Hermes main targeted pytest: `34 passed`.
+  - Hermes_memory `git diff --check`: passed.
+  - `latest.json` and Phase 2.56e run record JSON validation: passed.
+  - run records are ignored by git.
+- review_result: accepted for selective baseline.
+- risks: real test document/version/chunk/index records exist and must not be automatically cleaned up; bulk/NAS/TB remains out of scope.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.56e selective baseline only.
+- commit/tag if any: none yet.

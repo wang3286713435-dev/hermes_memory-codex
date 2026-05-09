@@ -1,24 +1,14 @@
 # NEXT_CODEX_C_PROMPT
 
-## No Codex C Task For Phase 2.56d
+## No Codex C Task For Phase 2.56e Baseline
 
-Phase 2.56d 是 runtime wiring 最小实现与 fake / mocked adapter 测试阶段。
+Phase 2.56e 已由 Codex A 完成真实自然语言导入 smoke，并由 Codex B 复核 run record 与目标测试。
 
-Codex C 暂无真实终端验收任务。
+当前下一步是 Codex A 执行 selective Git baseline，不需要 Codex C 再次上传或复测，避免重复产生 document/version/chunk/index 测试数据。
 
-## 当前状态
+Codex C 后续介入条件：
+1. Phase 2.56e baseline 完成；
+2. Codex B 规划新的 Phase 2.57 runtime/API/CLI 验收；
+3. Codex B 明确写入新的测试 prompt。
 
-1. Runtime preflight hook 已接入。
-2. 默认真实 upload 关闭并 fail-closed。
-3. disabled-path CLI smoke 已通过。
-4. 真实自然语言导入 smoke 尚未执行。
-
-## 等待条件
-
-只有在以下条件满足后，才安排 Codex C：
-
-1. Codex B review Phase 2.56d 通过。
-2. Codex B 写入 Phase 2.56e 真实终端复验 prompt。
-3. 用户授权文件仍有效，且继续允许产生测试 document / version / chunk / index 记录。
-
-Phase 2.56e 才验证 CLI 自然语言导入是否真实触发 upload adapter、生成 document/version/chunk/index，并保持 evidence 边界。
+禁止：不要上传额外文件、不要 cleanup/delete/repair/reindex、不要写 DB/facts/versions/OpenSearch/Qdrant。

@@ -1,5 +1,13 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.56e Natural Import Real Upload Client
+
+1. Phase 2.56e implementation + real smoke 已完成，等待 Codex B review。
+2. 自然语言 CLI 导入用户授权 `.docx` 成功：`document_id=ee54b72c-b88b-4fad-be54-007240285356`，`version_id=950da5fe-dd7c-4eba-8764-916b556d14ce`，`chunk_count=1`，`indexed_count=1`。
+3. `@C塔人力测算` 同 session retrieval smoke 只返回新导入文档 evidence。
+4. 下一步只建议 Phase 2.56e selective baseline；不得自动 cleanup / delete / repair / backfill / reindex。
+5. Data Steward、bulk/NAS/TB 文件池、production rollout 仍后置。
+
 ## Phase 2.56d Natural Import Runtime Wiring
 
 1. Phase 2.56d runtime wiring 最小实现已通过 Codex B review，下一步只做 selective Git baseline。
@@ -987,3 +995,10 @@
 6. 已新增 `reports/mvp_pilot_reviews/.gitignore` 与 `README.md`；真实 report JSON / Markdown 默认 ignored，不入 Git。
 7. 当前不运行 API / CLI smoke，不写 DB / facts / versions / OpenSearch / Qdrant，不进入 production rollout、repair 或 Data Steward 实现。
 8. 下一步需 Codex B review Phase 2.42a；通过后再单独决定是否 Git baseline。
+
+# Phase 2.56e Baseline Gate
+
+1. Codex B review passed for Natural Import Real Upload Client + Real Smoke.
+2. Next step is selective dual-repo Git baseline only.
+3. Do not rerun real upload or cleanup the created test records.
+4. After baseline, plan Phase 2.57 around natural import MVP evidence / operator usability, not DB/NAS/Data Steward implementation.

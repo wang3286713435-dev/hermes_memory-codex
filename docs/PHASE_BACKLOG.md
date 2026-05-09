@@ -2,6 +2,33 @@
 
 ## 最新状态
 
+1. Phase 2.56e 已通过 Codex B review，下一步执行 selective Git baseline。
+2. 复核证据：主仓 py_compile 通过，natural import 目标测试 `34 passed`，Hermes_memory `git diff --check` 与 run record JSON / ignore 检查通过。
+3. baseline 白名单限定 Phase 2.56e：真实 upload client、runtime wiring、upload client tests、交接文档。
+4. 严禁 stage 历史无关 dirty、DB/NAS 草稿、ignored run records。
+5. baseline 后停止，后续 Phase 2.57 再规划自然语言导入可用性 evidence pack / Mac mini MVP operator runbook。
+
+## 最新状态
+
+1. Phase 2.56e implementation + real smoke 已完成。
+2. Hermes 主仓新增真实 Hermes_memory upload client，并在 feature flag 开启时由 natural import runtime 调用。
+3. 用户授权 `.docx` 已通过自然语言 CLI 导入：`document_id=ee54b72c-b88b-4fad-be54-007240285356`，`version_id=950da5fe-dd7c-4eba-8764-916b556d14ce`，`chunk_count=1`，`indexed_count=1`。
+4. `@C塔人力测算` 已在同 session 持久化，retrieval smoke 只返回新导入文档 citation/evidence。
+5. 下一步必须先 Codex B review，再决定 Phase 2.56e selective baseline；不得自动 cleanup/delete/repair/backfill/reindex 或进入 rollout。
+
+## 最新状态
+
+1. Phase 2.56d baseline 已完成：
+   - Hermes 主仓 `65089d5c8`
+   - Hermes_memory `4773abe`
+   - tag `phase-2.56d-natural-import-runtime-wiring-baseline`
+2. 当前进入 Phase 2.56e Natural Import Real Upload Client + Real Smoke。
+3. 2.56e 允许实现真实 Hermes_memory upload client，并复用用户授权 `.docx` 做自然语言导入真实 smoke。
+4. 2.56e 不允许绕普通 upload path 声称成功，必须从 CLI 自然语言命令触发。
+5. cleanup / delete / repair / backfill / reindex、Data Steward、production rollout 仍禁止。
+
+## 最新状态
+
 1. Phase 2.56d 已通过 Codex B review。
 2. 当前已写入双仓 selective Git baseline prompt。
 3. baseline 白名单仅包含 Phase 2.56d runtime wiring 代码、测试与交接文档。
