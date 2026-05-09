@@ -1,5 +1,7 @@
 # DEV_LOG
 
+- [DB-2] 完成 schema review response docs：新增 `DB2_SCHEMA_REVIEW_RESPONSE.md`，吸收数据库 / NAS / 数字化交付平台侧确认。`DB2_SCHEMA_CONTRACT.md` 更新为：`source_system=delivery_platform`、当前四个 source_view 固定、View contract version 写入 catalog/checkpoint、MySQL JSON / UTC timestamp、`external_asset_sync_checkpoint` 作为 mirror 同步 checkpoint 候选表、lifecycle 默认 ACTIVE 且一次扫描缺失只标 candidate/data_quality。当前仍 docs-only，不写 migration、不接真实 MySQL/NAS/REST、不进入 DB-3。
+
 - [DB-2] 新增真实数据库前 schema contract freeze：`DB2_SCHEMA_CONTRACT.md`。已确认默认表名 `external_asset_catalog`、真实 mirror `asset_uid = source_system + ":" + source_view + ":" + source_id`、`UNIQUE(source_system, source_view, source_id)`、权限默认 `DENIED`、初版 JSON 权限字段、moved / stale / missing 保留、最小索引、checkpoint 兜底和 rollback 契约。`project_id` 暂不冻结为 `BIGINT`，因当前 fake fixtures 已有非数字项目 ID；待平台团队确认后再决定是否收窄类型。本轮 docs-only，不授权 migration 或真实数据库连接。
 
 - [DB-2] 测试 Codex 独立复测通过 temporary DB proof-of-contract：`DB2_TEMP_DB_QA_OPEN_FINDINGS: 0`，`P0 findings: 0`。复测确认 SQLite temporary DB 只接受内存库、拒绝文件型 / attached file DB、只创建 `external_asset_catalog_contract`、重复 apply 不重复插行，deny / evidence / write flags 均符合边界；额外 probe `4 passed` 且 lint 通过。当前可执行 selective baseline，仍不授权 migration、真实 MySQL / NAS / REST、documents / chunks、OpenSearch / Qdrant、DB-3 retrieval 或 selective indexing。

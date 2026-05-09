@@ -19,9 +19,10 @@
 5. 没有写 OpenSearch / Qdrant。
 6. 没有进入 DB-3 检索。
 
-DB-2 到真实数据库前的表结构、主键、权限字段、索引、checkpoint 和 rollback 契约已单独冻结在：
+DB-2 到真实数据库前的表结构、主键、权限字段、索引、checkpoint 和 rollback 契约已单独维护在：
 
 1. `docs/DB2_SCHEMA_CONTRACT.md`
+2. `docs/DB2_SCHEMA_REVIEW_RESPONSE.md`
 
 如果本文与 `DB2_SCHEMA_CONTRACT.md` 存在冲突，以 `DB2_SCHEMA_CONTRACT.md` 为准。
 
@@ -47,22 +48,26 @@ DB-2 到真实数据库前的表结构、主键、权限字段、索引、checkp
 6. moved / stale / missing 资产保留在 catalog 表中，不直接删除。
 7. `last_event_id` 是主要 checkpoint 候选字段，但不能作为唯一依据。
 8. DB-2 不触碰 `documents` / `chunks` / Qdrant / OpenSearch。
+9. `source_system` 默认固定为 `delivery_platform`。
+10. 当前 `source_view` 固定为 `ProjectAssetView` / `FileAssetView` / `ModelAssetView` / `AuditEventView`。
+11. `external_asset_sync_checkpoint` 纳入 schema contract 的 migration 候选表。
 
 待数据库团队确认：
 
 1. 最终表名使用 `external_asset_catalog` 还是 `hermes_external_asset_catalog`。
-2. JSON 字段使用 MySQL `JSON`、PostgreSQL `JSONB`，还是文本 JSON。
-3. 是否后续拆出 `external_asset_permissions` 子表。
-4. 枚举字段是否需要数据库层 `CHECK` 约束。
-5. 索引命名、长度限制和字符集 / collation。
-6. 预生产是否允许 migration down drop 新表；生产是否采用 forward migration。
+2. 是否后续拆出 `external_asset_permissions` 子表。
+3. 枚举字段是否需要数据库层 `CHECK` 约束。
+4. 索引命名、长度限制和字符集 / collation。
+5. 预生产是否允许 migration down drop 新表；生产是否采用 forward migration。
+6. 是否需要 checkpoint history 表；初版只冻结 current checkpoint 表。
 
 待平台团队确认：
 
-1. `source_system`、`source_view`、`source_id` 的正式来源和稳定性。
+1. `source_id` 在同一 `source_system + source_view` 内是否稳定唯一。
 2. `AuditEventView.event_id` 是否单调递增。
 3. 无 event_id 时是否可用 `created_at + source_view cursor` 兜底。
-4. `project_id` 是否永远是数字；未确认前 schema contract 使用 `VARCHAR(128)`。
+4. 完整 moved / stale / missing 映射。
+5. `source_modified_at` 和 `last_seen_at` 的字段来源。
 
 ## 4. 真实数据库接入前的硬条件
 
@@ -82,10 +87,11 @@ DB-2 到真实数据库前的表结构、主键、权限字段、索引、checkp
 1. `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md`
 2. `docs/DB2_DATABASE_TEAM_HANDOFF.md`
 3. `docs/DB2_SCHEMA_CONTRACT.md`
-4. `app/services/asset_catalog/mirror_preview.py`
-5. `app/services/asset_catalog/temp_db.py`
-6. `tests/test_data_steward_asset_catalog_mirror.py`
-7. `tests/test_data_steward_asset_catalog_temp_db.py`
+4. `docs/DB2_SCHEMA_REVIEW_RESPONSE.md`
+5. `app/services/asset_catalog/mirror_preview.py`
+6. `app/services/asset_catalog/temp_db.py`
+7. `tests/test_data_steward_asset_catalog_mirror.py`
+8. `tests/test_data_steward_asset_catalog_temp_db.py`
 
 这些材料说明了字段、状态、权限默认 deny、catalog-only evidence 边界和临时库写入演练。
 

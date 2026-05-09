@@ -1,5 +1,36 @@
 # Handoff Log
 
+## 2026-05-09 DB-2 Schema Review Response
+- goal: Absorb database / NAS / delivery-platform review feedback into the DB-2 schema contract.
+- branch: `codex/data-steward-db0-contract`
+- worktree: `/Users/Weishengsu/Hermes_memory_db0`
+- scope: docs-only schema review; no migration, no real MySQL / NAS / REST, no DB-3 retrieval.
+- changed_files:
+  - `docs/DB2_SCHEMA_REVIEW_RESPONSE.md`
+  - `docs/DB2_SCHEMA_CONTRACT.md`
+  - `docs/DB2_DATABASE_TEAM_HANDOFF.md`
+  - `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/DEV_LOG.md`
+  - `docs/HANDOFF_LOG.md`
+- accepted:
+  - Default table name remains `external_asset_catalog`.
+  - Namespace fallback remains `hermes_external_asset_catalog`.
+  - `source_system` default is `delivery_platform`.
+  - Current `source_view` set is `ProjectAssetView`, `FileAssetView`, `ModelAssetView`, `AuditEventView`.
+  - `asset_uid` format remains `source_system:source_view:source_id`.
+  - MySQL JSON fields use `JSON`, PostgreSQL equivalent is `JSONB`.
+  - Timestamps are UTC.
+  - `external_asset_sync_checkpoint` is included as a mirror-only checkpoint candidate table.
+- clarified:
+  - Current platform View fields are listed separately from target / reserved fields.
+  - `contract_version` is written to catalog; `source_contract_version` is written to checkpoint.
+  - `lifecycle_status` defaults to `ACTIVE` when platform status is unclear.
+  - Single missing scan should only produce candidate / data quality markers, not a true delete.
+  - Missing Evidence user-facing format remains DB-3 answer-contract work; DB-2 only freezes catalog-only boundary and `asset_catalog_only` reason.
+- forbidden scope respected: no migration, no real DB connection, no NAS scan, no REST action, no documents / chunks writes, no OpenSearch / Qdrant writes, no retrieval, no selective indexing.
+- next: run docs checks and normal validation, then decide docs-only baseline. Migration remains unauthorized.
+
 ## 2026-05-09 DB-2 Schema Contract Freeze
 - goal: Freeze the pre-migration schema contract for the real asset catalog mirror.
 - branch: `codex/data-steward-db0-contract`

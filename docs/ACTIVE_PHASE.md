@@ -1,6 +1,6 @@
 # Active Phase
 
-- 当前 phase：DB-2 Schema Contract Freeze
+- 当前 phase：DB-2 Schema Review Response
 - 当前分支：`codex/data-steward-db0-contract`
 - 当前 baseline：
   - DB-2 dry-run preview baseline：commit `6780d20`，tag `phase-db2-dry-run-preview-baseline`
@@ -9,23 +9,23 @@
   - DB-2 planning / Ralph guard baseline：commit `56f9e47`，tag `phase-db2-planning-ralph-guard-baseline`
   - DB-1a fake adapter baseline：commit `e9d1556`，tag `phase-db1a-fake-view-adapter-baseline`
 - 本轮授权：只做临时数据库 proof-of-contract，不写 migration，不连接真实 MySQL / NAS / REST，不进入 DB-3 retrieval。
-- 本轮目标：冻结真实数据库接入前的表结构、主键、权限字段、索引、checkpoint 和 rollback 契约；仍不写 migration。
+- 本轮目标：吸收数据库 / NAS / 数字化交付平台侧确认，更新 schema contract；仍不写 migration。
 - 修改文件：
   - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_SCHEMA_CONTRACT.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_SCHEMA_REVIEW_RESPONSE.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_DATABASE_TEAM_HANDOFF.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/ACTIVE_PHASE.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/DEV_LOG.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/HANDOFF_LOG.md`
 - 完成内容：
-  - 新增 `DB2_SCHEMA_CONTRACT.md`，单独冻结真实数据库前 schema contract。
-  - 接受默认表名 `external_asset_catalog`，并保留 `hermes_external_asset_catalog` 作为命名空间备选。
-  - 接受真实 mirror `asset_uid = source_system + ":" + source_view + ":" + source_id`。
-  - 接受 `UNIQUE(source_system, source_view, source_id)`。
-  - 冻结 `permission_status` 数据库默认 `DENIED`。
-  - 冻结最小索引、checkpoint、lifecycle、rollback 和真实接入门槛。
-  - 将 `project_id` 暂定为 `VARCHAR(128)`，等待平台团队确认是否永远是数字。
-  - 更新 `DB2_DATABASE_TEAM_HANDOFF.md` 指向 schema contract，并明确已确认、待数据库团队确认、待平台团队确认、禁止事项和真实接入门槛。
+  - 新增 `DB2_SCHEMA_REVIEW_RESPONSE.md`，逐项回答平台侧 14 个问题。
+  - 更新 `DB2_SCHEMA_CONTRACT.md`：确认 `source_system=delivery_platform`，固定当前四个 `source_view`，加入 View contract version 字段策略。
+  - 区分当前 View 已有字段与目标 / 预留字段。
+  - 将 `external_asset_sync_checkpoint` 纳入 DB-2 schema contract 的 migration 候选表。
+  - 明确 MySQL 使用 JSON 类型、timestamp 统一 UTC、开发 / 预生产 / 生产 rollback 差异。
+  - 明确 lifecycle 未提供时默认 `ACTIVE`，一次扫描缺失只写 candidate / data quality，不直接判定删除。
+  - 明确 DB-2 真实 migration 仍保持未授权状态。
 - 当前验证状态：
   - TDD RED：`uv run --extra dev pytest tests/test_data_steward_asset_catalog_temp_db.py -q` 初始因缺少 `AssetCatalogTemporaryMirrorStore` import 失败。
   - TDD GREEN：同一命令后续为 `5 passed`。
@@ -38,7 +38,7 @@
   - Boundary grep：无 migration、真实 MySQL / NAS / REST、真实 index 写入或 DB-3 retrieval 实现；命中仅为 docs 禁止项、fake fixture `nas://fake`、SQLite 内存库测试和 write flag 字段。
   - 测试 Codex 独立复测：`DB2_TEMP_DB_QA_OPEN_FINDINGS: 0`，`P0 findings: 0`；额外 probe `tests/test_db2_temp_db_probe.py` 为 `4 passed`，probe lint 通过。
 - 当前结论：
-  - 当前变更为 docs-only schema freeze。
+  - 当前变更为 docs-only schema review response。
   - 未新增 migration。
   - 未连接真实 MySQL / NAS / REST。
   - 未进入 DB-3 retrieval / selective indexing。

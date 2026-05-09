@@ -2,7 +2,7 @@
 
 日期：2026-05-09
 分支：`codex/data-steward-db0-contract`
-状态：dry-run sync preview 与 temporary DB proof-of-contract 已 baseline；schema contract freeze docs-only；migration、真实平台接入和 DB-3 retrieval 未授权
+状态：dry-run sync preview 与 temporary DB proof-of-contract 已 baseline；schema review response docs-only；migration、真实平台接入和 DB-3 retrieval 未授权
 
 ## 1. Scope
 
@@ -19,7 +19,7 @@ DB-2 planning / implementation 结论：
 1. 可以规划 `external_asset_catalog` 或等价 mirror。
 2. planning 已完成 Codex B review，用户已授权进入 DB-2 最小 dry-run preview implementation。
 3. migration 是否允许仍需用户显式授权。
-4. 当前只允许 fake adapter 上的 catalog mirror dry-run preview、SQLite 内存库 proof-of-contract 和 docs-only schema contract freeze；不得写 migration，不得连接真实 MySQL / NAS / REST，不得写 `documents` / `chunks` / OpenSearch / Qdrant。
+4. 当前只允许 fake adapter 上的 catalog mirror dry-run preview、SQLite 内存库 proof-of-contract 和 docs-only schema review；不得写 migration，不得连接真实 MySQL / NAS / REST，不得写 `documents` / `chunks` / OpenSearch / Qdrant。
 
 ## 2. Non-goals
 

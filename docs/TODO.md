@@ -10,8 +10,9 @@
 6. DB-2 planning / Ralph guard 已 baseline，DB-1a cursor/filter review-fix 已 baseline。
 7. DB-2 fake-adapter dry-run preview 第一片已 baseline：commit `6780d20`，tag `phase-db2-dry-run-preview-baseline`。
 8. DB-2 temporary DB proof-of-contract 已 baseline：commit `53337fe`，tag `phase-db2-temp-db-proof-baseline`。
-9. 当前任务：schema contract freeze，只更新真实数据库接入前的表结构、主键、权限字段、索引、checkpoint 和 rollback 契约。
-10. 下一步：数据库团队 / 平台团队 review `docs/DB2_SCHEMA_CONTRACT.md`。不得自动进入 migration、真实 MySQL / NAS / REST 联调、documents / chunks / OpenSearch / Qdrant 写入、DB-3 retrieval 或 selective indexing。
+9. DB-2 schema contract freeze 已 baseline：commit `64e139a`，tag `phase-db2-schema-contract-freeze-baseline`。
+10. 当前任务：schema review response，只更新文档，吸收平台侧字段、checkpoint 表、JSON/UTC、rollback 和 DB-3 启动条件补充。
+11. 下一步：继续 schema review 或等待用户单独授权 migration。不得自动进入真实 MySQL / NAS / REST 联调、documents / chunks / OpenSearch / Qdrant 写入、DB-3 retrieval 或 selective indexing。
 
 ## 最新状态
 
