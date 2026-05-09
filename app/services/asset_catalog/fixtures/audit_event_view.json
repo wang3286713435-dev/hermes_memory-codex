@@ -1,0 +1,78 @@
+{
+  "source_view": "AuditEventView",
+  "contract_version": "db1a.AuditEventView.v1",
+  "source_system": "delivery_platform",
+  "records": [
+    {
+      "event_id": 1001,
+      "event_type": "asset_created",
+      "source_id": "file-101-model-index",
+      "asset_uid": "delivery_platform:file-101-model-index",
+      "project_id": "101-C\u5854",
+      "project_scope": ["101-C\u5854"],
+      "source_view_ref": "FileAssetView",
+      "created_at": "2026-05-01T01:05:00Z",
+      "trace_id": "fake-db1a-trace-1001",
+      "permission_tags": ["project:101-C\u5854", "role:delivery"]
+    },
+    {
+      "event_id": 1002,
+      "event_type": "checksum_missing_detected",
+      "source_id": "file-101-checksum-missing",
+      "asset_uid": "delivery_platform:file-101-checksum-missing",
+      "project_id": "101-C\u5854",
+      "project_scope": ["101-C\u5854"],
+      "source_view_ref": "FileAssetView",
+      "created_at": "2026-05-01T02:05:00Z",
+      "trace_id": "fake-db1a-trace-1002",
+      "permission_tags": ["project:101-C\u5854", "role:delivery"]
+    },
+    {
+      "event_id": 1003,
+      "event_type": "permission_tags_missing_detected",
+      "source_id": "file-98-internal-review-no-tags",
+      "asset_uid": "delivery_platform:file-98-internal-review-no-tags",
+      "project_id": "98-\u6df1\u5733\u53e3\u5cb8\u9879\u76ee",
+      "project_scope": ["98-\u6df1\u5733\u53e3\u5cb8\u9879\u76ee"],
+      "source_view_ref": "FileAssetView",
+      "created_at": "2026-05-02T02:05:00Z",
+      "trace_id": "fake-db1a-trace-1003"
+    },
+    {
+      "event_id": 1004,
+      "event_type": "asset_moved",
+      "source_id": "file-99-model-moved",
+      "asset_uid": "delivery_platform:file-99-model-moved",
+      "project_id": "99-\u4e30\u56fe\u65e2\u6709\u5efa\u6a21\u9879\u76ee",
+      "project_scope": ["99-\u4e30\u56fe\u65e2\u6709\u5efa\u6a21\u9879\u76ee"],
+      "source_view_ref": "FileAssetView",
+      "created_at": "2026-05-03T02:05:00Z",
+      "trace_id": "fake-db1a-trace-1004",
+      "permission_tags": ["project:99-\u4e30\u56fe\u65e2\u6709\u5efa\u6a21\u9879\u76ee", "role:modeling"]
+    },
+    {
+      "event_id": 1005,
+      "event_type": "asset_stale_marked",
+      "source_id": "file-99-stale-old-path",
+      "asset_uid": "delivery_platform:file-99-stale-old-path",
+      "project_id": "99-\u4e30\u56fe\u65e2\u6709\u5efa\u6a21\u9879\u76ee",
+      "project_scope": ["99-\u4e30\u56fe\u65e2\u6709\u5efa\u6a21\u9879\u76ee"],
+      "source_view_ref": "FileAssetView",
+      "created_at": "2026-05-03T02:06:00Z",
+      "trace_id": "fake-db1a-trace-1005",
+      "permission_tags": ["project:99-\u4e30\u56fe\u65e2\u6709\u5efa\u6a21\u9879\u76ee", "role:modeling"]
+    },
+    {
+      "event_id": 1006,
+      "event_type": "asset_missing_marked",
+      "source_id": "file-98-missing-file",
+      "asset_uid": "delivery_platform:file-98-missing-file",
+      "project_id": "98-\u6df1\u5733\u53e3\u5cb8\u9879\u76ee",
+      "project_scope": ["98-\u6df1\u5733\u53e3\u5cb8\u9879\u76ee"],
+      "source_view_ref": "FileAssetView",
+      "created_at": "2026-05-04T02:05:00Z",
+      "trace_id": "fake-db1a-trace-1006",
+      "permission_tags": ["project:98-\u6df1\u5733\u53e3\u5cb8\u9879\u76ee", "role:delivery"]
+    }
+  ]
+}

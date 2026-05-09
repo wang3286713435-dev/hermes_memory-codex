@@ -3,10 +3,12 @@
 ## DB 分支最新状态
 
 1. 已创建独立分支 `codex/data-steward-db0-contract`，用于数据管家 DB / NAS / BIM 资产治理前置工作。
-2. 当前 DB-0a 目标是 contract baseline：固化平台 View / REST 契约、权限边界、asset_uid、catalog-only evidence、Missing Evidence 与 phase gate。
+2. DB-1a fake View fixtures / fake adapter contract tests 已完成最小闭环。
 3. “数据管家”统一指 Hermes 企业 Agent；DB / NAS / BIM 接入只是数据管家的资产治理能力模块之一。
 4. 当前 MVP 主线继续在原分支推进，不因 DB 分支阻塞。
-5. 下一步建议 DB-1a：fake View fixtures + fake adapter contract tests，不连接真实 MySQL / NAS。
+5. 本轮新增 `ProjectAssetView` / `FileAssetView` / `ModelAssetView` / `AuditEventView` fake fixtures，覆盖三个项目、pagination / cursor、contract_version、asset_uid、permission_tags missing deny 与异常状态。
+6. DB-1 baseline 前已新增 `DB_BRANCH_ACCEPTANCE_AND_MERGE_CHECKLIST.md`，明确 DB-1 / DB-2 / DB-3 验收、合回主线条件与 hard stop。
+7. 下一步建议先做 DB-1a Codex B review / baseline，不自动进入 DB-2 mirror 或真实联调。
 
 ## 最新状态
 

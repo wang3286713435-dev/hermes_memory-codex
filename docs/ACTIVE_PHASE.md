@@ -1,39 +1,53 @@
 # Active Phase
 
-- 当前 phase：DB-0a Data Steward DB/NAS Contract Branch Baseline
+- 当前 phase：DB-1a Fake View Fixtures / Fake Adapter Contract Tests
 - 当前分支：`codex/data-steward-db0-contract`
-- 本轮目标：在独立 DB 分支固化数据管家 DB / NAS / BIM 接入契约，不影响当前 MVP 主线。
+- 本轮目标：在独立 DB 分支落地 fake View fixtures 与只读 fake adapter contract tests，不连接真实 MySQL / NAS，不影响当前 MVP 主线。
 - 修改文件：
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/PHASE_DB0_DATA_STEWARD_BRANCH_PLAN.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/app/core/config.py`
+  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/__init__.py`
+  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/contracts.py`
+  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/fake_adapter.py`
+  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/fixtures/project_asset_view.json`
+  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/fixtures/file_asset_view.json`
+  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/fixtures/model_asset_view.json`
+  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/fixtures/audit_event_view.json`
+  - `/Users/Weishengsu/Hermes_memory_db0/tests/test_data_steward_fake_adapter.py`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/ACTIVE_PHASE.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB_BRANCH_ACCEPTANCE_AND_MERGE_CHECKLIST.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/PHASE_BACKLOG.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/HANDOFF_LOG.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/NIGHTLY_SPRINT_QUEUE.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/NEXT_CODEX_A_PROMPT.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/NEXT_CODEX_C_PROMPT.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/TODO.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/DEV_LOG.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/reports/agent_runs/latest.json`（ignored）
 - 完成内容：
-  - 新建独立 worktree / 分支，避免污染当前 MVP 主线 dirty。
-  - 固化 DB / NAS / BIM 接入契约。
-  - 明确“数据管家 = Hermes 企业 Agent 产品名；DB / NAS / BIM 接入 = 数据管家资产治理模块”。
-  - 明确 DB-0 / DB-1 只做契约、fake fixtures、fake adapter 与 contract tests，不连接真实 MySQL / NAS。
-  - 写入 DB-1a fake fixture / fake adapter 下一步任务入口。
+  - 新增 `ProjectAssetView`、`FileAssetView`、`ModelAssetView`、`AuditEventView` fake JSON fixtures。
+  - 覆盖 `101-C塔`、`98-深圳口岸项目`、`99-丰图既有建模项目` 三个项目。
+  - 新增只读 `FakePlatformAssetCatalogAdapter`，支持 `limit` / opaque cursor / `event_id` checkpoint 过滤。
+  - adapter 绑定 `contract_version`，校验 `asset_uid = source_system + ":" + source_id`。
+  - `permission_tags` 缺失默认 `permission_status=denied`。
+  - moved / stale / missing / checksum missing 状态保持 catalog-only / metadata-only，不提供正文 evidence。
+  - 补充 unmatched filter 空结果页与 cursor source_view 绑定测试。
+  - 新增默认关闭的 Data Steward feature flags。
+  - 新增 DB branch acceptance / merge checklist，明确 DB-1 / DB-2 / DB-3 验收与合回主线条件，并声明当前不得进入 DB-2 实现。
 - 测试结果：
-  - `git diff --check`：通过。
-  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/db0_latest_check.json`：通过。
-  - `git check-ignore -v reports/agent_runs/latest.json`：通过。
-  - `git status --short`：仅 DB-0a 契约 / 交接文件变更。
+  - `git status --short`：初始无输出。
+  - `git rev-parse --abbrev-ref HEAD`：`codex/data-steward-db0-contract`。
+  - `uv run python -m json.tool app/services/asset_catalog/fixtures/project_asset_view.json`：通过。
+  - `uv run python -m json.tool app/services/asset_catalog/fixtures/file_asset_view.json`：通过。
+  - `uv run python -m json.tool app/services/asset_catalog/fixtures/model_asset_view.json`：通过。
+  - `uv run python -m json.tool app/services/asset_catalog/fixtures/audit_event_view.json`：通过。
+  - `uv run python -m py_compile app/services/asset_catalog/contracts.py app/services/asset_catalog/fake_adapter.py app/core/config.py`：通过。
+  - `uv run --extra dev ruff check app/services/asset_catalog tests/test_data_steward_fake_adapter.py app/core/config.py`：通过。
+  - `uv run --extra dev pytest tests/test_data_steward_fake_adapter.py -q`：`9 passed`。
 - 当前结论：
-  - DB-0 分支可以并行推进，不影响 MVP 主线。
-  - 合回主线必须保持 feature flag off、catalog-only 与 document evidence 分层、permission_tags 缺失默认 deny。
+  - DB-1a fake fixtures / fake adapter contract tests 已完成最小闭环。
+  - 本轮没有连接真实 MySQL / NAS / REST，没有写 `documents` / `chunks` / OpenSearch / Qdrant。
+  - retrieval contract 与 memory kernel 主架构未改。
 - 阻塞点 / 风险点：
   - 真实 MySQL / NAS / REST / index 写入仍未授权。
   - DB 分支不得扫描 `/Volumes/zyzn/卓羽智能项目`。
-- 是否建议 baseline：待静态检查后建议 DB-0a baseline。
-- 是否建议进入下一阶段：baseline 后再进入 DB-1a fake fixtures / fake adapter。
-- 是否需要 Codex B 审核：本轮执行者即 Codex B；baseline 后仍需用户确认是否启动 Codex A DB-1a。
-- 是否需要 Codex C 真实终端验收：否，本轮 docs-only。
+- 是否建议 baseline：建议 Codex B review 后做 DB-1a baseline。
+- 是否建议进入下一阶段：否，先停在 DB-1a baseline / review。
+- 是否需要 Codex B 审核：需要。
+- 是否需要 Codex C 真实终端验收：否，本轮只需 unit / contract tests。

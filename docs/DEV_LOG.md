@@ -1,5 +1,9 @@
 # DEV_LOG
 
+- [DB-1a] baseline 前新增 `DB_BRANCH_ACCEPTANCE_AND_MERGE_CHECKLIST.md`：明确 DB-1 / DB-2 / DB-3 acceptance、合回主线 checklist 与 hard stop conditions。该文档只定义 DB-2 / DB-3 后续门槛，不进入 DB-2 mirror 实现，不写 migration，不连接真实 MySQL / NAS / REST，不写 documents / chunks / OpenSearch / Qdrant。
+
+- [DB-1a] 完成 fake View fixtures / fake adapter contract tests：新增 `app/services/asset_catalog` 只读 fake adapter、四类 fake JSON fixtures（`ProjectAssetView` / `FileAssetView` / `ModelAssetView` / `AuditEventView`）与 `tests/test_data_steward_fake_adapter.py`。覆盖三个项目、pagination / cursor、`contract_version`、`asset_uid = source_system + ":" + source_id`、`permission_tags` 缺失默认 deny、moved / stale / missing / checksum missing catalog-only 状态、unmatched filter 空结果页和 cursor source_view 绑定。新增 Data Steward feature flags 且默认 off。本轮未连接真实 MySQL / NAS / REST，未写 documents / chunks / OpenSearch / Qdrant，未改 retrieval contract 或 memory kernel 主架构。目标测试 `9 passed`，ruff / py_compile / JSON 校验通过。
+
 - [DB-0a] 新建独立 DB worktree / 分支 `codex/data-steward-db0-contract`，用于数据管家 DB / NAS / BIM 资产治理前置工作。已固化 `DB_NAS_HERMES_INTEGRATION_CONTRACT.md` 与 `DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`，并新增 `PHASE_DB0_DATA_STEWARD_BRANCH_PLAN.md`。本轮明确“数据管家 = Hermes 企业 Agent 产品名；DB / NAS / BIM 接入 = 数据管家资产治理模块之一”。本轮 docs-only，不连接真实 MySQL / NAS，不写 documents / chunks / OpenSearch / Qdrant，不改 retrieval contract 或 memory kernel 主架构。
 
 - [Phase 2.55] Codex B review 通过 Internal MVP real upload smoke planning：规划保持 docs-only，真实 upload 后置到 Phase 2.55a，且必须由用户提供非敏感文件路径并显式授权。已写入 docs-only baseline prompt；不运行 API/CLI、不上传、不写 DB/index、不进入 Data Steward。

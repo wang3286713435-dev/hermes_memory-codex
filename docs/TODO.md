@@ -4,9 +4,11 @@
 
 1. 当前 DB 分支：`codex/data-steward-db0-contract`。
 2. DB-0a 目标：固化 DB / NAS / BIM 接入契约，明确数据管家是 Hermes 企业 Agent，数据库 / NAS / BIM 是资产治理能力模块。
-3. DB-1a 后续候选：fake `ProjectAssetView` / `FileAssetView` / `ModelAssetView` / `AuditEventView` fixtures 与 fake adapter contract tests。
+3. DB-1a 已完成：fake `ProjectAssetView` / `FileAssetView` / `ModelAssetView` / `AuditEventView` fixtures 与 fake adapter contract tests。
 4. DB 分支禁止连接真实 MySQL / NAS，禁止扫描 `/Volumes/zyzn/卓羽智能项目`，禁止写 `documents` / `chunks` / OpenSearch / Qdrant。
 5. 当前 MVP 主线继续优先推进内部可用能力，不被 DB/NAS/BIM 前置工作阻塞。
+6. DB-1 baseline 前已新增 DB branch acceptance / merge checklist，明确 DB-1 / DB-2 / DB-3 验收与合回条件。
+7. 下一步：先做 DB-1a review / baseline；不得自动进入 DB-2 mirror、真实 MySQL / NAS 联调或 indexing。
 
 ## 最新状态
 

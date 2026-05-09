@@ -1,5 +1,39 @@
 # Handoff Log
 
+## 2026-05-09 DB-1a Fake View Fixtures / Fake Adapter Contract Tests
+- goal: Implement DB-1a fake View fixtures and read-only fake adapter contract tests on `codex/data-steward-db0-contract`.
+- branch: `codex/data-steward-db0-contract`
+- worktree: `/Users/Weishengsu/Hermes_memory_db0`
+- changed_files:
+  - `app/core/config.py`
+  - `app/services/asset_catalog/__init__.py`
+  - `app/services/asset_catalog/contracts.py`
+  - `app/services/asset_catalog/fake_adapter.py`
+  - `app/services/asset_catalog/fixtures/project_asset_view.json`
+  - `app/services/asset_catalog/fixtures/file_asset_view.json`
+  - `app/services/asset_catalog/fixtures/model_asset_view.json`
+  - `app/services/asset_catalog/fixtures/audit_event_view.json`
+  - `tests/test_data_steward_fake_adapter.py`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/DB_BRANCH_ACCEPTANCE_AND_MERGE_CHECKLIST.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+- validation:
+  - Initial `git status --short`: clean.
+  - Initial branch: `codex/data-steward-db0-contract`.
+  - JSON fixture validation: passed for all four fake View fixtures.
+  - `uv run python -m py_compile app/services/asset_catalog/contracts.py app/services/asset_catalog/fake_adapter.py app/core/config.py`: passed.
+  - `uv run --extra dev ruff check app/services/asset_catalog tests/test_data_steward_fake_adapter.py app/core/config.py`: passed.
+  - `uv run --extra dev pytest tests/test_data_steward_fake_adapter.py -q`: `9 passed`.
+- contract coverage: pagination / cursor, unmatched filter empty pages, cursor source_view binding, contract_version, asset_uid composition, permission_tags missing deny, moved / stale / missing / checksum missing catalog-only states, feature flags default off.
+- acceptance coverage: DB-1 / DB-2 / DB-3 acceptance and main-merge conditions are documented in `docs/DB_BRANCH_ACCEPTANCE_AND_MERGE_CHECKLIST.md`; current turn does not enter DB-2 implementation.
+- forbidden scope respected: no real MySQL / NAS / REST, no NAS scan, no DB / OpenSearch / Qdrant writes, no documents / chunks writes, no retrieval contract or memory kernel architecture change.
+- next: Codex B review / DB-1a baseline. Do not enter DB-2 mirror, migration, or real platform integration without explicit user authorization.
+- commit/tag if any: none.
+
 ## 2026-05-09 DB-0a Data Steward DB/NAS contract branch
 - goal: Create an independent DB branch for Data Steward / DB / NAS / BIM asset governance without blocking the MVP branch.
 - branch: `codex/data-steward-db0-contract`
