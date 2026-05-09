@@ -1,5 +1,13 @@
 # DEV_LOG
 
+- [DB-2/Ralph] 按 Ralph implementation-template 补齐项目级 Standalone Stop hook 配置：新增 `.claude/settings.json`、`ralph-stop-hook.cjs`、`PROMPT.md`、guardrails/findings/memory 文件和 macOS/Windows launcher。Stop hook 以 `RALPH_ACTIVE=1` 为第一保护，launcher 默认 `RALPH_MAX_ITERATIONS=10`；prompt 将 DB-2 限定为 boundary audit，只允许修复 `tests` 与既有 asset-catalog source surface 的验证失败，不允许 migration、真实 MySQL / NAS / REST、documents / chunks / OpenSearch / Qdrant、retrieval contract 或 memory kernel 改动。新增最小 `package.json` 仅用于映射用户指定的 `npm test` / `npm run lint` 到 DB-1a 目标 pytest / ruff；两条 npm validation commands 均已通过，`.claude/ralph/findings.md` 无 `Status: OPEN` findings。
+
+- [DB-2/Ralph] Codex B review 通过 DB-2 planning / Ralph guard baseline scope：当前 diff 无 `app` / `tests` / `migrations` / `scripts` 实现改动，DB-2 仍停留在 docs-only planning 与项目级 guard 配置；用户已授权执行 selective baseline，tag 计划为 `phase-db2-planning-ralph-guard-baseline`。
+
+- [DB-2] 完成 Asset Catalog Mirror docs-only plan：新增 `DB2_ASSET_CATALOG_MIRROR_PLAN.md`，覆盖 scope、non-goals、proposed mirror fields、sync preview contract、checkpoint policy、permission/evidence boundary、testing plan、implementation gate、hard stop 和 future implementation prompt draft。本文档仍不授权 implementation、migration、真实 MySQL / NAS / REST、documents / chunks / OpenSearch / Qdrant 写入、catalog retrieval、selective indexing、retrieval contract 或 memory kernel 修改；下一步需 Codex B review。
+
+- [DB-2] 新增 Asset Catalog Mirror planning prompt / review gate：`DB2_ASSET_CATALOG_MIRROR_PLANNING_PROMPT.md`。DB-1a 已 baseline（commit `e9d1556`，tag `phase-db1a-fake-view-adapter-baseline`）。本轮只定义下一轮 DB-2 docs-only planning 的允许范围、必须回答的问题、review gate 与 hard stop；未写 DB-2 mirror 实现、未写 migration、未连接真实 MySQL / NAS / REST、未写 documents / chunks / OpenSearch / Qdrant、未改 retrieval contract 或 memory kernel 主架构，且不 baseline。
+
 - [DB-1a] baseline 前新增 `DB_BRANCH_ACCEPTANCE_AND_MERGE_CHECKLIST.md`：明确 DB-1 / DB-2 / DB-3 acceptance、合回主线 checklist 与 hard stop conditions。该文档只定义 DB-2 / DB-3 后续门槛，不进入 DB-2 mirror 实现，不写 migration，不连接真实 MySQL / NAS / REST，不写 documents / chunks / OpenSearch / Qdrant。
 
 - [DB-1a] 完成 fake View fixtures / fake adapter contract tests：新增 `app/services/asset_catalog` 只读 fake adapter、四类 fake JSON fixtures（`ProjectAssetView` / `FileAssetView` / `ModelAssetView` / `AuditEventView`）与 `tests/test_data_steward_fake_adapter.py`。覆盖三个项目、pagination / cursor、`contract_version`、`asset_uid = source_system + ":" + source_id`、`permission_tags` 缺失默认 deny、moved / stale / missing / checksum missing catalog-only 状态、unmatched filter 空结果页和 cursor source_view 绑定。新增 Data Steward feature flags 且默认 off。本轮未连接真实 MySQL / NAS / REST，未写 documents / chunks / OpenSearch / Qdrant，未改 retrieval contract 或 memory kernel 主架构。目标测试 `9 passed`，ruff / py_compile / JSON 校验通过。

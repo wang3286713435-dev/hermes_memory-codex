@@ -1,53 +1,60 @@
 # Active Phase
 
-- 当前 phase：DB-1a Fake View Fixtures / Fake Adapter Contract Tests
+- 当前 phase：DB-2 Asset Catalog Mirror Planning / Ralph Stop Hook Guard Baseline
 - 当前分支：`codex/data-steward-db0-contract`
-- 本轮目标：在独立 DB 分支落地 fake View fixtures 与只读 fake adapter contract tests，不连接真实 MySQL / NAS，不影响当前 MVP 主线。
+- 当前 baseline：
+  - DB-1a commit：`e9d1556`
+  - DB-1a tag：`phase-db1a-fake-view-adapter-baseline`
+- 本轮目标：新增 DB-2 docs-only planning，补齐 Ralph Stop hook 项目配置，并按用户授权执行 Codex B review + baseline；不实现 DB-2 mirror，不写 migration。
 - 修改文件：
-  - `/Users/Weishengsu/Hermes_memory_db0/app/core/config.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/__init__.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/contracts.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/fake_adapter.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/fixtures/project_asset_view.json`
-  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/fixtures/file_asset_view.json`
-  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/fixtures/model_asset_view.json`
-  - `/Users/Weishengsu/Hermes_memory_db0/app/services/asset_catalog/fixtures/audit_event_view.json`
-  - `/Users/Weishengsu/Hermes_memory_db0/tests/test_data_steward_fake_adapter.py`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/ACTIVE_PHASE.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB_BRANCH_ACCEPTANCE_AND_MERGE_CHECKLIST.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/PHASE_BACKLOG.md`
-  - `/Users/Weishengsu/Hermes_memory_db0/docs/HANDOFF_LOG.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/.claude/settings.json`
+  - `/Users/Weishengsu/Hermes_memory_db0/.claude/hooks/ralph-stop-hook.cjs`
+  - `/Users/Weishengsu/Hermes_memory_db0/.claude/ralph/PROMPT.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/.claude/ralph/guardrails.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/.claude/ralph/findings.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/.claude/ralph/ralph-audit.sh`
+  - `/Users/Weishengsu/Hermes_memory_db0/.claude/ralph/ralph-audit.bat`
+  - `/Users/Weishengsu/Hermes_memory_db0/.claude/context/memory/learnings.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/.claude/context/memory/decisions.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/.claude/context/runtime/.gitkeep`
+  - `/Users/Weishengsu/Hermes_memory_db0/package.json`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/DB2_ASSET_CATALOG_MIRROR_PLANNING_PROMPT.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/NEXT_CODEX_A_PROMPT.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/ACTIVE_PHASE.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/PHASE_BACKLOG.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/TODO.md`
   - `/Users/Weishengsu/Hermes_memory_db0/docs/DEV_LOG.md`
+  - `/Users/Weishengsu/Hermes_memory_db0/docs/HANDOFF_LOG.md`
 - 完成内容：
-  - 新增 `ProjectAssetView`、`FileAssetView`、`ModelAssetView`、`AuditEventView` fake JSON fixtures。
-  - 覆盖 `101-C塔`、`98-深圳口岸项目`、`99-丰图既有建模项目` 三个项目。
-  - 新增只读 `FakePlatformAssetCatalogAdapter`，支持 `limit` / opaque cursor / `event_id` checkpoint 过滤。
-  - adapter 绑定 `contract_version`，校验 `asset_uid = source_system + ":" + source_id`。
-  - `permission_tags` 缺失默认 `permission_status=denied`。
-  - moved / stale / missing / checksum missing 状态保持 catalog-only / metadata-only，不提供正文 evidence。
-  - 补充 unmatched filter 空结果页与 cursor source_view 绑定测试。
-  - 新增默认关闭的 Data Steward feature flags。
-  - 新增 DB branch acceptance / merge checklist，明确 DB-1 / DB-2 / DB-3 验收与合回主线条件，并声明当前不得进入 DB-2 实现。
+  - 明确 DB-1a fake adapter baseline 已完成。
+  - 新增 DB-2 planning prompt，限定下一轮只写 docs-only DB-2 mirror plan。
+  - 新增 DB-2 mirror plan，明确 scope、non-goals、mirror fields、sync preview contract、checkpoint policy、permission/evidence boundary、testing plan、implementation gate、hard stop 和 future implementation prompt draft。
+  - 新增 Ralph Standalone Stop hook 项目配置：`.claude/settings.json` 注册 Stop hook，hook 首先检查 `RALPH_ACTIVE=1`，launcher 默认 `RALPH_MAX_ITERATIONS=10`，prompt 绑定 DB-2 boundary audit 与 `npm test` / `npm run lint` 验证门禁。
+  - 新增最小 `package.json` 验证入口，将用户指定的 `npm test` / `npm run lint` 映射到 DB-1a asset-catalog 目标 pytest 与 ruff 检查。
+  - 明确 DB-2 implementation、migration、真实 MySQL / NAS / REST、OpenSearch / Qdrant、`documents` / `chunks` 写入均未授权。
+  - 明确 DB-2 implementation 前必须 Codex B review 和用户显式授权。
 - 测试结果：
-  - `git status --short`：初始无输出。
+  - `git status --short`：本轮开始前无输出。
   - `git rev-parse --abbrev-ref HEAD`：`codex/data-steward-db0-contract`。
-  - `uv run python -m json.tool app/services/asset_catalog/fixtures/project_asset_view.json`：通过。
-  - `uv run python -m json.tool app/services/asset_catalog/fixtures/file_asset_view.json`：通过。
-  - `uv run python -m json.tool app/services/asset_catalog/fixtures/model_asset_view.json`：通过。
-  - `uv run python -m json.tool app/services/asset_catalog/fixtures/audit_event_view.json`：通过。
-  - `uv run python -m py_compile app/services/asset_catalog/contracts.py app/services/asset_catalog/fake_adapter.py app/core/config.py`：通过。
-  - `uv run --extra dev ruff check app/services/asset_catalog tests/test_data_steward_fake_adapter.py app/core/config.py`：通过。
-  - `uv run --extra dev pytest tests/test_data_steward_fake_adapter.py -q`：`9 passed`。
+  - `node --check .claude/hooks/ralph-stop-hook.cjs`：passed。
+  - `bash -n .claude/ralph/ralph-audit.sh`：passed。
+  - Ralph hook simulation：OPEN finding path returns block decision；completion signal clears state and exits。
+  - `npm test`：`9 passed`。
+  - `npm run lint`：`All checks passed!`。
+  - DB-2 boundary audit：`app` / `tests` / `migrations` / `scripts` 无本轮实现 diff。
+  - `.claude/ralph/findings.md`：无 `Status: OPEN` findings。
+  - Codex B review：无 OPEN findings。
 - 当前结论：
-  - DB-1a fake fixtures / fake adapter contract tests 已完成最小闭环。
-  - 本轮没有连接真实 MySQL / NAS / REST，没有写 `documents` / `chunks` / OpenSearch / Qdrant。
-  - retrieval contract 与 memory kernel 主架构未改。
+  - DB-2 planning 文档已完成，Ralph Stop hook guard 已配置。
+  - 用户指定 Ralph validation commands 已全部通过。
+  - Codex B review 已通过，当前按用户授权执行 baseline。
+  - 仍不得实现 DB-2。
 - 阻塞点 / 风险点：
+  - DB-2 migration 是否允许仍未授权。
   - 真实 MySQL / NAS / REST / index 写入仍未授权。
   - DB 分支不得扫描 `/Volumes/zyzn/卓羽智能项目`。
-- 是否建议 baseline：建议 Codex B review 后做 DB-1a baseline。
-- 是否建议进入下一阶段：否，先停在 DB-1a baseline / review。
-- 是否需要 Codex B 审核：需要。
-- 是否需要 Codex C 真实终端验收：否，本轮只需 unit / contract tests。
+- 是否建议 baseline：是，本轮执行 DB-2 planning / Ralph guard baseline。
+- 是否建议进入下一阶段：否，baseline 后仍不得自动进入 DB-2 implementation。
+- 是否需要 Codex B 审核：已完成，无 OPEN findings。
+- 是否需要 Claude 开发 Agent：否，本轮只配置 Ralph Stop hook guard，不授权 DB-2 开发。
