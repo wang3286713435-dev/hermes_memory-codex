@@ -2,7 +2,9 @@
 
 日期：2026-05-09
 分支：`codex/data-steward-db0-contract`
-状态：DB-1 baseline 前 checklist
+状态：历史 checklist；当前 closeout 以 `docs/DB_BRANCH_CLOSEOUT_AND_MERGE_READINESS.md` 为准
+
+> 2026-05-11 closeout note：本文件创建于 DB-1 baseline 前，保留为历史验收约束。当前 DB 支线已推进至 DB-4D readonly local live smoke interface baseline；最终合回主线判断请优先查看 `docs/DB_BRANCH_CLOSEOUT_AND_MERGE_READINESS.md`。
 
 ## 1. 目的
 

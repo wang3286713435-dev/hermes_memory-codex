@@ -1,6 +1,6 @@
 # NEXT_CODEX_A_PROMPT
 
-当前 DB-4D Readonly Local Live Smoke 已完成本地实现验证。下一步建议 Codex review、baseline，然后交给测试 agent 独立复测。
+当前 DB-4D 已通过独立 QA，DB 支线进入 closeout / merge readiness。下一步建议只做 closeout validation 和 baseline，不再扩大 DB 功能。
 
 ## 已完成 baseline / review 事实
 
@@ -16,6 +16,13 @@
 4. 真实 rows 只进入 DB-4A preflight validator。
 5. 输出只允许脱敏 JSON summary。
 6. 业务底表只允许做拒绝访问验证。
+
+## 当前 closeout 允许范围
+
+1. 新增 / 更新 closeout 文档。
+2. 汇总 DB-0 到 DB-4D baseline。
+3. 明确合回主线条件。
+4. 明确测试机真实 DB smoke 后置门槛。
 
 ## 当前 DB-4D 禁止范围
 
@@ -33,14 +40,9 @@
 
 ## 本轮需要 review
 
-1. `app/services/asset_catalog/readonly_local_live_smoke.py`
-2. `app/services/asset_catalog/readonly_live_smoke.py`
-3. `app/services/asset_catalog/__init__.py`
-4. `app/core/config.py`
-5. `tests/test_data_steward_asset_catalog_readonly_local_live_smoke.py`
-6. `tests/test_data_steward_asset_catalog_readonly_live_smoke.py`
-7. `docs/DB4D_READONLY_LOCAL_LIVE_SMOKE.md`
-8. `package.json`
+1. `docs/DB_BRANCH_CLOSEOUT_AND_MERGE_READINESS.md`
+2. `docs/DB_BRANCH_ACCEPTANCE_AND_MERGE_CHECKLIST.md`
+3. phase handoff docs
 
 ## 验证命令
 
@@ -60,4 +62,4 @@
 
 ## 下一步候选
 
-DB-4D 复测通过后，可以 baseline。真实 DB smoke 等 Hermes Memory 安装到测试机并拿到测试机连接信息后再执行；真实 migration、mirror 写入、NAS、OpenSearch/Qdrant、documents/chunks、真实 retrieval/indexing 仍需单独授权。
+closeout baseline 后，由用户选择合回主线、创建 PR 或保留分支。真实 DB smoke 等 Hermes Memory 安装到测试机并拿到测试机连接信息后再执行；真实 migration、mirror 写入、NAS、OpenSearch/Qdrant、documents/chunks、真实 retrieval/indexing 仍需单独授权。

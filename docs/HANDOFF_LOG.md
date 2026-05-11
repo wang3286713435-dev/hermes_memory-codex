@@ -5530,3 +5530,20 @@
 - boundary: no app account, no root agent connection, no migration, no mirror writes, no NAS scan/read, no documents/chunks/OpenSearch/Qdrant writes, no real retrieval/indexing.
 - next: full validation and QA prompt; run real `LIMIT 30` only after test-machine deployment details and explicit authorization are available.
 - commit/tag if any: none.
+
+## 2026-05-11 DB Branch Closeout
+- goal: Close the DB branch after DB-4D QA and prepare merge readiness without expanding into DB-5 / DB-6.
+- changed_files:
+  - `docs/DB_BRANCH_CLOSEOUT_AND_MERGE_READINESS.md`
+  - `docs/DB_BRANCH_ACCEPTANCE_AND_MERGE_CHECKLIST.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+- validation:
+  - DB-4D independent QA: `DB4D_QA_OPEN_FINDINGS: 0`, P0=0.
+  - closeout validation: `npm test` -> `71 passed`; `npm run lint` -> passed; py_compile -> passed; `git diff --check` -> passed.
+- boundary: docs-only closeout; no real DB connection, no migration, no NAS, no documents/chunks/OpenSearch/Qdrant, no DB-5 selective indexing, no DB-6 operation plan implementation.
+- next: run validation, baseline closeout, then user chooses merge / PR / keep branch.
+- commit/tag if any: none.

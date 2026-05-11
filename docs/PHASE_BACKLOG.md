@@ -380,6 +380,14 @@
 7. 当前状态：接口已预留，真实 DB smoke 等 Hermes Memory 安装到测试机后执行，本轮未读取真实 rows。
 8. 本阶段仍不写 migration、不写 mirror 表、不扫 NAS、不触发 REST、不写 documents/chunks/OpenSearch/Qdrant、不进入真实 retrieval/indexing。
 
+## DB Branch Closeout
+
+1. DB-4D QA 已通过，当前不继续扩 DB-5 / DB-6。
+2. closeout 文档应汇总 DB-0 到 DB-4D 已完成范围。
+3. 合回主线前必须保持 feature flags 默认关闭。
+4. 测试机真实 DB smoke 后置到 Hermes Memory 安装到测试机之后。
+5. 合回主线不代表真实 migration、mirror 写入、NAS、OpenSearch/Qdrant 或真实 retrieval/indexing 获得授权。
+
 ## 后置项
 
 1. 完整 AI 审标 / 自动审标：后置，当前只做 retrieval evidence 与 trace 改善。
