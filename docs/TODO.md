@@ -1,5 +1,26 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.65 reviewed-ref fix
+
+1. 已完成 Codex B review fix：hermes-agent reviewed ref 从 `NEEDS_REVIEWED_AGENT_REF` 更新为 `phase-2.56e-natural-import-real-upload-smoke-baseline`。
+2. 已同步 Mac mini landing plan、install/update quickstart、Codex Mac mini prompt 与 operator command sheet。
+3. 新增测试断言：reviewed hermes-agent tag 生成 `ready_for_operator_review`，placeholder ref 仍生成 `pause`。
+4. 验证：py_compile 通过；Phase 2.65 / 2.60 / 2.63 / 2.62 / 2.61a 目标测试 `41 passed`；reviewed / placeholder manifest smoke、diff check、latest JSON check 均通过。
+5. 当前 Mac mini install handoff 不再因 hermes-agent reviewed ref 缺失而 pause。
+6. 本阶段未执行真实 Mac mini deployment、Docker startup、API / CLI smoke、真实 DB/NAS/Data Steward smoke、DB/index 写入或 rollout。
+7. 下一步：Codex B review；通过后再写 Phase 2.65 selective Git baseline prompt。
+
+## Phase 2.65 Mac mini MVP Landing Acceleration Pack
+
+1. 已完成 Mac mini MVP landing pack 首轮实现。
+2. 新增只读 `scripts/phase265_mvp_release_manifest.py`，只输出 install/update/rollback manifest，不读取 `.env`，不启动服务，不执行 git pull，不修改仓库状态。
+3. 新增 `docs/PHASE265_MAC_MINI_MVP_LANDING_PLAN.md` 与 `docs/MAC_MINI_MVP_INSTALL_UPDATE_QUICKSTART.md`。
+4. 已更新 `docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md` 与 `docs/MAC_MINI_OPERATOR_COMMAND_SHEET.md`，写入 Hermes_memory reviewed ref 与 hermes-agent 缺 ref pause 规则。
+5. 验证：py_compile 通过；Phase 2.65 / 2.60 / 2.63 / 2.62 / 2.61a 目标测试 `40 passed`；manifest sample / diff check / latest JSON check 通过。
+6. 当前 Mac mini install readiness 为 `Pause`：缺 hermes-agent reviewed ref；不应猜测 branch/tag/commit。
+7. 本阶段未执行真实 Mac mini deployment、Docker startup、API / CLI smoke、真实 DB/NAS/Data Steward smoke、DB/index 写入或 rollout。
+8. 下一步：Codex B review；通过后再写 Phase 2.65 selective Git baseline prompt。
+
 ## Phase 2.64b Selective Data Steward DB Integration
 
 1. 已完成 Data Steward DB 支线选择性合入首轮实现。
@@ -1195,6 +1216,14 @@
 4. 本轮未上传文件、未执行 API / CLI smoke、未写 DB / facts / versions / audit_logs / OpenSearch / Qdrant。
 5. 下一步建议 Codex B review；通过后再 selective baseline。
 6. 第二真实文件 smoke 仍保留为用户授权后 Codex C 任务，不阻塞 Phase 2.60 review。
+# TODO 最新状态
+
+- 当前 phase：Phase 2.65 Mac mini MVP Landing Acceleration Pack。
+- 当前目标：准备 Mac mini 测试机安装 / 更新 / 回滚所需的 release manifest helper、quickstart、Codex Mac mini prompt。
+- 当前 Hermes_memory 推荐安装 ref：`phase-2.64b-data-steward-selective-integration-baseline`。
+- 当前仍需确认 hermes-agent reviewed ref；若缺失，Mac mini 安装流程应 Pause，而不是猜。
+- 本阶段不执行真实部署、不启动服务、不上传、不连接真实 DB、不扫描 NAS、不写 DB / index、不进入 rollout。
+
 # TODO 最新状态
 
 - 当前 phase：Phase 2.64b Selective Data Steward DB Integration。

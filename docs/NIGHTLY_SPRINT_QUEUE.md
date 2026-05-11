@@ -1,5 +1,12 @@
 # Nightly Sprint Queue
 
+## Current Manual Gate
+
+- Current phase: Phase 2.65 Mac mini MVP Landing Acceleration Pack.
+- Current state: implementation plus reviewed-ref fix completed, waiting for Codex B review.
+- Current allowed work: Codex B review and selective baseline prompt preparation after review.
+- Current forbidden work: baseline / tag / push without review, real Mac mini deployment, Docker startup, API / CLI smoke, real DB connection, NAS scan, Data Steward feature activation, repair / cleanup / backfill / reindex / delete / migration, production rollout.
+
 ## Current Queue State
 
 - Current phase: Phase 2.64b Selective Data Steward DB Integration.

@@ -1,5 +1,35 @@
 # Codex Mac mini 安装与 Git 更新 Prompt
 
+## Phase 2.65 当前基线更新
+
+当前推荐 Hermes_memory reviewed ref：
+
+```text
+phase-2.64b-data-steward-selective-integration-baseline
+```
+
+当前 hermes-agent reviewed ref：
+
+```text
+phase-2.56e-natural-import-real-upload-smoke-baseline
+```
+
+如果未来缺少 hermes-agent reviewed ref，Mac mini Codex 必须 Pause，不能猜测 branch、tag 或 commit。
+
+可先生成只读 release manifest：
+
+```bash
+cd /Users/hermes/code/Hermes_memory
+uv run python scripts/phase265_mvp_release_manifest.py \
+  --hermes-memory-ref phase-2.64b-data-steward-selective-integration-baseline \
+  --hermes-agent-ref phase-2.56e-natural-import-real-upload-smoke-baseline \
+  --operator mac-mini
+```
+
+该 manifest helper 不读取 `.env`，不输出 secret，不启动服务，不执行 git pull，不修改仓库状态。
+
+本轮不包含真实 DB smoke、NAS scan、Data Steward feature activation、repair、cleanup、backfill、reindex、delete、migration 或 production rollout。
+
 ## 1. 用法说明
 
 这份文档给 Mac mini 上的 Codex 使用。
@@ -312,4 +342,3 @@ Step 5. 最小校验
    - smoke check
 
 这样最稳，也最接近你说的“直接在 Mac mini 中 update 就可以更新到推送的最新版本”。
-

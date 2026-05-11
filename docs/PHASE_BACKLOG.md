@@ -2,6 +2,35 @@
 
 ## 最新状态
 
+1. Phase 2.65 reviewed-ref fix 已完成，等待 Codex B review。
+2. hermes-agent reviewed ref 已 pin 为 `phase-2.56e-natural-import-real-upload-smoke-baseline`。
+3. reviewed-ref manifest 结果：`ready_for_operator_review`，`pause_reasons=[]`。
+4. placeholder-ref manifest 结果：`pause`，`pause_reasons=["missing_reviewed_hermes_agent_ref"]`，保留未来缺 ref fail-closed 语义。
+5. 验证结果：py_compile 通过，Phase 2.65 / 2.60 / 2.63 / 2.62 / 2.61a 目标测试 `41 passed`，diff check / latest JSON check 通过。
+6. 本阶段仍未执行真实 Mac mini deployment，未启动 Docker，未运行 API / CLI smoke，未连接真实 DB，未扫描 NAS，未上传文件，未写 DB / OpenSearch / Qdrant，未进入 rollout。
+7. 下一步：Codex B review Phase 2.65 reviewed-ref fix；通过后写 selective Git baseline prompt。
+
+## 最新状态
+
+1. Phase 2.65 Mac mini MVP Landing Acceleration Pack implementation 已完成，等待 Codex B review。
+2. 新增只读 release manifest helper：`scripts/phase265_mvp_release_manifest.py`。
+3. 新增 Mac mini install/update quickstart：`docs/MAC_MINI_MVP_INSTALL_UPDATE_QUICKSTART.md`。
+4. 当前 manifest sample 为 `Pause`：Hermes_memory ref 已明确为 `phase-2.64b-data-steward-selective-integration-baseline`，hermes-agent reviewed ref 仍为 `NEEDS_REVIEWED_AGENT_REF`。
+5. 验证结果：py_compile 通过，Phase 2.65 / 2.60 / 2.63 / 2.62 / 2.61a 目标测试 `40 passed`，manifest sample / diff check / latest JSON check 通过。
+6. 本阶段未执行真实 Mac mini deployment，未启动 Docker，未运行 API / CLI smoke，未连接真实 DB，未扫描 NAS，未上传文件，未写 DB / OpenSearch / Qdrant，未进入 rollout。
+7. 下一步：Codex B review Phase 2.65；通过后再写 selective Git baseline prompt。
+
+## 最新状态
+
+1. Phase 2.64b Selective Data Steward DB Integration baseline 已完成：commit `da84197`，tag `phase-2.64b-data-steward-selective-integration-baseline`。
+2. 当前进入 Phase 2.65 Mac mini MVP Landing Acceleration Pack。
+3. 目标：把当前 reviewed Hermes 内核版整理成 Mac mini 测试机可安装 / 可更新 / 可回滚的 landing pack。
+4. 本阶段允许新增只读 release manifest helper、Mac mini install/update quickstart 与 Codex Mac mini prompt 更新。
+5. 本阶段不执行真实 Mac mini deployment，不启动服务，不上传文件，不运行 API / CLI smoke，不连接真实 DB，不扫描 NAS，不写 DB / index，不进入 rollout。
+6. 完成后交 Codex B review；通过后再决定 baseline 与 Mac mini 实机安装。
+
+## 最新状态
+
 1. Phase 2.64b Selective Data Steward DB Integration 已完成首轮实现，等待 Codex B review。
 2. 已选择性接入 `app/services/asset_catalog/**`、`tests/test_data_steward_*.py`、Data Steward / DB contract docs 与默认关闭的 feature flags。
 3. 未执行 raw merge，未合入 `.claude/**`、DB 支线交接文件、未跟踪 QA probe，未删除或回退 Phase 2.57-2.63 MVP 文件。

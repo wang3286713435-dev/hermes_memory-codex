@@ -1,5 +1,23 @@
 # Handoff Log
 
+## 2026-05-11 13:44 Phase 2.65
+- goal: Pin reviewed hermes-agent ref in Mac mini landing pack after Codex B review.
+- changed_files: `docs/PHASE265_MAC_MINI_MVP_LANDING_PLAN.md`, `docs/MAC_MINI_MVP_INSTALL_UPDATE_QUICKSTART.md`, `docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`, `docs/MAC_MINI_OPERATOR_COMMAND_SHEET.md`, `tests/test_phase265_mvp_release_manifest.py`, handoff docs, ignored `reports/agent_runs/latest.json`.
+- tests: py_compile passed; target pytest `41 passed`; reviewed-ref manifest `ready_for_operator_review`; placeholder manifest `pause/missing_reviewed_hermes_agent_ref`; `git diff --check` passed; latest JSON check passed.
+- validation: Mac mini handoff no longer pauses for missing hermes-agent reviewed ref; fail-closed behavior for placeholder ref remains.
+- risks: No real Mac mini deployment / DB / NAS / API / CLI smoke; secrets remain operator-provided; unrelated `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains excluded.
+- next: Codex B review; if approved, write Phase 2.65 selective Git baseline prompt.
+- commit/tag if any: none.
+
+## 2026-05-11 13:34 Phase 2.65
+- goal: Build Mac mini MVP landing pack with read-only release manifest helper and install/update quickstart.
+- changed_files: `scripts/phase265_mvp_release_manifest.py`, `tests/test_phase265_mvp_release_manifest.py`, `docs/PHASE265_MAC_MINI_MVP_LANDING_PLAN.md`, `docs/MAC_MINI_MVP_INSTALL_UPDATE_QUICKSTART.md`, `docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`, `docs/MAC_MINI_OPERATOR_COMMAND_SHEET.md`, handoff docs, ignored `reports/agent_runs/latest.json`.
+- tests: `uv run python -m py_compile scripts/phase265_mvp_release_manifest.py` passed; target pytest `40 passed`; manifest sample JSON passed; `git diff --check` passed; latest JSON check passed.
+- validation: Manifest sample status is `pause` because hermes-agent reviewed ref remains `NEEDS_REVIEWED_AGENT_REF`; no real deployment / DB / NAS / API / CLI smoke.
+- risks: Missing hermes-agent reviewed ref blocks Mac mini install Go; secrets and real DB/NAS/Data Steward smoke remain authorization-gated; unrelated `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains excluded.
+- next: Codex B review Phase 2.65; if approved, write selective Git baseline prompt.
+- commit/tag if any: none.
+
 ## 2026-05-09 18:31 Phase 2.61b Local Issue Storage Policy Planning
 
 - goal: Plan ignored local storage policy for real internal MVP issue records.
@@ -6103,4 +6121,34 @@
 - excluded_scope: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`, ignored latest, `.claude/**`, `package.json`, QA probe files, real DB/NAS output.
 - next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.64b selective Git baseline only.
 - hard_boundaries: no real DB, no NAS scan, no migration, no documents/chunks, no OpenSearch/Qdrant, no API/CLI runtime smoke, no PR, no merge to main, no rollout.
+- commit/tag if any: none yet.
+
+## 2026-05-11 Phase 2.65 Handoff Prompt
+
+- goal: Prepare a Mac mini MVP landing acceleration pack so the reviewed Hermes kernel can be installed / updated / rolled back on the test machine.
+- background: Phase 2.64b baseline completed at `da84197`, tag `phase-2.64b-data-steward-selective-integration-baseline`.
+- task: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md`, add a read-only release manifest helper, Mac mini install/update quickstart, and update Codex Mac mini prompt / operator command sheet.
+- hard_boundaries: no real Mac mini deployment, no service startup, no upload, no API/CLI smoke, no real DB, no NAS scan, no DB/index writes, no repair/backfill/reindex/delete/migration, no Data Steward DB smoke, no rollout.
+- estimated_path: after Phase 2.65 review/baseline, the install prompt can be handed to Mac mini Codex/operator for real setup.
+- commit/tag if any: none.
+
+## 2026-05-11 Phase 2.65 Codex B Review Fix Prompt
+
+- goal: Pin the reviewed `hermes-agent` ref in the Mac mini MVP landing pack before baseline.
+- finding: Phase 2.65 implementation is otherwise sound, but manifest handoff remains `Pause` because `hermes-agent` ref is still `NEEDS_REVIEWED_AGENT_REF`.
+- reviewed_ref: `/Users/Weishengsu/.hermes/hermes-agent` HEAD `be4b3a375`, tag `phase-2.56e-natural-import-real-upload-smoke-baseline`.
+- task: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md`, update install/update docs to use the reviewed tag, verify reviewed-ref manifest is not paused for missing ref, and verify placeholder ref still pauses.
+- hard_boundaries: no Mac mini deployment, no Docker startup, no API/CLI smoke, no real DB/NAS, no upload, no DB/index writes, no repair/backfill/reindex/delete/migration, no commit/tag/push, no rollout.
+- next: Codex B review after Codex A completes the fix; then decide Phase 2.65 selective Git baseline.
+- commit/tag if any: none.
+
+## 2026-05-11 Phase 2.65 Codex B Review / Baseline Prompt
+
+- goal: Review Mac mini MVP landing pack and write selective Git baseline prompt.
+- review_result: accepted.
+- verification: py_compile passed; target pytest `41 passed`; reviewed-ref manifest `ready_for_operator_review`; placeholder-ref manifest `pause/missing_reviewed_hermes_agent_ref`; `git diff --check` passed; latest JSON validation passed.
+- accepted_scope: release manifest helper, Phase 2.65 tests, Mac mini landing plan, install/update quickstart, Codex Mac mini prompt, operator command sheet, and handoff docs.
+- excluded_scope: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`, ignored latest JSON, real DB/NAS/Mac mini smoke outputs, secrets, .env, raw logs, business data, upload files, report artifacts.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.65 selective Git baseline only.
+- hard_boundaries: no Mac mini deployment, no Docker startup, no API/CLI smoke, no real DB/NAS, no upload, no DB/index writes, no repair/backfill/reindex/delete/migration, no PR, no rollout.
 - commit/tag if any: none yet.

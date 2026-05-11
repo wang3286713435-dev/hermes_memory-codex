@@ -4,6 +4,25 @@ This sheet is for Hermes internal controlled MVP operation on the Mac Mini.
 
 It is not a production rollout, customer delivery, automatic tender review, automatic bid, or automatic business decision process. Commands below are templates. Phase 2.51b does not execute them.
 
+## Phase 2.65 Current Reviewed Refs
+
+| repo | reviewed ref | action |
+|---|---|---|
+| Hermes_memory | `phase-2.64b-data-steward-selective-integration-baseline` | usable for install planning |
+| hermes-agent | `phase-2.56e-natural-import-real-upload-smoke-baseline` | usable for install planning |
+
+Optional read-only manifest:
+
+```bash
+cd /Users/hermes/code/Hermes_memory
+uv run python scripts/phase265_mvp_release_manifest.py \
+  --hermes-memory-ref phase-2.64b-data-steward-selective-integration-baseline \
+  --hermes-agent-ref phase-2.56e-natural-import-real-upload-smoke-baseline \
+  --operator mac-mini
+```
+
+The manifest does not read `.env`, does not print secrets, does not start services, and does not mutate Git / DB / index state.
+
 ## 0. Preconditions
 
 Before touching Git or services, confirm:
