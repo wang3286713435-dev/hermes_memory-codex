@@ -20,6 +20,13 @@ from app.services.asset_catalog.readonly_live_smoke import (
     AssetCatalogReadonlyLiveSmokeResult,
     AssetCatalogReadonlyLiveSmokeRunner,
 )
+from app.services.asset_catalog.readonly_local_live_smoke import (
+    DockerMysqlDbApiConnection,
+    DockerMysqlReadonlyQueryRunner,
+    run_readonly_local_live_smoke,
+    sanitize_live_smoke_result,
+    verify_forbidden_table_denials,
+)
 from app.services.asset_catalog.readonly_preflight import (
     DB4A_READONLY_CONTRACT_VERSION,
     DB4A_REQUIRED_VIEW_FIELDS,
@@ -53,6 +60,8 @@ __all__ = [
     "AssetCatalogReadonlyLiveSmokeFinding",
     "AssetCatalogReadonlyLiveSmokeResult",
     "AssetCatalogReadonlyLiveSmokeRunner",
+    "DockerMysqlDbApiConnection",
+    "DockerMysqlReadonlyQueryRunner",
     "AssetCatalogRetrievalDecision",
     "AssetCatalogRetrievalGuard",
     "AssetCatalogRetrievalRequest",
@@ -66,4 +75,7 @@ __all__ = [
     "DB4B_READONLY_SAMPLE_MODES",
     "FakePlatformAssetCatalogAdapter",
     "VIEW_CONTRACT_VERSIONS",
+    "run_readonly_local_live_smoke",
+    "sanitize_live_smoke_result",
+    "verify_forbidden_table_denials",
 ]

@@ -24,6 +24,7 @@ class AssetCatalogReadonlyLiveSmokeResult:
     sample_mode: str
     real_sample_data_used: bool
     mainline_agent_updated: bool
+    same_machine_local_dev_authorized: bool
     column_names_by_view: dict[SourceView, tuple[str, ...]]
     findings: tuple[AssetCatalogReadonlyLiveSmokeFinding, ...]
     preflight: AssetCatalogReadonlyPreflightResult
@@ -44,21 +45,24 @@ class AssetCatalogReadonlyLiveSmokeRunner:
         connector: AssetCatalogReadonlyConnectorShell,
         mainline_agent_updated: bool = False,
         allow_real_sample_data: bool = False,
+        same_machine_local_dev_authorized: bool = False,
     ) -> None:
         self.enabled = enabled
         self.connector = connector
         self.mainline_agent_updated = mainline_agent_updated
         self.allow_real_sample_data = allow_real_sample_data
+        self.same_machine_local_dev_authorized = same_machine_local_dev_authorized
 
     def run(self) -> AssetCatalogReadonlyLiveSmokeResult:
         if not self.enabled:
             raise ValueError("readonly live smoke disabled")
         if self._uses_real_sample_data() and not (
-            self.mainline_agent_updated and self.allow_real_sample_data
+            self.allow_real_sample_data
+            and (self.mainline_agent_updated or self.same_machine_local_dev_authorized)
         ):
             raise ValueError(
-                "real sample data requires mainline enterprise agent update "
-                "and explicit authorization"
+                "real sample data requires explicit authorization and "
+                "mainline enterprise agent update or same-machine local dev authorization"
             )
 
         column_names_by_view = self.connector.load_column_names_by_view()
@@ -68,6 +72,7 @@ class AssetCatalogReadonlyLiveSmokeRunner:
             sample_mode=self.connector.sample_mode,
             real_sample_data_used=self._uses_real_sample_data(),
             mainline_agent_updated=self.mainline_agent_updated,
+            same_machine_local_dev_authorized=self.same_machine_local_dev_authorized,
             column_names_by_view=column_names_by_view,
             findings=findings,
             preflight=preflight,

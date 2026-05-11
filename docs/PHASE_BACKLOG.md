@@ -369,6 +369,17 @@
 7. rows 只进入 DB-4A preflight validator。
 8. 本阶段仍不连接真实 MySQL、不读取真实样本、不写 migration、不扫 NAS、不触发 REST、不写 documents/chunks/OpenSearch/Qdrant。
 
+## DB-4D Readonly Local Live Smoke
+
+1. 当前开发机无真实数据库环境；DB-4D 只冻结后续测试机同机部署时的 `LIMIT 30` 只读 smoke 接口。
+2. 测试机真实 smoke 只允许使用 `delivery-mysql` / `hermes_agent_ro`。
+3. 密码只能来自进程环境变量，不写代码、文档、测试、命令参数或日志。
+4. 真实 rows 只进入 DB-4A preflight，输出只能是脱敏 summary。
+5. 不输出项目名、文件名、NAS 路径、source id、asset uid、raw row、stderr 或密码。
+6. 业务底表只允许做拒绝访问 probe。
+7. 当前状态：接口已预留，真实 DB smoke 等 Hermes Memory 安装到测试机后执行，本轮未读取真实 rows。
+8. 本阶段仍不写 migration、不写 mirror 表、不扫 NAS、不触发 REST、不写 documents/chunks/OpenSearch/Qdrant、不进入真实 retrieval/indexing。
+
 ## 后置项
 
 1. 完整 AI 审标 / 自动审标：后置，当前只做 retrieval evidence 与 trace 改善。

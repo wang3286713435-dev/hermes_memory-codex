@@ -42,6 +42,7 @@ class Settings(BaseSettings):
     platform_asset_readonly_live_smoke_enabled: bool = False
     platform_asset_readonly_mainline_agent_updated: bool = False
     platform_asset_readonly_allow_real_sample_data: bool = False
+    platform_asset_readonly_same_machine_local_dev_authorized: bool = False
 
     vector_store_provider: str = "qdrant"
     vector_dimension: int = 1024

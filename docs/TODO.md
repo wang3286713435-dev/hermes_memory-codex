@@ -12,8 +12,8 @@
 8. DB-2 temporary DB proof-of-contract 已 baseline：commit `53337fe`，tag `phase-db2-temp-db-proof-baseline`。
 9. DB-2 schema contract freeze 已 baseline：commit `64e139a`，tag `phase-db2-schema-contract-freeze-baseline`。
 10. DB-3A Catalog Retrieval Guard、DB-3B Temporary DB Backed Guard、DB-3C Missing Evidence Response DTO、DB-3D Temp DB Missing Evidence Response Smoke 均已 baseline。
-11. 当前任务：DB-4C Readonly Live Smoke Runner；只做关闭态 runner 和真实样本双门禁，不接真实 MySQL / NAS / REST，不写 migration，不写 documents / chunks / OpenSearch / Qdrant。
-12. 下一步：DB-4C baseline 后交给测试 agent 独立复测；复测通过后可做 DB-4D 主线回归与数据库团队电脑版本更新 runbook，但真实样本 smoke 必须等主线版本更新完成后单独授权。
+11. 当前任务：DB-4D Readonly Local Live Smoke；当前开发机无真实数据库环境，只保留后续测试机同机部署的只读耦合接口和脱敏 smoke runner。
+12. 下一步：DB-4D review / baseline / 独立 QA；真实 DB smoke 等 Hermes Memory 安装到测试机、取得测试机连接信息并单独授权后执行。
 
 ## 最新状态
 

@@ -5505,3 +5505,28 @@
 - next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for a minimal `ContextBuilder` display-tail fix, then stop for Codex B review.
 - forbidden scope: no real upload, no DB / index writes, no retrieval contract change, no memory kernel architecture change, no Data Steward / BIM / NAS / TB file pool, no repair, no rollout, no Git baseline.
 - commit/tag if any: none.
+
+## 2026-05-11 DB-4D Readonly Local Live Smoke
+- goal: Add a test-machine same-host readonly live smoke execution layer for authorized `LIMIT 30` checks without persisting real sample values.
+- changed_files:
+  - `app/services/asset_catalog/readonly_local_live_smoke.py`
+  - `app/services/asset_catalog/readonly_live_smoke.py`
+  - `app/services/asset_catalog/__init__.py`
+  - `app/core/config.py`
+  - `tests/test_data_steward_asset_catalog_readonly_local_live_smoke.py`
+  - `tests/test_data_steward_asset_catalog_readonly_live_smoke.py`
+  - `docs/DB4D_READONLY_LOCAL_LIVE_SMOKE.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `package.json`
+- validation:
+  - TDD red: DB-4D local smoke test initially failed because `readonly_local_live_smoke` did not exist.
+  - target tests: `tests/test_data_steward_asset_catalog_readonly_live_smoke.py tests/test_data_steward_asset_catalog_readonly_local_live_smoke.py` -> `11 passed`.
+  - real DB smoke status: current development machine has no real database environment; smoke is deferred until Hermes Memory is installed on the test machine. No real rows were read or persisted.
+  - full validation: `npm test` -> `71 passed`; `npm run lint` -> passed; py_compile -> passed; `git diff --check` -> passed.
+- boundary: no app account, no root agent connection, no migration, no mirror writes, no NAS scan/read, no documents/chunks/OpenSearch/Qdrant writes, no real retrieval/indexing.
+- next: full validation and QA prompt; run real `LIMIT 30` only after test-machine deployment details and explicit authorization are available.
+- commit/tag if any: none.

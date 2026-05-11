@@ -163,6 +163,12 @@ def test_live_smoke_config_defaults_are_safe() -> None:
         Settings.model_fields["platform_asset_readonly_allow_real_sample_data"].default
         is False
     )
+    assert (
+        Settings.model_fields[
+            "platform_asset_readonly_same_machine_local_dev_authorized"
+        ].default
+        is False
+    )
 
 
 def test_disabled_live_smoke_does_not_call_connection_factory() -> None:
