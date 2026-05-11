@@ -1,10 +1,11 @@
 # Active Phase
 
-- 当前 phase：Phase 2.61b Codex B Review / Baseline Prompt。
-- 背景：Phase 2.61a baseline 已完成：commit `b60d4d7`，tag `phase-2.61a-mvp-issue-intake-baseline`；本地 issue intake runner 已可生成模板、校验 issue JSON、输出 ready / pause / no_go。
-- 本轮目标：只做 docs-only planning，规划真实 operator issue records 的本地 ignored 存储策略，避免 Mac mini 试用问题记录泄露到 Git。
+- 当前 phase：Phase 2.61c Codex B Review / Baseline Prompt。
+- 背景：Phase 2.61b baseline 已完成：commit `d62b8a6`，tag `phase-2.61b-issue-storage-policy-baseline`；本地 issue records 存储策略已规划完成。
+- 本轮目标：新增 `reports/internal_mvp_issues/.gitignore` 与 `README.md`，为真实 operator issue records 提供默认 ignored 的本地目录策略。
 - 修改文件：
-  - `docs/PHASE261B_ISSUE_STORAGE_POLICY_PLAN.md`
+  - `reports/internal_mvp_issues/.gitignore`
+  - `reports/internal_mvp_issues/README.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/HANDOFF_LOG.md`
@@ -13,13 +14,11 @@
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（ignored）
-- 完成内容：新增 `docs/PHASE261B_ISSUE_STORAGE_POLICY_PLAN.md`，规划 `reports/internal_mvp_issues/` 本地 ignored 存储策略、Git 策略、review flow 和 Phase 2.61c 候选边界。
-- 测试结果：Codex B 已复核 `git diff --check` 通过；`latest.json` JSON 校验通过；本轮按要求不运行 pytest。
-- live smoke 结果：未运行；本轮为 docs-only planning。
-- 当前结论：Phase 2.61b planning 已通过 Codex B review，已写入 selective Git baseline prompt。
-- 规划边界：推荐 `reports/internal_mvp_issues/` 作为后续 ignored local storage；真实 issue JSON / Markdown 默认不入 Git；后续 Phase 2.61c 才可提交 `.gitignore` / `README.md`。
-- 禁止：代码 / 测试 / schema 修改，真实上传，API/CLI smoke，DB/facts/document_versions/audit_logs/OpenSearch/Qdrant 写入，外部 issue 自动创建，cleanup/delete/repair/backfill/reindex/migration，Data Steward / DB / NAS / BIM 实现，production rollout。
-- 历史无关 dirty 必须排除：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、`docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`、`docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`。
-- 验证要求：`git diff --check`；`uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_phase261b_plan_check.json`；`git status --short`。
-- 是否建议 baseline：是；Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.61b selective docs-only baseline。
+- 完成内容：已创建 `reports/internal_mvp_issues/` 本地 issue records 目录策略；`.gitignore` 默认忽略真实 issue records，仅允许 `README.md` 与 `.gitignore` 追踪；`README.md` 明确敏感边界与非授权事项。
+- 测试结果：Codex B 已复核 `git diff --check` 通过；`latest.json` JSON 校验通过；sample issue files 被 ignore，`README.md` 与 `.gitignore` 不被 ignore。
+- live smoke 结果：未运行；本轮不调用 API / CLI，不上传文件，不写 DB / index。
+- 当前结论：Phase 2.61c artifact 已通过 Codex B review，已写入 selective Git baseline prompt。
+- 阻塞点 / 风险点：真实 issue records 可能包含 query、业务判断、document_id、citation、路径、客户 / 项目语境，必须保持 ignored。
+- 历史无关 dirty 必须继续排除：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、`docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`、`docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`。
+- 是否建议 baseline：是；Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.61c selective Git baseline。
 - 是否需要 Codex C：不需要；本轮无 runtime/API/CLI 行为。

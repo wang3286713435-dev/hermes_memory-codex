@@ -1,5 +1,8 @@
 # DEV_LOG
 
+- [Phase 2.61c Review] Codex B review 通过 Local Issue Storage Artifact：`.gitignore` 默认忽略真实 issue JSON / Markdown / 截图 / 日志 / 表格 / 文档，`README.md` 明确敏感边界、外部 issue 与 repair / rollout 均未授权；已写入 selective Git baseline prompt，仍禁止真实 issue records、DB/index 写入、外部 issue 创建或 rollout。
+- [Phase 2.61c] 完成 Local Issue Storage Artifact：新增 `reports/internal_mvp_issues/.gitignore` 与 `README.md`，真实 operator issue JSON / Markdown / 截图 / 日志 / 表格 / 文档默认 ignored；本轮未生成真实 issue records、未创建外部 issue、未调用 API/CLI、未写 DB/index、未执行 repair 或 rollout。
+- [Phase 2.61c Prompt] Phase 2.61b baseline 已完成：commit `d62b8a6`，tag `phase-2.61b-issue-storage-policy-baseline`。Codex B 已写入 Phase 2.61c Local Issue Storage Artifact prompt，目标是新增 `reports/internal_mvp_issues/.gitignore` 与 `README.md`；本轮不生成真实 issue records、不创建外部 issue、不写 DB、不 repair、不 rollout。
 - [Phase 2.61b Review] Codex B review 通过 Local Issue Storage Policy Planning：`reports/internal_mvp_issues/` ignored storage policy、Git policy、review flow 与 Phase 2.61c artifact 边界清楚；已写入 selective docs-only Git baseline prompt，仍禁止真实 issue records、外部 issue 创建、DB/index 写入、repair 或 rollout。
 - [Phase 2.61b] 完成 Local Issue Storage Policy docs-only planning：新增 `PHASE261B_ISSUE_STORAGE_POLICY_PLAN.md`，建议真实 operator issue records 默认保存在 ignored `reports/internal_mvp_issues/`，后续 Phase 2.61c 只提交 `.gitignore` / `README.md` 策略文件；本轮未写代码、未运行 API/CLI smoke、未写 DB/index、未创建外部 issue、未进入 repair 或 rollout。
 - [Phase 2.61b Prompt] Phase 2.61a baseline 已完成：commit `b60d4d7`，tag `phase-2.61a-mvp-issue-intake-baseline`。Codex B 已写入 Phase 2.61b Local Issue Storage Policy Planning prompt，目标是规划真实 operator issue records 的本地 ignored 存储策略；本轮只做 docs-only planning，不写代码、不写 DB、不创建外部 issue、不 repair、不 rollout。

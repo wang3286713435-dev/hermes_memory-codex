@@ -1,5 +1,21 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.61c Local Issue Storage Artifact
+
+1. Phase 2.61c artifact 已完成并通过 Codex B review。
+2. 新增 `reports/internal_mvp_issues/.gitignore` 与 `README.md`，真实 issue JSON / Markdown / 截图 / 日志 / 表格 / 文档默认 ignored。
+3. 下一步：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 selective Git baseline。
+4. baseline 白名单仅限 storage policy 文件与交接文档；不得纳入历史 Phase 2.38 dirty 或 DB/NAS 草稿。
+5. 继续禁止真实 issue records、外部 issue 创建、API/CLI smoke、DB/index 写入、repair/backfill/reindex、Data Steward 和 production rollout。
+
+## Phase 2.61c Local Issue Storage Artifact
+
+1. Phase 2.61b baseline 已完成：`d62b8a6` / `phase-2.61b-issue-storage-policy-baseline`。
+2. 已创建 `reports/internal_mvp_issues/.gitignore` 与 `README.md`，固化本地 issue records ignored storage。
+3. 真实 issue JSON / Markdown / 截图 / 日志 / 表格 / 文档默认不入 Git。
+4. 本轮未生成真实 issue records，未创建外部 issue，未写 DB，未 repair，未 rollout。
+5. 下一步：Codex B review Phase 2.61c artifact；通过后再写 selective Git baseline prompt。
+
 ## Phase 2.61b Local Issue Storage Policy Planning
 
 1. Phase 2.61a baseline 已完成：`b60d4d7` / `phase-2.61a-mvp-issue-intake-baseline`。

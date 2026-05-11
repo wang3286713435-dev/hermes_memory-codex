@@ -2,6 +2,23 @@
 
 ## 最新状态
 
+1. Phase 2.61c Local Issue Storage Artifact 已完成实现并通过 Codex B review。
+2. 新增 `reports/internal_mvp_issues/.gitignore` 与 `README.md`，真实 operator issue JSON / Markdown / 截图 / 日志 / 表格 / 文档默认 ignored。
+3. 本轮未生成真实 issue records，未创建外部 issue，未调用 API/CLI，未写 DB / facts / versions / audit_logs / OpenSearch / Qdrant。
+4. 下一步执行 Phase 2.61c selective Git baseline；baseline 后再继续 Mac mini internal MVP operator polish / issue triage。
+5. 历史无关 dirty 与 DB/NAS 草稿继续排除，不得随 Phase 2.61c baseline 混入。
+
+## 最新状态
+
+1. Phase 2.61b baseline 已完成：commit `d62b8a6`，tag `phase-2.61b-issue-storage-policy-baseline`。
+2. 当前进入 Phase 2.61c Local Issue Storage Artifact。
+3. 目标：提交 `reports/internal_mvp_issues/.gitignore` 与 `README.md`，让真实 operator issue records 默认 ignored。
+4. 本轮不生成真实 issue records，不读取真实 reports，不创建外部 issue，不写 DB，不 repair，不 rollout。
+5. Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 后停止，交 Codex B review。
+6. 历史无关 dirty 与 DB/NAS 草稿不得被纳入本阶段。
+
+## 最新状态
+
 1. Phase 2.61a baseline 已完成：commit `b60d4d7`，tag `phase-2.61a-mvp-issue-intake-baseline`。
 2. Phase 2.61b Local Issue Storage Policy Planning 已完成并通过 Codex B review。
 3. 规划建议真实 operator issue records 默认存放在 `reports/internal_mvp_issues/` 并 ignored。

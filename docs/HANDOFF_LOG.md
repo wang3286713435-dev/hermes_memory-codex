@@ -5821,3 +5821,51 @@
 - excluded_dirty: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`, `docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`, `docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`, ignored `reports/agent_runs/latest.json`.
 - hard_boundaries: no code/tests/schema changes, no real issue records, no external issue creation, no DB/index writes, no repair/backfill/reindex, no Data Steward implementation, no production rollout.
 - commit/tag if any: none yet.
+
+## 2026-05-11 Phase 2.61c Handoff Prompt
+
+- goal: Add local ignored issue storage artifact after Phase 2.61b baseline.
+- background: Phase 2.61b baseline completed at `d62b8a6`, tag `phase-2.61b-issue-storage-policy-baseline`.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md`, add `reports/internal_mvp_issues/.gitignore` and `README.md`, update handoff docs, then stop for Codex B review.
+- hard_boundaries: no real issue records, no API/CLI smoke, no DB/index writes, no external issue creation, no repair/backfill/reindex, no Data Steward implementation, no production rollout.
+- excluded_dirty: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`, `docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`, `docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`.
+- commit/tag if any: none.
+
+## 2026-05-11 10:57 Phase 2.61c Local Issue Storage Artifact
+
+- goal: Add local ignored storage policy for internal MVP operator issue records.
+- changed_files:
+  - `reports/internal_mvp_issues/.gitignore`
+  - `reports/internal_mvp_issues/README.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_phase261c_check.json`: passed.
+  - `git check-ignore` sample issue files: `sample_json_ignored`, `sample_md_ignored`, `sample_png_ignored`.
+- validation:
+  - Real issue JSON / Markdown / screenshots / logs / spreadsheets / documents are ignored by default.
+  - README states records are local sensitive artifacts and do not authorize external issue creation, repair, cleanup, backfill, reindex, or rollout.
+  - No real issue record, API call, CLI smoke, upload, DB write, OpenSearch write, or Qdrant write.
+- risks:
+  - Real operator issue records may contain sensitive query text, document IDs, citations, paths, customer/project context, and must stay ignored.
+  - Historical unrelated dirty remains and must not be staged with Phase 2.61c.
+- next: Codex B review Phase 2.61c; if accepted, prepare selective Git baseline.
+- commit/tag if any: none.
+
+## 2026-05-11 Phase 2.61c Codex B Review
+
+- goal: Review Phase 2.61c local issue storage artifact and prepare selective baseline prompt.
+- review_result: accepted.
+- verification: `git diff --check` passed; `latest.json` JSON validation passed; sample JSON / Markdown / PNG are ignored; README and `.gitignore` are trackable.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.61c selective Git baseline only.
+- baseline_scope: `reports/internal_mvp_issues/.gitignore`, `reports/internal_mvp_issues/README.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/NIGHTLY_SPRINT_QUEUE.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/TODO.md`, `docs/DEV_LOG.md`.
+- excluded_dirty: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`, `docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`, `docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`, ignored `reports/agent_runs/latest.json`, any real issue records.
+- hard_boundaries: no real issue records, no API/CLI smoke, no DB/index writes, no external issue creation, no repair/backfill/reindex, no Data Steward implementation, no production rollout.
+- commit/tag if any: none yet.

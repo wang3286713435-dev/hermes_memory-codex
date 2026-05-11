@@ -10,21 +10,21 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.61b Git Baseline
+### Current Item：Phase 2.61c Git Baseline
 
 - lane：Yellow Lane
 - 状态：codex_b_reviewed
-- 目标：仅对 Phase 2.61b issue storage policy planning 做 selective docs-only Git baseline。
-- 允许动作：运行静态检查、selective staging 白名单文档、commit、tag、push、更新 ignored `latest.json`。
-- 禁止动作：代码 / 测试 / schema 修改、真实上传、API/CLI smoke、自动启动服务、DB/index 写入、外部 issue 自动创建、repair/backfill/reindex、Data Steward/DB/NAS/BIM 实现、production rollout。
-- 完成后：停止等待 Codex B / 用户决定是否进入 Phase 2.61c。
+- 目标：仅对 Phase 2.61c local issue storage artifact 做 selective Git baseline。
+- 允许动作：运行静态检查、selective staging 白名单文件、commit、tag、push、更新 ignored `latest.json`。
+- 禁止动作：生成真实 issue records、读取真实 reports/run records、代码 / 测试 / schema 修改、真实上传、API/CLI smoke、自动启动服务、DB/index 写入、外部 issue 自动创建、repair/backfill/reindex、Data Steward/DB/NAS/BIM 实现、production rollout。
+- 完成后：停止等待 Codex B / 用户决定下一步。
 
-### Next Candidate：Phase 2.61c Local Issue Storage Artifact
+### Next Candidate：Mac mini Internal MVP Operator Polish
 
 - lane：Green Lane
-- 状态：pending_phase_261b_baseline
-- 目标：如 2.61b 规划通过，提交 `reports/internal_mvp_issues/.gitignore` 与 `README.md`，真实 issue records 继续 ignored。
-- 禁止动作：真实 issue 自动生成、外部 issue 创建、DB 写入、repair/backfill/reindex、production rollout。
+- 状态：pending_phase_261c_baseline
+- 目标：根据真实内部 MVP 使用反馈继续做 operator polish / issue triage，不扩大到 rollout。
+- 禁止动作：DB 写入、外部 issue 自动创建、repair/backfill/reindex、production rollout。
 
 ## Red Lane / 当前禁止
 

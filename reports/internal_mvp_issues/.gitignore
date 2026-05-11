@@ -1,0 +1,14 @@
+*.json
+*.jsonl
+*.md
+*.txt
+*.log
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.csv
+*.xlsx
+*.docx
+!README.md
+!.gitignore
