@@ -15,6 +15,11 @@ from app.services.asset_catalog.readonly_connector import (
     DB4B_READONLY_SAMPLE_MODES,
     AssetCatalogReadonlyConnectorShell,
 )
+from app.services.asset_catalog.readonly_live_smoke import (
+    AssetCatalogReadonlyLiveSmokeFinding,
+    AssetCatalogReadonlyLiveSmokeResult,
+    AssetCatalogReadonlyLiveSmokeRunner,
+)
 from app.services.asset_catalog.readonly_preflight import (
     DB4A_READONLY_CONTRACT_VERSION,
     DB4A_REQUIRED_VIEW_FIELDS,
@@ -45,6 +50,9 @@ __all__ = [
     "AssetCatalogReadonlyPreflightResult",
     "AssetCatalogReadonlyPreflightValidator",
     "AssetCatalogReadonlyConnectorShell",
+    "AssetCatalogReadonlyLiveSmokeFinding",
+    "AssetCatalogReadonlyLiveSmokeResult",
+    "AssetCatalogReadonlyLiveSmokeRunner",
     "AssetCatalogRetrievalDecision",
     "AssetCatalogRetrievalGuard",
     "AssetCatalogRetrievalRequest",

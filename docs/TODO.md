@@ -12,8 +12,8 @@
 8. DB-2 temporary DB proof-of-contract 已 baseline：commit `53337fe`，tag `phase-db2-temp-db-proof-baseline`。
 9. DB-2 schema contract freeze 已 baseline：commit `64e139a`，tag `phase-db2-schema-contract-freeze-baseline`。
 10. DB-3A Catalog Retrieval Guard、DB-3B Temporary DB Backed Guard、DB-3C Missing Evidence Response DTO、DB-3D Temp DB Missing Evidence Response Smoke 均已 baseline。
-11. 当前任务：DB-4B Readonly Connector Shell；共享 dev / staging 账号到位前只做默认关闭的只读 connector shell，不接真实 MySQL / NAS / REST，不写 migration，不写 documents / chunks / OpenSearch / Qdrant。
-12. 下一步：DB-4B baseline 后交给测试 agent 独立复测；复测通过且共享 dev / staging 账号到位后，才可考虑 DB-4C live smoke，但不得自动进入 production migration、真实写入、真实 retrieval、selective indexing 或 DB-5。
+11. 当前任务：DB-4C Readonly Live Smoke Runner；只做关闭态 runner 和真实样本双门禁，不接真实 MySQL / NAS / REST，不写 migration，不写 documents / chunks / OpenSearch / Qdrant。
+12. 下一步：DB-4C baseline 后交给测试 agent 独立复测；复测通过后可做 DB-4D 主线回归与数据库团队电脑版本更新 runbook，但真实样本 smoke 必须等主线版本更新完成后单独授权。
 
 ## 最新状态
 
@@ -1039,3 +1039,18 @@
 7. Confirm only four stable Views are accepted.
 8. Confirm no business table, DML, DDL, MySQL driver, NAS, REST, documents/chunks, OpenSearch/Qdrant path exists.
 9. If clean, baseline DB-4B and prepare an independent QA prompt.
+
+## DB-4C Readonly Live Smoke Runner TODO
+
+1. Review `app/services/asset_catalog/readonly_live_smoke.py`.
+2. Review `tests/test_data_steward_asset_catalog_readonly_live_smoke.py`.
+3. Run:
+   - `npm test`
+   - `npm run lint`
+   - `git diff --check`
+4. Confirm disabled runner does not call connector.
+5. Confirm `structure_only` validates columns without real rows.
+6. Confirm missing required column creates finding.
+7. Confirm `limit` mode requires both mainline-agent update and real-sample authorization.
+8. Confirm no real MySQL / NAS / REST / documents/chunks / OpenSearch/Qdrant path exists.
+9. If clean, baseline DB-4C and prepare an independent QA prompt.

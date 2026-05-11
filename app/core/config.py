@@ -39,6 +39,9 @@ class Settings(BaseSettings):
     platform_asset_readonly_db_contract_version: str = "delivery_platform.asset_views.v1"
     platform_asset_readonly_db_sample_mode: str = "structure_only"
     platform_asset_readonly_db_sample_limit: int = 30
+    platform_asset_readonly_live_smoke_enabled: bool = False
+    platform_asset_readonly_mainline_agent_updated: bool = False
+    platform_asset_readonly_allow_real_sample_data: bool = False
 
     vector_store_provider: str = "qdrant"
     vector_dimension: int = 1024

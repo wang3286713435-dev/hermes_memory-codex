@@ -358,6 +358,17 @@
 8. 本阶段仍不 import MySQL driver、不连接真实 MySQL、不写 migration、不扫 NAS、不触发 REST、不写 documents/chunks/OpenSearch/Qdrant。
 9. DB-4C live smoke 必须等共享 dev / staging 只读账号和用户单独授权。
 
+## DB-4C Readonly Live Smoke Runner
+
+1. 用户已授权继续 DB-4C，但明确真实数据必须等 DB 分支完成、回归主线，并更新数据库团队电脑上的企业 Agent 版本。
+2. DB-4C 当前只做 live smoke runner 关闭态骨架。
+3. 默认 disabled。
+4. `structure_only` 只验证字段结构，不读取真实 rows。
+5. 缺 required column 必须产生 finding。
+6. `limit` 真实样本模式必须同时满足主线企业 Agent 已更新和显式真实样本授权。
+7. rows 只进入 DB-4A preflight validator。
+8. 本阶段仍不连接真实 MySQL、不读取真实样本、不写 migration、不扫 NAS、不触发 REST、不写 documents/chunks/OpenSearch/Qdrant。
+
 ## 后置项
 
 1. 完整 AI 审标 / 自动审标：后置，当前只做 retrieval evidence 与 trace 改善。

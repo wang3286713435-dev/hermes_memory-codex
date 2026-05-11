@@ -57,6 +57,18 @@ class AssetCatalogReadonlyConnectorShell:
             rows_by_view[source_view] = self._execute_select(connection, sql)
         return rows_by_view
 
+    def load_column_names_by_view(self) -> dict[SourceView, tuple[str, ...]]:
+        if not self.enabled:
+            raise ValueError("readonly connector disabled")
+        if self.connection_factory is None:
+            raise ValueError("readonly connector requires a connection factory")
+
+        connection = self.connection_factory()
+        columns_by_view: dict[SourceView, tuple[str, ...]] = {}
+        for source_view, sql in self.build_view_queries().items():
+            columns_by_view[source_view] = self._execute_column_names(connection, sql)
+        return columns_by_view
+
     def run_preflight(self) -> AssetCatalogReadonlyPreflightResult:
         return self.validator.validate(self.load_rows_by_view())
 
@@ -70,13 +82,26 @@ class AssetCatalogReadonlyConnectorShell:
             if callable(close):
                 close()
 
+    def _execute_column_names(self, connection: Any, sql: str) -> tuple[str, ...]:
+        cursor = connection.cursor()
+        try:
+            cursor.execute(sql)
+            return self._column_names_from_cursor(cursor)
+        finally:
+            close = getattr(cursor, "close", None)
+            if callable(close):
+                close()
+
     def _rows_from_cursor(self, cursor: Any) -> list[dict[str, Any]]:
-        description: Sequence[Sequence[Any]] = cursor.description or ()
-        columns = tuple(str(column[0]) for column in description)
+        columns = self._column_names_from_cursor(cursor)
         return [
             dict(zip(columns, row, strict=True))
             for row in cursor.fetchall()
         ]
+
+    def _column_names_from_cursor(self, cursor: Any) -> tuple[str, ...]:
+        description: Sequence[Sequence[Any]] = cursor.description or ()
+        return tuple(str(column[0]) for column in description)
 
     def _validate_policy(self) -> None:
         if self.sample_mode not in DB4B_READONLY_SAMPLE_MODES:

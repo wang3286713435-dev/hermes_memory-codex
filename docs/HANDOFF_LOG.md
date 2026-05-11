@@ -217,6 +217,30 @@
 - next: if user explicitly continues, create `docs/DB2_ASSET_CATALOG_MIRROR_PLAN.md` as docs-only planning. Do not write implementation before Codex B review and explicit user authorization.
 - commit/tag if any: pending tag `phase-db3c-missing-evidence-response-review-fix-baseline`.
 
+## 2026-05-11 DB-4C Readonly Live Smoke Runner
+- goal: Add a disabled-by-default live smoke runner shell with a hard gate for real sample data.
+- changed_files:
+  - `app/services/asset_catalog/readonly_live_smoke.py`
+  - `app/services/asset_catalog/readonly_connector.py`
+  - `app/services/asset_catalog/__init__.py`
+  - `app/core/config.py`
+  - `tests/test_data_steward_asset_catalog_readonly_live_smoke.py`
+  - `docs/DB4C_READONLY_LIVE_SMOKE_RUNNER.md`
+  - `package.json`
+  - phase handoff docs
+- validation:
+  - TDD RED: target test initially failed because `AssetCatalogReadonlyLiveSmokeRunner` did not exist.
+  - TDD GREEN: target test now passes, `6 passed`.
+  - `npm test`: `66 passed`.
+  - `npm run lint`: `All checks passed!`.
+  - py_compile: passed.
+  - `git diff --check`: passed.
+  - boundary grep: no real MySQL driver / DB connect / NAS / REST / documents / chunks / OpenSearch / Qdrant / DML / DDL path in DB-4C code; hits are docs prohibitions and false write flags.
+- boundary: live smoke runner shell only; no real MySQL connection, no real sample data read, no migration, no NAS/REST, no documents/chunks, no OpenSearch/Qdrant, no real retrieval/indexing.
+- mainline gate:
+  - Real sample data requires DB branch completion, merge back to mainline, and updated enterprise-agent version on the database team's machine.
+  - `LIMIT` mode requires both `mainline_agent_updated=true` and `allow_real_sample_data=true`.
+
 ## 2026-05-09 DB-4B Readonly Connector Shell
 - goal: Add a disabled-by-default readonly connector shell that can be tested without shared dev credentials.
 - changed_files:
