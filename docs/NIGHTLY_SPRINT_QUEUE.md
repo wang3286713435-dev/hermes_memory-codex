@@ -10,28 +10,21 @@
 
 ## Current Queue
 
-### Current Item：Phase 2.61a Codex B Review
-
-- lane：Green Lane
-- 状态：pending_review
-- 目标：审核 Phase 2.61a issue intake runner、测试和边界。
-- 允许动作：review、路线裁决、下一轮 bounded prompt。
-- 禁止动作：代码实现、真实上传、第二文件 smoke、API/CLI smoke、自动启动服务、DB/index 写入、repair/backfill/reindex、Data Steward/DB/NAS/BIM 实现、production rollout。
-- 完成后：如通过，由 Codex B 写入 selective baseline prompt 或后续 ignored issue storage policy planning prompt。
-
-### Next Candidate：Phase 2.61a Git Baseline
+### Current Item：Phase 2.61b Git Baseline
 
 - lane：Yellow Lane
-- 状态：pending_codex_b_review
-- 目标：仅在 Codex B 明确通过后 selective baseline。
-- 禁止动作：自动跨 phase 继续开发。
+- 状态：codex_b_reviewed
+- 目标：仅对 Phase 2.61b issue storage policy planning 做 selective docs-only Git baseline。
+- 允许动作：运行静态检查、selective staging 白名单文档、commit、tag、push、更新 ignored `latest.json`。
+- 禁止动作：代码 / 测试 / schema 修改、真实上传、API/CLI smoke、自动启动服务、DB/index 写入、外部 issue 自动创建、repair/backfill/reindex、Data Steward/DB/NAS/BIM 实现、production rollout。
+- 完成后：停止等待 Codex B / 用户决定是否进入 Phase 2.61c。
 
-### Next Candidate：Phase 2.61b Local Issue Storage Policy
+### Next Candidate：Phase 2.61c Local Issue Storage Artifact
 
 - lane：Green Lane
-- 状态：pending_codex_b_review
-- 目标：规划真实 operator issue records 的 ignored storage policy / README / optional template directory。
-- 禁止动作：DB 写入、外部 issue 自动创建、真实业务结论、repair/backfill/reindex、production rollout。
+- 状态：pending_phase_261b_baseline
+- 目标：如 2.61b 规划通过，提交 `reports/internal_mvp_issues/.gitignore` 与 `README.md`，真实 issue records 继续 ignored。
+- 禁止动作：真实 issue 自动生成、外部 issue 创建、DB 写入、repair/backfill/reindex、production rollout。
 
 ## Red Lane / 当前禁止
 
@@ -40,3 +33,4 @@
 3. cleanup / delete / repair / backfill / reindex / migration。
 4. production rollout。
 5. 自动选择文件或自动上传文件。
+6. 自动创建 Linear / GitHub / 外部 issue。

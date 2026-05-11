@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.61b Local Issue Storage Policy Planning
+
+1. Phase 2.61a baseline 已完成：`b60d4d7` / `phase-2.61a-mvp-issue-intake-baseline`。
+2. Phase 2.61b docs-only planning 已完成并通过 Codex B review：新增 `docs/PHASE261B_ISSUE_STORAGE_POLICY_PLAN.md`。
+3. 推荐方向：后续使用 `reports/internal_mvp_issues/` 保存本地 issue records，真实 JSON / Markdown 默认不入 Git。
+4. Phase 2.61c 可只提交 `.gitignore` / `README.md`，不提交真实 issue records；不得在 2.61b baseline 中创建真实 issue records。
+5. 继续禁止真实上传、API/CLI smoke、DB/index 写入、外部 issue 自动创建、repair/backfill/reindex、Data Steward 和 production rollout。
+6. 下一步：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.61b selective docs-only Git baseline。
+
 ## Phase 2.61a Internal MVP Issue Intake Runner
 
 1. Phase 2.61 planning 已完成并经 Codex B review 通过。

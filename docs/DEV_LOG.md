@@ -1,5 +1,8 @@
 # DEV_LOG
 
+- [Phase 2.61b Review] Codex B review 通过 Local Issue Storage Policy Planning：`reports/internal_mvp_issues/` ignored storage policy、Git policy、review flow 与 Phase 2.61c artifact 边界清楚；已写入 selective docs-only Git baseline prompt，仍禁止真实 issue records、外部 issue 创建、DB/index 写入、repair 或 rollout。
+- [Phase 2.61b] 完成 Local Issue Storage Policy docs-only planning：新增 `PHASE261B_ISSUE_STORAGE_POLICY_PLAN.md`，建议真实 operator issue records 默认保存在 ignored `reports/internal_mvp_issues/`，后续 Phase 2.61c 只提交 `.gitignore` / `README.md` 策略文件；本轮未写代码、未运行 API/CLI smoke、未写 DB/index、未创建外部 issue、未进入 repair 或 rollout。
+- [Phase 2.61b Prompt] Phase 2.61a baseline 已完成：commit `b60d4d7`，tag `phase-2.61a-mvp-issue-intake-baseline`。Codex B 已写入 Phase 2.61b Local Issue Storage Policy Planning prompt，目标是规划真实 operator issue records 的本地 ignored 存储策略；本轮只做 docs-only planning，不写代码、不写 DB、不创建外部 issue、不 repair、不 rollout。
 - [Phase 2.61a] 完成 Internal MVP issue intake runner 最小实现：新增只读 `phase261a_mvp_issue_intake.py`，支持生成 issue 模板、校验单条 / 批量 issue、统计 P0/P1/P2/P3，并按 ready / pause / no_go 输出 operator next steps；目标测试 `9 passed`，本轮未上传、未运行 API/CLI smoke、未写 DB/index、未创建外部 issue、未进入 repair 或 rollout。
 - [Phase 2.61a Prompt] Codex B review Phase 2.61 planning 通过，已写入 Phase 2.61a Local Issue Intake Runner prompt。目标是用只读本地模板 / validator / summary generator 回收 Mac mini 真实试用问题；本阶段不写 DB、不创建外部 issue、不 repair、不 rollout。
 - [Phase 2.61] 完成 Internal MVP Operator Flow / Issue Intake docs-only planning：新增 `PHASE261_INTERNAL_MVP_OPERATOR_FLOW_PLAN.md`，定义 readiness gate、使用中 issue 记录字段、P0/P1/P2/P3 分级、Codex A/B/C/D 分工和 Phase 2.61a local issue intake dry-run 候选；本轮未写代码、未运行 API/CLI smoke、未上传、未写 DB/index、未进入 rollout。

@@ -1,13 +1,10 @@
 # Active Phase
 
-- 当前 phase：Phase 2.61a Internal MVP Issue Intake Runner。
-- 背景：Phase 2.60 baseline 已完成：commit `f445182`，tag `phase-2.60-mvp-local-readiness-pack-baseline`；Phase 2.61 planning 已完成并经 Codex B review 通过。
-- 本轮目标：实现本地 issue intake template / dry-run validator / summary generator，帮助把 Mac mini 试用中的问题结构化回收。
+- 当前 phase：Phase 2.61b Codex B Review / Baseline Prompt。
+- 背景：Phase 2.61a baseline 已完成：commit `b60d4d7`，tag `phase-2.61a-mvp-issue-intake-baseline`；本地 issue intake runner 已可生成模板、校验 issue JSON、输出 ready / pause / no_go。
+- 本轮目标：只做 docs-only planning，规划真实 operator issue records 的本地 ignored 存储策略，避免 Mac mini 试用问题记录泄露到 Git。
 - 修改文件：
-  - `scripts/phase261a_mvp_issue_intake.py`
-  - `tests/test_phase261a_mvp_issue_intake.py`
-  - `docs/PHASE261_INTERNAL_MVP_OPERATOR_FLOW_PLAN.md`
-  - `docs/MAC_MINI_NATURAL_IMPORT_OPERATOR_CHECKLIST.md`
+  - `docs/PHASE261B_ISSUE_STORAGE_POLICY_PLAN.md`
   - `docs/ACTIVE_PHASE.md`
   - `docs/PHASE_BACKLOG.md`
   - `docs/HANDOFF_LOG.md`
@@ -16,15 +13,13 @@
   - `docs/TODO.md`
   - `docs/DEV_LOG.md`
   - `reports/agent_runs/latest.json`（ignored）
-- 完成内容：新增只读 issue intake runner，支持生成模板、校验单条 / 批量 issue JSON、统计 P0/P1/P2/P3、输出 ready / pause / no_go 和 operator next steps。
-- 测试结果：`uv run python -m py_compile scripts/phase261a_mvp_issue_intake.py` 已通过；`uv run pytest tests/test_phase261a_mvp_issue_intake.py -q` 为 `9 passed`；完整目标验证待本轮末执行。
-- live smoke 结果：未运行 API/CLI；本轮仅执行本地 dry-run 工具。
-- 当前结论：Phase 2.61a implementation 已通过 Codex B review，等待 selective Git baseline。
-- 下一步入口：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 完成 2.61a baseline。
-- 允许范围：只读本地 issue intake runner、目标测试、文档同步、ignored `latest.json` 状态。
-- 禁止：真实上传、API/CLI smoke、DB/facts/document_versions/audit_logs/OpenSearch/Qdrant 写入、cleanup/delete/repair/backfill/reindex/migration、外部 issue 自动创建、DB/NAS/Data Steward/BIM/TB 文件池、production rollout。
-- 阻塞点 / 风险点：真实 issue JSON 可能含敏感业务上下文，后续若规划本地存储目录必须默认 ignored；当前不自动创建外部 issue。
-- 是否建议 baseline：是，已写入 `docs/NEXT_CODEX_A_PROMPT.md`。
-- 是否建议进入下一阶段：不直接进入 Phase 2.61b；先 baseline。
-- 是否需要 Codex B 审核：已完成。
-- 是否需要 Codex C 真实终端验收：不需要；2.61a 可由目标测试和 dry-run 输出验收。
+- 完成内容：新增 `docs/PHASE261B_ISSUE_STORAGE_POLICY_PLAN.md`，规划 `reports/internal_mvp_issues/` 本地 ignored 存储策略、Git 策略、review flow 和 Phase 2.61c 候选边界。
+- 测试结果：Codex B 已复核 `git diff --check` 通过；`latest.json` JSON 校验通过；本轮按要求不运行 pytest。
+- live smoke 结果：未运行；本轮为 docs-only planning。
+- 当前结论：Phase 2.61b planning 已通过 Codex B review，已写入 selective Git baseline prompt。
+- 规划边界：推荐 `reports/internal_mvp_issues/` 作为后续 ignored local storage；真实 issue JSON / Markdown 默认不入 Git；后续 Phase 2.61c 才可提交 `.gitignore` / `README.md`。
+- 禁止：代码 / 测试 / schema 修改，真实上传，API/CLI smoke，DB/facts/document_versions/audit_logs/OpenSearch/Qdrant 写入，外部 issue 自动创建，cleanup/delete/repair/backfill/reindex/migration，Data Steward / DB / NAS / BIM 实现，production rollout。
+- 历史无关 dirty 必须排除：`docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`、`docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`、`docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`。
+- 验证要求：`git diff --check`；`uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_phase261b_plan_check.json`；`git status --short`。
+- 是否建议 baseline：是；Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，只做 Phase 2.61b selective docs-only baseline。
+- 是否需要 Codex C：不需要；本轮无 runtime/API/CLI 行为。

@@ -1,21 +1,21 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.61a Git Baseline Prompt
+## Phase 2.61b Git Baseline Prompt
 
-你是 Hermes_memory 主线开发 agent。本轮只执行 Phase 2.61a Internal MVP Issue Intake Runner 的 selective Git baseline。
+你是 Hermes_memory 主线开发 agent。本轮只执行 Phase 2.61b Local Issue Storage Policy docs-only baseline。
 
 Codex B 已审核通过：
 
-1. `scripts/phase261a_mvp_issue_intake.py` 是只读本地 issue intake helper。
-2. 目标测试通过：`15 passed`。
-3. `--new-template` dry-run 输出正常。
-4. 未执行真实上传、API/CLI smoke、DB/index 写入、外部 issue 创建、repair/backfill/reindex 或 rollout。
+1. `docs/PHASE261B_ISSUE_STORAGE_POLICY_PLAN.md` 只做本地 issue records ignored storage policy 规划。
+2. 规划明确真实 issue JSON / Markdown 默认不入 Git。
+3. 规划明确后续 Phase 2.61c 最小候选只提交 `reports/internal_mvp_issues/.gitignore` 与 `README.md`。
+4. 未写代码、未写 DB/index、未创建外部 issue、未执行 repair/backfill/reindex、未进入 rollout 或 Data Steward。
 
-本轮不要进入 Phase 2.61b，不要执行真实 smoke，不要上传文件。
+本轮不要进入 Phase 2.61c，不要创建 `reports/internal_mvp_issues/`，不要生成真实 issue records。
 
 ## 本轮目标
 
-Phase 2.61a Internal MVP Issue Intake Runner 收口与 Git baseline。
+Phase 2.61b Local Issue Storage Policy Planning 收口与 Git baseline。
 
 ## 必读文件
 
@@ -24,27 +24,23 @@ Phase 2.61a Internal MVP Issue Intake Runner 收口与 Git baseline。
 3. `docs/PHASE_BACKLOG.md`
 4. `docs/HANDOFF_LOG.md`
 5. `docs/NIGHTLY_SPRINT_QUEUE.md`
-6. `docs/PHASE261_INTERNAL_MVP_OPERATOR_FLOW_PLAN.md`
-7. `docs/MAC_MINI_NATURAL_IMPORT_OPERATOR_CHECKLIST.md`
-8. `scripts/phase261a_mvp_issue_intake.py`
-9. `tests/test_phase261a_mvp_issue_intake.py`
-10. `reports/agent_runs/latest.json`
+6. `docs/PHASE261B_ISSUE_STORAGE_POLICY_PLAN.md`
+7. `docs/TODO.md`
+8. `docs/DEV_LOG.md`
+9. `reports/agent_runs/latest.json`
 
 ## 允许提交的白名单文件
 
-只允许 stage / commit 下列 Phase 2.61 / 2.61a 文件：
+只允许 stage / commit 下列 Phase 2.61b 文件：
 
-1. `scripts/phase261a_mvp_issue_intake.py`
-2. `tests/test_phase261a_mvp_issue_intake.py`
-3. `docs/PHASE261_INTERNAL_MVP_OPERATOR_FLOW_PLAN.md`
-4. `docs/MAC_MINI_NATURAL_IMPORT_OPERATOR_CHECKLIST.md`
-5. `docs/ACTIVE_PHASE.md`
-6. `docs/PHASE_BACKLOG.md`
-7. `docs/HANDOFF_LOG.md`
-8. `docs/NIGHTLY_SPRINT_QUEUE.md`
-9. `docs/NEXT_CODEX_A_PROMPT.md`
-10. `docs/TODO.md`
-11. `docs/DEV_LOG.md`
+1. `docs/PHASE261B_ISSUE_STORAGE_POLICY_PLAN.md`
+2. `docs/ACTIVE_PHASE.md`
+3. `docs/PHASE_BACKLOG.md`
+4. `docs/HANDOFF_LOG.md`
+5. `docs/NIGHTLY_SPRINT_QUEUE.md`
+6. `docs/NEXT_CODEX_A_PROMPT.md`
+7. `docs/TODO.md`
+8. `docs/DEV_LOG.md`
 
 ## 必须排除的文件
 
@@ -63,60 +59,53 @@ Phase 2.61a Internal MVP Issue Intake Runner 收口与 Git baseline。
 baseline 前运行：
 
 ```bash
-uv run python -m py_compile scripts/phase261a_mvp_issue_intake.py
-uv run pytest tests/test_phase261a_mvp_issue_intake.py tests/test_phase260_mvp_local_readiness_pack.py -q
 git diff --check
-uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_phase261a_baseline_check.json
-uv run python scripts/phase261a_mvp_issue_intake.py --new-template
+uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_phase261b_baseline_check.json
 ```
 
-期望：
-
-1. pytest 为 `15 passed`。
-2. template 输出包含 `dry_run=true`、`read_only=true`、`destructive_actions=[]`。
-3. `db_or_index_written=false`、`external_issue_created=false`、`repair_attempted=false`、`production_rollout=false`。
-
-## Git baseline 步骤
-
-1. 确认 dirty 中除白名单外只有历史无关 dirty / DB 草稿，且不得 stage。
-2. selective stage 白名单文件，注意包含 untracked 脚本、测试和新规划文档。
-3. 运行：
+stage 后运行：
 
 ```bash
 git diff --cached --check
 git diff --cached --name-only
 ```
 
-4. commit：
+期望 staged 文件只包含白名单 8 个 tracked docs 文件。
+
+## Git baseline 步骤
+
+1. 确认 dirty 中除白名单外只有历史无关 dirty / DB 草稿，且不得 stage。
+2. selective stage 白名单文件。
+3. commit：
 
 ```bash
-git commit -m "chore: add phase 2.61a mvp issue intake runner"
+git commit -m "docs: baseline phase 2.61b issue storage policy"
 ```
 
-5. tag：
+4. tag：
 
 ```bash
-git tag phase-2.61a-mvp-issue-intake-baseline
+git tag phase-2.61b-issue-storage-policy-baseline
 ```
 
-6. push 当前分支与 tag：
+5. push 当前分支与 tag：
 
 ```bash
 git push origin HEAD
-git push origin phase-2.61a-mvp-issue-intake-baseline
+git push origin phase-2.61b-issue-storage-policy-baseline
 ```
 
-7. 更新 ignored `reports/agent_runs/latest.json`：
-   - `phase`: `Phase 2.61a Internal MVP Issue Intake Runner`
+6. 更新 ignored `reports/agent_runs/latest.json`：
+   - `phase`: `Phase 2.61b Local Issue Storage Policy Planning`
    - `status`: `baseline`
    - `git.commit`: 当前 commit hash
-   - `git.tag`: `phase-2.61a-mvp-issue-intake-baseline`
+   - `git.tag`: `phase-2.61b-issue-storage-policy-baseline`
    - `git.pushed`: `true`
    - `needs_codex_b_review`: `false`
    - `needs_codex_c_validation`: `false`
-   - `next_recommendation`: 进入 Phase 2.61b / 2.62 主线规划；优先 internal MVP issue storage policy / operator usability polish，不进入 production rollout。
+   - `next_recommendation`: 进入 Phase 2.61c local issue storage artifact，或继续 Mac mini internal MVP operator polish；不得进入 rollout。
 
-8. 最终确认：
+7. 最终确认：
 
 ```bash
 git status --short
@@ -133,10 +122,12 @@ git check-ignore -q reports/agent_runs/latest.json && echo ignored
 4. 不写 OpenSearch / Qdrant / MinIO。
 5. 不 cleanup / delete / repair / backfill / reindex / migration。
 6. 不创建外部 issue / Linear / GitHub issue。
-7. 不进入 DB / NAS / Data Steward / BIM / TB 文件池。
-8. 不进入 production rollout。
-9. 不修改 retrieval contract、facts contract、version governance、memory kernel 主架构。
-10. 不 stage 历史无关 dirty 或 DB 草稿。
+7. 不创建真实 issue records。
+8. 不创建 `reports/internal_mvp_issues/`；该目录留到 Phase 2.61c。
+9. 不进入 DB / NAS / Data Steward / BIM / TB 文件池。
+10. 不进入 production rollout。
+11. 不修改 retrieval contract、facts contract、version governance、memory kernel 主架构。
+12. 不 stage 历史无关 dirty 或 DB 草稿。
 
 ## 完成后停止
 
@@ -146,5 +137,5 @@ git check-ignore -q reports/agent_runs/latest.json && echo ignored
 2. tag
 3. push 结果
 4. final `git status --short`
-5. 是否确认未上传文件 / 未写 DB / 未执行 API/CLI smoke / 未创建外部 issue
+5. 是否确认未上传文件 / 未写 DB / 未执行 API/CLI smoke / 未创建外部 issue / 未创建真实 issue records
 6. 下一步建议

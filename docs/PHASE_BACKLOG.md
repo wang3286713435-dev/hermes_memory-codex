@@ -2,6 +2,16 @@
 
 ## 最新状态
 
+1. Phase 2.61a baseline 已完成：commit `b60d4d7`，tag `phase-2.61a-mvp-issue-intake-baseline`。
+2. Phase 2.61b Local Issue Storage Policy Planning 已完成并通过 Codex B review。
+3. 规划建议真实 operator issue records 默认存放在 `reports/internal_mvp_issues/` 并 ignored。
+4. 真实 JSON / Markdown 不入 Git；Phase 2.61c 可只提交 `.gitignore` 与 `README.md`。
+5. 本轮只做文档规划，未写代码、未写 DB、未创建外部 issue、未 repair、未 rollout。
+6. 下一步执行 Phase 2.61b selective docs-only Git baseline；baseline 后才可进入 Phase 2.61c artifact。
+7. 历史无关 dirty 与 DB/NAS 草稿不得被纳入本阶段。
+
+## 最新状态
+
 1. Phase 2.61 planning 已完成并经 Codex B review 通过。
 2. Phase 2.61a Internal MVP Issue Intake Runner 已完成 implementation，等待 Codex B review。
 3. 新增只读本地 issue template / validator / summary generator，把 Mac mini 真实试用问题结构化回收。

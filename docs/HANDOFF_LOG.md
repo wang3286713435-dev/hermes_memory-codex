@@ -1,5 +1,24 @@
 # Handoff Log
 
+## 2026-05-09 18:31 Phase 2.61b Local Issue Storage Policy Planning
+
+- goal: Plan ignored local storage policy for real internal MVP issue records.
+- changed_files:
+  - `docs/PHASE261B_ISSUE_STORAGE_POLICY_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests: docs-only; `git diff --check` and latest JSON validation to run at end of turn.
+- validation: no code, no upload, no API/CLI smoke, no DB/index writes, no external issue creation, no repair/backfill/reindex, no rollout.
+- risks: real issue JSON / Markdown may contain sensitive business context and must remain ignored by default.
+- next: Codex B review; if accepted, prepare docs-only baseline or Phase 2.61c `.gitignore` / `README.md` storage artifact prompt.
+- commit/tag if any: none.
+
 ## 2026-05-09 Phase 2.61a Codex B Review
 
 - goal: Review Phase 2.61a local issue intake runner and prepare selective Git baseline prompt.
@@ -5783,3 +5802,22 @@
 - 背景：Phase 2.59 baseline 已完成；用户决定暂不执行第二真实文件 smoke，优先让 Mac mini 本地 MVP 进入内部真实使用场景。
 - 下一步：Codex A 执行 2.60，只做只读 readiness runner、测试与文档同步。
 - 禁止：真实上传、API/CLI smoke、自动启动服务、DB/index 写入、repair/backfill/reindex、Data Steward、production rollout。
+## 2026-05-09 Phase 2.61b Handoff Prompt
+
+- goal: Plan local ignored storage policy for real operator issue records after Phase 2.61a issue intake runner baseline.
+- background: Phase 2.61a baseline completed at `b60d4d7`, tag `phase-2.61a-mvp-issue-intake-baseline`.
+- next: Codex A should execute docs-only planning from `docs/NEXT_CODEX_A_PROMPT.md`, create `docs/PHASE261B_ISSUE_STORAGE_POLICY_PLAN.md`, update handoff docs, and stop for Codex B review.
+- hard_boundaries: no code/tests/schema changes, no real upload, no API/CLI smoke, no DB/index writes, no external issue creation, no repair/backfill/reindex, no Data Steward implementation, no production rollout.
+- excluded_dirty: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`, `docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`, `docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`.
+- commit/tag if any: none.
+
+## 2026-05-11 Phase 2.61b Codex B Review
+
+- goal: Review Phase 2.61b Local Issue Storage Policy Planning and prepare selective baseline prompt.
+- review_result: accepted.
+- verification: `git diff --check` passed; `latest.json` JSON validation passed.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.61b docs-only Git baseline only.
+- baseline_scope: `docs/PHASE261B_ISSUE_STORAGE_POLICY_PLAN.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/NIGHTLY_SPRINT_QUEUE.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/TODO.md`, `docs/DEV_LOG.md`.
+- excluded_dirty: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`, `docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`, `docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`, ignored `reports/agent_runs/latest.json`.
+- hard_boundaries: no code/tests/schema changes, no real issue records, no external issue creation, no DB/index writes, no repair/backfill/reindex, no Data Steward implementation, no production rollout.
+- commit/tag if any: none yet.
