@@ -1,5 +1,6 @@
 # DEV_LOG
 
+- [Phase 2.63] 完成 Internal MVP Operator Daily Summary Workflow 首轮实现：新增只读 `phase263_mvp_operator_daily_summary.py`，可读取 Phase 2.62 summary 或直接复用 Phase 2.62 issue summary 逻辑聚合 issue JSON，输出每日 `ready` / `pause` / `no_go` operator summary；Markdown 输出脱敏，不包含 raw query、notes、expected/actual behavior、full path、document ids 或 chunk ids。目标验证：py_compile 通过，Phase 2.63/2.62/2.61a 测试 `28 passed`；本轮未读取真实 issue records、未创建外部 issue、未调用 API/CLI、未写 DB/index、未执行 repair 或 rollout。
 - [Phase 2.62] 完成 Internal MVP Issue Triage Summary Runner 首轮实现：新增只读 `phase262_mvp_issue_triage_summary.py`，复用 Phase 2.61a validator 语义，支持显式 JSON / ignored issue 目录输入，输出脱敏 P0/P1/P2/P3 与 ready/pause/no_go summary；目标测试当前 `10 passed`，本轮未读取真实 issue records、未创建外部 issue、未调用 API/CLI、未写 DB/index、未执行 repair 或 rollout。
 - [Phase 2.62 Prompt] Phase 2.61c baseline 已完成：commit `959ac78`，tag `phase-2.61c-internal-mvp-issue-storage-baseline`。Codex B 已写入 Phase 2.62 Internal MVP Issue Triage Summary Runner prompt，目标是把 ignored issue JSON 脱敏聚合为 Go / Pause / No-Go summary；本轮不创建外部 issue、不写 DB/index、不 repair、不 rollout。
 - [Phase 2.61c Review] Codex B review 通过 Local Issue Storage Artifact：`.gitignore` 默认忽略真实 issue JSON / Markdown / 截图 / 日志 / 表格 / 文档，`README.md` 明确敏感边界、外部 issue 与 repair / rollout 均未授权；已写入 selective Git baseline prompt，仍禁止真实 issue records、DB/index 写入、外部 issue 创建或 rollout。
@@ -449,3 +450,9 @@
 - [Data Steward DB Branch Intake] 将 DB / NAS / Data Steward 支线接收任务纳入后续主线开发线路：支线 `/Users/Weishengsu/Hermes_memory_db0` 当前 closeout baseline 为 `a272081` / `phase-db-branch-closeout-merge-readiness-baseline`。后续主线需单独开 Data Steward DB Branch Intake / PR Review 阶段，优先走 Draft PR / merge readiness review；合入前必须保持 feature flags 默认 off、catalog-only 不进入 `documents/chunks`、不写 OpenSearch / Qdrant、权限缺失默认 deny、probe 文件不合入。DB-5 / DB-6、真实 DB smoke、真实 NAS / BIM 扫描继续后置授权。
 
 - [Phase 2.62 Review] Codex B review 通过 Internal MVP Issue Triage Summary Runner：复核 runner 复用 Phase 2.61a validator、只读 summary、安全字段、P0/P1/P2/P3 语义和 redacted `issue_refs`；复跑 py_compile、targeted pytest `19 passed`、`git diff --check` 与 latest JSON 校验均通过。已写入 selective Git baseline prompt；baseline 后停止，不自动进入 Phase 2.63 或 DB Branch Intake。
+
+- [Phase 2.63 Prompt] Phase 2.62 baseline 完成后，写入 Internal MVP Operator Daily Summary Workflow 实现入口：基于 Phase 2.62 issue summary 或 ignored issue JSON，生成每日 operator / Codex B 可读的脱敏 Go / Pause / No-Go 摘要；本轮仍不读取真实 records 默认路径、不上传、不运行 API/CLI smoke、不写 DB/index、不创建外部 issue、不进入 repair、rollout 或 Data Steward。
+
+- [Phase 2.63 Reprioritized] 用户要求尽快进入 Data Steward DB Branch Intake / PR Review，因为数据库开发团队正在等待企业 Agent 接入与测试数据库可用性。当前已将 `docs/NEXT_CODEX_A_PROMPT.md` 从 operator daily summary workflow 改为 DB Branch Intake / PR Review：验证 `/Users/Weishengsu/Hermes_memory_db0` closeout branch、复跑目标测试、如通过则 push DB branch/tag，并在主线写入 PR readiness 文档；不继续 DB 功能开发、不连接真实 DB、不扫描 NAS、不 merge 到 main。Operator daily summary workflow 延后。
+
+- [Phase 2.63 Review] Codex B review 通过 Internal MVP Operator Daily Summary Workflow：`phase263_mvp_operator_daily_summary.py` 可从 Phase 2.62 summary 或 issue JSON 生成脱敏 daily summary，保持 read-only / dry-run / no rollout / no repair 安全字段；复跑 py_compile、targeted pytest `28 passed`、`git diff --check` 与 latest JSON 校验均通过。下一步只做 selective Git baseline；baseline 后建议 Phase 2.64 进入 Data Steward DB Branch Intake / PR Review。

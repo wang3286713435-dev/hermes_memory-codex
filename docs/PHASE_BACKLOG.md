@@ -2,6 +2,24 @@
 
 ## 最新状态
 
+1. Phase 2.63 Internal MVP Operator Daily Summary Workflow 已完成 implementation，并通过 Codex B review。
+2. 新增 `scripts/phase263_mvp_operator_daily_summary.py` 与目标测试，复用 Phase 2.62 summary / issue input 语义。
+3. runner 可生成脱敏 JSON / Markdown daily summary，帮助 operator / Codex B 判断 `ready` / `pause` / `no_go`。
+4. 目标验证通过：py_compile passed，targeted pytest `28 passed`，`git diff --check` passed，latest JSON check passed。
+5. 下一步只执行 selective Git baseline；baseline 后停止。
+6. Phase 2.64 建议切到 Data Steward DB Branch Intake / PR Review，以支持数据库团队对接测试机真实 DB。
+
+## 最新状态
+
+1. Phase 2.63 Internal MVP Operator Daily Summary Workflow 已完成首轮 implementation，等待 Codex B review。
+2. 新增 `scripts/phase263_mvp_operator_daily_summary.py` 与目标测试，复用 Phase 2.62 summary 逻辑，输出每日 `ready` / `pause` / `no_go` operator summary。
+3. 验证通过：py_compile 通过，Phase 2.63 / 2.62 / 2.61a 目标测试 `28 passed`。
+4. 本轮未读取真实 issue records、未创建外部 issue、未调用 API/CLI、未上传文件、未写 DB/index、未执行 repair 或 rollout。
+5. 下一步：Codex B review Phase 2.63；通过后再写 selective Git baseline prompt。
+6. DB / NAS / Data Steward 支线接收任务后置到独立阶段，不打断当前 Mac mini internal MVP operator workflow 收口。
+
+## 最新状态
+
 1. Phase 2.62 Internal MVP Issue Triage Summary Runner 已完成 implementation，并通过 Codex B review。
 2. 新增 `scripts/phase262_mvp_issue_triage_summary.py` 与目标测试，复用 Phase 2.61a validator 语义。
 3. runner 可读取显式 `--input-json` 或一层 `--input-dir` JSON，输出脱敏 P0/P1/P2/P3 与 ready/pause/no_go summary。

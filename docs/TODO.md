@@ -1,5 +1,34 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.63 Internal MVP Operator Daily Summary Workflow
+
+1. Phase 2.62 baseline 已完成：`fd7d4a7` / `phase-2.62-issue-triage-summary-baseline`。
+2. Phase 2.63 daily summary workflow 已完成 implementation 并通过 Codex B review。
+3. 目标验证通过：`28 passed`，py_compile / diff check / latest JSON check 均通过。
+4. 下一步只执行 Phase 2.63 selective Git baseline；baseline 后停止。
+5. Phase 2.64 建议进入 Data Steward DB Branch Intake / PR Review，对接数据库团队。
+
+## Phase 2.64 候选：Data Steward DB Branch Intake / PR Review
+
+1. DB 支线 closeout baseline：`/Users/Weishengsu/Hermes_memory_db0`，branch `codex/data-steward-db0-contract`，commit `a272081`，tag `phase-db-branch-closeout-merge-readiness-baseline`。
+2. 数据库开发团队正在等待企业 Agent 接入与测试数据库可用性。
+3. Phase 2.64 建议做接收审查、目标验证、必要 push、PR readiness 文档；不继续 DB 功能开发，不 merge 到 main，不连接真实 DB，不扫描 NAS。
+
+## Phase 2.63 Internal MVP Operator Daily Summary Workflow
+
+1. Phase 2.62 baseline 已完成：`fd7d4a7` / `phase-2.62-issue-triage-summary-baseline`。
+2. 已完成首轮 implementation：新增 `scripts/phase263_mvp_operator_daily_summary.py` 与目标测试。
+3. runner 可读取 Phase 2.62 summary 或直接读取 issue JSON / issue 目录，并输出每日 `ready` / `pause` / `no_go` operator summary。
+4. Markdown 输出保持脱敏，不输出 raw query、notes、expected/actual behavior、local full path、document ids 或 chunk ids。
+5. 验证：`py_compile` 通过，Phase 2.63 / 2.62 / 2.61a 目标测试 `28 passed`。
+6. 下一步：Codex B review；通过后再写 selective Git baseline prompt。
+
+## 后置候选：Data Steward DB Branch Intake / PR Review
+
+1. DB 支线 closeout baseline：`/Users/Weishengsu/Hermes_memory_db0`，branch `codex/data-steward-db0-contract`，commit `a272081`，tag `phase-db-branch-closeout-merge-readiness-baseline`。
+2. 后续可开独立 DB branch intake / PR review 阶段。
+3. 当前 Phase 2.63 不处理 DB branch merge，不进入 DB-5 / DB-6，不接真实数据库，不扫描 NAS。
+
 ## Phase 2.62 Internal MVP Issue Triage Summary Runner
 
 1. Phase 2.61c baseline 已完成：`959ac78` / `phase-2.61c-internal-mvp-issue-storage-baseline`。

@@ -188,3 +188,24 @@ Escalation guide:
 - `no_go`: stop affected workflow and send to Codex B / human owner.
 - `pause`: request Codex B triage before continuing that workflow.
 - `ready`: keep the issue for Codex B review while continuing controlled use if Phase 2.60 readiness remains `go`.
+
+## 11. Daily Operator Summary
+
+After one day of internal controlled MVP use, summarize local issue records with the Phase 2.63 daily summary runner:
+
+```bash
+uv run python scripts/phase263_mvp_operator_daily_summary.py \
+  --input-dir reports/internal_mvp_issues \
+  --output-json /tmp/hermes_daily_summary.json \
+  --output-md /tmp/hermes_daily_summary.md
+```
+
+The daily summary is read-only. It produces `ready`, `pause`, or `no_go` for operator / Codex B review.
+
+The Markdown output is sanitized and must not include raw query text, notes, expected / actual behavior, local full paths, returned document ids, or evidence chunk ids.
+
+Daily decision guide:
+
+- `no_go`: stop affected workflow and require human owner / Codex B review.
+- `pause`: continue only with manual review; do not treat the day as production-ready.
+- `ready`: continue controlled MVP use and keep recording new local issues.
