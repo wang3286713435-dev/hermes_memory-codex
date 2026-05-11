@@ -2,6 +2,28 @@
 
 ## 最新状态
 
+1. Phase 2.62 Internal MVP Issue Triage Summary Runner 已完成 implementation，并通过 Codex B review。
+2. 新增 `scripts/phase262_mvp_issue_triage_summary.py` 与目标测试，复用 Phase 2.61a validator 语义。
+3. runner 可读取显式 `--input-json` 或一层 `--input-dir` JSON，输出脱敏 P0/P1/P2/P3 与 ready/pause/no_go summary。
+4. 本轮未读取真实 issue records，未创建外部 issue，未调用 API/CLI，未写 DB / facts / versions / audit_logs / OpenSearch / Qdrant。
+5. 下一步只执行 selective Git baseline；baseline 后停止，不自动进入 Phase 2.63。
+6. 历史无关 dirty 与 DB/NAS 草稿继续排除，不得随 Phase 2.62 baseline 混入。
+7. DB / NAS / Data Steward 支线是主线后续组成部分，不再视为无关旁支；但不得打断当前 Phase 2.62 MVP issue triage 收口。
+8. DB 支线当前接收状态：`/Users/Weishengsu/Hermes_memory_db0` 分支 `codex/data-steward-db0-contract`，closeout baseline `a272081` / `phase-db-branch-closeout-merge-readiness-baseline`。
+9. 后续主线路线需加入 DB 支线接收阶段：先做 PR / merge readiness review，再决定是否合入主线；合入前必须确认 feature flags 默认 off、catalog-only 不进入 `documents/chunks`、不写 OpenSearch / Qdrant、权限缺失默认 deny、probe 文件不合入。
+10. DB-5 selective indexing、DB-6 operation plan / approval、真实 DB smoke、真实 NAS / BIM 扫描仍为后置授权事项，不属于 Phase 2.62。
+
+## 最新状态
+
+1. Phase 2.61c baseline 已完成：commit `959ac78`，tag `phase-2.61c-internal-mvp-issue-storage-baseline`。
+2. 当前进入 Phase 2.62 Internal MVP Issue Triage Summary Runner。
+3. 目标：实现本地只读 triage summary runner，聚合 ignored issue JSON，输出脱敏 P0/P1/P2/P3 与 Go / Pause / No-Go summary。
+4. 本轮只读处理人工显式输入或 ignored issue 目录，不创建外部 issue，不写 DB，不 repair，不 rollout。
+5. Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 后停止，交 Codex B review。
+6. 历史无关 dirty 与 DB/NAS 草稿不得被纳入本阶段。
+
+## 最新状态
+
 1. Phase 2.61c Local Issue Storage Artifact 已完成实现并通过 Codex B review。
 2. 新增 `reports/internal_mvp_issues/.gitignore` 与 `README.md`，真实 operator issue JSON / Markdown / 截图 / 日志 / 表格 / 文档默认 ignored。
 3. 本轮未生成真实 issue records，未创建外部 issue，未调用 API/CLI，未写 DB / facts / versions / audit_logs / OpenSearch / Qdrant。

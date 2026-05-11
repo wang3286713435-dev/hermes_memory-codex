@@ -172,6 +172,15 @@ uv run python scripts/phase261a_mvp_issue_intake.py \
   --input-json /tmp/hermes_issue_template.json
 ```
 
+To summarize multiple ignored local issue records for Codex B review:
+
+```bash
+uv run python scripts/phase262_mvp_issue_triage_summary.py \
+  --input-dir reports/internal_mvp_issues
+```
+
+The Phase 2.62 summary is read-only and redacts raw query text, notes, local full paths, expected behavior, and actual behavior from shareable issue refs.
+
 The issue intake helper is dry-run and read-only. It does not upload files, create external issues, write DB/index state, repair data, or approve rollout.
 
 Escalation guide:

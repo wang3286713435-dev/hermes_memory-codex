@@ -1,127 +1,104 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.61c Git Baseline Prompt
+## Phase 2.62 Selective Git Baseline Prompt
 
-你是 Hermes_memory 主线开发 agent。本轮只执行 Phase 2.61c Local Issue Storage Artifact 的 selective Git baseline。
+你是 Codex A。本轮只执行 Phase 2.62 Internal MVP Issue Triage Summary Runner 的 selective Git baseline。
 
-Codex B 已审核通过：
+## Codex B Review 结论
 
-1. `reports/internal_mvp_issues/.gitignore` 默认忽略真实 issue JSON / Markdown / 截图 / 日志 / 表格 / 文档。
-2. `reports/internal_mvp_issues/README.md` 明确真实 issue records 默认不入 Git，外部 issue 创建、repair、cleanup、delete、backfill、reindex、rollout 均未授权。
-3. 当前目录下只有 `.gitignore` 与 `README.md`，没有真实 issue records。
-4. 静态验证通过：`git diff --check`、`latest.json` JSON 校验、sample ignore checks。
+Codex B 已完成 review，结论：通过，可以 baseline。
 
-本轮不要进入 Phase 2.62，不要生成真实 issue records，不要创建外部 issue。
+复核结果：
+
+1. `scripts/phase262_mvp_issue_triage_summary.py` 复用 Phase 2.61a issue validator 语义。
+2. `--input-json` 支持重复输入。
+3. `--input-dir` 只读取一层 `*.json`，不读取 Markdown / 图片 / 日志 / docx / xlsx 正文。
+4. 默认只写 stdout；`--output-json` 必须显式提供。
+5. summary 固定包含 dry-run / read-only / no mutation safety fields。
+6. P0 / dangerous flags 输出 `no_go`。
+7. P1 / ordinary validation error / invalid JSON 输出 `pause`。
+8. P2 / P3 clean issues 输出 `ready`。
+9. `issue_refs` 不包含 raw query、notes、expected_behavior、actual_behavior、本地完整路径、returned_document_ids、evidence_chunk_ids。
+10. 本阶段未读取真实 issue records、未创建外部 issue、未写 DB/index、未 repair、未 rollout。
+
+Codex B 已复跑：
+
+```bash
+uv run python -m py_compile scripts/phase262_mvp_issue_triage_summary.py
+uv run pytest tests/test_phase262_mvp_issue_triage_summary.py tests/test_phase261a_mvp_issue_intake.py -q
+git diff --check
+uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_phase262_review_check.json
+```
+
+结果：py_compile passed；pytest `19 passed`；diff check passed；latest JSON check passed。
 
 ## 本轮目标
 
-Phase 2.61c Local Issue Storage Artifact 收口与 Git baseline。
+只做 Git baseline，不进入 Phase 2.63，不实现 operator daily workflow，不读取真实 issue records。
 
-## 必读文件
+## 必须先复核
 
-1. `docs/AGENT_OPERATING_PROTOCOL.md`
-2. `docs/ACTIVE_PHASE.md`
-3. `docs/PHASE_BACKLOG.md`
-4. `docs/HANDOFF_LOG.md`
-5. `docs/NIGHTLY_SPRINT_QUEUE.md`
-6. `reports/internal_mvp_issues/.gitignore`
-7. `reports/internal_mvp_issues/README.md`
-8. `docs/TODO.md`
-9. `docs/DEV_LOG.md`
-10. `reports/agent_runs/latest.json`
+```bash
+cd /Users/Weishengsu/Hermes_memory
+git status --short
+uv run python -m py_compile scripts/phase262_mvp_issue_triage_summary.py
+uv run pytest tests/test_phase262_mvp_issue_triage_summary.py tests/test_phase261a_mvp_issue_intake.py -q
+git diff --check
+uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_phase262_baseline_check.json
+```
 
-## 允许提交的白名单文件
+## Baseline 白名单
 
-只允许 stage / commit 下列 Phase 2.61c 文件：
+只允许 stage 以下文件：
 
-1. `reports/internal_mvp_issues/.gitignore`
-2. `reports/internal_mvp_issues/README.md`
-3. `docs/ACTIVE_PHASE.md`
-4. `docs/PHASE_BACKLOG.md`
-5. `docs/HANDOFF_LOG.md`
-6. `docs/NIGHTLY_SPRINT_QUEUE.md`
-7. `docs/NEXT_CODEX_A_PROMPT.md`
-8. `docs/TODO.md`
-9. `docs/DEV_LOG.md`
+1. `scripts/phase262_mvp_issue_triage_summary.py`
+2. `tests/test_phase262_mvp_issue_triage_summary.py`
+3. `docs/PHASE262_MVP_ISSUE_TRIAGE_SUMMARY_PLAN.md`
+4. `docs/MAC_MINI_NATURAL_IMPORT_OPERATOR_CHECKLIST.md`
+5. `docs/ACTIVE_PHASE.md`
+6. `docs/PHASE_BACKLOG.md`
+7. `docs/HANDOFF_LOG.md`
+8. `docs/NIGHTLY_SPRINT_QUEUE.md`
+9. `docs/NEXT_CODEX_A_PROMPT.md`
+10. `docs/TODO.md`
+11. `docs/DEV_LOG.md`
 
-## 必须排除的文件
+## 必须排除
 
-不要 stage / commit 下列文件：
+不得 stage 以下文件：
 
 1. `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
 2. `docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`
 3. `docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`
 4. `reports/agent_runs/latest.json`
-5. 任何真实 issue JSON / Markdown / 截图 / 日志 / 表格 / 文档
-6. 任何真实 upload / smoke / business evidence records
-7. 任何 DB/NAS/Data Steward 分支文件
+5. `reports/internal_mvp_issues/**/*.json`
+6. `reports/internal_mvp_issues/**/*.md`
+7. `reports/internal_mvp_issues/**/*.png`
+8. `reports/internal_mvp_issues/**/*.log`
+9. 任何真实 issue record、真实 upload / smoke / business evidence record。
 
-## 复核命令
+## Commit / Tag
 
-baseline 前运行：
+Commit message：
 
-```bash
-git diff --check
-uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_phase261c_baseline_check.json
-git check-ignore -q reports/internal_mvp_issues/sample.json && echo sample_json_ignored
-git check-ignore -q reports/internal_mvp_issues/sample.md && echo sample_md_ignored
-git check-ignore -q reports/internal_mvp_issues/screenshot.png && echo sample_png_ignored
-git check-ignore -q reports/internal_mvp_issues/README.md || echo readme_not_ignored
-git check-ignore -q reports/internal_mvp_issues/.gitignore || echo gitignore_not_ignored
+```text
+chore: add phase 2.62 issue triage summary runner
 ```
 
-stage 后运行：
+Tag：
 
-```bash
-git diff --cached --check
-git diff --cached --name-only
+```text
+phase-2.62-issue-triage-summary-baseline
 ```
 
-期望 staged 文件只包含白名单 9 个文件。
-
-## Git baseline 步骤
-
-1. 确认 dirty 中除白名单外只有历史无关 dirty / DB 草稿，且不得 stage。
-2. selective stage 白名单文件。
-3. commit：
+推送：
 
 ```bash
-git commit -m "docs: add internal MVP issue storage policy"
-```
-
-4. tag：
-
-```bash
-git tag phase-2.61c-internal-mvp-issue-storage-baseline
-```
-
-5. push 当前分支与 tag：
-
-```bash
-git push origin HEAD
-git push origin phase-2.61c-internal-mvp-issue-storage-baseline
-```
-
-6. 更新 ignored `reports/agent_runs/latest.json`：
-   - `phase`: `Phase 2.61c Local Issue Storage Artifact`
-   - `status`: `baseline`
-   - `git.commit`: 当前 commit hash
-   - `git.tag`: `phase-2.61c-internal-mvp-issue-storage-baseline`
-   - `git.pushed`: `true`
-   - `needs_codex_b_review`: `false`
-   - `needs_codex_c_validation`: `false`
-   - `next_recommendation`: 继续 Mac mini internal MVP operator polish / issue triage；不得进入 rollout。
-
-7. 最终确认：
-
-```bash
-git status --short
-git check-ignore -q reports/agent_runs/latest.json && echo latest_ignored
+git push origin main
+git push origin phase-2.62-issue-triage-summary-baseline
 ```
 
 ## 硬边界
-
-本轮禁止：
 
 1. 不生成真实 issue records。
 2. 不读取真实 reports / run records。
@@ -134,15 +111,9 @@ git check-ignore -q reports/agent_runs/latest.json && echo latest_ignored
 9. 不进入 DB / NAS / Data Steward / BIM / TB 文件池。
 10. 不进入 production rollout。
 11. 不修改 retrieval contract、facts contract、version governance、memory kernel 主架构。
-12. 不 stage 历史无关 dirty 或 DB 草稿。
 
-## 完成后停止
+## 完成后必须停止
 
-完成 baseline 后立即停止，输出：
+baseline 完成后更新 `reports/agent_runs/latest.json` 为 ignored 本地状态，记录 commit、tag、push result 与 final status，然后停止。
 
-1. commit hash
-2. tag
-3. push 结果
-4. final `git status --short`
-5. 是否确认未生成真实 issue records / 未上传文件 / 未写 DB / 未执行 API/CLI smoke / 未创建外部 issue
-6. 下一步建议
+下一阶段候选：Phase 2.63 operator daily summary workflow，或 Data Steward DB Branch Intake / PR Review。不得自动进入。

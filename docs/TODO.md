@@ -1,5 +1,22 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.62 Internal MVP Issue Triage Summary Runner
+
+1. Phase 2.61c baseline 已完成：`959ac78` / `phase-2.61c-internal-mvp-issue-storage-baseline`。
+2. 已实现只读本地 issue triage summary runner：`scripts/phase262_mvp_issue_triage_summary.py`。
+3. runner 可把显式 issue JSON 或 ignored issue 目录聚合为脱敏 summary，供 Codex B 快速 review。
+4. 本阶段未创建外部 issue，未写 DB/index，未 repair，未 rollout。
+5. Codex B review 已通过；下一步只执行 Phase 2.62 selective Git baseline，baseline 后停止。
+
+## 后续主线任务：Data Steward DB branch intake / merge readiness
+
+1. DB / NAS / Data Steward 支线是 Hermes 主线后续能力的一部分，不再视为临时旁支；但不得打断当前内部 MVP issue triage / Mac mini 落地主线。
+2. DB 支线 closeout baseline：`/Users/Weishengsu/Hermes_memory_db0`，分支 `codex/data-steward-db0-contract`，commit `a272081`，tag `phase-db-branch-closeout-merge-readiness-baseline`。
+3. 推荐后续开独立主线阶段处理：`Data Steward DB Branch Intake / PR Review`。
+4. 合入前必须确认：feature flags 默认 off；catalog-only 不写 `documents/chunks`；不写 OpenSearch / Qdrant；Missing Evidence 支持 `asset_catalog_only`；`permission_tags/project_scope` 缺失默认 deny；测试 agent probe 文件不纳入提交。
+5. DB-5 selective indexing、DB-6 operation plan / approval、真实 DB smoke、真实 NAS / BIM 扫描、真实 retrieval/indexing 继续后置，需要用户单独授权。
+6. 当前不直接本地 merge；优先 Draft PR / merge readiness review，避免把支线中的 `.claude/*`、历史文档或非必要文件无差别并入主线。
+
 ## Phase 2.61c Local Issue Storage Artifact
 
 1. Phase 2.61c artifact 已完成并通过 Codex B review。

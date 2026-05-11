@@ -5869,3 +5869,74 @@
 - excluded_dirty: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`, `docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`, `docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`, ignored `reports/agent_runs/latest.json`, any real issue records.
 - hard_boundaries: no real issue records, no API/CLI smoke, no DB/index writes, no external issue creation, no repair/backfill/reindex, no Data Steward implementation, no production rollout.
 - commit/tag if any: none yet.
+
+## 2026-05-11 11:28 Phase 2.62 Internal MVP Issue Triage Summary Runner
+
+- goal: Implement a read-only local issue triage summary runner for ignored internal MVP issue JSON records.
+- changed_files:
+  - `scripts/phase262_mvp_issue_triage_summary.py`
+  - `tests/test_phase262_mvp_issue_triage_summary.py`
+  - `docs/PHASE262_MVP_ISSUE_TRIAGE_SUMMARY_PLAN.md`
+  - `docs/MAC_MINI_NATURAL_IMPORT_OPERATOR_CHECKLIST.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json`（ignored）
+- tests:
+  - `uv run pytest tests/test_phase262_mvp_issue_triage_summary.py -q`: `10 passed`.
+  - `uv run python -m py_compile scripts/phase262_mvp_issue_triage_summary.py`: passed.
+  - `uv run pytest tests/test_phase262_mvp_issue_triage_summary.py tests/test_phase261a_mvp_issue_intake.py -q`: `19 passed`.
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_phase262_check.json`: passed.
+- validation:
+  - Runner reuses Phase 2.61a issue validator semantics.
+  - Summary redacts raw query, notes, expected/actual behavior, full local paths, returned document ids, and evidence chunk ids from `issue_refs`.
+  - No real issue record, API call, CLI smoke, upload, DB write, OpenSearch write, or Qdrant write.
+- risks:
+  - Real operator issue records remain sensitive and must stay ignored.
+  - Historical unrelated dirty remains and must not be staged with Phase 2.62.
+- next: Codex B review Phase 2.62; if accepted, prepare selective Git baseline.
+- commit/tag if any: none.
+
+## 2026-05-11 Phase 2.62 Handoff Prompt
+
+- goal: Implement a read-only local issue triage summary runner for internal MVP operator issue records.
+- background: Phase 2.61c baseline completed at `959ac78`, tag `phase-2.61c-internal-mvp-issue-storage-baseline`.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md`, add `scripts/phase262_mvp_issue_triage_summary.py`, tests, planning doc, checklist update, and stop for Codex B review.
+- hard_boundaries: no real issue records, no API/CLI smoke, no DB/index writes, no external issue creation, no repair/backfill/reindex, no Data Steward implementation, no production rollout.
+- excluded_dirty: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`, `docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`, `docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`.
+- commit/tag if any: none.
+
+## 2026-05-11 Data Steward DB Branch Intake Route Note
+
+- goal: Add DB / NAS / Data Steward branch merge intake to the future mainline route.
+- background: DB branch `/Users/Weishengsu/Hermes_memory_db0` has reached closeout baseline `a272081`, tag `phase-db-branch-closeout-merge-readiness-baseline`.
+- decision: Treat DB branch as a mainline follow-up task, not an unrelated side branch; do not let it interrupt Phase 2.62 review / baseline.
+- recommended_next: after Phase 2.62 is reviewed and baselined, open a bounded Data Steward DB Branch Intake / PR Review phase.
+- merge_gate: feature flags default off; catalog-only not written to `documents/chunks`; no OpenSearch / Qdrant writes; `asset_catalog_only` Missing Evidence; missing `permission_tags/project_scope` default deny; no real DB secrets / samples / NAS scan output; QA probe files excluded.
+- still_postponed: DB-5 selective indexing, DB-6 operation plan / approval, real DB smoke, real NAS / BIM scan, real retrieval / indexing.
+- commit/tag if any: none.
+
+## 2026-05-11 Phase 2.62 Codex B Review
+
+- goal: Review Phase 2.62 Internal MVP Issue Triage Summary Runner and prepare selective Git baseline prompt.
+- review_result: accepted.
+- verification:
+  - `uv run python -m py_compile scripts/phase262_mvp_issue_triage_summary.py`: passed.
+  - `uv run pytest tests/test_phase262_mvp_issue_triage_summary.py tests/test_phase261a_mvp_issue_intake.py -q`: `19 passed`.
+  - `git diff --check`: passed.
+  - `uv run python -m json.tool reports/agent_runs/latest.json >/tmp/latest_phase262_review_check.json`: passed.
+- accepted_scope:
+  - `scripts/phase262_mvp_issue_triage_summary.py`
+  - `tests/test_phase262_mvp_issue_triage_summary.py`
+  - `docs/PHASE262_MVP_ISSUE_TRIAGE_SUMMARY_PLAN.md`
+  - `docs/MAC_MINI_NATURAL_IMPORT_OPERATOR_CHECKLIST.md`
+  - Phase handoff docs.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.62 selective Git baseline only.
+- excluded_dirty: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`, `docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`, `docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`, ignored `reports/agent_runs/latest.json`, any real issue records.
+- hard_boundaries: no real issue records, no API/CLI smoke, no DB/index writes, no external issue creation, no repair/backfill/reindex, no Data Steward implementation, no production rollout.
+- commit/tag if any: none yet.
