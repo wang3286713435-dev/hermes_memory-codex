@@ -2,6 +2,25 @@
 
 ## 最新状态
 
+1. Phase 2.64b Selective Data Steward DB Integration 已完成首轮实现，等待 Codex B review。
+2. 已选择性接入 `app/services/asset_catalog/**`、`tests/test_data_steward_*.py`、Data Steward / DB contract docs 与默认关闭的 feature flags。
+3. 未执行 raw merge，未合入 `.claude/**`、DB 支线交接文件、未跟踪 QA probe，未删除或回退 Phase 2.57-2.63 MVP 文件。
+4. 验证结果：Data Steward pytest `71 passed`，target ruff `All checks passed!`，Phase 2.63 / 2.62 / 2.61a regression `28 passed`。
+5. 本阶段不连接真实 DB，不扫描 NAS，不写 migration，不写 `documents/chunks`，不写 OpenSearch / Qdrant，不创建 PR，不 commit / tag / push。
+6. 下一步：Codex B review Phase 2.64b；通过后再决定 selective Git baseline、测试机 DB smoke 或 PR / merge plan。
+
+## 最新状态
+
+1. Phase 2.64 Data Steward DB Branch Intake / PR Review 已完成首轮执行，等待 Codex B review。
+2. DB 支线 `/Users/Weishengsu/Hermes_memory_db0` 当前 branch `codex/data-steward-db0-contract`，HEAD `a272081`，tag `phase-db-branch-closeout-merge-readiness-baseline`。
+3. DB 支线 branch 与 tag 已推送到 origin，远端均指向 `a272081f1ddd5c71086c488c3f9142eb39e3efa6`。
+4. 验证结果：`npm test` 为 `71 passed`，`npm run lint` 为 `All checks passed!`，DB 支线与主线 `git diff --check` 均通过。
+5. DB 支线仍有 12 个 expected untracked QA probe 文件，已明确不 stage、不删除、不随 PR 合入。
+6. 本阶段未连接真实 DB，未扫描 NAS，未写 migration / `documents` / `chunks` / OpenSearch / Qdrant，未 merge 到 `main`，未创建 PR。
+7. 下一步：Codex B review `docs/PHASE264_DATA_STEWARD_DB_BRANCH_INTAKE_PLAN.md` 与 DB 支线 push 结果；通过后再决定是否创建 PR、写 merge plan 或等待测试机真实 DB smoke。
+
+## 最新状态
+
 1. Phase 2.63 Internal MVP Operator Daily Summary Workflow 已完成 implementation，并通过 Codex B review。
 2. 新增 `scripts/phase263_mvp_operator_daily_summary.py` 与目标测试，复用 Phase 2.62 summary / issue input 语义。
 3. runner 可生成脱敏 JSON / Markdown daily summary，帮助 operator / Codex B 判断 `ready` / `pause` / `no_go`。

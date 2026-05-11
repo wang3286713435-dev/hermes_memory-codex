@@ -1,0 +1,46 @@
+{
+  "source_view": "ProjectAssetView",
+  "contract_version": "db1a.ProjectAssetView.v1",
+  "source_system": "delivery_platform",
+  "records": [
+    {
+      "source_id": "project-101-c-tower",
+      "asset_uid": "delivery_platform:project-101-c-tower",
+      "project_id": "101-C\u5854",
+      "project_name": "101-C\u5854",
+      "project_scope": ["101-C\u5854"],
+      "asset_type": "project",
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-05-01T08:30:00Z",
+      "lifecycle_status": "active",
+      "sync_status": "active",
+      "permission_tags": ["project:101-C\u5854", "role:delivery"]
+    },
+    {
+      "source_id": "project-98-shenzhen-port",
+      "asset_uid": "delivery_platform:project-98-shenzhen-port",
+      "project_id": "98-\u6df1\u5733\u53e3\u5cb8\u9879\u76ee",
+      "project_name": "98-\u6df1\u5733\u53e3\u5cb8\u9879\u76ee",
+      "project_scope": ["98-\u6df1\u5733\u53e3\u5cb8\u9879\u76ee"],
+      "asset_type": "project",
+      "created_at": "2026-01-12T08:00:00Z",
+      "updated_at": "2026-05-02T09:10:00Z",
+      "lifecycle_status": "active",
+      "sync_status": "active",
+      "permission_tags": ["project:98-\u6df1\u5733\u53e3\u5cb8\u9879\u76ee", "role:delivery"]
+    },
+    {
+      "source_id": "project-99-fengtu-existing-modeling",
+      "asset_uid": "delivery_platform:project-99-fengtu-existing-modeling",
+      "project_id": "99-\u4e30\u56fe\u65e2\u6709\u5efa\u6a21\u9879\u76ee",
+      "project_name": "99-\u4e30\u56fe\u65e2\u6709\u5efa\u6a21\u9879\u76ee",
+      "project_scope": ["99-\u4e30\u56fe\u65e2\u6709\u5efa\u6a21\u9879\u76ee"],
+      "asset_type": "project",
+      "created_at": "2026-01-15T08:00:00Z",
+      "updated_at": "2026-05-03T10:20:00Z",
+      "lifecycle_status": "active",
+      "sync_status": "active",
+      "permission_tags": ["project:99-\u4e30\u56fe\u65e2\u6709\u5efa\u6a21\u9879\u76ee", "role:modeling"]
+    }
+  ]
+}

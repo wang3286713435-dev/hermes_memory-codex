@@ -1,5 +1,26 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.64b Selective Data Steward DB Integration
+
+1. 已完成 Data Steward DB 支线选择性合入首轮实现。
+2. 已按白名单接入 `app/services/asset_catalog/**`、`tests/test_data_steward_*.py`、Data Steward / DB contract docs。
+3. 已在 `app/core/config.py` 增加 Data Steward feature flags，默认全部关闭。
+4. 已明确未执行 raw merge，未引入 `.claude/**`、DB 支线交接文件、QA probe 或任何会回退主线 Phase 2.57-2.63 MVP 的删除。
+5. 目标验证：Data Steward pytest `71 passed`，target ruff `All checks passed!`，Phase 2.63 / 2.62 / 2.61a regression `28 passed`。
+6. 本阶段未连接真实 DB，未扫描 NAS，未写 migration / documents / chunks / OpenSearch / Qdrant，未创建 PR，未 commit / tag / push。
+7. 下一步：Codex B review Phase 2.64b；通过后再写 selective Git baseline prompt。
+
+## Phase 2.64 Data Steward DB Branch Intake / PR Review
+
+1. Phase 2.63 baseline 已完成：`fee1dcb` / `phase-2.63-operator-daily-summary-baseline`。
+2. 已完成 DB 支线 intake / PR readiness review 首轮记录。
+3. DB 支线 `/Users/Weishengsu/Hermes_memory_db0` 当前 branch `codex/data-steward-db0-contract`，HEAD `a272081`，tag `phase-db-branch-closeout-merge-readiness-baseline`。
+4. DB 支线 branch 与 tag 已推送到 origin。
+5. DB 支线验证：`npm test` 为 `71 passed`，`npm run lint` 为 `All checks passed!`，`git diff --check` 通过。
+6. 本阶段未连接真实 DB，未扫描 NAS，未写 migration / documents / chunks / OpenSearch / Qdrant，未 merge 到 `main`，未创建 PR。
+7. Phase 2.64 当前不建议 baseline；需先由 Codex B review intake / merge gates。
+8. 下一步：Codex B review Phase 2.64；通过后由用户决定是否创建 PR、写 merge plan 或等待测试机真实 DB smoke。
+
 ## Phase 2.63 Internal MVP Operator Daily Summary Workflow
 
 1. Phase 2.62 baseline 已完成：`fd7d4a7` / `phase-2.62-issue-triage-summary-baseline`。
@@ -1174,3 +1195,17 @@
 4. 本轮未上传文件、未执行 API / CLI smoke、未写 DB / facts / versions / audit_logs / OpenSearch / Qdrant。
 5. 下一步建议 Codex B review；通过后再 selective baseline。
 6. 第二真实文件 smoke 仍保留为用户授权后 Codex C 任务，不阻塞 Phase 2.60 review。
+# TODO 最新状态
+
+- 当前 phase：Phase 2.64b Selective Data Steward DB Integration。
+- 当前目标：将 DB 支线的 readonly asset catalog interface、contract docs、tests 选择性接入主线。
+- 当前禁止：raw merge、真实 DB 连接、NAS 扫描、migration、`documents/chunks`、OpenSearch / Qdrant 写入、DB-5 / DB-6、PR 创建、commit/tag/push、production rollout。
+- 合入策略：只接 `app/services/asset_catalog/**`、`tests/test_data_steward_*.py`、DB contract docs 与 feature flags 默认 off 的最小配置；排除 `.claude/**`、DB 支线交接文件、QA probe 与任何会回退主线 MVP 的文件。
+
+# TODO 最新状态
+
+- 当前 phase：Phase 2.64 Data Steward DB Branch Intake / PR Review。
+- Phase 2.63 baseline 已完成：`fee1dcb` / `phase-2.63-operator-daily-summary-baseline`。
+- 本阶段只做 DB 支线接收、PR / merge readiness review 与文档同步；不连接真实 DB，不扫描 NAS，不写 migration，不写 `documents/chunks`，不写 OpenSearch / Qdrant，不 merge 到 `main`。
+- DB 支线当前 closeout baseline：`/Users/Weishengsu/Hermes_memory_db0`，`a272081` / `phase-db-branch-closeout-merge-readiness-baseline`。
+- 后续真实 DB smoke 必须在测试机部署 Hermes Memory 后由用户单独授权，且只允许 structure-only 或 LIMIT 30 脱敏 smoke。

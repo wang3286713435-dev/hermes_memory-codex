@@ -28,6 +28,22 @@ class Settings(BaseSettings):
     storage_backend: str = "local"
     local_storage_path: str = "./storage/documents"
 
+    platform_asset_catalog_enabled: bool = False
+    platform_asset_sync_write_enabled: bool = False
+    platform_asset_mcp_enabled: bool = False
+    platform_asset_semantic_index_enabled: bool = False
+    platform_asset_readonly_db_enabled: bool = False
+    platform_asset_readonly_db_dsn: str | None = None
+    platform_asset_readonly_db_user: str | None = None
+    platform_asset_readonly_db_password: str | None = None
+    platform_asset_readonly_db_contract_version: str = "delivery_platform.asset_views.v1"
+    platform_asset_readonly_db_sample_mode: str = "structure_only"
+    platform_asset_readonly_db_sample_limit: int = 30
+    platform_asset_readonly_live_smoke_enabled: bool = False
+    platform_asset_readonly_mainline_agent_updated: bool = False
+    platform_asset_readonly_allow_real_sample_data: bool = False
+    platform_asset_readonly_same_machine_local_dev_authorized: bool = False
+
     vector_store_provider: str = "qdrant"
     vector_dimension: int = 1024
     vector_store_url: str | None = None
@@ -50,7 +66,9 @@ class Settings(BaseSettings):
     rerank_default_enablement_enabled: bool = False
     rerank_default_enablement_source_types: str = "tender"
     rerank_default_enablement_route_types: str = "tender,tender_qa,tender_query"
-    rerank_default_enablement_keywords: str = "资质,要求,条款,截止,联合体,投标,招标,开标,答疑,评分,保证金"
+    rerank_default_enablement_keywords: str = (
+        "资质,要求,条款,截止,联合体,投标,招标,开标,答疑,评分,保证金"
+    )
     rerank_default_enablement_min_candidates: int = 2
     rerank_input_cap: int = 30
 

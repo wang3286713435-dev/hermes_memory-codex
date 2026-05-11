@@ -6009,3 +6009,98 @@
 - excluded_dirty: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`, `docs/DB_NAS_HERMES_INTEGRATION_CONTRACT.md`, `docs/DB_TEAM_AGENT_INTEGRATION_ALIGNMENT.md`, ignored `reports/agent_runs/latest.json`, any real issue records.
 - hard_boundaries: no real issue records, no API/CLI smoke, no DB/index writes, no external issue creation, no repair/backfill/reindex, no Data Steward implementation during 2.63 baseline, no production rollout.
 - commit/tag if any: none yet.
+
+## 2026-05-11 Phase 2.64 Handoff Prompt
+
+- goal: Start Data Steward DB Branch Intake / PR Review after Phase 2.63 baseline.
+- background: Phase 2.63 baseline completed at `fee1dcb`, tag `phase-2.63-operator-daily-summary-baseline`.
+- db_branch: `/Users/Weishengsu/Hermes_memory_db0`, branch `codex/data-steward-db0-contract`, closeout baseline `a272081`, tag `phase-db-branch-closeout-merge-readiness-baseline`.
+- task: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md`, verify DB branch closeout, tests, probe files, push branch/tag if needed, and write mainline intake / PR readiness docs.
+- hard_boundaries: no real DB connection, no NAS scan, no migration, no `documents/chunks`, no OpenSearch/Qdrant writes, no DB-5/DB-6, no merge to main, no production rollout.
+- next: Codex B review Phase 2.64 output before any PR creation or merge decision.
+- commit/tag if any: none.
+
+## 2026-05-11 12:32 Phase 2.64
+
+- goal: Complete Data Steward DB Branch Intake / PR Review and record merge readiness gates.
+- changed_files:
+  - `docs/PHASE264_DATA_STEWARD_DB_BRANCH_INTAKE_PLAN.md`
+  - `docs/ACTIVE_PHASE.md`
+  - `docs/PHASE_BACKLOG.md`
+  - `docs/HANDOFF_LOG.md`
+  - `docs/NIGHTLY_SPRINT_QUEUE.md`
+  - `docs/NEXT_CODEX_A_PROMPT.md`
+  - `docs/TODO.md`
+  - `docs/DEV_LOG.md`
+  - `reports/agent_runs/latest.json` ignored
+- tests:
+  - DB branch `npm test`: `71 passed`.
+  - DB branch `npm run lint`: `All checks passed!`.
+  - DB branch `git diff --check`: passed.
+  - Mainline `git diff --check`: passed.
+  - Mainline latest JSON validation: passed.
+- validation:
+  - DB branch `codex/data-steward-db0-contract` at `a272081`.
+  - Tag `phase-db-branch-closeout-merge-readiness-baseline` points to `a272081`.
+  - Branch and tag pushed to origin.
+  - 12 expected untracked QA probe files remain untracked and were not staged or deleted.
+- risks:
+  - Real DB smoke still requires test-machine Hermes Memory deployment and explicit user authorization.
+  - DB branch PR / merge requires Codex B review and user decision.
+  - Feature flags, catalog-only isolation, deny-by-default permission tags, and no probe merge gates must remain true before any PR.
+- next: Codex B review Phase 2.64; then decide PR creation, merge plan, or test-machine DB smoke.
+- commit/tag if any: DB branch pushed `a272081` / `phase-db-branch-closeout-merge-readiness-baseline`; mainline commit/tag none.
+
+## 2026-05-11 13:11 Phase 2.64b
+
+- goal: Selectively integrate Data Steward readonly asset catalog interface from DB branch without raw merge.
+- changed_files:
+  - `app/core/config.py`
+  - `app/services/asset_catalog/**`
+  - `tests/test_data_steward_*.py`
+  - `docs/DATA_STEWARD_BRANCH_ROADMAP.md`
+  - `docs/DB*.md`
+  - `docs/PHASE264B_DATA_STEWARD_SELECTIVE_INTEGRATION_PLAN.md`
+  - phase handoff docs
+  - `reports/agent_runs/latest.json` ignored
+- tests:
+  - `uv run --extra dev pytest ...test_data_steward... -q`: `71 passed`.
+  - `uv run --extra dev ruff check ...`: `All checks passed!`.
+  - `uv run pytest tests/test_phase263_mvp_operator_daily_summary.py tests/test_phase262_mvp_issue_triage_summary.py tests/test_phase261a_mvp_issue_intake.py -q`: `28 passed`.
+- validation:
+  - No raw merge from `a272081`.
+  - `.claude/**`, DB branch handoff files, QA probe files, real DB/NAS output, and Phase 2.57-2.63 rollbacks excluded.
+  - Data Steward feature flags default off.
+- risks:
+  - Real DB smoke still requires test-machine deployment and explicit user authorization.
+  - Selective integration still needs Codex B review before baseline, PR, or merge planning.
+  - Existing unrelated `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` dirty remains outside this phase.
+- next: Codex B review Phase 2.64b; if accepted, write selective Git baseline prompt.
+- commit/tag if any: none.
+
+## 2026-05-11 Phase 2.64b Handoff Prompt
+
+- goal: Selectively integrate Data Steward DB branch into the current MVP mainline without raw merge.
+- background: Phase 2.64 intake verified DB branch `a272081` / `phase-db-branch-closeout-merge-readiness-baseline`, tests `71 passed`, lint passed, branch/tag pushed.
+- codex_b_findings: raw merge is unsafe because it conflicts on handoff docs and may delete/revert current Phase 2.57-2.63 MVP files.
+- task: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md`, copy only whitelisted DB asset catalog code/docs/tests/config/package deltas, exclude `.claude/**`, DB handoff docs, QA probe files, and any rollback of mainline MVP files.
+- hard_boundaries: no real DB, no NAS scan, no migration, no documents/chunks, no OpenSearch/Qdrant, no DB-5/DB-6, no PR, no commit/tag/push, no rollout.
+- validation: run DB asset catalog tests/lint plus Phase 2.61a-2.63 MVP runner tests and `git diff --check`.
+- next: Codex B review after implementation; only then decide baseline / test-machine DB smoke / PR plan.
+- commit/tag if any: none.
+
+## 2026-05-11 Phase 2.64b Codex B Review
+
+- goal: Review selective Data Steward DB integration and prepare Git baseline prompt.
+- review_result: accepted.
+- verification:
+  - `uv run --extra dev pytest ...data_steward... -q`: `71 passed`.
+  - `uv run --extra dev ruff check app/services/asset_catalog tests/test_data_steward_*.py app/core/config.py`: `All checks passed!`.
+  - `uv run pytest tests/test_phase263_mvp_operator_daily_summary.py tests/test_phase262_mvp_issue_triage_summary.py tests/test_phase261a_mvp_issue_intake.py -q`: `28 passed`.
+  - `git diff --check`: passed.
+  - latest JSON validation: passed.
+- accepted_scope: `app/services/asset_catalog/**`, `tests/test_data_steward_*.py`, DB contract docs, Phase 2.64/2.64b docs, minimal `app/core/config.py` feature flags default off.
+- excluded_scope: `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`, ignored latest, `.claude/**`, `package.json`, QA probe files, real DB/NAS output.
+- next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.64b selective Git baseline only.
+- hard_boundaries: no real DB, no NAS scan, no migration, no documents/chunks, no OpenSearch/Qdrant, no API/CLI runtime smoke, no PR, no merge to main, no rollout.
+- commit/tag if any: none yet.
