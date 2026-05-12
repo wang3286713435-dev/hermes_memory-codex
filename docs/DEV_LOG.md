@@ -1,5 +1,8 @@
 # DEV_LOG
 
+- [Phase 2.76 / 2.77 NAS Scratch Copy Pipeline Dry-run] 完成最小实现：新增只读 `AssetScratchCopyPlanner` 与 copy plan DTO，按 `project_scope`、`index_eligibility`、`lifecycle_status`、file type、size limit、storage locator 生成 `would_copy` / `skipped_requires_review` / `denied` dry-run plan。默认 feature flags `PLATFORM_ASSET_SCRATCH_COPY_ENABLED=false`、`PLATFORM_ASSET_BATCH_COPY_ENABLED=false`；当前不连接真实 NAS、不复制、不解析、不删除临时文件、不写 `documents/chunks/OpenSearch/Qdrant`、不启用 Data Steward runtime / Agent CRUD。验证通过：py_compile 通过，scratch copy plan tests `5 passed`，Data Steward asset catalog regression `82 passed`，`git diff --check` 通过。
+- [Phase 2.76 / 2.77 Codex B Review] Review 通过：planner 保持 dry-run-only，真实 NAS copy / parser / indexing / Agent CRUD 均未启用；默认 feature flags 关闭；BIM 大模型仍 metadata-only。已写入 selective Git baseline prompt，baseline 后再进入 Phase 2.78 controlled local scratch runtime。
+
 - [Phase 2.75 Data Steward Catalog Query Preview] 完成主线最小实现：明确 Phase 2.74 只完成真实 DB v1.1 结构 / 脱敏统计 / Hermes adapter contract 级耦合，尚不能让企业 Agent 通过数据库无损查询 NAS 文件正文。新增 `AssetCatalogQueryPreviewer`，catalog lookup 只返回资产目录元数据 preview，content answer 返回 `asset_catalog_only` Missing Evidence；缺少 REST/API Key `project_scope` 时 fail-closed；不连接真实 DB、不扫描 NAS、不写 `documents/chunks/OpenSearch/Qdrant`、不启用 runtime / mirror / indexing / Agent CRUD。验证通过：py_compile 通过，Data Steward 目标 pytest `77 passed`，`git diff --check` 通过。
 - [Phase 2.75 Codex B Review] Review 通过：实现未越过 catalog preview 边界，未把 DB/NAS catalog metadata 变成 document evidence，未启用 runtime / mirror / indexing / Agent CRUD。已写入 `docs/NEXT_CODEX_A_PROMPT.md` selective Git baseline 任务；baseline 前仍需复跑 py_compile、Data Steward target pytest、`git diff --check` 与 latest JSON 校验。
 

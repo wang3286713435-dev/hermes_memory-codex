@@ -45,6 +45,13 @@ from app.services.asset_catalog.retrieval_guard import (
     AssetCatalogRetrievalGuard,
     AssetCatalogRetrievalRequest,
 )
+from app.services.asset_catalog.scratch_copy_plan import (
+    AssetScratchCopyPlan,
+    AssetScratchCopyPlanner,
+    AssetScratchCopyPlanItem,
+    AssetScratchCopyPlanRequest,
+    AssetScratchCopyPlanSummary,
+)
 from app.services.asset_catalog.temp_db import (
     AssetCatalogTemporaryMirrorStore,
     AssetCatalogTemporaryMirrorWriteSummary,
@@ -71,6 +78,11 @@ __all__ = [
     "AssetCatalogRetrievalDecision",
     "AssetCatalogRetrievalGuard",
     "AssetCatalogRetrievalRequest",
+    "AssetScratchCopyPlan",
+    "AssetScratchCopyPlanner",
+    "AssetScratchCopyPlanItem",
+    "AssetScratchCopyPlanRequest",
+    "AssetScratchCopyPlanSummary",
     "AssetCatalogTemporaryMirrorStore",
     "AssetCatalogTemporaryMirrorWriteSummary",
     "AssetViewPage",

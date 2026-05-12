@@ -1,5 +1,15 @@
 # Handoff Log
 
+## 2026-05-12 14:40 Phase 2.76 / 2.77
+- goal: Add Data Steward NAS scratch copy dry-run planning without touching real NAS or enabling runtime copy.
+- changed_files: `.env.example`, `app/core/config.py`, `app/services/asset_catalog/scratch_copy_plan.py`, `app/services/asset_catalog/__init__.py`, `tests/test_data_steward_asset_scratch_copy_plan.py`, `docs/PHASE276_277_NAS_SCRATCH_COPY_PIPELINE_PLAN.md`, handoff docs, ignored `reports/agent_runs/latest.json`.
+- tests: py_compile passed; `tests/test_data_steward_asset_scratch_copy_plan.py` -> `5 passed`; Data Steward asset catalog regression -> `82 passed`; `git diff --check` passed; latest JSON validation pending final rerun.
+- validation: Planner is dry-run only; no scratch directory creation, no NAS copy, no parser invocation, no DB / documents / chunks / OpenSearch / Qdrant writes. Missing `project_scope` denies; catalog-only / unsupported / oversized / inactive / missing locator assets require review.
+- risks: This is not Phase 2.78 runtime copy. It does not yet read NAS file contents, parse copied files, index content, or let Agent perform DB/NAS CRUD.
+- review: Codex B review passed; scope remains dry-run-only and does not enable real NAS / parser / indexing / Agent CRUD.
+- next: Execute selective Git baseline via `docs/NEXT_CODEX_A_PROMPT.md`. Phase 2.78 controlled local scratch runtime requires separate Mac mini authorization.
+- commit/tag if any: none.
+
 ## 2026-05-12 13:20 Phase 2.75
 - goal: Add Data Steward catalog query preview without enabling real DB runtime, NAS scan, mirror, indexing, or Agent CRUD.
 - changed_files: `app/services/asset_catalog/query_preview.py`, `app/services/asset_catalog/__init__.py`, `tests/test_data_steward_asset_catalog_query_preview.py`, `docs/PHASE275_DATA_STEWARD_CATALOG_QUERY_PREVIEW.md`, handoff docs, ignored `reports/agent_runs/latest.json`.

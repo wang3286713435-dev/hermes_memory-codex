@@ -2,6 +2,15 @@
 
 ## 最新状态
 
+1. Phase 2.76 / 2.77 进入 NAS Scratch Copy Pipeline dry-run 主线实现。
+2. 新能力边界：Hermes 只生成“按项目小批量、权限前置、临时 scratch copy”的 dry-run plan，不连接真实 NAS、不复制、不解析、不删除任何真实文件。
+3. 新增 `AssetScratchCopyPlanner`、`AssetScratchCopyPlanRequest`、`AssetScratchCopyPlanItem`、`AssetScratchCopyPlanSummary`，默认 feature flags 仍关闭：`PLATFORM_ASSET_SCRATCH_COPY_ENABLED=false`、`PLATFORM_ASSET_BATCH_COPY_ENABLED=false`。
+4. 默认限制：最多 10 个文件，总大小不超过 2GB，单文件不超过 512MB；Office / PDF / text 小文件可进入 `would_copy`，RVT / DWG / IFC / NWD 等 BIM 大模型仍为 metadata-only / requires review。
+5. 当前仍禁止真实 DB 写入、NAS scan / copy、scratch runtime、文档正文写入 `documents/chunks`、OpenSearch / Qdrant 写入、Agent CRUD、repair、reindex、rollout。
+6. 下一步 Codex B review；通过后再做 selective baseline。Phase 2.78 真实 scratch runtime 必须另获 Mac mini / 测试机显式授权。
+
+## 最新状态
+
 1. Phase 2.75 进入 Data Steward catalog query preview 主线实现。
 2. 当前结论：Phase 2.74 已完成真实 DB v1.1 结构 / 脱敏统计 / Hermes adapter contract 级耦合，但不是完整 Data Steward runtime 耦合。
 3. 新增 preview 层目标：只返回资产目录元数据，不生成 prompt evidence；正文回答请求返回 `asset_catalog_only` Missing Evidence。

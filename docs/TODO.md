@@ -1,5 +1,16 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.76 / 2.77 NAS Scratch Copy Pipeline Dry-run
+
+1. 当前进入按项目小批量 NAS scratch copy dry-run。
+2. 新增 `AssetScratchCopyPlanner`，只基于 fake asset catalog 生成计划，不连接真实 NAS。
+3. 新增默认关闭 feature flags：`PLATFORM_ASSET_SCRATCH_COPY_ENABLED=false`、`PLATFORM_ASSET_BATCH_COPY_ENABLED=false`。
+4. 默认限制：最多 10 个文件、总大小 2GB、单文件 512MB。
+5. 允许候选：office / pdf / text / csv 等小型文件，且必须具备权限 scope、非 `UNKNOWN` 密级、非 `catalog_only`、active lifecycle、storage locator。
+6. BIM 大模型 / unsupported 文件继续 metadata-only，不进入正文复制计划。
+7. 当前仍不授权：真实 NAS 连接、文件复制、文件解析、selective indexing、写 `documents/chunks/OpenSearch/Qdrant`、Agent CRUD、production rollout。
+8. 下一步：目标验证与 Codex B review；通过后再 baseline。
+
 ## Phase 2.75 Data Steward Catalog Query Preview
 
 1. 当前进入 Phase 2.75：只读 catalog query preview。
