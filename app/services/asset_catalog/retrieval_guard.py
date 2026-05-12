@@ -28,6 +28,11 @@ class AssetCatalogMetadataItem:
     evidence_kind: str
     citation_status: str
     content_evidence_available: bool
+    permission_tags: tuple[str, ...] = ()
+    confidentiality_level: str = "UNKNOWN"
+    last_seen_at: str | None = None
+    lifecycle_status: str = "unknown"
+    index_eligibility: str = "catalog_only"
 
 
 @dataclass(frozen=True)
@@ -131,4 +136,9 @@ class AssetCatalogRetrievalGuard:
             evidence_kind=item.evidence_kind,
             citation_status=item.citation_status,
             content_evidence_available=item.content_evidence_available,
+            permission_tags=item.permission_tags,
+            confidentiality_level=item.confidentiality_level,
+            last_seen_at=item.last_seen_at,
+            lifecycle_status=item.lifecycle_status,
+            index_eligibility=item.index_eligibility,
         )

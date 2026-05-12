@@ -30,6 +30,13 @@ def test_catalog_lookup_returns_only_authorized_metadata_and_never_prompt_items(
     ]
     assert decision.prompt_items == ()
     assert decision.missing_evidence is False
+    item = decision.catalog_items[0]
+    assert item.confidentiality_level == "UNKNOWN"
+    assert item.lifecycle_status == "active"
+    assert item.index_eligibility == "catalog_only"
+    assert item.last_seen_at == "2026-05-08T10:00:00Z"
+    assert item.permission_tags
+    assert item.content_evidence_available is False
     assert decision.writes_documents is False
     assert decision.writes_chunks is False
     assert decision.writes_opensearch is False

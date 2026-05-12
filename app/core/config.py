@@ -36,7 +36,7 @@ class Settings(BaseSettings):
     platform_asset_readonly_db_dsn: str | None = None
     platform_asset_readonly_db_user: str | None = None
     platform_asset_readonly_db_password: str | None = None
-    platform_asset_readonly_db_contract_version: str = "delivery_platform.asset_views.v1"
+    platform_asset_readonly_db_contract_version: str = "delivery_platform.asset_views.v1.1"
     platform_asset_readonly_db_sample_mode: str = "structure_only"
     platform_asset_readonly_db_sample_limit: int = 30
     platform_asset_readonly_live_smoke_enabled: bool = False

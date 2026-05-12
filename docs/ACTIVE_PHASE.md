@@ -1,16 +1,16 @@
 # Active Phase
 
-- 当前 phase：Phase 2.65 Mac mini MVP Landing Pack Git Baseline。
-- 背景：Phase 2.64b baseline 已完成：commit `da84197`，tag `phase-2.64b-data-steward-selective-integration-baseline`；Codex B review 指出 Phase 2.65 唯一阻塞是 hermes-agent ref 仍为占位符。
-- 本轮目标：把 Mac mini install/update 文档和 manifest 示例中的 hermes-agent ref pin 到 reviewed tag `phase-2.56e-natural-import-real-upload-smoke-baseline`。
-- 修改文件：`docs/PHASE265_MAC_MINI_MVP_LANDING_PLAN.md`、`docs/MAC_MINI_MVP_INSTALL_UPDATE_QUICKSTART.md`、`docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`、`docs/MAC_MINI_OPERATOR_COMMAND_SHEET.md`、`tests/test_phase265_mvp_release_manifest.py`、交接文档和 ignored `reports/agent_runs/latest.json`。
-- 完成内容：reviewed hermes-agent ref 已替换；新增测试确认 reviewed tag manifest 为 `ready_for_operator_review`，placeholder ref 仍为 `pause`。
-- 测试结果：`uv run python -m py_compile scripts/phase265_mvp_release_manifest.py` 通过；目标 pytest `41 passed`；reviewed-ref manifest 为 `ready_for_operator_review` 且无 pause reasons；placeholder manifest 仍为 `pause` 且包含 `missing_reviewed_hermes_agent_ref`；`git diff --check` 通过；`latest.json` JSON 校验通过。
-- live smoke 结果：未运行真实 Mac mini deployment，未启动 Docker，未运行 API / CLI smoke，未连接真实 DB，未扫描 NAS。
-- 当前结论：Codex B review 通过。Phase 2.65 landing pack 与 reviewed-ref fix 已满足 selective Git baseline 条件。
-- 阻塞点 / 风险点：Mac mini secrets、真实 DB/NAS/Data Steward smoke 仍需后续授权；baseline 必须排除历史 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` dirty。
-- 是否建议 baseline：是；Codex A 应执行 `docs/NEXT_CODEX_A_PROMPT.md` 的 selective Git baseline。
-- 是否建议进入下一阶段：否，当前应停在 Phase 2.65 review / baseline gate。
-- 下一轮建议：Codex A 执行 Phase 2.65 selective Git baseline；baseline 后停止，交给 Codex B 检查。
-- 是否需要 Codex B 审核：已完成；baseline 后需要最终状态检查。
-- 是否需要 Codex C 真实终端验收：本阶段不需要；Mac mini 实机安装时再执行。
+- 当前 phase：Phase 2.74 Test-machine v1.1 Adapter Smoke Handoff。
+- 背景：Phase 2.73 已完成 Hermes 侧 v1.1 readonly adapter / fake adapter / DTO / contract tests 本地闭环；目标测试 `73 passed`。
+- 本轮目标：生成测试机 reviewed-ref 复验 prompt / runbook，用于确认更新后的 Hermes v1.1 adapter 在测试机仍满足 structure-only / redacted-statistics 安全边界。
+- 修改文件：`docs/PHASE274_TEST_MACHINE_V11_ADAPTER_SMOKE_PLAN.md`、`docs/CODEX_TEST_MACHINE_V11_ADAPTER_SMOKE_PROMPT.md`、`docs/ACTIVE_PHASE.md`、`docs/PHASE_BACKLOG.md`、`docs/HANDOFF_LOG.md`、`docs/TODO.md`、`docs/DEV_LOG.md` 与 ignored `reports/agent_runs/latest.json`。
+- 完成内容：已写入测试机复验前置条件、允许 SQL / redacted stats、输出格式、Go / Pause / No-Go 与绝对禁止项。
+- 测试结果：本轮为 docs / handoff；未运行代码测试。
+- live smoke 结果：本轮未连接真实 DB；等待测试机 Codex 执行 `docs/CODEX_TEST_MACHINE_V11_ADAPTER_SMOKE_PROMPT.md`。
+- 当前结论：测试机复验交接已准备；完整 Data Steward 耦合尚未完成。
+- 阻塞点 / 风险点：测试机必须先更新到包含 Phase 2.73 的 reviewed ref；仍不得启用 runtime / mirror / indexing / Agent CRUD。
+- 是否建议 baseline：暂不 baseline；建议先拿到测试机 Phase 2.74 Go / Pause / No-Go。
+- 是否建议进入下一阶段：是，建议把 `docs/CODEX_TEST_MACHINE_V11_ADAPTER_SMOKE_PROMPT.md` 交给测试机 Codex 执行。
+- 下一轮建议：等待测试机回传 sanitized report；若 Go，再做 selective baseline / 接入基线规划。
+- 是否需要 Codex B 审核：本轮由 Codex B 直接完成。
+- 是否需要 Codex C 真实终端验收：不需要；v1.1 字段落地后由测试机 Codex 重跑 structure-only smoke。

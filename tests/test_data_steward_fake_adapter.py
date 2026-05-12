@@ -80,6 +80,29 @@ def test_contract_version_and_asset_uid_are_bound_for_all_views() -> None:
             assert item["content_evidence_available"] is False
 
 
+def test_fake_adapter_exposes_v11_governance_fields_without_enabling_content_evidence() -> None:
+    adapter = FakePlatformAssetCatalogAdapter()
+
+    model = _items(adapter.list_model_assets(filters={"source_id": "model-101-c-tower-ifc"}))[0]
+
+    assert model["contract_version"] == "delivery_platform.asset_views.v1.1"
+    assert model["project_id"] == "101-C塔"
+    assert model["confidentiality_level"] == "UNKNOWN"
+    assert model["lifecycle_status"] == "active"
+    assert model["index_eligibility"] == "catalog_only"
+    assert model["last_seen_at"] == "2026-05-08T11:00:00Z"
+    assert set(model["permission_tags"]).issuperset(
+        {
+            "SOURCE_SYSTEM:delivery_platform",
+            "SOURCE_VIEW:ModelAssetView",
+            "ASSET_KIND:MODEL",
+            "CONFIDENTIALITY:UNKNOWN",
+            "INDEX_ELIGIBILITY:catalog_only",
+        }
+    )
+    assert model["content_evidence_available"] is False
+
+
 def test_permission_tags_missing_defaults_to_denied() -> None:
     adapter = FakePlatformAssetCatalogAdapter()
 

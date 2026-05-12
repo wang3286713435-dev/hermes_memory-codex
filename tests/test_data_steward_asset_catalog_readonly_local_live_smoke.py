@@ -38,6 +38,11 @@ def _rows_by_view() -> dict[str, list[dict[str, object]]]:
                 "model_file_count": 2,
                 "total_size_bytes": 4096,
                 "last_asset_updated_at": "2026-05-01T00:00:00Z",
+                "permission_tags": "SOURCE_SYSTEM:delivery_platform,PROJECT:101",
+                "confidentiality_level": "UNKNOWN",
+                "last_seen_at": "2026-05-08T10:00:00Z",
+                "lifecycle_status": "active",
+                "index_eligibility": "catalog_only",
             }
         ],
         "FileAssetView": [
@@ -60,12 +65,18 @@ def _rows_by_view() -> dict[str, list[dict[str, object]]]:
                 "process_status": "ready",
                 "created_at": "2026-05-01T00:00:00Z",
                 "updated_at": "2026-05-02T00:00:00Z",
+                "permission_tags": "SOURCE_SYSTEM:delivery_platform,PROJECT:101",
+                "confidentiality_level": "UNKNOWN",
+                "last_seen_at": "2026-05-08T10:00:00Z",
+                "lifecycle_status": "active",
+                "index_eligibility": "catalog_only",
             }
         ],
         "ModelAssetView": [
             {
                 "model_id": 9988,
                 "file_id": 12345,
+                "project_id": 101,
                 "project_code": "P-101",
                 "model_name": SENSITIVE_FILE_NAME,
                 "model_format": "rvt",
@@ -76,6 +87,11 @@ def _rows_by_view() -> dict[str, list[dict[str, object]]]:
                 "component_index_status": "not_requested",
                 "storage_path": SENSITIVE_NAS_PATH,
                 "updated_at": "2026-05-03T00:00:00Z",
+                "permission_tags": "SOURCE_SYSTEM:delivery_platform,PROJECT:101",
+                "confidentiality_level": "UNKNOWN",
+                "last_seen_at": "2026-05-08T10:00:00Z",
+                "lifecycle_status": "active",
+                "index_eligibility": "catalog_only",
             }
         ],
         "AuditEventView": [

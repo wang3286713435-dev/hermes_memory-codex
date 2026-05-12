@@ -157,7 +157,21 @@ class FakePlatformAssetCatalogAdapter:
         project_scope = tuple(
             normalized.get("project_scope") or ([project_id] if project_id else [])
         )
-        permission_tags = tuple(normalized.get("permission_tags") or [])
+        confidentiality_level = normalized.get("confidentiality_level") or "UNKNOWN"
+        last_seen_at = normalized.get("last_seen_at")
+        lifecycle_status = normalized.get("lifecycle_status") or "unknown"
+        index_eligibility = (
+            normalized.get("index_eligibility")
+            or normalized.get("index_status")
+            or "catalog_only"
+        )
+        permission_tags = self._normalize_permission_tags(
+            source_view=source_view,
+            project_id=project_id,
+            existing_tags=normalized.get("permission_tags") or [],
+            confidentiality_level=confidentiality_level,
+            index_eligibility=index_eligibility,
+        )
         if permission_tags:
             permission_status = normalized.get("permission_status") or "allowed"
             permission_reason = normalized.get("permission_reason")
@@ -180,6 +194,10 @@ class FakePlatformAssetCatalogAdapter:
                 "permission_tags": list(permission_tags),
                 "permission_status": permission_status,
                 "permission_reason": permission_reason,
+                "confidentiality_level": confidentiality_level,
+                "last_seen_at": last_seen_at,
+                "lifecycle_status": lifecycle_status,
+                "index_eligibility": index_eligibility,
                 "sync_status": sync_status,
                 "checksum_status": checksum_status,
                 "citation_status": citation_status,
@@ -200,6 +218,10 @@ class FakePlatformAssetCatalogAdapter:
             permission_tags=permission_tags,
             permission_status=permission_status,
             permission_reason=permission_reason,
+            confidentiality_level=confidentiality_level,
+            last_seen_at=last_seen_at,
+            lifecycle_status=lifecycle_status,
+            index_eligibility=index_eligibility,
             sync_status=sync_status,
             checksum_status=checksum_status,
             citation_status=citation_status,
@@ -242,6 +264,34 @@ class FakePlatformAssetCatalogAdapter:
         if source_view not in {"FileAssetView", "ModelAssetView"}:
             return row.get("checksum_status") or "not_applicable"
         return "present" if row.get("content_hash") else "missing"
+
+    def _normalize_permission_tags(
+        self,
+        *,
+        source_view: SourceView,
+        project_id: str | None,
+        existing_tags: list[str],
+        confidentiality_level: str,
+        index_eligibility: str,
+    ) -> tuple[str, ...]:
+        if not existing_tags:
+            return ()
+        asset_kind_by_view: dict[SourceView, str] = {
+            "ProjectAssetView": "PROJECT",
+            "FileAssetView": "FILE",
+            "ModelAssetView": "MODEL",
+            "AuditEventView": "AUDIT_EVENT",
+        }
+        canonical_tags = [
+            "SOURCE_SYSTEM:delivery_platform",
+            f"SOURCE_VIEW:{source_view}",
+            f"ASSET_KIND:{asset_kind_by_view[source_view]}",
+            f"CONFIDENTIALITY:{confidentiality_level}",
+            f"INDEX_ELIGIBILITY:{index_eligibility}",
+        ]
+        if project_id:
+            canonical_tags.append(f"PROJECT:{project_id}")
+        return tuple(dict.fromkeys([*existing_tags, *canonical_tags]))
 
     def _normalize_limit(self, limit: int) -> int:
         if limit <= 0:

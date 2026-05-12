@@ -1,5 +1,95 @@
 # Handoff Log
 
+## 2026-05-12 11:10 Phase 2.72b
+- goal: Record DB `LIMIT 30` redacted statistics smoke Go result.
+- changed_files: `docs/PHASE272B_DB_LIMIT30_REDACTED_SMOKE_RESULT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: docs-only; `git diff --check` and latest JSON validation to run at end of turn.
+- validation: Test-machine report returned Go; only aggregate statistics output; no raw rows, secrets, true business identifiers, writes, NAS scan, mirror, indexing, Agent CRUD or rollout.
+- risks: `confidentiality_level` currently all `UNKNOWN`; `index_eligibility` all `catalog_only`; Hermes must keep fail-closed and not treat catalog assets as document evidence.
+- next: Plan Hermes v1.1 readonly adapter contract update with feature flags default off.
+- commit/tag if any: none.
+
+## 2026-05-12 10:58 Phase 2.72a
+- goal: Prepare DB `LIMIT 30` redacted statistics smoke prompt after v1.1 structure-only Go.
+- changed_files: `docs/CODEX_DB_LIMIT30_REDACTED_SMOKE_PROMPT.md`, `docs/DB_LIMIT30_REDACTED_SMOKE_PLAN.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: docs-only; `git diff --check` and latest JSON validation to run at end of turn.
+- validation: Prompt forbids raw row, true business identifiers, ID raw values, `permission_tags` raw values, secrets, writes, NAS scan, mirror, indexing, Agent CRUD and rollout.
+- risks: Test-machine execution can observe up to 30 rows for aggregate stats only; do not execute unless user explicitly hands off prompt.
+- next: User may send `docs/CODEX_DB_LIMIT30_REDACTED_SMOKE_PROMPT.md` to test-machine Codex, or continue Hermes readonly adapter contract planning.
+- commit/tag if any: none.
+
+## 2026-05-12 10:45 Phase 2.72
+- goal: Record test-machine DB v1.1 structure-only smoke Go result.
+- changed_files: `docs/PHASE272_DB_V11_STRUCTURE_SMOKE_RESULT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: docs-only; `git diff --check` and latest JSON validation to run at end of turn.
+- validation: Smoke report returned Go; four Views found, v1.1 fields present, four `WHERE 1=0` passed, no real rows / secrets / true business data / writes.
+- risks: Full Data Steward coupling is still incomplete; `LIMIT 30`, mirror, indexing and Agent CRUD remain unauthorized.
+- next: Plan `LIMIT 30` redacted statistics smoke or Hermes v1.1 readonly adapter contract update.
+- commit/tag if any: none.
+
+## 2026-05-11 18:40 Phase 2.71
+- goal: Capture database team sanitized schema-gap response and align DB v1.1 contract scope.
+- changed_files: `docs/DB_SCHEMA_GAP_SANITIZED_RESPONSE.md`, `docs/PHASE271_DB_V11_CONTRACT_ALIGNMENT_PLAN.md`, `docs/CODEX_DB_V11_FIELD_CONFIRMATION_PROMPT.md`, `docs/CODEX_DB_V11_STRUCTURE_ONLY_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: docs-only; `git diff --check` and latest JSON validation to run at end of turn.
+- validation: v1.1 candidate fields recorded; DB team confirmation prompt and test-machine v1.1 structure-only prompt added; Hermes fail-closed rules preserved; `LIMIT 30`, mirror, DB CRUD, NAS scan, indexing and rollout remain prohibited.
+- risks: `permission_tags` / `project_scope` are not yet present in live Views; do not allow catalog-only assets into prompt before v1.1 smoke confirms fields.
+- next: Send `docs/CODEX_DB_V11_FIELD_CONFIRMATION_PROMPT.md` to database team; after v1.1 lands, send `docs/CODEX_DB_V11_STRUCTURE_ONLY_SMOKE_PROMPT.md` to test-machine Codex.
+- commit/tag if any: none.
+
+## 2026-05-12 10:15 Phase 2.71 Pause Update
+- goal: Record DB v1.1 target deployment blocker after database team status report.
+- changed_files: `docs/DB_V11_DEPLOYMENT_BLOCKER_STATUS.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: docs-only; `git diff --check` and latest JSON validation to run at end of turn.
+- validation: Database team reported V17 migration / REST contract patches are not yet applied to target DB / backend; Hermes must not update contract env or rerun v1.1 smoke.
+- risks: Prematurely setting `PLATFORM_ASSET_READONLY_DB_CONTRACT_VERSION=delivery_platform.asset_views.v1.1` would create false Go; keep Pause until `APPLIED_TO_TARGET_DB`.
+- next: Wait for database team to apply V17 migration / backend deployment, then rerun v1.1 structure-only smoke.
+- commit/tag if any: none.
+
+## 2026-05-12 10:30 Phase 2.71 Deployment Go Update
+- goal: Record DB v1.1 target deployment Go after database team sanitized deployment report.
+- changed_files: `docs/DB_V11_DEPLOYMENT_BLOCKER_STATUS.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: docs-only; `git diff --check` and latest JSON validation to run at end of turn.
+- validation: Database team reported V17 migration applied to target DB, backend test instance UP, contract version key safely updated, no real rows / secrets / raw rows / true business data output.
+- risks: `LIMIT 30`, mirror, indexing and Agent CRUD remain unauthorized.
+- next: Test-machine Codex should execute `docs/CODEX_DB_V11_STRUCTURE_ONLY_SMOKE_PROMPT.md` for v1.1 structure-only field verification.
+- commit/tag if any: none.
+
+## 2026-05-11 17:15 Phase 2.69b
+- goal: Write test-machine DB `structure_only` precondition prompt after safe Pause result.
+- changed_files: `docs/CODEX_DB_STRUCTURE_ONLY_PRECONDITION_PROMPT.md`, `docs/PHASE269B_DB_STRUCTURE_ONLY_PRECONDITION_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` and latest JSON validation to run at end of turn.
+- validation: Prompt checks install/version, secure env key names, readonly credential key name, contract version, MySQL client / Hermes readonly tooling; it forbids DB connection, SQL execution, row reads, tool installation, secret output and writes.
+- risks: Test-machine still needs secure environment setup and tooling; Go precondition does not authorize automatic DB smoke; unrelated `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains excluded.
+- next: Codex B review; if accepted, user may hand `docs/CODEX_DB_STRUCTURE_ONLY_PRECONDITION_PROMPT.md` to test-machine Codex for precondition check.
+- commit/tag if any: none.
+
+## 2026-05-11 16:30 Phase 2.69
+- goal: Write test-machine DB `structure_only` smoke runbook / Codex prompt without connecting real DB.
+- changed_files: `docs/CODEX_DB_STRUCTURE_ONLY_SMOKE_PROMPT.md`, `docs/PHASE269_DB_STRUCTURE_ONLY_SMOKE_PLAN.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON validation passed.
+- validation: Prompt allows only structure SQL, forbids real row reads / LIMIT sample / secrets / true business output / DB writes / NAS scan / rollout.
+- risks: Test-machine execution still needs secure DB host / port / database / readonly credential handoff; Codex B review required before sending prompt to test-machine Codex.
+- next: Codex B review; if accepted, user may hand `docs/CODEX_DB_STRUCTURE_ONLY_SMOKE_PROMPT.md` to test-machine Codex.
+- commit/tag if any: none.
+
+## 2026-05-11 15:08 Phase 2.68
+- goal: Review Data Steward DB branch intake and merge readiness without connecting real DB or enabling runtime features.
+- changed_files: `docs/PHASE268_DATA_STEWARD_DB_INTAKE_PLAN.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `uv run pytest tests/test_data_steward_*.py -q` -> `71 passed`; MVP runner regression target -> `32 passed`; `git diff --check` passed.
+- validation: Mainline Data Steward feature flags default off; catalog-only stays out of documents/chunks/OpenSearch/Qdrant; Missing Evidence supports `asset_catalog_only`; permission gaps fail closed; DB branch HEAD/tag verified at `a272081` / `phase-db-branch-closeout-merge-readiness-baseline`.
+- risks: DB branch has 12 untracked QA probe files that must not be raw-merged; Phase 2.69 needs database team network / credential handoff / contract-version / structure-only authorization; no real DB/NAS/index writes authorized.
+- next: Codex B review; if accepted, plan Phase 2.69 test-machine real DB `structure_only` smoke only.
+- commit/tag if any: none.
+
+## 2026-05-11 13:54 Phase 2.66
+- goal: Plan Mac mini side controlled install flow after Phase 2.65 baseline.
+- changed_files: `docs/PHASE266_MAC_MINI_CONTROLLED_INSTALL_PLAN.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `docs/NEXT_CODEX_A_PROMPT.md`, ignored `reports/agent_runs/latest.json`.
+- tests: not run; docs-only planning.
+- validation: Plan limits next real action to Mac mini preflight-only and forbids full install / Docker startup / API CLI smoke / DB NAS / writes.
+- risks: Requires Mac mini side environment evidence; secrets must never be printed; unrelated `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` remains excluded.
+- next: Codex B review; if approved, write Phase 2.66a Mac mini preflight-only prompt.
+- commit/tag if any: none.
+
 ## 2026-05-11 13:44 Phase 2.65
 - goal: Pin reviewed hermes-agent ref in Mac mini landing pack after Codex B review.
 - changed_files: `docs/PHASE265_MAC_MINI_MVP_LANDING_PLAN.md`, `docs/MAC_MINI_MVP_INSTALL_UPDATE_QUICKSTART.md`, `docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`, `docs/MAC_MINI_OPERATOR_COMMAND_SHEET.md`, `tests/test_phase265_mvp_release_manifest.py`, handoff docs, ignored `reports/agent_runs/latest.json`.
@@ -6152,3 +6242,129 @@
 - next: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.65 selective Git baseline only.
 - hard_boundaries: no Mac mini deployment, no Docker startup, no API/CLI smoke, no real DB/NAS, no upload, no DB/index writes, no repair/backfill/reindex/delete/migration, no PR, no rollout.
 - commit/tag if any: none yet.
+
+## 2026-05-11 Phase 2.66 Codex B Review / Preflight Prompt
+
+- goal: Review Mac mini controlled install planning and write Phase 2.66a preflight-only handoff.
+- review_result: accepted. Planning correctly recommends preflight-only before any full install.
+- task: Mac mini side should execute `docs/NEXT_CODEX_A_PROMPT.md` only for machine/tool/repo/ref/env-key preflight.
+- hard_boundaries: no git checkout/pull/commit/tag/push, no Docker startup, no API/CLI smoke, no upload, no real DB/NAS, no Data Steward activation, no DB/index writes, no repair/backfill/reindex/delete/migration, no code patch, no secret output, no rollout.
+- next: Collect Mac mini preflight Go/Pause/No-Go evidence; then Codex B decides whether controlled install is allowed.
+- commit/tag if any: none.
+
+## 2026-05-11 Phase 2.66b Prompt
+
+- goal: Respond to Mac mini preflight Pause by authorizing controlled fetch/checkout of reviewed refs and docs presence verification only.
+- preflight_result: Mac mini tools/env/directories were mostly ready, but Hermes_memory checkout was old (`569cb3a4`) and required Phase 2.65/2.66 handoff docs were missing because checkout/pull was forbidden.
+- task: Mac mini side should execute `docs/NEXT_CODEX_A_PROMPT.md`, checkout only reviewed refs `phase-2.65-mac-mini-mvp-landing-baseline` and `phase-2.56e-natural-import-real-upload-smoke-baseline`, verify docs and env key names, then stop.
+- hard_boundaries: no git pull/merge/commit/tag/push, no Docker startup, no API/CLI smoke, no upload, no real DB/NAS, no Data Steward activation, no DB/index writes, no repair/backfill/reindex/delete/migration, no code patch, no secret output, no rollout.
+- next: collect Mac mini Go/Pause/No-Go after controlled checkout; only then decide service startup.
+- commit/tag if any: none.
+
+## 2026-05-11 Phase 2.66c Prompt
+
+- goal: Authorize Mac mini controlled runtime startup after refs/env/docs sync evidence.
+- evidence: Hermes_memory and hermes-agent are on reviewed refs and clean; env keys present. Missing `PHASE266` doc is expected because it is post-2.65 planning and not in the 2.65 baseline checkout.
+- task: Mac mini side should execute `docs/NEXT_CODEX_A_PROMPT.md`, start Docker compose, check `docker compose ps`, API `/health`, and Hermes CLI help, then stop.
+- hard_boundaries: no upload, no business query/retrieval smoke, no real DB/NAS smoke, no Data Steward activation, no DB/index writes, no repair/backfill/reindex/delete/migration, no code patch, no secret output, no git mutation, no rollout.
+- next: collect Go/Pause/No-Go health evidence; then Codex B decides whether minimal MVP smoke is allowed.
+- commit/tag if any: none.
+
+## 2026-05-11 Phase 2.66d Prompt
+
+- goal: Authorize Mac mini minimal internal MVP smoke after runtime health Go.
+- evidence: Mac mini Docker compose is up, API `/health` passes, Hermes CLI help passes, repos are on reviewed refs and clean, env keys present.
+- task: Mac mini side should execute `docs/NEXT_CODEX_A_PROMPT.md`, run only existing-sample alias/retrieval/citation/boundary smoke, then stop.
+- hard_boundaries: no upload, no DB/index writes, no real DB/NAS, no Data Steward activation, no repair/backfill/reindex/delete/migration, no code patch, no secret output, no git mutation, no rollout, no automatic tender/bid/business decision.
+- next: collect Go/Pause/No-Go smoke evidence; then Codex B decides internal MVP trial readiness.
+- commit/tag if any: none.
+
+## 2026-05-11 Phase 2.66e Prompt
+
+- goal: Authorize Mac mini HTTP/API retrieval smoke after minimal MVP smoke Go.
+- evidence: Phase 2.66d returned Go with existing sample alias/retrieval/citation/boundary checks passing; only missing coverage was true HTTP `/api/v1/retrieval/search` path because retrieval audit log write was previously avoided.
+- task: Mac mini side should execute `docs/NEXT_CODEX_A_PROMPT.md`, run target-document-filtered HTTP retrieval search for main tender, Excel, meeting transcript, and optional PPTX, then stop.
+- allowed_side_effect: normal system `retrieval.query` audit log from API search only.
+- hard_boundaries: no upload, no manual DB writes, no facts/document_versions writes, no index writes, no real DB/NAS smoke, no Data Steward activation, no repair/backfill/reindex/delete/migration, no code patch, no secret output, no git mutation, no rollout, no automatic tender/bid/business decision.
+- next: collect Go/Pause/No-Go HTTP smoke evidence; then Codex B decides internal MVP readiness.
+- commit/tag if any: none.
+
+## 2026-05-11 Phase 2.67 Prompt
+
+- goal: Move Mac mini from smoke validation into internal controlled MVP trial runbook.
+- evidence: Phase 2.66e HTTP/API retrieval smoke returned Go: Q1-Q4 HTTP 200, target-document-only results, trace IDs present, no facts/transcript/snapshot substitution, no contamination, no P0/P1.
+- task: Use `docs/NEXT_CODEX_A_PROMPT.md` as internal controlled MVP trial boundary; record sessions/issues locally, do not expand scope automatically.
+- hard_boundaries: no production rollout, no customer delivery, no automatic tender/bid/business decision, no real DB/NAS/Data Steward, no unauthorized upload, no manual DB/index writes, no repair/backfill/reindex/delete/migration, no code patch, no secret output, no git mutation.
+- next: collect 1-2 half-days of internal trial evidence; then decide natural import smoke / daily summary / P2 polish / Data Steward test-machine read-only integration.
+- commit/tag if any: none.
+
+## 2026-05-11 Phase 2.68 Prompt
+
+- goal: Move Data Steward DB work from “future branch” into mainline intake / merge readiness review without expanding into real DB CRUD.
+- evidence: User approved the low-coupling route: fake adapter / contract tests / feature flags first, then test-machine `structure_only` smoke; direct DB CRUD is not allowed as the next step.
+- task: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md`, read the DB contract / closeout docs, inspect mainline Data Steward integration, run offline target tests, and report `ready_for_mainline_acceptance` / `needs_more_review` / `blocked`.
+- hard_boundaries: no real MySQL, no NAS scan, no migration, no `documents/chunks` writes, no OpenSearch/Qdrant writes, no Data Steward runtime activation, no DB CRUD, no retrieval contract or memory kernel architecture changes, no production rollout.
+- database_team_dependency: not needed for Phase 2.68; if review passes, Phase 2.69 will request test-machine DB network path, readonly credential handoff method, View contract version, and `structure_only` authorization.
+- next: Codex B review Phase 2.68 output; if accepted, plan Phase 2.69 test-machine real DB `structure_only` smoke.
+- commit/tag if any: none.
+
+## 2026-05-11 Phase 2.69 Prompt
+
+- goal: Convert Phase 2.68 acceptance into a safe test-machine DB `structure_only` smoke runbook / Codex prompt.
+- evidence: Phase 2.68 returned `ready_for_mainline_acceptance`; user confirmed contract remains `delivery_platform.asset_views.v1`, authorized only `structure_only`, and explicitly prohibited true sample rows / business data output.
+- task: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md`, write `docs/CODEX_DB_STRUCTURE_ONLY_SMOKE_PROMPT.md`, sync handoff docs, and stop.
+- allowed_sql_shape: `SELECT 1`, `SELECT DATABASE()`, `SHOW FULL TABLES WHERE Table_type='VIEW'`, `SHOW COLUMNS` for four Views, and `SELECT * ... WHERE 1=0` for four Views.
+- hard_boundaries: no dev-machine DB connection, no real row reads, no `LIMIT 1` / `LIMIT 30`, no NAS scan, no DB/index writes, no migration, no Data Steward runtime activation, no DB CRUD, no secret output, no true project/file/path/raw row output, no rollout.
+- database_team_dependency: still required before real test-machine execution; host / port / database / readonly credential must be injected through secure local channel, not chat/Markdown/Git.
+- next: Codex B review Phase 2.69 prompt artifact; if accepted, user can decide whether to hand it to test-machine Codex.
+- commit/tag if any: none.
+
+## 2026-05-11 Phase 2.69b Prompt
+
+- goal: Respond to test-machine `structure_only` smoke Pause by preparing a precondition-only runbook.
+- evidence: test-machine report returned `Pause` without unsafe behavior: no DB connection, no SQL, no real rows, no secret output, no business data output, no writes.
+- pause_reasons: Hermes_memory install/version not confirmed; DB host/port/database/readonly credential not present in checked secure env keys; direct mysql client unavailable.
+- task: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md`, write `docs/CODEX_DB_STRUCTURE_ONLY_PRECONDITION_PROMPT.md`, sync handoff docs, and stop.
+- hard_boundaries: no DB connection, no SQL execution, no row reads, no NAS scan, no DB/index writes, no tool installation, no code changes, no secret output, no DB CRUD, no rollout.
+- next: Codex B review the precondition prompt; if accepted, user can hand it to test-machine Codex/operator to verify environment readiness.
+- commit/tag if any: none.
+
+## 2026-05-11 DB Team Direct Handoff Protocol
+
+- goal: Update DB / Data Steward coordination flow per user instruction.
+- decision: Future DB / Data Steward prompt writing, test-machine precondition checks, and database-team coordination no longer need to go through Codex A.
+- codex_b_role: Codex B directly writes / reviews DB prompts, receives sanitized reports, and lists database-team coordination items.
+- codex_a_role: Codex A remains responsible for normal mainline implementation, but is no longer the intermediate generator for DB test-machine prompts.
+- artifact: added `docs/DB_TEAM_DIRECT_HANDOFF_PROTOCOL.md`.
+- hard_boundaries: the process shortcut does not relax safety rules: no unauthorized DB connection, SQL, row read, secret output, true business data output, NAS scan, DB/index write, DB CRUD, migration, repair, or rollout.
+- next: Codex B may directly provide `docs/CODEX_DB_STRUCTURE_ONLY_PRECONDITION_PROMPT.md` to test-machine Codex/operator.
+- commit/tag if any: none.
+
+## 2026-05-11 Phase 2.70 Schema Gap Review
+
+- goal: Review real DB View schema after `structure_only` smoke returned `Go`.
+- evidence: DB reachable, database matched, four Views found, columns readable, `WHERE 1=0` passed for all four Views, no secret / true business data / real rows / writes.
+- artifacts: added `docs/PHASE270_DB_SCHEMA_CONTRACT_GAP_REVIEW.md`, `docs/DB_SCHEMA_GAP_REQUEST_TO_DB_TEAM.md`, and `docs/DB_LIMIT30_REDACTED_SMOKE_PLAN.md`.
+- conclusion: first-stage readonly structure coupling is complete; full Data Steward coupling is not complete.
+- p1_gaps: `permission_tags`, `project_scope`, `confidentiality_level`, `ModelAssetView.project_id`, `last_seen_at`, explicit lifecycle/missing/moved/stale, index eligibility, and `AuditEventView.event_id` monotonic checkpoint semantics.
+- hard_boundaries: no `LIMIT 30`, no real sample reads, no raw rows, no mirror migration, no DB CRUD, no NAS scan, no indexing, no rollout.
+- next: send `docs/DB_SCHEMA_GAP_REQUEST_TO_DB_TEAM.md` to database team; only after user authorization consider `LIMIT 30` redacted smoke.
+- commit/tag if any: none.
+
+## 2026-05-12 Phase 2.73 Hermes v1.1 Readonly Adapter Contract Update
+
+- goal: Align Hermes local asset catalog adapter / DTO / contract tests with `delivery_platform.asset_views.v1.1` after DB structure-only and redacted statistics smoke returned Go.
+- implementation: Updated readonly contract version defaults, v1.1 required fields, fake adapter contract versions, v1.1 permission tag normalization, preflight metadata DTO fields, and catalog metadata response fields.
+- validation: `uv run python -m py_compile app/services/asset_catalog/*.py app/core/config.py` passed; `uv run pytest tests/test_data_steward_asset_catalog_*.py tests/test_data_steward_fake_adapter.py -q` returned `73 passed`.
+- safety: No real DB connection, no SQL execution, no row reads, no NAS scan, no mirror/indexing/Agent CRUD, no DB/index writes, no rollout.
+- next: Phase 2.74 should prepare reviewed-ref test-machine smoke for the updated Hermes v1.1 readonly adapter; keep all Data Steward runtime feature flags off.
+- commit/tag if any: none.
+
+## 2026-05-12 Phase 2.74 Test-machine v1.1 Adapter Smoke Handoff
+
+- goal: Prepare a test-machine reviewed-ref smoke prompt after Hermes local v1.1 readonly adapter update.
+- artifacts: added `docs/PHASE274_TEST_MACHINE_V11_ADAPTER_SMOKE_PLAN.md` and `docs/CODEX_TEST_MACHINE_V11_ADAPTER_SMOKE_PROMPT.md`.
+- task_for_test_machine: verify Phase 2.73 files/ref, confirm contract version v1.1, keep feature flags off, run structure-only smoke, and run one authorized redacted LIMIT 30 statistics smoke if safe.
+- hard_boundaries: no secret/raw row/business value output, no DB writes, no NAS scan, no mirror/indexing/Agent CRUD, no repair/backfill/reindex/delete/migration, no rollout.
+- next: user can hand `docs/CODEX_TEST_MACHINE_V11_ADAPTER_SMOKE_PROMPT.md` to test-machine Codex; wait for Go/Pause/No-Go before baseline or further coupling.
+- commit/tag if any: none.

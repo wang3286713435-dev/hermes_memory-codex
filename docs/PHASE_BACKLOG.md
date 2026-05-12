@@ -2,6 +2,125 @@
 
 ## 最新状态
 
+1. Phase 2.74 已准备测试机 reviewed-ref 复验 prompt。
+2. 新增 `docs/PHASE274_TEST_MACHINE_V11_ADAPTER_SMOKE_PLAN.md` 与 `docs/CODEX_TEST_MACHINE_V11_ADAPTER_SMOKE_PROMPT.md`。
+3. 复验目标：确认包含 Phase 2.73 的 Hermes ref 在测试机仍满足 v1.1 structure-only / redacted stats / fail-closed。
+4. 下一步由用户交给测试机 Codex 执行；本仓库不直接连接真实 DB。
+5. 历史 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` dirty 仍与当前阶段无关，baseline 必须排除。
+
+## 最新状态
+
+1. Phase 2.72a 已准备 `LIMIT 30` 脱敏统计 smoke prompt：`docs/CODEX_DB_LIMIT30_REDACTED_SMOKE_PROMPT.md`。
+2. 该 prompt 只允许最多 30 行的聚合统计输出，不允许 raw row、真实业务标识、ID 原值、`permission_tags` 原值、secret 或任何写操作。
+3. 本仓库未执行 `LIMIT 30`，未读取真实行，未写 DB / index。
+4. 下一步由用户决定是否把 prompt 交给测试机 Codex 执行；若返回 Go，再规划 Hermes v1.1 readonly adapter contract update。
+
+## 最新状态
+
+1. 测试机 v1.1 structure-only smoke 已返回 `Go`：DB 可达、database 匹配、四个 View 存在、v1.1 字段均存在、四个 `WHERE 1 = 0` 通过。
+2. 已新增 `docs/PHASE272_DB_V11_STRUCTURE_SMOKE_RESULT.md`，固化 v1.1 structure-only smoke 结果。
+3. 当前结论：Hermes 与真实 DB 已完成 v1.1 结构级只读耦合；完整 Data Steward 耦合仍未完成。
+4. 下一步候选：`LIMIT 30` 脱敏统计 smoke planning，或 Hermes 侧 v1.1 readonly adapter contract update。
+5. 当前仍不授权 `LIMIT 30` 执行、真实行读取、mirror migration、DB CRUD、NAS scan、selective indexing 或 production rollout。
+
+## 最新状态
+
+1. 数据库团队已返回 `DB Schema Gap Sanitized Response`，未连接数据库、未读取真实行、未输出 secret / 真实业务数据。
+2. 当前进入 Phase 2.71 DB v1.1 Contract Alignment。
+3. 已新增 `docs/DB_SCHEMA_GAP_SANITIZED_RESPONSE.md`，固化数据库团队脱敏回复。
+4. 已新增 `docs/PHASE271_DB_V11_CONTRACT_ALIGNMENT_PLAN.md`，明确 `delivery_platform.asset_views.v1.1` 字段范围、Hermes fail-closed 策略与后续 smoke 顺序。
+5. 已新增并按数据库团队第 6 节回复更新 `docs/CODEX_DB_V11_FIELD_CONFIRMATION_PROMPT.md` 与 `docs/CODEX_DB_V11_STRUCTURE_ONLY_SMOKE_PROMPT.md`，用于加速数据库团队字段确认和测试机 v1.1 structure-only 复验。
+6. v1.1 候选字段：`ModelAssetView.project_id`、粗粒度 `permission_tags`、`confidentiality_level`、`last_seen_at`、`lifecycle_status`、`index_eligibility`、`AuditEventView.event_id` checkpoint 语义。
+7. 当前仍不授权 `LIMIT 30`、真实样本读取、mirror migration、DB CRUD、NAS scan、selective indexing 或 production rollout。
+8. 下一步建议把 `docs/CODEX_DB_V11_FIELD_CONFIRMATION_PROMPT.md` 交给数据库团队；v1.1 落地后再把 `docs/CODEX_DB_V11_STRUCTURE_ONLY_SMOKE_PROMPT.md` 交给测试机 Codex。
+9. 数据库团队已回传 v1.1 脱敏部署报告：`V17__asset_views_v1_1.sql` 已应用到目标 DB，后端测试实例健康检查 `UP`，测试机 contract version key 已安全更新。
+10. 已更新 `docs/DB_V11_DEPLOYMENT_BLOCKER_STATUS.md`，当前状态改为 Go for Hermes structure-only smoke。
+11. 下一步让测试机 Codex 执行 `docs/CODEX_DB_V11_STRUCTURE_ONLY_SMOKE_PROMPT.md`；仍不授权 `LIMIT 30`、真实行读取、mirror、indexing 或 Agent CRUD。
+
+## 最新状态
+
+1. 测试机 DB `structure_only` smoke 已返回 `Go`：DB 可达、database 匹配、四个 View 存在、字段结构可读、四个 `WHERE 1 = 0` 通过。
+2. 当前进入 Phase 2.70 DB Schema Contract Gap Review。
+3. 已新增 `docs/PHASE270_DB_SCHEMA_CONTRACT_GAP_REVIEW.md`，基于真实 View 字段结构梳理 P0 / P1 / P2。
+4. 已新增 `docs/DB_SCHEMA_GAP_REQUEST_TO_DB_TEAM.md`，用于发给数据库团队确认 P1 字段补齐方向。
+5. 已新增 `docs/DB_LIMIT30_REDACTED_SMOKE_PLAN.md`，仅规划脱敏样本 smoke，不授权执行。
+6. 当前 P1 缺口：`permission_tags`、`project_scope`、`confidentiality_level`、`ModelAssetView.project_id`、`last_seen_at`、explicit lifecycle / missing / moved / stale、index eligibility、`AuditEventView.event_id` 单调递增确认。
+7. 下一步建议先让数据库团队评审 `DB_SCHEMA_GAP_REQUEST_TO_DB_TEAM.md`；`LIMIT 30` 脱敏样本 smoke 必须另获用户显式授权。
+8. 仍禁止真实样本读取、mirror migration、DB CRUD、NAS scan、selective indexing、production rollout。
+
+## 最新状态
+
+1. 用户已确认：后续 DB / Data Steward prompt 与测试机前置检查不再经由 Codex A，由 Codex B 直接与用户 / 数据库团队 / 测试机 Codex 对接。
+2. 新增 `docs/DB_TEAM_DIRECT_HANDOFF_PROTOCOL.md` 固化该流程。
+3. Codex A 继续负责主线功能实现；DB 测试机 prompt / precondition / smoke report 由 Codex B 直接维护和审核。
+4. 当前可直接把 `docs/CODEX_DB_STRUCTURE_ONLY_PRECONDITION_PROMPT.md` 交给测试机 Codex / operator 执行前置条件检查。
+5. 若前置条件返回 Go，仍需用户显式授权后才可重新执行 `docs/CODEX_DB_STRUCTURE_ONLY_SMOKE_PROMPT.md`。
+6. 仍禁止真实行读取、secret 输出、NAS scan、DB CRUD、migration、index 写入和 rollout。
+
+## 最新状态
+
+1. Phase 2.69b DB Structure-only Precondition Runbook 已完成 prompt 规划。
+2. 新增 `docs/CODEX_DB_STRUCTURE_ONLY_PRECONDITION_PROMPT.md`，用于测试机 Codex / operator 在不连接 DB、不执行 SQL、不安装工具的情况下确认 Hermes_memory install / version、secure env key names、readonly credential key name、contract version、MySQL client 或 Hermes readonly tooling。
+3. 结论：`ready_for_test_machine_precondition_check`。
+4. 下一步必须先由 Codex B review；通过后用户可把 precondition prompt 交给测试机 Codex。
+5. 即使前置条件返回 Go，也不得自动执行 DB smoke；必须等待用户显式指令重新运行 `docs/CODEX_DB_STRUCTURE_ONLY_SMOKE_PROMPT.md`。
+6. 本阶段未连接真实 DB、未执行 SQL、未读取真实行、未扫描 NAS、未写 DB/index、未启用 Data Steward runtime features。
+7. 历史 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` dirty 仍与本阶段无关，继续排除。
+
+## 最新状态
+
+1. 测试机执行 `docs/CODEX_DB_STRUCTURE_ONLY_SMOKE_PROMPT.md` 后返回 `Pause`，且安全边界正确：未连接 DB、未执行 SQL、未读取真实行、未输出 secret 或真实业务数据、未写入任何系统。
+2. Pause 原因：Hermes_memory install / version 未确认；DB host / port / database / readonly credential 未出现在已检查的 secure env keys；direct mysql client 不可用。
+3. 当前进入 Phase 2.69b DB Structure-only Precondition Runbook。
+4. Phase 2.69b 目标：生成测试机前置条件检查 prompt，先确认安装版本、secure env key names、readonly credential 注入状态、MySQL client 或 Hermes readonly tooling。
+5. 本阶段仍不连接真实 DB、不执行 SQL、不读取真实行、不扫描 NAS、不写 DB/index、不启用 Data Steward runtime features。
+6. 若 Phase 2.69b 前置条件 Go，再重新执行 Phase 2.69 structure-only smoke。
+7. 历史 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` dirty 仍与本阶段无关，继续排除。
+
+## 最新状态
+
+1. Phase 2.69 DB Structure-only Smoke Runbook Planning 已完成。
+2. 新增 `docs/CODEX_DB_STRUCTURE_ONLY_SMOKE_PROMPT.md`，可交给测试机 Codex 执行真实 DB `structure_only` smoke。
+3. 结论：`ready_for_test_machine_structure_only_smoke`，但必须先经 Codex B review 与用户显式交付。
+4. 允许 SQL 仅限 `SELECT 1`、`SELECT DATABASE()`、View 列表、四个 `SHOW COLUMNS`、四个 `WHERE 1 = 0` 空结构查询。
+5. 禁止真实行读取、`LIMIT 1` / `LIMIT 30`、secret 输出、真实项目名 / 文件名 / NAS 路径 / raw row 输出、DB CRUD、migration、mirror write、NAS scan、index 写入、production rollout。
+6. 测试机执行前仍需数据库团队 / 运维通过安全渠道提供 host / port / database / readonly credential；不得要求 secret 明文。
+7. 下一步：Codex B review Phase 2.69 prompt；通过后由用户决定是否交给测试机 Codex 执行。
+
+## 最新状态
+
+1. Phase 2.68 Data Steward DB Branch Intake / Merge Readiness Review 已完成只读接收评审。
+2. 结论：`ready_for_mainline_acceptance`。
+3. 主线 Data Steward / asset catalog 低耦合接口已存在，feature flags 默认关闭，catalog-only 不进入 `documents` / `chunks` / OpenSearch / Qdrant，Missing Evidence 支持 `asset_catalog_only`，权限缺失路径保持 deny / fail-closed。
+4. DB 支线 closeout baseline 已确认：`/Users/Weishengsu/Hermes_memory_db0` branch `codex/data-steward-db0-contract`，commit `a272081`，tag `phase-db-branch-closeout-merge-readiness-baseline`。
+5. 验证结果：Data Steward target tests `71 passed`，MVP runner regression target `32 passed`，`git diff --check` passed。
+6. 风险：DB 支线仍有 12 个未跟踪 QA probe 文件，后续 raw merge / PR 必须排除。
+7. 下一步建议：Codex B review；通过后进入 Phase 2.69 测试机真实 DB `structure_only` smoke planning。
+8. 仍禁止真实 DB 内容读取、`LIMIT 30` 样本、NAS scan、DB CRUD、migration、mirror write、OpenSearch / Qdrant 写入、repair/backfill/reindex/delete、production rollout。
+
+## 最新状态
+
+1. Phase 2.66e Mac mini HTTP/API retrieval smoke 已回传 `Go`，内部受控 MVP 可继续试用。
+2. 当前进入 Phase 2.68 Data Steward DB Branch Intake / Merge Readiness Review。
+3. DB 支线 closeout baseline：`/Users/Weishengsu/Hermes_memory_db0`，branch `codex/data-steward-db0-contract`，commit `a272081`，tag `phase-db-branch-closeout-merge-readiness-baseline`。
+4. 本阶段目标是接收评审与合并准备，不是连接真实 DB、扫描 NAS 或实现 DB CRUD。
+5. Codex A 下一步执行 `docs/NEXT_CODEX_A_PROMPT.md`，只读检查主线 Data Steward 接入、feature flags 默认关闭、catalog-only / document evidence 分层、权限缺失默认 deny 与测试覆盖。
+6. 若 Phase 2.68 通过，下一阶段才规划测试机真实 DB `structure_only` smoke。
+7. 数据库团队配合点后置到 Phase 2.69：测试机 DB 网络路径、只读账号 / API key 安全传递方式、View contract 版本、`structure_only` 授权。
+8. 仍禁止 production rollout、DB/NAS 写操作、migration、OpenSearch / Qdrant 写入、repair/backfill/reindex/delete、Agent 直接增删改查 MySQL 或 NAS。
+9. 历史 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` dirty 仍与本阶段无关，继续排除。
+
+## 最新状态
+
+1. Phase 2.65 Mac mini MVP landing baseline 已完成：commit `0262640`，tag `phase-2.65-mac-mini-mvp-landing-baseline`。
+2. 当前进入 Phase 2.66 Mac mini Controlled Install Planning。
+3. 已新增 `docs/PHASE266_MAC_MINI_CONTROLLED_INSTALL_PLAN.md`，建议下一步先做 Mac mini 侧 preflight-only。
+4. Phase 2.66a 只应检查 Mac mini 机器依赖、目录、Git remote/ref、env key 名称；不启动 Docker，不运行 API/CLI smoke，不上传文件，不写 DB/index。
+5. 不建议直接 full install；必须先拿到 Mac mini preflight Go / Pause / No-Go。
+6. 历史 `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` dirty 仍与本阶段无关，继续排除。
+
+## 最新状态
+
 1. Phase 2.65 reviewed-ref fix 已完成，等待 Codex B review。
 2. hermes-agent reviewed ref 已 pin 为 `phase-2.56e-natural-import-real-upload-smoke-baseline`。
 3. reviewed-ref manifest 结果：`ready_for_operator_review`，`pause_reasons=[]`。

@@ -100,4 +100,9 @@ class AssetCatalogMissingEvidenceResponse:
             "evidence_kind": item.evidence_kind,
             "citation_status": item.citation_status,
             "content_evidence_available": item.content_evidence_available,
+            "permission_tags": list(item.permission_tags),
+            "confidentiality_level": item.confidentiality_level,
+            "last_seen_at": item.last_seen_at,
+            "lifecycle_status": item.lifecycle_status,
+            "index_eligibility": item.index_eligibility,
         }

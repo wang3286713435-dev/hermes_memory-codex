@@ -1,6 +1,6 @@
 {
   "source_view": "ModelAssetView",
-  "contract_version": "db1a.ModelAssetView.v1",
+  "contract_version": "delivery_platform.asset_views.v1.1",
   "source_system": "delivery_platform",
   "records": [
     {

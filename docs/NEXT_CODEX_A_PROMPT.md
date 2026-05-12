@@ -1,133 +1,41 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.65 Mac mini MVP Landing Pack Git Baseline
+## Phase 2.73 Status
 
-Codex B review 通过。Phase 2.65 Mac mini MVP Landing Pack 与 reviewed-ref fix 已满足 baseline 条件。
+Hermes v1.1 readonly adapter contract update 已由 Codex B 在主线完成本地实现与目标测试：
 
-本轮只做 selective Git baseline。不要继续开发新功能，不执行 Mac mini 安装，不启动服务，不运行 API/CLI smoke，不进入 Phase 2.66。
+1. `delivery_platform.asset_views.v1.1` 已成为 Hermes 侧 readonly contract 默认版本。
+2. fake adapter / readonly preflight / metadata DTO / contract tests 已同步 v1.1 字段。
+3. 验证结果：`py_compile` 通过，Data Steward asset catalog target tests `73 passed`。
+4. 当前仍未启用真实 Data Steward runtime、mirror、indexing 或 Agent CRUD。
 
-## Codex B Review 结论
+## Codex A 当前行为
 
-通过，可以 baseline。
+如果 Codex A 读到本文件：
 
-Review 结果：
+1. 不要擅自连接真实 DB。
+2. 不要执行 SQL、读取真实行、扫描 NAS、写 mirror、启用 Data Steward runtime 或实现 DB CRUD。
+3. 不要做 production rollout。
+4. 等待用户或 Codex B 提供新的非 DB 主线实现任务，或等待 Codex B 给出 Phase 2.74 测试机 reviewed-ref smoke prompt。
 
-1. Release manifest helper 保持只读、离线、无副作用。
-2. `hermes-agent` reviewed ref 已 pin 为：
-   - `phase-2.56e-natural-import-real-upload-smoke-baseline`
-3. Reviewed-ref manifest 结果：
-   - `status=ready_for_operator_review`
-   - `pause_reasons=[]`
-4. Placeholder-ref manifest 结果：
-   - `status=pause`
-   - `pause_reasons=["missing_reviewed_hermes_agent_ref"]`
-5. 文档仍禁止真实 DB smoke、NAS scan、Data Steward feature activation、repair、cleanup、backfill、reindex、delete、migration 和 production rollout。
-6. `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md` 是历史无关 dirty，必须继续排除。
+## 下一步建议
 
-Codex B 已复跑：
+Phase 2.74：由 Codex B 直接准备测试机复验 prompt / runbook，用 reviewed ref 验证升级后的 Hermes v1.1 readonly adapter 仍满足：
 
-```bash
-uv run python -m py_compile scripts/phase265_mvp_release_manifest.py
-uv run pytest tests/test_phase265_mvp_release_manifest.py tests/test_phase260_mvp_local_readiness_pack.py tests/test_phase263_mvp_operator_daily_summary.py tests/test_phase262_mvp_issue_triage_summary.py tests/test_phase261a_mvp_issue_intake.py -q
-uv run python scripts/phase265_mvp_release_manifest.py --hermes-memory-ref phase-2.64b-data-steward-selective-integration-baseline --hermes-agent-ref phase-2.56e-natural-import-real-upload-smoke-baseline --operator codex-b | python3 -m json.tool
-uv run python scripts/phase265_mvp_release_manifest.py --hermes-memory-ref phase-2.64b-data-steward-selective-integration-baseline --hermes-agent-ref NEEDS_REVIEWED_AGENT_REF --operator codex-b | python3 -m json.tool
-git diff --check
-python3 -m json.tool reports/agent_runs/latest.json >/tmp/latest_phase265_b_review_check.json
-```
+1. feature flags 默认 off。
+2. structure-only / redacted statistics 路径安全。
+3. 无 REST/API Key `project_scope` 时 fail-closed。
+4. `confidentiality_level=UNKNOWN` 不降级为低敏。
+5. `index_eligibility=catalog_only` 不进入正文 evidence / semantic indexing。
 
-结果：
+## 禁止事项
 
-- py_compile 通过。
-- 目标 pytest `41 passed`。
-- reviewed-ref manifest `ready_for_operator_review`，无 pause reasons。
-- placeholder-ref manifest `pause/missing_reviewed_hermes_agent_ref`。
-- `git diff --check` 通过。
-- latest JSON 校验通过。
+任何 agent 当前都不得：
 
-## 本轮目标
-
-只做 Git baseline。
-
-## 必须先复核
-
-```bash
-cd /Users/Weishengsu/Hermes_memory
-git status --short
-uv run python -m py_compile scripts/phase265_mvp_release_manifest.py
-uv run pytest tests/test_phase265_mvp_release_manifest.py tests/test_phase260_mvp_local_readiness_pack.py tests/test_phase263_mvp_operator_daily_summary.py tests/test_phase262_mvp_issue_triage_summary.py tests/test_phase261a_mvp_issue_intake.py -q
-uv run python scripts/phase265_mvp_release_manifest.py --hermes-memory-ref phase-2.64b-data-steward-selective-integration-baseline --hermes-agent-ref phase-2.56e-natural-import-real-upload-smoke-baseline --operator codex-a | python3 -m json.tool
-uv run python scripts/phase265_mvp_release_manifest.py --hermes-memory-ref phase-2.64b-data-steward-selective-integration-baseline --hermes-agent-ref NEEDS_REVIEWED_AGENT_REF --operator codex-a | python3 -m json.tool
-git diff --check
-python3 -m json.tool reports/agent_runs/latest.json >/tmp/latest_phase265_baseline_check.json
-```
-
-## Baseline 白名单
-
-只允许 stage 以下文件：
-
-1. `scripts/phase265_mvp_release_manifest.py`
-2. `tests/test_phase265_mvp_release_manifest.py`
-3. `docs/PHASE265_MAC_MINI_MVP_LANDING_PLAN.md`
-4. `docs/MAC_MINI_MVP_INSTALL_UPDATE_QUICKSTART.md`
-5. `docs/CODEX_MAC_MINI_INSTALL_AND_UPDATE_PROMPT.md`
-6. `docs/MAC_MINI_OPERATOR_COMMAND_SHEET.md`
-7. `docs/ACTIVE_PHASE.md`
-8. `docs/PHASE_BACKLOG.md`
-9. `docs/HANDOFF_LOG.md`
-10. `docs/NIGHTLY_SPRINT_QUEUE.md`
-11. `docs/NEXT_CODEX_A_PROMPT.md`
-12. `docs/TODO.md`
-13. `docs/DEV_LOG.md`
-
-## 必须排除
-
-不得 stage 以下文件：
-
-1. `docs/PHASE238_TENDER_P1_RECALL_FIX_PLAN.md`
-2. `reports/agent_runs/latest.json`
-3. 任何真实 DB / NAS / Mac mini smoke 输出。
-4. 任何 secrets / `.env` / raw logs。
-5. 任何业务数据、真实上传文件或 report artifacts。
-
-## Commit / Tag
-
-Commit message：
-
-```text
-chore: add phase 2.65 mac mini mvp landing pack
-```
-
-Tag：
-
-```text
-phase-2.65-mac-mini-mvp-landing-baseline
-```
-
-Push：
-
-```bash
-git push origin HEAD
-git push origin phase-2.65-mac-mini-mvp-landing-baseline
-```
-
-## 硬边界
-
-1. 不执行真实 Mac mini deployment。
-2. 不启动 Docker 服务。
-3. 不运行 API / CLI smoke。
-4. 不连接真实 DB。
-5. 不扫描 NAS。
-6. 不上传真实文件。
-7. 不写 DB / facts / document_versions / audit_logs。
-8. 不写 OpenSearch / Qdrant / MinIO。
-9. 不执行 repair / cleanup / backfill / reindex / delete / migration。
-10. 不进入 Data Steward DB smoke。
-11. 不创建 PR。
-12. 不进入 production rollout。
-13. 不进入 Phase 2.66。
-
-## 完成后必须停止
-
-baseline 完成后更新 ignored `reports/agent_runs/latest.json`，记录 commit、tag、push result 和 final status，然后停止。
-
-下一步建议：把 Mac mini install prompt / quickstart 交给 Mac mini 侧 Codex/operator 执行实机安装；主线继续围绕 MVP 真实可用性收敛，不进入 production rollout。
+1. 写平台 DB / Hermes DB / OpenSearch / Qdrant / MinIO。
+2. 扫描 NAS。
+3. 执行 mirror migration。
+4. 启用 Data Steward runtime feature。
+5. 实现 Agent DB CRUD。
+6. 修改 retrieval contract / memory kernel 主架构。
+7. 进入 production rollout。

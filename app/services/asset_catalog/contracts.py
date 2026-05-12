@@ -18,10 +18,10 @@ SOURCE_VIEWS: tuple[SourceView, ...] = (
 )
 
 VIEW_CONTRACT_VERSIONS: dict[SourceView, str] = {
-    "ProjectAssetView": "db1a.ProjectAssetView.v1",
-    "FileAssetView": "db1a.FileAssetView.v1",
-    "ModelAssetView": "db1a.ModelAssetView.v1",
-    "AuditEventView": "db1a.AuditEventView.v1",
+    "ProjectAssetView": "delivery_platform.asset_views.v1.1",
+    "FileAssetView": "delivery_platform.asset_views.v1.1",
+    "ModelAssetView": "delivery_platform.asset_views.v1.1",
+    "AuditEventView": "delivery_platform.asset_views.v1.1",
 }
 
 DEFAULT_SOURCE_SYSTEM = "delivery_platform"
@@ -40,6 +40,10 @@ class AssetViewRecord:
     permission_tags: tuple[str, ...]
     permission_status: str
     permission_reason: str | None
+    confidentiality_level: str
+    last_seen_at: str | None
+    lifecycle_status: str
+    index_eligibility: str
     sync_status: str
     checksum_status: str
     citation_status: str
@@ -62,6 +66,10 @@ class AssetViewRecord:
                 "permission_tags": list(self.permission_tags),
                 "permission_status": self.permission_status,
                 "permission_reason": self.permission_reason,
+                "confidentiality_level": self.confidentiality_level,
+                "last_seen_at": self.last_seen_at,
+                "lifecycle_status": self.lifecycle_status,
+                "index_eligibility": self.index_eligibility,
                 "sync_status": self.sync_status,
                 "checksum_status": self.checksum_status,
                 "citation_status": self.citation_status,

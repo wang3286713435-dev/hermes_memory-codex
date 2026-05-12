@@ -11,7 +11,7 @@ from app.services.asset_catalog.mirror_preview import (
     AssetCatalogMirrorPreviewSummary,
 )
 
-DB4A_READONLY_CONTRACT_VERSION = "delivery_platform.asset_views.v1"
+DB4A_READONLY_CONTRACT_VERSION = "delivery_platform.asset_views.v1.1"
 
 DB4A_REQUIRED_VIEW_FIELDS: dict[SourceView, tuple[str, ...]] = {
     "ProjectAssetView": (
@@ -26,6 +26,11 @@ DB4A_REQUIRED_VIEW_FIELDS: dict[SourceView, tuple[str, ...]] = {
         "model_file_count",
         "total_size_bytes",
         "last_asset_updated_at",
+        "permission_tags",
+        "confidentiality_level",
+        "last_seen_at",
+        "lifecycle_status",
+        "index_eligibility",
     ),
     "FileAssetView": (
         "file_id",
@@ -46,10 +51,16 @@ DB4A_REQUIRED_VIEW_FIELDS: dict[SourceView, tuple[str, ...]] = {
         "process_status",
         "created_at",
         "updated_at",
+        "permission_tags",
+        "confidentiality_level",
+        "last_seen_at",
+        "lifecycle_status",
+        "index_eligibility",
     ),
     "ModelAssetView": (
         "model_id",
         "file_id",
+        "project_id",
         "project_code",
         "model_name",
         "model_format",
@@ -60,6 +71,11 @@ DB4A_REQUIRED_VIEW_FIELDS: dict[SourceView, tuple[str, ...]] = {
         "component_index_status",
         "storage_path",
         "updated_at",
+        "permission_tags",
+        "confidentiality_level",
+        "last_seen_at",
+        "lifecycle_status",
+        "index_eligibility",
     ),
     "AuditEventView": (
         "event_id",
@@ -175,6 +191,13 @@ class AssetCatalogReadonlyPreflightValidator:
             preview=preview,
         )
 
+    @staticmethod
+    def required_view_fields() -> dict[SourceView, set[str]]:
+        return {
+            source_view: set(required_fields)
+            for source_view, required_fields in DB4A_REQUIRED_VIEW_FIELDS.items()
+        }
+
     def _missing_required_fields(
         self,
         source_view: SourceView,
@@ -215,6 +238,13 @@ class AssetCatalogReadonlyPreflightValidator:
             action="would_deny",
             reason="missing_permission_contract",
             permission_status="denied",
+            permission_tags=self._permission_tags(row.get("permission_tags")),
+            confidentiality_level=str(row.get("confidentiality_level") or "UNKNOWN"),
+            last_seen_at=(
+                str(row["last_seen_at"]) if row.get("last_seen_at") is not None else None
+            ),
+            lifecycle_status=str(row.get("lifecycle_status") or "unknown"),
+            index_eligibility=str(row.get("index_eligibility") or "catalog_only"),
             sync_status="active",
             checksum_status=self._checksum_status(source_view, row),
             citation_status="metadata_only",
@@ -231,3 +261,15 @@ class AssetCatalogReadonlyPreflightValidator:
         if source_view == "FileAssetView":
             return "present" if row.get("checksum") else "missing"
         return "not_applicable"
+
+    def _permission_tags(self, value: Any) -> tuple[str, ...]:
+        if value is None:
+            return ()
+        if isinstance(value, str):
+            raw = value.strip()
+            if not raw:
+                return ()
+            return tuple(tag.strip() for tag in raw.split(",") if tag.strip())
+        if isinstance(value, Sequence):
+            return tuple(str(tag) for tag in value if str(tag))
+        return (str(value),)

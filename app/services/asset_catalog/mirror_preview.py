@@ -33,6 +33,11 @@ class AssetCatalogMirrorPreviewItem:
     evidence_kind: str
     content_evidence_available: bool
     last_event_id: int
+    permission_tags: tuple[str, ...] = ()
+    confidentiality_level: str = "UNKNOWN"
+    last_seen_at: str | None = None
+    lifecycle_status: str = "unknown"
+    index_eligibility: str = "catalog_only"
     writes_db: bool = False
     writes_documents: bool = False
     writes_chunks: bool = False
@@ -117,6 +122,11 @@ class AssetCatalogMirrorPreviewer:
             evidence_kind=record.evidence_kind,
             content_evidence_available=record.content_evidence_available,
             last_event_id=int(event_payload["event_id"]),
+            permission_tags=record.permission_tags,
+            confidentiality_level=record.confidentiality_level,
+            last_seen_at=record.last_seen_at,
+            lifecycle_status=record.lifecycle_status,
+            index_eligibility=record.index_eligibility,
         )
 
     def _preview_missing_record(

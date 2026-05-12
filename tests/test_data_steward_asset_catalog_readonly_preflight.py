@@ -18,6 +18,18 @@ PROJECT_ROW = {
     "model_file_count": 2,
     "total_size_bytes": 4096,
     "last_asset_updated_at": "2026-05-01T00:00:00Z",
+    "permission_tags": [
+        "SOURCE_SYSTEM:delivery_platform",
+        "SOURCE_VIEW:ProjectAssetView",
+        "ASSET_KIND:PROJECT",
+        "PROJECT:101",
+        "CONFIDENTIALITY:UNKNOWN",
+        "INDEX_ELIGIBILITY:catalog_only",
+    ],
+    "confidentiality_level": "UNKNOWN",
+    "last_seen_at": "2026-05-08T10:00:00Z",
+    "lifecycle_status": "active",
+    "index_eligibility": "catalog_only",
 }
 
 FILE_ROW = {
@@ -39,11 +51,24 @@ FILE_ROW = {
     "process_status": "ready",
     "created_at": "2026-05-01T00:00:00Z",
     "updated_at": "2026-05-02T00:00:00Z",
+    "permission_tags": [
+        "SOURCE_SYSTEM:delivery_platform",
+        "SOURCE_VIEW:FileAssetView",
+        "ASSET_KIND:FILE",
+        "PROJECT:101",
+        "CONFIDENTIALITY:UNKNOWN",
+        "INDEX_ELIGIBILITY:catalog_only",
+    ],
+    "confidentiality_level": "UNKNOWN",
+    "last_seen_at": "2026-05-08T10:00:00Z",
+    "lifecycle_status": "active",
+    "index_eligibility": "catalog_only",
 }
 
 MODEL_ROW = {
     "model_id": 9988,
     "file_id": 12345,
+    "project_id": 101,
     "project_code": "P-101",
     "model_name": "C Tower BIM",
     "model_format": "rvt",
@@ -54,6 +79,18 @@ MODEL_ROW = {
     "component_index_status": "not_requested",
     "storage_path": "/safe/staging/path/model.rvt",
     "updated_at": "2026-05-03T00:00:00Z",
+    "permission_tags": [
+        "SOURCE_SYSTEM:delivery_platform",
+        "SOURCE_VIEW:ModelAssetView",
+        "ASSET_KIND:MODEL",
+        "PROJECT:101",
+        "CONFIDENTIALITY:UNKNOWN",
+        "INDEX_ELIGIBILITY:catalog_only",
+    ],
+    "confidentiality_level": "UNKNOWN",
+    "last_seen_at": "2026-05-08T10:00:00Z",
+    "lifecycle_status": "active",
+    "index_eligibility": "catalog_only",
 }
 
 AUDIT_ROW = {
@@ -84,8 +121,26 @@ def test_readonly_db_config_defaults_are_safe() -> None:
     assert Settings.model_fields["platform_asset_readonly_db_user"].default is None
     assert (
         Settings.model_fields["platform_asset_readonly_db_contract_version"].default
-        == DB4A_READONLY_CONTRACT_VERSION
+        == "delivery_platform.asset_views.v1.1"
     )
+    assert DB4A_READONLY_CONTRACT_VERSION == "delivery_platform.asset_views.v1.1"
+
+
+def test_readonly_preflight_requires_v11_contract_fields() -> None:
+    required = AssetCatalogReadonlyPreflightValidator.required_view_fields()
+
+    shared_v11_fields = {
+        "permission_tags",
+        "confidentiality_level",
+        "last_seen_at",
+        "lifecycle_status",
+        "index_eligibility",
+    }
+    assert shared_v11_fields.issubset(required["ProjectAssetView"])
+    assert shared_v11_fields.issubset(required["FileAssetView"])
+    assert shared_v11_fields.issubset(required["ModelAssetView"])
+    assert "project_id" in required["ModelAssetView"]
+    assert {"event_id", "created_at"}.issubset(required["AuditEventView"])
 
 
 def test_readonly_preflight_normalizes_rows_to_catalog_preview_fail_closed() -> None:
@@ -109,6 +164,11 @@ def test_readonly_preflight_normalizes_rows_to_catalog_preview_fail_closed() -> 
     assert file_item.permission_status == "denied"
     assert file_item.action == "would_deny"
     assert file_item.reason == "missing_permission_contract"
+    assert file_item.permission_tags
+    assert file_item.confidentiality_level == "UNKNOWN"
+    assert file_item.lifecycle_status == "active"
+    assert file_item.index_eligibility == "catalog_only"
+    assert file_item.last_seen_at == "2026-05-08T10:00:00Z"
     assert file_item.citation_status == "metadata_only"
     assert file_item.evidence_kind == "asset_catalog_evidence"
     assert file_item.content_evidence_available is False
