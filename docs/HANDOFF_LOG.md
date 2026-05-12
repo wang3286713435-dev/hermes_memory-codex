@@ -1,5 +1,24 @@
 # Handoff Log
 
+## 2026-05-12 15:52 Phase 2.78
+- goal: Implement controlled local scratch runtime over Phase 2.76 / 2.77 dry-run copy plans.
+- changed_files: `app/services/asset_catalog/scratch_runtime.py`, `app/services/asset_catalog/__init__.py`, `tests/test_data_steward_asset_scratch_runtime.py`, `docs/PHASE278_CONTROLLED_LOCAL_SCRATCH_RUNTIME_PLAN.md`, handoff docs, ignored `reports/agent_runs/latest.json`.
+- tests: py_compile passed; scratch copy plan + runtime target tests `10 passed`; Data Steward asset catalog regression `87 passed`; `git diff --check` passed; latest JSON validation passed.
+- validation: Runtime requires explicit authorization and feature flags, copies only local fixture / file:// sources, computes sha256, cleans scratch files, outputs sanitized run record, and keeps parser / DB / index / object store safety flags false.
+- risks: This is not real NAS smoke. Phase 2.79 must require explicit Mac mini / test-machine authorization and small non-sensitive samples.
+- next: Codex B review Phase 2.78; if accepted, prepare selective baseline prompt.
+- commit/tag if any: none.
+
+## 2026-05-12 15:37 Phase 2.78
+- goal: Move from Phase 2.76 / 2.77 baseline into controlled local scratch runtime implementation.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: docs / prompt handoff only; no code tests run in this handoff.
+- validation: Phase 2.76 / 2.77 baseline confirmed at commit `8aa94f3`, tag `phase-2.76-2.77-nas-scratch-copy-dry-run-baseline`, worktree was clean before this handoff.
+- risks: Phase 2.78 must remain local fixture runtime only; real NAS / real enterprise files / parser / DB-index writes / Agent CRUD remain forbidden until later explicit authorization.
+- review: Codex B review passed; runtime keeps explicit authorization / feature flag gates, sanitized run record, and cleanup behavior.
+- next: Execute selective Git baseline via `docs/NEXT_CODEX_A_PROMPT.md`. Phase 2.79 small batch real smoke remains later.
+- commit/tag if any: none.
+
 ## 2026-05-12 14:40 Phase 2.76 / 2.77
 - goal: Add Data Steward NAS scratch copy dry-run planning without touching real NAS or enabling runtime copy.
 - changed_files: `.env.example`, `app/core/config.py`, `app/services/asset_catalog/scratch_copy_plan.py`, `app/services/asset_catalog/__init__.py`, `tests/test_data_steward_asset_scratch_copy_plan.py`, `docs/PHASE276_277_NAS_SCRATCH_COPY_PIPELINE_PLAN.md`, handoff docs, ignored `reports/agent_runs/latest.json`.

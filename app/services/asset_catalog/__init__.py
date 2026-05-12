@@ -52,6 +52,13 @@ from app.services.asset_catalog.scratch_copy_plan import (
     AssetScratchCopyPlanRequest,
     AssetScratchCopyPlanSummary,
 )
+from app.services.asset_catalog.scratch_runtime import (
+    AssetScratchRuntime,
+    AssetScratchRuntimeOptions,
+    AssetScratchRuntimeRunItem,
+    AssetScratchRuntimeRunRecord,
+    AssetScratchRuntimeRunSummary,
+)
 from app.services.asset_catalog.temp_db import (
     AssetCatalogTemporaryMirrorStore,
     AssetCatalogTemporaryMirrorWriteSummary,
@@ -83,6 +90,11 @@ __all__ = [
     "AssetScratchCopyPlanItem",
     "AssetScratchCopyPlanRequest",
     "AssetScratchCopyPlanSummary",
+    "AssetScratchRuntime",
+    "AssetScratchRuntimeOptions",
+    "AssetScratchRuntimeRunItem",
+    "AssetScratchRuntimeRunRecord",
+    "AssetScratchRuntimeRunSummary",
     "AssetCatalogTemporaryMirrorStore",
     "AssetCatalogTemporaryMirrorWriteSummary",
     "AssetViewPage",

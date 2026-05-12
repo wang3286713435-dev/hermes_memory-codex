@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.78 Controlled Local Scratch Runtime
+
+1. Phase 2.78 本地 fixture runtime 已完成首轮实现。
+2. 新增 `AssetScratchRuntime`，要求 `runtime_authorized=true`、`scratch_copy_enabled=true`、`batch_copy_enabled=true`，否则 fail closed。
+3. runtime 只处理 dry-run plan 中 `would_copy` 的 item，只允许 local path / `file://` fixture。
+4. 成功和失败路径均执行 cleanup，并输出 sanitized run record；不得包含 source path / scratch path 原文。
+5. 当前仍禁止真实 NAS 连接、真实企业文件复制、parser 调用、DB/index/object storage 写入、runtime flags 默认开启和 rollout。
+6. 下一步：完成完整目标验证后交 Codex B review；Phase 2.79 才能规划小批量真实 smoke。
+
 ## Phase 2.76 / 2.77 NAS Scratch Copy Pipeline Dry-run
 
 1. 当前进入按项目小批量 NAS scratch copy dry-run。

@@ -2,6 +2,24 @@
 
 ## 最新状态
 
+1. Phase 2.78 Controlled Local Scratch Runtime 已完成本地 fixture runtime 首轮实现。
+2. 新增 `AssetScratchRuntime`，支持 explicit authorization + feature flags 双门槛；只处理 `would_copy` item；只允许 local path / `file://` fixture；执行 copy -> sha256 -> sanitized run record -> cleanup。
+3. 当前仍不连接真实 NAS，不复制真实企业文件，不调用 parser，不写 DB / `documents` / `chunks` / OpenSearch / Qdrant / MinIO，不启用 runtime flags 默认值。
+4. 验证通过：py_compile 通过，scratch copy plan + runtime 目标测试 `10 passed`，Data Steward asset catalog regression `87 passed`，`git diff --check` 通过，latest JSON 校验通过。
+5. 下一步需要 Codex B review；通过后再写 selective baseline prompt。
+6. Phase 2.79 才能规划 Mac mini / 测试机显式授权下的 1-3 个小型非敏感样本真实 smoke。
+
+## 最新状态
+
+1. Phase 2.76 / 2.77 baseline 已完成：commit `8aa94f3`，tag `phase-2.76-2.77-nas-scratch-copy-dry-run-baseline`。
+2. 当前进入 Phase 2.78 Controlled Local Scratch Runtime。
+3. 已写入 `docs/NEXT_CODEX_A_PROMPT.md`，要求 Codex A 实现本地 fixture runtime：copy -> sha256 -> sanitized run record -> cleanup。
+4. Phase 2.78 仍不连接真实 NAS，不解析真实企业文件，不写 DB / `documents/chunks` / OpenSearch / Qdrant，不启用默认 runtime flags。
+5. 数据库团队二期前半段可以继续推进：REST/API Key `project_scope`、权限证明、资产目录 UI、Agent 查询入口和 v1.1 DTO 不再被 Hermes 阻塞。
+6. Phase 2.79 才进入 Mac mini 显式授权的 1-3 个小型样本真实 smoke。
+
+## 最新状态
+
 1. Phase 2.76 / 2.77 进入 NAS Scratch Copy Pipeline dry-run 主线实现。
 2. 新能力边界：Hermes 只生成“按项目小批量、权限前置、临时 scratch copy”的 dry-run plan，不连接真实 NAS、不复制、不解析、不删除任何真实文件。
 3. 新增 `AssetScratchCopyPlanner`、`AssetScratchCopyPlanRequest`、`AssetScratchCopyPlanItem`、`AssetScratchCopyPlanSummary`，默认 feature flags 仍关闭：`PLATFORM_ASSET_SCRATCH_COPY_ENABLED=false`、`PLATFORM_ASSET_BATCH_COPY_ENABLED=false`。
