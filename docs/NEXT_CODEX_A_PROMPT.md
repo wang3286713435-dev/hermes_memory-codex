@@ -1,41 +1,36 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.78 Selective Git Baseline Task
+## Phase 2.79 Docs Baseline Task
 
-Codex B 已复核 Phase 2.78 Controlled Local Scratch Runtime：
+Codex B 已复核 Phase 2.79 Small Batch Real Smoke Planning：
 
-1. 实现范围只限本地 fixture scratch runtime。
-2. `AssetScratchRuntime` 要求 explicit `runtime_authorized=true`。
-3. `AssetScratchRuntime` 要求 `scratch_copy_enabled=true` 与 `batch_copy_enabled=true`。
-4. 未授权或 feature flags 未开启时 fail closed，不复制文件。
-5. runtime 只处理 `action=would_copy` item。
-6. runtime 只接受 local path / `file://` fixture，不实现 NAS scan。
-7. 成功路径执行 copy -> sha256 -> cleanup。
-8. 失败路径执行 best-effort cleanup。
-9. sanitized run record 不输出 source path / scratch path 原文。
-10. parser / DB / documents / chunks / OpenSearch / Qdrant / MinIO / NAS write flags 恒为 false。
+1. 本阶段只做 docs / prompt planning。
+2. `docs/PHASE279_SMALL_BATCH_REAL_SMOKE_PLAN.md` 明确 Phase 2.79a 才能执行真实 smoke。
+3. `docs/CODEX_MAC_MINI_SMALL_BATCH_NAS_SMOKE_PROMPT.md` 只用于后续显式授权的 Mac mini / 测试机任务。
+4. 样本范围限制为 1-3 个小型非敏感文件。
+5. 文件类型优先 Office / PDF / text / CSV / XLSX。
+6. 单文件建议 <= 50MB，总量建议 <= 200MB。
+7. RVT / DWG / IFC / NWD / BIM 大模型、整项目目录、NAS scan、bulk copy 均禁止。
+8. Parser、ingestion、DB / index write、Agent final answer integration 均禁止。
+9. 报告必须 sanitized，不输出 secret、raw row、真实 NAS 路径或真实业务数据。
 
-当前允许 Codex A 只做 Phase 2.78 selective Git baseline，不进入 Phase 2.79。
+当前允许 Codex A 只做 Phase 2.79 docs selective Git baseline，不执行 Phase 2.79a。
 
 ## 必读文件
 
-1. `docs/PHASE278_CONTROLLED_LOCAL_SCRATCH_RUNTIME_PLAN.md`
-2. `docs/ACTIVE_PHASE.md`
-3. `docs/PHASE_BACKLOG.md`
-4. `docs/HANDOFF_LOG.md`
-5. `docs/TODO.md`
-6. `docs/DEV_LOG.md`
-7. `app/services/asset_catalog/scratch_runtime.py`
-8. `tests/test_data_steward_asset_scratch_runtime.py`
+1. `docs/PHASE279_SMALL_BATCH_REAL_SMOKE_PLAN.md`
+2. `docs/CODEX_MAC_MINI_SMALL_BATCH_NAS_SMOKE_PROMPT.md`
+3. `docs/ACTIVE_PHASE.md`
+4. `docs/PHASE_BACKLOG.md`
+5. `docs/HANDOFF_LOG.md`
+6. `docs/TODO.md`
+7. `docs/DEV_LOG.md`
 
 ## Baseline 前验证
 
 在 `/Users/Weishengsu/Hermes_memory` 执行：
 
 ```bash
-uv run python -m py_compile app/services/asset_catalog/scratch_runtime.py app/services/asset_catalog/__init__.py
-uv run --extra dev pytest tests/test_data_steward_asset_scratch_copy_plan.py tests/test_data_steward_asset_scratch_runtime.py -q
-uv run --extra dev pytest tests/test_data_steward_asset_catalog_*.py tests/test_data_steward_fake_adapter.py tests/test_data_steward_asset_scratch_copy_plan.py tests/test_data_steward_asset_scratch_runtime.py -q
 git diff --check
 uv run python -m json.tool reports/agent_runs/latest.json >/dev/null
 ```
@@ -43,10 +38,8 @@ uv run python -m json.tool reports/agent_runs/latest.json >/dev/null
 ## 只允许 stage 的文件
 
 ```text
-app/services/asset_catalog/scratch_runtime.py
-app/services/asset_catalog/__init__.py
-tests/test_data_steward_asset_scratch_runtime.py
-docs/PHASE278_CONTROLLED_LOCAL_SCRATCH_RUNTIME_PLAN.md
+docs/PHASE279_SMALL_BATCH_REAL_SMOKE_PLAN.md
+docs/CODEX_MAC_MINI_SMALL_BATCH_NAS_SMOKE_PROMPT.md
 docs/ACTIVE_PHASE.md
 docs/PHASE_BACKLOG.md
 docs/HANDOFF_LOG.md
@@ -62,10 +55,8 @@ docs/NEXT_CODEX_A_PROMPT.md
 如验证通过且 dirty 仅为上述白名单文件：
 
 ```bash
-git add app/services/asset_catalog/scratch_runtime.py \
-  app/services/asset_catalog/__init__.py \
-  tests/test_data_steward_asset_scratch_runtime.py \
-  docs/PHASE278_CONTROLLED_LOCAL_SCRATCH_RUNTIME_PLAN.md \
+git add docs/PHASE279_SMALL_BATCH_REAL_SMOKE_PLAN.md \
+  docs/CODEX_MAC_MINI_SMALL_BATCH_NAS_SMOKE_PROMPT.md \
   docs/ACTIVE_PHASE.md \
   docs/PHASE_BACKLOG.md \
   docs/HANDOFF_LOG.md \
@@ -73,10 +64,10 @@ git add app/services/asset_catalog/scratch_runtime.py \
   docs/DEV_LOG.md \
   docs/NEXT_CODEX_A_PROMPT.md
 
-git commit -m "chore: add phase 2.78 local scratch runtime"
-git tag phase-2.78-local-scratch-runtime-baseline
+git commit -m "docs: plan phase 2.79 small batch nas smoke"
+git tag phase-2.79-small-batch-nas-smoke-plan-baseline
 git push origin main
-git push origin phase-2.78-local-scratch-runtime-baseline
+git push origin phase-2.79-small-batch-nas-smoke-plan-baseline
 ```
 
 完成 baseline 后停止，更新 ignored `reports/agent_runs/latest.json` 为 baseline 状态。
@@ -85,17 +76,17 @@ git push origin phase-2.78-local-scratch-runtime-baseline
 
 禁止：
 
-1. 进入 Phase 2.79。
-2. 连接真实 NAS。
-3. 复制真实企业文件。
-4. 调用 parser。
-5. 写平台 DB / Hermes DB / `documents` / `chunks`。
-6. 写 OpenSearch / Qdrant / MinIO。
-7. 启用 runtime feature flags 默认值。
-8. 执行 mirror / selective indexing / repair / cleanup / backfill / reindex / delete。
-9. 实现 Agent DB / NAS CRUD。
-10. 修改 retrieval contract / memory kernel 主架构。
-11. production rollout。
+1. 执行真实 NAS copy。
+2. 执行 parser。
+3. 写平台 DB / Hermes DB / `documents` / `chunks`。
+4. 写 OpenSearch / Qdrant / MinIO。
+5. 扫描 NAS。
+6. 批量复制项目目录。
+7. 复制 BIM 大模型。
+8. Agent DB / NAS CRUD。
+9. repair / cleanup / backfill / reindex / delete。
+10. production rollout。
+11. 进入 Phase 2.79a。
 
 ## Baseline 报告必须包含
 
@@ -104,5 +95,5 @@ git push origin phase-2.78-local-scratch-runtime-baseline
 3. push 结果。
 4. 最终 `git status --short`。
 5. 验证命令结果。
-6. 明确 Phase 2.78 仍只是本地 fixture runtime，不是测试机真实 NAS smoke。
-7. 下一步是否建议进入 Phase 2.79 small batch real smoke。
+6. 明确 Phase 2.79 只是 planning，不是执行授权。
+7. 下一步是否建议进入 Phase 2.79a small batch real smoke。

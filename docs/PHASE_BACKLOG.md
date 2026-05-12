@@ -11,6 +11,24 @@
 
 ## 最新状态
 
+1. Phase 2.79 Small Batch Real Smoke Planning 已完成。
+2. 新增 `docs/PHASE279_SMALL_BATCH_REAL_SMOKE_PLAN.md`，明确 Phase 2.79a 的前置条件、样本选择、允许动作、禁止动作、stop conditions、sanitized report 与 Go / Pause / No-Go。
+3. 新增 `docs/CODEX_MAC_MINI_SMALL_BATCH_NAS_SMOKE_PROMPT.md`，作为后续显式授权后给 Mac mini / 测试机的执行 prompt。
+4. 本轮未执行真实 NAS copy、未读取真实企业文件、未调用 parser、未写 DB / `documents/chunks` / OpenSearch / Qdrant / MinIO。
+5. 下一步必须先 Codex B review；通过后再决定 Phase 2.79 docs baseline 或另开 Phase 2.79a small batch real smoke。
+6. Phase 2.79a 仍必须单独授权；不得由 planning 文档自动触发。
+
+## 最新状态
+
+1. Phase 2.78 baseline 已完成：commit `5da558e`，tag `phase-2.78-local-scratch-runtime-baseline`。
+2. 当前进入 Phase 2.79 Small Batch Real Smoke Planning。
+3. 已写入 `docs/NEXT_CODEX_A_PROMPT.md`，要求只规划 Mac mini / 测试机 1-3 个小型非敏感样本真实 smoke，不执行真实 copy。
+4. Phase 2.79 planning 必须定义权限证明、样本大小、文件类型白名单、stop conditions、sanitized report 与 No-Go 条件。
+5. 真实 NAS copy、parser、DB / `documents/chunks` / OpenSearch / Qdrant 写入、Agent CRUD、rollout 仍禁止。
+6. 数据库团队二期可以继续围绕 REST/API Key `project_scope`、权限证明、资产目录 UI 与 Agent 查询入口推进；真实正文联调等 Phase 2.79a 授权。
+
+## 最新状态
+
 1. Phase 2.76 / 2.77 baseline 已完成：commit `8aa94f3`，tag `phase-2.76-2.77-nas-scratch-copy-dry-run-baseline`。
 2. 当前进入 Phase 2.78 Controlled Local Scratch Runtime。
 3. 已写入 `docs/NEXT_CODEX_A_PROMPT.md`，要求 Codex A 实现本地 fixture runtime：copy -> sha256 -> sanitized run record -> cleanup。

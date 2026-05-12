@@ -1,5 +1,16 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.79 Small Batch Real Smoke Planning
+
+1. 当前进入 Phase 2.79：Mac mini / 测试机小批真实 smoke 规划。
+2. 已新增 `docs/PHASE279_SMALL_BATCH_REAL_SMOKE_PLAN.md` 与 `docs/CODEX_MAC_MINI_SMALL_BATCH_NAS_SMOKE_PROMPT.md`。
+3. 本轮只做 docs / prompt planning，不执行真实 copy。
+4. 目标样本：1-3 个小型非敏感文件，优先 Office / PDF / text / CSV / XLSX，单文件建议 <= 50MB，总量 <= 200MB。
+5. 真实 smoke 必须后置到 Phase 2.79a 并单独授权。
+6. 当前仍禁止：真实 NAS copy、parser、DB / `documents/chunks` / OpenSearch / Qdrant 写入、Agent CRUD、production rollout。
+7. 下一步：Codex B review Phase 2.79 planning；通过后再决定 docs baseline 或 Phase 2.79a 授权。
+8. 数据库团队可继续二期前半段：REST/API Key `project_scope`、权限证明、资产目录 UI 和 Agent 查询入口。
+
 ## Phase 2.78 Controlled Local Scratch Runtime
 
 1. Phase 2.78 本地 fixture runtime 已完成首轮实现。

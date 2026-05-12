@@ -1,5 +1,24 @@
 # Handoff Log
 
+## 2026-05-12 16:22 Phase 2.79
+- goal: Complete small batch real smoke planning for a later Mac mini / test-machine Phase 2.79a.
+- changed_files: `docs/PHASE279_SMALL_BATCH_REAL_SMOKE_PLAN.md`, `docs/CODEX_MAC_MINI_SMALL_BATCH_NAS_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: docs-only planning; no code tests required or run.
+- validation: Planning explicitly prohibits real NAS copy, parser, DB / document / chunk / OpenSearch / Qdrant / MinIO writes, Agent CRUD, repair, reindex, and rollout.
+- risks: Phase 2.79a must be separately authorized; planning docs must not be treated as smoke execution permission.
+- next: Codex B review Phase 2.79 planning; if accepted, decide whether to baseline docs or authorize Phase 2.79a small batch real smoke.
+- commit/tag if any: none.
+
+## 2026-05-12 16:09 Phase 2.79
+- goal: Move from Phase 2.78 baseline into small batch real smoke planning.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: docs / prompt handoff only; no code tests run in this handoff.
+- validation: Phase 2.78 baseline confirmed at commit `5da558e`, tag `phase-2.78-local-scratch-runtime-baseline`, worktree was clean before this handoff.
+- risks: Phase 2.79 is planning only. Real NAS copy, parser, DB/index writes, Agent CRUD and rollout remain forbidden until a later explicit Phase 2.79a authorization.
+- review: Codex B review passed; planning keeps real smoke as a separate Phase 2.79a authorization and preserves no parser / no DB-index write boundaries.
+- next: Execute selective docs baseline via `docs/NEXT_CODEX_A_PROMPT.md`. Phase 2.79a small batch real smoke remains later.
+- commit/tag if any: none.
+
 ## 2026-05-12 15:52 Phase 2.78
 - goal: Implement controlled local scratch runtime over Phase 2.76 / 2.77 dry-run copy plans.
 - changed_files: `app/services/asset_catalog/scratch_runtime.py`, `app/services/asset_catalog/__init__.py`, `tests/test_data_steward_asset_scratch_runtime.py`, `docs/PHASE278_CONTROLLED_LOCAL_SCRATCH_RUNTIME_PLAN.md`, handoff docs, ignored `reports/agent_runs/latest.json`.
