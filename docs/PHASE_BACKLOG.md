@@ -2,6 +2,15 @@
 
 ## 最新状态
 
+1. Phase 2.75 进入 Data Steward catalog query preview 主线实现。
+2. 当前结论：Phase 2.74 已完成真实 DB v1.1 结构 / 脱敏统计 / Hermes adapter contract 级耦合，但不是完整 Data Steward runtime 耦合。
+3. 新增 preview 层目标：只返回资产目录元数据，不生成 prompt evidence；正文回答请求返回 `asset_catalog_only` Missing Evidence。
+4. Phase 2.75 本地验证通过：py_compile 通过，Data Steward 目标 pytest `77 passed`，`git diff --check` 通过。
+5. 当前仍禁止 runtime enable、mirror、selective indexing、NAS scan、DB CRUD、Agent 直接改 MySQL / NAS、production rollout。
+6. 下一步 Codex B review；之后再规划 REST/API Key `project_scope` 权限证明。
+
+## 最新状态
+
 1. Phase 2.74 已准备测试机 reviewed-ref 复验 prompt。
 2. 新增 `docs/PHASE274_TEST_MACHINE_V11_ADAPTER_SMOKE_PLAN.md` 与 `docs/CODEX_TEST_MACHINE_V11_ADAPTER_SMOKE_PROMPT.md`。
 3. 复验目标：确认包含 Phase 2.73 的 Hermes ref 在测试机仍满足 v1.1 structure-only / redacted stats / fail-closed。

@@ -1,5 +1,16 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.75 Data Steward Catalog Query Preview
+
+1. 当前进入 Phase 2.75：只读 catalog query preview。
+2. Phase 2.74 能力边界已明确：真实 DB v1.1 结构 / 脱敏统计 / Hermes adapter contract 已打通，但尚未完整耦合，不支持企业 Agent 直接无损查询 NAS 文件正文。
+3. 新增 `AssetCatalogQueryPreviewer`，让 catalog lookup 返回资产目录元数据预览；content answer 场景返回 `asset_catalog_only` Missing Evidence。
+4. 缺少 REST/API Key `project_scope` 时继续 fail-closed；`permission_tags` 不是最终权限。
+5. 验证通过：py_compile 通过，Data Steward 目标 pytest `77 passed`，`git diff --check` 通过。
+6. 当前仍不授权：runtime enable、mirror、selective indexing、NAS scan、DB CRUD、Agent 改 MySQL / NAS、catalog metadata 替代 document evidence、production rollout。
+7. Codex B review 已通过，已写入 `docs/NEXT_CODEX_A_PROMPT.md` selective baseline 任务。
+8. 下一步：先完成 Phase 2.75 baseline；baseline 后再规划 Phase 2.76 project-scope 权限证明与主仓 preview UX。
+
 ## Phase 2.74 Test-machine v1.1 Adapter Smoke Handoff
 
 1. 已新增 `docs/PHASE274_TEST_MACHINE_V11_ADAPTER_SMOKE_PLAN.md`。

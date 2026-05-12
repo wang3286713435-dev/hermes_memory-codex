@@ -34,6 +34,10 @@ from app.services.asset_catalog.readonly_preflight import (
     AssetCatalogReadonlyPreflightResult,
     AssetCatalogReadonlyPreflightValidator,
 )
+from app.services.asset_catalog.query_preview import (
+    AssetCatalogQueryPreviewResponse,
+    AssetCatalogQueryPreviewer,
+)
 from app.services.asset_catalog.response import AssetCatalogMissingEvidenceResponse
 from app.services.asset_catalog.retrieval_guard import (
     AssetCatalogMetadataItem,
@@ -53,6 +57,8 @@ __all__ = [
     "AssetCatalogMirrorPreviewer",
     "AssetCatalogMetadataItem",
     "AssetCatalogMissingEvidenceResponse",
+    "AssetCatalogQueryPreviewResponse",
+    "AssetCatalogQueryPreviewer",
     "AssetCatalogReadonlyPreflightFinding",
     "AssetCatalogReadonlyPreflightResult",
     "AssetCatalogReadonlyPreflightValidator",

@@ -1,5 +1,15 @@
 # Handoff Log
 
+## 2026-05-12 13:20 Phase 2.75
+- goal: Add Data Steward catalog query preview without enabling real DB runtime, NAS scan, mirror, indexing, or Agent CRUD.
+- changed_files: `app/services/asset_catalog/query_preview.py`, `app/services/asset_catalog/__init__.py`, `tests/test_data_steward_asset_catalog_query_preview.py`, `docs/PHASE275_DATA_STEWARD_CATALOG_QUERY_PREVIEW.md`, handoff docs, ignored `reports/agent_runs/latest.json`.
+- tests: `uv run python -m py_compile app/services/asset_catalog/query_preview.py app/services/asset_catalog/__init__.py` passed; `uv run --extra dev pytest tests/test_data_steward_asset_catalog_*.py tests/test_data_steward_fake_adapter.py -q` passed with `77 passed`; `git diff --check` passed.
+- validation: Catalog lookup returns metadata preview only; content answer returns `asset_catalog_only` Missing Evidence; missing project scope fails closed; no prompt evidence or write side effects.
+- risks: This is not full DB/NAS coupling. The enterprise Agent still cannot query NAS file contents via DB until REST/API Key scope, NAS content access, selective indexing, and audit boundaries are separately implemented.
+- review: Codex B review passed; Phase 2.75 keeps catalog metadata separate from prompt/document evidence and preserves fail-closed permission behavior.
+- next: Execute selective Git baseline via `docs/NEXT_CODEX_A_PROMPT.md`. Phase 2.76 should plan project-scope permission proof and Hermes runtime UX, not DB writes.
+- commit/tag if any: none.
+
 ## 2026-05-12 11:10 Phase 2.72b
 - goal: Record DB `LIMIT 30` redacted statistics smoke Go result.
 - changed_files: `docs/PHASE272B_DB_LIMIT30_REDACTED_SMOKE_RESULT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.

@@ -1,41 +1,101 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.73 Status
+## Phase 2.75 Codex B Review / Baseline Task
 
-Hermes v1.1 readonly adapter contract update 已由 Codex B 在主线完成本地实现与目标测试：
+Codex B 已复核 Phase 2.75 Data Steward Catalog Query Preview：
 
-1. `delivery_platform.asset_views.v1.1` 已成为 Hermes 侧 readonly contract 默认版本。
-2. fake adapter / readonly preflight / metadata DTO / contract tests 已同步 v1.1 字段。
-3. 验证结果：`py_compile` 通过，Data Steward asset catalog target tests `73 passed`。
-4. 当前仍未启用真实 Data Steward runtime、mirror、indexing 或 Agent CRUD。
+1. 实现范围只限只读 catalog query preview。
+2. `AssetCatalogQueryPreviewer` 只返回资产目录元数据 preview，不生成 prompt evidence。
+3. `content_answer` 场景返回 `asset_catalog_only` Missing Evidence。
+4. 缺少 REST/API Key `project_scope` 时 fail-closed。
+5. 不连接真实 DB、不执行 SQL、不读取真实行、不扫描 NAS。
+6. 不写 `documents` / `chunks` / OpenSearch / Qdrant / MinIO。
+7. 不启用 Data Steward runtime、mirror、selective indexing、Agent CRUD 或 production rollout。
 
-## Codex A 当前行为
+当前允许 Codex A 只做 Phase 2.75 selective Git baseline，不进入 Phase 2.76 实现。
 
-如果 Codex A 读到本文件：
+## 必读文件
 
-1. 不要擅自连接真实 DB。
-2. 不要执行 SQL、读取真实行、扫描 NAS、写 mirror、启用 Data Steward runtime 或实现 DB CRUD。
-3. 不要做 production rollout。
-4. 等待用户或 Codex B 提供新的非 DB 主线实现任务，或等待 Codex B 给出 Phase 2.74 测试机 reviewed-ref smoke prompt。
+1. `docs/PHASE275_DATA_STEWARD_CATALOG_QUERY_PREVIEW.md`
+2. `docs/ACTIVE_PHASE.md`
+3. `docs/PHASE_BACKLOG.md`
+4. `docs/HANDOFF_LOG.md`
+5. `docs/TODO.md`
+6. `docs/DEV_LOG.md`
 
-## 下一步建议
+## Baseline 前验证
 
-Phase 2.74：由 Codex B 直接准备测试机复验 prompt / runbook，用 reviewed ref 验证升级后的 Hermes v1.1 readonly adapter 仍满足：
+在 `/Users/Weishengsu/Hermes_memory` 执行：
 
-1. feature flags 默认 off。
-2. structure-only / redacted statistics 路径安全。
-3. 无 REST/API Key `project_scope` 时 fail-closed。
-4. `confidentiality_level=UNKNOWN` 不降级为低敏。
-5. `index_eligibility=catalog_only` 不进入正文 evidence / semantic indexing。
+```bash
+uv run python -m py_compile app/services/asset_catalog/query_preview.py app/services/asset_catalog/__init__.py
+uv run --extra dev pytest tests/test_data_steward_asset_catalog_*.py tests/test_data_steward_fake_adapter.py -q
+git diff --check
+uv run python -m json.tool reports/agent_runs/latest.json >/dev/null
+```
 
-## 禁止事项
+## 只允许 stage 的文件
 
-任何 agent 当前都不得：
+```text
+app/services/asset_catalog/query_preview.py
+app/services/asset_catalog/__init__.py
+tests/test_data_steward_asset_catalog_query_preview.py
+docs/PHASE275_DATA_STEWARD_CATALOG_QUERY_PREVIEW.md
+docs/ACTIVE_PHASE.md
+docs/PHASE_BACKLOG.md
+docs/HANDOFF_LOG.md
+docs/TODO.md
+docs/DEV_LOG.md
+docs/NEXT_CODEX_A_PROMPT.md
+```
 
-1. 写平台 DB / Hermes DB / OpenSearch / Qdrant / MinIO。
-2. 扫描 NAS。
-3. 执行 mirror migration。
-4. 启用 Data Steward runtime feature。
-5. 实现 Agent DB CRUD。
-6. 修改 retrieval contract / memory kernel 主架构。
-7. 进入 production rollout。
+不要 stage `reports/agent_runs/latest.json`，它是 ignored 本地状态文件。
+
+## Commit / Tag
+
+如验证通过且 dirty 仅为上述白名单文件：
+
+```bash
+git add app/services/asset_catalog/query_preview.py \
+  app/services/asset_catalog/__init__.py \
+  tests/test_data_steward_asset_catalog_query_preview.py \
+  docs/PHASE275_DATA_STEWARD_CATALOG_QUERY_PREVIEW.md \
+  docs/ACTIVE_PHASE.md \
+  docs/PHASE_BACKLOG.md \
+  docs/HANDOFF_LOG.md \
+  docs/TODO.md \
+  docs/DEV_LOG.md \
+  docs/NEXT_CODEX_A_PROMPT.md
+
+git commit -m "chore: add phase 2.75 data steward catalog preview"
+git tag phase-2.75-data-steward-catalog-preview-baseline
+git push origin main
+git push origin phase-2.75-data-steward-catalog-preview-baseline
+```
+
+完成 baseline 后停止，更新 ignored `reports/agent_runs/latest.json` 为 baseline 状态。
+
+## 硬边界
+
+禁止：
+
+1. 进入 Phase 2.76 实现。
+2. 连接真实 DB 或执行 SQL。
+3. 读取真实业务行。
+4. 扫描 NAS。
+5. 写平台 DB / Hermes DB / OpenSearch / Qdrant / MinIO。
+6. 写 `documents` / `chunks`。
+7. 执行 mirror migration、selective indexing、repair、cleanup、backfill、reindex、delete。
+8. 启用 Data Steward runtime feature flags。
+9. 实现 Agent DB CRUD。
+10. 修改 retrieval contract / memory kernel 主架构。
+11. production rollout。
+
+## Baseline 报告必须包含
+
+1. commit hash。
+2. tag。
+3. push 结果。
+4. 最终 `git status --short`。
+5. 验证命令结果。
+6. 明确说明 2.75 仍不是完整 DB/NAS 耦合，企业 Agent 仍不能通过数据库无损查询 NAS 文件正文。

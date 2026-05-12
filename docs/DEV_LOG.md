@@ -1,5 +1,8 @@
 # DEV_LOG
 
+- [Phase 2.75 Data Steward Catalog Query Preview] 完成主线最小实现：明确 Phase 2.74 只完成真实 DB v1.1 结构 / 脱敏统计 / Hermes adapter contract 级耦合，尚不能让企业 Agent 通过数据库无损查询 NAS 文件正文。新增 `AssetCatalogQueryPreviewer`，catalog lookup 只返回资产目录元数据 preview，content answer 返回 `asset_catalog_only` Missing Evidence；缺少 REST/API Key `project_scope` 时 fail-closed；不连接真实 DB、不扫描 NAS、不写 `documents/chunks/OpenSearch/Qdrant`、不启用 runtime / mirror / indexing / Agent CRUD。验证通过：py_compile 通过，Data Steward 目标 pytest `77 passed`，`git diff --check` 通过。
+- [Phase 2.75 Codex B Review] Review 通过：实现未越过 catalog preview 边界，未把 DB/NAS catalog metadata 变成 document evidence，未启用 runtime / mirror / indexing / Agent CRUD。已写入 `docs/NEXT_CODEX_A_PROMPT.md` selective Git baseline 任务；baseline 前仍需复跑 py_compile、Data Steward target pytest、`git diff --check` 与 latest JSON 校验。
+
 - [Phase 2.72b DB LIMIT 30 Redacted Statistics Smoke Result] 测试机 `LIMIT 30` 脱敏统计 smoke 返回 `Go`：ProjectAssetView 观察 18 行，FileAssetView / ModelAssetView / AuditEventView 各观察 30 行，仅输出聚合统计；`permission_tags` 缺失数为 0，`confidentiality_level` 当前全为 `UNKNOWN`，`index_eligibility` 当前全为 `catalog_only`，`AuditEventView.event_id` 单调检查通过。未输出 raw row、secret、真实项目名 / 文件名 / NAS 路径、ID 原值或 `permission_tags` 原值，未写任何系统。已新增 `docs/PHASE272B_DB_LIMIT30_REDACTED_SMOKE_RESULT.md`。下一步建议规划 Hermes v1.1 readonly adapter contract update，继续禁止 mirror / indexing / Agent CRUD。
 
 - [Phase 2.72a DB LIMIT 30 Redacted Statistics Smoke Planning] 已新增 `docs/CODEX_DB_LIMIT30_REDACTED_SMOKE_PROMPT.md`，并更新 `docs/DB_LIMIT30_REDACTED_SMOKE_PLAN.md` 为 prompt ready。该 prompt 仅允许测试机最多观察 30 行并输出聚合统计，禁止 raw row、真实项目名、文件名、NAS 路径、ID 原值、`permission_tags` 原值、summary JSON 原文、secret、写操作、NAS scan、mirror、indexing、Agent CRUD 和 rollout。本仓库未执行 `LIMIT 30`，未读取真实行，未写任何系统。
