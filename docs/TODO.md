@@ -1,5 +1,18 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.80 Controlled Scratch Parser Dry-run Planning
+
+1. Phase 2.79a Mac mini / 测试机 small batch NAS scratch-copy smoke 已返回 `go`。
+2. 验证结果：`sample_count=3`、`copied_count=3`、`hashes_computed=3`、`cleanup_status=all_deleted`。
+3. 安全边界：未输出 secret / raw row / 真实 NAS 路径 / 敏感业务数据；未写 DB / OpenSearch / Qdrant / MinIO；未执行 parser / Agent answer integration / rollout。
+4. 当前能力：Hermes 已证明可在权限证明下复制小批授权样本到本地 scratch、计算 hash 并清理。
+5. 当前仍未完成：parser、ingestion、`documents/chunks` 写入、OpenSearch / Qdrant 写入、Agent 基于 NAS 正文回答。
+6. 已新增 `docs/PHASE280_CONTROLLED_SCRATCH_PARSER_DRY_RUN_PLAN.md`。
+7. Phase 2.80 只做 controlled scratch parser dry-run planning；未执行 parser。
+8. Phase 2.80a 如获授权，只能生成 local sanitized preview / manifest，不得写 DB/index/object-store。
+9. 仍禁止：真实 parser 执行、真实正文读取、DB/index/object-store 写入、Agent DB/NAS CRUD、production rollout。
+10. Codex B review 已通过；下一步只做 Phase 2.80 docs baseline，不进入 Phase 2.80a。
+
 ## Phase 2.79 Small Batch Real Smoke Planning
 
 1. 当前进入 Phase 2.79：Mac mini / 测试机小批真实 smoke 规划。

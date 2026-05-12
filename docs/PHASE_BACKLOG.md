@@ -2,6 +2,24 @@
 
 ## 最新状态
 
+1. Phase 2.80 Controlled Scratch Parser Dry-run Planning 已完成。
+2. 新增 `docs/PHASE280_CONTROLLED_SCRATCH_PARSER_DRY_RUN_PLAN.md`。
+3. Phase 2.80a 只能在 Phase 2.79a 权限证明、1-3 小样本、scratch copy、hash、cleanup 边界内运行 parser dry-run。
+4. Parser 输出只能生成 local sanitized preview / manifest，不得写 `documents`、`chunks`、OpenSearch、Qdrant、MinIO、platform DB 或 Hermes DB。
+5. 本轮未执行 parser、未复制真实文件、未读取真实正文、未写 DB/index/object-store、未进入 Agent final answer 或 rollout。
+6. Codex B review 已通过；下一步只做 Phase 2.80 docs baseline。Phase 2.80a parser dry-run implementation 必须单独授权。
+
+## 最新状态
+
+1. Phase 2.79a Mac mini / 测试机 small batch NAS scratch-copy smoke 已返回 `Go`。
+2. 验证结果：3 个小型非敏感样本均完成 copy、sha256 与 cleanup，`cleanup_status=all_deleted`。
+3. 安全结果：未输出 secret / raw row / 真实 NAS 路径 / 敏感业务数据；未写 DB / `documents/chunks` / OpenSearch / Qdrant / MinIO；未调用 parser；未进入 Agent final answer integration 或 rollout。
+4. 当前能力边界：Hermes 只证明了“权限证明 + 小批 scratch copy + hash + cleanup”，还不能基于 NAS 正文回答。
+5. 当前进入 Phase 2.80 Controlled Scratch Parser Dry-run Planning。
+6. Phase 2.80 只规划 parser dry-run；不得执行 parser，不得读取真实正文，不得写 DB / index / object store。
+
+## 最新状态
+
 1. Phase 2.78 Controlled Local Scratch Runtime 已完成本地 fixture runtime 首轮实现。
 2. 新增 `AssetScratchRuntime`，支持 explicit authorization + feature flags 双门槛；只处理 `would_copy` item；只允许 local path / `file://` fixture；执行 copy -> sha256 -> sanitized run record -> cleanup。
 3. 当前仍不连接真实 NAS，不复制真实企业文件，不调用 parser，不写 DB / `documents` / `chunks` / OpenSearch / Qdrant / MinIO，不启用 runtime flags 默认值。

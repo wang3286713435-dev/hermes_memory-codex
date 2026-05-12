@@ -1,5 +1,11 @@
 # DEV_LOG
 
+- [Phase 2.80 Codex B Review] Review 通过：Phase 2.80 仅规划 controlled scratch parser dry-run，未执行 parser、未复制或读取真实文件、未写 DB / `documents/chunks` / OpenSearch / Qdrant / MinIO、未进入 Agent final answer 或 rollout。规划明确 Phase 2.80a 必须单独授权，且 parser preview 只能输出 sanitized preview / manifest。已写入 selective docs baseline prompt，baseline 后停止，不进入 Phase 2.80a。
+
+- [Phase 2.80 Planning] 完成 Controlled Scratch Parser Dry-run Planning：新增 `docs/PHASE280_CONTROLLED_SCRATCH_PARSER_DRY_RUN_PLAN.md`，明确 parser dry-run 只能在 Phase 2.79a 小批授权样本、scratch copy、hash、cleanup 边界内运行；输出只允许 local sanitized preview / manifest，不得写 `documents/chunks`、OpenSearch、Qdrant、MinIO、platform DB 或 Hermes DB，不得接入 Agent final answer。本轮未执行 parser、未复制真实文件、未读取真实正文、未写 DB/index/object-store、未进入 rollout。下一步需 Codex B review；Phase 2.80a 必须单独授权。
+
+- [Phase 2.79a Small Batch NAS Smoke Result] Mac mini / 测试机 Phase 2.79a small batch NAS scratch-copy smoke 返回 `Go`：`sample_count=3`、`copied_count=3`、`hashes_computed=3`、`cleanup_status=all_deleted`。报告确认未输出 secret、raw row、真实 NAS 路径或真实业务数据；未写 DB / `documents/chunks` / OpenSearch / Qdrant / MinIO；未调用 parser；未进入 Agent final answer integration 或 rollout。已新增 `docs/PHASE279A_SMALL_BATCH_NAS_SMOKE_RESULT.md`。当前能力只证明小批授权样本 copy -> sha256 -> cleanup；下一步建议 Phase 2.80 controlled scratch parser dry-run planning，仍不直接执行 parser。
+
 - [Phase 2.79 Planning] 完成 Small Batch Real Smoke Planning：新增 `docs/PHASE279_SMALL_BATCH_REAL_SMOKE_PLAN.md` 与 `docs/CODEX_MAC_MINI_SMALL_BATCH_NAS_SMOKE_PROMPT.md`，明确 Mac mini / 测试机 1-3 个小型非敏感样本的权限证明、样本大小、文件类型白名单、allowed actions、forbidden actions、stop conditions、sanitized report 与 Go / Pause / No-Go。当前只是 planning，未执行真实 NAS copy、未读取真实企业文件、未调用 parser、未写 DB / `documents/chunks` / OpenSearch / Qdrant / MinIO，未进入 Agent CRUD 或 rollout。下一步需 Codex B review；Phase 2.79a 必须单独授权。
 
 - [Phase 2.79 Prompt] Phase 2.78 baseline 已完成：commit `5da558e`，tag `phase-2.78-local-scratch-runtime-baseline`。已写入 Phase 2.79 Small Batch Real Smoke Planning prompt，下一步只规划 Mac mini / 测试机 1-3 个小型非敏感样本真实 smoke 的授权门槛、样本范围、stop conditions 与 sanitized report。本轮仍不执行真实 NAS copy、不调用 parser、不写 DB / `documents/chunks` / OpenSearch / Qdrant、不进入 Agent CRUD 或 rollout。数据库团队二期前半段可继续推进；真实正文联调等待 Phase 2.79a 授权。

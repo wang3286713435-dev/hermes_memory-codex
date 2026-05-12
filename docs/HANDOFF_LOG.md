@@ -1,5 +1,32 @@
 # Handoff Log
 
+## 2026-05-12 18:12 Phase 2.80
+- goal: Codex B review Phase 2.80 parser dry-run planning and prepare selective docs baseline prompt.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` and latest JSON validation to run after handoff sync.
+- validation: Review confirmed Phase 2.80 remains planning-only: no parser execution, no real file copy/read, no DB/index/object-store writes, no Agent answer integration, no rollout.
+- risks: Phase 2.80a remains a separate explicit authorization; baseline must not stage ignored `reports/agent_runs/latest.json`.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.80 docs baseline and stops.
+- commit/tag if any: none.
+
+## 2026-05-12 18:00 Phase 2.80
+- goal: Plan controlled scratch parser dry-run after Phase 2.79a small batch NAS scratch-copy smoke returned Go.
+- changed_files: `docs/PHASE280_CONTROLLED_SCRATCH_PARSER_DRY_RUN_PLAN.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `docs/NEXT_CODEX_A_PROMPT.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; `uv run python -m json.tool reports/agent_runs/latest.json >/dev/null` passed.
+- validation: No parser was executed; no real file was copied or read; no DB/index/object-store writes; no Agent answer integration; no rollout.
+- risks: Phase 2.80a parser dry-run must be separately authorized and remain preview-only.
+- next: Codex B review Phase 2.80 planning; then decide baseline or Phase 2.80a authorization.
+- commit/tag if any: none.
+
+## 2026-05-12 17:53 Phase 2.80
+- goal: Record Phase 2.79a small batch NAS scratch-copy smoke `Go` result and prepare Phase 2.80 parser dry-run planning.
+- changed_files: `docs/PHASE279A_SMALL_BATCH_NAS_SMOKE_RESULT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: docs / prompt handoff only; no code tests run in this handoff.
+- validation: Test-machine report returned `decision=go`, `sample_count=3`, `copied_count=3`, `hashes_computed=3`, `cleanup_status=all_deleted`, with parser and all writes disabled.
+- risks: Phase 2.79a does not prove parser, ingestion, indexing or Agent answer over NAS content. Phase 2.80 must remain planning before any parser smoke.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.80 controlled scratch parser dry-run planning.
+- commit/tag if any: none.
+
 ## 2026-05-12 16:22 Phase 2.79
 - goal: Complete small batch real smoke planning for a later Mac mini / test-machine Phase 2.79a.
 - changed_files: `docs/PHASE279_SMALL_BATCH_REAL_SMOKE_PLAN.md`, `docs/CODEX_MAC_MINI_SMALL_BATCH_NAS_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
