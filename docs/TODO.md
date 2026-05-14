@@ -1,5 +1,16 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.83a Evidence Write Payload Dry-run Implementation
+
+1. Phase 2.83 baseline 已完成：commit `d3cedc9`，tag `phase-2.83-evidence-payload-contract-plan-baseline`。
+2. 当前进入 Phase 2.83a：local evidence-write payload dry-run。
+3. 已新增 `AssetCatalog` payload builder 与 CLI，从 ignored local eligibility report 生成 ignored local payload plan。
+4. Payload states：`payload_not_allowed`、`payload_ready_for_human_review`、`payload_ready_for_write_dry_run`、`payload_no_go`。
+5. `payload_ready_for_write_dry_run` 只表示“可进入未来写入 dry-run 规划”，不表示已写入、已索引或可回答。
+6. 当前仍未完成：真实 evidence write preflight、`documents/chunks` 写入、OpenSearch / Qdrant 写入、Agent 基于 NAS 正文回答。
+7. 仍禁止：执行 parser、复制真实文件、读取 raw text、写 DB/index/object-store、Agent DB/NAS CRUD、Agent final answer integration、production rollout。
+8. 下一步只做 Phase 2.83a Git baseline，baseline 后再决定 controlled evidence write preflight planning。
+
 ## Phase 2.83 Evidence Write Payload Contract Planning
 
 1. Phase 2.82a baseline 已完成：commit `1838e3a`，tag `phase-2.82a-evidence-eligibility-dry-run-baseline`。

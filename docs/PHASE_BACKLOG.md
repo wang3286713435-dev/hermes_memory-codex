@@ -2,6 +2,16 @@
 
 ## 最新状态
 
+1. Phase 2.83 baseline 已完成：commit `d3cedc9`，tag `phase-2.83-evidence-payload-contract-plan-baseline`。
+2. 当前进入 Phase 2.83a Evidence Write Payload Dry-run Implementation。
+3. 新增 `evidence_payload` service 与 CLI：从 ignored local eligibility report 生成 ignored payload plan。
+4. Payload states：`payload_not_allowed`、`payload_ready_for_human_review`、`payload_ready_for_write_dry_run`、`payload_no_go`。
+5. `payload_ready_for_write_dry_run` 仍不授权任何写入、索引或 Agent answer；payload plan 仍不是 document evidence。
+6. 当前仍禁止 parser、真实文件复制、DB / `documents/chunks` / OpenSearch / Qdrant / MinIO 写入、Agent answer integration 与 rollout。
+7. 下一步只允许 selective Git baseline，baseline 后停止。
+
+## 最新状态
+
 1. Phase 2.82a baseline 已完成：commit `1838e3a`，tag `phase-2.82a-evidence-eligibility-dry-run-baseline`。
 2. 当前进入 Phase 2.83 Evidence Write Payload Contract Planning。
 3. 新增 `docs/PHASE283_EVIDENCE_WRITE_PAYLOAD_CONTRACT_PLAN.md`。

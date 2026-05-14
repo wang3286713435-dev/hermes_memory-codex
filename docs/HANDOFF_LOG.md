@@ -1,5 +1,14 @@
 # Handoff Log
 
+## 2026-05-15 01:40 Phase 2.83a
+- goal: Implement local evidence-write payload dry-run builder after Phase 2.83 planning baseline.
+- changed_files: `app/services/asset_catalog/evidence_payload.py`, `app/services/asset_catalog/__init__.py`, `scripts/phase283a_evidence_write_payload.py`, `tests/test_data_steward_evidence_write_payload.py`, `reports/nas_evidence_payloads/.gitignore`, `reports/nas_evidence_payloads/README.md`, `docs/PHASE283A_EVIDENCE_WRITE_PAYLOAD_DRY_RUN.md`, handoff docs, ignored `reports/agent_runs/latest.json`.
+- tests: TDD red observed for missing `app.services.asset_catalog.evidence_payload`; target tests passed after implementation with `6 passed`; Data Steward regression passed with `104 passed`; py_compile, `git diff --check`, latest JSON validation, and ignore checks passed.
+- validation: Builder reads sanitized eligibility report JSON and writes ignored payload plan only; no parser, file copy, raw content, DB / document / chunk / index / object-store write, Agent answer integration, or rollout.
+- risks: Payload plan is still dry-run-only and must not be treated as document evidence or write authorization.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.83a selective Git baseline and stops.
+- commit/tag if any: none.
+
 ## 2026-05-15 01:21 Phase 2.83
 - goal: Plan future evidence-write payload contract after Phase 2.82a eligibility dry-run baseline.
 - changed_files: `docs/PHASE283_EVIDENCE_WRITE_PAYLOAD_CONTRACT_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
