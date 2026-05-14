@@ -1,5 +1,16 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.82 Evidence Write Eligibility Planning
+
+1. Phase 2.81a baseline 已完成：commit `985a622`，tag `phase-2.81a-sanitized-evidence-manifest-dry-run-baseline`。
+2. 当前进入 Phase 2.82：只规划 evidence-write eligibility review。
+3. 已新增 `docs/PHASE282_EVIDENCE_WRITE_ELIGIBILITY_PLAN.md`。
+4. 规划明确：manifest 是 review-only，不是 document evidence，不得直接进入 Agent answer。
+5. 规划定义 future gates：permission proof、manifest ready、parser parsed、cleanup all_deleted、安全 flags 全 false、人工 review、file type allowlist 等。
+6. 当前仍未完成：eligibility evaluator、eligibility report artifact、`documents/chunks` 写入、OpenSearch / Qdrant 写入、Agent 基于 NAS 正文回答。
+7. 仍禁止：执行 parser、复制真实文件、读取 raw text、写 DB/index/object-store、Agent DB/NAS CRUD、Agent final answer integration、production rollout。
+8. Codex B review 已通过；下一步只做 Phase 2.82 docs baseline。
+
 ## Phase 2.81a Sanitized Evidence Manifest Dry-run Implementation
 
 1. Phase 2.81 baseline 已完成：commit `804d069`，tag `phase-2.81-sanitized-evidence-manifest-plan-baseline`。

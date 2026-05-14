@@ -1,5 +1,7 @@
 # DEV_LOG
 
+- [Phase 2.82 Evidence Write Eligibility Planning] 完成 evidence-write eligibility review 规划：新增 `docs/PHASE282_EVIDENCE_WRITE_ELIGIBILITY_PLAN.md`，定义 NAS-derived sanitized manifest 进入未来 evidence-write planning 前必须满足的 gates。Review 结论：manifest 仍是 review-only，不是 document evidence；`approved` 不代表已写入、已索引或 Agent 可回答。当前仍不实现 evaluator、不生成 report artifact、不执行 parser、不复制真实文件、不写 DB / `documents/chunks` / OpenSearch / Qdrant / MinIO、不接入 Agent final answer、不 rollout。已写入 selective docs baseline prompt。
+
 - [Phase 2.81a Sanitized Evidence Manifest Dry-run] 进入最小实现：新增 `app/services/asset_catalog/evidence_manifest.py` 与 `scripts/phase281a_sanitized_evidence_manifest.py`，从 sanitized parser preview metadata 生成 `nas_evidence_manifest.v0`；新增 `reports/nas_evidence_manifests/.gitignore` / `README.md`，确保真实 manifest artifact 默认 ignored。TDD red 已观察：缺少 `evidence_manifest` module 与缺少 CLI script 时目标测试失败；实现后目标测试通过。当前仍不执行 parser、不复制真实文件、不读 raw text、不写 DB / `documents/chunks` / OpenSearch / Qdrant / MinIO、不接入 Agent final answer、不 rollout。
 
 - [Phase 2.81a Codex B Review] Review 通过：实现只处理 sanitized parser-preview metadata，unsafe raw fields 会 fail fast，write / Agent answer flags 会产生 `no_go`，manifest artifacts 默认 ignored。已写入 selective Git baseline prompt；baseline 后不得进入 evidence-write planning 或 Agent answer integration。

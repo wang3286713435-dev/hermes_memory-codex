@@ -2,6 +2,15 @@
 
 ## 最新状态
 
+1. Phase 2.81a baseline 已完成：commit `985a622`，tag `phase-2.81a-sanitized-evidence-manifest-dry-run-baseline`。
+2. 当前进入 Phase 2.82 Evidence Write Eligibility Planning。
+3. 新增 `docs/PHASE282_EVIDENCE_WRITE_ELIGIBILITY_PLAN.md`。
+4. 规划边界：manifest 是 review-only，不是 document evidence；`approved` 不等于写入、索引或可回答。
+5. 当前仍禁止 parser、真实文件复制、DB / `documents/chunks` / OpenSearch / Qdrant / MinIO 写入、Agent answer integration 与 rollout。
+6. Codex B review 已通过；下一步只允许 selective docs baseline，baseline 后停止。
+
+## 最新状态
+
 1. Phase 2.81 baseline 已完成：commit `804d069`，tag `phase-2.81-sanitized-evidence-manifest-plan-baseline`。
 2. 当前进入 Phase 2.81a Sanitized Evidence Manifest Dry-run Implementation。
 3. 新增 manifest builder / CLI：只从 sanitized parser preview metadata 生成 ignored local manifest。
