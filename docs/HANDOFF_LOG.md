@@ -1,5 +1,23 @@
 # Handoff Log
 
+## 2026-05-14 18:36 Phase 2.81a
+- goal: Implement minimal sanitized evidence manifest dry-run after Phase 2.81 baseline.
+- changed_files: `app/services/asset_catalog/evidence_manifest.py`, `app/services/asset_catalog/__init__.py`, `scripts/phase281a_sanitized_evidence_manifest.py`, `tests/test_data_steward_sanitized_evidence_manifest.py`, `reports/nas_evidence_manifests/.gitignore`, `reports/nas_evidence_manifests/README.md`, `docs/PHASE281A_SANITIZED_EVIDENCE_MANIFEST_DRY_RUN.md`, handoff docs, ignored `reports/agent_runs/latest.json`.
+- tests: TDD red observed for missing module and missing CLI script; target tests passed after implementation. Final validation pending end-of-turn.
+- validation: Builder rejects forbidden raw fields; write / Agent answer flags produce `no_go`; CLI writes only local manifest JSON to caller-selected output dir.
+- risks: Manifest is review-only. It is not document evidence, ingestion, indexing, Agent answer integration, or rollout.
+- next: Complete validation and Codex B review; if accepted, prepare selective baseline prompt.
+- commit/tag if any: none.
+
+## 2026-05-14 18:45 Phase 2.81a
+- goal: Codex B review Phase 2.81a sanitized evidence manifest dry-run and prepare selective Git baseline prompt.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: py_compile, target pytest, Data Steward regression, `git diff --check`, latest JSON validation, and ignore checks to run at final validation.
+- validation: Review confirmed manifest builder handles sanitized metadata only, rejects forbidden raw fields, marks unsafe write / Agent answer flags as `no_go`, and keeps artifacts ignored.
+- risks: Manifest remains review-only and must not be treated as document evidence.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.81a selective Git baseline and stops.
+- commit/tag if any: none.
+
 ## 2026-05-14 00:10 Phase 2.81
 - goal: Codex B review Phase 2.81 sanitized evidence manifest planning and prepare selective docs baseline prompt.
 - changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.

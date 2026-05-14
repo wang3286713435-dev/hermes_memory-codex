@@ -3,6 +3,13 @@ from app.services.asset_catalog.contracts import (
     AssetViewPage,
     AssetViewRecord,
 )
+from app.services.asset_catalog.evidence_manifest import (
+    MANIFEST_VERSION,
+    SanitizedEvidenceManifestWriteResult,
+    UnsafeParserPreviewError,
+    build_sanitized_evidence_manifest,
+    write_sanitized_evidence_manifest,
+)
 from app.services.asset_catalog.fake_adapter import FakePlatformAssetCatalogAdapter
 from app.services.asset_catalog.mirror_preview import (
     AssetCatalogMirrorPreview,
@@ -99,13 +106,18 @@ __all__ = [
     "AssetCatalogTemporaryMirrorWriteSummary",
     "AssetViewPage",
     "AssetViewRecord",
+    "MANIFEST_VERSION",
     "DB4A_READONLY_CONTRACT_VERSION",
     "DB4A_REQUIRED_VIEW_FIELDS",
     "DB4B_READONLY_MAX_SAMPLE_LIMIT",
     "DB4B_READONLY_SAMPLE_MODES",
     "FakePlatformAssetCatalogAdapter",
+    "SanitizedEvidenceManifestWriteResult",
+    "UnsafeParserPreviewError",
     "VIEW_CONTRACT_VERSIONS",
+    "build_sanitized_evidence_manifest",
     "run_readonly_local_live_smoke",
     "sanitize_live_smoke_result",
     "verify_forbidden_table_denials",
+    "write_sanitized_evidence_manifest",
 ]

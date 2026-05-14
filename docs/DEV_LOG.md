@@ -1,5 +1,9 @@
 # DEV_LOG
 
+- [Phase 2.81a Sanitized Evidence Manifest Dry-run] 进入最小实现：新增 `app/services/asset_catalog/evidence_manifest.py` 与 `scripts/phase281a_sanitized_evidence_manifest.py`，从 sanitized parser preview metadata 生成 `nas_evidence_manifest.v0`；新增 `reports/nas_evidence_manifests/.gitignore` / `README.md`，确保真实 manifest artifact 默认 ignored。TDD red 已观察：缺少 `evidence_manifest` module 与缺少 CLI script 时目标测试失败；实现后目标测试通过。当前仍不执行 parser、不复制真实文件、不读 raw text、不写 DB / `documents/chunks` / OpenSearch / Qdrant / MinIO、不接入 Agent final answer、不 rollout。
+
+- [Phase 2.81a Codex B Review] Review 通过：实现只处理 sanitized parser-preview metadata，unsafe raw fields 会 fail fast，write / Agent answer flags 会产生 `no_go`，manifest artifacts 默认 ignored。已写入 selective Git baseline prompt；baseline 后不得进入 evidence-write planning 或 Agent answer integration。
+
 - [Phase 2.81 Codex B Review] Review 通过：Phase 2.81 只规划 sanitized evidence manifest，不实现 runner、不生成真实 manifest artifact、不执行 parser、不复制真实文件、不读 raw text、不写 DB / `documents/chunks` / OpenSearch / Qdrant / MinIO、不接入 Agent final answer、不 rollout。已写入 selective docs baseline prompt；Phase 2.81a manifest dry-run implementation 仍需用户单独授权。
 
 - [Phase 2.81 Sanitized Evidence Manifest Planning] 完成 sanitized evidence manifest 后置规划：新增 `docs/PHASE281_SANITIZED_EVIDENCE_MANIFEST_PLAN.md`，定义从 sanitized parser preview 到 ignored local manifest 的 schema、Go / Pause / No-Go、cleanup / safety 字段与硬边界。Phase 2.81 只做 planning，不生成真实 manifest artifact、不执行 parser、不复制新文件、不读 raw text、不写 DB / `documents/chunks` / OpenSearch / Qdrant / MinIO、不接入 Agent final answer、不 rollout。下一步需 Codex B review；Phase 2.81a manifest runner 必须单独授权。

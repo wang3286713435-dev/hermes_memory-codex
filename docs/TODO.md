@@ -1,5 +1,16 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.81a Sanitized Evidence Manifest Dry-run Implementation
+
+1. Phase 2.81 baseline 已完成：commit `804d069`，tag `phase-2.81-sanitized-evidence-manifest-plan-baseline`。
+2. 当前进入 Phase 2.81a：ignored local sanitized evidence manifest dry-run。
+3. 已新增 `AssetCatalog` manifest builder 与 CLI，从 sanitized parser preview metadata 生成 `nas_evidence_manifest.v0`。
+4. Manifest artifacts 默认写入 ignored local 目录 `reports/nas_evidence_manifests/`。
+5. 已新增测试覆盖 ready / no-go / unsafe-field rejection / CLI output。
+6. 当前仍未完成：真实 manifest smoke、ingestion、`documents/chunks` 写入、OpenSearch / Qdrant 写入、Agent 基于 NAS 正文回答。
+7. 仍禁止：执行 parser、复制真实文件、读取 raw text、写 DB/index/object-store、Agent DB/NAS CRUD、Agent final answer integration、production rollout。
+8. Codex B review 已通过；下一步只做 Phase 2.81a Git baseline，baseline 后再决定 evidence-write eligibility planning。
+
 ## Phase 2.81 Sanitized Evidence Manifest Planning
 
 1. Phase 2.80a Mac mini / 测试机 controlled scratch parser dry-run 已返回 `go`。

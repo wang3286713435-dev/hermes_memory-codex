@@ -2,6 +2,15 @@
 
 ## 最新状态
 
+1. Phase 2.81 baseline 已完成：commit `804d069`，tag `phase-2.81-sanitized-evidence-manifest-plan-baseline`。
+2. 当前进入 Phase 2.81a Sanitized Evidence Manifest Dry-run Implementation。
+3. 新增 manifest builder / CLI：只从 sanitized parser preview metadata 生成 ignored local manifest。
+4. Manifest 不包含 raw text、真实文件名、真实 NAS 路径、raw DB row、secret 或敏感业务数据。
+5. 当前仍禁止 parser 执行、真实文件复制、DB / `documents/chunks` / OpenSearch / Qdrant / MinIO 写入、Agent answer integration 与 rollout。
+6. Codex B review 已通过；下一步只允许 selective Git baseline，baseline 后停止。
+
+## 最新状态
+
 1. Phase 2.80a Mac mini / 测试机 controlled scratch parser dry-run 已返回 `Go`。
 2. 验证结果：3 个小型非敏感样本完成 copy、parser dry-run preview 与 cleanup，`cleanup_status=all_deleted`。
 3. 安全结果：未输出 raw text / secret / raw row / 真实文件名 / 真实 NAS 路径 / 敏感业务数据；未写 DB / `documents/chunks` / OpenSearch / Qdrant / MinIO；未接入 Agent final answer；未 rollout。
