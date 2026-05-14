@@ -10,6 +10,11 @@ from app.services.asset_catalog.evidence_manifest import (
     build_sanitized_evidence_manifest,
     write_sanitized_evidence_manifest,
 )
+from app.services.asset_catalog.evidence_eligibility import (
+    ELIGIBILITY_REPORT_VERSION,
+    build_evidence_write_eligibility_report,
+    write_evidence_write_eligibility_report,
+)
 from app.services.asset_catalog.fake_adapter import FakePlatformAssetCatalogAdapter
 from app.services.asset_catalog.mirror_preview import (
     AssetCatalogMirrorPreview,
@@ -107,6 +112,7 @@ __all__ = [
     "AssetViewPage",
     "AssetViewRecord",
     "MANIFEST_VERSION",
+    "ELIGIBILITY_REPORT_VERSION",
     "DB4A_READONLY_CONTRACT_VERSION",
     "DB4A_REQUIRED_VIEW_FIELDS",
     "DB4B_READONLY_MAX_SAMPLE_LIMIT",
@@ -116,8 +122,10 @@ __all__ = [
     "UnsafeParserPreviewError",
     "VIEW_CONTRACT_VERSIONS",
     "build_sanitized_evidence_manifest",
+    "build_evidence_write_eligibility_report",
     "run_readonly_local_live_smoke",
     "sanitize_live_smoke_result",
     "verify_forbidden_table_denials",
     "write_sanitized_evidence_manifest",
+    "write_evidence_write_eligibility_report",
 ]

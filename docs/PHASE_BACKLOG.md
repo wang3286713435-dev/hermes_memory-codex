@@ -2,6 +2,16 @@
 
 ## 最新状态
 
+1. Phase 2.82 baseline 已完成：commit `931e6e1`，tag `phase-2.82-evidence-write-eligibility-plan-baseline`。
+2. 当前进入 Phase 2.82a Evidence Write Eligibility Dry-run Implementation。
+3. 新增 `evidence_eligibility` service 与 CLI：从 ignored local sanitized manifest 生成 ignored eligibility report。
+4. Eligibility states：`not_eligible`、`eligible_for_human_review`、`eligible_for_evidence_write_planning`、`no_go`。
+5. `eligible_for_evidence_write_planning` 仍不授权任何写入、索引或 Agent answer；缺少权限证明默认 `DENIED`。
+6. 当前仍禁止 parser、真实文件复制、DB / `documents/chunks` / OpenSearch / Qdrant / MinIO 写入、Agent answer integration 与 rollout。
+7. 下一步只允许 selective Git baseline，baseline 后停止。
+
+## 最新状态
+
 1. Phase 2.81a baseline 已完成：commit `985a622`，tag `phase-2.81a-sanitized-evidence-manifest-dry-run-baseline`。
 2. 当前进入 Phase 2.82 Evidence Write Eligibility Planning。
 3. 新增 `docs/PHASE282_EVIDENCE_WRITE_ELIGIBILITY_PLAN.md`。

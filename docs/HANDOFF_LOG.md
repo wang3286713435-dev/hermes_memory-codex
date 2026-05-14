@@ -1,5 +1,14 @@
 # Handoff Log
 
+## 2026-05-15 00:55 Phase 2.82a
+- goal: Implement local evidence-write eligibility dry-run evaluator after Phase 2.82 planning baseline.
+- changed_files: `app/services/asset_catalog/evidence_eligibility.py`, `app/services/asset_catalog/__init__.py`, `scripts/phase282a_evidence_write_eligibility.py`, `tests/test_data_steward_evidence_write_eligibility.py`, `reports/nas_evidence_eligibility/.gitignore`, `reports/nas_evidence_eligibility/README.md`, `docs/PHASE282A_EVIDENCE_WRITE_ELIGIBILITY_DRY_RUN.md`, handoff docs, ignored `reports/agent_runs/latest.json`.
+- tests: TDD red observed for missing `app.services.asset_catalog.evidence_eligibility`; target tests passed after implementation with `6 passed`; Data Steward regression passed with `98 passed`; py_compile, `git diff --check`, latest JSON validation, and ignore checks passed.
+- validation: Evaluator reads sanitized manifest JSON and writes ignored eligibility report only; no parser, file copy, raw content, DB / document / chunk / index / object-store write, Agent answer integration, or rollout.
+- risks: Eligibility report is still review-only; `eligible_for_evidence_write_planning` does not authorize writes.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.82a selective Git baseline and stops.
+- commit/tag if any: none.
+
 ## 2026-05-15 00:14 Phase 2.82
 - goal: Plan evidence-write eligibility gates after Phase 2.81a sanitized evidence manifest baseline.
 - changed_files: `docs/PHASE282_EVIDENCE_WRITE_ELIGIBILITY_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.

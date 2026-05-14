@@ -1,5 +1,16 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.82a Evidence Write Eligibility Dry-run Implementation
+
+1. Phase 2.82 baseline 已完成：commit `931e6e1`，tag `phase-2.82-evidence-write-eligibility-plan-baseline`。
+2. 当前进入 Phase 2.82a：local evidence-write eligibility dry-run。
+3. 已新增 `AssetCatalog` eligibility evaluator 与 CLI，从 ignored local sanitized manifest 生成 ignored local eligibility report。
+4. Eligibility report states：`not_eligible`、`eligible_for_human_review`、`eligible_for_evidence_write_planning`、`no_go`。
+5. `eligible_for_evidence_write_planning` 只表示“可进入下一步规划”，不表示已写入、已索引或可回答。
+6. 当前仍未完成：future evidence-write payload dry-run、`documents/chunks` 写入、OpenSearch / Qdrant 写入、Agent 基于 NAS 正文回答。
+7. 仍禁止：执行 parser、复制真实文件、读取 raw text、写 DB/index/object-store、Agent DB/NAS CRUD、Agent final answer integration、production rollout。
+8. 下一步只做 Phase 2.82a Git baseline，baseline 后再决定 future evidence-write payload planning。
+
 ## Phase 2.82 Evidence Write Eligibility Planning
 
 1. Phase 2.81a baseline 已完成：commit `985a622`，tag `phase-2.81a-sanitized-evidence-manifest-dry-run-baseline`。
