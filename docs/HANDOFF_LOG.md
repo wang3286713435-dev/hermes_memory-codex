@@ -1,5 +1,23 @@
 # Handoff Log
 
+## 2026-05-14 00:10 Phase 2.81
+- goal: Codex B review Phase 2.81 sanitized evidence manifest planning and prepare selective docs baseline prompt.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON validation passed; `reports/agent_runs/latest.json` ignore check passed.
+- validation: Review confirmed Phase 2.81 remains planning-only: no manifest runner, no manifest artifact, no parser, no real file copy/read, no DB / document / chunk / index / object-store writes, no Agent answer integration, no rollout.
+- risks: Phase 2.81a remains a separate explicit authorization; baseline must not stage ignored `reports/agent_runs/latest.json`.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.81 selective docs baseline and stops.
+- commit/tag if any: none.
+
+## 2026-05-14 00:00 Phase 2.81
+- goal: Record Phase 2.80a controlled scratch parser dry-run `Go` result and prepare Phase 2.81 sanitized evidence manifest planning.
+- changed_files: `docs/PHASE280A_CONTROLLED_SCRATCH_PARSER_DRY_RUN_RESULT.md`, `docs/PHASE281_SANITIZED_EVIDENCE_MANIFEST_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: docs / prompt handoff only; no code tests run in this handoff.
+- validation: Test-machine report returned `decision=go`, `sample_count=3`, `copied_count=3`, `parsed_preview_count=3`, `cleanup_status=all_deleted`, `parser_dry_run_only=true`, with all writes and Agent answer integration disabled.
+- risks: Phase 2.80a does not prove ingestion, indexing or Agent answer over NAS content. Phase 2.81 must remain manifest planning before any runner.
+- next: Codex B reviews Phase 2.81 sanitized evidence manifest planning; do not implement Phase 2.81a until separately authorized.
+- commit/tag if any: none.
+
 ## 2026-05-12 18:12 Phase 2.80
 - goal: Codex B review Phase 2.80 parser dry-run planning and prepare selective docs baseline prompt.
 - changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.

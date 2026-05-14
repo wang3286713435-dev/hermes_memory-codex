@@ -1,5 +1,11 @@
 # DEV_LOG
 
+- [Phase 2.81 Codex B Review] Review 通过：Phase 2.81 只规划 sanitized evidence manifest，不实现 runner、不生成真实 manifest artifact、不执行 parser、不复制真实文件、不读 raw text、不写 DB / `documents/chunks` / OpenSearch / Qdrant / MinIO、不接入 Agent final answer、不 rollout。已写入 selective docs baseline prompt；Phase 2.81a manifest dry-run implementation 仍需用户单独授权。
+
+- [Phase 2.81 Sanitized Evidence Manifest Planning] 完成 sanitized evidence manifest 后置规划：新增 `docs/PHASE281_SANITIZED_EVIDENCE_MANIFEST_PLAN.md`，定义从 sanitized parser preview 到 ignored local manifest 的 schema、Go / Pause / No-Go、cleanup / safety 字段与硬边界。Phase 2.81 只做 planning，不生成真实 manifest artifact、不执行 parser、不复制新文件、不读 raw text、不写 DB / `documents/chunks` / OpenSearch / Qdrant / MinIO、不接入 Agent final answer、不 rollout。下一步需 Codex B review；Phase 2.81a manifest runner 必须单独授权。
+
+- [Phase 2.80a Controlled Scratch Parser Dry-run Result] Mac mini / 测试机 Phase 2.80a controlled scratch parser dry-run 返回 `Go`：`sample_count=3`、`copied_count=3`、`parsed_preview_count=3`、`cleanup_status=all_deleted`、`parser_dry_run_only=true`。报告确认未输出 raw text、secret、raw row、真实文件名、真实 NAS 路径或真实业务数据；未写 DB / `documents/chunks` / OpenSearch / Qdrant / MinIO；未接入 Agent final answer；未 rollout。测试机补充确认 scratch 与 parser preview 临时目录已删除且无残留。已新增 `docs/PHASE280A_CONTROLLED_SCRATCH_PARSER_DRY_RUN_RESULT.md`。当前能力只证明 parser preview；下一步建议 Phase 2.81 sanitized evidence manifest planning。
+
 - [Phase 2.80 Codex B Review] Review 通过：Phase 2.80 仅规划 controlled scratch parser dry-run，未执行 parser、未复制或读取真实文件、未写 DB / `documents/chunks` / OpenSearch / Qdrant / MinIO、未进入 Agent final answer 或 rollout。规划明确 Phase 2.80a 必须单独授权，且 parser preview 只能输出 sanitized preview / manifest。已写入 selective docs baseline prompt，baseline 后停止，不进入 Phase 2.80a。
 
 - [Phase 2.80 Planning] 完成 Controlled Scratch Parser Dry-run Planning：新增 `docs/PHASE280_CONTROLLED_SCRATCH_PARSER_DRY_RUN_PLAN.md`，明确 parser dry-run 只能在 Phase 2.79a 小批授权样本、scratch copy、hash、cleanup 边界内运行；输出只允许 local sanitized preview / manifest，不得写 `documents/chunks`、OpenSearch、Qdrant、MinIO、platform DB 或 Hermes DB，不得接入 Agent final answer。本轮未执行 parser、未复制真实文件、未读取真实正文、未写 DB/index/object-store、未进入 rollout。下一步需 Codex B review；Phase 2.80a 必须单独授权。

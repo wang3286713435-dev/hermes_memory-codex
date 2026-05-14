@@ -2,6 +2,16 @@
 
 ## 最新状态
 
+1. Phase 2.80a Mac mini / 测试机 controlled scratch parser dry-run 已返回 `Go`。
+2. 验证结果：3 个小型非敏感样本完成 copy、parser dry-run preview 与 cleanup，`cleanup_status=all_deleted`。
+3. 安全结果：未输出 raw text / secret / raw row / 真实文件名 / 真实 NAS 路径 / 敏感业务数据；未写 DB / `documents/chunks` / OpenSearch / Qdrant / MinIO；未接入 Agent final answer；未 rollout。
+4. 当前能力边界：Hermes 只证明了“权限证明 + 小批 scratch copy + parser dry-run preview + cleanup”，还不能基于 NAS 正文回答。
+5. 当前进入 Phase 2.81 Sanitized Evidence Manifest Planning。
+6. Phase 2.81 只规划 manifest；不得生成真实 manifest artifact，不得写 DB / index / object store，不得接入 Agent final answer。
+7. Codex B review 已通过；下一步只允许 selective docs baseline，baseline 后停止。
+
+## 最新状态
+
 1. Phase 2.80 Controlled Scratch Parser Dry-run Planning 已完成。
 2. 新增 `docs/PHASE280_CONTROLLED_SCRATCH_PARSER_DRY_RUN_PLAN.md`。
 3. Phase 2.80a 只能在 Phase 2.79a 权限证明、1-3 小样本、scratch copy、hash、cleanup 边界内运行 parser dry-run。

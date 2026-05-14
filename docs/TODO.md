@@ -1,5 +1,18 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.81 Sanitized Evidence Manifest Planning
+
+1. Phase 2.80a Mac mini / 测试机 controlled scratch parser dry-run 已返回 `go`。
+2. 验证结果：`sample_count=3`、`copied_count=3`、`parsed_preview_count=3`、`cleanup_status=all_deleted`。
+3. 安全边界：未输出 raw text / secret / raw row / 真实文件名 / 真实 NAS 路径 / 敏感业务数据；未写 DB / OpenSearch / Qdrant / MinIO；未接入 Agent answer；未 rollout。
+4. 当前能力：Hermes 已证明可在权限证明下复制小批授权样本到本地 scratch，并执行 parser dry-run preview 后清理。
+5. 当前仍未完成：sanitized evidence manifest、ingestion、`documents/chunks` 写入、OpenSearch / Qdrant 写入、Agent 基于 NAS 正文回答。
+6. 已新增 `docs/PHASE281_SANITIZED_EVIDENCE_MANIFEST_PLAN.md`。
+7. Phase 2.81 只做 sanitized evidence manifest planning；未实现 manifest runner。
+8. Phase 2.81a 如获授权，只能生成 ignored local manifest，不得写 DB/index/object-store，不得接入 Agent answer。
+9. 仍禁止：真实 manifest artifact 生成、DB/index/object-store 写入、Agent DB/NAS CRUD、Agent final answer integration、production rollout。
+10. Codex B review 已通过；下一步只做 Phase 2.81 docs baseline，baseline 后再决定是否另行授权 Phase 2.81a。
+
 ## Phase 2.80 Controlled Scratch Parser Dry-run Planning
 
 1. Phase 2.79a Mac mini / 测试机 small batch NAS scratch-copy smoke 已返回 `go`。
