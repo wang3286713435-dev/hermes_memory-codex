@@ -2,6 +2,15 @@
 
 ## 最新状态
 
+1. Phase 2.82a baseline 已完成：commit `1838e3a`，tag `phase-2.82a-evidence-eligibility-dry-run-baseline`。
+2. 当前进入 Phase 2.83 Evidence Write Payload Contract Planning。
+3. 新增 `docs/PHASE283_EVIDENCE_WRITE_PAYLOAD_CONTRACT_PLAN.md`。
+4. 规划边界：payload contract 是 planning-only，不是 document evidence；不得生成 payload artifact，不得写 `documents/chunks`。
+5. 当前仍禁止 parser、真实文件复制、DB / `documents/chunks` / OpenSearch / Qdrant / MinIO 写入、Agent answer integration 与 rollout。
+6. Codex B review 已通过；下一步只允许 selective docs baseline，baseline 后停止。
+
+## 最新状态
+
 1. Phase 2.82 baseline 已完成：commit `931e6e1`，tag `phase-2.82-evidence-write-eligibility-plan-baseline`。
 2. 当前进入 Phase 2.82a Evidence Write Eligibility Dry-run Implementation。
 3. 新增 `evidence_eligibility` service 与 CLI：从 ignored local sanitized manifest 生成 ignored eligibility report。

@@ -1,5 +1,16 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.83 Evidence Write Payload Contract Planning
+
+1. Phase 2.82a baseline 已完成：commit `1838e3a`，tag `phase-2.82a-evidence-eligibility-dry-run-baseline`。
+2. 当前进入 Phase 2.83：只规划 future evidence-write payload contract。
+3. 已新增 `docs/PHASE283_EVIDENCE_WRITE_PAYLOAD_CONTRACT_PLAN.md`。
+4. 规划明确：future payload 是 planning artifact，不是 document evidence，不得直接进入 Agent answer。
+5. 规划定义 future `nas_evidence_write_payload.v0` schema、candidate document / chunk contract、citation contract、decision states 与 gates。
+6. 当前仍未完成：payload dry-run builder、真实 payload artifact、`documents/chunks` 写入、OpenSearch / Qdrant 写入、Agent 基于 NAS 正文回答。
+7. 仍禁止：执行 parser、复制真实文件、读取 raw text、写 DB/index/object-store、Agent DB/NAS CRUD、Agent final answer integration、production rollout。
+8. Codex B review 已通过；下一步只做 Phase 2.83 docs baseline。
+
 ## Phase 2.82a Evidence Write Eligibility Dry-run Implementation
 
 1. Phase 2.82 baseline 已完成：commit `931e6e1`，tag `phase-2.82-evidence-write-eligibility-plan-baseline`。
