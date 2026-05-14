@@ -1,5 +1,14 @@
 # Handoff Log
 
+## 2026-05-15 02:30 Phase 2.84
+- goal: Plan controlled evidence write preflight after Phase 2.83a payload dry-run baseline.
+- changed_files: `docs/PHASE284_CONTROLLED_EVIDENCE_WRITE_PREFLIGHT_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON validation passed; `reports/agent_runs/latest.json` ignore check passed.
+- validation: Review confirmed Phase 2.84 is docs-only; no preflight runner, preflight artifact, parser, real file copy/read, DB / document / chunk / index / object-store write, Agent answer integration, or rollout.
+- risks: Preflight contract remains planning-only and must not be treated as write authorization.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.84 selective docs baseline and stops.
+- commit/tag if any: none.
+
 ## 2026-05-15 01:40 Phase 2.83a
 - goal: Implement local evidence-write payload dry-run builder after Phase 2.83 planning baseline.
 - changed_files: `app/services/asset_catalog/evidence_payload.py`, `app/services/asset_catalog/__init__.py`, `scripts/phase283a_evidence_write_payload.py`, `tests/test_data_steward_evidence_write_payload.py`, `reports/nas_evidence_payloads/.gitignore`, `reports/nas_evidence_payloads/README.md`, `docs/PHASE283A_EVIDENCE_WRITE_PAYLOAD_DRY_RUN.md`, handoff docs, ignored `reports/agent_runs/latest.json`.

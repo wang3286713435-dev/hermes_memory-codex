@@ -2,6 +2,16 @@
 
 ## 最新状态
 
+1. Phase 2.83a baseline 已完成：commit `4b3a9fb`，tag `phase-2.83a-evidence-payload-dry-run-baseline`。
+2. 当前进入 Phase 2.84 Controlled Evidence Write Preflight Planning。
+3. 新增 `docs/PHASE284_CONTROLLED_EVIDENCE_WRITE_PREFLIGHT_PLAN.md`。
+4. 规划边界：preflight contract 是 planning-only，不是 write authorization；不得执行 preflight runner，不得写 `documents/chunks`。
+5. 规划内容：operator approval、write scope、idempotency、rollback、citation coverage、locks、decision states 与 future Phase 2.84a gates。
+6. 当前仍禁止 parser、真实文件复制、DB / `documents/chunks` / OpenSearch / Qdrant / MinIO 写入、Agent answer integration 与 rollout。
+7. 下一步只允许 selective docs baseline，baseline 后停止。
+
+## 最新状态
+
 1. Phase 2.83 baseline 已完成：commit `d3cedc9`，tag `phase-2.83-evidence-payload-contract-plan-baseline`。
 2. 当前进入 Phase 2.83a Evidence Write Payload Dry-run Implementation。
 3. 新增 `evidence_payload` service 与 CLI：从 ignored local eligibility report 生成 ignored payload plan。
