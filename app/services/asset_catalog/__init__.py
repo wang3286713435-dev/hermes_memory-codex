@@ -38,6 +38,11 @@ from app.services.asset_catalog.evidence_write_rehearsal import (
     build_evidence_write_rehearsal_report,
     write_evidence_write_rehearsal_report,
 )
+from app.services.asset_catalog.evidence_write_runtime_preflight import (
+    RUNTIME_PREFLIGHT_VERSION,
+    build_runtime_evidence_write_preflight_report,
+    write_runtime_evidence_write_preflight_report,
+)
 from app.services.asset_catalog.evidence_writer import (
     EVIDENCE_WRITE_VERSION,
     EvidenceOnlyWriter,
@@ -147,6 +152,7 @@ __all__ = [
     "PREFLIGHT_VERSION",
     "WRITE_DRY_RUN_VERSION",
     "REHEARSAL_VERSION",
+    "RUNTIME_PREFLIGHT_VERSION",
     "EVIDENCE_WRITE_VERSION",
     "DB4A_READONLY_CONTRACT_VERSION",
     "DB4A_REQUIRED_VIEW_FIELDS",
@@ -168,6 +174,7 @@ __all__ = [
     "build_evidence_write_preflight_report",
     "build_evidence_write_dry_run_report",
     "build_evidence_write_rehearsal_report",
+    "build_runtime_evidence_write_preflight_report",
     "build_evidence_write_result",
     "run_readonly_local_live_smoke",
     "sanitize_live_smoke_result",
@@ -178,4 +185,5 @@ __all__ = [
     "write_evidence_write_preflight_report",
     "write_evidence_write_dry_run_report",
     "write_evidence_write_rehearsal_report",
+    "write_runtime_evidence_write_preflight_report",
 ]

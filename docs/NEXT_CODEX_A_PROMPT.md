@@ -1,64 +1,68 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.87d Runtime Evidence Write Execution Pack Baseline
+## Phase 2.88 Runtime Evidence Write Preflight Runner Baseline
 
-Phase 2.87d docs-only / handoff planning has been completed.
+Phase 2.88 implementation has been completed.
 Codex B review has passed.
 
-Review targets:
+Previous baseline:
 
-1. `docs/PHASE287D_RUNTIME_EVIDENCE_WRITE_EXECUTION_PACK.md`
-2. `docs/CODEX_TEST_MACHINE_RUNTIME_EVIDENCE_WRITE_SMOKE_PROMPT.md`
-3. `docs/ACTIVE_PHASE.md`
-4. `docs/PHASE_BACKLOG.md`
-5. `docs/TODO.md`
-6. `docs/DEV_LOG.md`
-7. `docs/HANDOFF_LOG.md`
+- commit: `3b01b0f`
+- tag: `phase-2.87d-runtime-evidence-write-execution-pack-baseline`
+- pushed: true
 
 ## Review Result
 
 Codex B verified:
 
-1. Phase 2.87d remains docs-only / handoff-only.
-2. The execution pack lists test-machine preconditions, reviewed refs/tags, environment key names without values, operator approval JSON path/schema, required prior report refs, and feature flag expectations.
-3. The one-run boundary remains one approved source asset, one `Document`, one `DocumentVersion`, up to 20 `Chunk` rows, matching `CitationRecord` rows, one `write_run_id`, and one operator approval id.
-4. Preflight commands are inspection-only and do not invoke writer, parser, file copy, NAS scan, DB write, index write, object-store write, audit write, or Agent answer.
-5. Mandatory stop points occur before any future writer invocation.
-6. The future Codex C prompt is clear enough for test-machine use but still says not to execute unless a later explicit prompt authorizes it.
-7. Sanitized report expectations exclude raw text, true filenames, true NAS paths, secrets, raw DB rows, and sensitive business values.
-8. Rollback dry-run and idempotency expectations remain diagnostic and do not authorize delete / cleanup / repair.
+1. The runner is preflight-only and does not import or call `EvidenceOnlyWriter.write()`.
+2. The service validates required approval fields, expiry, `target_environment=test_machine_only`, allowed action, scope limits, feature flags, payload fingerprint, idempotency key, `write_run_id`, git/worktree inputs, and prerequisite report refs.
+3. Decision states are limited to `preflight_ready_for_operator_stop`, `preflight_pause`, and `preflight_no_go`.
+4. Scope remains capped at 1 document, 1 document version, and 20 chunks.
+5. Agent answer, index write, API / CLI runtime, parser, NAS, object-store, platform DB, repair, reindex, delete, cleanup, migration, and rollout flags remain blocked.
+6. CLI output is sanitized and does not print raw approval content, secrets, raw text, true filename, true NAS path, raw DB rows, or sensitive business values.
+7. Runtime preflight reports are ignored under `reports/evidence_write_runtime_preflight/`.
+8. Target tests, Data Steward regression, py_compile, diff check, latest JSON validation, and ignore check pass.
 
 ## Goal
 
-Create the Phase 2.87d selective docs baseline and stop.
+Create the Phase 2.88 selective Git baseline and stop.
 
-This prompt does not authorize executing the test-machine prompt.
-This prompt does not authorize runtime evidence write smoke.
+This prompt does not authorize runtime evidence write execution.
+This prompt does not authorize calling `EvidenceOnlyWriter.write()`.
 This prompt does not authorize real DB writes.
-This prompt does not authorize Phase 2.88.
+This prompt does not authorize Phase 2.89.
 
 ## Allowed Files For Baseline
 
 Stage only:
 
-1. `docs/PHASE287D_RUNTIME_EVIDENCE_WRITE_EXECUTION_PACK.md`
-2. `docs/CODEX_TEST_MACHINE_RUNTIME_EVIDENCE_WRITE_SMOKE_PROMPT.md`
-3. `docs/NEXT_CODEX_A_PROMPT.md`
-4. `docs/ACTIVE_PHASE.md`
-5. `docs/PHASE_BACKLOG.md`
-6. `docs/HANDOFF_LOG.md`
-7. `docs/TODO.md`
-8. `docs/DEV_LOG.md`
+1. `app/services/asset_catalog/evidence_write_runtime_preflight.py`
+2. `app/services/asset_catalog/__init__.py`
+3. `scripts/phase288_runtime_evidence_write_preflight.py`
+4. `tests/test_data_steward_evidence_write_runtime_preflight.py`
+5. `reports/evidence_write_runtime_preflight/.gitignore`
+6. `reports/evidence_write_runtime_preflight/README.md`
+7. `docs/PHASE288_RUNTIME_EVIDENCE_WRITE_PREFLIGHT.md`
+8. `docs/NEXT_CODEX_A_PROMPT.md`
+9. `docs/ACTIVE_PHASE.md`
+10. `docs/PHASE_BACKLOG.md`
+11. `docs/HANDOFF_LOG.md`
+12. `docs/TODO.md`
+13. `docs/DEV_LOG.md`
 
 Do not stage ignored `reports/agent_runs/latest.json`.
 
-If any code, test, script, migration, report artifact, or unexpected file is dirty, stop and report.
+If any other file is dirty, stop and report.
 
 ## Validation
 
 Run before baseline:
 
 ```bash
+UV_CACHE_DIR=/private/tmp/uv-cache uv run --extra dev pytest tests/test_data_steward_evidence_write_runtime_preflight.py -q
+UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m py_compile app/services/asset_catalog/evidence_write_runtime_preflight.py scripts/phase288_runtime_evidence_write_preflight.py
+UV_CACHE_DIR=/private/tmp/uv-cache uv run --extra dev pytest tests/test_data_steward_*.py -q
 git diff --check
 UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool reports/agent_runs/latest.json >/dev/null
 git check-ignore reports/agent_runs/latest.json
@@ -78,13 +82,13 @@ Do not copy files.
 Commit message:
 
 ```text
-docs: add phase 2.87d runtime evidence write execution pack
+feat: add phase 2.88 runtime evidence write preflight
 ```
 
 Tag:
 
 ```text
-phase-2.87d-runtime-evidence-write-execution-pack-baseline
+phase-2.88-runtime-evidence-write-preflight-baseline
 ```
 
 Push `origin/main` and the tag after commit.
@@ -93,8 +97,8 @@ Push `origin/main` and the tag after commit.
 
 Still forbidden:
 
-1. executing the test-machine prompt
-2. runtime evidence write smoke execution
+1. calling `EvidenceOnlyWriter.write()`
+2. runtime evidence write execution
 3. real DB write
 4. API / CLI runtime wiring
 5. parser execution
@@ -108,8 +112,8 @@ Still forbidden:
 13. Agent DB / NAS CRUD
 14. repair / cleanup / backfill / reindex / delete / migration
 15. production rollout
-16. enabling real-write feature flags
-17. entering Phase 2.88 without a separate prompt
+16. enabling real-write feature flags outside local fixture validation
+17. entering Phase 2.89 without a separate prompt
 
 ## Completion Report
 
@@ -120,7 +124,6 @@ Report:
 3. commit hash
 4. tag
 5. push result
-6. confirmation Phase 2.87d is docs-only / handoff-only
-7. confirmation the future test-machine prompt was not executed
-8. confirmation Phase 2.88 remains blocked pending separate authorization
-9. confirmation no real DB / parser / copy / index / object-store / Agent answer action occurred
+6. confirmation preflight stops before writer invocation
+7. confirmation Phase 2.89 remains blocked pending separate authorization
+8. confirmation no real DB / parser / copy / index / object-store / Agent answer action occurred

@@ -1,5 +1,31 @@
 # Handoff Log
 
+## 2026-05-15 17:38 Phase 2.88 Codex B Review
+- goal: Review Phase 2.88 runtime evidence write preflight runner and authorize selective Git baseline.
+- changed_files: `app/services/asset_catalog/evidence_write_runtime_preflight.py`, `app/services/asset_catalog/__init__.py`, `scripts/phase288_runtime_evidence_write_preflight.py`, `tests/test_data_steward_evidence_write_runtime_preflight.py`, `reports/evidence_write_runtime_preflight/.gitignore`, `reports/evidence_write_runtime_preflight/README.md`, `docs/PHASE288_RUNTIME_EVIDENCE_WRITE_PREFLIGHT.md`, standard handoff docs, ignored `reports/agent_runs/latest.json`.
+- tests: target tests `10 passed`; py_compile passed; Data Steward regression `143 passed`; `git diff --check`, latest JSON validation, and latest ignore check passed.
+- validation: Review confirmed runner is preflight-only, does not import/call `EvidenceOnlyWriter.write()`, outputs sanitized ignored local report, and blocks writer/DB/parser/NAS/index/object-store/Agent paths.
+- risks: `preflight_ready_for_operator_stop` is not write authorization; Phase 2.89 and runtime smoke still require separate prompt, operator approval, and Codex B review.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.88 selective Git baseline and stops.
+- commit/tag if any: none.
+
+## 2026-05-15 17:30 Phase 2.88 Runtime Evidence Write Preflight Runner
+- goal: Implement local runtime evidence write preflight runner and CLI that validate approval, scope, refs, flags, idempotency, git/worktree inputs, and stop before any writer invocation.
+- changed_files: `app/services/asset_catalog/evidence_write_runtime_preflight.py`, `app/services/asset_catalog/__init__.py`, `scripts/phase288_runtime_evidence_write_preflight.py`, `tests/test_data_steward_evidence_write_runtime_preflight.py`, `reports/evidence_write_runtime_preflight/.gitignore`, `reports/evidence_write_runtime_preflight/README.md`, `docs/PHASE288_RUNTIME_EVIDENCE_WRITE_PREFLIGHT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: TDD RED observed for missing runtime preflight module / CLI; target tests `10 passed`; py_compile passed; Data Steward regression `143 passed`; `git diff --check`, latest JSON validation, and latest ignore check passed.
+- validation: Runtime preflight emits `runtime_evidence_write_preflight.v0`, supports `preflight_ready_for_operator_stop` / `preflight_pause` / `preflight_no_go`, keeps CLI output sanitized, and temp fixture CLI smoke returned `preflight_ready_for_operator_stop` with `would_invoke_writer=false`.
+- risks: `preflight_ready_for_operator_stop` is not write authorization. Real DB writes, writer invocation, parser, NAS copy/scan, index/object-store/platform DB writes, Agent answer integration, repair/reindex/rollout remain blocked.
+- next: Codex B review Phase 2.88 implementation. If accepted, user may separately authorize selective Git baseline; do not enter runtime smoke or Phase 2.89 automatically.
+- commit/tag if any: none.
+
+## 2026-05-15 17:12 Phase 2.88 Prompt
+- goal: Prepare Codex A handoff for runtime evidence write preflight runner implementation after Phase 2.87d baseline.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.87d baseline confirmed at commit `3b01b0f`, tag `phase-2.87d-runtime-evidence-write-execution-pack-baseline`; worktree was clean before prompt update.
+- risks: Phase 2.88 may implement preflight runner only. It must not call `EvidenceOnlyWriter.write()`, execute real DB writes, run parser, copy files, scan NAS, write index/object-store, enable Agent answer, repair/reindex, or rollout.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` to implement Phase 2.88 preflight runner and tests, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-15 17:02 Phase 2.87d Codex B Review
 - goal: Review Phase 2.87d runtime evidence write execution pack and authorize selective docs baseline.
 - changed_files: `docs/PHASE287D_RUNTIME_EVIDENCE_WRITE_EXECUTION_PACK.md`, `docs/CODEX_TEST_MACHINE_RUNTIME_EVIDENCE_WRITE_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.

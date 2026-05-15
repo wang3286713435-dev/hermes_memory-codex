@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.88 Runtime Evidence Write Preflight Runner
+
+1. Phase 2.87d baseline 已完成：commit `3b01b0f`，tag `phase-2.87d-runtime-evidence-write-execution-pack-baseline`，pushed=true。
+2. Phase 2.88 首轮 implementation 已完成：新增 runtime evidence write preflight service、CLI、target tests、ignored report storage 与阶段文档。
+3. Runner 读取 local operator approval JSON 与本地 sanitized prerequisite report refs，校验 required fields、expiry、test-machine env、scope limits、allowed write action、feature flags、idempotency key、write_run_id、payload fingerprint 与 git/worktree 状态。
+4. 决策状态：`preflight_ready_for_operator_stop`、`preflight_pause`、`preflight_no_go`。
+5. 本阶段未调用 `EvidenceOnlyWriter.write()`，未执行真实 DB write，未接 API / CLI runtime，未运行 parser，未复制文件，未写 OpenSearch / Qdrant / MinIO，未接 Agent answer，未启用真实写入 feature flags。
+6. Codex B review 已通过；下一步只做 selective Git baseline，不自动进入 Phase 2.89 或真实 runtime smoke。
+
 ## Phase 2.87d Runtime Evidence Write Smoke Execution Pack Planning
 
 1. Phase 2.87c baseline 已完成：commit `490b5ca`，tag `phase-2.87c-runtime-evidence-write-smoke-plan-baseline`，pushed=true。

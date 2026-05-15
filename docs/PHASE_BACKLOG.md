@@ -2,22 +2,23 @@
 
 ## 最新状态
 
+1. Phase 2.87d baseline 已完成：commit `3b01b0f`，tag `phase-2.87d-runtime-evidence-write-execution-pack-baseline`，pushed=true。
+2. Phase 2.88 Runtime Evidence Write Preflight Runner 已完成首轮实现，等待 Codex B review。
+3. 新增 `app/services/asset_catalog/evidence_write_runtime_preflight.py` 与 `scripts/phase288_runtime_evidence_write_preflight.py`，用于本地 preflight-only validation。
+4. Preflight runner 校验 operator approval、report refs、feature flags、scope limits、idempotency、payload fingerprint、git commit 与 worktree status，并返回 `preflight_ready_for_operator_stop` / `preflight_pause` / `preflight_no_go`。
+5. 验证通过：target tests `10 passed`，py_compile 通过，Data Steward regression `143 passed`，temp fixture CLI smoke 返回 `preflight_ready_for_operator_stop`。
+6. `preflight_ready_for_operator_stop` 只表示必须停在 operator stop point，不授权 writer invocation。
+7. 当前仍禁止调用 `EvidenceOnlyWriter.write()`、真实 DB 写入、parser、真实文件复制、raw content 读取、NAS scan、OpenSearch / Qdrant / MinIO 写入、platform DB 写入、Agent answer integration、Agent DB / NAS CRUD、repair/reindex/rollout。
+8. Codex B review 已通过；下一步只做 Phase 2.88 selective Git baseline。不得自动进入 Phase 2.89 或真实 smoke。
+
+## 最新状态
+
 1. Phase 2.87c baseline 已完成：commit `490b5ca`，tag `phase-2.87c-runtime-evidence-write-smoke-plan-baseline`，pushed=true。
 2. 当前进入 Phase 2.87d Runtime Evidence Write Smoke Execution Pack Planning。
 3. Phase 2.87d 只创建未来 Mac mini / 测试机 runtime evidence write smoke 的执行交接包和 Codex C/test-machine prompt。
 4. 本阶段仍不执行 writer，不写真实 DB，不接 API / CLI runtime，不运行 parser，不复制文件，不写 index/object-store，不接 Agent answer。
 5. 规划重点：测试机前置条件、reviewed refs、env key names、operator approval JSON、prior report refs、feature flags、one-run write boundary、preflight-only commands、stop points、sanitized report、rollback/idempotency checks 与 Go / Pause / No-Go。
 6. Codex B review 已通过；下一步只做 Phase 2.87d selective docs baseline。不得执行测试机 prompt，不得自动进入 Phase 2.88 或真实 smoke。
-
-## 最新状态
-
-1. Phase 2.87b baseline 已完成：commit `44cc837`，tag `phase-2.87b-evidence-only-writer-baseline`，pushed=true。
-2. Phase 2.87c baseline 已完成：commit `490b5ca`，tag `phase-2.87c-runtime-evidence-write-smoke-plan-baseline`，pushed=true。
-3. Phase 2.87d Runtime Evidence Write Smoke Execution Pack Planning 已完成 docs-only / handoff plan。
-4. 新增 `docs/PHASE287D_RUNTIME_EVIDENCE_WRITE_EXECUTION_PACK.md` 与 `docs/CODEX_TEST_MACHINE_RUNTIME_EVIDENCE_WRITE_SMOKE_PROMPT.md`，将 Phase 2.87c plan 转为 future Codex C / test-machine 交接包。
-5. Phase 2.87d 不授权真实写入，不接 API / CLI runtime，不运行 writer/parser/copy，不启用真实写入 feature flags。
-6. 当前仍禁止真实 DB 写入、parser、真实文件复制、raw content 读取、NAS scan、OpenSearch / Qdrant / MinIO 写入、platform DB 写入、Agent answer integration、Agent DB / NAS CRUD、repair/reindex/rollout。
-7. 下一步：Codex B review 2.87d execution pack；如通过，再生成 selective docs baseline prompt。不得自动执行 Codex C prompt 或真实 smoke。
 
 ## 最新状态
 
