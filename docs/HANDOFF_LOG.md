@@ -1,5 +1,32 @@
 # Handoff Log
 
+## 2026-05-15 13:36 Phase 2.87b Codex B Review
+- goal: Review Phase 2.87b evidence-only writer implementation and authorize selective Git baseline.
+- changed_files: `app/services/asset_catalog/evidence_writer.py`, `app/services/asset_catalog/__init__.py`, `tests/test_data_steward_evidence_writer.py`, `docs/PHASE287B_EVIDENCE_ONLY_WRITER.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: target tests `7 passed`; py_compile passed; Data Steward regression `133 passed`; `git diff --check`, latest JSON validation, and latest ignore check passed.
+- validation: Review confirmed writer writes only through injected test-local SQLAlchemy session, targets only `Document` / `DocumentVersion` / `Chunk` / `CitationRecord`, persists run-scoped metadata under `metadata_json`, handles duplicate/conflict idempotency, and provides rollback dry-run without deleting rows.
+- risks: Phase 2.87b still does not authorize real DB smoke, API / CLI wiring, parser, NAS copy, index writes, object-store writes, Agent answer integration, or rollout.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.87b selective Git baseline and stops.
+- commit/tag if any: none.
+
+## 2026-05-15 15:49 Phase 2.87b Evidence-only Writer Service
+- goal: Implement a dedicated evidence-only writer service for future test-machine smoke, limited to test-local SQLAlchemy session writes.
+- changed_files: `app/services/asset_catalog/evidence_writer.py`, `app/services/asset_catalog/__init__.py`, `tests/test_data_steward_evidence_writer.py`, `docs/PHASE287B_EVIDENCE_ONLY_WRITER.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: TDD RED observed for missing `app.services.asset_catalog.evidence_writer`; target tests `7 passed`; py_compile passed; Data Steward regression `133 passed`.
+- validation: Writer creates only `Document`, `DocumentVersion`, `Chunk`, and `CitationRecord` through injected test DB/session; implements fail-closed gates, idempotency duplicate/conflict handling, and run-scoped rollback dry-run; no API/CLI/runtime wiring.
+- risks: This is not a real DB smoke and does not authorize real evidence write. Runtime smoke, operator approval, and any API/CLI entrypoint remain blocked.
+- next: Codex B review Phase 2.87b implementation; if accepted, user may separately authorize selective baseline. Do not enter Phase 2.87c automatically.
+- commit/tag if any: none.
+
+## 2026-05-15 13:15 Phase 2.87b Prompt
+- goal: Prepare Codex A handoff for evidence-only writer service implementation after Phase 2.87a baseline.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: pending final static validation in this handoff.
+- validation: Phase 2.87a baseline confirmed at commit `fb7baba`, tag `phase-2.87a-write-target-discovery-baseline`; Phase 2.87b permits test-local DB/session tests only.
+- risks: Writer implementation must not be wired to API / CLI runtime or executed against real DB.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` to implement Phase 2.87b, run target tests/regression, and stop for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-15 12:58 Phase 2.87a Codex B Review
 - goal: Review Phase 2.87a exact write target discovery and authorize selective docs baseline.
 - changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.

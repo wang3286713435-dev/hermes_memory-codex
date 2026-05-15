@@ -1,5 +1,16 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.87b Evidence-only Writer Service Implementation
+
+1. Phase 2.87a baseline 已完成：commit `fb7baba`，tag `phase-2.87a-write-target-discovery-baseline`，pushed=true。
+2. Phase 2.87b 首轮实现已完成：新增 dedicated evidence-only writer service 与测试。
+3. Writer 只允许在 test-local DB/session 中验证 `Document`、`DocumentVersion`、`Chunk`、`CitationRecord` 边界。
+4. 已覆盖 approval/feature flag gates、chunk limit、forbidden raw fields、idempotency duplicate/conflict、rollback dry-run。
+5. 验证通过：TDD RED 已观察；目标测试 `7 passed`；py_compile 通过；Data Steward regression `133 passed`。
+6. Codex B review 已通过；下一步只做 selective Git baseline。
+7. 本阶段仍不执行真实 DB smoke，不接 API / CLI runtime，不写 index/object-store，不接 Agent answer。
+8. 仍禁止：真实 `documents/chunks/document_versions` 写入、OpenSearch / Qdrant / MinIO 写入、platform DB 写入、NAS scan、parser、raw content 输出、Agent DB/NAS CRUD、production rollout。
+
 ## Phase 2.87a Exact Write Target Discovery / Implementation Gate
 
 1. Phase 2.87 baseline 已完成：commit `069fbec`，tag `phase-2.87-first-real-evidence-write-smoke-plan-baseline`，pushed=true。

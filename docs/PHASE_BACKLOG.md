@@ -2,6 +2,16 @@
 
 ## 最新状态
 
+1. Phase 2.87b Evidence-only Writer Service Implementation 已完成首轮实现，等待 Codex B review。
+2. 新增 `app/services/asset_catalog/evidence_writer.py`，提供 `EvidenceOnlyWriter`、`EvidenceWriteDecision`、`EvidenceWriteRollbackPlan` 与 `build_evidence_write_result()`。
+3. Writer 只允许通过注入 SQLAlchemy session 在 test-local DB 中创建 `Document`、`DocumentVersion`、`Chunk`、`CitationRecord`。
+4. 已实现 fail-closed gates、1 document / 1 version / <=20 chunks 限制、forbidden raw-field 拒绝、idempotency duplicate / conflict 判定与 run-scoped rollback dry-run。
+5. 验证通过：TDD RED 已观察；目标测试 `7 passed`；py_compile 通过；Data Steward regression `133 passed`。
+6. 当前仍禁止真实 DB write、API / CLI runtime wiring、parser、真实文件复制、NAS scan、OpenSearch / Qdrant / MinIO 写入、audit table write、Agent answer integration、repair/reindex/rollout。
+7. Codex B review 已通过；下一步只做 Phase 2.87b selective baseline。不得自动进入 Phase 2.87c 或真实 evidence write smoke。
+
+## 最新状态
+
 1. Phase 2.87a Exact Write Target Discovery 已完成 docs-only / read-only discovery。
 2. 新增 `docs/PHASE287A_EXACT_WRITE_TARGET_DISCOVERY.md`，识别候选 evidence tables：`documents`、`document_versions`、`chunks`、`citations`，可选 bookkeeping `ingestion_jobs`。
 3. 发现关键阻塞：现有 `DocumentIngestionService.ingest_uploaded_file()` 读取 file bytes、调用 parser/chunker、写 OpenSearch/Qdrant，不适合作为 first real evidence-only smoke 入口。
