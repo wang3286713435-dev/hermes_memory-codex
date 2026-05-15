@@ -1,5 +1,15 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.87a Exact Write Target Discovery / Implementation Gate
+
+1. Phase 2.87 baseline 已完成：commit `069fbec`，tag `phase-2.87-first-real-evidence-write-smoke-plan-baseline`，pushed=true。
+2. Phase 2.87a discovery 已完成，新增 `docs/PHASE287A_EXACT_WRITE_TARGET_DISCOVERY.md`。
+3. 候选 write targets 已识别：`Document/documents`、`DocumentVersion/document_versions`、`Chunk/chunks`、`CitationRecord/citations`，可选 `IngestionJob/ingestion_jobs`。
+4. 关键阻塞：现有 upload ingestion path 会读取 file bytes、执行 parser/chunker，并可能写 OpenSearch/Qdrant；不得直接复用为 first real evidence-only smoke。
+5. direct real write 当前仍为 `Pause`；Phase 2.87b 如后续授权，应先实现 dedicated evidence-only writer service、idempotency metadata 与 run-scoped rollback dry-run。
+6. Codex B review 已通过；下一步只做 selective docs baseline。
+7. 仍禁止：真实 `documents/chunks/document_versions` 写入、OpenSearch / Qdrant / MinIO 写入、platform DB 写入、NAS scan、parser、raw content 输出、Agent DB/NAS CRUD、production rollout。
+
 ## Phase 2.87 First Real Hermes Evidence Write Smoke Planning
 
 1. Phase 2.87 docs-only planning 已完成，新增 `docs/PHASE287_FIRST_REAL_EVIDENCE_WRITE_SMOKE_PLAN.md`。

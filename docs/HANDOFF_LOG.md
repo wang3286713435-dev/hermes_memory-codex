@@ -1,5 +1,23 @@
 # Handoff Log
 
+## 2026-05-15 12:58 Phase 2.87a Codex B Review
+- goal: Review Phase 2.87a exact write target discovery and authorize selective docs baseline.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON validation passed; `reports/agent_runs/latest.json` ignore check passed.
+- validation: Review confirmed discovery identifies candidate evidence tables (`documents`, `document_versions`, `chunks`, `citations`, optional `ingestion_jobs`), rejects direct `DocumentIngestionService.ingest_uploaded_file()` reuse, and keeps real write as `Pause` pending dedicated writer, idempotency metadata, and rollback / invalidation design.
+- risks: Phase 2.87b remains blocked; no writer implementation or real DB write is authorized by this review.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.87a selective docs baseline and stops.
+- commit/tag if any: none.
+
+## 2026-05-15 12:40 Phase 2.87a Prompt
+- goal: Prepare Codex A handoff for exact write target discovery after Phase 2.87 baseline.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: pending final static validation in this handoff.
+- validation: Phase 2.87 baseline confirmed at commit `069fbec`, tag `phase-2.87-first-real-evidence-write-smoke-plan-baseline`; Phase 2.87a remains docs-only / read-only discovery.
+- risks: Exact target discovery must not turn into writer implementation or real DB write.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` to create `docs/PHASE287A_EXACT_WRITE_TARGET_DISCOVERY.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-15 12:24 Phase 2.87 Codex B Review
 - goal: Review Phase 2.87 first real Hermes evidence write smoke planning and authorize selective docs baseline.
 - changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -6680,4 +6698,14 @@
 - validation: Plan covers tiny scope, separate operator approval, prerequisite chain, feature flags default off, exact write target gate, rollback boundary, sanitized report boundary, Go / Pause / No-Go, DB platform handoff, and 2.87a / 2.88 / 2.89 split.
 - risks: Phase 2.87 is planning-only; real evidence write, writer implementation, parser, DB/index/object-store writes, NAS scan, and Agent answer integration remain unauthorized.
 - next: Codex B review Phase 2.87 plan; if accepted, user may separately authorize docs-only baseline. Do not enter Phase 2.87a automatically.
+- commit/tag if any: none.
+
+## 2026-05-15 13:55 Phase 2.87a Exact Write Target Discovery
+
+- goal: Discover exact Hermes evidence write models, tables, service methods, transaction boundary, idempotency, and rollback / invalidation blockers before any future real smoke.
+- changed_files: `docs/PHASE287A_EXACT_WRITE_TARGET_DISCOVERY.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check`; latest JSON validation; `git check-ignore reports/agent_runs/latest.json`; `git status --short`.
+- validation: Candidate targets identified as `documents`, `document_versions`, `chunks`, `citations`, and optional `ingestion_jobs`; direct reuse of `DocumentIngestionService.ingest_uploaded_file()` marked No-Go because it invokes file bytes, parser/chunker, OpenSearch, and Qdrant paths.
+- risks: no dedicated evidence-only writer service; no committed-smoke rollback / invalidation method; no fixed idempotency metadata location. Direct real write remains Pause.
+- next: Codex B review Phase 2.87a discovery; if accepted, user may separately authorize docs-only baseline. Do not enter Phase 2.87b automatically.
 - commit/tag if any: none.

@@ -2,6 +2,16 @@
 
 ## 最新状态
 
+1. Phase 2.87a Exact Write Target Discovery 已完成 docs-only / read-only discovery。
+2. 新增 `docs/PHASE287A_EXACT_WRITE_TARGET_DISCOVERY.md`，识别候选 evidence tables：`documents`、`document_versions`、`chunks`、`citations`，可选 bookkeeping `ingestion_jobs`。
+3. 发现关键阻塞：现有 `DocumentIngestionService.ingest_uploaded_file()` 读取 file bytes、调用 parser/chunker、写 OpenSearch/Qdrant，不适合作为 first real evidence-only smoke 入口。
+4. 当前 direct real write 仍为 `Pause`；Phase 2.87b 如后续授权，应先规划/实现 dedicated evidence-only writer service、idempotency metadata 与 run-scoped rollback dry-run。
+5. 当前仍禁止 writer implementation、真实 `documents/chunks/document_versions` 写入、DB/index/object-store 写入、parser、真实文件复制、NAS scan、Agent answer integration、repair/reindex/rollout。
+6. Phase 2.87a discovery 已完成，Codex B review 已通过；下一步只做 selective docs baseline。
+7. 不得自动进入 Phase 2.87b；真实 evidence write 仍需 dedicated writer / idempotency / rollback 设计与单独 prompt。
+
+## 最新状态
+
 1. Phase 2.87 First Real Hermes Evidence Write Smoke Planning 已完成 docs-only 规划。
 2. 新增 `docs/PHASE287_FIRST_REAL_EVIDENCE_WRITE_SMOKE_PLAN.md`，定义未来 Mac mini / 测试机第一次真实 Hermes evidence write smoke 的安全门槛。
 3. 规划固定 tiny scope：最多 1 source asset、1 document version、20 chunks；Phase 2.87a 必须另行 explicit operator approval。
