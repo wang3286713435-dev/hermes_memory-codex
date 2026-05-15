@@ -1,5 +1,31 @@
 # Handoff Log
 
+## 2026-05-15 18:18 Phase 2.89 Codex B Review
+- goal: Review Phase 2.89 test-machine runtime preflight smoke handoff and authorize selective docs baseline.
+- changed_files: `docs/PHASE289_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PLAN.md`, `docs/CODEX_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check`, latest JSON validation, and latest ignore check passed.
+- validation: Review confirmed the package is handoff-only; the future test-machine prompt fixes reviewed ref `b09c3d1`, allows only the Phase 2.88 preflight runner command, requires ignored local approval/worktree/output paths, and treats `preflight_ready_for_operator_stop` as a stop condition rather than write authorization.
+- risks: Executing the test-machine prompt, running the preflight runner, writer invocation, real DB writes, parser, NAS copy/scan, index/object-store writes, Agent answer integration, repair/reindex/rollout, and real-write feature flags remain blocked.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.89 selective docs baseline and stops.
+- commit/tag if any: none.
+
+## 2026-05-15 18:08 Phase 2.89 Test-Machine Runtime Preflight Smoke Handoff
+- goal: Create docs-only / handoff-only package for running the Phase 2.88 preflight runner on Mac mini / test machine in a future separately authorized step.
+- changed_files: `docs/PHASE289_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PLAN.md`, `docs/CODEX_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: docs/static validation only; no pytest required because no code changed.
+- validation: Plan and prompt fix reviewed ref to `b09c3d1`, restrict the future test-machine run to `scripts/phase288_runtime_evidence_write_preflight.py`, require local ignored approval/worktree/output paths, sanitize reporting, and stop at `preflight_ready_for_operator_stop`.
+- risks: The future preflight run is still not writer authorization; real DB writes, parser, NAS, index/object-store, Agent answer, repair/reindex/rollout remain blocked.
+- next: Codex B review Phase 2.89 docs; if accepted, write selective docs baseline prompt. Do not execute the test-machine prompt automatically.
+- commit/tag if any: none.
+
+## 2026-05-15 18:05 Phase 2.89 Prompt
+- goal: Advance from Phase 2.88 baseline to docs-only / handoff-only test-machine runtime preflight smoke preparation.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.88 baseline confirmed at commit `b09c3d1`, tag `phase-2.88-runtime-evidence-write-preflight-baseline`; worktree was clean before prompt update.
+- risks: Phase 2.89 must not run preflight runner locally, call `EvidenceOnlyWriter.write()`, execute real DB writes, run parser, copy NAS files, write index/object-store, integrate Agent answers, or enable real-write feature flags.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` to create Phase 2.89 plan and Codex C/test-machine prompt, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-15 17:38 Phase 2.88 Codex B Review
 - goal: Review Phase 2.88 runtime evidence write preflight runner and authorize selective Git baseline.
 - changed_files: `app/services/asset_catalog/evidence_write_runtime_preflight.py`, `app/services/asset_catalog/__init__.py`, `scripts/phase288_runtime_evidence_write_preflight.py`, `tests/test_data_steward_evidence_write_runtime_preflight.py`, `reports/evidence_write_runtime_preflight/.gitignore`, `reports/evidence_write_runtime_preflight/README.md`, `docs/PHASE288_RUNTIME_EVIDENCE_WRITE_PREFLIGHT.md`, standard handoff docs, ignored `reports/agent_runs/latest.json`.

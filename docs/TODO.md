@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.89 Test-Machine Runtime Preflight Smoke Handoff
+
+1. Phase 2.88 baseline 已完成：commit `b09c3d1`，tag `phase-2.88-runtime-evidence-write-preflight-baseline`，pushed=true。
+2. Phase 2.89 docs-only / handoff-only package 已完成，Codex B review 通过。
+3. 测试机 prompt 固定 reviewed ref `b09c3d1` / `phase-2.88-runtime-evidence-write-preflight-baseline`，只允许运行 `scripts/phase288_runtime_evidence_write_preflight.py`。
+4. Handoff 明确 local ignored approval JSON、worktree status file、output report path、sanitized fields、Go/Pause/No-Go 与 `preflight_ready_for_operator_stop` 后强制停止。
+5. 当前仍不授权 `EvidenceOnlyWriter.write()`、真实 DB 写入、parser、NAS copy/scan、OpenSearch / Qdrant / MinIO 写入、Agent answer integration、repair/reindex/rollout。
+6. 下一步：只做 Phase 2.89 selective docs baseline，不自动执行测试机 prompt。
+
 ## Phase 2.88 Runtime Evidence Write Preflight Runner
 
 1. Phase 2.87d baseline 已完成：commit `3b01b0f`，tag `phase-2.87d-runtime-evidence-write-execution-pack-baseline`，pushed=true。

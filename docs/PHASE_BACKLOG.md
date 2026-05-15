@@ -2,6 +2,16 @@
 
 ## 最新状态
 
+1. Phase 2.88 baseline 已完成：commit `b09c3d1`，tag `phase-2.88-runtime-evidence-write-preflight-baseline`，pushed=true。
+2. Phase 2.89 Test-Machine Runtime Preflight Smoke Handoff 已完成 docs-only 交接包，Codex B review 通过。
+3. 新增 `docs/PHASE289_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PLAN.md` 与 `docs/CODEX_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PROMPT.md`。
+4. 交接包让 Mac mini / 测试机只验证 operator approval、sanitized prerequisite report refs、git/worktree 状态和 ignored output report，并在 `preflight_ready_for_operator_stop` 停止。
+5. Phase 2.89 未执行 preflight runner，未调用 `EvidenceOnlyWriter.write()`，未写真实 DB，未运行 parser，未复制/扫描 NAS，未写 OpenSearch / Qdrant / MinIO，未接 Agent answer。
+6. 下一步：只做 Phase 2.89 selective docs baseline，不自动执行测试机 prompt。
+7. 真实 runtime evidence write smoke、writer invocation、index/object-store 写入和 Agent answer integration 仍需后续单独授权。
+
+## 最新状态
+
 1. Phase 2.87d baseline 已完成：commit `3b01b0f`，tag `phase-2.87d-runtime-evidence-write-execution-pack-baseline`，pushed=true。
 2. Phase 2.88 Runtime Evidence Write Preflight Runner 已完成首轮实现，等待 Codex B review。
 3. 新增 `app/services/asset_catalog/evidence_write_runtime_preflight.py` 与 `scripts/phase288_runtime_evidence_write_preflight.py`，用于本地 preflight-only validation。
