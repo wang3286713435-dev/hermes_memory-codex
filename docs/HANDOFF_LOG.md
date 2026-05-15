@@ -6534,3 +6534,12 @@
 - hard_boundaries: no secret/raw row/business value output, no DB writes, no NAS scan, no mirror/indexing/Agent CRUD, no repair/backfill/reindex/delete/migration, no rollout.
 - next: user can hand `docs/CODEX_TEST_MACHINE_V11_ADAPTER_SMOKE_PROMPT.md` to test-machine Codex; wait for Go/Pause/No-Go before baseline or further coupling.
 - commit/tag if any: none.
+
+## 2026-05-15 Phase 2.84a Evidence Write Preflight Dry-run
+
+- goal: Add local ignored preflight dry-run evaluator as the final safety gate before any future controlled evidence-write dry-run.
+- implementation: Added `app/services/asset_catalog/evidence_preflight.py`, `scripts/phase284a_evidence_write_preflight.py`, tests, ignored `reports/nas_evidence_preflight/`, and Phase 2.84a docs.
+- validation: py_compile passed; target preflight tests `7 passed`; Data Steward regression `111 passed`; diff / JSON / ignore checks passed.
+- hard_boundaries: no actual evidence write, no `documents/chunks`, no DB/index/object-store writes, no parser, no file copy, no NAS scan, no Agent answer integration, no repair/reindex/rollout.
+- next: Execute `docs/NEXT_CODEX_A_PROMPT.md` selective baseline; do not enter Phase 2.85 before baseline.
+- commit/tag if any: pending.

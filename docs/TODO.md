@@ -1,15 +1,15 @@
 # Hermes Memory 当前待办清单
 
-## Phase 2.84 Controlled Evidence Write Preflight Planning
+## Phase 2.84a Evidence Write Preflight Dry-run Implementation
 
-1. Phase 2.83a baseline 已完成：commit `4b3a9fb`，tag `phase-2.83a-evidence-payload-dry-run-baseline`。
-2. 当前进入 Phase 2.84：只规划 controlled evidence write preflight。
-3. 已新增 `docs/PHASE284_CONTROLLED_EVIDENCE_WRITE_PREFLIGHT_PLAN.md`。
-4. 规划明确：preflight contract 是 planning-only，不是 write authorization，不得直接进入 Agent answer。
-5. 规划定义 future `nas_evidence_write_preflight.v0` schema、operator approval、write scope、idempotency、rollback、citation coverage、locks 与 decision states。
-6. 当前仍未完成：write-preflight evaluator、真实 preflight artifact、`documents/chunks` 写入、OpenSearch / Qdrant 写入、Agent 基于 NAS 正文回答。
+1. Phase 2.84 baseline 已完成：commit `c554488`，tag `phase-2.84-evidence-write-preflight-plan-baseline`。
+2. 当前进入 Phase 2.84a：local controlled evidence-write preflight dry-run。
+3. 已新增 `AssetCatalog` preflight evaluator 与 CLI，从 ignored local payload plan + operator approval JSON 生成 ignored local preflight report。
+4. Preflight states：`write_preflight_not_allowed`、`write_preflight_ready_for_dry_run`、`write_preflight_no_go`。
+5. `write_preflight_ready_for_dry_run` 只表示“可进入未来 controlled evidence write dry-run 规划”，不表示已写入、已索引或可回答。
+6. 当前仍未完成：真实 `documents/chunks` 写入、OpenSearch / Qdrant 写入、Agent 基于 NAS 正文回答。
 7. 仍禁止：执行 parser、复制真实文件、读取 raw text、写 DB/index/object-store、Agent DB/NAS CRUD、Agent final answer integration、production rollout。
-8. Codex B review 已通过；下一步只做 Phase 2.84 docs baseline。
+8. 下一步只做 Phase 2.84a Git baseline，baseline 后再决定 future controlled evidence write dry-run planning。
 
 ## Phase 2.83a Evidence Write Payload Dry-run Implementation
 

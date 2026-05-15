@@ -2,6 +2,16 @@
 
 ## 最新状态
 
+1. Phase 2.84 baseline 已完成：commit `c554488`，tag `phase-2.84-evidence-write-preflight-plan-baseline`。
+2. 当前进入 Phase 2.84a Evidence Write Preflight Dry-run Implementation。
+3. 新增 `evidence_preflight` service 与 CLI：从 ignored local payload plan + operator approval JSON 生成 ignored local preflight report。
+4. Preflight states：`write_preflight_not_allowed`、`write_preflight_ready_for_dry_run`、`write_preflight_no_go`。
+5. `write_preflight_ready_for_dry_run` 仍不授权任何写入、索引、parser、copy 或 Agent answer；preflight report 仍不是 document evidence。
+6. 当前仍禁止 parser、真实文件复制、DB / `documents/chunks` / OpenSearch / Qdrant / MinIO 写入、Agent answer integration 与 rollout。
+7. 下一步只允许 selective Git baseline，baseline 后停止。
+
+## 最新状态
+
 1. Phase 2.83a baseline 已完成：commit `4b3a9fb`，tag `phase-2.83a-evidence-payload-dry-run-baseline`。
 2. 当前进入 Phase 2.84 Controlled Evidence Write Preflight Planning。
 3. 新增 `docs/PHASE284_CONTROLLED_EVIDENCE_WRITE_PREFLIGHT_PLAN.md`。
