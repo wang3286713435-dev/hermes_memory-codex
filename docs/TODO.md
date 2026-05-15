@@ -1,5 +1,15 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.86 Controlled Small-batch Real Hermes Evidence Write Planning
+
+1. Phase 2.85a baseline 已完成：commit `380e7a0`，tag `phase-2.85a-evidence-write-dry-run-baseline`，pushed=true。
+2. Phase 2.86 docs-only planning 已完成，新增 `docs/PHASE286_CONTROLLED_REAL_EVIDENCE_WRITE_PLAN.md`。
+3. 规划明确 future first real write smoke 只能是 test-machine-only tiny scope：最多 1 source asset、1 document version、20 chunks。
+4. 规划已固定 prerequisite chain、operator approval、feature flags default off、write target boundary、citation metadata、idempotency、locks、rollback dry-run 与 Go / Pause / No-Go。
+5. Codex B review 已通过；下一步只做 docs-only baseline。
+6. 后续候选仍需单独授权：Phase 2.86a local/temp repository rehearsal、Phase 2.87 first test-machine real Hermes evidence write smoke、Phase 2.88 index write planning、Phase 2.89 Agent answer integration planning。
+7. 仍禁止：执行 writer、真实写 `documents/chunks`、执行 parser、复制真实文件、读取 raw text、扫描 NAS、写 DB/index/object-store、Agent DB/NAS CRUD、Agent final answer integration、production rollout。
+
 ## Phase 2.85a Local Evidence Write Dry-run Runner Implementation
 
 1. Phase 2.85 baseline 已完成：commit `dfd9d16`，tag `phase-2.85-evidence-write-dry-run-plan-baseline`。

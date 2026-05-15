@@ -1,5 +1,23 @@
 # Handoff Log
 
+## 2026-05-15 11:04 Phase 2.86 Codex B Review
+- goal: Review Phase 2.86 controlled real evidence write planning and authorize docs-only baseline.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON validation passed; `reports/agent_runs/latest.json` ignore check passed.
+- validation: Review confirmed Phase 2.86 is planning-only and does not implement writer, real evidence write, parser, NAS copy/scan, DB/index/object-store mutation, Agent answer integration, or rollout.
+- risks: Future real write remains blocked until a separate phase, explicit operator approval, exact write targets, rollback dry-run, and test-machine-only controls.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.86 selective docs baseline and stops.
+- commit/tag if any: none.
+
+## 2026-05-15 10:54 Phase 2.86
+- goal: Prepare Codex A handoff for controlled small-batch real Hermes evidence write planning after Phase 2.85a baseline.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: pending final static validation in this handoff.
+- validation: Phase 2.85a baseline confirmed at commit `380e7a0`, tag `phase-2.85a-evidence-write-dry-run-baseline`; Phase 2.86 remains docs-only planning.
+- risks: Real `documents/chunks` write is still forbidden until a later explicit phase; dry-run artifacts remain non-evidence.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` to create `docs/PHASE286_CONTROLLED_REAL_EVIDENCE_WRITE_PLAN.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-15 02:30 Phase 2.84
 - goal: Plan controlled evidence write preflight after Phase 2.83a payload dry-run baseline.
 - changed_files: `docs/PHASE284_CONTROLLED_EVIDENCE_WRITE_PREFLIGHT_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -6597,3 +6615,13 @@
 - validation: py_compile passed; target dry-run tests `8 passed`; Data Steward regression `119 passed`; `git diff --check`, latest JSON, and ignore checks passed.
 - next: Execute `docs/NEXT_CODEX_A_PROMPT.md` selective baseline; do not enter Phase 2.86 before baseline.
 - commit/tag if any: pending.
+
+## 2026-05-15 11:01 Phase 2.86 Controlled Real Evidence Write Planning
+
+- goal: Plan a future controlled small-batch real Hermes evidence write smoke without implementing or executing writes.
+- changed_files: `docs/PHASE286_CONTROLLED_REAL_EVIDENCE_WRITE_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check`; `UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool reports/agent_runs/latest.json >/dev/null`; `git check-ignore reports/agent_runs/latest.json`; `git status --short`.
+- validation: Plan covers tiny test-machine scope, prerequisite chain, operator approval, feature flags default off, write target boundary, citation metadata, idempotency, locks, rollback dry-run, Go / Pause / No-Go, and follow-up phase split.
+- risks: Real evidence write remains unauthorized; first future write requires Codex B review, a separate phase, and explicit operator approval.
+- next: Codex B review; if accepted, perform docs-only baseline. Do not enter Phase 2.86a or 2.87 automatically.
+- commit/tag if any: none.

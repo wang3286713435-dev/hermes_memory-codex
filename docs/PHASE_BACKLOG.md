@@ -2,6 +2,24 @@
 
 ## 最新状态
 
+1. Phase 2.86 Controlled Small-batch Real Hermes Evidence Write Planning 已完成 docs-only plan。
+2. 新增 `docs/PHASE286_CONTROLLED_REAL_EVIDENCE_WRITE_PLAN.md`。
+3. 规划边界：future first real write smoke 只能 test-machine-only，建议最多 1 source asset、1 document version、20 chunks。
+4. 规划内容：permission proof、operator approval、feature flags default off、write target boundary、citation metadata、idempotency、locks、rollback dry-run、Go / Pause / No-Go、follow-up phase split。
+5. 当前仍未授权 writer implementation、真实 `documents/chunks` 写入、DB/index/object-store 写入、parser、真实文件复制、NAS scan、Agent answer integration、repair/reindex/rollout。
+6. Codex B review 已通过；下一步只做 Phase 2.86 docs baseline。不要自动进入 Phase 2.86a 或 Phase 2.87。
+
+## 最新状态
+
+1. Phase 2.85a baseline 已完成：commit `380e7a0`，tag `phase-2.85a-evidence-write-dry-run-baseline`，pushed=true。
+2. 当前进入 Phase 2.86 Controlled Small-batch Real Hermes Evidence Write Planning。
+3. Phase 2.86 只规划 future test-machine controlled real evidence write smoke，不实现 writer、不执行真实写入。
+4. 规划重点：权限证明、operator approval、feature flags default off、deterministic refs、idempotency、locks、rollback dry-run、citation metadata、Go / Pause / No-Go。
+5. 当前仍禁止真实 `documents/chunks` 写入、DB/index/object-store 写入、parser、真实文件复制、NAS scan、Agent answer integration、repair/reindex/rollout。
+6. 下一步：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 完成 docs-only planning，完成后交 Codex B review。
+
+## 最新状态
+
 1. Phase 2.85a Local Evidence Write Dry-run Runner implementation 已完成目标实现。
 2. 新增 `evidence_write_dry_run` service 与 CLI：从 ignored local `nas_evidence_write_preflight.v0` report 生成 ignored local `nas_evidence_write_dry_run.v0` report。
 3. Runner 仅使用 in-memory simulation，生成 deterministic simulated document/chunk/citation refs，并覆盖 idempotency duplicate detection 与 same-run rollback dry-run。
