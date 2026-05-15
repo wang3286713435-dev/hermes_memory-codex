@@ -2,6 +2,25 @@
 
 ## 最新状态
 
+1. Phase 2.86a Temp Evidence Write Rehearsal implementation 已完成目标验证。
+2. 新增 rehearsal service / CLI / tests / ignored report directory / docs，从 ignored local `nas_evidence_write_dry_run.v0` 生成 ignored local `nas_evidence_write_rehearsal.v0`。
+3. Rehearsal 仅使用 in-memory / temp SQLite repository，验证 temp-only document / version / chunk / citation insert ordering、idempotency、rollback dry-run 与 sanitized report。
+4. Target tests `7 passed`，Data Steward regression `126 passed`，py_compile 与 CLI temp smoke 通过。
+5. `rehearsal_go` 仍不授权真实写入，不代表 production evidence，不代表 Hermes 可回答 NAS 正文。
+6. 当前仍禁止真实 `documents/chunks/document_versions` 写入、DB/index/object-store 写入、parser、真实文件复制、NAS scan、Agent answer integration、repair/reindex/rollout。
+7. Codex B review 已通过；下一步只做 selective Git baseline。不要自动进入 Phase 2.87。
+
+## 最新状态
+
+1. Phase 2.86 baseline 已完成：commit `8455d4a`，tag `phase-2.86-controlled-real-evidence-write-plan-baseline`，pushed=true。
+2. 当前进入 Phase 2.86a Temp Evidence Write Rehearsal Implementation。
+3. 目标是从 ignored local `nas_evidence_write_dry_run.v0` report 生成 ignored local `nas_evidence_write_rehearsal.v0` report。
+4. Rehearsal 只允许 temp SQLite / in-memory repository，验证 document / version / chunk / citation 写入顺序、idempotency、rollback dry-run 和 sanitized report。
+5. 当前仍禁止真实 `documents/chunks` 写入、DB/index/object-store 写入、parser、真实文件复制、NAS scan、Agent answer integration、repair/reindex/rollout。
+6. 下一步：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 完成 2.86a implementation，完成后交 Codex B review。
+
+## 最新状态
+
 1. Phase 2.86 Controlled Small-batch Real Hermes Evidence Write Planning 已完成 docs-only plan。
 2. 新增 `docs/PHASE286_CONTROLLED_REAL_EVIDENCE_WRITE_PLAN.md`。
 3. 规划边界：future first real write smoke 只能 test-machine-only，建议最多 1 source asset、1 document version、20 chunks。

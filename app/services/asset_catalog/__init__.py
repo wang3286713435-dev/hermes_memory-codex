@@ -31,6 +31,13 @@ from app.services.asset_catalog.evidence_write_dry_run import (
     build_evidence_write_dry_run_report,
     write_evidence_write_dry_run_report,
 )
+from app.services.asset_catalog.evidence_write_rehearsal import (
+    REHEARSAL_VERSION,
+    InMemoryEvidenceWriteRehearsalStore,
+    SQLiteEvidenceWriteRehearsalStore,
+    build_evidence_write_rehearsal_report,
+    write_evidence_write_rehearsal_report,
+)
 from app.services.asset_catalog.fake_adapter import FakePlatformAssetCatalogAdapter
 from app.services.asset_catalog.mirror_preview import (
     AssetCatalogMirrorPreview,
@@ -132,12 +139,15 @@ __all__ = [
     "PAYLOAD_VERSION",
     "PREFLIGHT_VERSION",
     "WRITE_DRY_RUN_VERSION",
+    "REHEARSAL_VERSION",
     "DB4A_READONLY_CONTRACT_VERSION",
     "DB4A_REQUIRED_VIEW_FIELDS",
     "DB4B_READONLY_MAX_SAMPLE_LIMIT",
     "DB4B_READONLY_SAMPLE_MODES",
     "FakePlatformAssetCatalogAdapter",
     "InMemoryEvidenceWriteDryRunStore",
+    "InMemoryEvidenceWriteRehearsalStore",
+    "SQLiteEvidenceWriteRehearsalStore",
     "SanitizedEvidenceManifestWriteResult",
     "UnsafeParserPreviewError",
     "VIEW_CONTRACT_VERSIONS",
@@ -146,6 +156,7 @@ __all__ = [
     "build_evidence_write_payload_plan",
     "build_evidence_write_preflight_report",
     "build_evidence_write_dry_run_report",
+    "build_evidence_write_rehearsal_report",
     "run_readonly_local_live_smoke",
     "sanitize_live_smoke_result",
     "verify_forbidden_table_denials",
@@ -154,4 +165,5 @@ __all__ = [
     "write_evidence_write_payload_plan",
     "write_evidence_write_preflight_report",
     "write_evidence_write_dry_run_report",
+    "write_evidence_write_rehearsal_report",
 ]

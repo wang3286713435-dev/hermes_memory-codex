@@ -1,5 +1,16 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.86a Temp Evidence Write Rehearsal Implementation
+
+1. Phase 2.86 baseline 已完成：commit `8455d4a`，tag `phase-2.86-controlled-real-evidence-write-plan-baseline`，pushed=true。
+2. Phase 2.86a 首轮实现已完成：新增 temp repository evidence-write rehearsal service、CLI、target tests、ignored report directory 与 Phase 2.86a docs。
+3. Runner 从 ignored local `nas_evidence_write_dry_run.v0` report 生成 ignored local `nas_evidence_write_rehearsal.v0` report，使用 in-memory / temp SQLite repository rehearsal。
+4. 能力覆盖：document / version / chunk / citation rehearsal records、idempotency duplicate detection、idempotency conflict no-go、rollback dry-run、sanitized CLI summary。
+5. 验证：TDD RED 已观察；target tests `7 passed`；py_compile 通过；Data Steward regression `126 passed`；CLI temp smoke 输出 sanitized `rehearsal_go`。
+6. 当前仍未完成：真实 Hermes DB `documents/chunks/document_versions` 写入、OpenSearch / Qdrant 写入、Agent 基于 NAS 正文回答。
+7. Codex B review 已通过；下一步只做 selective Git baseline。
+8. 仍禁止：执行 parser、复制真实文件、读取 raw text、扫描 NAS、写真实 DB/index/object-store、Agent DB/NAS CRUD、Agent final answer integration、production rollout。
+
 ## Phase 2.86 Controlled Small-batch Real Hermes Evidence Write Planning
 
 1. Phase 2.85a baseline 已完成：commit `380e7a0`，tag `phase-2.85a-evidence-write-dry-run-baseline`，pushed=true。

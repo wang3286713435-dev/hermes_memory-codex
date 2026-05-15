@@ -1,0 +1,5 @@
+*.json
+*.sqlite
+*.sqlite3
+!.gitignore
+!README.md

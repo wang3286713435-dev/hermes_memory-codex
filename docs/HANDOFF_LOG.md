@@ -1,5 +1,23 @@
 # Handoff Log
 
+## 2026-05-15 11:36 Phase 2.86a Codex B Review
+- goal: Review Phase 2.86a temp evidence write rehearsal implementation and authorize selective Git baseline.
+- changed_files: `app/services/asset_catalog/evidence_write_rehearsal.py`, `app/services/asset_catalog/__init__.py`, `scripts/phase286a_temp_evidence_write_rehearsal.py`, `tests/test_data_steward_evidence_write_rehearsal.py`, `reports/nas_evidence_write_rehearsal/.gitignore`, `reports/nas_evidence_write_rehearsal/README.md`, `docs/PHASE286A_TEMP_EVIDENCE_WRITE_REHEARSAL.md`, handoff docs, ignored `reports/agent_runs/latest.json`.
+- tests: target tests `7 passed`; py_compile passed; Data Steward regression `126 passed`; `git diff --check` passed; latest JSON and ignore checks passed.
+- validation: Review confirmed implementation uses only in-memory / temp SQLite repository and keeps all real write / parser / file / NAS / DB / index / object-store / Agent flags false.
+- risks: `rehearsal_go` is temp-only and still not authorization for real Hermes DB write or Agent answer integration.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.86a selective Git baseline and stops.
+- commit/tag if any: none.
+
+## 2026-05-15 11:17 Phase 2.86a Prompt
+- goal: Prepare Codex A handoff for temp evidence write rehearsal implementation after Phase 2.86 baseline.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: pending final static validation in this handoff.
+- validation: Phase 2.86 baseline confirmed at commit `8455d4a`, tag `phase-2.86-controlled-real-evidence-write-plan-baseline`; Phase 2.86a remains temp repository rehearsal only.
+- risks: Temp repository rehearsal must not be treated as real Hermes DB write authorization or production evidence.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` to implement Phase 2.86a, run target tests and regression, then stop for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-15 11:04 Phase 2.86 Codex B Review
 - goal: Review Phase 2.86 controlled real evidence write planning and authorize docs-only baseline.
 - changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -6624,4 +6642,14 @@
 - validation: Plan covers tiny test-machine scope, prerequisite chain, operator approval, feature flags default off, write target boundary, citation metadata, idempotency, locks, rollback dry-run, Go / Pause / No-Go, and follow-up phase split.
 - risks: Real evidence write remains unauthorized; first future write requires Codex B review, a separate phase, and explicit operator approval.
 - next: Codex B review; if accepted, perform docs-only baseline. Do not enter Phase 2.86a or 2.87 automatically.
+- commit/tag if any: none.
+
+## 2026-05-15 11:42 Phase 2.86a Temp Evidence Write Rehearsal
+
+- goal: Implement a temp SQLite / in-memory evidence write rehearsal runner from ignored write-dry-run report to ignored rehearsal report.
+- changed_files: `app/services/asset_catalog/evidence_write_rehearsal.py`, `app/services/asset_catalog/__init__.py`, `scripts/phase286a_temp_evidence_write_rehearsal.py`, `tests/test_data_steward_evidence_write_rehearsal.py`, `reports/nas_evidence_write_rehearsal/.gitignore`, `reports/nas_evidence_write_rehearsal/README.md`, `docs/PHASE286A_TEMP_EVIDENCE_WRITE_REHEARSAL.md`, handoff docs, ignored `reports/agent_runs/latest.json`.
+- tests: TDD RED observed missing module / missing CLI; target tests `7 passed`; py_compile passed; Data Steward regression `126 passed`; CLI temp smoke produced sanitized `rehearsal_go`.
+- validation: Rehearsal supports in-memory and temp SQLite stores, temp-only document / version / chunk / citation rows, idempotency duplicate / conflict handling, rollback dry-run, ignored report output, and sanitized summary.
+- risks: `rehearsal_go` remains temp-only and non-production; real evidence write requires later separate phase and explicit operator approval.
+- next: Codex B review; if accepted, perform selective Git baseline. Do not enter Phase 2.87 automatically.
 - commit/tag if any: none.
