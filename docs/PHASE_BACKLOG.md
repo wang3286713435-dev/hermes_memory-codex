@@ -2,6 +2,26 @@
 
 ## 最新状态
 
+1. Phase 2.87 First Real Hermes Evidence Write Smoke Planning 已完成 docs-only 规划。
+2. 新增 `docs/PHASE287_FIRST_REAL_EVIDENCE_WRITE_SMOKE_PLAN.md`，定义未来 Mac mini / 测试机第一次真实 Hermes evidence write smoke 的安全门槛。
+3. 规划固定 tiny scope：最多 1 source asset、1 document version、20 chunks；Phase 2.87a 必须另行 explicit operator approval。
+4. 规划包括 prerequisite chain、operator approval JSON、feature flags default off、exact write target gate、rollback boundary、sanitized report boundary、Go / Pause / No-Go 与 DB platform handoff。
+5. 当前仍禁止 writer implementation、真实 `documents/chunks/document_versions` 写入、DB/index/object-store 写入、parser、真实文件复制、NAS scan、Agent answer integration、repair/reindex/rollout。
+6. Phase 2.87 planning 已完成，Codex B review 已通过；下一步只做 selective docs baseline。
+7. 不得自动进入 Phase 2.87a；真实 evidence write 仍需单独 prompt 与 operator approval JSON。
+
+## 最新状态
+
+1. Phase 2.86a baseline 已完成：commit `c5372fc`，tag `phase-2.86a-evidence-write-rehearsal-baseline`，pushed=true。
+2. 当前进入 Phase 2.87 First Real Hermes Evidence Write Smoke Planning。
+3. Phase 2.87 只规划未来 Mac mini / 测试机第一次真实 Hermes evidence write smoke，不实现 writer，不执行真实写入。
+4. 规划重点：1 asset / 1 document version / 20 chunks tiny scope、operator approval JSON、feature flags default off、exact write targets、rollback boundary、sanitized report 与 Go / Pause / No-Go。
+5. 当前仍禁止真实 `documents/chunks/document_versions` 写入、DB/index/object-store 写入、parser、真实文件复制、NAS scan、Agent answer integration、repair/reindex/rollout。
+6. Phase 2.87 planning 已完成，Codex B review 已通过；下一步只做 selective docs baseline。
+7. 不得自动进入 Phase 2.87a；真实 evidence write 仍需单独 prompt 与 operator approval JSON。
+
+## 最新状态
+
 1. Phase 2.86a Temp Evidence Write Rehearsal implementation 已完成目标验证。
 2. 新增 rehearsal service / CLI / tests / ignored report directory / docs，从 ignored local `nas_evidence_write_dry_run.v0` 生成 ignored local `nas_evidence_write_rehearsal.v0`。
 3. Rehearsal 仅使用 in-memory / temp SQLite repository，验证 temp-only document / version / chunk / citation insert ordering、idempotency、rollback dry-run 与 sanitized report。

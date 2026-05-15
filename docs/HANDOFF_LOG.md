@@ -1,5 +1,23 @@
 # Handoff Log
 
+## 2026-05-15 12:24 Phase 2.87 Codex B Review
+- goal: Review Phase 2.87 first real Hermes evidence write smoke planning and authorize selective docs baseline.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON validation passed; `reports/agent_runs/latest.json` ignore check passed.
+- validation: Review confirmed Phase 2.87 is planning-only and includes tiny scope, later operator approval, exact write target gate, feature flags default off, rollback boundary, sanitized report boundary, Go / Pause / No-Go, DB platform handoff, and 2.87a / 2.88 / 2.89 follow-up split.
+- risks: First real evidence write remains blocked; Phase 2.87a still requires separate explicit prompt and operator approval JSON.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.87 selective docs baseline and stops.
+- commit/tag if any: none.
+
+## 2026-05-15 12:10 Phase 2.87 Prompt
+- goal: Prepare Codex A handoff for first real Hermes evidence write smoke planning after Phase 2.86a baseline.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: pending final static validation in this handoff.
+- validation: Phase 2.86a baseline confirmed at commit `c5372fc`, tag `phase-2.86a-evidence-write-rehearsal-baseline`; Phase 2.87 remains docs-only planning.
+- risks: First real evidence write is still not authorized; exact write targets, operator approval, rollback dry-run, and test-machine-only controls must be planned before implementation.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` to create `docs/PHASE287_FIRST_REAL_EVIDENCE_WRITE_SMOKE_PLAN.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-15 11:36 Phase 2.86a Codex B Review
 - goal: Review Phase 2.86a temp evidence write rehearsal implementation and authorize selective Git baseline.
 - changed_files: `app/services/asset_catalog/evidence_write_rehearsal.py`, `app/services/asset_catalog/__init__.py`, `scripts/phase286a_temp_evidence_write_rehearsal.py`, `tests/test_data_steward_evidence_write_rehearsal.py`, `reports/nas_evidence_write_rehearsal/.gitignore`, `reports/nas_evidence_write_rehearsal/README.md`, `docs/PHASE286A_TEMP_EVIDENCE_WRITE_REHEARSAL.md`, handoff docs, ignored `reports/agent_runs/latest.json`.
@@ -6652,4 +6670,14 @@
 - validation: Rehearsal supports in-memory and temp SQLite stores, temp-only document / version / chunk / citation rows, idempotency duplicate / conflict handling, rollback dry-run, ignored report output, and sanitized summary.
 - risks: `rehearsal_go` remains temp-only and non-production; real evidence write requires later separate phase and explicit operator approval.
 - next: Codex B review; if accepted, perform selective Git baseline. Do not enter Phase 2.87 automatically.
+- commit/tag if any: none.
+
+## 2026-05-15 13:00 Phase 2.87 First Real Hermes Evidence Write Smoke Planning
+
+- goal: Create docs-only plan for a future first controlled real Hermes evidence write smoke on Mac mini / test machine.
+- changed_files: `docs/PHASE287_FIRST_REAL_EVIDENCE_WRITE_SMOKE_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check`; latest JSON validation; `git check-ignore reports/agent_runs/latest.json`; `git status --short`.
+- validation: Plan covers tiny scope, separate operator approval, prerequisite chain, feature flags default off, exact write target gate, rollback boundary, sanitized report boundary, Go / Pause / No-Go, DB platform handoff, and 2.87a / 2.88 / 2.89 split.
+- risks: Phase 2.87 is planning-only; real evidence write, writer implementation, parser, DB/index/object-store writes, NAS scan, and Agent answer integration remain unauthorized.
+- next: Codex B review Phase 2.87 plan; if accepted, user may separately authorize docs-only baseline. Do not enter Phase 2.87a automatically.
 - commit/tag if any: none.

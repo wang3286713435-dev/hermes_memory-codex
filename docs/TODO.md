@@ -1,5 +1,25 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.87 First Real Hermes Evidence Write Smoke Planning
+
+1. Phase 2.87 docs-only planning 已完成，新增 `docs/PHASE287_FIRST_REAL_EVIDENCE_WRITE_SMOKE_PLAN.md`。
+2. 规划目标：定义未来 Mac mini / 测试机第一次真实 Hermes evidence write smoke 的安全门槛。
+3. 已固定 tiny scope：最多 1 source asset、1 document version、20 chunks。
+4. 已固定后续 Phase 2.87a 必须另行 operator approval JSON；approval 必须匹配 source asset、project scope、permission proof、limits、target environment、write run id、rollback reference 与 expiration。
+5. 已固定 feature flags default off：real evidence write、smoke、Agent answer integration、index write 均默认关闭。
+6. 已固定 exact write target gate：Phase 2.87a 必须命名 SQLAlchemy model/table、repository method、transaction boundary 与 rollback/invalidation method；否则 `Pause`。
+7. Codex B review 已通过；下一步只做 selective docs baseline。
+8. 仍禁止：writer implementation、真实 `documents/chunks/document_versions` 写入、OpenSearch / Qdrant / MinIO 写入、platform DB 写入、NAS scan、parser、raw content 输出、Agent DB/NAS CRUD、production rollout。
+
+## Phase 2.87 First Real Hermes Evidence Write Smoke Planning
+
+1. Phase 2.86a baseline 已完成：commit `c5372fc`，tag `phase-2.86a-evidence-write-rehearsal-baseline`，pushed=true。
+2. 当前进入 Phase 2.87 docs-only planning：规划未来第一次真实 Hermes evidence write smoke 的安全边界。
+3. 目标 scope：Mac mini / 测试机 only，最多 1 source asset、1 document version、20 chunks，必须有独立 operator approval。
+4. 规划文档已完成，Codex B review 已通过；下一步只做 selective docs baseline。
+5. 后续 Phase 2.87a 才可能实现 first real write smoke；2.88 才考虑 index write planning；2.89 才考虑 Agent answer integration planning。
+6. 仍禁止：真实 `documents/chunks/document_versions` 写入、OpenSearch / Qdrant / MinIO 写入、platform DB 写入、NAS scan、raw content 输出、Agent DB/NAS CRUD、production rollout。
+
 ## Phase 2.86a Temp Evidence Write Rehearsal Implementation
 
 1. Phase 2.86 baseline 已完成：commit `8455d4a`，tag `phase-2.86-controlled-real-evidence-write-plan-baseline`，pushed=true。
