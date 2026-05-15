@@ -1,15 +1,13 @@
 # Hermes Memory 当前待办清单
 
-## Phase 2.84a Evidence Write Preflight Dry-run Implementation
+## Phase 2.85 Controlled Evidence Write Dry-run Planning
 
-1. Phase 2.84 baseline 已完成：commit `c554488`，tag `phase-2.84-evidence-write-preflight-plan-baseline`。
-2. 当前进入 Phase 2.84a：local controlled evidence-write preflight dry-run。
-3. 已新增 `AssetCatalog` preflight evaluator 与 CLI，从 ignored local payload plan + operator approval JSON 生成 ignored local preflight report。
-4. Preflight states：`write_preflight_not_allowed`、`write_preflight_ready_for_dry_run`、`write_preflight_no_go`。
-5. `write_preflight_ready_for_dry_run` 只表示“可进入未来 controlled evidence write dry-run 规划”，不表示已写入、已索引或可回答。
-6. 当前仍未完成：真实 `documents/chunks` 写入、OpenSearch / Qdrant 写入、Agent 基于 NAS 正文回答。
-7. 仍禁止：执行 parser、复制真实文件、读取 raw text、写 DB/index/object-store、Agent DB/NAS CRUD、Agent final answer integration、production rollout。
-8. 下一步只做 Phase 2.84a Git baseline，baseline 后再决定 future controlled evidence write dry-run planning。
+1. Phase 2.84a baseline 已完成：commit `a006df3`，tag `phase-2.84a-evidence-write-preflight-dry-run-baseline`。
+2. 当前进入 Phase 2.85：只规划 controlled evidence write dry-run。
+3. 规划目标：定义 future local temp SQLite / in-memory write simulation，用于验证 candidate document / chunk shape、idempotency、rollback 与 citation coverage。
+4. 当前仍未完成：真实 `documents/chunks` 写入、OpenSearch / Qdrant 写入、Agent 基于 NAS 正文回答。
+5. 仍禁止：执行 parser、复制真实文件、读取 raw text、写 DB/index/object-store、Agent DB/NAS CRUD、Agent final answer integration、production rollout。
+6. 下一步只做 Phase 2.85 docs-only planning，完成后再决定是否 baseline。
 
 ## Phase 2.83a Evidence Write Payload Dry-run Implementation
 
@@ -1375,6 +1373,14 @@
 6. 当前仍不进入 production rollout、自动审标、自动经营决策、repair executor、Data Steward 实现、DB schema / Neo4j / PostGIS / 空间索引 / scheduler。
 7. 后续候选：Phase 2.41a 只读 Pilot evidence review checklist artifact，或 Phase 2.41a Pilot evidence review dry-run report。
 8. 下一步建议 Codex B review；通过后只做 docs-only baseline，不直接进入新能力开发。
+
+# TODO 最新状态
+
+- 当前 phase：Phase 2.85 Controlled Evidence Write Dry-run Planning。
+- 当前目标已完成：新增 controlled evidence write dry-run planning 文档，明确 future local temp SQLite / in-memory simulated write 模型。
+- 当前仍未实现：Phase 2.85a dry-run runner、真实 evidence write、Agent answer integration。
+- 当前禁止：`documents/chunks`、platform DB / Hermes DB、OpenSearch、Qdrant、MinIO 写入，parser，真实文件复制，raw content 读取，NAS scan，repair/backfill/reindex/delete/migration，production rollout。
+- 下一步：Codex B review Phase 2.85 planning；通过后只做 docs-only Git baseline。
 
 ## 47. Phase 2.41a MVP Pilot Evidence Review Checklist Artifact
 

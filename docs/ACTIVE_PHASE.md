@@ -1,16 +1,16 @@
 # Active Phase
 
-- 当前 phase：Phase 2.84a Evidence Write Preflight Dry-run Implementation。
-- 背景：Phase 2.84 baseline 已完成：commit `c554488`，tag `phase-2.84-evidence-write-preflight-plan-baseline`，pushed=true。
-- 本轮目标：实现 local write-preflight dry-run evaluator，从 ignored local payload plan + operator approval 生成 ignored local `nas_evidence_write_preflight.v0` report。
-- 修改文件：`app/services/asset_catalog/evidence_preflight.py`、`app/services/asset_catalog/__init__.py`、`scripts/phase284a_evidence_write_preflight.py`、`tests/test_data_steward_evidence_write_preflight.py`、`reports/nas_evidence_preflight/.gitignore`、`reports/nas_evidence_preflight/README.md`、`docs/PHASE284A_EVIDENCE_WRITE_PREFLIGHT_DRY_RUN.md`、`docs/NEXT_CODEX_A_PROMPT.md`、`docs/ACTIVE_PHASE.md`、`docs/PHASE_BACKLOG.md`、`docs/HANDOFF_LOG.md`、`docs/TODO.md`、`docs/DEV_LOG.md` 与 ignored `reports/agent_runs/latest.json`。
-- 完成内容：已新增 preflight evaluator / CLI / tests / ignored report directory；preflight 检查 payload state、operator approval、tiny write scope、idempotency、rollback、citation coverage 与 lock strategy。
-- 测试结果：RED 已观察到 preflight module / CLI missing；py_compile 通过；target preflight tests `7 passed`；Data Steward regression `111 passed`；`git diff --check`、JSON 与 ignore checks 通过。
-- live smoke 结果：本轮不运行 API / CLI smoke，不连接 DB / NAS，不读取真实文件。
-- 当前结论：Phase 2.84a implementation 已完成本地目标测试与 Data Steward regression，待 Git baseline。
-- 阻塞点 / 风险点：`write_preflight_ready_for_dry_run` 仍不是 write authorization；actual `documents/chunks` writes 仍需 future explicit authorization。
-- 是否建议 baseline：待最终验证通过后建议 baseline。
-- 是否建议进入下一阶段：否；先完成 Phase 2.84a baseline，再规划 Phase 2.85 controlled evidence write dry-run。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中的 selective Phase 2.84a baseline，baseline 后停止。
-- 是否需要 Codex B 审核：当前由 Codex B 实施并写入 baseline prompt。
-- 是否需要 Codex C 真实终端验收：暂不需要；Phase 2.84a 是 local ignored dry-run evaluator。
+- 当前 phase：Phase 2.85 Controlled Evidence Write Dry-run Planning。
+- 背景：Phase 2.84a baseline 已完成：commit `a006df3`，tag `phase-2.84a-evidence-write-preflight-dry-run-baseline`，pushed=true。
+- 本轮目标：只规划 controlled evidence write dry-run，不实现 writer，不执行 write dry-run。
+- 修改文件：`docs/PHASE285_CONTROLLED_EVIDENCE_WRITE_DRY_RUN_PLAN.md`、`docs/NEXT_CODEX_A_PROMPT.md`、`docs/ACTIVE_PHASE.md`、`docs/PHASE_BACKLOG.md`、`docs/HANDOFF_LOG.md`、`docs/TODO.md`、`docs/DEV_LOG.md` 与 ignored `reports/agent_runs/latest.json`。
+- 完成内容：已新增 Phase 2.85 planning 文档，定义 future local temp SQLite / in-memory simulated write、deterministic refs、idempotency、rollback dry-run、citation boundary、feature flags default off、Go / Pause / No-Go 与 Phase 2.85a / 2.86 split。
+- 测试结果：`git diff --check` 通过；`reports/agent_runs/latest.json` JSON 校验通过；`git check-ignore reports/agent_runs/latest.json` 通过；未运行 pytest，因为本轮未改代码。
+- live smoke 结果：不需要；Phase 2.85 是 docs-only planning，未启动 API / CLI。
+- 当前结论：Phase 2.85 planning 已完成，Codex B review 通过；没有实现 writer，没有执行 write dry-run，没有任何 DB / index / object-store / parser / file copy / Agent answer side effect。
+- 阻塞点 / 风险点：future `write_dry_run_go` 也不得被误读为 production evidence 或 answerability；真实 evidence write 仍需后续独立 Phase 与显式授权。
+- 是否建议 baseline：是，建议执行 docs-only baseline。
+- 是否建议进入下一阶段：否；不要进入 Phase 2.85a，除非用户明确授权。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 中的 selective docs baseline，baseline 后停止。
+- 是否需要 Codex B 审核：已完成。
+- 是否需要 Codex C 真实终端验收：不需要。

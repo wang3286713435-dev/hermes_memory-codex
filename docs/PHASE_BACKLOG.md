@@ -2,6 +2,25 @@
 
 ## 最新状态
 
+1. Phase 2.85 Controlled Evidence Write Dry-run Planning 已完成。
+2. 新增 `docs/PHASE285_CONTROLLED_EVIDENCE_WRITE_DRY_RUN_PLAN.md`。
+3. 规划边界：future evidence write dry-run 只能使用 local temp SQLite / in-memory repository，不写真实 Hermes DB、platform DB、OpenSearch、Qdrant 或 MinIO。
+4. 规划内容：ignored local `nas_evidence_write_preflight.v0` 输入、`write_preflight_ready_for_dry_run` gate、operator approval、feature flags default off、deterministic simulated document/chunk refs、idempotency、rollback dry-run、citation boundary 与 Go / Pause / No-Go。
+5. 当前仍禁止 writer implementation、dry-run execution、parser、真实文件复制、raw content 读取、NAS scan、`documents/chunks` 写入、Agent answer integration、repair/reindex/rollout。
+6. 下一步只建议 Codex B review；通过后做 docs-only baseline。不要自动进入 Phase 2.85a。
+
+## 最新状态
+
+1. Phase 2.84a baseline 已完成：commit `a006df3`，tag `phase-2.84a-evidence-write-preflight-dry-run-baseline`。
+2. 当前进入 Phase 2.85 Controlled Evidence Write Dry-run Planning。
+3. Phase 2.85 只规划 future controlled evidence write dry-run，不实现 writer，不执行 dry-run。
+4. 规划重点：local temp SQLite / in-memory simulated write、deterministic refs、idempotency、rollback dry-run、citation coverage、feature flags default off、Go / Pause / No-Go。
+5. 下一步候选：Phase 2.85a local temp DB / in-memory evidence write dry-run runner；Phase 2.86 以后才考虑 controlled small-batch real Hermes evidence write planning。
+6. 当前仍禁止真实 `documents/chunks` 写入、DB/index/object-store 写入、parser、真实文件复制、NAS scan、Agent answer integration、repair/reindex/rollout。
+7. 下一步 Codex A 只做 docs-only planning，完成后停止。
+
+## 最新状态
+
 1. Phase 2.84 baseline 已完成：commit `c554488`，tag `phase-2.84-evidence-write-preflight-plan-baseline`。
 2. 当前进入 Phase 2.84a Evidence Write Preflight Dry-run Implementation。
 3. 新增 `evidence_preflight` service 与 CLI：从 ignored local payload plan + operator approval JSON 生成 ignored local preflight report。

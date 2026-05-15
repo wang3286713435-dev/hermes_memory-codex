@@ -6543,3 +6543,30 @@
 - hard_boundaries: no actual evidence write, no `documents/chunks`, no DB/index/object-store writes, no parser, no file copy, no NAS scan, no Agent answer integration, no repair/reindex/rollout.
 - next: Execute `docs/NEXT_CODEX_A_PROMPT.md` selective baseline; do not enter Phase 2.85 before baseline.
 - commit/tag if any: pending.
+
+## 2026-05-15 Phase 2.85 Prompt
+
+- evidence: Phase 2.84a baseline complete at `a006df3`, tag `phase-2.84a-evidence-write-preflight-dry-run-baseline`, pushed=true; worktree clean.
+- goal: Move to controlled evidence write dry-run planning without implementing or executing writes.
+- task: Codex A should create `docs/PHASE285_CONTROLLED_EVIDENCE_WRITE_DRY_RUN_PLAN.md` and sync handoff docs.
+- hard_boundaries: no writer implementation, no write dry-run execution, no `documents/chunks`, no DB/index/object-store writes, no parser, no file copy, no NAS scan, no Agent answer integration, no repair/reindex/rollout.
+- next: Review Phase 2.85 planning output; then decide docs baseline or Phase 2.85a local temp DB / in-memory runner.
+- commit/tag if any: none.
+
+## 2026-05-15 Phase 2.85 Codex B Review
+
+- result: Codex B review passed.
+- review: Planning document keeps Phase 2.85 docs-only; future write dry-run is limited to local temp SQLite / in-memory simulation and explicitly avoids real Hermes DB, OpenSearch, Qdrant, MinIO, parser, file copy, NAS scan, Agent answer integration, repair/reindex/rollout.
+- validation: `git diff --check` passed; `reports/agent_runs/latest.json` JSON validation passed; ignored latest check passed.
+- next: Execute `docs/NEXT_CODEX_A_PROMPT.md` selective docs baseline; do not enter Phase 2.85a before baseline.
+- commit/tag if any: pending.
+
+## 2026-05-15 10:12 Phase 2.85
+
+- goal: Plan controlled evidence write dry-run without implementing or executing writes.
+- changed_files: `docs/PHASE285_CONTROLLED_EVIDENCE_WRITE_DRY_RUN_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check`; `UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool reports/agent_runs/latest.json >/dev/null`; `git check-ignore reports/agent_runs/latest.json`.
+- validation: planning covers input gate, local-only simulated write model, deterministic document/chunk refs, idempotency, rollback dry-run, citation boundary, Go / Pause / No-Go, and future phase split.
+- risks: future write-dry-run output remains non-production and must not be used as Agent answer evidence; real evidence write requires later explicit authorization.
+- next: Codex B review; if accepted, perform docs-only baseline. Do not enter Phase 2.85a automatically.
+- commit/tag if any: none.
