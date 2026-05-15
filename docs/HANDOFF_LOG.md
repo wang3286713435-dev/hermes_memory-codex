@@ -6553,6 +6553,16 @@
 - next: Review Phase 2.85 planning output; then decide docs baseline or Phase 2.85a local temp DB / in-memory runner.
 - commit/tag if any: none.
 
+## 2026-05-15 10:12 Phase 2.85a
+
+- goal: Implement local in-memory evidence write dry-run runner from ignored preflight report to ignored write-dry-run report.
+- changed_files: `app/services/asset_catalog/evidence_write_dry_run.py`, `app/services/asset_catalog/__init__.py`, `scripts/phase285a_evidence_write_dry_run.py`, `tests/test_data_steward_evidence_write_dry_run.py`, `reports/nas_evidence_write_dry_run/.gitignore`, `reports/nas_evidence_write_dry_run/README.md`, `docs/PHASE285A_EVIDENCE_WRITE_DRY_RUN.md`, handoff docs, ignored `reports/agent_runs/latest.json`.
+- tests: RED observed missing module / CLI; target tests `8 passed`; full validation pending.
+- validation: runner supports ready / not allowed / no-go, forbidden input keys, deterministic refs, duplicate idempotency detection, same-run rollback dry-run, sanitized CLI summary.
+- risks: `write_dry_run_go` remains non-production, not write authorization, not Agent answer evidence.
+- next: run full validation, then Codex B review; if accepted, selective Git baseline only.
+- commit/tag if any: none.
+
 ## 2026-05-15 Phase 2.85 Codex B Review
 
 - result: Codex B review passed.
@@ -6570,3 +6580,20 @@
 - risks: future write-dry-run output remains non-production and must not be used as Agent answer evidence; real evidence write requires later explicit authorization.
 - next: Codex B review; if accepted, perform docs-only baseline. Do not enter Phase 2.85a automatically.
 - commit/tag if any: none.
+
+## 2026-05-15 Phase 2.85a Prompt
+
+- evidence: Phase 2.85 baseline complete at `dfd9d16`, tag `phase-2.85-evidence-write-dry-run-plan-baseline`, pushed=true.
+- goal: Implement local temp SQLite / in-memory evidence write dry-run runner.
+- task: Codex A should execute `docs/NEXT_CODEX_A_PROMPT.md`, add service / CLI / tests / ignored report directory / docs, and stop after validation.
+- hard_boundaries: no real `documents/chunks`, no real DB/index/object-store writes, no parser, no file copy, no raw content read, no NAS scan, no Agent answer integration, no repair/reindex/rollout.
+- next: Codex B review Phase 2.85a implementation; if accepted, write selective baseline prompt.
+- commit/tag if any: none.
+
+## 2026-05-15 Phase 2.85a Codex B Review
+
+- result: Codex B review passed.
+- review: Implementation remains local-only and uses in-memory dry-run simulation; no real Hermes DB, platform DB, OpenSearch, Qdrant, MinIO, parser, file copy, NAS scan, Agent answer integration, repair/reindex/rollout path is invoked.
+- validation: py_compile passed; target dry-run tests `8 passed`; Data Steward regression `119 passed`; `git diff --check`, latest JSON, and ignore checks passed.
+- next: Execute `docs/NEXT_CODEX_A_PROMPT.md` selective baseline; do not enter Phase 2.86 before baseline.
+- commit/tag if any: pending.

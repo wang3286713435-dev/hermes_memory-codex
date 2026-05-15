@@ -2,6 +2,15 @@
 
 ## 最新状态
 
+1. Phase 2.85a Local Evidence Write Dry-run Runner implementation 已完成目标实现。
+2. 新增 `evidence_write_dry_run` service 与 CLI：从 ignored local `nas_evidence_write_preflight.v0` report 生成 ignored local `nas_evidence_write_dry_run.v0` report。
+3. Runner 仅使用 in-memory simulation，生成 deterministic simulated document/chunk/citation refs，并覆盖 idempotency duplicate detection 与 same-run rollback dry-run。
+4. `write_dry_run_go` 仍不授权真实写入，不代表 document evidence，不代表 Hermes 可回答 NAS 正文。
+5. 当前仍禁止真实 `documents/chunks` 写入、DB/index/object-store 写入、parser、真实文件复制、NAS scan、Agent answer integration、repair/reindex/rollout。
+6. 下一步：完成 full validation 后 Codex B review；通过后只做 selective Git baseline。不要自动进入 Phase 2.86。
+
+## 最新状态
+
 1. Phase 2.85 Controlled Evidence Write Dry-run Planning 已完成。
 2. 新增 `docs/PHASE285_CONTROLLED_EVIDENCE_WRITE_DRY_RUN_PLAN.md`。
 3. 规划边界：future evidence write dry-run 只能使用 local temp SQLite / in-memory repository，不写真实 Hermes DB、platform DB、OpenSearch、Qdrant 或 MinIO。

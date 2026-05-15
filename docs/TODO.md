@@ -1,13 +1,13 @@
 # Hermes Memory 当前待办清单
 
-## Phase 2.85 Controlled Evidence Write Dry-run Planning
+## Phase 2.85a Local Evidence Write Dry-run Runner Implementation
 
-1. Phase 2.84a baseline 已完成：commit `a006df3`，tag `phase-2.84a-evidence-write-preflight-dry-run-baseline`。
-2. 当前进入 Phase 2.85：只规划 controlled evidence write dry-run。
-3. 规划目标：定义 future local temp SQLite / in-memory write simulation，用于验证 candidate document / chunk shape、idempotency、rollback 与 citation coverage。
+1. Phase 2.85 baseline 已完成：commit `dfd9d16`，tag `phase-2.85-evidence-write-dry-run-plan-baseline`。
+2. Phase 2.85a 目标实现已完成：local in-memory evidence write dry-run runner、CLI、tests、ignored report storage policy 与 Phase 2.85a docs。
+3. Runner 从 ignored local preflight report 生成 ignored local `nas_evidence_write_dry_run.v0` report，模拟 documents / chunks / citations / idempotency / rollback。
 4. 当前仍未完成：真实 `documents/chunks` 写入、OpenSearch / Qdrant 写入、Agent 基于 NAS 正文回答。
 5. 仍禁止：执行 parser、复制真实文件、读取 raw text、写 DB/index/object-store、Agent DB/NAS CRUD、Agent final answer integration、production rollout。
-6. 下一步只做 Phase 2.85 docs-only planning，完成后再决定是否 baseline。
+6. 下一步完成 full validation，再由 Codex B review 是否 baseline。
 
 ## Phase 2.83a Evidence Write Payload Dry-run Implementation
 
