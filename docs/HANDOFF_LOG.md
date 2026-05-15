@@ -1,5 +1,22 @@
 # Handoff Log
 
+## 2026-05-15 16:27 Phase 2.87c Codex B Review
+- goal: Review Phase 2.87c controlled runtime evidence write smoke planning and authorize selective docs baseline.
+- changed_files: `docs/PHASE287C_RUNTIME_EVIDENCE_WRITE_SMOKE_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON validation passed; latest ignore check passed.
+- validation: Review confirmed the plan remains docs-only and future smoke scope is limited to one approved source asset, one `Document`, one `DocumentVersion`, up to 20 `Chunk` rows, matching `CitationRecord` rows, one `write_run_id`, and one operator approval id.
+- risks: Runtime evidence write smoke remains unauthorized; Phase 2.87d, real DB writes, parser, NAS copy, index/object-store writes, Agent answer integration, repair/reindex/rollout remain blocked.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.87c selective docs baseline and stops.
+- commit/tag if any: none.
+
+## 2026-05-15 16:12 Phase 2.87c Prompt
+- goal: Advance from completed Phase 2.87b baseline to docs-only planning for the first controlled runtime evidence write smoke.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.87b baseline confirmed at commit `44cc837`, tag `phase-2.87b-evidence-only-writer-baseline`; worktree was clean before prompt update.
+- risks: Phase 2.87c must remain planning-only and must not execute real DB write, API / CLI runtime wiring, parser, NAS copy, index write, object-store write, Agent answer integration, repair, reindex, or rollout.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` to create `docs/PHASE287C_RUNTIME_EVIDENCE_WRITE_SMOKE_PLAN.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-15 13:36 Phase 2.87b Codex B Review
 - goal: Review Phase 2.87b evidence-only writer implementation and authorize selective Git baseline.
 - changed_files: `app/services/asset_catalog/evidence_writer.py`, `app/services/asset_catalog/__init__.py`, `tests/test_data_steward_evidence_writer.py`, `docs/PHASE287B_EVIDENCE_ONLY_WRITER.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -6735,4 +6752,14 @@
 - validation: Candidate targets identified as `documents`, `document_versions`, `chunks`, `citations`, and optional `ingestion_jobs`; direct reuse of `DocumentIngestionService.ingest_uploaded_file()` marked No-Go because it invokes file bytes, parser/chunker, OpenSearch, and Qdrant paths.
 - risks: no dedicated evidence-only writer service; no committed-smoke rollback / invalidation method; no fixed idempotency metadata location. Direct real write remains Pause.
 - next: Codex B review Phase 2.87a discovery; if accepted, user may separately authorize docs-only baseline. Do not enter Phase 2.87b automatically.
+- commit/tag if any: none.
+
+## 2026-05-15 16:19 Phase 2.87c Controlled Runtime Evidence Write Smoke Planning
+
+- goal: Create docs-only plan for a future controlled runtime evidence write smoke using the Phase 2.87b evidence-only writer.
+- changed_files: `docs/PHASE287C_RUNTIME_EVIDENCE_WRITE_SMOKE_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check`; latest JSON validation; `git check-ignore reports/agent_runs/latest.json`; `git status --short`.
+- validation: Plan covers prerequisite chain, operator approval JSON, feature flags default-off, transaction / commit boundary, rollback dry-run, idempotency, post-write inspection, sanitized report, Go / Pause / No-Go, and Codex C/test-machine validation outline.
+- risks: Runtime evidence write remains unauthorized; any future smoke still requires Codex B review, explicit operator approval, and a separate execution prompt.
+- next: Codex B review Phase 2.87c planning; if accepted, perform selective docs baseline. Do not enter Phase 2.87d or real smoke automatically.
 - commit/tag if any: none.

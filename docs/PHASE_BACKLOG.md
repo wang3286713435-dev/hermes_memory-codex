@@ -2,6 +2,15 @@
 
 ## 最新状态
 
+1. Phase 2.87b baseline 已完成：commit `44cc837`，tag `phase-2.87b-evidence-only-writer-baseline`，pushed=true。
+2. Phase 2.87c Controlled Runtime Evidence Write Smoke Planning 已完成 docs-only plan。
+3. 新增 `docs/PHASE287C_RUNTIME_EVIDENCE_WRITE_SMOKE_PLAN.md`，定义未来 Mac mini / 测试机第一次受控 runtime evidence write smoke 的 prerequisite chain、operator approval、feature flags、transaction / commit boundary、rollback dry-run、idempotency、post-write inspection、sanitized report 与 Go / Pause / No-Go。
+4. Phase 2.87c 不授权真实写入，不接 API / CLI runtime，不运行 writer/parser/copy。
+5. 当前仍禁止真实 DB 写入、parser、真实文件复制、raw content 读取、NAS scan、OpenSearch / Qdrant / MinIO 写入、platform DB 写入、Agent answer integration、Agent DB / NAS CRUD、repair/reindex/rollout。
+6. Codex B review 已通过；下一步只做 Phase 2.87c selective docs baseline。不得自动进入 Phase 2.87d 或真实 smoke。
+
+## 最新状态
+
 1. Phase 2.87b Evidence-only Writer Service Implementation 已完成首轮实现，等待 Codex B review。
 2. 新增 `app/services/asset_catalog/evidence_writer.py`，提供 `EvidenceOnlyWriter`、`EvidenceWriteDecision`、`EvidenceWriteRollbackPlan` 与 `build_evidence_write_result()`。
 3. Writer 只允许通过注入 SQLAlchemy session 在 test-local DB 中创建 `Document`、`DocumentVersion`、`Chunk`、`CitationRecord`。
