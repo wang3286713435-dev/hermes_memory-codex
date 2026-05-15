@@ -1,5 +1,22 @@
 # Handoff Log
 
+## 2026-05-15 17:02 Phase 2.87d Codex B Review
+- goal: Review Phase 2.87d runtime evidence write execution pack and authorize selective docs baseline.
+- changed_files: `docs/PHASE287D_RUNTIME_EVIDENCE_WRITE_EXECUTION_PACK.md`, `docs/CODEX_TEST_MACHINE_RUNTIME_EVIDENCE_WRITE_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON validation passed; latest ignore check passed.
+- validation: Review confirmed execution pack remains handoff-only, test-machine prompt does not authorize execution, preflight commands are inspection-only, and stop points occur before any future writer invocation.
+- risks: Runtime evidence write smoke remains unauthorized; executing the test-machine prompt, real DB writes, parser, NAS copy, index/object-store writes, Agent answer integration, repair/reindex/rollout, and real-write feature flags remain blocked.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.87d selective docs baseline and stops.
+- commit/tag if any: none.
+
+## 2026-05-15 16:50 Phase 2.87d Prompt
+- goal: Prepare Codex A handoff for runtime evidence write smoke execution pack planning after Phase 2.87c baseline.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.87c baseline confirmed at commit `490b5ca`, tag `phase-2.87c-runtime-evidence-write-smoke-plan-baseline`; worktree was clean before prompt update.
+- risks: Phase 2.87d must remain docs-only / handoff planning and must not execute writer, real DB write, API / CLI wiring, parser, NAS copy, index/object-store writes, Agent answer integration, repair/reindex, feature flag activation, or rollout.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` to create `docs/PHASE287D_RUNTIME_EVIDENCE_WRITE_EXECUTION_PACK.md` and `docs/CODEX_TEST_MACHINE_RUNTIME_EVIDENCE_WRITE_SMOKE_PROMPT.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-15 16:27 Phase 2.87c Codex B Review
 - goal: Review Phase 2.87c controlled runtime evidence write smoke planning and authorize selective docs baseline.
 - changed_files: `docs/PHASE287C_RUNTIME_EVIDENCE_WRITE_SMOKE_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -6762,4 +6779,14 @@
 - validation: Plan covers prerequisite chain, operator approval JSON, feature flags default-off, transaction / commit boundary, rollback dry-run, idempotency, post-write inspection, sanitized report, Go / Pause / No-Go, and Codex C/test-machine validation outline.
 - risks: Runtime evidence write remains unauthorized; any future smoke still requires Codex B review, explicit operator approval, and a separate execution prompt.
 - next: Codex B review Phase 2.87c planning; if accepted, perform selective docs baseline. Do not enter Phase 2.87d or real smoke automatically.
+- commit/tag if any: none.
+
+## 2026-05-15 16:54 Phase 2.87d Runtime Evidence Write Smoke Execution Pack Planning
+
+- goal: Create docs-only execution handoff pack and future Codex C/test-machine prompt for controlled runtime evidence write smoke.
+- changed_files: `docs/PHASE287D_RUNTIME_EVIDENCE_WRITE_EXECUTION_PACK.md`, `docs/CODEX_TEST_MACHINE_RUNTIME_EVIDENCE_WRITE_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check`; latest JSON validation; `git check-ignore reports/agent_runs/latest.json`; `git status --short`.
+- validation: Handoff pack covers test-machine preconditions, reviewed refs, env key names, operator approval path/schema, prior report refs, feature flags, one-run write boundary, preflight-only commands, mandatory stop points, sanitized report, rollback/idempotency checks, and Go / Pause / No-Go.
+- risks: Future Codex C prompt is not execution authorization; real smoke still requires separate prompt, explicit operator approval, and Codex B review.
+- next: Codex B review Phase 2.87d handoff docs; if accepted, perform selective docs baseline. Do not execute test-machine prompt automatically.
 - commit/tag if any: none.

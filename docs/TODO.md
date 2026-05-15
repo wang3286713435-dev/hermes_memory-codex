@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.87d Runtime Evidence Write Smoke Execution Pack Planning
+
+1. Phase 2.87c baseline 已完成：commit `490b5ca`，tag `phase-2.87c-runtime-evidence-write-smoke-plan-baseline`，pushed=true。
+2. Phase 2.87d docs-only / handoff planning 已完成。
+3. 已新增 `docs/PHASE287D_RUNTIME_EVIDENCE_WRITE_EXECUTION_PACK.md` 与 `docs/CODEX_TEST_MACHINE_RUNTIME_EVIDENCE_WRITE_SMOKE_PROMPT.md`。
+4. 交接包已覆盖 test-machine preconditions、reviewed refs、env key names、operator approval JSON path/schema、prior report refs、feature flags、one-run write boundary、preflight-only commands、stop points、sanitized report、rollback/idempotency checks 与 Go / Pause / No-Go。
+5. 本阶段未执行 writer，未写真实 DB，未接 API / CLI runtime，未运行 parser，未复制文件，未写 OpenSearch / Qdrant / MinIO，未接 Agent answer，未启用真实写入 feature flags。
+6. Codex B review 已通过；下一步只做 selective docs baseline，不执行测试机 prompt，不自动进入 Phase 2.88 或真实 runtime smoke。
+
 ## Phase 2.87c Controlled Runtime Evidence Write Smoke Planning
 
 1. Phase 2.87b baseline 已完成：commit `44cc837`，tag `phase-2.87b-evidence-only-writer-baseline`，pushed=true。
