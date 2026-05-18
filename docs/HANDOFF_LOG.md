@@ -1,5 +1,15 @@
 # Handoff Log
 
+## 2026-05-18 Phase 2.92 Read-only Gateway Acceptance Planning
+- goal: Convert the database team's read-only frontend Gateway access review into Hermes-side P0 / P1 / P2 acceptance gates.
+- changed_files: `docs/PHASE292_READONLY_GATEWAY_ACCEPTANCE_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: docs/static validation pending in this handoff; no pytest needed because no code changed.
+- safety: This is documentation-only. No Gateway implementation, DB connection, SQL, NAS scan, parser, scratch copy, writer, OpenSearch / Qdrant / MinIO, platform DB, Agent answer integration, repair/reindex, or rollout.
+- boundary: Database team may continue read-only platform Gateway and frontend Hermes integration, but product naming must be Hermes, `project_scope` must be server-side proof, catalog metadata is not content evidence, and true `storage_path` / raw rows / NAS paths / raw content must not be exposed.
+- database_team_return: Initial report received. Naming, endpoint smoke, forbidden-field assertions, Missing Evidence / `asset_catalog_only`, frontend/backend build, health check, and focused script passed. Hermes-side status is provisionally go pending Phase 2.93 review.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.92 selective docs baseline and stops. Wait for database team Gateway implementation report before Phase 2.93 review.
+- commit/tag if any: none.
+
 ## 2026-05-18 Data Steward Risk Boundary
 - goal: Adopt the useful parts of `hermes_agent_risk_notes.md` as project-owned Data Steward / NAS / DB catalog-only risk boundaries.
 - changed_files: `docs/DATA_STEWARD_AGENT_RISK_BOUNDARY.md`, `docs/DB_TEAM_HERMES_FRONTEND_GATEWAY_INTEGRATION_V3.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`.

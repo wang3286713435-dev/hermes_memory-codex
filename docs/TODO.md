@@ -8,6 +8,15 @@
 4. 当前仍禁止把 catalog rows、真实 `storage_path`、DWG / RVT 内容、NAS 文件正文或 raw row 写入 `documents/chunks/Qdrant/OpenSearch` 或 Hermes long-term memory。
 5. 后续 prompt / tool description / 前端文案需要避免承诺 DWG / RVT 内容理解、BIM 构件级搜索、NAS 全文搜索或 NAS 语义搜索。
 
+## Phase 2.92 Read-only Gateway Acceptance Planning
+
+1. Phase 2.91 baseline 已完成：commit `cf89e1e`，tag `phase-2.91-runtime-evidence-writer-smoke-gate-baseline`，pushed=true。
+2. 已新增 `docs/PHASE292_READONLY_GATEWAY_ACCEPTANCE_PLAN.md`，定义数据库平台 read-only frontend Gateway 接入 Hermes 的 P0 / P1 / P2 验收 gates。
+3. 当前允许数据库团队继续：平台后端 Gateway、Hermes 前端入口、health / capabilities、read-only catalog metadata preview、server-side `project_scope` permission proof、Missing Evidence / catalog-only 展示。
+4. 当前仍禁止：Agent DB CRUD、Agent 生成 SQL、前端直连 Hermes raw/internal endpoints、信任前端传入 `project_scope`、返回真实 `storage_path` / raw row / NAS path、DWG/RVT 内容理解、NAS scan、parser、scratch copy、writer smoke、index/object-store 写入、Agent answer integration、production rollout。
+5. 数据库团队已回传初步实现报告：Hermes 命名收束、read-only Gateway endpoints、forbidden-field assertions、Missing Evidence / `asset_catalog_only` 行为、构建与专项脚本均通过；Hermes 侧暂定 provisionally go。
+6. 下一步只做 Phase 2.92 selective docs baseline；baseline 后进入 Phase 2.93 review 数据库团队 Gateway implementation report。
+
 ## Phase 2.91 Runtime Evidence Writer Smoke Gate Implementation
 
 1. Phase 2.90 baseline 已完成：commit `3ee37e3`，tag `phase-2.90-test-machine-preflight-readiness-baseline`，pushed=true。

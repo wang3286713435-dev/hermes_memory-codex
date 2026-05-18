@@ -1,82 +1,68 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.91 Runtime Evidence Writer Smoke Gate Baseline
+## Phase 2.92 Read-only Gateway Acceptance Plan Baseline
 
-Codex B review passed. Create a selective Git baseline for Phase 2.91 Runtime Evidence Writer Smoke Gate and the newly adopted Data Steward risk boundary docs.
+Codex B has completed Phase 2.92 docs-only planning. Create a selective Git baseline for the read-only Gateway acceptance plan.
 
-Do not enter real writer smoke, Phase 2.92, Agent answer integration, Data Steward runtime expansion, or production rollout.
+Do not implement Gateway code, do not run DB / NAS / API / CLI smoke, and do not enter Phase 2.93 automatically.
 
 Previous baseline:
 
-- commit: `3ee37e3`
-- tag: `phase-2.90-test-machine-preflight-readiness-baseline`
+- commit: `cf89e1e`
+- tag: `phase-2.91-runtime-evidence-writer-smoke-gate-baseline`
 - pushed: true
 
 ## Review Summary
 
-Codex B reviewed:
+Codex B reviewed the database team's sanitized `hermes-readonly-frontend-gateway-access-review.md` and converted it into Hermes-side acceptance gates.
 
-1. `app/services/asset_catalog/evidence_write_runtime_smoke.py`
-2. `scripts/phase291_runtime_evidence_write_smoke.py`
-3. `tests/test_data_steward_evidence_write_runtime_smoke.py`
-4. `docs/PHASE291_RUNTIME_EVIDENCE_WRITE_SMOKE_GATE.md`
-5. `docs/DATA_STEWARD_AGENT_RISK_BOUNDARY.md`
-6. `docs/DB_TEAM_HERMES_FRONTEND_GATEWAY_INTEGRATION_V3.md`
+Database team has now returned an initial implementation report. It is provisionally positive and should be formally reviewed in Phase 2.93 after this Phase 2.92 baseline.
 
-Review result:
+Phase 2.92 conclusion:
 
-1. Phase 2.91 default path is gate-only and does not invoke writer.
-2. CLI `--execute-writer` has no DB session and pauses safely.
-3. `EvidenceOnlyWriter.write()` is reachable only via injected test-local SQLAlchemy session in tests.
-4. Reports stay sanitized and exclude raw file content, true NAS path, raw row, secret, absolute scratch path, and business values.
-5. Data Steward risk boundary is documentation-only and reinforces Hermes naming plus catalog-only safety.
+1. Read-only frontend Gateway integration is allowed as a platform-side implementation track.
+2. The product / Agent name must be **Hermes** or **Hermes 数据管家**, not Jarvis / 贾维斯.
+3. Frontend must call the platform backend Gateway, not raw Hermes internals.
+4. `project_scope` / permission proof must be generated server-side by platform backend.
+5. Catalog metadata is not document evidence and cannot answer DWG / RVT / NAS content questions.
+6. Gateway responses must not expose true `storage_path`, `storage_uri`, raw rows, raw NAS paths, raw file content, secrets, or credential material.
+7. Agent DB CRUD, Agent-generated SQL, NAS scan, parser, scratch copy, writer smoke, index writes, Agent answer integration, and production rollout remain forbidden.
 
 ## Required Validation
 
 Run:
 
 ```bash
-UV_CACHE_DIR=/private/tmp/uv-cache uv run pytest tests/test_data_steward_evidence_write_runtime_smoke.py -q
-UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m py_compile app/services/asset_catalog/evidence_write_runtime_smoke.py scripts/phase291_runtime_evidence_write_smoke.py
-UV_CACHE_DIR=/private/tmp/uv-cache uv run pytest tests/test_data_steward_evidence_writer.py tests/test_data_steward_evidence_write_runtime_preflight.py tests/test_data_steward_evidence_write_runtime_smoke.py -q
 git diff --check
 UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool reports/agent_runs/latest.json >/dev/null
 git check-ignore reports/agent_runs/latest.json
-git check-ignore reports/evidence_write_runtime_smoke/test.json
 git status --short
 ```
 
 Expected:
 
-1. target Phase 2.91 tests pass: `12 passed`
-2. py_compile passes
-3. writer + preflight + smoke regression passes: `29 passed`
-4. diff check passes
-5. latest JSON parses
-6. ignored report paths are ignored
+1. `git diff --check` passes.
+2. latest JSON parses.
+3. `reports/agent_runs/latest.json` is ignored.
+4. `git status --short` contains only Phase 2.92 docs / handoff files.
 
 ## Allowed Files For Baseline
 
 Stage only:
 
-1. `app/services/asset_catalog/evidence_write_runtime_smoke.py`
-2. `scripts/phase291_runtime_evidence_write_smoke.py`
-3. `tests/test_data_steward_evidence_write_runtime_smoke.py`
-4. `docs/PHASE291_RUNTIME_EVIDENCE_WRITE_SMOKE_GATE.md`
-5. `docs/DATA_STEWARD_AGENT_RISK_BOUNDARY.md`
-6. `docs/DB_TEAM_HERMES_FRONTEND_GATEWAY_INTEGRATION_V3.md`
-7. `docs/NEXT_CODEX_A_PROMPT.md`
-8. `docs/ACTIVE_PHASE.md`
-9. `docs/PHASE_BACKLOG.md`
-10. `docs/HANDOFF_LOG.md`
-11. `docs/TODO.md`
-12. `docs/DEV_LOG.md`
+1. `docs/PHASE292_READONLY_GATEWAY_ACCEPTANCE_PLAN.md`
+2. `docs/NEXT_CODEX_A_PROMPT.md`
+3. `docs/ACTIVE_PHASE.md`
+4. `docs/PHASE_BACKLOG.md`
+5. `docs/HANDOFF_LOG.md`
+6. `docs/TODO.md`
+7. `docs/DEV_LOG.md`
 
 Do not stage:
 
 1. ignored `reports/agent_runs/latest.json`
-2. ignored evidence write runtime smoke reports
-3. any `.env`, secret, local approval JSON, DB output, NAS output, raw sample, or unrelated file
+2. any DB output, NAS output, approval JSON, `.env`, secret, raw sample, screenshot, or unrelated file
+3. code, tests, scripts, migrations, platform DB files, parser files, Gateway implementation files, or frontend files
 
 If any non-allowed tracked or untracked file appears, stop and report.
 
@@ -94,13 +80,13 @@ The cached file list must match the allowed baseline files only.
 Commit message:
 
 ```text
-chore: add phase 2.91 runtime writer smoke gate
+docs: plan phase 2.92 readonly gateway acceptance
 ```
 
 Tag:
 
 ```text
-phase-2.91-runtime-evidence-writer-smoke-gate-baseline
+phase-2.92-readonly-gateway-acceptance-plan-baseline
 ```
 
 Push `origin/main` and the tag.
@@ -109,20 +95,22 @@ Push `origin/main` and the tag.
 
 Still forbidden:
 
-1. running the smoke against a real developer DB or Mac mini DB
-2. calling `EvidenceOnlyWriter.write()` outside tests / injected temp DB session
-3. enabling real-write feature flags in `.env`
-4. executing parser
-5. performing scratch copy
-6. reading raw file content
-7. scanning NAS
-8. writing OpenSearch / Qdrant / MinIO
-9. writing platform DB
-10. integrating Agent answer
-11. Agent DB / NAS CRUD
-12. repair / cleanup / backfill / reindex / delete / migration
-13. production rollout
-14. entering Phase 2.92 automatically
+1. implementing platform Gateway code in this repository
+2. running DB / API / CLI / Mac mini Gateway smoke
+3. running writer smoke against any real DB
+4. enabling DB / NAS / writer / parser / Agent answer feature flags
+5. Agent DB CRUD or Agent-generated SQL
+6. trusting frontend-supplied `project_scope`
+7. returning true `storage_path`, raw row, NAS path, or raw content
+8. reading DWG / RVT / NWD / IFC content
+9. scanning NAS
+10. parser invocation
+11. scratch copy
+12. writing `documents`, `document_versions`, `chunks`, `citations`
+13. writing OpenSearch / Qdrant / MinIO / platform DB / Hermes long-term memory
+14. repair / cleanup / backfill / reindex / delete / migration
+15. production rollout
+16. entering Phase 2.93 automatically
 
 ## Completion Report
 
@@ -133,5 +121,5 @@ Report:
 3. commit hash
 4. tag
 5. push result
-6. confirmation writer / DB / parser / scratch / NAS / index / object-store / Agent answer actions remain blocked
+6. confirmation that Gateway implementation, DB/NAS access, writer, parser, index/object-store writes, Agent answer integration, and rollout remain blocked
 7. final `git status --short`

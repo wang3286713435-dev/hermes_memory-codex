@@ -9,6 +9,17 @@
 
 ## 最新状态
 
+1. Phase 2.91 baseline 已完成：commit `cf89e1e`，tag `phase-2.91-runtime-evidence-writer-smoke-gate-baseline`，pushed=true。
+2. 当前进入 Phase 2.92 Read-only Gateway Acceptance Planning。
+3. 新增 `docs/PHASE292_READONLY_GATEWAY_ACCEPTANCE_PLAN.md`，把数据库团队 read-only frontend Gateway access review 收束为 Hermes 主线验收 gates。
+4. Phase 2.92 允许数据库团队继续平台后端 Gateway / 前端 Hermes 面板 / read-only catalog metadata preview / server-side permission proof；不允许 Agent DB CRUD、Agent-generated SQL、NAS scan、DWG/RVT 内容理解或 production rollout。
+5. P0 gates：命名必须为 Hermes；前端不得直连 raw Hermes；`project_scope` 必须 server-side 生成；不得返回真实 `storage_path` / raw row / NAS path / raw content；无权限默认 `DENIED`。
+6. 数据库团队已回传初步实现报告：Hermes 命名收束、Gateway endpoints、forbidden-field assertions、Missing Evidence / `asset_catalog_only` 口径、前后端构建与专项脚本均通过；Hermes 侧暂定 provisionally go。
+7. 本阶段未实现 Gateway code，未运行 DB / API / CLI / Mac mini smoke，未写 DB/index/object-store，未运行 parser/scratch/writer。
+8. 下一步：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 完成 selective docs baseline，然后停止；随后进入 Phase 2.93 review 数据库团队 Gateway implementation report。
+
+## 最新状态
+
 1. Phase 2.91 Runtime Evidence Writer Smoke Gate Implementation 已完成本地实现，并已通过 Codex B review。
 2. 新增 smoke gate service / CLI / tests / docs；默认 gate-only 返回 `writer_smoke_ready_for_operator_stop`，不调用 writer。
 3. 仅在目标测试 / temp SQLite / injected DB session 中允许 `EvidenceOnlyWriter.write()`，用于验证 `writer_smoke_executed`、created counts、idempotency duplicate 与 rollback dry-run。
