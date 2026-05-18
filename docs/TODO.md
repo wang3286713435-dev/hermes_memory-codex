@@ -8,6 +8,23 @@
 4. 当前仍禁止把 catalog rows、真实 `storage_path`、DWG / RVT 内容、NAS 文件正文或 raw row 写入 `documents/chunks/Qdrant/OpenSearch` 或 Hermes long-term memory。
 5. 后续 prompt / tool description / 前端文案需要避免承诺 DWG / RVT 内容理解、BIM 构件级搜索、NAS 全文搜索或 NAS 语义搜索。
 
+## Phase 2.93 Read-only Gateway Implementation Review
+
+1. Phase 2.92 baseline 已完成：commit `36de5a7`，tag `phase-2.92-readonly-gateway-acceptance-plan-baseline`，pushed=true。
+2. 已完成 Phase 2.93：新增 `docs/PHASE293_READONLY_GATEWAY_IMPLEMENTATION_REVIEW.md`。
+3. Review 结论：数据库团队“极小批次：Hermes 命名收束 + 只读 Gateway 前端复验”回传报告满足 Phase 2.92 P0 gates，decision=`go`，scope=`read_only_gateway_review_passed`。
+4. 该结论不代表 production readiness，不授权 Gateway implementation、Agent DB CRUD、NAS scan、content ingestion 或 rollout。
+5. P1 follow-up：Phase 2.94 应规划 frontend controlled smoke，覆盖 response schema sample、trace ids、safe identifiers、permission-denied copy、Missing Evidence / `asset_catalog_only` 与 forbidden-field negative assertions。
+6. Codex B review 已通过；下一步只做 Phase 2.93 selective docs baseline，baseline 后再规划 Phase 2.94。
+7. 当前仍禁止：Gateway code implementation、真实 DB 连接、平台 Gateway smoke、Agent DB CRUD、Agent SQL、NAS scan、parser、scratch copy、writer、index/object-store write、Agent answer integration、production rollout。
+
+## Phase 2.94 Frontend Controlled Smoke Planning
+
+1. 推荐下一阶段：只规划 read-only frontend/Gateway controlled smoke。
+2. 规划应覆盖 capabilities、health、chat、catalog search、compatibility route、permission-denied behavior。
+3. 必须继续验证：Hermes naming、server-generated `project_scope`、Missing Evidence / `asset_catalog_only`、`query_id` / `trace_id`、`file_id` / `model_id` / `source_view`、forbidden fields 不泄露。
+4. 默认不执行真实 Gateway smoke；若需要 runtime smoke，必须另行授权并保持 read-only。
+
 ## Phase 2.92 Read-only Gateway Acceptance Planning
 
 1. Phase 2.91 baseline 已完成：commit `cf89e1e`，tag `phase-2.91-runtime-evidence-writer-smoke-gate-baseline`，pushed=true。

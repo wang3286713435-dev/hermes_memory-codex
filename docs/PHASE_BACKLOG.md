@@ -9,6 +9,23 @@
 
 ## 最新状态
 
+1. Phase 2.93 Read-only Gateway Implementation Review 已完成，Codex B review 通过。
+2. 新增 `docs/PHASE293_READONLY_GATEWAY_IMPLEMENTATION_REVIEW.md`；结论为 report-level `go` / `read_only_gateway_review_passed`。
+3. 该 Go 不代表 production readiness，不授权 Agent DB CRUD、Agent SQL、NAS scan、content ingestion、writer/parser/index writes、Agent answer integration 或 rollout。
+4. P1 follow-up：sanitized response schema samples、trace identifiers、safe catalog identifiers、permission-denied copy。
+5. 下一步只做 Phase 2.93 selective docs baseline；baseline 后再规划 Phase 2.94 frontend controlled smoke planning。
+
+## 最新状态
+
+1. Phase 2.93 Read-only Gateway Implementation Review 已完成 docs-only review。
+2. 新增 `docs/PHASE293_READONLY_GATEWAY_IMPLEMENTATION_REVIEW.md`，结论为 report-level `go`：数据库团队回传报告满足 Phase 2.92 P0 gates。
+3. 该 `go` 只表示 `read_only_gateway_review_passed`，不是 production readiness，不授权 Gateway implementation、Agent DB CRUD、NAS scan、content ingestion 或 rollout。
+4. P1 follow-up：response schema sample、`query_id` / `trace_id`、`file_id` / `model_id` / `source_view`、permission-denied safe copy 仍需 Phase 2.94 planning。
+5. 当前仍禁止在 Hermes 仓库实现 Gateway code、连接真实 DB、运行平台 Gateway smoke、执行 Agent DB CRUD、NAS scan、parser、scratch copy、writer、index/object-store write 或 rollout。
+6. 下一步：Codex B review Phase 2.93 文档；若通过，进入 Phase 2.94 frontend controlled smoke planning，默认仍不执行真实 smoke。
+
+## 最新状态
+
 1. Phase 2.91 baseline 已完成：commit `cf89e1e`，tag `phase-2.91-runtime-evidence-writer-smoke-gate-baseline`，pushed=true。
 2. 当前进入 Phase 2.92 Read-only Gateway Acceptance Planning。
 3. 新增 `docs/PHASE292_READONLY_GATEWAY_ACCEPTANCE_PLAN.md`，把数据库团队 read-only frontend Gateway access review 收束为 Hermes 主线验收 gates。

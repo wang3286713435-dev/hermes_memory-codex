@@ -1,5 +1,23 @@
 # Handoff Log
 
+## 2026-05-18 Phase 2.93 Codex B Review
+- goal: Review Phase 2.93 read-only Gateway implementation report review and authorize selective docs baseline.
+- changed_files: `docs/PHASE293_READONLY_GATEWAY_IMPLEMENTATION_REVIEW.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: `git diff --check` passed; latest JSON parse passed; latest ignore check passed.
+- review: Report-level decision `go` / `read_only_gateway_review_passed` is acceptable; document clearly states it is not production readiness and does not authorize Agent DB CRUD, NAS scan, content ingestion, writer/parser/index writes, Agent answer integration, or rollout.
+- risks: P1 follow-up remains for sanitized response schema samples, trace identifiers, safe catalog identifiers, and permission-denied copy.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.93 selective docs baseline and stops. Do not enter Phase 2.94 automatically.
+- commit/tag if any: none.
+
+## 2026-05-18 Phase 2.93 Prompt
+- goal: Prepare Codex A handoff for read-only Gateway implementation report review after Phase 2.92 baseline.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.92 baseline confirmed at commit `36de5a7`, tag `phase-2.92-readonly-gateway-acceptance-plan-baseline`; worktree was clean before prompt update.
+- scope: Codex A should create `docs/PHASE293_READONLY_GATEWAY_IMPLEMENTATION_REVIEW.md` and review the database team report against Phase 2.92 P0 / P1 / P2 gates.
+- risks: Phase 2.93 must remain docs-only review; no Gateway implementation, DB connection, platform smoke, Agent DB CRUD, NAS scan, parser, scratch copy, writer, index/object-store write, Agent answer integration, or rollout.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-18 Phase 2.92 Read-only Gateway Acceptance Planning
 - goal: Convert the database team's read-only frontend Gateway access review into Hermes-side P0 / P1 / P2 acceptance gates.
 - changed_files: `docs/PHASE292_READONLY_GATEWAY_ACCEPTANCE_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -6906,4 +6924,14 @@
 - validation: Gate-only path returns `writer_smoke_ready_for_operator_stop` with writer/db writes false; test-local injected DB path can return `writer_smoke_executed`, created counts, duplicate no-op, and rollback dry-run.
 - risks: Real developer DB / Mac mini DB writer invocation remains unauthorized; future writer smoke still needs operator approval, Codex B review, and a separate execution prompt.
 - next: Codex B review; if accepted, perform selective Git baseline. Do not enter real writer smoke or Phase 2.92 automatically.
+- commit/tag if any: none.
+
+## 2026-05-18 16:26 Phase 2.93 Read-only Gateway Implementation Review
+
+- goal: Review the database team's read-only Gateway implementation report against Phase 2.92 P0 / P1 / P2 gates.
+- changed_files: `docs/PHASE293_READONLY_GATEWAY_IMPLEMENTATION_REVIEW.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check`; latest JSON validation; `git check-ignore reports/agent_runs/latest.json`; `git status --short`.
+- validation: Report-level review decision is `go` for `read_only_gateway_review_passed`; P0 gates are satisfied by the database team report; P1 response schema / deny-path details remain follow-up items.
+- risks: This is not production readiness and not independent platform Gateway smoke; no Gateway implementation, DB/NAS/API/CLI smoke, writer/index/object-store write, Agent DB CRUD, content ingestion, or rollout was authorized.
+- next: Codex B review Phase 2.93; if accepted, plan Phase 2.94 frontend controlled smoke. Do not execute real smoke by default.
 - commit/tag if any: none.

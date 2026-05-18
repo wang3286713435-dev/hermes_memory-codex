@@ -1,17 +1,17 @@
 # Active Phase
 
-- 当前 phase：Phase 2.92 Read-only Gateway Acceptance Planning。
-- 背景：Phase 2.91 baseline 已完成：commit `cf89e1e`，tag `phase-2.91-runtime-evidence-writer-smoke-gate-baseline`，pushed=true；runtime writer smoke gate 仍是 gate-only，不授权真实 DB 写入。
-- 本轮目标：把数据库团队 `hermes-readonly-frontend-gateway-access-review.md` 的 Go / 边界结论收束成 Hermes 主线可执行验收计划，明确只读前端 Gateway 接入的 P0 / P1 gates。
-- 修改文件：`docs/PHASE292_READONLY_GATEWAY_ACCEPTANCE_PLAN.md`、standard handoff docs、ignored `reports/agent_runs/latest.json`。
-- 完成内容：新增 Phase 2.92 只读 Gateway 验收计划；明确 Hermes 命名、平台后端 Gateway、server-side `project_scope`、catalog-only、Missing Evidence、forbidden fields、P0/P1/P2 gates 与数据库团队回传报告格式；已记录数据库团队初步回传，主要 P0 gates 初步满足，需 Phase 2.93 正式 review。
-- 测试结果：本阶段为 docs-only planning；`git diff --check` 通过，latest JSON parse 通过，`reports/agent_runs/latest.json` ignore check 通过，`git status --short` 仅显示 Phase 2.92 docs / handoff 文件。
-- live smoke 结果：未执行真实 DB / API / CLI Agent / Mac mini / Gateway / parser / NAS / writer / index / object-store smoke。
-- 当前结论：Phase 2.92 planning 已完成，建议 selective docs baseline；数据库团队 read-only Gateway 初步回传为 provisionally go，但仍需 Phase 2.93 review；不得进入 Agent DB CRUD、NAS scan、DWG/RVT 内容理解或 production rollout。
-- 阻塞点 / 风险点：前端与平台 Gateway 必须去除 Jarvis / 贾维斯旧称；`project_scope` 不得来自前端可信输入；catalog metadata 不能作为正文 evidence。
-- 是否建议 baseline：是，建议执行 Phase 2.92 selective docs baseline。
-- 是否建议进入下一阶段：否；baseline 后进入 Phase 2.93 review 数据库团队 Gateway implementation report。
-- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 完成 selective docs baseline，然后停止；不得自动实现 Gateway、运行 DB smoke 或进入 Phase 2.93。
-- 是否需要 Codex B 审核：已完成 Phase 2.92 planning review。
-- 是否需要 Codex C 真实终端验收：暂不需要；本阶段无 runtime/API/CLI 行为。
+- 当前 phase：Phase 2.93 Read-only Gateway Implementation Review。
+- 背景：Phase 2.92 baseline 已完成：commit `36de5a7`，tag `phase-2.92-readonly-gateway-acceptance-plan-baseline`，pushed=true。
+- 本轮目标：review 数据库团队“极小批次：Hermes 命名收束 + 只读 Gateway 前端复验”回传报告，判断是否满足 Phase 2.92 P0 / P1 / P2 gates。
+- 修改文件：`docs/PHASE293_READONLY_GATEWAY_IMPLEMENTATION_REVIEW.md`、`docs/NEXT_CODEX_A_PROMPT.md`、`docs/ACTIVE_PHASE.md`、`docs/PHASE_BACKLOG.md`、`docs/HANDOFF_LOG.md`、`docs/TODO.md`、`docs/DEV_LOG.md`、ignored `reports/agent_runs/latest.json`。
+- 完成内容：已新增 Phase 2.93 Hermes-side review 文档；结论为 report-level `go`，scope=`read_only_gateway_review_passed`；明确不代表 production readiness、不授权 Agent DB CRUD、NAS scan、content ingestion 或 rollout。Codex B review 已通过，并已写入 selective baseline prompt。
+- 测试结果：`git diff --check`、latest JSON parse、latest ignore check、`git status --short` 已按本轮要求执行并通过；无 pytest，因为没有代码变更。
+- live smoke 结果：未执行真实 DB / API / CLI Agent / Mac mini / Gateway / parser / NAS / writer / OpenSearch / Qdrant / MinIO / rollout smoke。
+- 当前结论：数据库团队回传报告满足 Phase 2.92 P0 gates；P1 中 response schema sample、deny-path copy、trace identifiers 仍需 Phase 2.94 planning 后再做受控 smoke。
+- 阻塞点 / 风险点：当前结论只基于回传报告，未独立运行平台 Gateway；Phase 2.94 仍必须保持 read-only planning，不得直接执行 Gateway smoke 或扩大 runtime。
+- 是否建议 baseline：是，建议执行 Phase 2.93 selective docs baseline。
+- 是否建议进入下一阶段：否；baseline 后再规划 Phase 2.94，不得自动进入。
+- 下一轮建议：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 完成 Phase 2.93 selective docs baseline，然后停止。
+- 是否需要 Codex B 审核：已完成。
+- 是否需要 Codex C 真实终端验收：暂不需要；Phase 2.94 planning 后如获授权，再安排 Codex C / DB team controlled smoke。
 - 当前仍禁止：Agent DB CRUD、Agent 生成 SQL、前端直连 Hermes raw/internal endpoints、信任前端传入 `project_scope`、返回真实 `storage_path` / raw row / NAS path、DWG/RVT 内容理解、NAS scan、parser、scratch copy、真实 DB writer smoke、OpenSearch / Qdrant / MinIO 写入、platform DB 写入、Hermes memory 写 NAS 内容、Agent answer integration、repair、reindex、delete、migration、production rollout。

@@ -1,32 +1,33 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.92 Read-only Gateway Acceptance Plan Baseline
+## Phase 2.93 Read-only Gateway Implementation Review Baseline
 
-Codex B has completed Phase 2.92 docs-only planning. Create a selective Git baseline for the read-only Gateway acceptance plan.
+Codex B review passed. Create a selective Git baseline for Phase 2.93 Read-only Gateway Implementation Review.
 
-Do not implement Gateway code, do not run DB / NAS / API / CLI smoke, and do not enter Phase 2.93 automatically.
+Do not enter Phase 2.94 automatically. Do not run platform Gateway smoke.
 
 Previous baseline:
 
-- commit: `cf89e1e`
-- tag: `phase-2.91-runtime-evidence-writer-smoke-gate-baseline`
+- commit: `36de5a7`
+- tag: `phase-2.92-readonly-gateway-acceptance-plan-baseline`
 - pushed: true
 
 ## Review Summary
 
-Codex B reviewed the database team's sanitized `hermes-readonly-frontend-gateway-access-review.md` and converted it into Hermes-side acceptance gates.
+Codex B reviewed:
 
-Database team has now returned an initial implementation report. It is provisionally positive and should be formally reviewed in Phase 2.93 after this Phase 2.92 baseline.
+```text
+docs/PHASE293_READONLY_GATEWAY_IMPLEMENTATION_REVIEW.md
+```
 
-Phase 2.92 conclusion:
+Review result:
 
-1. Read-only frontend Gateway integration is allowed as a platform-side implementation track.
-2. The product / Agent name must be **Hermes** or **Hermes 数据管家**, not Jarvis / 贾维斯.
-3. Frontend must call the platform backend Gateway, not raw Hermes internals.
-4. `project_scope` / permission proof must be generated server-side by platform backend.
-5. Catalog metadata is not document evidence and cannot answer DWG / RVT / NAS content questions.
-6. Gateway responses must not expose true `storage_path`, `storage_uri`, raw rows, raw NAS paths, raw file content, secrets, or credential material.
-7. Agent DB CRUD, Agent-generated SQL, NAS scan, parser, scratch copy, writer smoke, index writes, Agent answer integration, and production rollout remain forbidden.
+1. The database team's read-only Gateway implementation report satisfies Phase 2.92 P0 gates at report level.
+2. Decision is `go` for `read_only_gateway_review_passed`.
+3. This is not production readiness.
+4. This does not authorize Agent DB CRUD, Agent-generated SQL, NAS scan, content ingestion, writer/parser/index writes, Agent answer integration, or rollout.
+5. P1 follow-up remains for sanitized response schema samples, trace identifiers, safe catalog identifiers, and permission-denied copy.
+6. Next candidate is Phase 2.94 frontend controlled smoke planning, but this baseline must stop before 2.94.
 
 ## Required Validation
 
@@ -44,13 +45,15 @@ Expected:
 1. `git diff --check` passes.
 2. latest JSON parses.
 3. `reports/agent_runs/latest.json` is ignored.
-4. `git status --short` contains only Phase 2.92 docs / handoff files.
+4. `git status --short` contains only Phase 2.93 docs / handoff files.
+
+No pytest is required because no code changed.
 
 ## Allowed Files For Baseline
 
 Stage only:
 
-1. `docs/PHASE292_READONLY_GATEWAY_ACCEPTANCE_PLAN.md`
+1. `docs/PHASE293_READONLY_GATEWAY_IMPLEMENTATION_REVIEW.md`
 2. `docs/NEXT_CODEX_A_PROMPT.md`
 3. `docs/ACTIVE_PHASE.md`
 4. `docs/PHASE_BACKLOG.md`
@@ -61,8 +64,8 @@ Stage only:
 Do not stage:
 
 1. ignored `reports/agent_runs/latest.json`
-2. any DB output, NAS output, approval JSON, `.env`, secret, raw sample, screenshot, or unrelated file
-3. code, tests, scripts, migrations, platform DB files, parser files, Gateway implementation files, or frontend files
+2. any DB output, NAS output, platform Gateway output, approval JSON, `.env`, secret, raw sample, screenshot, or unrelated file
+3. code, tests, scripts, migrations, parser files, Gateway implementation files, frontend files, or backend platform files
 
 If any non-allowed tracked or untracked file appears, stop and report.
 
@@ -80,13 +83,13 @@ The cached file list must match the allowed baseline files only.
 Commit message:
 
 ```text
-docs: plan phase 2.92 readonly gateway acceptance
+docs: review phase 2.93 readonly gateway implementation
 ```
 
 Tag:
 
 ```text
-phase-2.92-readonly-gateway-acceptance-plan-baseline
+phase-2.93-readonly-gateway-implementation-review-baseline
 ```
 
 Push `origin/main` and the tag.
@@ -95,22 +98,22 @@ Push `origin/main` and the tag.
 
 Still forbidden:
 
-1. implementing platform Gateway code in this repository
-2. running DB / API / CLI / Mac mini Gateway smoke
-3. running writer smoke against any real DB
-4. enabling DB / NAS / writer / parser / Agent answer feature flags
-5. Agent DB CRUD or Agent-generated SQL
-6. trusting frontend-supplied `project_scope`
-7. returning true `storage_path`, raw row, NAS path, or raw content
-8. reading DWG / RVT / NWD / IFC content
-9. scanning NAS
-10. parser invocation
-11. scratch copy
-12. writing `documents`, `document_versions`, `chunks`, `citations`
-13. writing OpenSearch / Qdrant / MinIO / platform DB / Hermes long-term memory
+1. implementing Gateway code in this repository
+2. running platform Gateway smoke
+3. connecting to real DB
+4. Agent DB CRUD
+5. Agent-generated SQL
+6. NAS scan
+7. parser invocation
+8. scratch copy
+9. writer smoke against real DB
+10. writing `documents`, `document_versions`, `chunks`, `citations`
+11. writing OpenSearch / Qdrant / MinIO / platform DB / Hermes long-term memory
+12. reading DWG / RVT / NWD / IFC content
+13. exposing true `storage_path`, raw row, NAS path, raw content, secret, or credential material
 14. repair / cleanup / backfill / reindex / delete / migration
 15. production rollout
-16. entering Phase 2.93 automatically
+16. entering Phase 2.94 automatically
 
 ## Completion Report
 
