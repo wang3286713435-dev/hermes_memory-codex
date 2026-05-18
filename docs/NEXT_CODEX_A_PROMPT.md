@@ -1,43 +1,64 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.89 Test-Machine Runtime Preflight Smoke Handoff Baseline
+## Phase 2.90 Test-Machine Update / Preflight Result Baseline
 
-Phase 2.89 docs-only / handoff-only package has been reviewed by Codex B.
+Phase 2.90 test-machine repository update gate and Phase 2.89 runtime preflight have completed.
 
-Reviewed previous baseline:
+Previous baseline:
 
-- commit: `b09c3d1`
-- tag: `phase-2.88-runtime-evidence-write-preflight-baseline`
+- commit: `4e0bd62`
+- tag: `phase-2.89-test-machine-runtime-preflight-handoff-baseline`
 - pushed: true
 
-## Review Result
+## Verified Test-Machine Results
 
-Codex B verified:
+Test-machine repository update:
 
-1. `docs/PHASE289_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PLAN.md` is docs-only / handoff-only.
-2. `docs/CODEX_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PROMPT.md` is directly usable by Mac mini / test-machine Codex.
-3. Reviewed ref is fixed to `b09c3d1` / `phase-2.88-runtime-evidence-write-preflight-baseline`.
-4. The only allowed future command is `scripts/phase288_runtime_evidence_write_preflight.py`.
-5. The prompt requires local ignored approval JSON, local ignored worktree status file, and local ignored output report.
-6. The prompt forbids printing raw approval content, secrets, raw text, true filenames, true NAS paths, raw DB rows, source payloads, and sensitive business values.
-7. `preflight_ready_for_operator_stop` is documented as a stop condition, not write authorization.
-8. Writer invocation, real DB writes, parser, NAS copy/scan, OpenSearch / Qdrant / MinIO writes, platform DB writes, Agent answer integration, repair/reindex/delete/migration, rollout, and enabling real-write feature flags remain blocked.
-9. Static validation passed.
+- status: `go`
+- repo: `/Users/hermes/code/Hermes_memory`
+- head: `4e0bd62`
+- tag: `phase-2.89-test-machine-runtime-preflight-handoff-baseline`
+- worktree clean: true
+- required docs present: true
+
+Test-machine runtime preflight:
+
+- status: `go`
+- decision state: `preflight_ready_for_operator_stop`
+- expected commit match: true
+- worktree clean: true
+- prerequisite refs present: true
+- prerequisite refs sanitized: true
+- sanitized output report filename: `phase289-runtime-preflight-report-001.json`
+- writer invoked: false
+- DB writes: false
+- parser invoked: false
+- scratch copy: false
+- NAS scanned: false
+- OpenSearch / Qdrant / MinIO writes: false
+- Agent answer integration: false
+- production rollout: false
 
 ## Goal
 
-Create the Phase 2.89 selective docs baseline and stop.
+Create the Phase 2.90 selective docs baseline and stop.
 
-This prompt does not authorize running the test-machine prompt.
-This prompt does not authorize running the preflight runner.
-This prompt does not authorize runtime evidence write execution.
-This prompt does not authorize writer invocation or real DB writes.
+This baseline only records:
+
+1. test-machine repository update correction
+2. runtime preflight prompt correction
+3. test-machine update `Go`
+4. runtime preflight `preflight_ready_for_operator_stop`
+
+This prompt does not authorize writer invocation.
+This prompt does not authorize real DB writes.
+This prompt does not authorize parser, NAS copy, index/object-store write, Agent answer integration, repair/reindex, or rollout.
 
 ## Allowed Files For Baseline
 
 Stage only:
 
-1. `docs/PHASE289_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PLAN.md`
+1. `docs/CODEX_TEST_MACHINE_UPDATE_TO_PHASE289_PROMPT.md`
 2. `docs/CODEX_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PROMPT.md`
 3. `docs/NEXT_CODEX_A_PROMPT.md`
 4. `docs/ACTIVE_PHASE.md`
@@ -66,7 +87,7 @@ git diff --cached --name-only
 Do not run pytest.
 Do not run API / CLI smoke.
 Do not run DB smoke.
-Do not run the preflight runner.
+Do not run preflight runner.
 Do not run writer.
 Do not run parser.
 Do not copy files.
@@ -76,13 +97,13 @@ Do not copy files.
 Commit message:
 
 ```text
-docs: add phase 2.89 test-machine preflight handoff
+docs: record phase 2.90 test-machine preflight readiness
 ```
 
 Tag:
 
 ```text
-phase-2.89-test-machine-runtime-preflight-handoff-baseline
+phase-2.90-test-machine-preflight-readiness-baseline
 ```
 
 Push `origin/main` and the tag after commit.
@@ -91,25 +112,23 @@ Push `origin/main` and the tag after commit.
 
 Still forbidden:
 
-1. running the test-machine prompt on this machine
-2. running the preflight runner in this phase
-3. calling `EvidenceOnlyWriter.write()`
-4. runtime evidence write execution
-5. real DB write
-6. API / CLI Agent runtime wiring
-7. parser execution
-8. scratch copy
-9. raw file content read
-10. NAS scan
-11. OpenSearch / Qdrant / MinIO write
-12. platform DB write
-13. audit table write outside normal existing retrieval audit behavior
-14. Agent answer integration
-15. Agent DB / NAS CRUD
-16. repair / cleanup / backfill / reindex / delete / migration
-17. production rollout
-18. enabling real-write feature flags
-19. entering a future writer invocation phase without separate authorization
+1. calling `EvidenceOnlyWriter.write()`
+2. runtime evidence write execution
+3. real DB write
+4. API / CLI Agent runtime wiring
+5. parser execution
+6. scratch copy
+7. raw file content read
+8. NAS scan
+9. OpenSearch / Qdrant / MinIO write
+10. platform DB write
+11. audit table write outside normal existing retrieval audit behavior
+12. Agent answer integration
+13. Agent DB / NAS CRUD
+14. repair / cleanup / backfill / reindex / delete / migration
+15. production rollout
+16. enabling real-write feature flags for execution
+17. entering a writer invocation phase without separate explicit authorization
 
 ## Completion Report
 
@@ -120,7 +139,6 @@ Report:
 3. commit hash
 4. tag
 5. push result
-6. confirmation test-machine prompt was not executed
-7. confirmation preflight runner was not executed
-8. confirmation writer / DB / parser / copy / NAS / index / object-store / Agent answer actions remain blocked
-9. final `git status --short`
+6. confirmation preflight reached `preflight_ready_for_operator_stop`
+7. confirmation writer / DB / parser / copy / NAS / index / object-store / Agent answer actions remain blocked
+8. final `git status --short`

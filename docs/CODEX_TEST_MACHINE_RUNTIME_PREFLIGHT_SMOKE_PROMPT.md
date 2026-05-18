@@ -6,14 +6,21 @@ Run the Phase 2.88 runtime evidence write preflight runner on the Mac mini / tes
 
 This prompt is for a preflight check only. Stop after the preflight result. Do not call a writer.
 
-## Reviewed Ref
+## Reviewed Refs
 
-Use only:
+The test machine should normally run from the Phase 2.89 handoff checkout:
+
+- commit: `4e0bd62`
+- tag: `phase-2.89-test-machine-runtime-preflight-handoff-baseline`
+
+The Phase 2.88 runner implementation reviewed ref remains:
 
 - commit: `b09c3d1`
 - tag: `phase-2.88-runtime-evidence-write-preflight-baseline`
 
-If the local checkout is not exactly this commit or tag, stop and report `Pause`.
+If the local checkout is `4e0bd62` and worktree is clean, continue.
+Do not require local checkout to be `b09c3d1`; that would incorrectly reject the Phase 2.89 handoff baseline.
+The `--expected-git-commit` argument must match the `target_git_commit` value inside the operator approval JSON. If the approval JSON targets `b09c3d1`, use `b09c3d1`. If it targets `4e0bd62`, use `4e0bd62`. If the target cannot be confirmed without printing sensitive content, stop and report `Pause`.
 
 ## Hard Boundaries
 
@@ -56,6 +63,8 @@ The operator approval JSON must contain refs to prerequisite reports. Confirm th
    git tag --points-at HEAD
    ```
 
+   Accept `4e0bd62` / `phase-2.89-test-machine-runtime-preflight-handoff-baseline` as the normal current checkout.
+
 2. Confirm ignored output policy:
 
    ```bash
@@ -84,7 +93,7 @@ Run only:
 UV_CACHE_DIR=/private/tmp/uv-cache uv run python scripts/phase288_runtime_evidence_write_preflight.py \
   --approval-json <local_ignored_operator_approval_json> \
   --output <local_ignored_preflight_report_json> \
-  --expected-git-commit b09c3d1 \
+  --expected-git-commit <target_git_commit_from_operator_approval_json> \
   --worktree-status-file <local_ignored_worktree_status_file>
 ```
 

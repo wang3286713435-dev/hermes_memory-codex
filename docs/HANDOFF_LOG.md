@@ -1,5 +1,23 @@
 # Handoff Log
 
+## 2026-05-18 Phase 2.90 Test-Machine Preflight Result
+- goal: Record Mac mini / test-machine repository update Go and runtime preflight-only Go before any writer invocation.
+- changed_files: `docs/CODEX_TEST_MACHINE_UPDATE_TO_PHASE289_PROMPT.md`, `docs/CODEX_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Test-machine repo update returned `go` at `4e0bd62` / `phase-2.89-test-machine-runtime-preflight-handoff-baseline`; runtime preflight returned `go` with `preflight_ready_for_operator_stop`.
+- safety: writer_invoked=false, db_writes=false, parser_invoked=false, scratch_copy_performed=false, nas_scanned=false, opensearch/qdrant/minio writes=false, agent_answer_integration=false, production_rollout=false.
+- risks: `preflight_ready_for_operator_stop` is a mandatory stop point, not write authorization.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.90 selective docs baseline. After baseline, Phase 2.91 may plan first controlled writer smoke execution gate, still behind explicit authorization.
+- commit/tag if any: none.
+
+## 2026-05-16 Phase 2.90 Test-Machine Repository Update Gate
+- goal: Add a safe test-machine repository update prompt before running Phase 2.89 preflight.
+- changed_files: `docs/CODEX_TEST_MACHINE_UPDATE_TO_PHASE289_PROMPT.md`, `docs/CODEX_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: pending final docs/static validation in this handoff.
+- risks: Test-machine checkout must be clean before fetch/checkout; if dirty, target tag missing, or final HEAD is not `4e0bd62`, operator must stop and report Pause. A missing `docs/CODEX_TEST_MACHINE_UPDATE_TO_PHASE289_PROMPT.md` inside the 2.89 checkout is expected and must not block, because that file belongs to the later 2.90 handoff.
+- correction: Runtime preflight prompt must accept local checkout `4e0bd62`; the command argument `--expected-git-commit` must match approval JSON `target_git_commit`, not blindly require local checkout `b09c3d1`.
+- next: Update test-machine repository to `phase-2.89-test-machine-runtime-preflight-handoff-baseline` first; only after Go may a separate prompt run the Phase 2.89 preflight.
+- commit/tag if any: none.
+
 ## 2026-05-15 18:18 Phase 2.89 Codex B Review
 - goal: Review Phase 2.89 test-machine runtime preflight smoke handoff and authorize selective docs baseline.
 - changed_files: `docs/PHASE289_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PLAN.md`, `docs/CODEX_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.

@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.90 Test-Machine Repository Update Gate
+
+1. Phase 2.89 baseline 已完成：commit `4e0bd62`，tag `phase-2.89-test-machine-runtime-preflight-handoff-baseline`，pushed=true。
+2. 测试机 repo update 已返回 `Go`：head `4e0bd62`，worktree clean，required docs present。
+3. Runtime preflight-only 已返回 `Go`：decision state `preflight_ready_for_operator_stop`，output `phase289-runtime-preflight-report-001.json`。
+4. 安全结果：writer 未调用、DB 未写入、parser 未运行、NAS 未扫描、index/object-store 未写入、Agent answer 未接入、未 rollout。
+5. 当前仍不授权调用 `EvidenceOnlyWriter.write()`、真实 DB 写入、parser、NAS copy/scan、OpenSearch / Qdrant / MinIO 写入、Agent answer integration 或 rollout。
+6. 下一步先做 Phase 2.90 selective docs baseline；之后再规划 Phase 2.91 first controlled writer smoke execution gate。
+
 ## Phase 2.89 Test-Machine Runtime Preflight Smoke Handoff
 
 1. Phase 2.88 baseline 已完成：commit `b09c3d1`，tag `phase-2.88-runtime-evidence-write-preflight-baseline`，pushed=true。

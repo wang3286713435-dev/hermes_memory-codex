@@ -2,6 +2,24 @@
 
 ## 最新状态
 
+1. Phase 2.90 test-machine update gate 已返回 `Go`：测试机 `/Users/hermes/code/Hermes_memory` 已 clean checkout 到 `4e0bd62` / `phase-2.89-test-machine-runtime-preflight-handoff-baseline`。
+2. Phase 2.89 runtime preflight-only 已在测试机返回 `Go`：decision state `preflight_ready_for_operator_stop`。
+3. Preflight 输出文件名为 `phase289-runtime-preflight-report-001.json`，prerequisite refs present/sanitized，worktree clean，expected commit matched。
+4. 安全结果：writer 未调用、DB 未写入、parser 未运行、scratch copy 未发生、NAS 未扫描、OpenSearch/Qdrant/MinIO 未写入、Agent answer 未接入、未 rollout。
+5. 当前建议先做 Phase 2.90 selective docs baseline，随后再规划 Phase 2.91 first controlled writer smoke execution gate。
+6. `preflight_ready_for_operator_stop` 仍不是写入授权；真实 writer invocation 必须单独授权。
+
+## 最新状态
+
+1. Phase 2.89 baseline 已完成：commit `4e0bd62`，tag `phase-2.89-test-machine-runtime-preflight-handoff-baseline`，pushed=true。
+2. 当前进入 Phase 2.90 Test-Machine Repository Update Gate。
+3. 在测试机执行 Phase 2.89 preflight 前，必须先把测试机 Hermes Memory checkout 更新到 `phase-2.89-test-machine-runtime-preflight-handoff-baseline`。
+4. 新增 `docs/CODEX_TEST_MACHINE_UPDATE_TO_PHASE289_PROMPT.md`，只允许 clean worktree 下 fetch tags / checkout exact tag / verify docs。
+5. Phase 2.90 不运行 preflight runner，不调用 writer，不写 DB，不运行 parser，不复制/扫描 NAS，不写 index/object-store，不接 Agent answer。
+6. 下一步：先用该 prompt 更新测试机仓库；成功后才能单独授权运行 `docs/CODEX_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PROMPT.md`。
+
+## 最新状态
+
 1. Phase 2.88 baseline 已完成：commit `b09c3d1`，tag `phase-2.88-runtime-evidence-write-preflight-baseline`，pushed=true。
 2. Phase 2.89 Test-Machine Runtime Preflight Smoke Handoff 已完成 docs-only 交接包，Codex B review 通过。
 3. 新增 `docs/PHASE289_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PLAN.md` 与 `docs/CODEX_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PROMPT.md`。
