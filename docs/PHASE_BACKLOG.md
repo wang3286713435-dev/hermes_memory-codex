@@ -1,5 +1,22 @@
 # Phase Backlog
 
+## Data Steward / NAS Catalog-only Risk Boundary
+
+1. 新增 `docs/DATA_STEWARD_AGENT_RISK_BOUNDARY.md`，作为后续 Hermes Data Steward / NAS / DB catalog-only 接入的风险边界。
+2. 项目内企业 Agent 正式名称统一为 Hermes，不使用 Jarvis。
+3. 后续 Catalog Tool、Gateway、前端文案、prompt 与 feedback 设计必须遵守：catalog metadata 不等于正文 evidence；Hermes memory 不等于 NAS 内容索引；只读 Catalog Tool 不等于 SQL Tool。
+4. Backlog 优先级：只读 `asset_catalog_search` tool 产品化、结构化输出 `query_id/file_id/model_id/source_view`、路径脱敏、Missing Evidence 模板、prompt/tool description 审计、feedback 不直接写 long-term memory、`related_file_ids` 低敏 memory 规则、未来 NAS semantic collection 独立设计。
+
+## 最新状态
+
+1. Phase 2.91 Runtime Evidence Writer Smoke Gate Implementation 已完成本地实现，并已通过 Codex B review。
+2. 新增 smoke gate service / CLI / tests / docs；默认 gate-only 返回 `writer_smoke_ready_for_operator_stop`，不调用 writer。
+3. 仅在目标测试 / temp SQLite / injected DB session 中允许 `EvidenceOnlyWriter.write()`，用于验证 `writer_smoke_executed`、created counts、idempotency duplicate 与 rollback dry-run。
+4. 验证通过：TDD RED 已观察；目标测试 `12 passed`；py_compile 通过；writer + preflight + smoke 组合回归 `29 passed`。
+5. 真实 developer DB / Mac mini DB writer invocation 仍未授权；真实 test-machine writer smoke 需要后续单独 prompt、operator approval 与 Codex B review。
+6. 下一步：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 完成 selective Git baseline。不得自动进入真实 writer smoke 或 Phase 2.92。
+7. 当前仍禁止 parser、scratch copy、NAS scan、OpenSearch/Qdrant/MinIO 写入、platform DB 写入、Agent answer integration、repair/reindex/rollout。
+
 ## 最新状态
 
 1. Phase 2.90 test-machine update gate 已返回 `Go`：测试机 `/Users/hermes/code/Hermes_memory` 已 clean checkout 到 `4e0bd62` / `phase-2.89-test-machine-runtime-preflight-handoff-baseline`。

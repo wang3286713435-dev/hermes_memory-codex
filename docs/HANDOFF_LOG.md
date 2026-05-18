@@ -1,5 +1,32 @@
 # Handoff Log
 
+## 2026-05-18 Data Steward Risk Boundary
+- goal: Adopt the useful parts of `hermes_agent_risk_notes.md` as project-owned Data Steward / NAS / DB catalog-only risk boundaries.
+- changed_files: `docs/DATA_STEWARD_AGENT_RISK_BOUNDARY.md`, `docs/DB_TEAM_HERMES_FRONTEND_GATEWAY_INTEGRATION_V3.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`.
+- validation: `git diff --check` passed for the risk-boundary docs; name audit only keeps Jarvis in explicit "do not use Jarvis" naming notes.
+- safety: This is documentation-only. No code, DB, NAS, parser, scratch copy, OpenSearch / Qdrant / MinIO, Agent runtime, writer, repair/reindex, or rollout changes.
+- boundary: Project Agent name is Hermes. Catalog metadata is not content evidence; Hermes memory is not NAS content index; read-only Catalog Tool is not SQL Tool.
+- next: Future Data Steward prompts, Gateway docs, tool descriptions, frontend copy, and feedback design must reference `docs/DATA_STEWARD_AGENT_RISK_BOUNDARY.md`.
+- commit/tag if any: none.
+
+## 2026-05-18 Phase 2.91 Codex B Review
+- goal: Review Phase 2.91 Runtime Evidence Writer Smoke Gate implementation and authorize selective Git baseline.
+- changed_files: `app/services/asset_catalog/evidence_write_runtime_smoke.py`, `scripts/phase291_runtime_evidence_write_smoke.py`, `tests/test_data_steward_evidence_write_runtime_smoke.py`, `docs/PHASE291_RUNTIME_EVIDENCE_WRITE_SMOKE_GATE.md`, `docs/DATA_STEWARD_AGENT_RISK_BOUNDARY.md`, `docs/DB_TEAM_HERMES_FRONTEND_GATEWAY_INTEGRATION_V3.md`, standard handoff docs, ignored `reports/agent_runs/latest.json`.
+- tests: Phase 2.91 target tests `12 passed`; py_compile passed; writer + preflight + smoke regression `29 passed`; `git diff --check` passed.
+- validation: Gate-only path does not invoke writer; CLI `--execute-writer` safely pauses because no DB session is injected; writer invocation is limited to target tests / temp SQLite / injected DB session.
+- risks: Real developer DB / Mac mini DB writer invocation, parser, scratch copy, NAS scan, index/object-store writes, platform DB writes, Agent answer integration, repair/reindex/rollout remain blocked.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.91 selective Git baseline and stops. Do not enter real writer smoke or Phase 2.92 automatically.
+- commit/tag if any: none.
+
+## 2026-05-18 Phase 2.91 Prompt
+- goal: Advance from Phase 2.90 baseline to Runtime Evidence Writer Smoke Gate Implementation.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: `git diff --check`, latest JSON validation, and latest ignore check passed.
+- scope: Codex A should implement `app/services/asset_catalog/evidence_write_runtime_smoke.py`, `scripts/phase291_runtime_evidence_write_smoke.py`, target tests, and `docs/PHASE291_RUNTIME_EVIDENCE_WRITE_SMOKE_GATE.md`.
+- risks: Phase 2.91 may call `EvidenceOnlyWriter.write()` only inside tests / temp injected DB session. Real Hermes DB writes, parser, scratch copy, NAS scan, index/object-store writes, Agent answer integration, repair/reindex/rollout remain forbidden.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` and stops for Codex B review. Do not commit, tag, push, or run real DB smoke in this phase.
+- commit/tag if any: none.
+
 ## 2026-05-18 Phase 2.90 Test-Machine Preflight Result
 - goal: Record Mac mini / test-machine repository update Go and runtime preflight-only Go before any writer invocation.
 - changed_files: `docs/CODEX_TEST_MACHINE_UPDATE_TO_PHASE289_PROMPT.md`, `docs/CODEX_TEST_MACHINE_RUNTIME_PREFLIGHT_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -6859,4 +6886,14 @@
 - validation: Handoff pack covers test-machine preconditions, reviewed refs, env key names, operator approval path/schema, prior report refs, feature flags, one-run write boundary, preflight-only commands, mandatory stop points, sanitized report, rollback/idempotency checks, and Go / Pause / No-Go.
 - risks: Future Codex C prompt is not execution authorization; real smoke still requires separate prompt, explicit operator approval, and Codex B review.
 - next: Codex B review Phase 2.87d handoff docs; if accepted, perform selective docs baseline. Do not execute test-machine prompt automatically.
+- commit/tag if any: none.
+
+## 2026-05-18 00:00 Phase 2.91 Runtime Evidence Writer Smoke Gate Implementation
+
+- goal: Implement the runtime evidence writer smoke gate connecting Phase 2.88 preflight and Phase 2.87b `EvidenceOnlyWriter`, without real DB execution.
+- changed_files: `app/services/asset_catalog/evidence_write_runtime_smoke.py`, `scripts/phase291_runtime_evidence_write_smoke.py`, `tests/test_data_steward_evidence_write_runtime_smoke.py`, `docs/PHASE291_RUNTIME_EVIDENCE_WRITE_SMOKE_GATE.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `docs/HANDOFF_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: TDD RED observed missing module / CLI; target tests `12 passed`; py_compile passed; writer + preflight + smoke regression `29 passed`.
+- validation: Gate-only path returns `writer_smoke_ready_for_operator_stop` with writer/db writes false; test-local injected DB path can return `writer_smoke_executed`, created counts, duplicate no-op, and rollback dry-run.
+- risks: Real developer DB / Mac mini DB writer invocation remains unauthorized; future writer smoke still needs operator approval, Codex B review, and a separate execution prompt.
+- next: Codex B review; if accepted, perform selective Git baseline. Do not enter real writer smoke or Phase 2.92 automatically.
 - commit/tag if any: none.

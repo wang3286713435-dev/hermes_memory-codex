@@ -1,5 +1,23 @@
 # Hermes Memory 当前待办清单
 
+## Data Steward / NAS Catalog-only Risk Boundary
+
+1. 已采纳 `hermes_agent_risk_notes.md` 中值得进入主线的建议，并固化为 `docs/DATA_STEWARD_AGENT_RISK_BOUNDARY.md`。
+2. 项目内企业 Agent 正式名称统一为 **Hermes**，不使用 Jarvis 作为正式称呼。
+3. 后续 Data Steward / DB / NAS / 前端耦合必须遵守：catalog metadata 不等于正文 evidence；Hermes memory 不等于 NAS 内容索引；只读 Catalog Tool 不等于 SQL Tool。
+4. 当前仍禁止把 catalog rows、真实 `storage_path`、DWG / RVT 内容、NAS 文件正文或 raw row 写入 `documents/chunks/Qdrant/OpenSearch` 或 Hermes long-term memory。
+5. 后续 prompt / tool description / 前端文案需要避免承诺 DWG / RVT 内容理解、BIM 构件级搜索、NAS 全文搜索或 NAS 语义搜索。
+
+## Phase 2.91 Runtime Evidence Writer Smoke Gate Implementation
+
+1. Phase 2.90 baseline 已完成：commit `3ee37e3`，tag `phase-2.90-test-machine-preflight-readiness-baseline`，pushed=true。
+2. 测试机 runtime preflight-only 已返回 `preflight_ready_for_operator_stop`，但这仍不是写入授权。
+3. Phase 2.91 本地实现已完成：新增 runtime smoke gate service、CLI、target tests 与阶段文档。
+4. 默认 gate-only，不写真实 DB；目标测试 / 临时注入 DB session 中可调用 `EvidenceOnlyWriter.write()` 验证 created counts、idempotency 与 rollback dry-run。
+5. 验证通过：TDD RED 已观察；目标测试 `12 passed`；py_compile 通过；writer + preflight + smoke 组合回归 `29 passed`。
+6. Codex B review 已通过；下一步执行 selective Git baseline。
+7. 仍禁止真实 Hermes DB 写入、parser、scratch copy、NAS scan、OpenSearch / Qdrant / MinIO 写入、Agent answer integration、repair/reindex/rollout。
+
 ## Phase 2.90 Test-Machine Repository Update Gate
 
 1. Phase 2.89 baseline 已完成：commit `4e0bd62`，tag `phase-2.89-test-machine-runtime-preflight-handoff-baseline`，pushed=true。
