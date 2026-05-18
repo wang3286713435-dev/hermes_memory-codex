@@ -1,5 +1,23 @@
 # Handoff Log
 
+## 2026-05-18 Phase 2.94 Codex B Review
+- goal: Review Phase 2.94 frontend / Gateway controlled smoke plan and authorize selective docs baseline.
+- changed_files: `docs/PHASE294_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: `git diff --check` passed; latest JSON parse passed; latest ignore check passed.
+- review: Plan remains docs-only, covers required smoke cases and safe/forbidden fields, and keeps Codex C / database team handoff read-only.
+- risks: Actual frontend / Gateway smoke remains unauthorized; Phase 2.94a must be separately planned and explicitly authorized.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.94 selective docs baseline and stops. Do not enter Phase 2.94a automatically.
+- commit/tag if any: none.
+
+## 2026-05-18 Phase 2.94 Prompt
+- goal: Prepare Codex A handoff for frontend / Gateway controlled smoke planning after Phase 2.93 baseline.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.93 baseline confirmed at commit `d84cb62`, tag `phase-2.93-readonly-gateway-implementation-review-baseline`; worktree was clean before prompt update.
+- scope: Codex A should create `docs/PHASE294_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PLAN.md` and plan future read-only frontend / Gateway smoke only.
+- risks: Phase 2.94 must remain docs-only planning; no smoke execution, Gateway implementation, DB/NAS/API connection, Agent DB CRUD, parser, scratch copy, writer, index/object-store write, Agent answer integration, or rollout.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-18 Phase 2.93 Codex B Review
 - goal: Review Phase 2.93 read-only Gateway implementation report review and authorize selective docs baseline.
 - changed_files: `docs/PHASE293_READONLY_GATEWAY_IMPLEMENTATION_REVIEW.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -6934,4 +6952,14 @@
 - validation: Report-level review decision is `go` for `read_only_gateway_review_passed`; P0 gates are satisfied by the database team report; P1 response schema / deny-path details remain follow-up items.
 - risks: This is not production readiness and not independent platform Gateway smoke; no Gateway implementation, DB/NAS/API/CLI smoke, writer/index/object-store write, Agent DB CRUD, content ingestion, or rollout was authorized.
 - next: Codex B review Phase 2.93; if accepted, plan Phase 2.94 frontend controlled smoke. Do not execute real smoke by default.
+- commit/tag if any: none.
+
+## 2026-05-18 17:24 Phase 2.94 Frontend / Gateway Controlled Smoke Planning
+
+- goal: Create docs-only plan for a future read-only frontend / Gateway controlled smoke.
+- changed_files: `docs/PHASE294_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check`; latest JSON validation; `git check-ignore reports/agent_runs/latest.json`; `git status --short`.
+- validation: Plan covers capabilities, health, chat, catalog search, compatibility route, permission-denied, catalog-only content question, safe response fields, forbidden-field assertions, Missing Evidence / `asset_catalog_only`, and Go / Pause / No-Go.
+- risks: Planning-only; actual Gateway smoke, DB/NAS/API access, writer/parser/index writes, Agent DB CRUD, content ingestion, and rollout remain unauthorized.
+- next: Codex B review Phase 2.94 plan; if accepted, perform selective docs baseline. Do not execute real smoke by default.
 - commit/tag if any: none.

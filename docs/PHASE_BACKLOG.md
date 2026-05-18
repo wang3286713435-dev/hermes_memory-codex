@@ -9,6 +9,17 @@
 
 ## 最新状态
 
+1. Phase 2.94 Frontend / Gateway Controlled Smoke Planning 已完成 docs-only planning，Codex B review 通过。
+2. 新增 `docs/PHASE294_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PLAN.md`。
+3. 规划覆盖 capabilities、health、chat、catalog search、compatibility route、permission-denied、catalog-only content question。
+4. 规划固定 safe fields：`query_id`、`trace_id`、`file_id`、`model_id`、`source_view`、`permission_decision`、`missingEvidence`、`evidenceMode`、Hermes 命名。
+5. 规划固定 forbidden-field negative assertions：storage path / URI variants、NAS URI、raw row、SQL fragment、token、secret、bearer、raw file content、true NAS path。
+6. 当前仍未执行真实 smoke，未实现 Gateway code，未连接 DB / NAS / platform API / Hermes API。
+7. 下一步：只做 Phase 2.94 selective docs baseline，不自动进入 Phase 2.94a 或真实 smoke。
+8. 当前仍禁止真实 Gateway smoke、Agent DB CRUD、Agent SQL、NAS scan、parser、scratch copy、writer、index/object-store write、Agent answer integration、rollout。
+
+## 最新状态
+
 1. Phase 2.93 Read-only Gateway Implementation Review 已完成，Codex B review 通过。
 2. 新增 `docs/PHASE293_READONLY_GATEWAY_IMPLEMENTATION_REVIEW.md`；结论为 report-level `go` / `read_only_gateway_review_passed`。
 3. 该 Go 不代表 production readiness，不授权 Agent DB CRUD、Agent SQL、NAS scan、content ingestion、writer/parser/index writes、Agent answer integration 或 rollout。

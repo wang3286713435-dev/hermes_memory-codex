@@ -20,10 +20,13 @@
 
 ## Phase 2.94 Frontend Controlled Smoke Planning
 
-1. 推荐下一阶段：只规划 read-only frontend/Gateway controlled smoke。
-2. 规划应覆盖 capabilities、health、chat、catalog search、compatibility route、permission-denied behavior。
-3. 必须继续验证：Hermes naming、server-generated `project_scope`、Missing Evidence / `asset_catalog_only`、`query_id` / `trace_id`、`file_id` / `model_id` / `source_view`、forbidden fields 不泄露。
-4. 默认不执行真实 Gateway smoke；若需要 runtime smoke，必须另行授权并保持 read-only。
+1. Phase 2.93 baseline 已完成：commit `d84cb62`，tag `phase-2.93-readonly-gateway-implementation-review-baseline`，pushed=true。
+2. 已新增 `docs/PHASE294_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PLAN.md`。
+3. 规划覆盖 capabilities、health、chat、catalog search、compatibility route、permission-denied behavior、catalog-only content question。
+4. 已固定未来 smoke 必查：Hermes naming、server-generated `project_scope`、Missing Evidence / `asset_catalog_only`、`query_id` / `trace_id`、`file_id` / `model_id` / `source_view`、`permission_decision`、forbidden fields 不泄露。
+5. 已固定 Go / Pause / No-Go：任何 forbidden field、frontend-trusted `project_scope`、catalog metadata as content evidence、denied request leak、DB/index/object-store write、parser/NAS scan/rollout 都是 No-Go。
+6. 默认不执行真实 Gateway smoke；若需要 runtime smoke，必须另行授权并保持 read-only。
+7. Codex B review 已通过；下一步只做 Phase 2.94 selective docs baseline。
 
 ## Phase 2.92 Read-only Gateway Acceptance Planning
 

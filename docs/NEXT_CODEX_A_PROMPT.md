@@ -1,15 +1,15 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.93 Read-only Gateway Implementation Review Baseline
+## Phase 2.94 Frontend / Gateway Controlled Smoke Plan Baseline
 
-Codex B review passed. Create a selective Git baseline for Phase 2.93 Read-only Gateway Implementation Review.
+Codex B review passed. Create a selective Git baseline for Phase 2.94 Frontend / Gateway Controlled Smoke Planning.
 
-Do not enter Phase 2.94 automatically. Do not run platform Gateway smoke.
+Do not enter Phase 2.94a automatically. Do not run platform Gateway smoke.
 
 Previous baseline:
 
-- commit: `36de5a7`
-- tag: `phase-2.92-readonly-gateway-acceptance-plan-baseline`
+- commit: `d84cb62`
+- tag: `phase-2.93-readonly-gateway-implementation-review-baseline`
 - pushed: true
 
 ## Review Summary
@@ -17,17 +17,18 @@ Previous baseline:
 Codex B reviewed:
 
 ```text
-docs/PHASE293_READONLY_GATEWAY_IMPLEMENTATION_REVIEW.md
+docs/PHASE294_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PLAN.md
 ```
 
 Review result:
 
-1. The database team's read-only Gateway implementation report satisfies Phase 2.92 P0 gates at report level.
-2. Decision is `go` for `read_only_gateway_review_passed`.
-3. This is not production readiness.
-4. This does not authorize Agent DB CRUD, Agent-generated SQL, NAS scan, content ingestion, writer/parser/index writes, Agent answer integration, or rollout.
-5. P1 follow-up remains for sanitized response schema samples, trace identifiers, safe catalog identifiers, and permission-denied copy.
-6. Next candidate is Phase 2.94 frontend controlled smoke planning, but this baseline must stop before 2.94.
+1. The plan remains docs-only and does not execute runtime smoke.
+2. Smoke matrix covers capabilities, health, chat, catalog search, compatibility route, permission-denied, and catalog-only DWG / RVT / BIM content question.
+3. Safe response fields cover `query_id`, `trace_id`, `file_id`, `model_id`, `source_view`, `permission_decision`, `missingEvidence`, `evidenceMode`, and Hermes naming.
+4. Forbidden-field assertions cover storage path / URI variants, NAS URI, raw row, SQL fragment, token, secret, bearer, raw content, and true NAS path.
+5. Go / Pause / No-Go criteria are strict enough for a future read-only controlled smoke.
+6. Codex C / database team handoff remains bounded and read-only.
+7. The plan explicitly keeps production rollout, Agent DB CRUD, NAS scan, content ingestion, parser/writer/index writes, and Agent answer integration forbidden.
 
 ## Required Validation
 
@@ -45,7 +46,7 @@ Expected:
 1. `git diff --check` passes.
 2. latest JSON parses.
 3. `reports/agent_runs/latest.json` is ignored.
-4. `git status --short` contains only Phase 2.93 docs / handoff files.
+4. `git status --short` contains only Phase 2.94 docs / handoff files.
 
 No pytest is required because no code changed.
 
@@ -53,7 +54,7 @@ No pytest is required because no code changed.
 
 Stage only:
 
-1. `docs/PHASE293_READONLY_GATEWAY_IMPLEMENTATION_REVIEW.md`
+1. `docs/PHASE294_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PLAN.md`
 2. `docs/NEXT_CODEX_A_PROMPT.md`
 3. `docs/ACTIVE_PHASE.md`
 4. `docs/PHASE_BACKLOG.md`
@@ -83,13 +84,13 @@ The cached file list must match the allowed baseline files only.
 Commit message:
 
 ```text
-docs: review phase 2.93 readonly gateway implementation
+docs: plan phase 2.94 frontend gateway smoke
 ```
 
 Tag:
 
 ```text
-phase-2.93-readonly-gateway-implementation-review-baseline
+phase-2.94-frontend-gateway-smoke-plan-baseline
 ```
 
 Push `origin/main` and the tag.
@@ -113,7 +114,7 @@ Still forbidden:
 13. exposing true `storage_path`, raw row, NAS path, raw content, secret, or credential material
 14. repair / cleanup / backfill / reindex / delete / migration
 15. production rollout
-16. entering Phase 2.94 automatically
+16. entering Phase 2.94a automatically
 
 ## Completion Report
 
