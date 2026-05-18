@@ -9,6 +9,34 @@
 
 ## 最新状态
 
+1. Phase 2.94a Frontend / Gateway Controlled Smoke Handoff Pack 已完成 docs-only handoff artifact。
+2. 新增 `docs/CODEX_DB_TEAM_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PROMPT.md`，用于未来 Codex C / 数据库团队 Codex 在单独授权后执行 read-only controlled smoke。
+3. Prompt 覆盖 required placeholders、sanitized inputs、endpoint matrix、safe fields、forbidden-field scan、permission-denied、catalog-only Missing Evidence / `asset_catalog_only`、Go / Pause / No-Go 与 final report template。
+4. 本阶段未执行真实 smoke，未连接 DB / NAS / platform API / Hermes API，未实现 Gateway code，未运行 parser/writer，未写 index/object-store，未进入 rollout。
+5. 下一步：Codex B review Phase 2.94a handoff prompt；review 通过后才考虑 selective docs baseline。
+6. 仍不得自动进入 Phase 2.94b 或真实 frontend / Gateway smoke。
+
+## 最新状态
+
+1. Phase 2.94a Frontend / Gateway Controlled Smoke Handoff Pack 已完成，Codex B review 通过。
+2. 新增 `docs/CODEX_DB_TEAM_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PROMPT.md`，可供 Codex C / 数据库团队 Codex 在后续单独授权时执行只读 controlled smoke。
+3. Prompt 已覆盖 endpoint matrix、required placeholders、safe response fields、forbidden-field scan、permission-denied、Missing Evidence / `asset_catalog_only`、Go / Pause / No-Go 与 final report template。
+4. 该 handoff prompt 不是 runtime authorization，不允许自动执行真实 Gateway smoke。
+5. 下一步：只做 Phase 2.94a selective docs baseline，不自动进入 Phase 2.94b。
+6. 当前仍禁止真实 smoke、Agent DB CRUD、Agent SQL、NAS scan、parser、scratch copy、writer、index/object-store write、Agent answer integration、production rollout。
+
+## 最新状态
+
+1. Phase 2.94 baseline 已完成：commit `b41bf9b`，tag `phase-2.94-frontend-gateway-smoke-plan-baseline`，pushed=true。
+2. 当前进入 Phase 2.94a Frontend / Gateway Controlled Smoke Handoff Pack。
+3. Phase 2.94a 目标：创建 `docs/CODEX_DB_TEAM_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PROMPT.md`，供 Codex C / 数据库团队 Codex 在后续单独授权时执行只读 controlled smoke。
+4. 本阶段只做 docs / handoff，不执行真实 smoke，不连接 DB / NAS / platform API / Hermes API，不实现 Gateway code。
+5. 交接 prompt 必须覆盖 sanitized inputs、endpoint matrix、safe fields、forbidden-field scan、permission-denied、Missing Evidence / `asset_catalog_only`、Go / Pause / No-Go 与 final report template。
+6. 当前仍禁止 Agent DB CRUD、Agent SQL、NAS scan、parser、scratch copy、writer、index/object-store write、Agent answer integration、production rollout。
+7. 下一步：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 完成 Phase 2.94a handoff-pack planning，然后停止等待 Codex B review。
+
+## 最新状态
+
 1. Phase 2.94 Frontend / Gateway Controlled Smoke Planning 已完成 docs-only planning，Codex B review 通过。
 2. 新增 `docs/PHASE294_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PLAN.md`。
 3. 规划覆盖 capabilities、health、chat、catalog search、compatibility route、permission-denied、catalog-only content question。

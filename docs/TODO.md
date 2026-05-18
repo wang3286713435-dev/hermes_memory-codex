@@ -8,6 +8,23 @@
 4. 当前仍禁止把 catalog rows、真实 `storage_path`、DWG / RVT 内容、NAS 文件正文或 raw row 写入 `documents/chunks/Qdrant/OpenSearch` 或 Hermes long-term memory。
 5. 后续 prompt / tool description / 前端文案需要避免承诺 DWG / RVT 内容理解、BIM 构件级搜索、NAS 全文搜索或 NAS 语义搜索。
 
+## Phase 2.94a Frontend / Gateway Controlled Smoke Handoff Pack
+
+1. Phase 2.94a handoff pack 已完成，Codex B review 通过。
+2. 已新增 `docs/CODEX_DB_TEAM_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PROMPT.md`，用于后续单独授权的 Codex C / 数据库团队只读 controlled smoke。
+3. Prompt 覆盖 endpoint matrix、safe fields、forbidden-field scan、permission-denied、catalog-only Missing Evidence / `asset_catalog_only`、Go / Pause / No-Go 与 final report template。
+4. 该 prompt 不是 runtime authorization，不得自动执行真实 smoke。
+5. 下一步只做 Phase 2.94a selective docs baseline；baseline 后再决定是否进入 Phase 2.94b / runtime smoke authorization。
+
+## Phase 2.94a Frontend / Gateway Controlled Smoke Handoff Pack
+
+1. Phase 2.94 baseline 已完成：commit `b41bf9b`，tag `phase-2.94-frontend-gateway-smoke-plan-baseline`，pushed=true。
+2. Phase 2.94a 已完成 docs-only handoff pack：新增 `docs/CODEX_DB_TEAM_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PROMPT.md`。
+3. 交接 prompt 已包含 sanitized inputs、endpoint matrix、safe response fields、forbidden-field negative assertions、permission-denied、catalog-only Missing Evidence / `asset_catalog_only`、Go / Pause / No-Go 与 final report template。
+4. 本阶段未执行真实 smoke、未连接 DB/NAS/platform API/Hermes API、未实现 Gateway code、未运行 parser/writer、未写任何 index/object-store、未进入 rollout。
+5. 下一步：Codex B review Phase 2.94a handoff prompt；review 通过后才考虑 selective docs baseline。
+6. 不得自动进入 Phase 2.94b 或真实 frontend / Gateway smoke。
+
 ## Phase 2.93 Read-only Gateway Implementation Review
 
 1. Phase 2.92 baseline 已完成：commit `36de5a7`，tag `phase-2.92-readonly-gateway-acceptance-plan-baseline`，pushed=true。

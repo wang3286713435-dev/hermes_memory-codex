@@ -1,5 +1,23 @@
 # Handoff Log
 
+## 2026-05-18 Phase 2.94a Codex B Review
+- goal: Review Phase 2.94a frontend / Gateway controlled smoke handoff prompt and authorize selective docs baseline.
+- changed_files: `docs/CODEX_DB_TEAM_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: `git diff --check` passed; latest JSON parse passed; latest ignore check passed.
+- review: Handoff prompt remains read-only, sanitized, and fail-closed; endpoint matrix, safe fields, forbidden scan, permission-denied checks, Missing Evidence / `asset_catalog_only`, Go/Pause/No-Go, and report template are adequate.
+- risks: Actual frontend / Gateway smoke remains unauthorized; baseline is docs-only and must not trigger runtime execution.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.94a selective docs baseline and stops. Do not enter Phase 2.94b automatically.
+- commit/tag if any: none.
+
+## 2026-05-18 Phase 2.94a Prompt
+- goal: Prepare Codex A handoff for frontend / Gateway controlled smoke handoff-pack planning after Phase 2.94 baseline.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.94 baseline confirmed at commit `b41bf9b`, tag `phase-2.94-frontend-gateway-smoke-plan-baseline`; worktree was clean before prompt update.
+- scope: Codex A should create `docs/CODEX_DB_TEAM_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PROMPT.md`, a copy-paste-safe read-only controlled smoke prompt for Codex C / database-team Codex.
+- risks: Phase 2.94a must remain docs-only / handoff-only; no Gateway smoke execution, DB/NAS/API connection, Gateway implementation, Agent DB CRUD, parser, scratch copy, writer, index/object-store write, Agent answer integration, or rollout.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-18 Phase 2.94 Codex B Review
 - goal: Review Phase 2.94 frontend / Gateway controlled smoke plan and authorize selective docs baseline.
 - changed_files: `docs/PHASE294_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -6962,4 +6980,14 @@
 - validation: Plan covers capabilities, health, chat, catalog search, compatibility route, permission-denied, catalog-only content question, safe response fields, forbidden-field assertions, Missing Evidence / `asset_catalog_only`, and Go / Pause / No-Go.
 - risks: Planning-only; actual Gateway smoke, DB/NAS/API access, writer/parser/index writes, Agent DB CRUD, content ingestion, and rollout remain unauthorized.
 - next: Codex B review Phase 2.94 plan; if accepted, perform selective docs baseline. Do not execute real smoke by default.
+- commit/tag if any: none.
+
+## 2026-05-18 18:09 Phase 2.94a Frontend / Gateway Controlled Smoke Handoff Pack
+
+- goal: Create a copy-paste-safe handoff prompt for future read-only frontend / Gateway controlled smoke by Codex C / database-team Codex.
+- changed_files: `docs/CODEX_DB_TEAM_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check`; latest JSON validation; `git check-ignore reports/agent_runs/latest.json`; `git status --short`.
+- validation: Handoff prompt covers required placeholders, sanitized inputs, endpoint matrix, safe fields, forbidden-field scan, permission-denied, catalog-only Missing Evidence / `asset_catalog_only`, Go / Pause / No-Go, and final report template.
+- risks: Handoff-only; actual frontend / Gateway smoke, DB/NAS/API access, parser/writer/index writes, Agent DB CRUD, content ingestion, and rollout remain unauthorized.
+- next: Codex B review Phase 2.94a handoff prompt; if accepted, consider selective docs baseline. Do not enter Phase 2.94b or real smoke automatically.
 - commit/tag if any: none.

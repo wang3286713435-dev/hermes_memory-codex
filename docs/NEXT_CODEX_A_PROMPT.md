@@ -1,15 +1,15 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.94 Frontend / Gateway Controlled Smoke Plan Baseline
+## Phase 2.94a Frontend / Gateway Controlled Smoke Handoff Pack Baseline
 
-Codex B review passed. Create a selective Git baseline for Phase 2.94 Frontend / Gateway Controlled Smoke Planning.
+Codex B review passed. Create a selective Git baseline for Phase 2.94a Frontend / Gateway Controlled Smoke Handoff Pack.
 
-Do not enter Phase 2.94a automatically. Do not run platform Gateway smoke.
+Do not run frontend / Gateway smoke. Do not enter Phase 2.94b automatically.
 
 Previous baseline:
 
-- commit: `d84cb62`
-- tag: `phase-2.93-readonly-gateway-implementation-review-baseline`
+- commit: `b41bf9b`
+- tag: `phase-2.94-frontend-gateway-smoke-plan-baseline`
 - pushed: true
 
 ## Review Summary
@@ -17,18 +17,21 @@ Previous baseline:
 Codex B reviewed:
 
 ```text
+docs/CODEX_DB_TEAM_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PROMPT.md
 docs/PHASE294_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PLAN.md
+docs/DB_TEAM_HERMES_FRONTEND_GATEWAY_INTEGRATION_V3.md
+docs/DATA_STEWARD_AGENT_RISK_BOUNDARY.md
 ```
 
 Review result:
 
-1. The plan remains docs-only and does not execute runtime smoke.
-2. Smoke matrix covers capabilities, health, chat, catalog search, compatibility route, permission-denied, and catalog-only DWG / RVT / BIM content question.
-3. Safe response fields cover `query_id`, `trace_id`, `file_id`, `model_id`, `source_view`, `permission_decision`, `missingEvidence`, `evidenceMode`, and Hermes naming.
-4. Forbidden-field assertions cover storage path / URI variants, NAS URI, raw row, SQL fragment, token, secret, bearer, raw content, and true NAS path.
-5. Go / Pause / No-Go criteria are strict enough for a future read-only controlled smoke.
-6. Codex C / database team handoff remains bounded and read-only.
-7. The plan explicitly keeps production rollout, Agent DB CRUD, NAS scan, content ingestion, parser/writer/index writes, and Agent answer integration forbidden.
+1. The handoff prompt remains read-only, sanitized, and fail-closed.
+2. It clearly requires separate operator authorization before any runtime smoke.
+3. Endpoint matrix covers capabilities, health, chat, catalog search, compatibility route, permission-denied, and catalog-only DWG / RVT / BIM content question.
+4. Forbidden-field scan covers storage path / URI variants, NAS URI, raw row, SQL, token, secret, bearer, raw content, true NAS path, and executable write / repair / ingestion actions.
+5. Permission-denied behavior is fail-closed.
+6. Catalog-only content questions must return Missing Evidence / `asset_catalog_only`.
+7. Go / Pause / No-Go criteria do not authorize runtime writes, Agent DB CRUD, NAS scan, parser, writer, index/object-store writes, Agent answer integration, or rollout.
 
 ## Required Validation
 
@@ -46,7 +49,7 @@ Expected:
 1. `git diff --check` passes.
 2. latest JSON parses.
 3. `reports/agent_runs/latest.json` is ignored.
-4. `git status --short` contains only Phase 2.94 docs / handoff files.
+4. `git status --short` contains only Phase 2.94a docs / handoff files.
 
 No pytest is required because no code changed.
 
@@ -54,7 +57,7 @@ No pytest is required because no code changed.
 
 Stage only:
 
-1. `docs/PHASE294_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PLAN.md`
+1. `docs/CODEX_DB_TEAM_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PROMPT.md`
 2. `docs/NEXT_CODEX_A_PROMPT.md`
 3. `docs/ACTIVE_PHASE.md`
 4. `docs/PHASE_BACKLOG.md`
@@ -84,13 +87,13 @@ The cached file list must match the allowed baseline files only.
 Commit message:
 
 ```text
-docs: plan phase 2.94 frontend gateway smoke
+docs: add phase 2.94a gateway smoke handoff
 ```
 
 Tag:
 
 ```text
-phase-2.94-frontend-gateway-smoke-plan-baseline
+phase-2.94a-gateway-smoke-handoff-baseline
 ```
 
 Push `origin/main` and the tag.
@@ -99,9 +102,9 @@ Push `origin/main` and the tag.
 
 Still forbidden:
 
-1. implementing Gateway code in this repository
-2. running platform Gateway smoke
-3. connecting to real DB
+1. running frontend / Gateway smoke
+2. implementing Gateway code in this repository
+3. connecting to real DB / platform API / Hermes API
 4. Agent DB CRUD
 5. Agent-generated SQL
 6. NAS scan
@@ -111,10 +114,10 @@ Still forbidden:
 10. writing `documents`, `document_versions`, `chunks`, `citations`
 11. writing OpenSearch / Qdrant / MinIO / platform DB / Hermes long-term memory
 12. reading DWG / RVT / NWD / IFC content
-13. exposing true `storage_path`, raw row, NAS path, raw content, secret, or credential material
+13. exposing true `storage_path`, raw row, NAS path, raw content, secret, token, bearer, or credential material
 14. repair / cleanup / backfill / reindex / delete / migration
 15. production rollout
-16. entering Phase 2.94a automatically
+16. entering Phase 2.94b automatically
 
 ## Completion Report
 
@@ -125,5 +128,5 @@ Report:
 3. commit hash
 4. tag
 5. push result
-6. confirmation that Gateway implementation, DB/NAS access, writer, parser, index/object-store writes, Agent answer integration, and rollout remain blocked
+6. confirmation that Gateway smoke, DB/NAS access, writer, parser, index/object-store writes, Agent answer integration, and rollout remain blocked
 7. final `git status --short`
