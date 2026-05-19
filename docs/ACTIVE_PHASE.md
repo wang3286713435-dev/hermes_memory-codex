@@ -1,17 +1,17 @@
 # Active Phase
 
-- 当前 phase：Phase 2.102a Eval Inventory Manifest。
-- 背景：Phase 2.102 baseline 已完成：commit `a5c1490`，tag `phase-2.102-metric-evaluation-evidence-pack-baseline`，pushed=true。
-- 本轮目标：创建 committed eval inventory manifest，定义稳定 question IDs、groups、source categories、evidence/citation expectations 与 metric eligibility，为后续 Top5 / citation scoring 建立 denominator seed。
-- 修改文件：`eval/phase2_inventory/phase2_eval_inventory_manifest.json`、`docs/PHASE2102A_EVAL_INVENTORY_MANIFEST.md`、`docs/NEXT_CODEX_A_PROMPT.md`、`docs/ACTIVE_PHASE.md`、`docs/PHASE_BACKLOG.md`、`docs/HANDOFF_LOG.md`、`docs/TODO.md`、`docs/DEV_LOG.md`、ignored `reports/agent_runs/latest.json`。
-- 完成内容：已新增 starter inventory，共 19 个 accepted cases、15 个 metric-eligible cases、4 个 metric-ineligible cases，覆盖 12 个 required groups；Gateway / Data Steward / Missing Evidence / natural import 保持 ineligible 边界。
-- 测试结果：manifest JSON parse 通过；`git diff --check` 通过；latest JSON parse 通过；latest ignore check 通过；`git status --short --untracked-files=all` 已复核。
-- live smoke 结果：不适用；本阶段 docs/data-manifest only，未运行 API / CLI / Gateway / DB / NAS smoke。
-- 当前结论：Phase 2 closeout readiness 仍为否；Phase 2.102a 只建立 inventory，不计算 Top5 / citation accuracy，不声称 PRD 100+ / Roadmap 300+ 已满足。
-- 阻塞点 / 风险点：PRD 100+ / Roadmap 300+ 仍未达标；Top5、citation accuracy、structured fact manual spot-check 仍未计算；official account / PDF / HTML parser evidence 仍不完整；无关 untracked `docs/digital-delivery-standards/` 未纳入本轮。
-- 是否建议 baseline：暂不建议；先交 Codex B review。
-- 是否建议进入下一阶段：否；下一步只做 review / selective baseline 决策。
-- 下一轮建议：Codex B review `eval/phase2_inventory/phase2_eval_inventory_manifest.json` 与 `docs/PHASE2102A_EVAL_INVENTORY_MANIFEST.md`；通过后由用户明确授权 docs/data baseline。
+- 当前 phase：Phase 2.102b Metric Scoring Pack。
+- 背景：Phase 2.102a baseline 已完成：commit `0ee07f5`，tag `phase-2.102a-eval-inventory-manifest-baseline`，pushed=true。
+- 本轮目标：实现离线 metric scoring pack，只基于 reviewed `metric_eligible=true` inventory 与显式输入的 sanitized results JSON 计算 Top5 / citation rates，不运行 runtime smoke。
+- 修改文件：`scripts/phase2102b_metric_scoring_pack.py`、`tests/test_phase2102b_metric_scoring_pack.py`、`docs/PHASE2102B_METRIC_SCORING_PACK.md`、`docs/NEXT_CODEX_A_PROMPT.md`、`docs/ACTIVE_PHASE.md`、`docs/PHASE_BACKLOG.md`、`docs/HANDOFF_LOG.md`、`docs/TODO.md`、`docs/DEV_LOG.md`、ignored `reports/agent_runs/latest.json`。
+- 完成内容：新增 offline scorer CLI；校验 manifest / results schema；按 `metric_eligible=true` 计算 Top5 / citation rates；输出 missing / excluded / forbidden summary；拒绝 raw text / raw rows / NAS path / storage path / secret 类结果字段；已修复 Codex B review blocker：ineligible result 的 forbidden behavior 也会 block review，但不进入 denominator。
+- 测试结果：已通过 `py_compile`、目标 pytest `8 passed`、`git diff --check`、latest JSON parse、latest ignore check。
+- live smoke 结果：不适用；本阶段禁止 API / CLI / Gateway / DB / NAS smoke。
+- 当前结论：Phase 2.102b implementation + review fix 已完成，等待 Codex B re-review；Phase 2 closeout readiness 仍为否。
+- 阻塞点 / 风险点：当前 inventory 仅 19 cases；仍缺 PRD 100+ / Roadmap 300+ inventory、真实 committed metric results、完整 Top5 / citation numerator denominator、structured fact manual spot-check。
+- 是否建议 baseline：暂不建议；先由 Codex B re-review Phase 2.102b。
+- 是否建议进入下一阶段：否；不要自动进入 Phase 2.103 / Phase 3。
+- 下一轮建议：Codex B re-review `docs/PHASE2102B_METRIC_SCORING_PACK.md`、scorer、target tests；通过后用户可授权 selective baseline。
 - 是否需要 Codex B 审核：是。
-- 是否需要 Codex C 真实终端验收：当前不需要；后续 metric scoring / live validation 阶段可能需要。
-- 当前仍禁止：runtime code、测试修改、Agent DB CRUD、Agent 生成 SQL、真实 DB / NAS / API / Gateway smoke、前端直连 Hermes raw/internal endpoints、返回真实 `storage_path` / raw row / NAS path、DWG/RVT 内容理解、NAS scan、parser、scratch copy、writer smoke、OpenSearch / Qdrant / MinIO 写入、platform DB 写入、Hermes memory 写 NAS 内容、Agent answer integration、repair、reindex、delete、migration、production rollout。
+- 是否需要 Codex C 真实终端验收：否；本阶段为 local offline scorer，不运行真实 Hermes runtime。
+- 当前仍禁止：API / CLI / Gateway / DB / NAS smoke、真实 DB / NAS 连接、raw row / NAS path / storage path / secret 读取或输出、parser、scratch copy、writer smoke、DB / OpenSearch / Qdrant / MinIO / Gateway / platform DB / Hermes memory 写入、Agent answer integration、repair、reindex、delete、migration、production rollout、Phase 3 transition、Data Steward productization、无关 `docs/digital-delivery-standards/` staging。

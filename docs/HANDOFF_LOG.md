@@ -7245,3 +7245,32 @@
 - risks: Gateway/Data Steward/Missing Evidence/natural import entries are intentionally metric-ineligible; official account/PDF/HTML evidence remains incomplete; unrelated untracked `docs/digital-delivery-standards/` files must not be staged by default.
 - next: Codex B review Phase 2.102a manifest; if accepted, user may authorize selective docs/data baseline. Do not enter Phase 2.102b automatically.
 - commit/tag if any: none.
+
+## 2026-05-19 18:16 Phase 2.102b Metric Scoring Pack Prompt
+
+- goal: Move from Phase 2.102a baseline into an offline metric scoring pack implementation.
+- background: Phase 2.102a baseline completed at `0ee07f5`, tag `phase-2.102a-eval-inventory-manifest-baseline`, pushed=true.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- next: Codex A should create `scripts/phase2102b_metric_scoring_pack.py`, `tests/test_phase2102b_metric_scoring_pack.py`, and `docs/PHASE2102B_METRIC_SCORING_PACK.md`, then stop for Codex B review.
+- boundaries: local/offline scorer only; no API/CLI/Gateway/DB/NAS smoke, no DB/NAS connection, no ignored private report reads unless explicitly passed as `--results`, no raw rows/NAS paths/storage paths/secrets, no parser/scratch/writer, no DB/index/object-store/memory writes, no rollout, no Phase 3 transition, no PRD 100+/Roadmap 300+ satisfaction claim.
+- commit/tag if any: none.
+
+## 2026-05-19 18:28 Phase 2.102b Metric Scoring Pack
+
+- goal: Implement offline scoring machinery for reviewed Phase 2.102a inventory results.
+- changed_files: `scripts/phase2102b_metric_scoring_pack.py`, `tests/test_phase2102b_metric_scoring_pack.py`, `docs/PHASE2102B_METRIC_SCORING_PACK.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: py_compile passed; targeted pytest `6 passed`; synthetic manifest scorer probe returned 19 manifest cases, 15 eligible, 4 excluded, status `scored` for all-true synthetic results; `git diff --check` passed; latest JSON parse passed; latest ignore check passed; `git status --short --untracked-files=all` reviewed.
+- validation: Scorer is stdlib/offline-only, validates manifest/results schemas, excludes ineligible cases from denominator, marks missing results as `incomplete`, marks forbidden behaviors as `blocked_for_review`, and rejects raw text / raw rows / NAS path / storage path / secret result fields.
+- risks: Phase 2 closeout readiness remains false; current inventory remains 19 cases, not PRD 100+ or Roadmap 300+; true metric results still need committed reviewed evidence.
+- next: Complete final validation and stop for Codex B review. Do not baseline or enter Phase 2.103 automatically.
+- commit/tag if any: none.
+
+## 2026-05-19 18:32 Phase 2.102b Review Fix: Forbidden Behavior Blocks Globally
+
+- goal: Fix Codex B blocker so any known result row with `forbidden_behaviors_observed` blocks review, including metric-ineligible cases.
+- changed_files: `scripts/phase2102b_metric_scoring_pack.py`, `tests/test_phase2102b_metric_scoring_pack.py`, `docs/PHASE2102B_METRIC_SCORING_PACK.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: TDD RED observed with ineligible forbidden behavior not blocking; after fix py_compile passed; targeted pytest `8 passed`; `git diff --check` passed; latest JSON parse passed; latest ignore check passed; `git status --short --untracked-files=all` reviewed.
+- validation: Ineligible cases remain excluded from Top5 / citation denominator and included in `excluded_case_ids`; forbidden behavior on any known result row increments violation count, records case ID, and sets `status=blocked_for_review`; missing eligible result is only `incomplete` when no forbidden violation exists.
+- risks: Phase 2 closeout readiness remains false; current inventory remains 19 cases, not PRD 100+ or Roadmap 300+; true metric results still need reviewed committed result JSON.
+- next: Complete final validation and stop for Codex B re-review. Do not baseline or enter Phase 2.103 automatically.
+- commit/tag if any: none.

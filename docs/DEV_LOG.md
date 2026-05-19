@@ -1,5 +1,17 @@
 # DEV_LOG
 
+## 2026-05-19 Phase 2.102b Metric Scoring Pack
+
+- 新增 `scripts/phase2102b_metric_scoring_pack.py`。
+- 新增 `tests/test_phase2102b_metric_scoring_pack.py`。
+- 新增 `docs/PHASE2102B_METRIC_SCORING_PACK.md`。
+- Scorer 仅离线读取 committed manifest 与显式 `--results` sanitized JSON，按 `metric_eligible=true` 计算 Top5 / citation rates，输出 missing / excluded / forbidden summary。
+- Codex B review blocker 已修复：`metric_eligible=false` cases 仍不进入 Top5 / citation denominator，但任何 known result row 的 `forbidden_behaviors_observed` 都会触发 `status=blocked_for_review`。
+- Scorer 拒绝 raw text / raw rows / NAS path / storage path / secret 类结果字段；不连接 DB / NAS / Gateway / OpenSearch / Qdrant / MinIO。
+- 验证通过：py_compile、目标 pytest `8 passed`、`git diff --check`、latest JSON parse、latest ignore check。
+- 本阶段未运行 API / CLI / Gateway / DB / NAS smoke，未写 DB / index / object-store / memory。
+- 当前 19-case inventory 仍不满足 PRD 100+ / Roadmap 300+，Phase 2 closeout readiness 仍为否；下一步交 Codex B re-review。
+
 ## 2026-05-19 Phase 2.102a Eval Inventory Manifest
 
 - 新增 `eval/phase2_inventory/phase2_eval_inventory_manifest.json`。
@@ -763,4 +775,13 @@
 - validation: Prompt-only handoff; no runtime validation required before Codex A executes.
 - decision: Phase 2 remains open; Phase 2.102a creates denominators / eligibility metadata before any metric scoring.
 - risks: Do not fabricate 100+ / 300+ cases; do not compute Top5/citation scores; do not stage unrelated `docs/digital-delivery-standards/`.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` and stops for Codex B review.
+
+## 2026-05-19 18:16 Phase 2.102b Metric Scoring Pack Prompt
+
+- goal: Prepare Codex A handoff for an offline metric scoring pack against the reviewed Phase 2.102a inventory.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Prompt-only handoff; no runtime validation required before Codex A executes.
+- decision: Phase 2 remains open; Phase 2.102b will build scoring machinery but cannot satisfy PRD 100+ / Roadmap 300+ with the current 19-case inventory.
+- risks: Do not run API/CLI/Gateway/DB/NAS smoke; do not read raw rows/NAS paths/storage paths/secrets; do not treat missing results as passes; do not stage unrelated `docs/digital-delivery-standards/`.
 - next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` and stops for Codex B review.

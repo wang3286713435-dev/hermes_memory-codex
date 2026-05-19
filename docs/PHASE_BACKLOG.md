@@ -1,5 +1,16 @@
 # Phase Backlog
 
+## Phase 2.102b Metric Scoring Pack
+
+1. Phase 2.102b local/offline scorer implementation 已完成，等待 Codex B review。
+2. 新增 `scripts/phase2102b_metric_scoring_pack.py`，读取 committed manifest 与显式输入的 sanitized results JSON，计算 Top5 / citation rate / forbidden behavior summary。
+3. Scoring denominator 只包含 `metric_eligible=true` cases；`metric_eligible=false` cases 只进入 excluded summary。
+4. 缺失 eligible result 输出 `status=incomplete`；任何 known result row 的 forbidden behavior 都输出 `status=blocked_for_review`，包括 `metric_eligible=false` cases。
+5. Scorer 拒绝 raw text / raw rows / NAS path / storage path / secret 类结果字段。
+6. 已通过目标测试与离线校验；Codex B review blocker 已修复；本阶段未运行 Hermes runtime、未连接 DB/NAS/Gateway、未写任何 DB/index/object-store/memory。
+7. 当前 19-case starter inventory 仍不满足 PRD 100+ / Roadmap 300+；Phase 2 closeout readiness 仍为否。
+8. 下一步：Codex B re-review Phase 2.102b；通过后由用户显式授权 selective baseline。
+
 ## Phase 2.102a Eval Inventory Manifest
 
 1. Phase 2.102a 是 metric scoring 前置阶段：先建立 accepted eval inventory，后续 Phase 2.102b 才能计算 Top5 / citation accuracy。

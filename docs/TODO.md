@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.102b Metric Scoring Pack
+
+1. Phase 2.102a baseline 已完成：commit `0ee07f5`，tag `phase-2.102a-eval-inventory-manifest-baseline`，pushed=true。
+2. 已新增离线 metric scoring pack：`scripts/phase2102b_metric_scoring_pack.py`、`tests/test_phase2102b_metric_scoring_pack.py`、`docs/PHASE2102B_METRIC_SCORING_PACK.md`。
+3. Scorer 只计算 `metric_eligible=true` cases 的 Top5 / citation rates，并输出 missing results、excluded cases、forbidden behavior summary；ineligible cases 不进 denominator，但其中任何 forbidden behavior 仍会 block review。
+4. 已固定安全边界：不运行 API / CLI / Gateway / DB / NAS smoke，不连接真实系统，不读 raw rows / NAS paths / storage paths / secrets，不写 DB/index/object-store/memory。
+5. 当前 19-case inventory 不满足 PRD 100+ 或 Roadmap 300+；Phase 2 closeout readiness 仍为否。
+6. 下一步：Codex B re-review Phase 2.102b；通过后由用户显式授权 selective baseline。
+
 ## Phase 2.102a Eval Inventory Manifest
 
 1. Phase 2.102 baseline 已完成：commit `a5c1490`，tag `phase-2.102-metric-evaluation-evidence-pack-baseline`，pushed=true。
