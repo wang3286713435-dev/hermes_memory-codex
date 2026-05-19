@@ -9,6 +9,24 @@
 
 ## 最新状态
 
+1. Phase 2.97 Frontend Gateway Read-only Trial Runbook / Operator Checklist 已完成 docs-only planning，Codex B review 已通过。
+2. 新增 `docs/PHASE297_FRONTEND_GATEWAY_READONLY_TRIAL_RUNBOOK.md`。
+3. Runbook 覆盖 limited internal trial、operator checklist、auth path、allowed endpoints、allowed query types、safe response fields、forbidden-field scan、side-effect checks、per-query template、Go/Pause/No-Go、feedback capture 与 escalation rules。
+4. Phase 2.97 未运行真实 Gateway smoke，未连接 DB/NAS/API，未实现 Gateway code，未运行 parser/writer，未写 index/object-store，未进入 rollout。
+5. 下一步只做 Phase 2.97 selective docs baseline；不得自动进入 Phase 2.98。
+6. 仍禁止把 frontend trial Go 误解为 production rollout、Agent DB/NAS 执行授权或内容级 BIM/DWG/RVT 理解授权。
+
+## 最新状态
+
+1. Phase 2.96 baseline 已完成：commit `6fff43f`，tag `phase-2.96-gateway-controlled-smoke-result-review-baseline`，pushed=true。
+2. 当前进入 Phase 2.97 Frontend Gateway Read-only Trial Runbook / Operator Checklist。
+3. Phase 2.97 只做 docs-only runbook planning，目标是新增 `docs/PHASE297_FRONTEND_GATEWAY_READONLY_TRIAL_RUNBOOK.md`。
+4. Runbook 应覆盖 limited internal trial、operator checklist、auth path、allowed endpoints、safe response fields、forbidden-field scan、side-effect checks、Go/Pause/No-Go、feedback capture 与 escalation rules。
+5. Phase 2.97 不运行真实 Gateway smoke，不连接 DB/NAS/API，不实现 Gateway code，不运行 parser/writer，不写 index/object-store，不进入 rollout。
+6. 下一步：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成后停止等待 Codex B review。
+
+## 最新状态
+
 1. Phase 2.96 Gateway Controlled Smoke Result Review 已完成 docs-only / report-review，Codex B review 已通过。
 2. 新增 `docs/PHASE296_GATEWAY_CONTROLLED_SMOKE_RESULT_REVIEW.md`，接受最新 Gateway controlled smoke `Go` 作为 read-only controlled smoke 通过证据。
 3. 该 Go 基于正常平台 login、project switch、project-scoped bearer token；capabilities / health / chat / catalog search / compatibility / permission-denied / catalog-only content question 均通过。

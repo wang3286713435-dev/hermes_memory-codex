@@ -1,30 +1,30 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.96 Gateway Controlled Smoke Result Review Baseline
+## Phase 2.97 Frontend Gateway Read-only Trial Runbook Baseline
 
 You are Codex A. Execute only this bounded Git baseline task.
 
-Do not run frontend / Gateway smoke. Do not connect to DB / NAS / platform API / Hermes API. Do not enter Phase 2.97 automatically.
+Do not run frontend / Gateway smoke. Do not connect to DB / NAS / platform API / Hermes API. Do not enter Phase 2.98 automatically.
 
 ## Codex B Review Result
 
-Codex B review passed for Phase 2.96.
+Codex B review passed for Phase 2.97.
 
 Confirmed:
 
-1. `docs/PHASE296_GATEWAY_CONTROLLED_SMOKE_RESULT_REVIEW.md` correctly accepts the latest Gateway controlled smoke result as `Go` for read-only controlled smoke only.
-2. The reviewed smoke used normal platform login, project switch, and project-scoped bearer token.
-3. Capabilities, health, chat, catalog search, compatibility route, permission-denied, and catalog-only content question passed.
-4. Forbidden-field scan found no true secret / token / password / bearer / credential value, NAS path, raw row, SQL, storage path, or raw file content leak.
-5. Side-effect flags are all no: DB write, NAS scan/copy, parser, writer, OpenSearch/Qdrant/MinIO write, rollout.
-6. Permission-denied fail-closed and catalog-only Missing Evidence / `asset_catalog_only` are the key passed product gates.
-7. This `Go` does not authorize production rollout, Agent DB CRUD, Agent-generated SQL, NAS scan/copy, parser/writer/index writes, DWG/RVT content understanding, true `storage_path` exposure, repair, migration, or rollout.
+1. `docs/PHASE297_FRONTEND_GATEWAY_READONLY_TRIAL_RUNBOOK.md` correctly defines a limited internal frontend trial only.
+2. It clearly states this is not production rollout and not a smoke execution report.
+3. It includes allowed users / roles, environment labels, reviewed refs, auth path, allowed endpoints, allowed query types, response checks, forbidden-field scan, side-effect checklist, operator checklist, per-query recording template, Go / Pause / No-Go, feedback capture, escalation rules, and final summary template.
+4. It keeps `project_scope` server-side and does not trust frontend-provided scope.
+5. It requires Missing Evidence / `asset_catalog_only` for content-level DWG / RVT / BIM questions.
+6. It treats forbidden-field leak, denied-request data exposure, catalog metadata as content evidence, and any write side effect as No-Go.
+7. It does not authorize production rollout, Agent DB CRUD, Agent-generated SQL, NAS scan/copy, parser/writer/index writes, DWG/RVT content understanding, raw `storage_path` exposure, repair, migration, or rollout.
 
 ## Baseline Scope
 
 Stage only:
 
-1. `docs/PHASE296_GATEWAY_CONTROLLED_SMOKE_RESULT_REVIEW.md`
+1. `docs/PHASE297_FRONTEND_GATEWAY_READONLY_TRIAL_RUNBOOK.md`
 2. `docs/NEXT_CODEX_A_PROMPT.md`
 3. `docs/ACTIVE_PHASE.md`
 4. `docs/PHASE_BACKLOG.md`
@@ -47,6 +47,8 @@ git diff --check
 UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool reports/agent_runs/latest.json >/dev/null
 git check-ignore reports/agent_runs/latest.json
 git status --short
+git diff --cached --check
+git diff --cached --name-only
 ```
 
 Expected:
@@ -54,33 +56,34 @@ Expected:
 1. `git diff --check` passes.
 2. latest JSON parses.
 3. `reports/agent_runs/latest.json` is ignored.
-4. `git status --short` shows only the Phase 2.96 docs / handoff files before staging.
-5. After commit, final `git status --short` is clean.
+4. Before staging, `git status --short` shows only the Phase 2.97 docs / handoff files.
+5. After staging, `git diff --cached --name-only` includes only the whitelist files above.
+6. After commit, final `git status --short` is clean.
 
 ## Git Baseline
 
 Commit message:
 
 ```text
-docs: review gateway controlled smoke result
+docs: add frontend gateway readonly trial runbook
 ```
 
 Tag:
 
 ```text
-phase-2.96-gateway-controlled-smoke-result-review-baseline
+phase-2.97-frontend-gateway-readonly-trial-runbook-baseline
 ```
 
 Push:
 
 1. `origin/main`
-2. tag `phase-2.96-gateway-controlled-smoke-result-review-baseline`
+2. tag `phase-2.97-frontend-gateway-readonly-trial-runbook-baseline`
 
 ## Hard Boundaries
 
 Still forbidden:
 
-1. running frontend / Gateway smoke again
+1. running frontend / Gateway smoke
 2. implementing Gateway code in this repository
 3. connecting to real DB / platform API / Hermes API
 4. Agent DB CRUD
@@ -95,7 +98,7 @@ Still forbidden:
 13. exposing true `storage_path`, raw row, NAS path, raw content, secret, token, bearer, or credential material
 14. repair / cleanup / backfill / reindex / delete / migration
 15. production rollout
-16. entering Phase 2.97 automatically
+16. entering Phase 2.98 automatically
 
 ## Completion Report
 
@@ -108,4 +111,4 @@ Report:
 5. push result
 6. final `git status --short`
 7. confirmation that `reports/agent_runs/latest.json` was not staged
-8. confirmation that Phase 2.97 was not started
+8. confirmation that Phase 2.98 was not started

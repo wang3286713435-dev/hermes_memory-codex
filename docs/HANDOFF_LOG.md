@@ -1,5 +1,32 @@
 # Handoff Log
 
+## 2026-05-19 Phase 2.97 Codex B Review
+- goal: Review Phase 2.97 frontend Gateway read-only trial runbook and prepare selective docs baseline.
+- changed_files: `docs/PHASE297_FRONTEND_GATEWAY_READONLY_TRIAL_RUNBOOK.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.97 runbook was checked against Phase 2.96 Gateway smoke boundary, shared catalog-only contract, and current no-rollout red lines.
+- review: Passed. The runbook covers limited internal trial scope, allowed users/roles, auth path, endpoints, query types, safe fields, forbidden-field scan, side-effect checklist, Go/Pause/No-Go, feedback capture, escalation rules, and final summary template.
+- risks: This runbook is not production rollout and does not authorize runtime smoke, Agent DB CRUD, Agent SQL, NAS scan/copy, parser/writer/index writes, DWG/RVT content understanding, raw storage path exposure, repair, migration, or rollout.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.97 selective docs baseline and stops. Do not enter Phase 2.98 automatically.
+- commit/tag if any: none.
+
+## 2026-05-19 Phase 2.97 Frontend Gateway Read-only Trial Runbook
+- goal: Create docs-only internal read-only Gateway trial runbook / operator checklist.
+- changed_files: `docs/PHASE297_FRONTEND_GATEWAY_READONLY_TRIAL_RUNBOOK.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check`; `UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool reports/agent_runs/latest.json >/dev/null`; `git check-ignore reports/agent_runs/latest.json`; `git status --short`.
+- validation: Docs-only runbook created; no Gateway smoke was run by Codex A.
+- risks: Trial runbook is not production rollout and does not authorize Agent DB CRUD, Agent SQL, NAS scan/copy, parser/writer/index writes, raw storage path exposure, repair, migration, or rollout.
+- next: Codex B review Phase 2.97 runbook; if passed, write selective docs baseline prompt.
+- commit/tag if any: none.
+
+## 2026-05-19 Phase 2.97 Prompt
+- goal: Prepare Codex A handoff for Frontend Gateway Read-only Trial Runbook / Operator Checklist.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.96 baseline confirmed at commit `6fff43f`, tag `phase-2.96-gateway-controlled-smoke-result-review-baseline`; origin/main and tag matched.
+- scope: Codex A should create `docs/PHASE297_FRONTEND_GATEWAY_READONLY_TRIAL_RUNBOOK.md` and define a bounded internal read-only frontend trial checklist.
+- risks: Phase 2.97 must remain docs-only / runbook-only; no runtime Gateway smoke, DB/NAS/API connection, Gateway implementation, Agent DB CRUD, parser, writer, index/object-store write, Agent answer integration, or rollout.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-19 Phase 2.96 Codex B Review
 - goal: Review Phase 2.96 Gateway controlled smoke result review and prepare selective docs baseline.
 - changed_files: `docs/PHASE296_GATEWAY_CONTROLLED_SMOKE_RESULT_REVIEW.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.

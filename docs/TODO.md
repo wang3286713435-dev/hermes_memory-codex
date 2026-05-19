@@ -8,14 +8,28 @@
 4. 当前仍禁止把 catalog rows、真实 `storage_path`、DWG / RVT 内容、NAS 文件正文或 raw row 写入 `documents/chunks/Qdrant/OpenSearch` 或 Hermes long-term memory。
 5. 后续 prompt / tool description / 前端文案需要避免承诺 DWG / RVT 内容理解、BIM 构件级搜索、NAS 全文搜索或 NAS 语义搜索。
 
+## Phase 2.97 Frontend Gateway Read-only Trial Runbook
+
+1. Phase 2.96 baseline 已完成：commit `6fff43f`，tag `phase-2.96-gateway-controlled-smoke-result-review-baseline`，pushed=true。
+2. 已新增 `docs/PHASE297_FRONTEND_GATEWAY_READONLY_TRIAL_RUNBOOK.md`，定义 limited internal frontend trial runbook / operator checklist。
+3. Runbook 明确 allowed endpoints、allowed query types、forbidden-field scan、side-effect checklist、Go/Pause/No-Go、feedback capture 与 escalation rules。
+4. 本阶段未执行真实 Gateway smoke，未连接 DB/NAS/API，未实现 Gateway code，未运行 parser/writer，未写 index/object-store，未进入 rollout。
+5. Codex B review 已通过；下一步只做 Phase 2.97 selective docs baseline。
+
 ## Phase 2.96 Gateway Controlled Smoke Result Review
 
 1. Phase 2.95 baseline 已完成：commit `3d70626`，tag `phase-2.95-shared-contract-alignment-baseline`，pushed=true。
 2. 已新增 `docs/PHASE296_GATEWAY_CONTROLLED_SMOKE_RESULT_REVIEW.md`，审查最新 Frontend / Gateway controlled smoke `Go` 报告。
 3. Review 结论：该 Go 只授权 read-only controlled Gateway smoke 通过；permission-denied fail-closed 与 catalog-only Missing Evidence / `asset_catalog_only` 是最重要的 passed gates。
 4. 该 Go 不是 production rollout，不授权 Agent DB CRUD、Agent SQL、NAS scan/copy、parser/writer/index 写入、Agent answer integration、真实 `storage_path` 暴露或 DWG/RVT 内容理解。
-5. Codex B review 已通过；下一步只做 Phase 2.96 selective docs baseline。
-6. Baseline 后再规划 Phase 2.97 Frontend Gateway Read-only Trial Runbook / Operator Checklist，仍是内部受控试用，不是生产发布。
+5. Phase 2.96 baseline 已完成：commit `6fff43f`，tag `phase-2.96-gateway-controlled-smoke-result-review-baseline`，pushed=true。
+
+## Phase 2.97 Frontend Gateway Read-only Trial Runbook
+
+1. 当前进入 Phase 2.97 docs-only runbook planning。
+2. 目标：创建内部受控前端 Gateway 只读试用 operator checklist，明确 allowed endpoints、safe fields、forbidden-field scan、side-effect checks、Go/Pause/No-Go 与 feedback capture。
+3. 本阶段不运行真实 Gateway smoke、不连接 DB/NAS/API、不实现 Gateway code、不写 DB/index/object-store、不进入 rollout。
+4. Codex A 应执行 `docs/NEXT_CODEX_A_PROMPT.md`，完成后停止等待 Codex B review。
 
 ## Phase 2.95 Shared Contract Alignment
 
