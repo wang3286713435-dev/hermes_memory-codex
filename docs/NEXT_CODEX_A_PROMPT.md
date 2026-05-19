@@ -1,81 +1,102 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.100a Codex B Review / Selective Docs Baseline Preparation
+## Phase 2.101 Codex B Review / Selective Docs Baseline Preparation
 
-You are Codex A. Do not implement runtime code. Do not enter Phase 2.101 until Codex B review passes.
+You are Codex A. This prompt is for the next bounded review/baseline-prep step. Do not implement runtime features and do not enter Phase 2.102 automatically.
 
 ## Background
 
-Phase 2.100a fixed Codex B review blockers in the Phase 2 / Phase 3 boundary acceptance audit:
+Phase 2.101 implementation is complete as a docs-only planning artifact:
 
-1. Added explicit `PRD.md` §13 MVP acceptance rows.
-2. Split Data Steward / BIM into Phase 2 catalog-only trial planning/boundary and Phase 3+ productization/deep BIM capability.
-3. Added automatic evaluation pipeline and retrieval quality dashboard/evidence-pack rows.
-4. Cleaned confusing duplicate boundary-audit / DEV_LOG sections.
+1. New document: `docs/PHASE2101_PRD_ACCEPTANCE_GAP_CLOSURE_PLAN.md`
+2. Purpose: classify Phase 2.100a PRD / Roadmap / Technical Design acceptance gaps into closeout blockers, evidence-pack requirements, user-decision backlog candidates, Phase 3+ candidates, and already-satisfied evidence rows.
+3. Current conclusion: Phase 2 closeout readiness is still `no`.
 
-Main audit file:
+## Required Reading
 
-1. `docs/PHASE2100_PHASE2_PHASE3_BOUNDARY_ACCEPTANCE_AUDIT.md`
+Read before doing anything:
 
-Current conclusion remains:
+1. `docs/AGENT_OPERATING_PROTOCOL.md`
+2. `docs/ACTIVE_PHASE.md`
+3. `docs/PHASE_BACKLOG.md`
+4. `docs/PHASE2101_PRD_ACCEPTANCE_GAP_CLOSURE_PLAN.md`
+5. `docs/PHASE2100_PHASE2_PHASE3_BOUNDARY_ACCEPTANCE_AUDIT.md`
+6. `docs/TODO.md`
+7. `docs/DEV_LOG.md`
 
-1. Phase 2 closeout readiness: no.
-2. The project is an internal controlled MVP candidate, but original PRD/Roadmap acceptance still has incomplete or unevidenced items.
-3. Do not enter Phase 3, production rollout, repair executor, or runtime implementation from this state.
+## Goal
 
-## Next Task
+Review whether Phase 2.101 is ready for selective docs baseline.
 
-Perform Codex B style review of Phase 2.100a. If accepted, prepare selective docs baseline only.
+This is not a Phase 2 closeout. It is only a baseline-prep / review step for the gap closure plan.
 
-## Files Eligible For Review / Baseline
+## Allowed Files
 
-1. `docs/PHASE2100_PHASE2_PHASE3_BOUNDARY_ACCEPTANCE_AUDIT.md`
+Only touch these if needed:
+
+1. `docs/PHASE2101_PRD_ACCEPTANCE_GAP_CLOSURE_PLAN.md`
 2. `docs/NEXT_CODEX_A_PROMPT.md`
 3. `docs/ACTIVE_PHASE.md`
 4. `docs/PHASE_BACKLOG.md`
 5. `docs/HANDOFF_LOG.md`
 6. `docs/TODO.md`
 7. `docs/DEV_LOG.md`
-
-Do not stage or commit `reports/agent_runs/latest.json`.
+8. ignored `reports/agent_runs/latest.json`
 
 ## Review Checklist
 
-1. Matrix includes all required columns from Phase 2.100.
-2. Matrix covers the required 16 acceptance areas.
-3. Matrix explicitly covers `PRD.md` §13 MVP acceptance items.
-4. Data Steward / BIM Phase 2 catalog-only trial planning is separate from Phase 3+ productization.
-5. Automatic eval pipeline and retrieval quality dashboard/evidence-pack gaps are visible.
-6. Phase 2 is not claimed closed.
-7. Phase 3 transition is not recommended before gap closure or explicit user reclassification.
-8. No runtime code, DB/API/NAS/Gateway smoke, repair, rollout, migration, backfill, or reindex was performed.
+Verify that `docs/PHASE2101_PRD_ACCEPTANCE_GAP_CLOSURE_PLAN.md`:
 
-## Optional Baseline If Review Passes
+1. States that Phase 2 remains open.
+2. Includes the required decision taxonomy.
+3. Covers all gaps from Phase 2.100a:
+   - structured entity and relationship querying
+   - structured fact extraction vs manual/evidence-backed facts
+   - tender deep fields
+   - project/customer/qualification/case relationships
+   - version difference view
+   - incremental update/delete/invalidation/old chunk lifecycle
+   - department/project/confidentiality permission strategy
+   - feedback into eval loop
+   - PRD/Roadmap eval metrics
+   - knowledge administrator backend / human validation
+   - parser/source evidence
+   - Mac mini / employee trial evidence
+   - natural-language import usability
+   - Gateway catalog-only evidence
+   - Data Steward catalog-only Phase 2 boundary
+   - Data Steward productization / graph / spatial / DWG/RVT/BIM Phase 3+ candidate
+4. Does not claim Phase 2 closeout readiness.
+5. Does not silently move Phase 2 requirements to Phase 3 without user approval.
 
-Commit message:
+## Optional Baseline
 
-```text
-docs: audit phase 2 closeout boundary
-```
+Only if the user explicitly authorizes Git baseline:
 
-Tag:
+1. Stage only the allowed docs files.
+2. Commit message:
+   `docs: plan phase 2 acceptance gap closure`
+3. Tag:
+   `phase-2.101-prd-acceptance-gap-closure-plan-baseline`
+4. Push `origin/main` and the tag.
 
-```text
-phase-2.100a-phase2-boundary-audit-baseline
-```
-
-Push `origin/main` and tag only if the user explicitly authorizes baseline.
+Do not commit/tag/push without explicit user authorization.
 
 ## Hard Boundaries
 
-1. Do not enter Phase 2.101 automatically.
-2. Do not implement runtime code.
-3. Do not write DB, NAS, OpenSearch, Qdrant, MinIO, Gateway, or platform systems.
-4. Do not execute repair, cleanup, backfill, reindex, delete, migration, or rollout.
-5. Do not modify retrieval contract or memory kernel main architecture.
-6. Do not claim Phase 2 closeout readiness.
+1. Do not implement code.
+2. Do not run API / CLI / Gateway / DB / NAS smoke.
+3. Do not connect to DB or NAS.
+4. Do not execute SQL.
+5. Do not read real reports, raw rows, NAS paths, storage paths, or secrets.
+6. Do not write DB, OpenSearch, Qdrant, MinIO, platform systems, Gateway, Hermes memory, `documents`, or `chunks`.
+7. Do not execute parser, scratch copy, writer smoke, repair, cleanup, backfill, reindex, delete, migration, or rollout.
+8. Do not claim Phase 2 closeout readiness.
+9. Do not enter Phase 2.102 or Phase 3 automatically.
 
-## Required Validation Before Any Baseline
+## Validation
+
+Run lightweight docs validation:
 
 ```bash
 git diff --check
@@ -83,3 +104,16 @@ UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool reports/agent_runs
 git check-ignore reports/agent_runs/latest.json
 git status --short
 ```
+
+No pytest is required unless code is changed, which should not happen.
+
+## Final Report
+
+Return:
+
+1. Review result.
+2. Modified files.
+3. Validation result.
+4. Whether selective docs baseline is recommended.
+5. Whether Phase 2 closeout is ready.
+6. Whether user decision is needed before Phase 2.102.

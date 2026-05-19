@@ -1,5 +1,14 @@
 # DEV_LOG
 
+## 2026-05-19 Phase 2.101 PRD Acceptance Gap Closure Plan
+
+- 新增 `docs/PHASE2101_PRD_ACCEPTANCE_GAP_CLOSURE_PLAN.md`。
+- 已把 Phase 2.100a boundary audit 转成 gap closure decision table，分类为 `phase2_closeout_blocker`、`phase2_evidence_pack_required`、`phase2_backlog_candidate_user_decision`、`phase3_plus_candidate_user_decision`、`already_satisfied_keep_evidence`。
+- 已覆盖结构化实体关系、结构化 facts、标书深层字段、项目/客户/资质/案例关系、version diff、增量删除/失效、部门/项目/密级权限、反馈闭环、评测指标、知识管理员/人审、parser/source evidence、Mac mini / employee trial、自然语言导入、Gateway catalog-only、Data Steward catalog-only 与 Phase 3+ productization。
+- 当前结论：Phase 2 closeout readiness=否；Phase 2.101 只提供决策地图，不关闭任何 gap。
+- 本阶段 docs-only；未改 runtime code，未连接 DB/NAS/API/Gateway，未执行 parser/scratch/writer/repair/backfill/reindex/delete/migration/rollout。
+- 下一步：Codex B review Phase 2.101；若通过，再由用户显式授权 selective docs baseline。
+
 ## 2026-05-19 Phase 2.100 Phase 2 / Phase 3 Boundary Acceptance Audit
 
 - 新增 `docs/PHASE2100_PHASE2_PHASE3_BOUNDARY_ACCEPTANCE_AUDIT.md`。
@@ -710,3 +719,12 @@
 - [Phase 2.100 Prompt] Phase 2.99 baseline 已完成：commit `e052828`，tag `phase-2.99-standard-boundary-alignment-baseline`，pushed=true。Codex B 已纠正 Phase 2 收口策略：不能因阶段号到 100 就 closeout，必须先按 `PRD.md`、`ROADMAP.md`、`TECHNICAL_DESIGN.md` 建立 Phase 2 / Phase 3 boundary acceptance audit。只有 Phase 2 required / MVP required 项完成，或经用户批准重分类到 backlog / Phase 3+ 后，才能进入 Phase 2 closeout。
 
 - [Phase 2.100 Correction] 用户明确指出 Phase 2 不能因为阶段号到 100 就急于收口，必须先完成原始 PRD / Roadmap / Technical Design 对 Phase 2 与 Phase 3 的边界验收。Codex B 已撤回固定四阶段 closeout 口径，改为 Phase 2 / Phase 3 boundary acceptance audit：先建立 requirement matrix，再判断哪些完成、哪些 partial、哪些仍属 Phase 2、哪些需用户批准后移入 Phase 3+。
+
+## 2026-05-19 16:52 Phase 2.101 PRD Acceptance Gap Closure Plan Prompt
+
+- goal: Prepare Codex A handoff for Phase 2.101 after Phase 2.100a boundary audit baseline.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Prompt-only handoff; no runtime validation required before Codex A executes.
+- decision: Phase 2 remains open; Phase 2.101 will classify closure gaps before any Phase 2 closeout or Phase 3 transition.
+- risks: Do not treat planning as implementation or evidence. No production rollout, no repair executor, no Data Steward deep productization, no DB/NAS/API/Gateway smoke.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` and stops for Codex B review.

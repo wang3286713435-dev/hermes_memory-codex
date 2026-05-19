@@ -1,5 +1,15 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.101 PRD Acceptance Gap Closure Plan
+
+1. Phase 2.100a baseline 已完成：commit `8456979`，tag `phase-2.100a-phase2-boundary-audit-baseline`，pushed=true。
+2. Phase 2.101 已新增 `docs/PHASE2101_PRD_ACCEPTANCE_GAP_CLOSURE_PLAN.md`，把 audit 中的 partial / not_started / user_decision_required 项转成 gap closure decision table。
+3. 当前分类包括：`phase2_closeout_blocker`、`phase2_evidence_pack_required`、`phase2_backlog_candidate_user_decision`、`phase3_plus_candidate_user_decision`、`already_satisfied_keep_evidence`。
+4. 重点待决策缺口：结构化实体关系、structured fact extraction 口径、tender deep fields、version diff、incremental delete/invalidation、部门/项目/密级权限、反馈闭环、eval metrics、知识管理员/人审、parser/source evidence、Mac mini / employee trial、自然语言导入、Gateway、Data Steward。
+5. 本阶段未实现功能、未运行 smoke、未连接 DB/NAS/API/Gateway、未进入 Phase 3、未声明 Phase 2 closeout readiness。
+6. 下一步：Codex B review Phase 2.101；通过后由用户显式授权 selective docs baseline。
+
+
 ## Phase 2.100a Phase 2 / Phase 3 Boundary Acceptance Audit Coverage Fix
 
 1. 已新增 `docs/PHASE2100_PHASE2_PHASE3_BOUNDARY_ACCEPTANCE_AUDIT.md`，形成 PRD / Roadmap / Technical Design / acceptance matrix traceability audit。

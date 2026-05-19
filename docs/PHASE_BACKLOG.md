@@ -1,5 +1,16 @@
 # Phase Backlog
 
+## Phase 2.101 PRD Acceptance Gap Closure Plan
+
+1. Phase 2.101 已完成 docs-only gap closure planning：新增 `docs/PHASE2101_PRD_ACCEPTANCE_GAP_CLOSURE_PLAN.md`。
+2. 该文档把 Phase 2.100a audit gap 分为：`phase2_closeout_blocker`、`phase2_evidence_pack_required`、`phase2_backlog_candidate_user_decision`、`phase3_plus_candidate_user_decision`、`already_satisfied_keep_evidence`。
+3. 已覆盖结构化实体关系、结构化 facts、标书深层字段、权限、反馈闭环、评测指标、知识管理员、人审流程、parser/source evidence、Mac mini / employee trial、自然语言导入、Gateway、Data Steward catalog-only / Phase 3+ 产品化。
+4. Phase 2 closeout readiness 当前仍为否；该计划只给出决策地图，不关闭任何 gap。
+5. 下一步：Codex B review Phase 2.101；通过后由用户显式授权 selective docs baseline。
+6. 后续优先路线：Phase 2.102 metric / evidence pack、Phase 2.103 tender deep-field closure or backlog decision、Phase 2.104 feedback/admin/human validation scope decision。
+7. Phase 3+ 仍后置：Data Steward productization、BIM/DWG/RVT deep parsing、graph/spatial、multi-agent orchestration、production rollout、repair executor、complete auto facts extraction。
+
+
 ## Phase 2.100a Boundary Acceptance Audit Coverage Fix
 
 1. Phase 2.100 audit document 已完成首版：`docs/PHASE2100_PHASE2_PHASE3_BOUNDARY_ACCEPTANCE_AUDIT.md`。

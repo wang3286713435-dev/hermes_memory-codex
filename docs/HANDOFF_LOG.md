@@ -7188,3 +7188,22 @@
 - risks: Phase 2 closeout readiness remains no; evidence/decision gaps still need Codex B and user review before any baseline or Phase 2.101.
 - next: Run validation, then stop for Codex B review. Do not baseline or enter Phase 2.101 automatically.
 - commit/tag if any: none.
+
+## 2026-05-19 16:52 Phase 2.101 PRD Acceptance Gap Closure Plan Prompt
+
+- goal: Move from Phase 2.100a boundary audit baseline into a docs-only PRD acceptance gap closure plan.
+- background: Phase 2.100a baseline completed at `8456979`, tag `phase-2.100a-phase2-boundary-audit-baseline`, pushed=true.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- next: Codex A should create `docs/PHASE2101_PRD_ACCEPTANCE_GAP_CLOSURE_PLAN.md`, classify remaining acceptance gaps, and stop for Codex B review.
+- boundaries: docs-only; no runtime code, no DB/NAS/API/Gateway smoke, no parser/scratch/writer, no DB/index/object-store writes, no repair/reindex/migration/delete, no rollout, no Phase 3 transition, no Phase 2 closeout claim.
+- commit/tag if any: none.
+
+## 2026-05-19 17:20 Phase 2.101 PRD Acceptance Gap Closure Plan
+
+- goal: Convert Phase 2.100a audit gaps into a PRD acceptance gap closure decision table.
+- changed_files: `docs/PHASE2101_PRD_ACCEPTANCE_GAP_CLOSURE_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check`; latest JSON parse; latest ignore check; `git status --short`.
+- validation: Gap table covers structured entity relationships, facts extraction, tender deep fields, relationship queries, version diff, incremental lifecycle, permissions, feedback, metrics, admin/human validation, parser/source evidence, Mac mini / employee trial, natural import, Gateway, Data Steward catalog-only, and Data Steward Phase 3+ productization.
+- risks: Phase 2 closeout readiness remains no; several gaps need Codex B review and explicit user decisions before closeout or Phase 3 deferral.
+- next: Codex B review Phase 2.101; if accepted, user may authorize selective docs baseline. Do not enter Phase 2.102 automatically.
+- commit/tag if any: none.
