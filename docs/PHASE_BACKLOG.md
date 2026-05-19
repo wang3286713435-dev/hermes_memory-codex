@@ -9,6 +9,26 @@
 
 ## 最新状态
 
+1. Phase 2.96 Gateway Controlled Smoke Result Review 已完成 docs-only / report-review，Codex B review 已通过。
+2. 新增 `docs/PHASE296_GATEWAY_CONTROLLED_SMOKE_RESULT_REVIEW.md`，接受最新 Gateway controlled smoke `Go` 作为 read-only controlled smoke 通过证据。
+3. 该 Go 基于正常平台 login、project switch、project-scoped bearer token；capabilities / health / chat / catalog search / compatibility / permission-denied / catalog-only content question 均通过。
+4. Forbidden-field scan 与 side-effect flags 均保持安全：无 secret/token/password/bearer/credential 真值、NAS path、raw row、SQL、storage path、raw content 泄露；无 DB write、NAS scan/copy、parser、writer、index/object-store write 或 rollout。
+5. 该 Go 不授权 production rollout、Agent DB CRUD、Agent SQL、NAS scan/copy、parser/writer/index 写入、DWG/RVT 内容理解、真实 `storage_path` 暴露、repair/migration 或 Agent answer integration。
+6. 下一步只做 Phase 2.96 selective docs baseline；不得自动进入 Phase 2.97。
+7. Phase 2.97 建议方向：Frontend Gateway Read-only Trial Runbook / Operator Checklist，仍应为 docs-only internal trial runbook，不是生产发布。
+
+## 最新状态
+
+1. Phase 2.95 baseline 已完成：commit `3d70626`，tag `phase-2.95-shared-contract-alignment-baseline`，pushed=true。
+2. 当前进入 Phase 2.96 Gateway Controlled Smoke Result Review。
+3. 最新 Gateway controlled smoke 已回传 `Go`：正常平台 login、project switch、project-scoped bearer token 后，capabilities / health / chat / catalog search / compatibility / permission-denied / catalog-only content question 均通过。
+4. Forbidden-field scan 未发现 secret/token/password/bearer/credential 真值、NAS 路径、`/Volumes`、`nas://`、`smb://`、raw row、SQL、storage path、raw file content；`secretPrinted=false` 为安全状态字段，不计泄露。
+5. Side effects 均为 no：DB write、NAS scan/copy、parser、writer、OpenSearch/Qdrant/MinIO write、rollout。
+6. Phase 2.96 只做 docs-only result review，不重跑 smoke，不连接 DB/NAS/API，不实现代码。
+7. 该 Go 只表示 read-only controlled Gateway smoke 通过，不代表 production rollout 或 Agent DB/NAS 执行授权。
+
+## 最新状态
+
 1. Phase 2.95 Shared Contract Alignment 已完成 docs-only / contract-alignment。
 2. 新增 `docs/PHASE295_SHARED_CONTRACT_ALIGNMENT.md`，正式记录 Hermes 对共享 `DigitalDeliveryProject` 契约文件的采用、维护责任、sync rules 与当前 mismatch list。
 3. 已读取 Phase 2.95 指定的 14 个共享文件；当前 required shared contract 未发现 mismatch。

@@ -1,40 +1,44 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.95 Shared Contract Alignment Baseline
+## Phase 2.96 Gateway Controlled Smoke Result Review Baseline
 
-Codex B review passed. Create a selective Git baseline for Phase 2.95 Shared Contract Alignment.
+You are Codex A. Execute only this bounded Git baseline task.
 
-Do not enter Phase 2.96 automatically. Do not run frontend / Gateway smoke.
+Do not run frontend / Gateway smoke. Do not connect to DB / NAS / platform API / Hermes API. Do not enter Phase 2.97 automatically.
 
-Previous baseline:
+## Codex B Review Result
 
-- commit: `712cd83`
-- tag: `phase-2.94a-gateway-smoke-handoff-baseline`
-- pushed: true
+Codex B review passed for Phase 2.96.
 
-## Review Summary
+Confirmed:
 
-Codex B reviewed:
+1. `docs/PHASE296_GATEWAY_CONTROLLED_SMOKE_RESULT_REVIEW.md` correctly accepts the latest Gateway controlled smoke result as `Go` for read-only controlled smoke only.
+2. The reviewed smoke used normal platform login, project switch, and project-scoped bearer token.
+3. Capabilities, health, chat, catalog search, compatibility route, permission-denied, and catalog-only content question passed.
+4. Forbidden-field scan found no true secret / token / password / bearer / credential value, NAS path, raw row, SQL, storage path, or raw file content leak.
+5. Side-effect flags are all no: DB write, NAS scan/copy, parser, writer, OpenSearch/Qdrant/MinIO write, rollout.
+6. Permission-denied fail-closed and catalog-only Missing Evidence / `asset_catalog_only` are the key passed product gates.
+7. This `Go` does not authorize production rollout, Agent DB CRUD, Agent-generated SQL, NAS scan/copy, parser/writer/index writes, DWG/RVT content understanding, true `storage_path` exposure, repair, migration, or rollout.
 
-```text
-docs/PHASE295_SHARED_CONTRACT_ALIGNMENT.md
-docs/PHASE_BACKLOG.md
-docs/TODO.md
-docs/DEV_LOG.md
-```
+## Baseline Scope
 
-Review result:
+Stage only:
 
-1. Shared files read list is complete for the required Phase 2.95 scope.
-2. Hermes-owned / reviewed shared files match `ops/document_ownership.md`.
-3. `asset_catalog_search` boundary is read-only / fail-closed / catalog-only.
-4. Missing Evidence policy is aligned.
-5. Memory / `related_file_ids` boundary is safe.
-6. Gateway permission and path redaction boundary is aligned.
-7. Official name is Hermes; Jarvis is legacy / not official.
-8. No required shared contract mismatch was found.
+1. `docs/PHASE296_GATEWAY_CONTROLLED_SMOKE_RESULT_REVIEW.md`
+2. `docs/NEXT_CODEX_A_PROMPT.md`
+3. `docs/ACTIVE_PHASE.md`
+4. `docs/PHASE_BACKLOG.md`
+5. `docs/HANDOFF_LOG.md`
+6. `docs/TODO.md`
+7. `docs/DEV_LOG.md`
 
-## Required Validation
+Do not stage ignored local state:
+
+1. `reports/agent_runs/latest.json`
+
+Do not stage any other file.
+
+## Validation
 
 Run:
 
@@ -50,61 +54,33 @@ Expected:
 1. `git diff --check` passes.
 2. latest JSON parses.
 3. `reports/agent_runs/latest.json` is ignored.
-4. `git status --short` contains only Phase 2.95 docs / handoff files.
+4. `git status --short` shows only the Phase 2.96 docs / handoff files before staging.
+5. After commit, final `git status --short` is clean.
 
-No pytest is required because no code changed.
-
-## Allowed Files For Baseline
-
-Stage only:
-
-1. `docs/PHASE295_SHARED_CONTRACT_ALIGNMENT.md`
-2. `docs/NEXT_CODEX_A_PROMPT.md`
-3. `docs/ACTIVE_PHASE.md`
-4. `docs/PHASE_BACKLOG.md`
-5. `docs/HANDOFF_LOG.md`
-6. `docs/TODO.md`
-7. `docs/DEV_LOG.md`
-
-Do not stage:
-
-1. ignored `reports/agent_runs/latest.json`
-2. any shared-folder file under `DigitalDeliveryProject`
-3. any DB output, NAS output, platform Gateway output, approval JSON, `.env`, secret, raw sample, screenshot, or unrelated file
-4. code, tests, scripts, migrations, parser files, Gateway implementation files, frontend files, or backend platform files
-
-If any non-allowed tracked or untracked file appears, stop and report.
-
-Before committing, run:
-
-```bash
-git diff --cached --check
-git diff --cached --name-only
-```
-
-The cached file list must match the allowed baseline files only.
-
-## Commit / Tag / Push
+## Git Baseline
 
 Commit message:
 
 ```text
-docs: align shared digital delivery contracts
+docs: review gateway controlled smoke result
 ```
 
 Tag:
 
 ```text
-phase-2.95-shared-contract-alignment-baseline
+phase-2.96-gateway-controlled-smoke-result-review-baseline
 ```
 
-Push `origin/main` and the tag.
+Push:
+
+1. `origin/main`
+2. tag `phase-2.96-gateway-controlled-smoke-result-review-baseline`
 
 ## Hard Boundaries
 
 Still forbidden:
 
-1. running frontend / Gateway smoke
+1. running frontend / Gateway smoke again
 2. implementing Gateway code in this repository
 3. connecting to real DB / platform API / Hermes API
 4. Agent DB CRUD
@@ -119,17 +95,17 @@ Still forbidden:
 13. exposing true `storage_path`, raw row, NAS path, raw content, secret, token, bearer, or credential material
 14. repair / cleanup / backfill / reindex / delete / migration
 15. production rollout
-16. entering Phase 2.96 automatically
+16. entering Phase 2.97 automatically
 
 ## Completion Report
 
 Report:
 
-1. changed files
-2. validation results
+1. changed files staged / committed
+2. validation command results
 3. commit hash
 4. tag
 5. push result
-6. confirmation no shared-folder files were staged
-7. confirmation that runtime smoke, DB/NAS access, writer, parser, index/object-store writes, Agent answer integration, and rollout remain blocked
-8. final `git status --short`
+6. final `git status --short`
+7. confirmation that `reports/agent_runs/latest.json` was not staged
+8. confirmation that Phase 2.97 was not started

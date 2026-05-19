@@ -1,5 +1,33 @@
 # Handoff Log
 
+## 2026-05-19 Phase 2.96 Codex B Review
+- goal: Review Phase 2.96 Gateway controlled smoke result review and prepare selective docs baseline.
+- changed_files: `docs/PHASE296_GATEWAY_CONTROLLED_SMOKE_RESULT_REVIEW.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.96 review document was checked against the latest external Gateway controlled smoke `Go` report and existing catalog-only / read-only boundaries.
+- review: Passed. The document correctly records normal login + project switch + project-scoped token, passed endpoints, forbidden-field scan, side-effect flags, permission-denied fail-closed, and catalog-only Missing Evidence / `asset_catalog_only`.
+- risks: This `Go` remains read-only controlled smoke evidence only; it does not authorize production rollout, Agent DB CRUD, Agent SQL, NAS scan/copy, parser/writer/index writes, DWG/RVT content understanding, raw storage path exposure, repair, migration, or rollout.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.96 selective docs baseline and stops. Do not enter Phase 2.97 automatically.
+- commit/tag if any: none.
+
+## 2026-05-19 Phase 2.96 Gateway Controlled Smoke Result Review
+- goal: Review latest Gateway controlled smoke `Go` report and record exact authorization boundary.
+- changed_files: `docs/PHASE296_GATEWAY_CONTROLLED_SMOKE_RESULT_REVIEW.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check`; `UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool reports/agent_runs/latest.json >/dev/null`; `git check-ignore reports/agent_runs/latest.json`; `git status --short`.
+- validation: Gateway smoke result accepted as `Go` for read-only controlled smoke only; no runtime smoke was rerun by Codex A.
+- risks: This Go is not production rollout and does not authorize Agent DB CRUD, Agent SQL, NAS scan/copy, parser/writer/index writes, DWG/RVT content understanding, raw storage path exposure, repair, migration, or rollout.
+- next: Codex B review Phase 2.96 docs; if passed, write selective docs baseline prompt.
+- commit/tag if any: none.
+
+## 2026-05-19 Phase 2.96 Prompt
+- goal: Prepare Codex A handoff for Gateway controlled smoke Go result review after Phase 2.95 baseline.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.95 baseline confirmed at commit `3d70626`, tag `phase-2.95-shared-contract-alignment-baseline`; origin/main and tag matched.
+- source_report: Latest frontend / Gateway controlled smoke returned `Go` after normal platform login and project switch; all required endpoint cases passed; no forbidden-field leak or write side effect reported.
+- scope: Codex A should create `docs/PHASE296_GATEWAY_CONTROLLED_SMOKE_RESULT_REVIEW.md` and record that this Go is only for read-only controlled Gateway smoke, not production rollout.
+- risks: Phase 2.96 must remain docs-only / report-review only; no runtime smoke, DB/NAS/API connection, code implementation, parser, writer, index/object-store write, Agent answer integration, or rollout.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-19 Phase 2.95 Codex B Review
 - goal: Review Phase 2.95 shared contract alignment and authorize selective docs baseline.
 - changed_files: `docs/PHASE295_SHARED_CONTRACT_ALIGNMENT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
