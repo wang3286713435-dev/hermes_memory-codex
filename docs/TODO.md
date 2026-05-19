@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.104 Platform Layered Capability Plan
+
+1. 已新增 `docs/PHASE2104_PLATFORM_LAYERED_CAPABILITY_PLAN.md`，把平台接入能力拆为 `Catalog Layer -> Evidence Layer -> Memory Layer -> Orchestration Layer`。
+2. 当前可用层仍仅为 Catalog Layer：只读资产目录、安全 file/model IDs、permission decision、Missing Evidence、query/trace IDs。
+3. Evidence Layer / Memory Layer / Orchestration Layer 均保持 next / future，不得写成 current runtime capability。
+4. 设计已明确后续 contract：Evidence Availability、future `document_evidence_search`、low-sensitive Memory Continuity、Feedback、Capability Response。
+5. 共享 `DigitalDeliveryProject` 已核对：`agent-briefings/hermes_capability_handoff.md` 与 `docs/01_capability_matrix.md` 已包含 Hermes layers 相关条目；本阶段未修改共享文件。
+6. 下一步：Codex B review Phase 2.104；通过后由用户显式授权 docs baseline。不得自动进入 Phase 2.104a 实现。
+
 ## Phase 2.103 Test Machine Update + Hermes Capability Maximization Handoff
 
 1. Phase 2.102b baseline 已完成：commit `5c37661`，tag `phase-2.102b-metric-scoring-pack-baseline`，pushed=true。

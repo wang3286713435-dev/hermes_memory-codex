@@ -1,5 +1,16 @@
 # Phase Backlog
 
+## Phase 2.104 Platform Layered Capability Plan
+
+1. Phase 2.103 baseline 已完成：commit `3c38a06`，tag `phase-2.103-test-machine-capability-handoff-baseline`，pushed=true。
+2. 测试机已成功 checkout Phase 2.103；docs-only handoff 可用，pytest 因 runtime 缺依赖被允许记录为 skipped。
+3. Phase 2.104 已新增 `docs/PHASE2104_PLATFORM_LAYERED_CAPABILITY_PLAN.md`：Catalog Layer=current，Evidence Layer=next，Memory Layer=next，Orchestration Layer=later。
+4. 计划已明确需要的 platform / Gateway contracts：Evidence Availability、future Document Evidence Search、low-sensitive Memory Continuity、Feedback、Capability Response。
+5. 共享 `DigitalDeliveryProject` 已核对：`agent-briefings/hermes_capability_handoff.md` 与 `docs/01_capability_matrix.md` 已有 Hermes layers 条目；本阶段未修改共享文件。
+6. 本阶段只做 docs / contract planning，不写 runtime code、不改 tests、不实现新 tool、不跑 DB/NAS/Gateway/API smoke。
+7. 当前仍禁止：Agent DB CRUD、Agent SQL、NAS scan、DWG/RVT/BIM 内容理解、NAS semantic collection、DB/index/object-store/memory 写入、production rollout。
+8. 下一步：Codex B review Phase 2.104；通过后由用户显式授权 docs baseline。不得自动进入 Phase 2.104a。
+
 ## Phase 2.103 Test Machine Update + Hermes Capability Maximization Handoff
 
 1. Phase 2.102b baseline 已完成：commit `5c37661`，tag `phase-2.102b-metric-scoring-pack-baseline`，pushed=true。

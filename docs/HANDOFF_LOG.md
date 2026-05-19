@@ -1,5 +1,14 @@
 # Handoff Log
 
+## 2026-05-20 Phase 2.104 Prompt
+- goal: Prepare Codex A handoff for Platform Layered Capability Plan.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.103 baseline confirmed at commit `3c38a06`, tag `phase-2.103-test-machine-capability-handoff-baseline`; test machine checkout reported Go for docs-only handoff with pytest skipped due runtime missing dependency.
+- scope: Codex A should create `docs/PHASE2104_PLATFORM_LAYERED_CAPABILITY_PLAN.md`, read Hermes repo and shared DigitalDeliveryProject contract files, and turn current catalog-only integration into a layered Catalog / Evidence / Memory / Orchestration platform capability plan.
+- risks: Phase 2.104 must remain docs-only / contract-planning only; no runtime code, tests, new tool implementation, API / CLI / Gateway / DB / NAS smoke, parser, writer, index/object-store/memory write, Agent DB CRUD, Agent SQL, DWG/RVT/BIM content understanding, Phase 3 transition, or rollout.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-19 Phase 2.99 Prompt
 - goal: Prepare Codex A handoff for Standard Boundary Prompt / Tool Description Alignment.
 - changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -7302,4 +7311,14 @@
 - changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
 - next: Codex A should create test-machine update prompt, database / platform Hermes capability handoff, and Phase 2.103 summary doc, then stop for Codex B review.
 - boundaries: docs / handoff only; no runtime code/tests, no API/CLI/Gateway/DB/NAS smoke, no DB/NAS connection, no raw rows/NAS paths/storage paths/secrets, no parser/scratch/writer, no DB/index/object-store/memory writes, no rollout, no Phase 3 transition, no DWG/RVT/BIM current overclaim.
+- commit/tag if any: none.
+
+## 2026-05-20 04:53 Phase 2.104 Platform Layered Capability Plan
+
+- goal: Create a docs-only platform layered capability plan so platform teams can distinguish current Catalog Layer from future Evidence, Memory, and Orchestration layers.
+- changed_files: `docs/PHASE2104_PLATFORM_LAYERED_CAPABILITY_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON parse passed; latest ignore check passed; `git status --short --untracked-files=all` reviewed.
+- validation: Shared `DigitalDeliveryProject` docs were available; `agent-briefings/hermes_capability_handoff.md` and `docs/01_capability_matrix.md` already contain Hermes layer entries. No shared files were modified.
+- risks: Evidence Layer, Memory Layer, and Orchestration Layer must not be described as current runtime capabilities; low-sensitive memory references are not file content evidence; unrelated `docs/digital-delivery-standards/` files remain untracked and must not be staged by default.
+- next: Codex B review Phase 2.104; if accepted, user may authorize docs baseline. Do not enter Phase 2.104a automatically.
 - commit/tag if any: none.

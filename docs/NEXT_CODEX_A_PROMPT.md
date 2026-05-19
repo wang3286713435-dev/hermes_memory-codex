@@ -1,59 +1,45 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.103a Codex B Review Fix: Remove Ambiguous Memory Evidence Wording
+## Phase 2.104 Codex B Review / Docs Baseline Gate
 
-You are Codex A. Execute only this bounded docs fix, then stop for Codex B review.
+This is not an implementation prompt. Codex A must not start Phase 2.104a unless the user explicitly authorizes it.
 
-## Background
+## Current State
 
-Phase 2.103 handoff pack is complete, but Codex B found one wording blocker in `docs/DB_TEAM_HERMES_CAPABILITY_MAXIMIZATION_HANDOFF.md`.
+Phase 2.104 docs-only planning is complete and waiting for Codex B review.
 
-Problem sentence:
+Created:
 
-```text
-Hermes answers from safe catalog metadata and existing memory evidence only.
-```
+1. `docs/PHASE2104_PLATFORM_LAYERED_CAPABILITY_PLAN.md`
 
-Why this is risky:
+Updated:
 
-1. It can make the database / platform team think current catalog-only Gateway integration can already answer from Hermes memory evidence.
-2. It blurs the current boundary between catalog metadata, low-sensitive memory references, and governed content evidence.
-3. It may imply NAS / DB contents are already in Hermes long-term memory, which violates the shared red lines.
+1. `docs/ACTIVE_PHASE.md`
+2. `docs/PHASE_BACKLOG.md`
+3. `docs/HANDOFF_LOG.md`
+4. `docs/TODO.md`
+5. `docs/DEV_LOG.md`
+6. `docs/NEXT_CODEX_A_PROMPT.md`
+7. ignored `reports/agent_runs/latest.json`
 
-## Required Fix
+Unrelated untracked `docs/digital-delivery-standards/` files remain out of scope and must not be staged by default.
 
-Modify only:
+## Codex B Review Checklist
 
-1. `docs/DB_TEAM_HERMES_CAPABILITY_MAXIMIZATION_HANDOFF.md`
-2. `docs/PHASE2103_TEST_MACHINE_UPDATE_AND_CAPABILITY_HANDOFF.md` if needed for consistency
-3. `docs/NEXT_CODEX_A_PROMPT.md`
-4. `docs/ACTIVE_PHASE.md`
-5. `docs/PHASE_BACKLOG.md`
-6. `docs/HANDOFF_LOG.md`
-7. `docs/TODO.md`
-8. `docs/DEV_LOG.md`
-9. ignored `reports/agent_runs/latest.json`
+Review `docs/PHASE2104_PLATFORM_LAYERED_CAPABILITY_PLAN.md` for:
 
-Do not touch or stage unrelated `docs/digital-delivery-standards/`.
+1. Clear distinction between current Catalog Layer and future Evidence / Memory / Orchestration layers.
+2. No claim that `document_evidence_search` is current.
+3. No claim that `related_file_ids`, `query_id`, or feedback labels mean Hermes read or remembered file contents.
+4. No claim of DWG/RVT/BIM content understanding.
+5. No claim of NAS full-text or NAS semantic collection as current capability.
+6. Proper Missing Evidence wording for content-level DWG / RVT / BIM / PDF / Office questions under catalog-only evidence.
+7. Shared folder sync notes correctly state that `agent-briefings/hermes_capability_handoff.md` and `docs/01_capability_matrix.md` already contain Hermes layer entries.
+8. Phase 2.104a / 2.104b / 2.104c / 2.104d recommendations are planning-only and require separate authorization before implementation.
 
-## Required Wording
+## Validation Commands
 
-Replace ambiguous memory-evidence wording with this meaning:
-
-```text
-Hermes answers from safe catalog metadata for catalog questions, and may use only low-sensitive memory references such as related_file_ids / query_id / user feedback labels for continuity. Content-level answers require separately governed retrieval evidence; catalog metadata and low-sensitive memory references must not be treated as file正文 evidence.
-```
-
-Ensure both handoff docs state:
-
-1. low-sensitive memory references are not content evidence;
-2. `related_file_ids` do not mean Hermes has read or remembered file contents;
-3. content answers require governed retrieval / full_text / parser / component evidence;
-4. current platform integration remains catalog-only unless a later phase explicitly enables evidence retrieval.
-
-## Validation
-
-Run:
+Before any baseline, rerun:
 
 ```bash
 git diff --check
@@ -62,18 +48,39 @@ git check-ignore reports/agent_runs/latest.json
 git status --short --untracked-files=all
 ```
 
+Do not run pytest for this phase unless tests are changed.
+
+## Optional Baseline If Codex B Review Passes
+
+Only after explicit user authorization:
+
+```bash
+git add docs/PHASE2104_PLATFORM_LAYERED_CAPABILITY_PLAN.md \
+  docs/NEXT_CODEX_A_PROMPT.md \
+  docs/ACTIVE_PHASE.md \
+  docs/PHASE_BACKLOG.md \
+  docs/HANDOFF_LOG.md \
+  docs/TODO.md \
+  docs/DEV_LOG.md
+git commit -m "docs: add phase 2.104 platform layered capability plan"
+git tag phase-2.104-platform-layered-capability-plan-baseline
+git push origin main
+git push origin phase-2.104-platform-layered-capability-plan-baseline
+```
+
+Do not stage `reports/agent_runs/latest.json`.
+
 ## Hard Boundaries
 
 1. Do not modify runtime code.
 2. Do not modify tests.
-3. Do not run API / CLI / Gateway / DB / NAS smoke.
-4. Do not connect to DB / NAS / Gateway.
-5. Do not read or output raw rows, NAS paths, storage paths, secrets, tokens, or `.env` values.
-6. Do not claim DWG/RVT/BIM content understanding.
-7. Do not claim PRD 100+ / Roadmap 300+ target satisfaction.
-8. Do not enter Phase 3 or production rollout.
-9. Do not stage unrelated `docs/digital-delivery-standards/`.
-
-## Completion Report
-
-Report changed files, validation results, and whether Phase 2.103a is ready for Codex B re-review. Stop after the report. Do not baseline.
+3. Do not implement Phase 2.104a.
+4. Do not implement new tools.
+5. Do not run API / CLI / Gateway / DB / NAS smoke.
+6. Do not connect to DB / NAS / Gateway.
+7. Do not read or output raw rows, NAS paths, storage paths, secrets, tokens, or `.env` values.
+8. Do not claim DWG/RVT/BIM content understanding.
+9. Do not claim NAS full-text search or NAS semantic collection is current.
+10. Do not claim `related_file_ids` means Hermes has read or remembered file contents.
+11. Do not move to Phase 3 or production rollout.
+12. Do not stage unrelated `docs/digital-delivery-standards/`.

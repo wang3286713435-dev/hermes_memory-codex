@@ -1,5 +1,15 @@
 # DEV_LOG
 
+## 2026-05-20 Phase 2.104 Platform Layered Capability Plan
+
+- 新增 `docs/PHASE2104_PLATFORM_LAYERED_CAPABILITY_PLAN.md`。
+- 已将平台接入能力拆为 Catalog / Evidence / Memory / Orchestration 四层：Catalog Layer 是 current；Evidence Layer、Memory Layer、Orchestration Layer 仍为 next / future。
+- 已定义设计级合同边界：Evidence Availability Contract、future Document Evidence Search Contract、low-sensitive Memory Continuity Contract、Feedback Contract、Capability Response Contract。
+- 已固定用户侧口径：catalog metadata 不是正文 evidence；`related_file_ids` / `query_id` / feedback labels 不表示 Hermes 已读取或记住 NAS 文件内容；content-level DWG/RVT/BIM/PDF/Office 问题在 catalog-only 下必须 Missing Evidence。
+- 共享 `DigitalDeliveryProject` 已读取；`agent-briefings/hermes_capability_handoff.md` 与 `docs/01_capability_matrix.md` 已包含 Hermes layers 相关条目；本阶段未修改共享文件。
+- 本阶段 docs-only；未改 runtime code/tests，未运行 API/CLI/Gateway/DB/NAS smoke，未连接真实系统，未执行 parser/scratch/writer/repair/backfill/reindex/delete/migration/rollout。
+- 下一步：Codex B review Phase 2.104；通过后由用户显式授权 docs baseline。不得自动进入 Phase 2.104a。
+
 ## 2026-05-20 Phase 2.103 Test Machine Update + Hermes Capability Maximization Handoff
 
 - 新增 `docs/PHASE2103_TEST_MACHINE_UPDATE_AND_CAPABILITY_HANDOFF.md`。
@@ -767,6 +777,8 @@
 - [Phase 2.100 Prompt] Phase 2.99 baseline 已完成：commit `e052828`，tag `phase-2.99-standard-boundary-alignment-baseline`，pushed=true。Codex B 已纠正 Phase 2 收口策略：不能因阶段号到 100 就 closeout，必须先按 `PRD.md`、`ROADMAP.md`、`TECHNICAL_DESIGN.md` 建立 Phase 2 / Phase 3 boundary acceptance audit。只有 Phase 2 required / MVP required 项完成，或经用户批准重分类到 backlog / Phase 3+ 后，才能进入 Phase 2 closeout。
 
 - [Phase 2.100 Correction] 用户明确指出 Phase 2 不能因为阶段号到 100 就急于收口，必须先完成原始 PRD / Roadmap / Technical Design 对 Phase 2 与 Phase 3 的边界验收。Codex B 已撤回固定四阶段 closeout 口径，改为 Phase 2 / Phase 3 boundary acceptance audit：先建立 requirement matrix，再判断哪些完成、哪些 partial、哪些仍属 Phase 2、哪些需用户批准后移入 Phase 3+。
+
+- [Phase 2.104 Prompt] Phase 2.103 baseline 已完成：commit `3c38a06`，tag `phase-2.103-test-machine-capability-handoff-baseline`，pushed=true；测试机已成功 checkout，docs-only handoff 可用。Codex B 将下一步推进为 Platform Layered Capability Plan：把平台接入从 `catalog-only` 说明扩展为 `Catalog Layer -> Evidence Layer -> Memory Layer -> Orchestration Layer` 的主线设计，解决 Hermes 被误接成路径问答 AI 的产品风险。本阶段只做 docs / contract planning，要求读取共享 `DigitalDeliveryProject` 契约与 `hermes_capability_handoff.md`；继续禁止 runtime code、测试修改、新工具实现、API / CLI / Gateway / DB / NAS smoke、DB/NAS 连接、raw row/path/secret 输出、parser、writer、index/object-store/memory 写入、Agent DB CRUD、Agent SQL、DWG/RVT/BIM 内容理解、Phase 3 transition 和 rollout。
 
 ## 2026-05-19 16:52 Phase 2.101 PRD Acceptance Gap Closure Plan Prompt
 
