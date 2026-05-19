@@ -7226,3 +7226,22 @@
 - risks: Phase 2 metric closeout remains `not_ready`; PRD/Roadmap numeric targets still lack committed numerator / denominator; unrelated untracked `docs/digital-delivery-standards/` files must not be staged by default.
 - next: Codex B review `docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md`; if accepted, user may authorize selective docs baseline. Do not enter Phase 2.102a automatically.
 - commit/tag if any: none.
+
+## 2026-05-19 17:40 Phase 2.102a Eval Inventory Manifest Prompt
+
+- goal: Move from Phase 2.102 metric evidence pack baseline into a docs/data-manifest eval inventory phase.
+- background: Phase 2.102 baseline completed at `a5c1490`, tag `phase-2.102-metric-evaluation-evidence-pack-baseline`, pushed=true.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- next: Codex A should create `eval/phase2_inventory/phase2_eval_inventory_manifest.json` and `docs/PHASE2102A_EVAL_INVENTORY_MANIFEST.md`, then stop for Codex B review.
+- boundaries: no runtime code/tests, no API/CLI/Gateway/DB/NAS smoke, no ignored reports/raw rows/NAS paths/secrets, no parser/scratch/writer, no DB/index/object-store writes, no repair/reindex/migration/delete, no rollout, no Top5/citation scoring, no Phase 3 transition, no PRD 100+/Roadmap 300+ satisfaction claim unless counts actually exist.
+- commit/tag if any: none.
+
+## 2026-05-19 18:01 Phase 2.102a Eval Inventory Manifest
+
+- goal: Create a committed starter eval inventory manifest with stable case IDs, groups, expected evidence/citation fields, and metric eligibility.
+- changed_files: `eval/phase2_inventory/phase2_eval_inventory_manifest.json`, `docs/PHASE2102A_EVAL_INVENTORY_MANIFEST.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: manifest JSON parse; `git diff --check`; latest JSON parse; latest ignore check; `git status --short --untracked-files=all`.
+- validation: Starter inventory contains 19 accepted cases, 15 metric-eligible cases, 4 metric-ineligible cases, and all 12 required groups; it does not compute Top5 / citation accuracy and does not satisfy PRD 100+ or Roadmap 300+.
+- risks: Gateway/Data Steward/Missing Evidence/natural import entries are intentionally metric-ineligible; official account/PDF/HTML evidence remains incomplete; unrelated untracked `docs/digital-delivery-standards/` files must not be staged by default.
+- next: Codex B review Phase 2.102a manifest; if accepted, user may authorize selective docs/data baseline. Do not enter Phase 2.102b automatically.
+- commit/tag if any: none.

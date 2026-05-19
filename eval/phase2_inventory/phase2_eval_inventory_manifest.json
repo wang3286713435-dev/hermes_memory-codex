@@ -1,0 +1,559 @@
+{
+  "schema_version": "phase2_eval_inventory_manifest.v1",
+  "phase": "Phase 2.102a",
+  "purpose": "Define a committed starter inventory of Phase 2 evaluation cases with stable IDs, groups, evidence expectations, citation expectations, and metric eligibility. This manifest establishes a denominator seed for later scoring; it does not compute Top5 or citation accuracy.",
+  "source_refs": [
+    "docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md",
+    "docs/PHASE2101_PRD_ACCEPTANCE_GAP_CLOSURE_PLAN.md",
+    "docs/PHASE214_REGRESSION_EVAL_PLAN.md",
+    "docs/PRD_ACCEPTANCE_MATRIX.md",
+    "scripts/phase214_regression_eval.py"
+  ],
+  "inventory_status": "starter_inventory_not_prd_or_roadmap_complete",
+  "target_counts": {
+    "prd_minimum_eval_questions": 100,
+    "roadmap_phase2_eval_questions": 300,
+    "prd_top5_target": "80%+",
+    "roadmap_top5_target": "85%+",
+    "prd_citation_accuracy_target": "85%+",
+    "roadmap_citation_accuracy_target": "90%+",
+    "structured_fact_manual_spot_check_target": "90%+"
+  },
+  "summary": {
+    "accepted_case_count": 19,
+    "metric_eligible_case_count": 15,
+    "metric_ineligible_case_count": 4,
+    "groups_covered": [
+      "core_retrieval",
+      "tender_metadata",
+      "excel_structured_citation",
+      "pptx_structured_citation",
+      "meeting_transcript_boundary",
+      "facts_boundary",
+      "version_governance",
+      "permission_denial",
+      "gateway_catalog_only",
+      "data_steward_catalog_only",
+      "missing_evidence_unsupported_content",
+      "natural_import_usability"
+    ],
+    "source_categories_covered": [
+      "tender",
+      "spreadsheet",
+      "presentation",
+      "meeting",
+      "facts_fixture",
+      "governance_fixture",
+      "gateway_catalog",
+      "data_steward_catalog",
+      "unsupported_content",
+      "natural_import_flow"
+    ],
+    "prd_100_target_status": "not_satisfied_19_of_100",
+    "roadmap_300_target_status": "not_satisfied_19_of_300",
+    "top5_scoring_status": "not_computed",
+    "citation_accuracy_scoring_status": "not_computed",
+    "structured_fact_manual_spot_check_status": "not_computed"
+  },
+  "cases": [
+    {
+      "case_id": "phase2_core_001_qa_doc_single_file_scope",
+      "group": "core_retrieval",
+      "question": "答疑补遗文件中说明了哪些补充内容？",
+      "source_category": "tender",
+      "expected_evidence_mode": "scoped_retrieval",
+      "expected_document_refs": [
+        "document_id:1db84714-d49f-48a2-8fa9-c6f73424dd32"
+      ],
+      "expected_citation_fields": [
+        "source_chunk_id"
+      ],
+      "forbidden_behaviors": [
+        "return_main_tender_document",
+        "return_delivery_standard_document",
+        "return_meeting_document",
+        "answer_without_retrieval_evidence"
+      ],
+      "metric_eligible": true,
+      "metric_exclusion_reason": "",
+      "evidence_ref": "scripts/phase214_regression_eval.py:builtin_eval_cases:qa_doc_single_file_scope",
+      "notes": "Existing deterministic API eval case for single-file scope."
+    },
+    {
+      "case_id": "phase2_core_002_delivery_standard_old_scope",
+      "group": "core_retrieval",
+      "question": "数字化交付标准有哪些主要要求？",
+      "source_category": "tender",
+      "expected_evidence_mode": "scoped_retrieval",
+      "expected_document_refs": [
+        "document_id:46372530-ea3d-4442-bd67-23efeb0b70df"
+      ],
+      "expected_citation_fields": [
+        "source_chunk_id"
+      ],
+      "forbidden_behaviors": [
+        "return_qa_document",
+        "return_main_tender_document",
+        "return_meeting_document",
+        "answer_without_retrieval_evidence"
+      ],
+      "metric_eligible": true,
+      "metric_exclusion_reason": "",
+      "evidence_ref": "scripts/phase214_regression_eval.py:builtin_eval_cases:delivery_standard_old_scope",
+      "notes": "Existing deterministic API eval case for old delivery standard scope."
+    },
+    {
+      "case_id": "phase2_tender_001_main_basic_info_snapshot",
+      "group": "tender_metadata",
+      "question": "工程地点、建设单位、代建单位分别是什么？",
+      "source_category": "tender",
+      "expected_evidence_mode": "metadata_guided_retrieval",
+      "expected_document_refs": [
+        "document_id:869d4684-0a98-4825-bc72-ada65c15cfc9"
+      ],
+      "expected_citation_fields": [
+        "source_chunk_id"
+      ],
+      "forbidden_behaviors": [
+        "snapshot_as_answer",
+        "return_meeting_document",
+        "return_compare_tender_document",
+        "answer_without_retrieval_evidence"
+      ],
+      "metric_eligible": true,
+      "metric_exclusion_reason": "",
+      "evidence_ref": "scripts/phase214_regression_eval.py:builtin_eval_cases:tender_main_basic_info_snapshot",
+      "notes": "Existing deterministic API eval case requiring metadata snapshot as navigation only."
+    },
+    {
+      "case_id": "phase2_tender_002_main_schedule_no_compare_pollution",
+      "group": "tender_metadata",
+      "question": "总工期和关键节点怎么要求？",
+      "source_category": "tender",
+      "expected_evidence_mode": "hybrid_scoped_retrieval",
+      "expected_document_refs": [
+        "document_id:869d4684-0a98-4825-bc72-ada65c15cfc9"
+      ],
+      "expected_citation_fields": [
+        "source_chunk_id"
+      ],
+      "forbidden_behaviors": [
+        "return_compare_tender_document",
+        "return_meeting_document",
+        "answer_without_retrieval_evidence"
+      ],
+      "metric_eligible": true,
+      "metric_exclusion_reason": "",
+      "evidence_ref": "scripts/phase214_regression_eval.py:builtin_eval_cases:main_tender_schedule_no_compare_pollution",
+      "notes": "Existing deterministic API eval case with dense/sparse/hybrid checks."
+    },
+    {
+      "case_id": "phase2_tender_003_compare_schedule_no_main_pollution",
+      "group": "tender_metadata",
+      "question": "总工期和关键节点怎么要求？",
+      "source_category": "tender",
+      "expected_evidence_mode": "hybrid_scoped_retrieval",
+      "expected_document_refs": [
+        "document_id:a47a409f-cb8a-4d29-b938-43c10767802d"
+      ],
+      "expected_citation_fields": [
+        "source_chunk_id"
+      ],
+      "forbidden_behaviors": [
+        "return_main_tender_document",
+        "return_meeting_document",
+        "answer_without_retrieval_evidence"
+      ],
+      "metric_eligible": true,
+      "metric_exclusion_reason": "",
+      "evidence_ref": "scripts/phase214_regression_eval.py:builtin_eval_cases:compare_tender_schedule_no_main_pollution",
+      "notes": "Existing deterministic API eval case for second tender no-pollution behavior."
+    },
+    {
+      "case_id": "phase2_excel_001_sheet_cell_citation",
+      "group": "excel_structured_citation",
+      "question": "投标总价 付款比例",
+      "source_category": "spreadsheet",
+      "expected_evidence_mode": "structured_file_retrieval",
+      "expected_document_refs": [
+        "document_id:976d7376-6fd1-4285-9e8f-5772210d6558"
+      ],
+      "expected_citation_fields": [
+        "sheet_name",
+        "cell_range"
+      ],
+      "forbidden_behaviors": [
+        "return_main_tender_document",
+        "return_pptx_document",
+        "omit_structured_citation",
+        "answer_without_retrieval_evidence"
+      ],
+      "metric_eligible": true,
+      "metric_exclusion_reason": "",
+      "evidence_ref": "scripts/phase214_regression_eval.py:builtin_eval_cases:excel_sheet_cell_citation",
+      "notes": "Existing deterministic API eval case for Excel structured citation."
+    },
+    {
+      "case_id": "phase2_pptx_001_slide_citation",
+      "group": "pptx_structured_citation",
+      "question": "智慧建筑脑机系统这一页讲了什么？",
+      "source_category": "presentation",
+      "expected_evidence_mode": "structured_file_retrieval",
+      "expected_document_refs": [
+        "document_id:ecf7583c-0180-46f9-a013-88480bbcdc3e"
+      ],
+      "expected_citation_fields": [
+        "slide_number",
+        "slide_title"
+      ],
+      "forbidden_behaviors": [
+        "return_excel_document",
+        "return_main_tender_document",
+        "omit_structured_citation",
+        "answer_without_retrieval_evidence"
+      ],
+      "metric_eligible": true,
+      "metric_exclusion_reason": "",
+      "evidence_ref": "scripts/phase214_regression_eval.py:builtin_eval_cases:pptx_slide_citation",
+      "notes": "Existing deterministic API eval case for PPTX structured citation."
+    },
+    {
+      "case_id": "phase2_meeting_001_action_items",
+      "group": "meeting_transcript_boundary",
+      "question": "会议里有哪些行动项？",
+      "source_category": "meeting",
+      "expected_evidence_mode": "meeting_transcript_retrieval",
+      "expected_document_refs": [
+        "document_id:92051cc6-56b5-4930-bdf0-119163c83a75"
+      ],
+      "expected_citation_fields": [
+        "action_item",
+        "source_chunk_id"
+      ],
+      "forbidden_behaviors": [
+        "transcript_as_fact",
+        "return_main_tender_document",
+        "return_qa_document",
+        "answer_without_retrieval_evidence"
+      ],
+      "metric_eligible": true,
+      "metric_exclusion_reason": "",
+      "evidence_ref": "scripts/phase214_regression_eval.py:builtin_eval_cases:meeting_action_items",
+      "notes": "Existing deterministic API eval case for meeting action item retrieval and transcript boundary."
+    },
+    {
+      "case_id": "phase2_meeting_002_decisions",
+      "group": "meeting_transcript_boundary",
+      "question": "会议里形成了哪些决策？",
+      "source_category": "meeting",
+      "expected_evidence_mode": "meeting_transcript_retrieval",
+      "expected_document_refs": [
+        "document_id:92051cc6-56b5-4930-bdf0-119163c83a75"
+      ],
+      "expected_citation_fields": [
+        "decision",
+        "source_chunk_id"
+      ],
+      "forbidden_behaviors": [
+        "transcript_as_fact",
+        "return_main_tender_document",
+        "return_qa_document",
+        "answer_without_retrieval_evidence"
+      ],
+      "metric_eligible": true,
+      "metric_exclusion_reason": "",
+      "evidence_ref": "scripts/phase214_regression_eval.py:builtin_eval_cases:meeting_decisions",
+      "notes": "Existing deterministic API eval case for meeting decision retrieval and transcript boundary."
+    },
+    {
+      "case_id": "phase2_meeting_003_risks",
+      "group": "meeting_transcript_boundary",
+      "question": "会议中提到哪些风险？",
+      "source_category": "meeting",
+      "expected_evidence_mode": "meeting_transcript_retrieval",
+      "expected_document_refs": [
+        "document_id:92051cc6-56b5-4930-bdf0-119163c83a75"
+      ],
+      "expected_citation_fields": [
+        "risk",
+        "source_chunk_id"
+      ],
+      "forbidden_behaviors": [
+        "transcript_as_fact",
+        "return_main_tender_document",
+        "return_qa_document",
+        "answer_without_retrieval_evidence"
+      ],
+      "metric_eligible": true,
+      "metric_exclusion_reason": "",
+      "evidence_ref": "scripts/phase214_regression_eval.py:builtin_eval_cases:meeting_risks",
+      "notes": "Existing deterministic API eval case for meeting risk retrieval and transcript boundary."
+    },
+    {
+      "case_id": "phase2_facts_001_source_fields_present",
+      "group": "facts_boundary",
+      "question": "phase221b:* fact must keep source_document_id/source_version_id/source_chunk_id.",
+      "source_category": "facts_fixture",
+      "expected_evidence_mode": "facts_service_eval",
+      "expected_document_refs": [
+        "fixture:phase221b-facts-doc"
+      ],
+      "expected_citation_fields": [
+        "source_document_id",
+        "source_version_id",
+        "source_chunk_id"
+      ],
+      "forbidden_behaviors": [
+        "fact_without_source_chunk",
+        "facts_as_answer",
+        "fact_replaces_retrieval_evidence"
+      ],
+      "metric_eligible": true,
+      "metric_exclusion_reason": "",
+      "evidence_ref": "scripts/phase214_regression_eval.py:builtin_facts_eval_cases:facts_source_fields_present",
+      "notes": "Existing facts eval fixture; this is not the Roadmap 90% manual spot-check metric."
+    },
+    {
+      "case_id": "phase2_facts_002_confirmed_status",
+      "group": "facts_boundary",
+      "question": "phase221b:* confirmed fact status must be detectable without entering final answer generation.",
+      "source_category": "facts_fixture",
+      "expected_evidence_mode": "facts_service_eval",
+      "expected_document_refs": [
+        "fixture:phase221b-facts-doc"
+      ],
+      "expected_citation_fields": [
+        "verification_status",
+        "source_document_id",
+        "source_version_id",
+        "source_chunk_id"
+      ],
+      "forbidden_behaviors": [
+        "facts_as_answer",
+        "fact_replaces_retrieval_evidence",
+        "unverified_fact_marked_confirmed"
+      ],
+      "metric_eligible": true,
+      "metric_exclusion_reason": "",
+      "evidence_ref": "scripts/phase214_regression_eval.py:builtin_facts_eval_cases:facts_confirmed_status",
+      "notes": "Existing facts eval fixture for status handling."
+    },
+    {
+      "case_id": "phase2_version_001_default_latest_only",
+      "group": "version_governance",
+      "question": "phase220 version governance keyword",
+      "source_category": "governance_fixture",
+      "expected_evidence_mode": "latest_version_retrieval",
+      "expected_document_refs": [
+        "fixture:phase220-version-doc",
+        "expected_version:phase220-version-v2"
+      ],
+      "expected_citation_fields": [
+        "version_id",
+        "source_chunk_id"
+      ],
+      "forbidden_behaviors": [
+        "return_superseded_version_by_default",
+        "omit_evidence_version_id"
+      ],
+      "metric_eligible": true,
+      "metric_exclusion_reason": "",
+      "evidence_ref": "scripts/phase214_regression_eval.py:builtin_eval_cases:gov_version_default_latest_only",
+      "notes": "Existing governance eval fixture for default latest behavior."
+    },
+    {
+      "case_id": "phase2_version_002_explicit_old_version",
+      "group": "version_governance",
+      "question": "phase220 version governance keyword with explicit old version_id",
+      "source_category": "governance_fixture",
+      "expected_evidence_mode": "explicit_historical_version_retrieval",
+      "expected_document_refs": [
+        "fixture:phase220-version-doc",
+        "expected_version:phase220-version-v1"
+      ],
+      "expected_citation_fields": [
+        "version_id",
+        "source_chunk_id",
+        "latest_version_id"
+      ],
+      "forbidden_behaviors": [
+        "hide_stale_version_trace",
+        "return_latest_when_explicit_old_requested",
+        "omit_evidence_version_id"
+      ],
+      "metric_eligible": true,
+      "metric_exclusion_reason": "",
+      "evidence_ref": "scripts/phase214_regression_eval.py:builtin_eval_cases:gov_version_explicit_old_version",
+      "notes": "Existing governance eval fixture for explicit historical version and stale trace."
+    },
+    {
+      "case_id": "phase2_permission_001_tenant_mismatch_deny",
+      "group": "permission_denial",
+      "question": "phase220 tenant deny keyword",
+      "source_category": "governance_fixture",
+      "expected_evidence_mode": "permission_denial",
+      "expected_document_refs": [
+        "forbidden_document:phase220-deny-doc"
+      ],
+      "expected_citation_fields": [
+        "policy_decision",
+        "denied_document_ids",
+        "evidence_chunk_ids"
+      ],
+      "forbidden_behaviors": [
+        "return_denied_document",
+        "return_denied_version",
+        "leak_denied_evidence",
+        "omit_audit_denial"
+      ],
+      "metric_eligible": true,
+      "metric_exclusion_reason": "",
+      "evidence_ref": "scripts/phase214_regression_eval.py:builtin_eval_cases:gov_access_tenant_mismatch_deny",
+      "notes": "Existing governance eval fixture for no unauthorized recall under tenant mismatch."
+    },
+    {
+      "case_id": "phase2_gateway_001_catalog_only_content_question",
+      "group": "gateway_catalog_only",
+      "question": "Gateway catalog-only path: ask a DWG/RVT/BIM content question through read-only catalog boundary.",
+      "source_category": "gateway_catalog",
+      "expected_evidence_mode": "catalog_only_missing_evidence",
+      "expected_document_refs": [
+        "phase_doc:docs/PHASE296_GATEWAY_CONTROLLED_SMOKE_RESULT_REVIEW.md",
+        "phase_doc:docs/PHASE297_FRONTEND_GATEWAY_READONLY_TRIAL_RUNBOOK.md"
+      ],
+      "expected_citation_fields": [
+        "query_id",
+        "file_id_or_model_id",
+        "source_view",
+        "asset_catalog_only"
+      ],
+      "forbidden_behaviors": [
+        "return_raw_storage_path",
+        "return_raw_row",
+        "claim_file_content_evidence",
+        "write_db_or_index",
+        "production_rollout_claim"
+      ],
+      "metric_eligible": false,
+      "metric_exclusion_reason": "Gateway evidence is committed as read-only controlled smoke / runbook evidence, not an API deterministic eval case with numerator and denominator.",
+      "evidence_ref": "docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md:M11",
+      "notes": "Included to keep source coverage visible; it must not be counted as Top5/citation metric evidence until converted into an accepted executable eval."
+    },
+    {
+      "case_id": "phase2_data_steward_001_catalog_only_boundary",
+      "group": "data_steward_catalog_only",
+      "question": "Data Steward catalog-only boundary: ask for BIM/NAS content when only catalog metadata is available.",
+      "source_category": "data_steward_catalog",
+      "expected_evidence_mode": "catalog_only_missing_evidence",
+      "expected_document_refs": [
+        "phase_doc:docs/DATA_STEWARD_AGENT_RISK_BOUNDARY.md",
+        "phase_doc:docs/PHASE239_DATA_STEWARD_PRODUCT_PLAN.md"
+      ],
+      "expected_citation_fields": [
+        "asset_catalog_only",
+        "redacted_identifier",
+        "missing_full_text_evidence"
+      ],
+      "forbidden_behaviors": [
+        "treat_catalog_metadata_as_content_evidence",
+        "return_nas_path",
+        "claim_bim_content_understanding",
+        "write_db_or_index"
+      ],
+      "metric_eligible": false,
+      "metric_exclusion_reason": "Data Steward is currently catalog-only planning/boundary evidence and is not an executable retrieval metric case.",
+      "evidence_ref": "docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md:M12",
+      "notes": "Kept as explicit Phase 2 boundary evidence, not as production Data Steward proof."
+    },
+    {
+      "case_id": "phase2_missing_evidence_001_unsupported_pdf_or_model_content",
+      "group": "missing_evidence_unsupported_content",
+      "question": "Unsupported content question should return Missing Evidence rather than inventing DWG/RVT/PDF body evidence.",
+      "source_category": "unsupported_content",
+      "expected_evidence_mode": "missing_evidence_boundary",
+      "expected_document_refs": [
+        "phase_doc:docs/PHASE299_STANDARD_BOUNDARY_PROMPT_TOOL_ALIGNMENT.md",
+        "phase_doc:docs/PHASE298_STANDARD_AGENT_BOUNDARY_REVIEW.md"
+      ],
+      "expected_citation_fields": [
+        "missing_evidence_reason",
+        "required_evidence_type"
+      ],
+      "forbidden_behaviors": [
+        "invent_pdf_body_evidence",
+        "invent_dwg_or_rvt_content",
+        "claim_current_lineage_as_content_evidence"
+      ],
+      "metric_eligible": false,
+      "metric_exclusion_reason": "Committed evidence is a boundary artifact and targeted test class, not yet an accepted end-to-end metric case.",
+      "evidence_ref": "docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md:M15",
+      "notes": "This case should become executable before citation/Top5 metric scoring includes unsupported-content behavior."
+    },
+    {
+      "case_id": "phase2_natural_import_001_user_facing_import_flow",
+      "group": "natural_import_usability",
+      "question": "User asks Hermes to import a file naturally and expects clear acceptance, limitations, and evidence boundary.",
+      "source_category": "natural_import_flow",
+      "expected_evidence_mode": "usability_flow",
+      "expected_document_refs": [
+        "phase_note:DEV_LOG Phase 2.53 natural import planning/integration",
+        "docs/PRD_ACCEPTANCE_MATRIX.md:natural-language import usability"
+      ],
+      "expected_citation_fields": [
+        "import_status",
+        "document_id_or_missing_reason",
+        "evidence_boundary"
+      ],
+      "forbidden_behaviors": [
+        "claim_live_user_import_metric_without_smoke",
+        "write_unapproved_business_data",
+        "skip_evidence_boundary"
+      ],
+      "metric_eligible": false,
+      "metric_exclusion_reason": "Natural-language import has planning/mock evidence but no committed live usability result for metric scoring.",
+      "evidence_ref": "docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md:M14",
+      "notes": "Included to make the usability gap explicit before controlled employee trial evidence packaging."
+    }
+  ],
+  "known_gaps": [
+    {
+      "gap_id": "inventory_count_prd_100",
+      "description": "The starter inventory contains 19 accepted cases, not the PRD target of 100+ high-quality evaluation questions.",
+      "next_action": "Expand with reviewed cases before PRD metric scoring."
+    },
+    {
+      "gap_id": "inventory_count_roadmap_300",
+      "description": "The starter inventory contains 19 accepted cases, not the Roadmap Phase 2 target of 300+ questions.",
+      "next_action": "User decision required if Roadmap 300+ remains a Phase 2 closeout blocker."
+    },
+    {
+      "gap_id": "top5_not_computed",
+      "description": "This phase does not compute Top5 hit rate.",
+      "next_action": "Phase 2.102b may compute Top5 only after inventory review."
+    },
+    {
+      "gap_id": "citation_accuracy_not_computed",
+      "description": "This phase does not compute aggregate citation accuracy.",
+      "next_action": "Phase 2.102b may compute citation accuracy only after inventory review."
+    },
+    {
+      "gap_id": "structured_fact_manual_spot_check_missing",
+      "description": "Facts eval fixtures exist, but the Roadmap 90% structured fact manual spot-check is not present.",
+      "next_action": "Create manual reviewer sample and scoring artifact in a later phase."
+    },
+    {
+      "gap_id": "official_account_pdf_html_evidence_missing",
+      "description": "Official account, PDF parsing, and HTML parsing are not consolidated as metric-ready source/parser evidence.",
+      "next_action": "Create parser/source evidence pack or user-approved deferral."
+    }
+  ],
+  "safety_boundaries": [
+    "This manifest does not compute metrics.",
+    "This manifest does not run API, CLI, DB, NAS, Gateway, parser, repair, backfill, reindex, migration, or rollout.",
+    "Catalog metadata must not be treated as file-content evidence.",
+    "Facts must not replace retrieval evidence.",
+    "Meeting transcript evidence must not be marked as confirmed fact.",
+    "Gateway and Data Steward cases remain read-only / catalog-only unless a later phase makes them executable eval cases.",
+    "Do not claim PRD 100+ or Roadmap 300+ target satisfaction from this starter inventory."
+  ]
+}

@@ -1,5 +1,14 @@
 # DEV_LOG
 
+## 2026-05-19 Phase 2.102a Eval Inventory Manifest
+
+- 新增 `eval/phase2_inventory/phase2_eval_inventory_manifest.json`。
+- 新增 `docs/PHASE2102A_EVAL_INVENTORY_MANIFEST.md`。
+- Starter inventory 当前包含 19 个 accepted cases、15 个 metric-eligible cases、4 个 metric-ineligible cases，覆盖 `core_retrieval`、`tender_metadata`、`excel_structured_citation`、`pptx_structured_citation`、`meeting_transcript_boundary`、`facts_boundary`、`version_governance`、`permission_denial`、`gateway_catalog_only`、`data_steward_catalog_only`、`missing_evidence_unsupported_content`、`natural_import_usability`。
+- 当前结论：PRD 100+ / Roadmap 300+ 仍未满足；Top5、citation accuracy、structured fact manual spot-check 均未计算。
+- 本阶段 docs/data-manifest only；未改 runtime code，未改 tests，未运行 API/CLI/Gateway/DB/NAS smoke，未读取 ignored reports/raw rows/NAS paths/secrets，未执行 parser/scratch/writer/repair/backfill/reindex/delete/migration/rollout。
+- 下一步：Codex B review Phase 2.102a；若通过，再由用户显式授权 selective docs/data baseline。
+
 ## 2026-05-19 Phase 2.102 Metric / Evaluation Evidence Pack
 
 - 新增 `docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md`。
@@ -745,4 +754,13 @@
 - validation: Prompt-only handoff; no runtime validation required before Codex A executes.
 - decision: Phase 2 remains open; Phase 2.102 will determine which PRD/Roadmap metrics have committed evidence and which remain missing/partial.
 - risks: Do not convert smoke results into percentage metrics without denominators; do not read ignored reports or private run records; do not treat Gateway/Data Steward catalog-only evidence as production or content evidence.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` and stops for Codex B review.
+
+## 2026-05-19 17:40 Phase 2.102a Eval Inventory Manifest Prompt
+
+- goal: Prepare Codex A handoff for a committed eval inventory manifest.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Prompt-only handoff; no runtime validation required before Codex A executes.
+- decision: Phase 2 remains open; Phase 2.102a creates denominators / eligibility metadata before any metric scoring.
+- risks: Do not fabricate 100+ / 300+ cases; do not compute Top5/citation scores; do not stage unrelated `docs/digital-delivery-standards/`.
 - next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` and stops for Codex B review.

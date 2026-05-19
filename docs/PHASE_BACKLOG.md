@@ -1,5 +1,23 @@
 # Phase Backlog
 
+## Phase 2.102a Eval Inventory Manifest
+
+1. Phase 2.102a 是 metric scoring 前置阶段：先建立 accepted eval inventory，后续 Phase 2.102b 才能计算 Top5 / citation accuracy。
+2. Manifest 必须包含 schema、source refs、target counts、summary、cases、known gaps 与 safety boundaries。
+3. 每个 case 必须包含 `case_id`、`group`、`question`、`source_category`、`expected_evidence_mode`、`expected_document_refs`、`expected_citation_fields`、`forbidden_behaviors`、`metric_eligible`、`metric_exclusion_reason`、`evidence_ref`、`notes`。
+4. 如果 committed evidence 不足，case 应标 `metric_eligible=false`，不能编造 100+ / 300+ 数量或指标。
+5. 既有 untracked `docs/digital-delivery-standards/` 仍不属于本阶段，默认不得 stage。
+
+
+## Phase 2.102a Eval Inventory Manifest
+
+1. Phase 2.102a docs/data-manifest step 已完成：新增 `eval/phase2_inventory/phase2_eval_inventory_manifest.json` 与 `docs/PHASE2102A_EVAL_INVENTORY_MANIFEST.md`。
+2. Starter inventory 当前包含 19 个 accepted cases、15 个 metric-eligible cases、4 个 metric-ineligible cases，覆盖 12 个 required groups。
+3. 当前明确未满足：PRD 100+、Roadmap 300+、Top5 80/85、citation 85/90、structured fact manual spot-check 90。
+4. Gateway / Data Steward / Missing Evidence / natural import 当前作为 boundary / planning / smoke evidence 保留为 metric-ineligible，不得计入 Top5 / citation denominator。
+5. 下一步：Codex B review Phase 2.102a manifest；通过后由用户显式授权 selective docs/data baseline。
+6. 不得自动进入 Phase 2.102b scoring；scoring 前必须先确认 inventory boundary。
+
 ## Phase 2.102 Metric / Evaluation Evidence Pack
 
 1. Phase 2.102 docs-only evidence pack 已完成：新增 `docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md`。

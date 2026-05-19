@@ -1,5 +1,15 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.102a Eval Inventory Manifest
+
+1. Phase 2.102 baseline 已完成：commit `a5c1490`，tag `phase-2.102-metric-evaluation-evidence-pack-baseline`，pushed=true。
+2. 已新增 `eval/phase2_inventory/phase2_eval_inventory_manifest.json` 和 `docs/PHASE2102A_EVAL_INVENTORY_MANIFEST.md`，建立稳定 question IDs / groups / expected evidence / citation expectations / metric eligibility。
+3. 当前 starter inventory：19 accepted cases、15 metric-eligible cases、4 metric-ineligible cases，覆盖 12 个 required groups。
+4. 本阶段未计算 Top5 / citation accuracy，未声称 PRD 100+ 或 Roadmap 300+ 已满足。
+5. 仅使用 committed docs/tests 作为 evidence refs，未读取 ignored reports、raw DB rows、NAS paths、secrets 或 private run records。
+6. 下一步：Codex B review Phase 2.102a manifest；通过后由用户显式授权 selective docs/data baseline。
+
+
 ## Phase 2.102 Metric / Evaluation Evidence Pack
 
 1. Phase 2.101 baseline 已完成：commit `5f15852`，tag `phase-2.101-prd-acceptance-gap-closure-plan-baseline`，pushed=true。
