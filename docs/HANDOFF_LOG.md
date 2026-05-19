@@ -7274,3 +7274,32 @@
 - risks: Phase 2 closeout readiness remains false; current inventory remains 19 cases, not PRD 100+ or Roadmap 300+; true metric results still need reviewed committed result JSON.
 - next: Complete final validation and stop for Codex B re-review. Do not baseline or enter Phase 2.103 automatically.
 - commit/tag if any: none.
+
+## 2026-05-20 03:48 Phase 2.103 Test Machine Update + Hermes Capability Maximization Handoff
+
+- goal: Create docs-only handoff pack for test-machine update to Phase 2.102b and DB/platform team Hermes capability boundaries.
+- changed_files: `docs/PHASE2103_TEST_MACHINE_UPDATE_AND_CAPABILITY_HANDOFF.md`, `docs/CODEX_TEST_MACHINE_UPDATE_TO_PHASE2102B_PROMPT.md`, `docs/DB_TEAM_HERMES_CAPABILITY_MAXIMIZATION_HANDOFF.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON parse passed; latest ignore check passed; `git status --short --untracked-files=all` reviewed.
+- validation: Handoff pack keeps test-machine update local and safe; positions Hermes as evidence-first enterprise memory kernel + permission-aware catalog agent; preserves catalog-only/read-only/Missing Evidence boundary and blocks DWG/RVT/BIM/NAS/DB overclaim.
+- risks: Phase 2 closeout readiness remains false; current blockers remain PRD 100+ / Roadmap 300+ eval cases, reviewed result JSON, real Top5/citation scoring, and structured fact manual spot-check.
+- next: Complete final validation and stop for Codex B review. Do not baseline or enter Phase 2.104 automatically.
+- commit/tag if any: none.
+
+## 2026-05-20 03:57 Phase 2.103a Capability Handoff Wording Fix
+
+- goal: Remove ambiguous `existing memory evidence` wording from DB/platform handoff docs.
+- changed_files: `docs/DB_TEAM_HERMES_CAPABILITY_MAXIMIZATION_HANDOFF.md`, `docs/PHASE2103_TEST_MACHINE_UPDATE_AND_CAPABILITY_HANDOFF.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: dangerous wording grep passed; `git diff --check` passed; latest JSON parse passed; latest ignore check passed; `git status --short --untracked-files=all` reviewed.
+- validation: Wording now separates safe catalog metadata, low-sensitive memory references, and governed content evidence; `related_file_ids` no longer imply Hermes read or remembered file contents.
+- risks: Phase 2 closeout readiness remains false; current platform integration remains catalog-only unless a later phase explicitly enables governed evidence retrieval.
+- next: Complete final validation and stop for Codex B re-review. Do not baseline or enter Phase 2.104 automatically.
+- commit/tag if any: none.
+
+## 2026-05-20 09:10 Phase 2.103 Test Machine Update + Hermes Capability Handoff Prompt
+
+- goal: Move from Phase 2.102b baseline into a docs / handoff pack for test-machine update and database / platform team capability alignment.
+- background: Phase 2.102b baseline completed at `5c37661`, tag `phase-2.102b-metric-scoring-pack-baseline`, pushed=true; test machine currently runs Phase 2.102a and passed read-only Gateway / catalog-only smoke.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- next: Codex A should create test-machine update prompt, database / platform Hermes capability handoff, and Phase 2.103 summary doc, then stop for Codex B review.
+- boundaries: docs / handoff only; no runtime code/tests, no API/CLI/Gateway/DB/NAS smoke, no DB/NAS connection, no raw rows/NAS paths/storage paths/secrets, no parser/scratch/writer, no DB/index/object-store/memory writes, no rollout, no Phase 3 transition, no DWG/RVT/BIM current overclaim.
+- commit/tag if any: none.

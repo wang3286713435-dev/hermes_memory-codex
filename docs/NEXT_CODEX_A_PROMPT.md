@@ -1,73 +1,79 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.102b Codex B Re-review / Baseline Gate
+## Phase 2.103a Codex B Review Fix: Remove Ambiguous Memory Evidence Wording
 
-You are Codex A. Do not continue implementation from this file until Codex B has re-reviewed Phase 2.102b.
+You are Codex A. Execute only this bounded docs fix, then stop for Codex B review.
 
-## Current State
+## Background
 
-Phase 2.102b implementation and Codex B review fix are complete.
+Phase 2.103 handoff pack is complete, but Codex B found one wording blocker in `docs/DB_TEAM_HERMES_CAPABILITY_MAXIMIZATION_HANDOFF.md`.
 
-Changed files:
+Problem sentence:
 
-1. `scripts/phase2102b_metric_scoring_pack.py`
-2. `tests/test_phase2102b_metric_scoring_pack.py`
-3. `docs/PHASE2102B_METRIC_SCORING_PACK.md`
-4. `docs/NEXT_CODEX_A_PROMPT.md`
-5. `docs/ACTIVE_PHASE.md`
-6. `docs/PHASE_BACKLOG.md`
-7. `docs/HANDOFF_LOG.md`
-8. `docs/TODO.md`
-9. `docs/DEV_LOG.md`
-10. ignored `reports/agent_runs/latest.json`
+```text
+Hermes answers from safe catalog metadata and existing memory evidence only.
+```
 
-Existing unrelated untracked files under `docs/digital-delivery-standards/` are not part of Phase 2.102b and must not be staged by default.
+Why this is risky:
 
-## Re-review Checklist
+1. It can make the database / platform team think current catalog-only Gateway integration can already answer from Hermes memory evidence.
+2. It blurs the current boundary between catalog metadata, low-sensitive memory references, and governed content evidence.
+3. It may imply NAS / DB contents are already in Hermes long-term memory, which violates the shared red lines.
 
-Codex B should verify:
+## Required Fix
 
-1. The scorer is offline-only and does not import Hermes runtime modules.
-2. The scorer never connects to DB / NAS / Gateway / OpenSearch / Qdrant / MinIO.
-3. `metric_eligible=false` cases are excluded from Top5 / citation denominators.
-4. Any `forbidden_behaviors_observed` in any known result row, including ineligible cases, yields `status="blocked_for_review"`.
-5. Missing eligible results yield `status="incomplete"` only when there are no forbidden violations.
-6. Unknown result case IDs raise a clear error.
-7. Raw text / raw rows / NAS path / storage path / secret fields are rejected.
-8. `phase2_closeout_readiness=false` is stable.
-9. PRD 100+ / Roadmap 300+ remain not satisfied with the current 19-case inventory.
+Modify only:
 
-## Required Validation Before Baseline
+1. `docs/DB_TEAM_HERMES_CAPABILITY_MAXIMIZATION_HANDOFF.md`
+2. `docs/PHASE2103_TEST_MACHINE_UPDATE_AND_CAPABILITY_HANDOFF.md` if needed for consistency
+3. `docs/NEXT_CODEX_A_PROMPT.md`
+4. `docs/ACTIVE_PHASE.md`
+5. `docs/PHASE_BACKLOG.md`
+6. `docs/HANDOFF_LOG.md`
+7. `docs/TODO.md`
+8. `docs/DEV_LOG.md`
+9. ignored `reports/agent_runs/latest.json`
+
+Do not touch or stage unrelated `docs/digital-delivery-standards/`.
+
+## Required Wording
+
+Replace ambiguous memory-evidence wording with this meaning:
+
+```text
+Hermes answers from safe catalog metadata for catalog questions, and may use only low-sensitive memory references such as related_file_ids / query_id / user feedback labels for continuity. Content-level answers require separately governed retrieval evidence; catalog metadata and low-sensitive memory references must not be treated as file正文 evidence.
+```
+
+Ensure both handoff docs state:
+
+1. low-sensitive memory references are not content evidence;
+2. `related_file_ids` do not mean Hermes has read or remembered file contents;
+3. content answers require governed retrieval / full_text / parser / component evidence;
+4. current platform integration remains catalog-only unless a later phase explicitly enables evidence retrieval.
+
+## Validation
 
 Run:
 
 ```bash
-UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m py_compile scripts/phase2102b_metric_scoring_pack.py
-UV_CACHE_DIR=/private/tmp/uv-cache uv run pytest tests/test_phase2102b_metric_scoring_pack.py -q
 git diff --check
 UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool reports/agent_runs/latest.json >/dev/null
 git check-ignore reports/agent_runs/latest.json
 git status --short --untracked-files=all
 ```
 
-## Baseline Candidate
-
-Only if Codex B review passes and the user explicitly authorizes baseline:
-
-1. stage only Phase 2.102b files listed above, excluding ignored `reports/agent_runs/latest.json`
-2. commit message: `feat: add phase 2 metric scoring pack`
-3. tag: `phase-2.102b-metric-scoring-pack-baseline`
-4. push `origin/main`
-5. push tag
-
 ## Hard Boundaries
 
-1. Do not baseline without user authorization.
-2. Do not stage `docs/digital-delivery-standards/`.
+1. Do not modify runtime code.
+2. Do not modify tests.
 3. Do not run API / CLI / Gateway / DB / NAS smoke.
-4. Do not read ignored private reports unless explicitly passed as `--results`.
-5. Do not read raw rows / NAS paths / storage paths / secrets.
-6. Do not write DB / OpenSearch / Qdrant / MinIO / Gateway / platform DB / Hermes memory.
-7. Do not execute parser / scratch copy / writer smoke / repair / backfill / reindex / delete / migration / rollout.
-8. Do not claim Phase 2 closeout readiness.
-9. Do not enter Phase 2.103 or Phase 3 automatically.
+4. Do not connect to DB / NAS / Gateway.
+5. Do not read or output raw rows, NAS paths, storage paths, secrets, tokens, or `.env` values.
+6. Do not claim DWG/RVT/BIM content understanding.
+7. Do not claim PRD 100+ / Roadmap 300+ target satisfaction.
+8. Do not enter Phase 3 or production rollout.
+9. Do not stage unrelated `docs/digital-delivery-standards/`.
+
+## Completion Report
+
+Report changed files, validation results, and whether Phase 2.103a is ready for Codex B re-review. Stop after the report. Do not baseline.

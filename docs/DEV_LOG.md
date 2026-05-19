@@ -1,5 +1,23 @@
 # DEV_LOG
 
+## 2026-05-20 Phase 2.103 Test Machine Update + Hermes Capability Maximization Handoff
+
+- 新增 `docs/PHASE2103_TEST_MACHINE_UPDATE_AND_CAPABILITY_HANDOFF.md`。
+- 新增 `docs/CODEX_TEST_MACHINE_UPDATE_TO_PHASE2102B_PROMPT.md`。
+- 新增 `docs/DB_TEAM_HERMES_CAPABILITY_MAXIMIZATION_HANDOFF.md`。
+- 测试机 update prompt 限定为 clean worktree、fetch tags、checkout `phase-2.102b-metric-scoring-pack-baseline`、验证 HEAD/tag/files、只跑 py_compile / target pytest / manifest JSON parse；禁止 service restart、API/CLI/Gateway/DB/NAS smoke、secret 输出和任何写入。
+- DB / platform handoff 固定 Hermes 定位：`Evidence-first enterprise memory kernel + permission-aware catalog agent`，并写入官方口号“证据先行，权限闭环；让企业数据可问、可信、可控”。
+- 当前安全接入边界仍是 read-only catalog search、安全 file/model IDs、Missing Evidence、feedback、low-sensitive related IDs memory；DWG/RVT/BIM 内容理解、NAS semantic index、Agent DB CRUD、production rollout 仍为 future。
+- 本阶段 docs-only；未改 runtime code/tests，未运行 API/CLI/Gateway/DB/NAS smoke，未连接真实系统，未执行 parser/scratch/writer/repair/backfill/reindex/delete/migration/rollout。
+- Phase 2 closeout readiness 仍为否；仍缺 PRD 100+ / Roadmap 300+ eval cases、reviewed result JSON、真实 Top5 / citation scoring、structured fact manual spot-check。
+
+## 2026-05-20 Phase 2.103a Capability Handoff Wording Fix
+
+- 修复 Codex B review blocker：移除 `existing memory evidence` 含混表述，避免平台 / DB 团队误解 catalog-only integration 已可从 Hermes memory evidence 作答。
+- `docs/DB_TEAM_HERMES_CAPABILITY_MAXIMIZATION_HANDOFF.md` 与 `docs/PHASE2103_TEST_MACHINE_UPDATE_AND_CAPABILITY_HANDOFF.md` 已明确：catalog questions 来自 safe catalog metadata；low-sensitive memory references 只用于 continuity；`related_file_ids` 不代表 Hermes 已读取、解析、索引或记住文件正文。
+- 已明确 content-level answers 必须有 separately governed retrieval / full-text / parser / component evidence；当前平台集成仍是 catalog-only，除非后续 phase 明确启用 governed evidence retrieval。
+- 本阶段 docs-only；未改 runtime code/tests，未运行 API/CLI/Gateway/DB/NAS smoke，未连接真实系统，未执行 parser/scratch/writer/repair/backfill/reindex/delete/migration/rollout。
+
 ## 2026-05-19 Phase 2.102b Metric Scoring Pack
 
 - 新增 `scripts/phase2102b_metric_scoring_pack.py`。
@@ -784,4 +802,13 @@
 - validation: Prompt-only handoff; no runtime validation required before Codex A executes.
 - decision: Phase 2 remains open; Phase 2.102b will build scoring machinery but cannot satisfy PRD 100+ / Roadmap 300+ with the current 19-case inventory.
 - risks: Do not run API/CLI/Gateway/DB/NAS smoke; do not read raw rows/NAS paths/storage paths/secrets; do not treat missing results as passes; do not stage unrelated `docs/digital-delivery-standards/`.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` and stops for Codex B review.
+
+## 2026-05-20 09:10 Phase 2.103 Test Machine Update + Hermes Capability Handoff Prompt
+
+- goal: Prepare Codex A handoff for a test-machine update prompt and database / platform capability maximization package.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Prompt-only handoff; no runtime validation required before Codex A executes.
+- decision: Phase 2 remains open; testing can update to Phase 2.102b, but platform capability must remain catalog-only / read-only / permission-aware / Missing Evidence.
+- risks: Do not let the database team treat Hermes as generic chatbot, raw SQL agent, NAS reader, DWG/RVT parser, BIM component search engine, or production rollout system.
 - next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` and stops for Codex B review.

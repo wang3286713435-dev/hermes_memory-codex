@@ -1,5 +1,15 @@
 # Phase Backlog
 
+## Phase 2.103 Test Machine Update + Hermes Capability Maximization Handoff
+
+1. Phase 2.102b baseline 已完成：commit `5c37661`，tag `phase-2.102b-metric-scoring-pack-baseline`，pushed=true。
+2. Phase 2.103 docs / handoff pack 已完成；Phase 2.103a 已修复 Codex B wording blocker。
+3. 已新增测试机更新 prompt、数据库 / 平台团队 Hermes 能力最大化接入说明、Hermes 开发口号与阶段总结。
+4. Hermes 当前对平台的定位：evidence-first enterprise memory kernel + permission-aware catalog agent，不是普通聊天框、SQL Agent、NAS reader 或 DWG/RVT/BIM 内容理解 Agent。
+5. 当前必须坚持：catalog-only、read-only、permission-aware、Missing Evidence、low-sensitive related IDs memory；`related_file_ids` / `query_id` / feedback labels 不是 file正文 evidence。
+6. Phase 2 closeout readiness 仍为否：仍缺 PRD 100+ / Roadmap 300+ eval cases、reviewed result JSON、真实 Top5 / citation scoring、structured fact manual spot-check。
+7. 下一步：Codex B re-review Phase 2.103a；通过后由用户显式授权 selective docs baseline。
+
 ## Phase 2.102b Metric Scoring Pack
 
 1. Phase 2.102b local/offline scorer implementation 已完成，等待 Codex B review。

@@ -1,5 +1,15 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.103 Test Machine Update + Hermes Capability Maximization Handoff
+
+1. Phase 2.102b baseline 已完成：commit `5c37661`，tag `phase-2.102b-metric-scoring-pack-baseline`，pushed=true。
+2. 已新增 `docs/PHASE2103_TEST_MACHINE_UPDATE_AND_CAPABILITY_HANDOFF.md`、`docs/CODEX_TEST_MACHINE_UPDATE_TO_PHASE2102B_PROMPT.md`、`docs/DB_TEAM_HERMES_CAPABILITY_MAXIMIZATION_HANDOFF.md`。
+3. 已明确数据库 / 平台团队口径：Hermes 不是普通对话 Agent，而是证据优先、权限闭环、Missing Evidence 驱动的企业记忆内核。
+4. 当前可最大化接入：只读 catalog search、安全 file/model IDs、query/trace IDs、permission decision、Missing Evidence、feedback、low-sensitive related_file_ids memory。
+5. Phase 2.103a 已修复 `existing memory evidence` 含混表述；low-sensitive memory references 不是 content evidence，`related_file_ids` 不代表 Hermes 已读取文件正文。
+6. 当前不可接入为 current：Agent DB CRUD、Agent SQL、NAS scan、DWG/RVT/BIM 内容理解、NAS semantic index、production rollout。
+7. 下一步：Codex B re-review Phase 2.103a；通过后由用户显式授权 selective docs baseline。
+
 ## Phase 2.102b Metric Scoring Pack
 
 1. Phase 2.102a baseline 已完成：commit `0ee07f5`，tag `phase-2.102a-eval-inventory-manifest-baseline`，pushed=true。
