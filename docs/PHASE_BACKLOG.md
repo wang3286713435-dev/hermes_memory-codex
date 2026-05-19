@@ -9,6 +9,16 @@
 
 ## 最新状态
 
+1. Phase 2.97 baseline 已完成：commit `05e7275`，tag `phase-2.97-frontend-gateway-readonly-trial-runbook-baseline`，pushed=true。
+2. Phase 2.98 Digital Delivery Standard Agent Boundary Review 已完成 docs-only review，新增 `docs/PHASE298_STANDARD_AGENT_BOUNDARY_REVIEW.md`。
+3. Review 已记录共享标准 v0.1 中 `R001-R043` current/backlog/future 规则对 Hermes Agent 回答边界、Missing Evidence 策略和 overclaim 风险的影响。
+4. 当前结论：标准 v0.1 可作为 Hermes catalog-only answer boundary basis，但不是 DWG/RVT/BIM 内容理解能力证明。
+5. Codex B review 已通过；下一步只做 Phase 2.98 selective docs baseline。
+6. Phase 2.98 未改代码、未改数据库、未连接 DB/NAS/API、未运行 Gateway smoke、未修改共享文档、未进入 rollout。
+7. 不得自动进入 Phase 2.99；后续如需修改 Hermes prompt / tool description，应同步共享契约文档。
+
+## 最新状态
+
 1. Phase 2.97 Frontend Gateway Read-only Trial Runbook / Operator Checklist 已完成 docs-only planning，Codex B review 已通过。
 2. 新增 `docs/PHASE297_FRONTEND_GATEWAY_READONLY_TRIAL_RUNBOOK.md`。
 3. Runbook 覆盖 limited internal trial、operator checklist、auth path、allowed endpoints、allowed query types、safe response fields、forbidden-field scan、side-effect checks、per-query template、Go/Pause/No-Go、feedback capture 与 escalation rules。

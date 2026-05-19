@@ -1,5 +1,23 @@
 # Handoff Log
 
+## 2026-05-19 Phase 2.98 Codex B Review
+- goal: Review Phase 2.98 Digital Delivery Standard Agent Boundary Review and prepare selective docs baseline.
+- changed_files: `docs/PHASE298_STANDARD_AGENT_BOUNDARY_REVIEW.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.98 review document was checked against the shared Digital Delivery standard files, catalog-only / Missing Evidence policy, and Hermes naming boundary.
+- review: Passed. The document records shared files with absolute paths, `R001-R043` grouping, DWG/RVT/BIM Missing Evidence requirements, permission/path/conflict safety, overclaim risks, and standardized answer templates.
+- risks: Future standard rules must not be presented as current Hermes capabilities; Jarvis remains legacy/non-official wording; catalog metadata is not DWG/RVT/BIM content evidence.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.98 selective docs baseline and stops. Do not enter Phase 2.99 automatically.
+- commit/tag if any: none.
+
+## 2026-05-19 Phase 2.98 Prompt
+- goal: Prepare Codex A handoff for Digital Delivery Standard Agent Boundary Review.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.97 baseline confirmed at commit `05e7275`, tag `phase-2.97-frontend-gateway-readonly-trial-runbook-baseline`; origin/main and tag matched.
+- scope: Codex A should create `docs/PHASE298_STANDARD_AGENT_BOUNDARY_REVIEW.md` and record the shared DigitalDeliveryProject standard v0.1 Agent answer-boundary review.
+- risks: Phase 2.98 must remain docs-only / review-only; no runtime Gateway smoke, DB/NAS/API connection, Gateway implementation, Agent DB CRUD, parser, writer, index/object-store write, Agent answer integration, shared-doc mutation, or rollout.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-19 Phase 2.97 Codex B Review
 - goal: Review Phase 2.97 frontend Gateway read-only trial runbook and prepare selective docs baseline.
 - changed_files: `docs/PHASE297_FRONTEND_GATEWAY_READONLY_TRIAL_RUNBOOK.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -7075,4 +7093,14 @@
 - validation: Read the 14 required shared files; documented Hermes-owned / reviewed files, adopted boundaries, sync rules, and mismatch list. No required shared contract mismatch found and no shared files changed.
 - risks: Alignment-only; shared docs are not runtime authorization. Real smoke, DB/NAS/API access, Gateway code, parser/writer/index writes, Agent DB CRUD, content ingestion, and rollout remain unauthorized.
 - next: Codex B review Phase 2.95 alignment; if accepted, consider selective docs baseline. Do not enter Phase 2.96 automatically.
+- commit/tag if any: none.
+
+## 2026-05-19 13:40 Phase 2.98 Digital Delivery Standard Agent Boundary Review
+
+- goal: Review the shared Digital Delivery Standard v0.1 documents as Hermes Agent answer-boundary inputs.
+- changed_files: `docs/PHASE298_STANDARD_AGENT_BOUNDARY_REVIEW.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON validation passed; latest ignore check passed; `git status --short` reviewed.
+- validation: Review records five shared standard files, `R001-R043` grouping, DWG/RVT/BIM Missing Evidence boundaries, permission/path/conflict safety, overclaim risks, and standardized answer templates.
+- risks: Shared standard future rules must not be treated as current Hermes runtime capability; `Hermes / Jarvis` naming cleanup remains a shared-doc follow-up.
+- next: Codex B review Phase 2.98; if accepted, perform selective docs baseline. Do not enter Phase 2.99 automatically.
 - commit/tag if any: none.

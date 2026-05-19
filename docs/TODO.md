@@ -16,6 +16,15 @@
 4. 本阶段未执行真实 Gateway smoke，未连接 DB/NAS/API，未实现 Gateway code，未运行 parser/writer，未写 index/object-store，未进入 rollout。
 5. Codex B review 已通过；下一步只做 Phase 2.97 selective docs baseline。
 
+## Phase 2.98 Digital Delivery Standard Agent Boundary Review
+
+1. Phase 2.97 baseline 已完成：commit `05e7275`，tag `phase-2.97-frontend-gateway-readonly-trial-runbook-baseline`，pushed=true。
+2. 已新增 `docs/PHASE298_STANDARD_AGENT_BOUNDARY_REVIEW.md`，记录共享数字化交付标准 v0.1 的 Hermes Agent 回答边界评审。
+3. Review 结论：标准 v0.1 可作为 catalog-only answer boundary basis，但不得被当作 DWG/RVT/BIM 内容理解能力证明。
+4. 已记录 `R001-R043` rule grouping、DWG/RVT/BIM Missing Evidence 边界、permission/path/conflict safety、overclaim risks 与标准化回答模板。
+5. 本阶段未改代码、未改数据库、未连接 DB/NAS/API、未运行 Gateway smoke、未修改共享文档、未进入 rollout。
+6. Codex B review 已通过；下一步只做 Phase 2.98 selective docs baseline，不自动进入 Phase 2.99。
+
 ## Phase 2.96 Gateway Controlled Smoke Result Review
 
 1. Phase 2.95 baseline 已完成：commit `3d70626`，tag `phase-2.95-shared-contract-alignment-baseline`，pushed=true。
