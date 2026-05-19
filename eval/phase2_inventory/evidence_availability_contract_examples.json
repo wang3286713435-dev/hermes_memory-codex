@@ -1,0 +1,262 @@
+{
+  "schema_version": "evidence_availability_contract_examples.v1",
+  "phase": "Phase 2.104a",
+  "purpose": "Sanitized examples for the Evidence Availability Contract. These fixtures are documentation and contract examples only; they do not implement runtime search, parser execution, DB/NAS access, or index writes.",
+  "safety_rules": {
+    "sanitized_only": true,
+    "no_real_project_names": true,
+    "no_real_file_names": true,
+    "no_raw_storage_path": true,
+    "no_raw_nas_path": true,
+    "no_raw_db_row": true,
+    "no_asset_uid": true,
+    "no_source_id": true,
+    "no_secret_token_or_credential": true,
+    "catalog_metadata_is_not_content_evidence": true,
+    "related_file_ids_are_not_content_evidence": true
+  },
+  "status_enum": [
+    "catalog_only",
+    "parser_required",
+    "evidence_indexed",
+    "unsupported_type",
+    "permission_denied",
+    "manual_review_required"
+  ],
+  "cases": [
+    {
+      "case_id": "catalog_only_dwg_layer_question",
+      "user_question": "这个图纸里有哪些图层？",
+      "source_kind": "dwg_asset",
+      "source_view": "catalog_metadata_view",
+      "file_id": "file_demo_001",
+      "model_id": null,
+      "document_id": null,
+      "version_id": null,
+      "query_id": "query_demo_001",
+      "trace_id": "trace_demo_001",
+      "evidence_availability_status": "catalog_only",
+      "permission_decision": "allowed_catalog_only",
+      "safe_user_message": "I can identify the candidate DWG asset from authorized catalog metadata, but I do not have governed DWG layer evidence for this question.",
+      "missing_evidence_reason": "catalog_metadata_only_no_dwg_parse_evidence",
+      "allowed_next_actions": [
+        "show_safe_catalog_metadata",
+        "ask_for_manual_review",
+        "request_future_parser_or_evidence_indexing"
+      ],
+      "forbidden_actions": [
+        "claim_dwg_layers_were_read",
+        "treat_catalog_as_content_evidence",
+        "expose_raw_path",
+        "invoke_parser",
+        "query_vector_store_without_indexed_evidence"
+      ],
+      "expected_answer_boundary": "Return Missing Evidence for DWG layer content. Catalog metadata may identify a candidate file but cannot verify layers.",
+      "should_treat_catalog_as_content_evidence": false,
+      "should_expose_raw_path": false,
+      "should_invoke_parser": false,
+      "should_query_vector_store": false
+    },
+    {
+      "case_id": "catalog_only_rvt_component_question",
+      "user_question": "这个模型里是否有某类构件？",
+      "source_kind": "rvt_model_asset",
+      "source_view": "catalog_metadata_view",
+      "file_id": null,
+      "model_id": "model_demo_001",
+      "document_id": null,
+      "version_id": null,
+      "query_id": "query_demo_002",
+      "trace_id": "trace_demo_002",
+      "evidence_availability_status": "catalog_only",
+      "permission_decision": "allowed_catalog_only",
+      "safe_user_message": "I can identify the candidate RVT model from authorized catalog metadata, but I do not have governed component evidence for this question.",
+      "missing_evidence_reason": "catalog_metadata_only_no_rvt_component_index",
+      "allowed_next_actions": [
+        "show_safe_catalog_metadata",
+        "recommend_manual_model_review",
+        "request_future_component_indexing"
+      ],
+      "forbidden_actions": [
+        "claim_rvt_components_were_read",
+        "treat_model_catalog_as_component_evidence",
+        "expose_raw_path",
+        "invoke_parser",
+        "query_vector_store_without_indexed_evidence"
+      ],
+      "expected_answer_boundary": "Return Missing Evidence for RVT component content. Catalog metadata cannot verify model internals.",
+      "should_treat_catalog_as_content_evidence": false,
+      "should_expose_raw_path": false,
+      "should_invoke_parser": false,
+      "should_query_vector_store": false
+    },
+    {
+      "case_id": "parser_required_pdf_content_question",
+      "user_question": "这个 PDF 正文里是否包含指定条款？",
+      "source_kind": "pdf_document_asset",
+      "source_view": "catalog_metadata_view",
+      "file_id": "file_demo_002",
+      "model_id": null,
+      "document_id": null,
+      "version_id": null,
+      "query_id": "query_demo_003",
+      "trace_id": "trace_demo_003",
+      "evidence_availability_status": "parser_required",
+      "permission_decision": "allowed_catalog_only",
+      "safe_user_message": "The PDF source is visible in the catalog, but this question requires parsed content evidence that is not available yet.",
+      "missing_evidence_reason": "parser_required_before_full_text_evidence",
+      "allowed_next_actions": [
+        "record_parser_prerequisite",
+        "ask_for_manual_review",
+        "request_future_authorized_ingestion"
+      ],
+      "forbidden_actions": [
+        "infer_pdf_content_from_filename",
+        "claim_pdf_body_was_read",
+        "expose_raw_path",
+        "invoke_parser",
+        "query_vector_store_without_indexed_evidence"
+      ],
+      "expected_answer_boundary": "Return Missing Evidence and state that parsing/indexing is required before citation-backed PDF content answers.",
+      "should_treat_catalog_as_content_evidence": false,
+      "should_expose_raw_path": false,
+      "should_invoke_parser": false,
+      "should_query_vector_store": false
+    },
+    {
+      "case_id": "evidence_indexed_office_content_question",
+      "user_question": "这个办公文档中对交付资料有什么要求？",
+      "source_kind": "office_document",
+      "source_view": "governed_evidence_view",
+      "file_id": "file_demo_003",
+      "model_id": null,
+      "document_id": "document_demo_001",
+      "version_id": "version_demo_001",
+      "query_id": "query_demo_004",
+      "trace_id": "trace_demo_004",
+      "evidence_availability_status": "evidence_indexed",
+      "permission_decision": "allowed",
+      "safe_user_message": "Governed evidence is indexed for this office document. A future authorized evidence search may answer only with citation-backed chunks.",
+      "missing_evidence_reason": "",
+      "allowed_next_actions": [
+        "future_document_evidence_search_with_citations",
+        "return_missing_evidence_if_no_matching_chunk",
+        "preserve_permission_and_version_filters"
+      ],
+      "forbidden_actions": [
+        "answer_without_citation",
+        "treat_indexed_status_as_permission_bypass",
+        "expose_raw_path",
+        "return_full_raw_document"
+      ],
+      "expected_answer_boundary": "May answer only through authorized evidence search with chunk or paragraph citations. If no matching evidence is returned, answer Missing Evidence.",
+      "should_treat_catalog_as_content_evidence": false,
+      "should_expose_raw_path": false,
+      "should_invoke_parser": false,
+      "should_query_vector_store": true
+    },
+    {
+      "case_id": "unsupported_type_large_bim_model",
+      "user_question": "这个大型模型里的空间和设备关系是什么？",
+      "source_kind": "large_bim_model_asset",
+      "source_view": "catalog_metadata_view",
+      "file_id": null,
+      "model_id": "model_demo_002",
+      "document_id": null,
+      "version_id": null,
+      "query_id": "query_demo_005",
+      "trace_id": "trace_demo_005",
+      "evidence_availability_status": "unsupported_type",
+      "permission_decision": "allowed_catalog_only",
+      "safe_user_message": "The model is visible in the catalog, but this content modality is not currently supported for governed evidence retrieval.",
+      "missing_evidence_reason": "unsupported_bim_model_content_modality",
+      "allowed_next_actions": [
+        "show_safe_catalog_metadata",
+        "recommend_manual_review",
+        "record_future_modality_support_request"
+      ],
+      "forbidden_actions": [
+        "claim_bim_semantic_understanding",
+        "generate_component_or_spatial_facts",
+        "expose_raw_path",
+        "invoke_parser",
+        "query_vector_store_without_supported_index"
+      ],
+      "expected_answer_boundary": "Return Missing Evidence for model internals and recommend manual review or future modality support.",
+      "should_treat_catalog_as_content_evidence": false,
+      "should_expose_raw_path": false,
+      "should_invoke_parser": false,
+      "should_query_vector_store": false
+    },
+    {
+      "case_id": "permission_denied_file",
+      "user_question": "这个文件正文里有哪些关键要求？",
+      "source_kind": "restricted_document_asset",
+      "source_view": "permission_denied_view",
+      "file_id": "file_demo_004",
+      "model_id": null,
+      "document_id": "document_demo_002",
+      "version_id": "version_demo_002",
+      "query_id": "query_demo_006",
+      "trace_id": "trace_demo_006",
+      "evidence_availability_status": "permission_denied",
+      "permission_decision": "denied",
+      "safe_user_message": "I cannot return evidence for this source because the current requester is not authorized to access it.",
+      "missing_evidence_reason": "permission_denied",
+      "allowed_next_actions": [
+        "show_safe_denial_message",
+        "request_access_through_approved_workflow",
+        "record_trace_for_authorized_audit"
+      ],
+      "forbidden_actions": [
+        "leak_file_content",
+        "leak_raw_path",
+        "answer_from_prior_context",
+        "use_memory_reference_to_bypass_permission",
+        "query_vector_store"
+      ],
+      "expected_answer_boundary": "Deny evidence access and do not expose content, raw paths, or sensitive metadata.",
+      "should_treat_catalog_as_content_evidence": false,
+      "should_expose_raw_path": false,
+      "should_invoke_parser": false,
+      "should_query_vector_store": false
+    },
+    {
+      "case_id": "manual_review_required_conflicting_metadata",
+      "user_question": "请判断这个资产的版本和交付状态是否最终有效。",
+      "source_kind": "catalog_asset",
+      "source_view": "sanitized_manual_review_view",
+      "file_id": "file_demo_005",
+      "model_id": null,
+      "document_id": null,
+      "version_id": "version_demo_003",
+      "query_id": "query_demo_007",
+      "trace_id": "trace_demo_007",
+      "evidence_availability_status": "manual_review_required",
+      "permission_decision": "allowed_catalog_only",
+      "safe_user_message": "The available metadata is conflicting or insufficient for an automated verified answer. Manual review is required.",
+      "missing_evidence_reason": "conflicting_sanitized_metadata_requires_manual_review",
+      "allowed_next_actions": [
+        "create_manual_review_note",
+        "show_sanitized_conflict_summary",
+        "ask_reviewer_to_confirm_source_state"
+      ],
+      "forbidden_actions": [
+        "choose_one_metadata_value_as_truth",
+        "mark_answer_as_verified",
+        "execute_repair",
+        "expose_raw_path",
+        "write_back_to_source_system"
+      ],
+      "expected_answer_boundary": "Return Missing Evidence / manual review required. Do not resolve conflict automatically.",
+      "should_treat_catalog_as_content_evidence": false,
+      "should_expose_raw_path": false,
+      "should_invoke_parser": false,
+      "should_query_vector_store": false
+    }
+  ],
+  "shared_follow_up": [
+    "Mirror accepted enum and field wording into shared integration-contracts after Codex B review.",
+    "Keep document_evidence_search as future-only until a separate implementation phase is authorized."
+  ]
+}

@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.104a Evidence Availability Contract Docs + Fixtures
+
+1. 已新增 `docs/PHASE2104A_EVIDENCE_AVAILABILITY_CONTRACT.md`，定义 Evidence Availability Contract 状态枚举、字段要求、安全规则和 Missing Evidence 语义。
+2. 已新增 `eval/phase2_inventory/evidence_availability_contract_examples.json`，包含 7 条 sanitized fixture examples。
+3. 状态枚举：`catalog_only`、`parser_required`、`evidence_indexed`、`unsupported_type`、`permission_denied`、`manual_review_required`。
+4. fixtures 使用 fake IDs，不包含真实项目名、文件名、NAS 路径、storage path、raw row、asset_uid、source_id、secret 或业务敏感内容。
+5. 当前仍不能把 `evidence_indexed` 解释为平台已开放 `document_evidence_search`；它只是 future authorized evidence-search path 的 contract state。
+6. 下一步：Codex B review Phase 2.104a；通过后由用户显式授权 docs / fixture baseline。不得自动进入 Phase 2.104b。
+
 ## Phase 2.104 Platform Layered Capability Plan
 
 1. 已新增 `docs/PHASE2104_PLATFORM_LAYERED_CAPABILITY_PLAN.md`，把平台接入能力拆为 `Catalog Layer -> Evidence Layer -> Memory Layer -> Orchestration Layer`。

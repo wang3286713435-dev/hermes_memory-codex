@@ -1,5 +1,24 @@
 # DEV_LOG
 
+## 2026-05-20 Phase 2.104a Evidence Availability Contract Docs + Fixtures
+
+- 新增 `docs/PHASE2104A_EVIDENCE_AVAILABILITY_CONTRACT.md`。
+- 新增 `eval/phase2_inventory/evidence_availability_contract_examples.json`。
+- Contract 覆盖 `catalog_only`、`parser_required`、`evidence_indexed`、`unsupported_type`、`permission_denied`、`manual_review_required` 六个当前状态。
+- Fixture examples 覆盖 `catalog_only_dwg_layer_question`、`catalog_only_rvt_component_question`、`parser_required_pdf_content_question`、`evidence_indexed_office_content_question`、`unsupported_type_large_bim_model`、`permission_denied_file`、`manual_review_required_conflicting_metadata`。
+- Fixtures 使用 fake IDs，未包含真实项目名、真实文件名、raw path、raw row、asset_uid、source_id、secret 或客户敏感内容。
+- 已明确 `evidence_indexed` 只是 contract state，不代表当前平台已开放 `document_evidence_search` runtime。
+- 本阶段 docs / contract fixtures only；未改 runtime code/tests，未运行 API/CLI/Gateway/DB/NAS smoke，未连接真实系统，未执行 SQL/parser/scratch/writer/repair/backfill/reindex/delete/migration/rollout。
+
+## 2026-05-20 Phase 2.104a Evidence Availability Contract Prompt
+
+- Phase 2.104 baseline 已完成：commit `e2c1d3c`，tag `phase-2.104-platform-layered-capability-plan-baseline`，pushed=true。
+- Codex B 已将下一步推进为 Evidence Availability Contract docs + fixtures。
+- 下一轮 Codex A 目标：新增 `docs/PHASE2104A_EVIDENCE_AVAILABILITY_CONTRACT.md` 与 `eval/phase2_inventory/evidence_availability_contract_examples.json`。
+- Contract 初稿必须覆盖 `catalog_only`、`parser_required`、`evidence_indexed`、`unsupported_type`、`permission_denied`、`manual_review_required`。
+- fixtures 必须使用 fake IDs 并保持脱敏；不得包含真实项目名、真实文件名、raw path、raw row、asset_uid、source_id、secret 或客户敏感内容。
+- 本阶段仍是 docs / contract fixture，不实现 `document_evidence_search`，不跑 DB/NAS/Gateway/API smoke，不连接真实系统，不写 DB/index/object-store/memory，不进入 rollout。
+
 ## 2026-05-20 Phase 2.104 Platform Layered Capability Plan
 
 - 新增 `docs/PHASE2104_PLATFORM_LAYERED_CAPABILITY_PLAN.md`。

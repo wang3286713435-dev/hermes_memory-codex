@@ -1,5 +1,16 @@
 # Phase Backlog
 
+## Phase 2.104a Evidence Availability Contract Docs + Fixtures
+
+1. Phase 2.104 baseline 已完成：commit `e2c1d3c`，tag `phase-2.104-platform-layered-capability-plan-baseline`，pushed=true。
+2. Phase 2.104a 已新增 `docs/PHASE2104A_EVIDENCE_AVAILABILITY_CONTRACT.md` 与 `eval/phase2_inventory/evidence_availability_contract_examples.json`。
+3. Contract semantics 已覆盖 `catalog_only`、`parser_required`、`evidence_indexed`、`unsupported_type`、`permission_denied`、`manual_review_required`。
+4. Fixture cases 共 7 条：DWG catalog-only、RVT catalog-only、PDF parser-required、Office evidence-indexed、unsupported BIM model、permission denied、manual review required。
+5. fixtures 使用 fake IDs，不包含真实项目名、真实文件名、raw path、raw row、asset_uid、source_id、secret 或客户敏感内容。
+6. 本阶段只做 docs / contract fixtures；不写 runtime code、不改 tests、不实现新 tool、不跑 DB/NAS/Gateway/API smoke。
+7. 当前仍禁止：`document_evidence_search` runtime、Agent DB CRUD、Agent SQL、NAS scan、DWG/RVT/BIM 内容理解、NAS semantic collection、DB/index/object-store/memory 写入、production rollout。
+8. 下一步：Codex B review Phase 2.104a；通过后由用户显式授权 docs / fixture baseline。不得自动进入 Phase 2.104b。
+
 ## Phase 2.104 Platform Layered Capability Plan
 
 1. Phase 2.103 baseline 已完成：commit `3c38a06`，tag `phase-2.103-test-machine-capability-handoff-baseline`，pushed=true。

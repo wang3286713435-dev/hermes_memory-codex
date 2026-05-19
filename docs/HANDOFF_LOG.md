@@ -1,5 +1,14 @@
 # Handoff Log
 
+## 2026-05-20 Phase 2.104a Prompt
+- goal: Prepare Codex A handoff for Evidence Availability Contract docs + sanitized fixtures.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.104 baseline confirmed at commit `e2c1d3c`, tag `phase-2.104-platform-layered-capability-plan-baseline`; current worktree only had unrelated untracked `docs/digital-delivery-standards/` before prompt update.
+- scope: Codex A should create `docs/PHASE2104A_EVIDENCE_AVAILABILITY_CONTRACT.md` and `eval/phase2_inventory/evidence_availability_contract_examples.json`, defining status enum, required fields, safety rules, Missing Evidence semantics, and sanitized examples.
+- risks: Phase 2.104a must remain docs / contract fixtures only; no runtime code/tests, no `document_evidence_search` implementation, no API / CLI / Gateway / DB / NAS smoke, no SQL, no parser/writer/index/object-store/memory writes, no raw path/raw row/secret output, no DWG/RVT/BIM content understanding, no rollout.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-20 Phase 2.104 Prompt
 - goal: Prepare Codex A handoff for Platform Layered Capability Plan.
 - changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -7321,4 +7330,14 @@
 - validation: Shared `DigitalDeliveryProject` docs were available; `agent-briefings/hermes_capability_handoff.md` and `docs/01_capability_matrix.md` already contain Hermes layer entries. No shared files were modified.
 - risks: Evidence Layer, Memory Layer, and Orchestration Layer must not be described as current runtime capabilities; low-sensitive memory references are not file content evidence; unrelated `docs/digital-delivery-standards/` files remain untracked and must not be staged by default.
 - next: Codex B review Phase 2.104; if accepted, user may authorize docs baseline. Do not enter Phase 2.104a automatically.
+- commit/tag if any: none.
+
+## 2026-05-20 05:34 Phase 2.104a Evidence Availability Contract Docs + Fixtures
+
+- goal: Define the Evidence Availability Contract and sanitized fixtures so Platform Gateway and Hermes can distinguish catalog-only metadata from future governed evidence states.
+- changed_files: `docs/PHASE2104A_EVIDENCE_AVAILABILITY_CONTRACT.md`, `eval/phase2_inventory/evidence_availability_contract_examples.json`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON parse passed; fixture JSON parse passed; latest ignore check passed; `git status --short --untracked-files=all` reviewed.
+- validation: Shared docs were available; contract aligns with catalog tool, Missing Evidence, feedback, and red-line docs. Fixture cases use fake IDs only.
+- risks: `evidence_indexed` must remain a contract state, not a current `document_evidence_search` runtime claim; fixtures must stay sanitized; unrelated `docs/digital-delivery-standards/` files must not be staged by default.
+- next: Codex B review Phase 2.104a; if accepted, user may authorize docs / fixture baseline. Do not enter Phase 2.104b automatically.
 - commit/tag if any: none.
