@@ -1,5 +1,15 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.102 Metric / Evaluation Evidence Pack
+
+1. Phase 2.101 baseline 已完成：commit `5f15852`，tag `phase-2.101-prd-acceptance-gap-closure-plan-baseline`，pushed=true。
+2. 已新增 `docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md`，集中映射 PRD / Roadmap 中 eval count、Top5、citation accuracy、fact spot-check、permission denial、parser/source coverage、Gateway、Data Steward、Mac mini / employee trial、natural import 等证据。
+3. Evidence taxonomy 已固定为：`measured_pass`、`measured_fail`、`partial_evidence`、`smoke_only_not_metric`、`missing_metric`、`requires_user_decision`。
+4. 当前结论：Phase 2 metric closeout decision=`not_ready`；PRD 100+ / Roadmap 300+、Top5 80/85、citation 85/90、structured fact manual spot-check 90 均缺 committed numerator / denominator。
+5. 本阶段 docs-only；未读取 ignored real reports、raw DB rows、NAS paths、secrets 或 private run records，未运行 API/CLI/Gateway/DB/NAS smoke，未改代码、未写 tests、未进入 rollout。
+6. 下一步：Codex B review Phase 2.102 evidence pack；通过后由用户显式授权 selective docs baseline。
+
+
 ## Phase 2.101 PRD Acceptance Gap Closure Plan
 
 1. Phase 2.100a baseline 已完成：commit `8456979`，tag `phase-2.100a-phase2-boundary-audit-baseline`，pushed=true。

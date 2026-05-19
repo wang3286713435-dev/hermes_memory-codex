@@ -1,5 +1,14 @@
 # DEV_LOG
 
+## 2026-05-19 Phase 2.102 Metric / Evaluation Evidence Pack
+
+- 新增 `docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md`。
+- 已把 PRD / Roadmap Phase 2 closeout 指标映射为 evidence pack，覆盖 PRD 100+、Roadmap 300+、Top5 80/85、citation 85/90、structured fact manual spot-check 90、permission denial、parser/source categories、Gateway/Data Steward catalog-only、Mac mini / employee trial、natural import、Missing Evidence、facts/transcript/version boundary。
+- 已固定 evidence taxonomy：`measured_pass`、`measured_fail`、`partial_evidence`、`smoke_only_not_metric`、`missing_metric`、`requires_user_decision`。
+- 当前结论：Phase 2 metric closeout decision=`not_ready`；现有 eval/smoke 证明链路可重复，但没有 PRD/Roadmap 数字指标所需 numerator / denominator。
+- 本阶段 docs-only；未改 runtime code，未运行 API/CLI/Gateway/DB/NAS smoke，未读取 ignored real reports/raw rows/NAS paths/secrets，未执行 parser/scratch/writer/repair/backfill/reindex/delete/migration/rollout。
+- 下一步：Codex B review Phase 2.102；若通过，再由用户显式授权 selective docs baseline。
+
 ## 2026-05-19 Phase 2.101 PRD Acceptance Gap Closure Plan
 
 - 新增 `docs/PHASE2101_PRD_ACCEPTANCE_GAP_CLOSURE_PLAN.md`。
@@ -727,4 +736,13 @@
 - validation: Prompt-only handoff; no runtime validation required before Codex A executes.
 - decision: Phase 2 remains open; Phase 2.101 will classify closure gaps before any Phase 2 closeout or Phase 3 transition.
 - risks: Do not treat planning as implementation or evidence. No production rollout, no repair executor, no Data Steward deep productization, no DB/NAS/API/Gateway smoke.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` and stops for Codex B review.
+
+## 2026-05-19 17:30 Phase 2.102 Metric / Evaluation Evidence Pack Prompt
+
+- goal: Prepare Codex A handoff for a docs-only Phase 2 metric/evaluation evidence pack.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Prompt-only handoff; no runtime validation required before Codex A executes.
+- decision: Phase 2 remains open; Phase 2.102 will determine which PRD/Roadmap metrics have committed evidence and which remain missing/partial.
+- risks: Do not convert smoke results into percentage metrics without denominators; do not read ignored reports or private run records; do not treat Gateway/Data Steward catalog-only evidence as production or content evidence.
 - next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` and stops for Codex B review.

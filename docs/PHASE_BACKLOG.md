@@ -1,5 +1,16 @@
 # Phase Backlog
 
+## Phase 2.102 Metric / Evaluation Evidence Pack
+
+1. Phase 2.102 docs-only evidence pack 已完成：新增 `docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md`。
+2. Evidence pack 已区分 `measured_pass`、`measured_fail`、`partial_evidence`、`smoke_only_not_metric`、`missing_metric`、`requires_user_decision`，避免把 smoke 误当百分比指标。
+3. 当前结论：Phase 2 metric closeout decision=`not_ready`。
+4. 主要 blocker：PRD 100+ / Roadmap 300+ eval inventory、Top5 80/85、citation 85/90、structured fact manual spot-check 90 均缺 committed numerator / denominator。
+5. Permission、parser/source、Gateway/Data Steward、Mac mini / employee trial、natural import、Missing Evidence、facts/transcript/version boundary 已有 partial 或 smoke evidence，但不足以关闭 PRD/Roadmap metric。
+6. 下一步：Codex B review Phase 2.102 evidence pack；通过后由用户显式授权 selective docs baseline。
+7. Phase 3+ 仍后置：Data Steward productization、DWG/RVT/BIM content understanding、graph/spatial、production rollout、repair executor。
+
+
 ## Phase 2.101 PRD Acceptance Gap Closure Plan
 
 1. Phase 2.101 已完成 docs-only gap closure planning：新增 `docs/PHASE2101_PRD_ACCEPTANCE_GAP_CLOSURE_PLAN.md`。

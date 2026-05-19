@@ -7207,3 +7207,22 @@
 - risks: Phase 2 closeout readiness remains no; several gaps need Codex B review and explicit user decisions before closeout or Phase 3 deferral.
 - next: Codex B review Phase 2.101; if accepted, user may authorize selective docs baseline. Do not enter Phase 2.102 automatically.
 - commit/tag if any: none.
+
+## 2026-05-19 17:30 Phase 2.102 Metric / Evaluation Evidence Pack Prompt
+
+- goal: Move from Phase 2.101 gap closure baseline into a docs-only metric/evaluation evidence pack.
+- background: Phase 2.101 baseline completed at `5f15852`, tag `phase-2.101-prd-acceptance-gap-closure-plan-baseline`, pushed=true.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- next: Codex A should create `docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md`, map metrics to committed evidence, classify missing metrics, and stop for Codex B review.
+- boundaries: docs-only; no runtime code/tests, no API/CLI/Gateway/DB/NAS smoke, no real reports/raw rows/NAS paths/secrets, no parser/scratch/writer, no DB/index/object-store writes, no repair/reindex/migration/delete, no rollout, no Phase 3 transition, no Phase 2 closeout claim.
+- commit/tag if any: none.
+
+## 2026-05-19 17:42 Phase 2.102 Metric / Evaluation Evidence Pack
+
+- goal: Create a docs-only evidence pack that maps PRD / Roadmap Phase 2 metrics to committed evidence, missing metrics, and next actions.
+- changed_files: `docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check`; latest JSON parse; latest ignore check; `git status --short`.
+- validation: Evidence pack covers PRD 100+, Roadmap 300+, Top5 80/85, citation 85/90, structured fact manual spot-check 90, permission denial, parser/source categories, Gateway/Data Steward, Mac mini / employee trial, natural import, Missing Evidence, facts/transcript/version boundaries.
+- risks: Phase 2 metric closeout remains `not_ready`; PRD/Roadmap numeric targets still lack committed numerator / denominator; unrelated untracked `docs/digital-delivery-standards/` files must not be staged by default.
+- next: Codex B review `docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md`; if accepted, user may authorize selective docs baseline. Do not enter Phase 2.102a automatically.
+- commit/tag if any: none.
