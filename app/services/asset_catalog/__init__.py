@@ -106,6 +106,12 @@ from app.services.asset_catalog.scratch_runtime import (
     AssetScratchRuntimeRunRecord,
     AssetScratchRuntimeRunSummary,
 )
+from app.services.asset_catalog.standard_answer_boundary import (
+    FORBIDDEN_STANDARD_BOUNDARY_FIELDS,
+    StandardAnswerBoundary,
+    StandardAnswerBoundaryClassifier,
+    build_memory_reference_boundary,
+)
 from app.services.asset_catalog.temp_db import (
     AssetCatalogTemporaryMirrorStore,
     AssetCatalogTemporaryMirrorWriteSummary,
@@ -142,8 +148,11 @@ __all__ = [
     "AssetScratchRuntimeRunItem",
     "AssetScratchRuntimeRunRecord",
     "AssetScratchRuntimeRunSummary",
+    "StandardAnswerBoundary",
+    "StandardAnswerBoundaryClassifier",
     "AssetCatalogTemporaryMirrorStore",
     "AssetCatalogTemporaryMirrorWriteSummary",
+    "FORBIDDEN_STANDARD_BOUNDARY_FIELDS",
     "AssetViewPage",
     "AssetViewRecord",
     "MANIFEST_VERSION",
@@ -176,6 +185,7 @@ __all__ = [
     "build_evidence_write_rehearsal_report",
     "build_runtime_evidence_write_preflight_report",
     "build_evidence_write_result",
+    "build_memory_reference_boundary",
     "run_readonly_local_live_smoke",
     "sanitize_live_smoke_result",
     "verify_forbidden_table_denials",

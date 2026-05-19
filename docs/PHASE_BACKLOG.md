@@ -9,6 +9,15 @@
 
 ## 最新状态
 
+1. Phase 2.98 baseline 已完成：commit `40f71b9`，tag `phase-2.98-standard-agent-boundary-review-baseline`，pushed=true。
+2. Phase 2.99 Standard Boundary Prompt / Tool Description Alignment 已完成首轮 implementation，新增 `app/services/asset_catalog/standard_answer_boundary.py` 与目标测试。
+3. Phase 2.99a 已修复 Codex B review blocker：`docx` / `xlsx` 正文类问题现在返回 `missing_evidence` + `full_text_evidence`。
+4. TDD RED/GREEN 已观察，目标测试已从 `9 passed` 扩展为 `11 passed`；explicit probe 中 `docx/xlsx/pptx/pdf` 均返回 expected Missing Evidence。
+5. Phase 2.99 未连接 DB/NAS/API，未运行 Gateway smoke，未修改共享文档，未执行 parser/writer/scratch copy，未写 index/object-store/memory，未进入 rollout。
+6. 下一步：Codex B review Phase 2.99a；通过后才做 selective baseline，不自动进入下一阶段。
+
+## 最新状态
+
 1. Phase 2.97 baseline 已完成：commit `05e7275`，tag `phase-2.97-frontend-gateway-readonly-trial-runbook-baseline`，pushed=true。
 2. Phase 2.98 Digital Delivery Standard Agent Boundary Review 已完成 docs-only review，新增 `docs/PHASE298_STANDARD_AGENT_BOUNDARY_REVIEW.md`。
 3. Review 已记录共享标准 v0.1 中 `R001-R043` current/backlog/future 规则对 Hermes Agent 回答边界、Missing Evidence 策略和 overclaim 风险的影响。

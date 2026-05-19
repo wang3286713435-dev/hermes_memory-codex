@@ -25,6 +25,17 @@
 5. 本阶段未改代码、未改数据库、未连接 DB/NAS/API、未运行 Gateway smoke、未修改共享文档、未进入 rollout。
 6. Codex B review 已通过；下一步只做 Phase 2.98 selective docs baseline，不自动进入 Phase 2.99。
 
+## Phase 2.99 Standard Boundary Prompt / Tool Description Alignment
+
+1. Phase 2.98 baseline 已完成：commit `40f71b9`，tag `phase-2.98-standard-agent-boundary-review-baseline`，pushed=true。
+2. 已新增 `app/services/asset_catalog/standard_answer_boundary.py`，提供纯 Python 标准回答边界分类与模板。
+3. 已覆盖 DWG/RVT/BIM/PDF/Office Missing Evidence、`current-lineage` 限定语、`A004-A010` lineage-only 口径、memory 低敏引用边界。
+4. Phase 2.99a 已补 `docx` / `xlsx` 正文类问题回归；Office extension content questions 统一要求 `full_text_evidence`。
+5. 已新增 `docs/PHASE299_STANDARD_BOUNDARY_PROMPT_TOOL_ALIGNMENT.md`。
+6. 目标测试 `11 passed`；explicit probe 中 `docx/xlsx/pptx/pdf` 均返回 `missing_evidence ('full_text_evidence',)`。
+7. 本阶段未连接 DB/NAS/API，未运行 Gateway smoke，未修改共享文档，未执行 parser/writer/scratch copy，未写 index/object-store/memory，未进入 rollout。
+8. 下一步：Codex B review Phase 2.99a；通过后再做 selective baseline。
+
 ## Phase 2.96 Gateway Controlled Smoke Result Review
 
 1. Phase 2.95 baseline 已完成：commit `3d70626`，tag `phase-2.95-shared-contract-alignment-baseline`，pushed=true。

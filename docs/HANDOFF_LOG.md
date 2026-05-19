@@ -1,5 +1,14 @@
 # Handoff Log
 
+## 2026-05-19 Phase 2.99 Prompt
+- goal: Prepare Codex A handoff for Standard Boundary Prompt / Tool Description Alignment.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.98 baseline confirmed at commit `40f71b9`, tag `phase-2.98-standard-agent-boundary-review-baseline`; current worktree was clean before prompt update.
+- scope: Codex A should implement a minimal Hermes-side standard boundary artifact with tests for DWG/RVT/BIM/PDF/Office Missing Evidence templates, lineage-only wording, and no forbidden field exposure.
+- risks: Phase 2.99 must not connect to DB/NAS/API, run Gateway smoke, modify shared docs, invoke parser/writer/scratch copy, write index/object-store/memory, or enter rollout.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`, then stops for Codex B review. Do not baseline automatically.
+- commit/tag if any: none.
+
 ## 2026-05-19 Phase 2.98 Codex B Review
 - goal: Review Phase 2.98 Digital Delivery Standard Agent Boundary Review and prepare selective docs baseline.
 - changed_files: `docs/PHASE298_STANDARD_AGENT_BOUNDARY_REVIEW.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -7103,4 +7112,33 @@
 - validation: Review records five shared standard files, `R001-R043` grouping, DWG/RVT/BIM Missing Evidence boundaries, permission/path/conflict safety, overclaim risks, and standardized answer templates.
 - risks: Shared standard future rules must not be treated as current Hermes runtime capability; `Hermes / Jarvis` naming cleanup remains a shared-doc follow-up.
 - next: Codex B review Phase 2.98; if accepted, perform selective docs baseline. Do not enter Phase 2.99 automatically.
+- commit/tag if any: none.
+
+## 2026-05-19 15:15 Phase 2.99 Standard Boundary Prompt / Tool Description Alignment
+
+- goal: Convert Phase 2.98 / shared-standard boundary findings into a minimal Hermes-side, locally testable answer-boundary artifact.
+- changed_files: `app/services/asset_catalog/standard_answer_boundary.py`, `app/services/asset_catalog/__init__.py`, `tests/test_data_steward_standard_answer_boundary.py`, `docs/PHASE299_STANDARD_BOUNDARY_PROMPT_TOOL_ALIGNMENT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: TDD RED observed via missing module; target test passed with `9 passed`; py_compile passed; adjacent Data Steward regression passed with `12 passed`; `git diff --check`, latest JSON validation, latest ignore check, and `git status --short` passed/reviewed.
+- validation: Boundary module covers DWG/RVT/BIM/PDF/Office Missing Evidence, current-lineage wording, `A004-A010` lineage-only risk, low-sensitive memory references, and no write side-effect flags.
+- risks: This is a local boundary artifact, not runtime prompt deployment or Gateway integration.
+- next: Codex B review Phase 2.99; if accepted, perform selective baseline. Do not enter the next phase automatically.
+- commit/tag if any: none.
+
+## 2026-05-19 15:30 Phase 2.99 Codex B Review Blocker
+
+- goal: Review Phase 2.99 implementation before selective baseline.
+- review result: blocked; existing target tests passed, but Codex B independent probe found `docx` / `xlsx`正文问题 fall through to `current_lineage` instead of `missing_evidence`.
+- evidence: `请总结这个 docx 文件正文内容` and `请总结这个 xlsx 表格正文内容` returned `current_lineage ('catalog_metadata')`; expected `missing_evidence ('full_text_evidence')`.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, ignored `reports/agent_runs/latest.json`.
+- next: Codex A must execute Phase 2.99a minimal fix and add regression tests; do not baseline Phase 2.99 yet and do not enter Phase 2.100.
+- commit/tag if any: none.
+
+## 2026-05-19 15:36 Phase 2.99a Codex B Review Fix: Office Extension Missing Evidence Coverage
+
+- goal: Fix Codex B review blocker where `docx` / `xlsx` content questions fell through to `current_lineage`.
+- changed_files: `app/services/asset_catalog/standard_answer_boundary.py`, `tests/test_data_steward_standard_answer_boundary.py`, `docs/PHASE299_STANDARD_BOUNDARY_PROMPT_TOOL_ALIGNMENT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: RED observed for `docx` / `xlsx`; target test passed with `11 passed`; py_compile passed; adjacent Data Steward regression passed with `12 passed`; explicit probe returned `missing_evidence ('full_text_evidence',)` for `docx`, `xlsx`, `pptx`, and `pdf`; `git diff --check`, latest JSON validation, latest ignore check, and `git status --short` passed/reviewed.
+- validation: Office extension content questions now require `full_text_evidence`; true catalog lineage behavior remains unchanged.
+- risks: This is still a local boundary artifact, not runtime prompt deployment or Gateway integration.
+- next: Codex B review Phase 2.99a; if accepted, perform selective baseline. Do not enter the next phase automatically.
 - commit/tag if any: none.
