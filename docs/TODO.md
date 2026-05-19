@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.100a Phase 2 / Phase 3 Boundary Acceptance Audit Coverage Fix
+
+1. 已新增 `docs/PHASE2100_PHASE2_PHASE3_BOUNDARY_ACCEPTANCE_AUDIT.md`，形成 PRD / Roadmap / Technical Design / acceptance matrix traceability audit。
+2. Codex B review 发现覆盖 blocker：PRD §13 MVP 验收未逐项入矩阵，Data Steward / BIM Phase 2 试点边界与 Phase 3+ 产品化边界需拆分，retrieval quality dashboard / automatic eval pipeline 需明确，文档重复段落需清理。
+3. Phase 2.100a 已补入 PRD §13 显式矩阵行、Data Steward split、eval/dashboard rows，并清理 confusing duplicate boundary sections。
+4. 当前结论：Phase 2 closeout readiness=否；不能因为 micro-phase count 到 100 就进入 Phase 3 或 final closeout。
+5. Phase 2.101 建议优先做 PRD acceptance gap closure plan，先决定哪些缺口必须 Phase 2 关闭前完成，哪些需要用户明确重分类到 backlog / Phase 3+。
+6. 当前不进入 runtime implementation、repair、rollout、DB/API/NAS/Gateway smoke 或 Phase 3。
+
 ## Data Steward / NAS Catalog-only Risk Boundary
 
 1. 已采纳 `hermes_agent_risk_notes.md` 中值得进入主线的建议，并固化为 `docs/DATA_STEWARD_AGENT_RISK_BOUNDARY.md`。

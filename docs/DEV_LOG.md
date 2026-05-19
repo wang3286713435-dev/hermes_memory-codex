@@ -1,5 +1,23 @@
 # DEV_LOG
 
+## 2026-05-19 Phase 2.100 Phase 2 / Phase 3 Boundary Acceptance Audit
+
+- 新增 `docs/PHASE2100_PHASE2_PHASE3_BOUNDARY_ACCEPTANCE_AUDIT.md`。
+- 已按 `PRD.md`、`ROADMAP.md`、`TECHNICAL_DESIGN.md`、`PRD_ACCEPTANCE_MATRIX.md`、`PHASE_BACKLOG.md`、`TODO.md`、`DEV_LOG.md`、`ACTIVE_PHASE.md` 做 Phase 2 / Phase 3 boundary acceptance audit。
+- 当前结论：Phase 2 closeout readiness=否；当前系统是强内部受控 MVP 候选，但仍缺原始 Roadmap Phase 2 验收证据或用户重分类决策。
+- 主要缺口：结构化实体关系查询、招标深字段结构化抽取、完整部门/项目/密级权限策略、用户反馈闭环、300+ eval / Top5 / citation / fact manual accuracy metrics、知识管理员 / 人工校验机制、version diff、增量删除 / repair lifecycle。
+- 本阶段 docs-only；未改 runtime code，未连接 DB/NAS/API/Gateway，未执行 repair/backfill/reindex/delete/migration/rollout。
+- 验证：`git diff --check`、latest JSON parse、latest ignore check、`git status --short` 均已执行。
+- 下一步：Codex B review Phase 2.100 audit；通过后再做 selective docs baseline 或进入 Phase 2.101 planning。
+
+## 2026-05-19 Phase 2.100a Codex B Review Fix
+
+- Codex B review 结论：Phase 2.100 audit 方向正确，但不能 baseline；需补齐 PRD §13 MVP 验收显式矩阵、Data Steward Phase 2 / Phase 3+ 边界拆分、retrieval quality dashboard / automatic eval pipeline 覆盖，并清理重复文档段落。
+- 已更新 `docs/PHASE2100_PHASE2_PHASE3_BOUNDARY_ACCEPTANCE_AUDIT.md`：新增 PRD §13 16 项矩阵行，拆分 Data Steward asset catalog trial planning / boundary 与 Phase 3+ productization，补 automatic evaluation pipeline 与 retrieval quality dashboard rows。
+- 已清理 `docs/PHASE_BACKLOG.md` / `docs/TODO.md` 中容易混淆的重复 boundary audit 段落，并移除 `docs/DEV_LOG.md` 中段重复 `# DEV_LOG` header。
+- 本阶段 docs-only；未改 runtime code，未连接 DB/NAS/API/Gateway，未执行 repair/backfill/reindex/delete/migration/rollout。
+- 下一步：执行文档校验后停止，等待 Codex B review Phase 2.100a。
+
 - [Phase 2.99a Codex B Review Fix] 修复 Office extension Missing Evidence 覆盖缺口：Codex B review 发现 `docx` / `xlsx` 正文类问题误落入 `current_lineage`。本轮用 TDD 新增 `docx` / `xlsx` 回归，RED 复现 `current_lineage`，随后最小修改 `standard_answer_boundary.py`，将 `doc/docx/xls/xlsx` 等 Office 扩展名正文/内容/总结/全文问题归入 `missing_evidence` + `full_text_evidence`。目标测试 `11 passed`，explicit probe 显示 `docx/xlsx/pptx/pdf` 均返回 expected Missing Evidence。本轮未连接 DB/NAS/API，未运行 Gateway smoke，未修改共享文档，未执行 parser/writer/scratch copy，未写 DB/index/object-store/memory，未进入 rollout；下一步需要 Codex B 复核。
 
 - [Phase 2.99 Standard Boundary Prompt / Tool Description Alignment] 完成首轮实现：新增 `app/services/asset_catalog/standard_answer_boundary.py`，把 Phase 2.98 / 共享标准评审结论转成 Hermes 侧最小可测试回答边界 artifact。模块覆盖 DWG `dwg_parse_evidence`、RVT `rvt_parse_evidence`、BIM `component_evidence` / `manual_evidence`、PDF/Office `full_text_evidence` Missing Evidence 模板；catalog / filename / redacted path lineage 回答使用“目录/文件名/脱敏路径线索显示……”并明确不能作为强事实或合规结论；memory reference boundary 只允许低敏 `related_file_ids` / `query_id` / `project_id` / `feedback_labels`，不证明 Hermes 已读取 NAS 文件内容。TDD RED 已观察；目标测试 `9 passed`。本轮未连接 DB/NAS/API，未运行 Gateway smoke，未修改共享文档，未执行 parser/writer/scratch copy，未写 DB/index/object-store/memory，未进入 rollout；下一步需要 Codex B review。
@@ -688,3 +706,7 @@
 - [Phase 2.87c Prompt] Phase 2.87b baseline 已完成：commit `44cc837`，tag `phase-2.87b-evidence-only-writer-baseline`，pushed=true。Codex B 已将下一步推进为 docs-only Controlled Runtime Evidence Write Smoke Planning：下一轮只规划 operator approval JSON、feature flags default off、transaction / commit boundary、rollback dry-run、idempotency re-run、post-write inspection 与 sanitized report；仍禁止真实 DB 写入、API / CLI runtime wiring、parser、真实文件复制、NAS scan、OpenSearch / Qdrant / MinIO 写入、platform DB 写入、Agent answer integration、Agent DB/NAS CRUD、repair/reindex/rollout。
 
 - [Phase 2.99 Codex B Review] 复跑目标测试 `9 passed`、py_compile 通过、相邻 Data Steward 回归 `12 passed`、`git diff --check` / latest JSON / ignore check 通过；但独立 probe 发现 `docx` / `xlsx` 正文类问题误落到 `current_lineage`，存在 Office extension overclaim 风险。已写入 Phase 2.99a 修复提示词，要求 Codex A 最小补齐 `full_text_evidence` Missing Evidence 覆盖与回归测试；暂不 baseline，不进入 Phase 2.100。
+
+- [Phase 2.100 Prompt] Phase 2.99 baseline 已完成：commit `e052828`，tag `phase-2.99-standard-boundary-alignment-baseline`，pushed=true。Codex B 已纠正 Phase 2 收口策略：不能因阶段号到 100 就 closeout，必须先按 `PRD.md`、`ROADMAP.md`、`TECHNICAL_DESIGN.md` 建立 Phase 2 / Phase 3 boundary acceptance audit。只有 Phase 2 required / MVP required 项完成，或经用户批准重分类到 backlog / Phase 3+ 后，才能进入 Phase 2 closeout。
+
+- [Phase 2.100 Correction] 用户明确指出 Phase 2 不能因为阶段号到 100 就急于收口，必须先完成原始 PRD / Roadmap / Technical Design 对 Phase 2 与 Phase 3 的边界验收。Codex B 已撤回固定四阶段 closeout 口径，改为 Phase 2 / Phase 3 boundary acceptance audit：先建立 requirement matrix，再判断哪些完成、哪些 partial、哪些仍属 Phase 2、哪些需用户批准后移入 Phase 3+。

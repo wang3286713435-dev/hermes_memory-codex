@@ -1,5 +1,13 @@
 # Phase Backlog
 
+## Phase 2.100a Boundary Acceptance Audit Coverage Fix
+
+1. Phase 2.100 audit document 已完成首版：`docs/PHASE2100_PHASE2_PHASE3_BOUNDARY_ACCEPTANCE_AUDIT.md`。
+2. Codex B review blocker：PRD §13 MVP acceptance rows、Data Steward Phase 2 vs Phase 3+ split、automatic eval pipeline / retrieval quality dashboard rows、文档卫生需要修复。
+3. 当前结论仍为：Phase 2 closeout readiness=否；当前可作为内部受控 MVP 候选继续治理，但不能声称已满足原始 Roadmap Phase 2 验收。
+4. 下一步建议：Codex A 完成 Phase 2.100a coverage fix 后停止等待 Codex B review；通过后再考虑 selective docs baseline 或 Phase 2.101 PRD acceptance gap closure plan。
+5. Phase 3+ 仍后置：Data Steward productization、BIM/DWG/RVT deep parsing、production rollout、repair executor、full RBAC/ABAC、raw audio ASR、complete auto facts extraction。
+
 ## Data Steward / NAS Catalog-only Risk Boundary
 
 1. 新增 `docs/DATA_STEWARD_AGENT_RISK_BOUNDARY.md`，作为后续 Hermes Data Steward / NAS / DB catalog-only 接入的风险边界。

@@ -7142,3 +7142,49 @@
 - risks: This is still a local boundary artifact, not runtime prompt deployment or Gateway integration.
 - next: Codex B review Phase 2.99a; if accepted, perform selective baseline. Do not enter the next phase automatically.
 - commit/tag if any: none.
+
+## 2026-05-19 16:20 Phase 2.100 Exit Runway Prompt
+
+- goal: Prevent premature Phase 2 closeout by auditing original Phase 2 / Phase 3 boundaries and MVP acceptance criteria.
+- background: Phase 2.99 baseline completed at `e052828`, tag `phase-2.99-standard-boundary-alignment-baseline`, pushed=true.
+- decision: Phase 2 should not end until original Phase 2 requirements are audited and either satisfied or explicitly reclassified with user approval.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/HANDOFF_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- next: Codex A should execute Phase 2.100 docs-only exit runway plan, then stop for Codex B review. Do not enter runtime implementation automatically.
+- commit/tag if any: none.
+
+## 2026-05-19 16:35 Phase 2.100 Boundary Correction
+
+- goal: Correct premature Phase 2 closeout wording after user clarified Phase 2 must satisfy the original PRD / Roadmap / Technical Design boundary before closeout.
+- decision: Phase 2 will not close by micro-phase count or a fixed four-step runway. It now requires a Phase 2 / Phase 3 boundary acceptance audit matrix first.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/HANDOFF_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- next: Codex A should execute Phase 2.100 docs-only boundary acceptance audit, then stop for Codex B review.
+- commit/tag if any: none.
+
+## 2026-05-19 16:11 Phase 2.100 Phase 2 / Phase 3 Boundary Acceptance Audit
+
+- goal: Audit original Phase 2 / Phase 3 requirements and acceptance boundaries before any Phase 2 closeout claim.
+- changed_files: `docs/PHASE2100_PHASE2_PHASE3_BOUNDARY_ACCEPTANCE_AUDIT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON parse passed; latest ignore check passed; `git status --short` reviewed.
+- validation: Audit matrix covers required PRD / Roadmap / Technical Design acceptance areas and concludes Phase 2 closeout readiness is no.
+- risks: Several Phase 2 required items remain partial or need user reclassification: entity relationships, tender structured deep fields, full permission strategy, feedback loop, eval metrics, manual fact validation accuracy, admin/human validation, version diff, incremental delete/repair lifecycle.
+- next: Codex B review Phase 2.100 audit; if accepted, selective docs baseline. Do not enter Phase 2.101 or Phase 3 automatically.
+- commit/tag if any: none.
+
+## 2026-05-19 16:55 Phase 2.100 Codex B Review Blocker
+
+- goal: Review Phase 2.100 boundary acceptance audit against original PRD / Roadmap / Technical Design.
+- review result: blocked; audit direction is correct, but matrix needs fuller coverage before baseline.
+- blockers: PRD section 13 MVP acceptance items are not explicit matrix rows; Data Steward / BIM Phase 2 trial-boundary vs Phase 3 productization is too coarse; retrieval quality dashboard / automatic evaluation pipeline coverage needs clearer rows; docs hygiene has duplicated / confusing closeout wording.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, ignored `reports/agent_runs/latest.json`.
+- next: Codex A must execute Phase 2.100a audit coverage fix and stop for Codex B review.
+- commit/tag if any: none.
+
+## 2026-05-19 16:32 Phase 2.100a Codex B Review Fix: Complete PRD / Roadmap Acceptance Coverage
+
+- goal: Fix Codex B blockers in the Phase 2.100 boundary acceptance audit.
+- changed_files: `docs/PHASE2100_PHASE2_PHASE3_BOUNDARY_ACCEPTANCE_AUDIT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON parse passed; latest ignore check passed; `git status --short` reviewed; duplicate/stale docs hygiene check passed.
+- validation: Added explicit PRD §13 MVP acceptance rows, split Data Steward Phase 2 catalog-only/boundary from Phase 3+ productization, added automatic eval pipeline / retrieval quality dashboard rows, and cleaned duplicate/confusing docs sections.
+- risks: Phase 2 closeout readiness remains no; evidence/decision gaps still need Codex B and user review before any baseline or Phase 2.101.
+- next: Run validation, then stop for Codex B review. Do not baseline or enter Phase 2.101 automatically.
+- commit/tag if any: none.
