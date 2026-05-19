@@ -8,6 +8,24 @@
 4. 当前仍禁止把 catalog rows、真实 `storage_path`、DWG / RVT 内容、NAS 文件正文或 raw row 写入 `documents/chunks/Qdrant/OpenSearch` 或 Hermes long-term memory。
 5. 后续 prompt / tool description / 前端文案需要避免承诺 DWG / RVT 内容理解、BIM 构件级搜索、NAS 全文搜索或 NAS 语义搜索。
 
+## Phase 2.95 Shared Contract Alignment
+
+1. Phase 2.95 alignment 文档已完成，Codex B review 通过。
+2. 下一步只做 Phase 2.95 selective docs baseline。
+3. 实际 Frontend / Gateway controlled smoke 已按正常平台登录流程重跑并返回 `Go`；该 Go 仍需 Phase 2.96 正式审查。
+4. Phase 2.96 应记录并审查该 Go 报告，确认其仍是 read-only controlled smoke，不是 production rollout。
+5. 当前仍禁止 DB/NAS 写入、parser/writer/index 写入、Agent answer integration 或 rollout。
+
+## Phase 2.95 Shared Contract Alignment
+
+1. Phase 2.94a baseline 已完成：commit `712cd83`，tag `phase-2.94a-gateway-smoke-handoff-baseline`，pushed=true。
+2. 已将共享文档空间 `DigitalDeliveryProject` 纳入 Hermes 主线契约维护流程。
+3. 已新增 `docs/PHASE295_SHARED_CONTRACT_ALIGNMENT.md`，记录共享文件读取清单、Hermes 主责文件、同步触发条件、当前一致性结论与不一致项。
+4. 当前 required shared contract 未发现 mismatch；本轮未修改共享空间文件。
+5. 后续修改 Catalog Tool schema、Missing Evidence、memory 写入边界、`related_file_ids`、prompt/tool description、标准解释能力时，必须同步共享文档。
+6. 本阶段不执行真实 Gateway smoke、不连接 DB/NAS/API、不改代码、不运行 parser/writer、不写 index/object-store、不 rollout。
+7. 下一步：Codex B review Phase 2.95 alignment；通过后再做 selective docs baseline。
+
 ## Phase 2.94a Frontend / Gateway Controlled Smoke Handoff Pack
 
 1. Phase 2.94a handoff pack 已完成，Codex B review 通过。

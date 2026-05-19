@@ -1,15 +1,15 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.94a Frontend / Gateway Controlled Smoke Handoff Pack Baseline
+## Phase 2.95 Shared Contract Alignment Baseline
 
-Codex B review passed. Create a selective Git baseline for Phase 2.94a Frontend / Gateway Controlled Smoke Handoff Pack.
+Codex B review passed. Create a selective Git baseline for Phase 2.95 Shared Contract Alignment.
 
-Do not run frontend / Gateway smoke. Do not enter Phase 2.94b automatically.
+Do not enter Phase 2.96 automatically. Do not run frontend / Gateway smoke.
 
 Previous baseline:
 
-- commit: `b41bf9b`
-- tag: `phase-2.94-frontend-gateway-smoke-plan-baseline`
+- commit: `712cd83`
+- tag: `phase-2.94a-gateway-smoke-handoff-baseline`
 - pushed: true
 
 ## Review Summary
@@ -17,21 +17,22 @@ Previous baseline:
 Codex B reviewed:
 
 ```text
-docs/CODEX_DB_TEAM_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PROMPT.md
-docs/PHASE294_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PLAN.md
-docs/DB_TEAM_HERMES_FRONTEND_GATEWAY_INTEGRATION_V3.md
-docs/DATA_STEWARD_AGENT_RISK_BOUNDARY.md
+docs/PHASE295_SHARED_CONTRACT_ALIGNMENT.md
+docs/PHASE_BACKLOG.md
+docs/TODO.md
+docs/DEV_LOG.md
 ```
 
 Review result:
 
-1. The handoff prompt remains read-only, sanitized, and fail-closed.
-2. It clearly requires separate operator authorization before any runtime smoke.
-3. Endpoint matrix covers capabilities, health, chat, catalog search, compatibility route, permission-denied, and catalog-only DWG / RVT / BIM content question.
-4. Forbidden-field scan covers storage path / URI variants, NAS URI, raw row, SQL, token, secret, bearer, raw content, true NAS path, and executable write / repair / ingestion actions.
-5. Permission-denied behavior is fail-closed.
-6. Catalog-only content questions must return Missing Evidence / `asset_catalog_only`.
-7. Go / Pause / No-Go criteria do not authorize runtime writes, Agent DB CRUD, NAS scan, parser, writer, index/object-store writes, Agent answer integration, or rollout.
+1. Shared files read list is complete for the required Phase 2.95 scope.
+2. Hermes-owned / reviewed shared files match `ops/document_ownership.md`.
+3. `asset_catalog_search` boundary is read-only / fail-closed / catalog-only.
+4. Missing Evidence policy is aligned.
+5. Memory / `related_file_ids` boundary is safe.
+6. Gateway permission and path redaction boundary is aligned.
+7. Official name is Hermes; Jarvis is legacy / not official.
+8. No required shared contract mismatch was found.
 
 ## Required Validation
 
@@ -49,7 +50,7 @@ Expected:
 1. `git diff --check` passes.
 2. latest JSON parses.
 3. `reports/agent_runs/latest.json` is ignored.
-4. `git status --short` contains only Phase 2.94a docs / handoff files.
+4. `git status --short` contains only Phase 2.95 docs / handoff files.
 
 No pytest is required because no code changed.
 
@@ -57,7 +58,7 @@ No pytest is required because no code changed.
 
 Stage only:
 
-1. `docs/CODEX_DB_TEAM_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PROMPT.md`
+1. `docs/PHASE295_SHARED_CONTRACT_ALIGNMENT.md`
 2. `docs/NEXT_CODEX_A_PROMPT.md`
 3. `docs/ACTIVE_PHASE.md`
 4. `docs/PHASE_BACKLOG.md`
@@ -68,8 +69,9 @@ Stage only:
 Do not stage:
 
 1. ignored `reports/agent_runs/latest.json`
-2. any DB output, NAS output, platform Gateway output, approval JSON, `.env`, secret, raw sample, screenshot, or unrelated file
-3. code, tests, scripts, migrations, parser files, Gateway implementation files, frontend files, or backend platform files
+2. any shared-folder file under `DigitalDeliveryProject`
+3. any DB output, NAS output, platform Gateway output, approval JSON, `.env`, secret, raw sample, screenshot, or unrelated file
+4. code, tests, scripts, migrations, parser files, Gateway implementation files, frontend files, or backend platform files
 
 If any non-allowed tracked or untracked file appears, stop and report.
 
@@ -87,13 +89,13 @@ The cached file list must match the allowed baseline files only.
 Commit message:
 
 ```text
-docs: add phase 2.94a gateway smoke handoff
+docs: align shared digital delivery contracts
 ```
 
 Tag:
 
 ```text
-phase-2.94a-gateway-smoke-handoff-baseline
+phase-2.95-shared-contract-alignment-baseline
 ```
 
 Push `origin/main` and the tag.
@@ -117,7 +119,7 @@ Still forbidden:
 13. exposing true `storage_path`, raw row, NAS path, raw content, secret, token, bearer, or credential material
 14. repair / cleanup / backfill / reindex / delete / migration
 15. production rollout
-16. entering Phase 2.94b automatically
+16. entering Phase 2.96 automatically
 
 ## Completion Report
 
@@ -128,5 +130,6 @@ Report:
 3. commit hash
 4. tag
 5. push result
-6. confirmation that Gateway smoke, DB/NAS access, writer, parser, index/object-store writes, Agent answer integration, and rollout remain blocked
-7. final `git status --short`
+6. confirmation no shared-folder files were staged
+7. confirmation that runtime smoke, DB/NAS access, writer, parser, index/object-store writes, Agent answer integration, and rollout remain blocked
+8. final `git status --short`

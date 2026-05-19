@@ -9,12 +9,40 @@
 
 ## 最新状态
 
+1. Phase 2.95 Shared Contract Alignment 已完成 docs-only / contract-alignment。
+2. 新增 `docs/PHASE295_SHARED_CONTRACT_ALIGNMENT.md`，正式记录 Hermes 对共享 `DigitalDeliveryProject` 契约文件的采用、维护责任、sync rules 与当前 mismatch list。
+3. 已读取 Phase 2.95 指定的 14 个共享文件；当前 required shared contract 未发现 mismatch。
+4. 本轮未修改共享空间文件，未执行真实 smoke，未连接 DB / NAS / API，未实现 Gateway code，未运行 parser/writer，未写 index/object-store，未进入 rollout。
+5. 下一步：Codex B review Phase 2.95 alignment；通过后才考虑 selective docs baseline。
+6. 不得自动进入 Phase 2.96 或真实 frontend / Gateway smoke。
+
+## 最新状态
+
 1. Phase 2.94a Frontend / Gateway Controlled Smoke Handoff Pack 已完成 docs-only handoff artifact。
 2. 新增 `docs/CODEX_DB_TEAM_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PROMPT.md`，用于未来 Codex C / 数据库团队 Codex 在单独授权后执行 read-only controlled smoke。
 3. Prompt 覆盖 required placeholders、sanitized inputs、endpoint matrix、safe fields、forbidden-field scan、permission-denied、catalog-only Missing Evidence / `asset_catalog_only`、Go / Pause / No-Go 与 final report template。
 4. 本阶段未执行真实 smoke，未连接 DB / NAS / platform API / Hermes API，未实现 Gateway code，未运行 parser/writer，未写 index/object-store，未进入 rollout。
 5. 下一步：Codex B review Phase 2.94a handoff prompt；review 通过后才考虑 selective docs baseline。
 6. 仍不得自动进入 Phase 2.94b 或真实 frontend / Gateway smoke。
+
+## 最新状态
+
+1. Phase 2.95 Shared Contract Alignment 已完成，Codex B review 通过。
+2. 新增 `docs/PHASE295_SHARED_CONTRACT_ALIGNMENT.md`，记录 Hermes 对共享 `DigitalDeliveryProject` 契约的采用、维护责任和同步规则。
+3. 未发现 required shared contract mismatch，未修改共享空间文件。
+4. 实际 Frontend / Gateway controlled smoke 已按正常平台登录流程重跑并回传 `Go`：login / project switch / capabilities / health / chat / catalog search / compatibility / permission-denied / catalog-only content question 均通过，未发现 forbidden-field 泄露或写入副作用。
+5. 下一步：先做 Phase 2.95 selective docs baseline；baseline 后进入 Phase 2.96 Gateway controlled smoke result review。
+6. 当前仍禁止 production rollout、Agent DB CRUD、Agent SQL、NAS scan、parser、scratch copy、writer、index/object-store write、Agent answer integration；Smoke Go 不等于生产发布许可。
+
+## 最新状态
+
+1. Phase 2.94a baseline 已完成：commit `712cd83`，tag `phase-2.94a-gateway-smoke-handoff-baseline`，pushed=true。
+2. 当前进入 Phase 2.95 Shared Contract Alignment。
+3. 共享文档空间路径：`/Users/Weishengsu/Library/Mobile Documents/com~apple~CloudDocs/数字化交付平台/DigitalDeliveryProject`。
+4. Phase 2.95 目标：创建 `docs/PHASE295_SHARED_CONTRACT_ALIGNMENT.md`，记录 Hermes 与共享契约的对齐、维护责任、同步触发条件和当前红线。
+5. 已确认当前共享契约方向：Hermes 为官方名称；`asset_catalog_search` read-only / fail-closed / catalog-only；`project_scope` 必须由 Platform Gateway 服务端生成或校验；路径类字段必须脱敏；catalog metadata 不得作为正文 evidence；DWG/RVT 内容问题必须 Missing Evidence。
+6. 本阶段不执行真实 smoke，不连接 DB/NAS/platform API/Hermes API，不实现 Gateway code，不运行 parser/writer，不写 index/object-store，不进入 rollout。
+7. 下一步：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 完成 Phase 2.95 shared contract alignment，然后停止等待 Codex B review。
 
 ## 最新状态
 

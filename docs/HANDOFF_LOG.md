@@ -1,5 +1,25 @@
 # Handoff Log
 
+## 2026-05-19 Phase 2.95 Codex B Review
+- goal: Review Phase 2.95 shared contract alignment and authorize selective docs baseline.
+- changed_files: `docs/PHASE295_SHARED_CONTRACT_ALIGNMENT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: `git diff --check` passed; latest JSON parse passed; latest ignore check passed.
+- review: Alignment document correctly records shared files read, Hermes ownership/review scope, official Hermes naming, read-only catalog tool boundary, Missing Evidence policy, memory / related_file_ids boundary, Gateway permission and path redaction boundary, and no required mismatch.
+- smoke_status: Frontend / Gateway controlled smoke was rerun through normal platform login and project switch; latest report returned `Go` with no forbidden-field leakage and no write side effects.
+- risks: Phase 2.95 baseline is docs-only; latest smoke Go still requires Phase 2.96 result review and is not production rollout approval.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` for Phase 2.95 selective docs baseline and stops. After baseline, plan Phase 2.96 to review the Gateway controlled smoke Go report.
+- commit/tag if any: none.
+
+## 2026-05-19 Phase 2.95 Prompt
+- goal: Adopt the shared DigitalDeliveryProject document space as the Hermes cross-project contract source.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.94a baseline confirmed at commit `712cd83`, tag `phase-2.94a-gateway-smoke-handoff-baseline`; worktree was clean before prompt update.
+- shared_docs_read: `README.md`, `PROJECT_CHARTER.md`, `RISK_RED_LINES.md`, `docs/01_capability_matrix.md`, `platform_to_hermes_contract.md`, `catalog_tool_contract.md`, `missing_evidence_policy.md`, `feedback_contract.md`, `gateway_response_contract.md`, `standard_to_agent_boundary.md`, `hermes_agent_bootstrap.md`, `hermes_agent_risk_notes.md`, `document_ownership.md`, `change_workflow.md`.
+- scope: Codex A should create `docs/PHASE295_SHARED_CONTRACT_ALIGNMENT.md`, verify shared contract alignment, and update only Hermes-owned/shared contract docs if mismatches remain.
+- risks: Phase 2.95 must remain docs-only / contract-alignment only; no runtime smoke, DB/NAS/API connection, code implementation, parser, writer, index/object-store write, Agent answer integration, or rollout.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-18 Phase 2.94a Codex B Review
 - goal: Review Phase 2.94a frontend / Gateway controlled smoke handoff prompt and authorize selective docs baseline.
 - changed_files: `docs/CODEX_DB_TEAM_FRONTEND_GATEWAY_CONTROLLED_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -6990,4 +7010,14 @@
 - validation: Handoff prompt covers required placeholders, sanitized inputs, endpoint matrix, safe fields, forbidden-field scan, permission-denied, catalog-only Missing Evidence / `asset_catalog_only`, Go / Pause / No-Go, and final report template.
 - risks: Handoff-only; actual frontend / Gateway smoke, DB/NAS/API access, parser/writer/index writes, Agent DB CRUD, content ingestion, and rollout remain unauthorized.
 - next: Codex B review Phase 2.94a handoff prompt; if accepted, consider selective docs baseline. Do not enter Phase 2.94b or real smoke automatically.
+- commit/tag if any: none.
+
+## 2026-05-19 10:53 Phase 2.95 Shared Contract Alignment
+
+- goal: Adopt the shared DigitalDeliveryProject document space as a Hermes contract input and record current catalog-only / Missing Evidence / memory / Gateway boundary alignment.
+- changed_files: `docs/PHASE295_SHARED_CONTRACT_ALIGNMENT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check`; latest JSON validation; `git check-ignore reports/agent_runs/latest.json`; `git status --short`.
+- validation: Read the 14 required shared files; documented Hermes-owned / reviewed files, adopted boundaries, sync rules, and mismatch list. No required shared contract mismatch found and no shared files changed.
+- risks: Alignment-only; shared docs are not runtime authorization. Real smoke, DB/NAS/API access, Gateway code, parser/writer/index writes, Agent DB CRUD, content ingestion, and rollout remain unauthorized.
+- next: Codex B review Phase 2.95 alignment; if accepted, consider selective docs baseline. Do not enter Phase 2.96 automatically.
 - commit/tag if any: none.
