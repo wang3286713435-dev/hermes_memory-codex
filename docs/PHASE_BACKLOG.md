@@ -1,5 +1,15 @@
 # Phase Backlog
 
+## Phase 2.108 Standalone Kernel Freeze Contract
+
+1. 稳定平台集成基线已完成并推送：commit `fb3781a`，tag `phase-2-stable-hermes-platform-integration-baseline`。
+2. Phase 2.108 目标是补齐 standalone Hermes kernel freeze contract，防止平台 catalog-only / Gateway 只读接入被误解为 Hermes 的产品上限。
+3. 已新增 `docs/PHASE2108_STANDALONE_KERNEL_FREEZE_CONTRACT.md`，明确 Hermes=企业 Agent 内核，Platform=UI/Gateway/权限/数据表面，Data Steward/Catalog=Hermes 能力模块之一。
+4. Phase 2 stable tag 继续代表平台安全集成基线：catalog-only、permission-aware、Missing Evidence、安全 IDs/traces、authorityHealth.orange、无 raw path/raw row/secret 泄露。
+5. Phase 2.108 增加验收口径：即使测试机停在 Phase 2 stable tag，也不能阻塞后续平台逐步解锁 Hermes native session、Evidence Layer、Memory Layer、NAS governance 与 workspace 能力。
+6. Phase 3+ 仍后置：production rollout、Agent DB CRUD/SQL、DWG/RVT/BIM 内容理解、NAS semantic collection、full Data Steward productization、orchestration runtime。
+7. 下一步：Codex B review Phase 2.108；通过后 selective docs / checklist baseline。不得 stage 无关 `docs/digital-delivery-standards/`。
+
 ## Phase 2 Stable Hermes Platform Baseline Tag
 
 1. Phase 2.107 baseline 已完成并推送：commit `3ef3966`，tag `phase-2.107-minimal-freeze-blocker-closure-baseline`。

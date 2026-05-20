@@ -4,6 +4,8 @@
 
 Update the test machine to the stable Hermes platform-integration baseline.
 
+This stable tag is a safe platform integration target. It is not a statement that Hermes is only a platform catalog chatbot. Later Hermes releases may unlock native session, Evidence Layer, Memory Layer, and NAS governance while keeping this tag available as the conservative platform baseline.
+
 Stable baseline tag:
 
 ```text

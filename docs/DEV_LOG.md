@@ -1,5 +1,14 @@
 # DEV_LOG
 
+## 2026-05-20 Phase 2.108 Standalone Kernel Freeze Contract
+
+- 新增 `docs/PHASE2108_STANDALONE_KERNEL_FREEZE_CONTRACT.md`，将 Phase 2 stable platform baseline 与 Hermes standalone enterprise agent kernel identity 分开冻结。
+- 明确平台 catalog-only / Gateway read-only 是当前安全表面，不是 Hermes 产品上限；Hermes 脱离平台仍保留 workspace、session/context、memory/evidence/retrieval、file governance 与 NAS governance 路线。
+- 更新 `eval/phase2_inventory/platform_stable_hermes_freeze_checklist.json`，增加 standalone kernel / platform-does-not-shrink-kernel / workspace preservation / Phase 3 unlock path 检查项。
+- 更新 `docs/CODEX_TEST_MACHINE_UPDATE_TO_STABLE_HERMES_PROMPT.md`，说明 stable tag 是保守平台集成目标，不削弱后续 Hermes native / evidence / memory / NAS governance 解锁。
+- 同步共享 `DigitalDeliveryProject` 契约文件：`hermes_kernel_authority_contract.md`、`platform_to_hermes_contract.md`、`hermes_capability_handoff.md`、`01_capability_matrix.md`。
+- 本阶段仍只做 docs / contract；未改 runtime code/tests/platform repo，未连接 DB/NAS/API/Gateway，未执行 SQL/parser/scratch/writer/repair/backfill/reindex/delete/migration/rollout，未写 memory/facts/index/object-store。
+
 ## 2026-05-20 Phase 2.107 Minimal Freeze Blocker Closure Plan
 
 - 新增 `docs/PHASE2107_MINIMAL_FREEZE_BLOCKER_CLOSURE_PLAN.md`，定义 stable tag 前最小 blocker closure set、known-risk freeze、Phase 3+ 后置与用户业务决策项。

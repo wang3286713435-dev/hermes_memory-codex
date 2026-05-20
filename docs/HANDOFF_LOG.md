@@ -1,5 +1,15 @@
 # Handoff Log
 
+## 2026-05-20 Phase 2.108 Standalone Kernel Freeze Contract
+- goal: Protect Hermes's standalone enterprise agent kernel identity before Phase 2 stable freeze.
+- changed_files: `docs/PHASE2108_STANDALONE_KERNEL_FREEZE_CONTRACT.md`, `docs/CODEX_TEST_MACHINE_UPDATE_TO_STABLE_HERMES_PROMPT.md`, `eval/phase2_inventory/platform_stable_hermes_freeze_checklist.json`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, shared `DigitalDeliveryProject` contract files, ignored `reports/agent_runs/latest.json`.
+- validation: Pending `git diff --check`, JSON parse, latest ignore check, and shared-doc path check.
+- scope: Docs / contract only. Platform catalog-only integration remains safe current surface; standalone Hermes workspace / session / memory / evidence / retrieval / NAS governance paths are preserved for later controlled unlock.
+- decision: Phase 2 stable tag can remain a platform integration baseline only if it does not redefine Hermes as a platform plugin or path-query chatbot.
+- risks: Runtime native session, Evidence Layer, Memory runtime, target-scale metrics, natural import usability, Data Steward full product, Agent DB CRUD/SQL, NAS semantic collection, DWG/RVT/BIM content understanding remain known risk / Phase 3+.
+- next: Codex B review Phase 2.108; if passed, selective docs / checklist baseline. Do not enter Phase 3 or production rollout.
+- commit/tag if any: none yet.
+
 ## 2026-05-20 Phase 2.107 Prompt
 - goal: Prepare Codex A handoff for Minimal Freeze Blocker Closure Plan.
 - changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.

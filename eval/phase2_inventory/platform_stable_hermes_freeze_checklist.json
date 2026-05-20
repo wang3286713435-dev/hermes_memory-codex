@@ -1,8 +1,8 @@
 {
-  "schema_version": "platform_stable_hermes_freeze_checklist.v1.1",
-  "phase": "Phase 2 Stable Hermes Platform Baseline",
+  "schema_version": "platform_stable_hermes_freeze_checklist.v1.2",
+  "phase": "Phase 2 Stable Hermes Platform Baseline + Standalone Kernel Freeze",
   "freeze_target": "Phase 2 Stable Hermes for Platform Integration",
-  "purpose": "Checklist for the stable platform integration baseline after Platform 0B Gateway live smoke returned Go; this still does not close full Phase 2 PRD/Roadmap metrics or authorize production rollout.",
+  "purpose": "Checklist for the stable platform integration baseline after Platform 0B Gateway live smoke returned Go, with Phase 2.108 addendum preserving Hermes standalone enterprise agent kernel authority; this still does not close full Phase 2 PRD/Roadmap metrics or authorize production rollout.",
   "safety_rules": [
     "No raw platform reports, secrets, raw paths, raw DB rows, or customer data.",
     "This checklist does not run runtime smoke.",
@@ -20,6 +20,50 @@
       "owner": "Hermes",
       "decision": "go",
       "notes": "Hermes must not be described as a generic platform chat plugin."
+    },
+    {
+      "item_id": "freeze_standalone_kernel_001",
+      "category": "standalone_kernel_authority",
+      "description": "Hermes retains standalone enterprise agent kernel identity outside the platform Gateway.",
+      "freeze_required": true,
+      "current_status": "ready",
+      "evidence_ref": "docs/PHASE2108_STANDALONE_KERNEL_FREEZE_CONTRACT.md",
+      "owner": "Hermes",
+      "decision": "go",
+      "notes": "Platform catalog-only integration is the current safety surface, not the product ceiling."
+    },
+    {
+      "item_id": "freeze_platform_does_not_shrink_kernel_001",
+      "category": "architecture_authority",
+      "description": "Platform read-only / catalog-only mode must not redefine Hermes as a path-query chatbot.",
+      "freeze_required": true,
+      "current_status": "ready",
+      "evidence_ref": "docs/PHASE2108_STANDALONE_KERNEL_FREEZE_CONTRACT.md",
+      "owner": "Hermes / Platform",
+      "decision": "go",
+      "notes": "Data Steward / Catalog remains one Hermes capability module, not the whole Hermes product."
+    },
+    {
+      "item_id": "freeze_workspace_memory_evidence_paths_001",
+      "category": "future_unlock_preservation",
+      "description": "Standalone workspace, session/context, memory, evidence, retrieval, file governance, and NAS governance paths remain preserved for later controlled unlock.",
+      "freeze_required": true,
+      "current_status": "ready_as_contract",
+      "evidence_ref": "docs/PHASE2108_STANDALONE_KERNEL_FREEZE_CONTRACT.md",
+      "owner": "Hermes",
+      "decision": "go",
+      "notes": "This does not claim runtime productization; it prevents Phase 2 stable integration from blocking Phase 3 unlocks."
+    },
+    {
+      "item_id": "freeze_phase3_unlock_map_001",
+      "category": "phase3_plus_boundary",
+      "description": "Phase 3 unlock map is explicit: native session, Evidence Layer, Memory Layer, feedback, natural import, NAS governance, and orchestration.",
+      "freeze_required": true,
+      "current_status": "ready_as_contract",
+      "evidence_ref": "docs/PHASE2108_STANDALONE_KERNEL_FREEZE_CONTRACT.md",
+      "owner": "Hermes",
+      "decision": "go",
+      "notes": "These remain controlled future capabilities, not current platform runtime promises."
     },
     {
       "item_id": "freeze_gateway_001",

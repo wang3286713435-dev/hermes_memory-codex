@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.108 Standalone Kernel Freeze Contract
+
+1. 当前进入 Phase 2.108，目标是补齐 Phase 2 收口前的 standalone Hermes kernel freeze contract。
+2. 核心判断：平台 catalog-only / Gateway 只读是安全表面，不是 Hermes 产品上限；Hermes 脱离平台仍应保留企业 Agent 内核定位。
+3. 已新增 `docs/PHASE2108_STANDALONE_KERNEL_FREEZE_CONTRACT.md`。
+4. Phase 2 验收新增：Hermes 自有 workspace、session/context、memory/evidence/retrieval、文件治理和后续 NAS governance 路线必须被保留。
+5. 当前仍不进入 runtime 实现、不连接平台/DB/NAS、不写 memory/index/object-store、不进入 production rollout。
+6. 下一步：Codex B review Phase 2.108；通过后 selective baseline。不得把 stable platform tag 写成 full Phase 2 closeout。
+
 ## Phase 2 Stable Hermes Platform Baseline Tag
 
 1. Phase 2.107 baseline 已完成并推送：commit `3ef3966`，tag `phase-2.107-minimal-freeze-blocker-closure-baseline`。
