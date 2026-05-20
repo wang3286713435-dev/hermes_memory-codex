@@ -1,5 +1,15 @@
 # Phase Backlog
 
+## Phase 2.109 Phase 2 Final Freeze Checklist
+
+1. Phase 2.108 baseline 已完成并推送：commit `251a2f4`，tag `phase-2.108-standalone-kernel-freeze-contract-baseline`。
+2. Phase 2.109 目标是 final freeze checklist，不是功能实现，也不是 production rollout。
+3. 已新增 `docs/PHASE2109_PHASE2_FINAL_FREEZE_CHECKLIST.md` 与 `eval/phase2_inventory/phase2_final_freeze_checklist.json`。
+4. 最终三段式判断：平台稳定集成 freeze=`go`；Hermes 独立内核保留=`go`；完整 Phase 2 PRD / Roadmap closeout=`pause`。
+5. 平台 / 数据库团队可继续基于稳定 Hermes baseline 接入；Phase 3 planning 可带 known-gap carryover 进入。
+6. 不得把 Phase 2 stable / final freeze 写成：生产 rollout、DWG/RVT/BIM 内容理解完成、Agent DB CRUD/SQL 完成、完整 PRD/Roadmap 指标完成。
+7. 下一步：Codex B review Phase 2.109；通过后 selective docs / JSON baseline。
+
 ## Phase 2.108 Standalone Kernel Freeze Contract
 
 1. 稳定平台集成基线已完成并推送：commit `fb3781a`，tag `phase-2-stable-hermes-platform-integration-baseline`。

@@ -1,0 +1,126 @@
+{
+  "schema_version": "phase2_final_freeze_checklist.v1",
+  "phase": "Phase 2.109 Phase 2 Final Freeze Checklist",
+  "purpose": "Separate platform stable integration freeze, standalone Hermes kernel preservation, and full Phase 2 PRD/Roadmap closeout.",
+  "decisions": {
+    "platform_stable_integration_freeze": "go",
+    "standalone_hermes_kernel_preservation": "go",
+    "full_phase2_prd_roadmap_closeout": "pause",
+    "phase3_planning": "allowed_only_with_known_gap_carryover"
+  },
+  "safety_rules": [
+    "No production rollout.",
+    "No DB/NAS/API/Gateway connection.",
+    "No SQL execution.",
+    "No runtime code or test changes.",
+    "No memory/facts/documents/chunks/index/object-store writes.",
+    "No raw path, raw DB row, raw answer, customer data, or secret output."
+  ],
+  "gates": [
+    {
+      "gate_id": "gate_a_platform_stable_integration",
+      "decision": "go",
+      "evidence_refs": [
+        "docs/PLATFORM_STABLE_HERMES_CAPABILITY_BASELINE.md",
+        "docs/PHASE2106_PLATFORM_STABLE_HERMES_FREEZE_READINESS.md",
+        "docs/PHASE2107_MINIMAL_FREEZE_BLOCKER_CLOSURE_PLAN.md",
+        "eval/phase2_inventory/platform_stable_hermes_freeze_checklist.json"
+      ],
+      "notes": "Safe for continued platform catalog-only integration. Not production rollout."
+    },
+    {
+      "gate_id": "gate_b_standalone_kernel_preservation",
+      "decision": "go",
+      "evidence_refs": [
+        "docs/PHASE2105_HERMES_PLATFORM_AUTHORITY_ALIGNMENT.md",
+        "docs/PHASE2108_STANDALONE_KERNEL_FREEZE_CONTRACT.md"
+      ],
+      "notes": "Platform catalog-only mode is safety surface, not Hermes product ceiling."
+    },
+    {
+      "gate_id": "gate_c_full_phase2_closeout",
+      "decision": "pause",
+      "evidence_refs": [
+        "docs/PHASE2101_PRD_ACCEPTANCE_GAP_CLOSURE_PLAN.md",
+        "docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md",
+        "docs/PHASE2102A_EVAL_INVENTORY_MANIFEST.md",
+        "docs/PHASE2102B_METRIC_SCORING_PACK.md"
+      ],
+      "notes": "Original Phase 2 PRD/Roadmap numeric metrics and structured-governance acceptance remain incomplete or need explicit user exceptions."
+    }
+  ],
+  "final_checklist": [
+    {
+      "item_id": "final_identity_kernel",
+      "description": "Hermes remains enterprise Agent kernel, not generic platform chat plugin.",
+      "decision": "go",
+      "evidence_ref": "docs/PHASE2108_STANDALONE_KERNEL_FREEZE_CONTRACT.md"
+    },
+    {
+      "item_id": "final_platform_catalog_only",
+      "description": "Platform integration remains catalog-only, permission-aware, and Missing-Evidence-first.",
+      "decision": "go",
+      "evidence_ref": "eval/phase2_inventory/platform_stable_hermes_freeze_checklist.json"
+    },
+    {
+      "item_id": "final_gateway_safety",
+      "description": "Gateway owns permission proof, project scope, path redaction, forbidden-field scan, and platform audit.",
+      "decision": "go",
+      "evidence_ref": "docs/PLATFORM_STABLE_HERMES_CAPABILITY_BASELINE.md"
+    },
+    {
+      "item_id": "final_workspace_memory_evidence_preserved",
+      "description": "Standalone workspace, memory, evidence, retrieval, file governance, and NAS governance paths are preserved.",
+      "decision": "go",
+      "evidence_ref": "docs/PHASE2108_STANDALONE_KERNEL_FREEZE_CONTRACT.md"
+    },
+    {
+      "item_id": "final_native_session_runtime",
+      "description": "Native session/thread/response lifecycle is not yet productized.",
+      "decision": "known_risk",
+      "evidence_ref": "docs/PHASE2108_STANDALONE_KERNEL_FREEZE_CONTRACT.md"
+    },
+    {
+      "item_id": "final_evidence_layer_runtime",
+      "description": "Governed document evidence search remains contract / future path.",
+      "decision": "known_risk",
+      "evidence_ref": "docs/PHASE2104C_DOCUMENT_EVIDENCE_SEARCH_CONTRACT_PLAN.md"
+    },
+    {
+      "item_id": "final_memory_runtime",
+      "description": "Low-sensitive memory continuity runtime remains future / not platform-productized.",
+      "decision": "known_risk",
+      "evidence_ref": "docs/PHASE2104B_MEMORY_CONTINUITY_PERMISSION_CONTRACT.md"
+    },
+    {
+      "item_id": "final_eval_count_target",
+      "description": "PRD 100+ and Roadmap 300+ accepted eval inventories are not met.",
+      "decision": "pause",
+      "evidence_ref": "docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md"
+    },
+    {
+      "item_id": "final_top5_citation_metrics",
+      "description": "Top5 and citation accuracy are not measured at required accepted-inventory scale.",
+      "decision": "pause",
+      "evidence_ref": "docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md"
+    },
+    {
+      "item_id": "final_structured_fact_spot_check",
+      "description": "Structured fact manual spot-check accuracy target is missing.",
+      "decision": "pause",
+      "evidence_ref": "docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md"
+    },
+    {
+      "item_id": "final_tender_deep_fields",
+      "description": "Tender deep-field reliability remains partial or requires accepted Missing Evidence/manual-review scope.",
+      "decision": "pause_or_user_exception",
+      "evidence_ref": "docs/PHASE2101_PRD_ACCEPTANCE_GAP_CLOSURE_PLAN.md"
+    },
+    {
+      "item_id": "final_production_rollout",
+      "description": "Production rollout remains forbidden.",
+      "decision": "no_go",
+      "evidence_ref": "docs/PHASE2109_PHASE2_FINAL_FREEZE_CHECKLIST.md"
+    }
+  ]
+}

@@ -1,5 +1,13 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.109 Phase 2 Final Freeze Checklist
+
+1. 当前进入 Phase 2.109，目标是最终冻结检查，不做 runtime 实现。
+2. 结论必须保持三段式：平台稳定集成 freeze=`go`；Hermes 独立内核保留=`go`；完整 Phase 2 PRD / Roadmap closeout=`pause`。
+3. 已新增 `docs/PHASE2109_PHASE2_FINAL_FREEZE_CHECKLIST.md` 与 `eval/phase2_inventory/phase2_final_freeze_checklist.json`。
+4. 仍未关闭的 full closeout gap：PRD 100+ / Roadmap 300+ eval、Top5 / citation target-scale metrics、structured fact spot-check、tender deep fields、full RBAC/ABAC、version diff、knowledge admin / human validation、natural import usability。
+5. 下一步：Codex B review Phase 2.109；通过后 selective baseline。不得声称 full Phase 2 closeout。
+
 ## Phase 2.108 Standalone Kernel Freeze Contract
 
 1. 当前进入 Phase 2.108，目标是补齐 Phase 2 收口前的 standalone Hermes kernel freeze contract。
