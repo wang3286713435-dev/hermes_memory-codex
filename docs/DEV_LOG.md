@@ -1,5 +1,23 @@
 # DEV_LOG
 
+## 2026-05-20 Phase 2.107 Minimal Freeze Blocker Closure Plan
+
+- 新增 `docs/PHASE2107_MINIMAL_FREEZE_BLOCKER_CLOSURE_PLAN.md`，定义 stable tag 前最小 blocker closure set、known-risk freeze、Phase 3+ 后置与用户业务决策项。
+- 新增 `eval/phase2_inventory/minimal_freeze_blocker_closure_matrix.json`，包含 18 个 docs-only blocker items，分类为 `must_close_before_stable_tag`、`freeze_with_known_risk`、`phase3_plus_deferred`、`user_business_decision_required`。
+- 推荐必须关闭项：平台身份/权责 wording、Gateway 权限与 path redaction、catalog-only safe refs、Missing Evidence、shared contract sync、test-machine update。
+- 可带风险冻结项：runtime session/thread refs、Evidence Layer、Memory runtime、feedback/scoring productization、eval count 与 Top5/citation target-scale gaps。
+- 用户业务决策项：natural language import / file governance usability 是否阻塞 stable tag。
+- 本阶段仍只做 docs / decision-matrix planning；未改 runtime code/tests/platform repo/shared files，未运行 API / CLI / Gateway / DB / NAS smoke，未创建 stable tag，未进入 Phase 3。
+
+## 2026-05-20 Phase 2.107 Minimal Freeze Blocker Closure Plan Prompt
+
+- Phase 2.106 baseline 已完成：commit `fe2706d`，tag `phase-2.106-platform-stable-hermes-freeze-readiness-baseline`，pushed=true。
+- Codex B 已将下一步收束为 Minimal Freeze Blocker Closure Plan：目标是明确 stable Hermes tag 前的最小 blocker closure set。
+- 下一轮 Codex A 目标：新增 `docs/PHASE2107_MINIMAL_FREEZE_BLOCKER_CLOSURE_PLAN.md` 与 `eval/phase2_inventory/minimal_freeze_blocker_closure_matrix.json`。
+- Matrix 必须把 blocker 分为 `must_close_before_stable_tag`、`freeze_with_known_risk`、`phase3_plus_deferred`、`user_business_decision_required`、`already_satisfied`。
+- 重点问题包括 plugin-mode risk、runtime session refs、Gateway 权限、catalog-only / Missing Evidence / path redaction、安全 refs、Evidence Layer、Memory runtime、metrics、natural import、test-machine update、shared contract、production rollout、Data Steward full productization、Agent DB CRUD/SQL、NAS semantic collection。
+- 本阶段仍只做 docs / decision-matrix planning；不改 runtime code、不改平台 repo、不改共享文件、不连接 DB/NAS/API/Gateway、不跑 smoke、不创建 stable tag、不进入 Phase 3。
+
 ## 2026-05-20 Phase 2.106 Platform Stable Hermes Freeze Readiness
 
 - 新增 `docs/PHASE2106_PLATFORM_STABLE_HERMES_FREEZE_READINESS.md`，定义平台稳定版 Hermes 冻结目标、must-fix / known-risk / Phase 3+ / business-decision 分流，以及 Go / Pause / No-Go。
@@ -929,3 +947,12 @@
 - decision: Phase 2 remains open; testing can update to Phase 2.102b, but platform capability must remain catalog-only / read-only / permission-aware / Missing Evidence.
 - risks: Do not let the database team treat Hermes as generic chatbot, raw SQL agent, NAS reader, DWG/RVT parser, BIM component search engine, or production rollout system.
 - next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` and stops for Codex B review.
+
+## 2026-05-20 14:42 Phase 2.107 Codex B Alignment Tightening
+
+- goal: Fold the latest Platform / DB Agent alignment report into the Phase 2.107 stable-tag blocker matrix before any baseline.
+- accepted_findings: current platform integration still has OpenAI-compatible plugin-mode risk; `architecture_authority_health=orange`; Gateway safety is close to green; stable tag requires 0B Gateway hardening rather than native runtime alignment.
+- changed_files: `docs/PHASE2107_MINIMAL_FREEZE_BLOCKER_CLOSURE_PLAN.md`, `eval/phase2_inventory/minimal_freeze_blocker_closure_matrix.json`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, ignored `reports/agent_runs/latest.json`.
+- decision: Add / tighten must-close blockers for 0B Gateway hardening, high-risk forbidden-field fail-closed, `authority_health.orange`, and frontend wording correction; runtime session/thread refs can freeze only as visible known risk.
+- risks: Do not call current platform path native Hermes kernel alignment; do not create stable tag in Phase 2.107; do not stage unrelated `docs/digital-delivery-standards/`.
+- next: run light validation and selective docs / matrix baseline if clean.

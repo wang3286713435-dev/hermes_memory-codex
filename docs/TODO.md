@@ -1,5 +1,15 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.107 Minimal Freeze Blocker Closure Plan
+
+1. 当前 Phase 2.107 docs / matrix 内容已实现，目标是把 stable Hermes 冻结前的 blocker 做成最小 closure matrix。
+2. Phase 2.106 baseline 已完成：commit `fe2706d`，tag `phase-2.106-platform-stable-hermes-freeze-readiness-baseline`，pushed=true。
+3. 已新增 `docs/PHASE2107_MINIMAL_FREEZE_BLOCKER_CLOSURE_PLAN.md` 与 `eval/phase2_inventory/minimal_freeze_blocker_closure_matrix.json`。
+4. 最新 Platform / DB Agent alignment report 已纳入：当前平台接入 `architecture_authority_health=orange`，仍有 OpenAI-compatible plugin-mode 风险，但 Gateway 安全边界接近 green。
+5. 最小 stable-tag blocker set：平台身份/权责 wording、Gateway 权限与 path redaction、catalog-only safe refs、Missing Evidence、shared contract sync、test-machine update、0B Gateway hardening、high-risk forbidden-field fail-closed、authority health orange、前端文案收束。
+6. 可带风险冻结：runtime session refs、Evidence Layer、Memory runtime、target-scale metrics；但 session/thread 风险只能在 0B Gateway 明示 `authority_health.orange` 与 placeholder fields 后冻结。Phase 3+ 后置 production rollout、full Data Steward、Agent DB CRUD/SQL、NAS semantic collection。
+7. 下一步：Codex B review Phase 2.107；通过后由用户显式授权 docs / matrix baseline。不得自动创建 stable tag 或进入 Phase 3。
+
 ## Phase 2.106 Platform Stable Hermes Freeze Readiness
 
 1. 当前 Phase 2.106 docs / checklist 内容已实现，目标是形成可供平台稳定嵌入的 Hermes Phase 2 冻结基线。

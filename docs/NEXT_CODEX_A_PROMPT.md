@@ -1,36 +1,36 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.106 Codex B Review / Docs + Checklist Baseline Gate
+## Phase 2.107 Codex B Review / Docs + Matrix Baseline Gate
 
 You are Codex A. Do not implement a new runtime phase.
 
-Phase 2.106 Platform Stable Hermes Freeze Readiness has been implemented as docs / checklist content and must now be reviewed before any baseline.
+Phase 2.107 Minimal Freeze Blocker Closure Plan has been implemented as docs / decision-matrix content and must now be reviewed before any baseline.
 
 ## Review Scope
 
 Review these files:
 
-1. `docs/PHASE2106_PLATFORM_STABLE_HERMES_FREEZE_READINESS.md`
-2. `docs/PLATFORM_STABLE_HERMES_CAPABILITY_BASELINE.md`
-3. `docs/CODEX_TEST_MACHINE_UPDATE_TO_STABLE_HERMES_PROMPT.md`
-4. `eval/phase2_inventory/platform_stable_hermes_freeze_checklist.json`
-5. `docs/ACTIVE_PHASE.md`
-6. `docs/PHASE_BACKLOG.md`
-7. `docs/HANDOFF_LOG.md`
-8. `docs/TODO.md`
-9. `docs/DEV_LOG.md`
+1. `docs/PHASE2107_MINIMAL_FREEZE_BLOCKER_CLOSURE_PLAN.md`
+2. `eval/phase2_inventory/minimal_freeze_blocker_closure_matrix.json`
+3. `docs/ACTIVE_PHASE.md`
+4. `docs/PHASE_BACKLOG.md`
+5. `docs/HANDOFF_LOG.md`
+6. `docs/TODO.md`
+7. `docs/DEV_LOG.md`
 
 ## Review Checklist
 
-1. Freeze target must be exactly scoped as `Phase 2 Stable Hermes for Platform Integration`.
-2. Stable baseline must not be described as production rollout.
-3. Stable baseline must not be described as full Phase 2 PRD / Roadmap closeout.
-4. Stable baseline must include catalog-only asset query, Gateway permission / redaction, Missing Evidence, safe IDs / traces, shared contract alignment, and known risk list.
-5. Docs must distinguish `must_fix_before_platform_stable_freeze`, `can_freeze_with_known_risk`, `move_to_phase3_plus`, and `requires_user_business_decision`.
-6. Test-machine update prompt must keep `<PHASE_2_STABLE_HERMES_BASELINE_TAG>` placeholder until a future authorized baseline tag exists.
-7. Freeze checklist JSON must be sanitized and must not include raw platform reports, secrets, raw DB rows, NAS paths, customer data, raw answers, or raw files.
-8. Shared `DigitalDeliveryProject` files must not be modified by this phase.
-9. Unrelated `docs/digital-delivery-standards/` files must not be staged by default.
+1. Stable target must remain `Phase 2 Stable Hermes for Platform Integration`.
+2. The plan must not create or imply a stable tag.
+3. The plan must not declare Phase 2 fully closed.
+4. The matrix must classify each blocker as exactly one of `must_close_before_stable_tag`, `freeze_with_known_risk`, `phase3_plus_deferred`, `user_business_decision_required`, or `already_satisfied`.
+5. Must-close set must cover platform identity/wording, Gateway permission/path redaction, catalog-only safe refs, Missing Evidence, shared contract sync, and test-machine update.
+6. Must-close set must incorporate the latest Platform / DB Agent alignment report: current `architecture_authority_health=orange`, 0B Gateway hardening, high-risk forbidden-field fail-closed, authority-health exposure, and frontend wording correction.
+7. Known-risk freeze must include runtime session/thread refs, Evidence Layer, Memory runtime, and target-scale metrics when deferred; session/thread refs may be frozen only if 0B Gateway hardening makes the limitation explicit.
+8. Phase 3+ deferrals must keep production rollout, full Data Steward, Agent DB CRUD/SQL, NAS semantic collection, and DWG/RVT/BIM content understanding out of the stable platform tag.
+9. Natural import / file governance usability must remain a user business decision, not an implicit blocker or implicit deferral.
+10. Shared `DigitalDeliveryProject` files must not be modified.
+11. Unrelated `docs/digital-delivery-standards/` files must not be staged by default.
 
 ## Validation Commands
 
@@ -39,27 +39,25 @@ Run:
 ```bash
 git diff --check
 UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool reports/agent_runs/latest.json >/dev/null
-UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool eval/phase2_inventory/platform_stable_hermes_freeze_checklist.json >/dev/null
+UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool eval/phase2_inventory/minimal_freeze_blocker_closure_matrix.json >/dev/null
 git check-ignore reports/agent_runs/latest.json
 git status --short --untracked-files=all
 ```
 
-Do not run pytest. This phase is docs / readiness planning only.
+Do not run pytest. This phase is docs / decision-matrix planning only.
 
-## Optional Baseline Only If User Explicitly Authorizes
+## Baseline Only After Codex B Approval
 
-If the user explicitly authorizes Phase 2.106 baseline, stage only:
+If Codex B approval is recorded for Phase 2.107 baseline, stage only:
 
-1. `docs/PHASE2106_PLATFORM_STABLE_HERMES_FREEZE_READINESS.md`
-2. `docs/PLATFORM_STABLE_HERMES_CAPABILITY_BASELINE.md`
-3. `docs/CODEX_TEST_MACHINE_UPDATE_TO_STABLE_HERMES_PROMPT.md`
-4. `eval/phase2_inventory/platform_stable_hermes_freeze_checklist.json`
-5. `docs/NEXT_CODEX_A_PROMPT.md`
-6. `docs/ACTIVE_PHASE.md`
-7. `docs/PHASE_BACKLOG.md`
-8. `docs/HANDOFF_LOG.md`
-9. `docs/TODO.md`
-10. `docs/DEV_LOG.md`
+1. `docs/PHASE2107_MINIMAL_FREEZE_BLOCKER_CLOSURE_PLAN.md`
+2. `eval/phase2_inventory/minimal_freeze_blocker_closure_matrix.json`
+3. `docs/NEXT_CODEX_A_PROMPT.md`
+4. `docs/ACTIVE_PHASE.md`
+5. `docs/PHASE_BACKLOG.md`
+6. `docs/HANDOFF_LOG.md`
+7. `docs/TODO.md`
+8. `docs/DEV_LOG.md`
 
 Do not stage:
 
@@ -72,13 +70,13 @@ Do not stage:
 Suggested commit message:
 
 ```text
-docs: add phase 2.106 stable hermes freeze readiness
+docs: add phase 2.107 freeze blocker closure plan
 ```
 
 Suggested tag:
 
 ```text
-phase-2.106-platform-stable-hermes-freeze-readiness-baseline
+phase-2.107-minimal-freeze-blocker-closure-baseline
 ```
 
 ## Hard Boundaries
@@ -94,7 +92,8 @@ phase-2.106-platform-stable-hermes-freeze-readiness-baseline
 9. Do not scan / copy / parse NAS files.
 10. Do not expose raw path / raw row / raw answer / secrets.
 11. Do not execute repair / backfill / reindex / cleanup / delete.
-12. Do not enter production rollout.
-13. Do not enter Phase 3.
+12. Do not create a stable tag without explicit user authorization.
+13. Do not enter production rollout.
+14. Do not enter Phase 3.
 
-Stop after Codex B review or user-authorized baseline. Do not auto-enter Phase 2.107 or Phase 3.
+Stop after Codex B review or user-authorized baseline. Do not auto-enter Phase 2.108, stable tag creation, production rollout, or Phase 3.
