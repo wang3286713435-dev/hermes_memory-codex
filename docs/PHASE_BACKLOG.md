@@ -1,5 +1,16 @@
 # Phase Backlog
 
+## Phase 2.106 Platform Stable Hermes Freeze Readiness
+
+1. Phase 2.105 baseline 已完成：commit `5cef214`，tag `phase-2.105-hermes-platform-authority-alignment-baseline`，pushed=true。
+2. 共享 `DigitalDeliveryProject` 已同步 Hermes Kernel Authority Contract，避免平台 / 数据库 Agent 继续把 Hermes 当 stateless chat plugin。
+3. 已新增 `docs/PHASE2106_PLATFORM_STABLE_HERMES_FREEZE_READINESS.md`、`docs/PLATFORM_STABLE_HERMES_CAPABILITY_BASELINE.md`、`docs/CODEX_TEST_MACHINE_UPDATE_TO_STABLE_HERMES_PROMPT.md`、`eval/phase2_inventory/platform_stable_hermes_freeze_checklist.json`。
+4. 推荐冻结目标：`Phase 2 Stable Hermes for Platform Integration`，用于给平台一个稳定、功能清晰、边界可依赖的 Hermes baseline。
+5. 冻结范围仅包含 catalog-only asset query、Gateway permission / redaction、Missing Evidence、安全 IDs、query / trace、共享契约、Hermes 内核权责边界与 known risk list。
+6. 不进入冻结范围：production rollout、DWG/RVT/BIM 内容理解、NAS semantic collection、Agent DB CRUD、Agent SQL、自动 repair/reindex/cleanup、full Data Steward productization、Phase 2 full PRD/Roadmap closeout。
+7. 当前已知风险：runtime session refs、Evidence Layer、Memory Layer、target-scale metrics、natural import usability 仍未完全产品化或需要业务裁决。
+8. 下一步：Codex B review Phase 2.106；通过后由用户显式授权 docs / checklist baseline。不得自动进入 Phase 2.107 或 Phase 3。
+
 ## Phase 2.105 Hermes Kernel Authority / Platform Alignment Contract
 
 1. Phase 2.104d baseline 已完成：commit `f0fabc4`，tag `phase-2.104d-feedback-scoring-linkage-contract-baseline`，pushed=true。

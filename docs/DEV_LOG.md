@@ -1,5 +1,23 @@
 # DEV_LOG
 
+## 2026-05-20 Phase 2.106 Platform Stable Hermes Freeze Readiness
+
+- 新增 `docs/PHASE2106_PLATFORM_STABLE_HERMES_FREEZE_READINESS.md`，定义平台稳定版 Hermes 冻结目标、must-fix / known-risk / Phase 3+ / business-decision 分流，以及 Go / Pause / No-Go。
+- 新增 `docs/PLATFORM_STABLE_HERMES_CAPABILITY_BASELINE.md`，固化平台可依赖的 stable capability baseline：catalog-only、Gateway permission、Missing Evidence、safe refs、shared contract、feedback as review signal。
+- 新增 `docs/CODEX_TEST_MACHINE_UPDATE_TO_STABLE_HERMES_PROMPT.md`，为测试机更新到未来 stable tag 提供 docs-only / env-key-only / no-smoke handoff。
+- 新增 `eval/phase2_inventory/platform_stable_hermes_freeze_checklist.json`，包含 15 条 sanitized freeze checklist items。
+- 本阶段仍只做 docs / readiness planning；未改 runtime code/tests/platform repo/shared files，未运行 API / CLI / Gateway / DB / NAS smoke，未连接真实系统，未写 DB / OpenSearch / Qdrant / MinIO / memory / facts。
+- 当前结论：推荐 `Phase 2 Stable Hermes for Platform Integration`，但不得写成 production rollout、Phase 2 full PRD/Roadmap closeout 或 Phase 3 transition。
+
+## 2026-05-20 Phase 2.106 Platform Stable Hermes Freeze Readiness Prompt
+
+- Phase 2.105 baseline 已完成：commit `5cef214`，tag `phase-2.105-hermes-platform-authority-alignment-baseline`，pushed=true。
+- 共享 `DigitalDeliveryProject` 已同步 `integration-contracts/hermes_kernel_authority_contract.md`，正式沉淀 Hermes=enterprise agent kernel、Platform=UI/Gateway/permission/data surface 的权责边界。
+- Codex B 已将下一步切换为 Platform Stable Hermes Freeze Readiness：目标是停止无限扩张 Phase 2.x，形成平台可稳定嵌入的 Hermes baseline。
+- 下一轮 Codex A 目标：新增 `docs/PHASE2106_PLATFORM_STABLE_HERMES_FREEZE_READINESS.md`、`docs/PLATFORM_STABLE_HERMES_CAPABILITY_BASELINE.md`、`docs/CODEX_TEST_MACHINE_UPDATE_TO_STABLE_HERMES_PROMPT.md`、`eval/phase2_inventory/platform_stable_hermes_freeze_checklist.json`。
+- 冻结规划必须区分 must-fix、known-risk freeze、Phase 3+ 后置、用户业务决策；不得把未完成 PRD / Roadmap 指标写成已完成。
+- 本阶段仍只做 docs / readiness planning；不改 runtime code、不改平台 repo、不改共享文件、不连接 DB/NAS/API/Gateway、不跑 smoke、不写 memory/facts/index/object-store、不进入 rollout。
+
 ## 2026-05-20 Phase 2.105 Hermes Kernel Authority / Platform Alignment Contract
 
 - 新增 `docs/PHASE2105_HERMES_PLATFORM_AUTHORITY_ALIGNMENT.md`，定义 Hermes / Platform / Gateway / Data Steward 权责边界、coupling health、Go/Pause/No-Go 与 future request/response alignment contract。

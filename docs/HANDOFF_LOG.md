@@ -1,5 +1,15 @@
 # Handoff Log
 
+## 2026-05-20 Phase 2.106 Prompt
+- goal: Prepare Codex A handoff for Platform Stable Hermes Freeze Readiness.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.105 baseline confirmed at commit `5cef214`, tag `phase-2.105-hermes-platform-authority-alignment-baseline`; shared `DigitalDeliveryProject` now includes `integration-contracts/hermes_kernel_authority_contract.md`.
+- scope: Codex A should create a Phase 2 stable Hermes freeze readiness pack: freeze readiness document, platform capability baseline, test-machine update prompt, and freeze checklist JSON.
+- decision: Move from capability expansion to controlled freeze planning so the platform team can depend on a stable Hermes baseline while Phase 3+ work remains explicitly deferred.
+- risks: Do not close Phase 2 by wishful thinking; unresolved PRD / Roadmap metrics, evidence layer, memory continuity runtime, orchestration, DWG/RVT/BIM content understanding, and Data Steward productization must be classified honestly.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-20 Phase 2.105 Prompt
 - goal: Prepare Codex A handoff for Hermes Kernel Authority / Platform Alignment Contract.
 - changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -7417,4 +7427,14 @@
 - validation: Shared docs were available; contract aligns with Platform/Gateway catalog-only safety, Missing Evidence, memory continuity, feedback linkage, Data Steward boundary, and capability matrix docs.
 - risks: Platform single-turn plugin mode would weaken Hermes kernel authority; Gateway permission/path-redaction authority must stay with Platform; Data Steward must not be treated as the whole Hermes identity.
 - next: Codex B review Phase 2.105; if accepted, user may authorize docs / fixture baseline. Do not enter runtime session implementation automatically.
+- commit/tag if any: none.
+
+## 2026-05-20 12:52 Phase 2.106 Platform Stable Hermes Freeze Readiness
+
+- goal: Define a stable platform-facing Hermes freeze plan so Phase 2 can stop expanding while still separating full PRD / Roadmap closeout from a platform integration baseline.
+- changed_files: `docs/PHASE2106_PLATFORM_STABLE_HERMES_FREEZE_READINESS.md`, `docs/PLATFORM_STABLE_HERMES_CAPABILITY_BASELINE.md`, `docs/CODEX_TEST_MACHINE_UPDATE_TO_STABLE_HERMES_PROMPT.md`, `eval/phase2_inventory/platform_stable_hermes_freeze_checklist.json`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON parse passed; freeze checklist JSON parse passed; latest ignore check passed; `git status --short --untracked-files=all` reviewed.
+- validation: Shared Hermes kernel authority contract, shared capability matrix, and shared risk red lines were available; no shared files were modified.
+- risks: Stable platform freeze must not be described as production rollout, Phase 2 full PRD/Roadmap closeout, or Phase 3 transition. Runtime session refs, Evidence Layer, Memory Layer, target-scale metrics, and natural import usability remain known risk / decision items.
+- next: Codex B review Phase 2.106; if accepted, user may authorize docs / checklist baseline. Do not enter Phase 2.107 or Phase 3 automatically.
 - commit/tag if any: none.

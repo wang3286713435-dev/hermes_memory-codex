@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.106 Platform Stable Hermes Freeze Readiness
+
+1. 当前 Phase 2.106 docs / checklist 内容已实现，目标是形成可供平台稳定嵌入的 Hermes Phase 2 冻结基线。
+2. 已新增 stable Hermes freeze readiness 文档、platform capability baseline、测试机更新 prompt 与 freeze checklist JSON。
+3. 冻结目标是 `Phase 2 Stable Hermes for Platform Integration`，不是声明 Phase 2 全部 PRD / Roadmap 指标已完成。
+4. 冻结范围优先保证：catalog-only asset query、Gateway permission / redaction、Missing Evidence、安全 IDs、query / trace、共享契约、Hermes 内核权责边界。
+5. 不进入冻结范围：production rollout、DWG/RVT/BIM 内容理解、NAS semantic collection、Agent DB CRUD、Agent SQL、自动 repair/reindex/cleanup、full Data Steward productization、Phase 2 full closeout。
+6. 下一步：Codex B review Phase 2.106；通过后由用户显式授权 docs / checklist baseline。不得自动进入 Phase 2.107 或 Phase 3。
+
 ## Phase 2.105 Hermes Kernel Authority / Platform Alignment Contract
 
 1. 当前进入 Phase 2.105，目标是立刻通过文档把 Hermes 与平台边界对齐，防止 Hermes 被做成平台内的单轮智能问答插件。

@@ -1,0 +1,179 @@
+{
+  "schema_version": "platform_stable_hermes_freeze_checklist.v1",
+  "phase": "Phase 2.106",
+  "freeze_target": "Phase 2 Stable Hermes for Platform Integration",
+  "purpose": "Docs-only checklist for deciding whether Hermes can provide a stable platform integration baseline without claiming full Phase 2 closeout.",
+  "safety_rules": [
+    "No raw platform reports, secrets, raw paths, raw DB rows, or customer data.",
+    "This checklist does not run runtime smoke.",
+    "This checklist does not close Phase 2 PRD or Roadmap metric gaps.",
+    "This checklist does not authorize production rollout."
+  ],
+  "items": [
+    {
+      "item_id": "freeze_identity_001",
+      "category": "stable_capability_baseline",
+      "description": "Hermes name and enterprise agent kernel identity are stable for platform wording.",
+      "freeze_required": true,
+      "current_status": "ready",
+      "evidence_ref": "docs/PHASE2105_HERMES_PLATFORM_AUTHORITY_ALIGNMENT.md",
+      "owner": "Hermes",
+      "decision": "go",
+      "notes": "Hermes must not be described as a generic platform chat plugin."
+    },
+    {
+      "item_id": "freeze_gateway_001",
+      "category": "gateway_safety",
+      "description": "Gateway remains permission proof, project scope, path redaction, forbidden-field scan, and audit authority.",
+      "freeze_required": true,
+      "current_status": "ready",
+      "evidence_ref": "docs/PLATFORM_TEAM_HERMES_KERNEL_AUTHORITY_ALIGNMENT_HANDOFF.md",
+      "owner": "Platform Gateway",
+      "decision": "go",
+      "notes": "Freeze must preserve current Gateway safety model."
+    },
+    {
+      "item_id": "freeze_catalog_001",
+      "category": "current_tool_surface",
+      "description": "Catalog-only asset query and asset_catalog_search remain the current platform-facing tool surface.",
+      "freeze_required": true,
+      "current_status": "ready",
+      "evidence_ref": "docs/PHASE2104_PLATFORM_LAYERED_CAPABILITY_PLAN.md",
+      "owner": "Hermes / Platform",
+      "decision": "go",
+      "notes": "Current stable surface is catalog-only, not document evidence search."
+    },
+    {
+      "item_id": "freeze_missing_evidence_001",
+      "category": "answer_boundary",
+      "description": "DWG/RVT/BIM/content questions return Missing Evidence when only catalog metadata exists.",
+      "freeze_required": true,
+      "current_status": "ready",
+      "evidence_ref": "docs/DATA_STEWARD_AGENT_RISK_BOUNDARY.md",
+      "owner": "Hermes",
+      "decision": "go",
+      "notes": "Catalog metadata must not become content evidence."
+    },
+    {
+      "item_id": "freeze_safe_refs_001",
+      "category": "response_shape",
+      "description": "Safe IDs and trace refs are stable platform expectations.",
+      "freeze_required": true,
+      "current_status": "ready",
+      "evidence_ref": "docs/DB_TEAM_HERMES_CAPABILITY_MAXIMIZATION_HANDOFF.md",
+      "owner": "Hermes / Platform",
+      "decision": "go",
+      "notes": "Safe refs include file_id, model_id, source_view, query_id, trace_id."
+    },
+    {
+      "item_id": "freeze_memory_001",
+      "category": "memory_boundary",
+      "description": "Low-sensitive memory boundary is defined as contract only.",
+      "freeze_required": true,
+      "current_status": "ready_with_known_limit",
+      "evidence_ref": "docs/PHASE2104B_MEMORY_CONTINUITY_PERMISSION_CONTRACT.md",
+      "owner": "Hermes",
+      "decision": "go_with_known_risk",
+      "notes": "Memory continuity runtime/productization remains future; no raw content memory."
+    },
+    {
+      "item_id": "freeze_feedback_001",
+      "category": "feedback_boundary",
+      "description": "Feedback / eval linkage is review signal only.",
+      "freeze_required": true,
+      "current_status": "ready_with_known_limit",
+      "evidence_ref": "docs/PHASE2104D_FEEDBACK_SCORING_LINKAGE_CONTRACT.md",
+      "owner": "Hermes",
+      "decision": "go_with_known_risk",
+      "notes": "Feedback cannot auto-pass metrics, create facts, write memory, or trigger repair."
+    },
+    {
+      "item_id": "freeze_session_001",
+      "category": "architecture_authority",
+      "description": "Platform single-turn plugin risk is documented and must not be accepted as product framing.",
+      "freeze_required": true,
+      "current_status": "contract_ready_runtime_gap",
+      "evidence_ref": "docs/PHASE2105_HERMES_PLATFORM_AUTHORITY_ALIGNMENT.md",
+      "owner": "Hermes / Platform",
+      "decision": "pause_if_platform_rejects_kernel_authority",
+      "notes": "Runtime session/thread/context refs remain future implementation, but platform must accept authority split before freeze."
+    },
+    {
+      "item_id": "freeze_evidence_layer_001",
+      "category": "known_risk",
+      "description": "Governed evidence layer is not productized.",
+      "freeze_required": false,
+      "current_status": "future_contract_only",
+      "evidence_ref": "docs/PHASE2104C_DOCUMENT_EVIDENCE_SEARCH_CONTRACT_PLAN.md",
+      "owner": "Hermes",
+      "decision": "can_freeze_with_known_risk",
+      "notes": "Stable freeze remains catalog-only; do not claim document_evidence_search runtime."
+    },
+    {
+      "item_id": "freeze_eval_count_001",
+      "category": "metric_gap",
+      "description": "Eval inventory remains below PRD 100+ and Roadmap 300+ targets.",
+      "freeze_required": false,
+      "current_status": "not_satisfied_19_of_100_and_19_of_300",
+      "evidence_ref": "eval/phase2_inventory/phase2_eval_inventory_manifest.json",
+      "owner": "Hermes",
+      "decision": "can_freeze_with_known_risk_not_phase2_closeout",
+      "notes": "This blocks full Phase 2 closeout, not the narrow platform stable baseline."
+    },
+    {
+      "item_id": "freeze_metrics_001",
+      "category": "metric_gap",
+      "description": "Top5 and citation metrics are not fully measured at target scale.",
+      "freeze_required": false,
+      "current_status": "not_computed_at_prd_or_roadmap_scale",
+      "evidence_ref": "docs/PHASE2102B_METRIC_SCORING_PACK.md",
+      "owner": "Hermes",
+      "decision": "can_freeze_with_known_risk_not_phase2_closeout",
+      "notes": "Scoring machinery exists; target-scale reviewed result rows are missing."
+    },
+    {
+      "item_id": "freeze_natural_import_001",
+      "category": "business_decision",
+      "description": "Natural import / file governance usability evidence remains partial.",
+      "freeze_required": false,
+      "current_status": "partial",
+      "evidence_ref": "docs/PHASE2101_PRD_ACCEPTANCE_GAP_CLOSURE_PLAN.md",
+      "owner": "User / Hermes",
+      "decision": "requires_user_business_decision",
+      "notes": "User may decide this does not block platform stable freeze."
+    },
+    {
+      "item_id": "freeze_test_machine_001",
+      "category": "test_machine_update",
+      "description": "Test-machine update prompt exists for future stable baseline tag.",
+      "freeze_required": true,
+      "current_status": "prompt_ready",
+      "evidence_ref": "docs/CODEX_TEST_MACHINE_UPDATE_TO_STABLE_HERMES_PROMPT.md",
+      "owner": "Codex Test Machine",
+      "decision": "go_after_future_tag_exists",
+      "notes": "Prompt uses placeholder <PHASE_2_STABLE_HERMES_BASELINE_TAG> until baseline is authorized."
+    },
+    {
+      "item_id": "freeze_shared_contract_001",
+      "category": "shared_contract_sync",
+      "description": "Shared Hermes kernel authority contract is present and readable.",
+      "freeze_required": true,
+      "current_status": "ready",
+      "evidence_ref": "DigitalDeliveryProject/integration-contracts/hermes_kernel_authority_contract.md",
+      "owner": "Hermes / Platform / Shared Docs",
+      "decision": "go",
+      "notes": "No shared files were modified in Phase 2.106."
+    },
+    {
+      "item_id": "freeze_phase3_boundary_001",
+      "category": "phase3_plus_boundary",
+      "description": "Production rollout, DWG/RVT/BIM content understanding, NAS semantic collection, Agent SQL/CRUD, repair executor, and full Data Steward productization remain out of freeze scope.",
+      "freeze_required": true,
+      "current_status": "ready",
+      "evidence_ref": "docs/PHASE2106_PLATFORM_STABLE_HERMES_FREEZE_READINESS.md",
+      "owner": "Hermes / Platform",
+      "decision": "go",
+      "notes": "Stable platform baseline must not be misread as Phase 3 transition."
+    }
+  ]
+}
