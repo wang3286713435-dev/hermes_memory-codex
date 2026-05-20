@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.105 Hermes Kernel Authority / Platform Alignment Contract
+
+1. 当前进入 Phase 2.105，目标是立刻通过文档把 Hermes 与平台边界对齐，防止 Hermes 被做成平台内的单轮智能问答插件。
+2. 已完成 Phase 2.104d baseline：commit `f0fabc4`，tag `phase-2.104d-feedback-scoring-linkage-contract-baseline`，pushed=true。
+3. 已新增 `docs/PHASE2105_HERMES_PLATFORM_AUTHORITY_ALIGNMENT.md`、`docs/PLATFORM_TEAM_HERMES_KERNEL_AUTHORITY_ALIGNMENT_HANDOFF.md`、`eval/phase2_inventory/hermes_platform_authority_alignment_examples.json`。
+4. 已明确：Hermes 是企业 Agent 内核，负责 session continuity、reasoning state、tool orchestration、evidence / Missing Evidence、memory continuity；平台负责 UI、Gateway、permission proof、project_scope、path redaction 与 platform audit。
+5. Data Steward / Catalog 只是 Hermes 的一个能力模块，不是 Hermes 全貌；平台不得把 Hermes 降级为路径问答 AI 或 catalog-only 插件。
+6. 下一步：Codex B review Phase 2.105；通过后由用户显式授权 docs / fixture baseline。本阶段不跑 Codex C 真实终端验收。
+
 ## Phase 2.104d Feedback / Scoring Linkage Contract Planning
 
 1. 当前进入 Phase 2.104d，目标是规划 feedback 如何安全进入 eval inventory、offline scoring pack 与 issue intake。

@@ -1,5 +1,22 @@
 # DEV_LOG
 
+## 2026-05-20 Phase 2.105 Hermes Kernel Authority / Platform Alignment Contract
+
+- 新增 `docs/PHASE2105_HERMES_PLATFORM_AUTHORITY_ALIGNMENT.md`，定义 Hermes / Platform / Gateway / Data Steward 权责边界、coupling health、Go/Pause/No-Go 与 future request/response alignment contract。
+- 新增 `docs/PLATFORM_TEAM_HERMES_KERNEL_AUTHORITY_ALIGNMENT_HANDOFF.md`，给平台团队固定口径：Hermes 是 enterprise agent kernel，Platform 是 UI + Gateway + permission/data surface，Data Steward / Catalog 是 Hermes 能力模块之一。
+- 新增 `eval/phase2_inventory/hermes_platform_authority_alignment_examples.json`，包含 9 条 sanitized fake-ID fixtures，覆盖 single-turn plugin mode、kernel session owner、project switch revalidation、frontend history、Data Steward module boundary、memory refs、Gateway redaction、tool orchestration summary、raw transcript rejection。
+- 核心边界：保留 Gateway 权限证明、path redaction、forbidden-field scan 与 platform audit；纠正平台产品边界，避免把 Hermes 变成 stateless plugin。
+- 本阶段只做 docs / fixture planning；未改 runtime code/tests/platform repo/shared files，未运行 API / CLI / Gateway / DB / NAS smoke，未连接真实系统，未写 DB / OpenSearch / Qdrant / MinIO / memory / facts。
+
+## 2026-05-20 Phase 2.105 Hermes Kernel Authority / Platform Alignment Prompt
+
+- Phase 2.104d baseline 已完成：commit `f0fabc4`，tag `phase-2.104d-feedback-scoring-linkage-contract-baseline`，pushed=true。
+- Codex B 已将下一步推进为 Hermes Kernel Authority / Platform Alignment Contract：目标是通过文档把 Hermes 与平台边界立刻对齐，防止 Hermes 被做成平台内的单轮智能问答插件。
+- 核心口径：Hermes 是 enterprise agent kernel，负责 session continuity、reasoning state、tool orchestration、evidence / Missing Evidence 与 memory continuity；Platform 是 UI + Gateway + permission/data surface；Data Steward / Catalog 是 Hermes 的能力模块之一。
+- 最小修复原则：保留 Gateway 权限证明、project_scope、path redaction、forbidden-field scan 与 platform audit；补齐 session/thread/context refs、Hermes response/query/trace/tool-plan/memory-candidate 等内核契约。
+- 下一轮 Codex A 目标：新增 `docs/PHASE2105_HERMES_PLATFORM_AUTHORITY_ALIGNMENT.md`、`docs/PLATFORM_TEAM_HERMES_KERNEL_AUTHORITY_ALIGNMENT_HANDOFF.md` 与 `eval/phase2_inventory/hermes_platform_authority_alignment_examples.json`。
+- 本阶段仍只做 docs / contract fixture planning；不改 runtime code、不改平台 repo、不改共享文件、不连接 DB/NAS/API/Gateway、不跑 smoke、不写 memory/facts/index/object-store、不进入 rollout。
+
 ## 2026-05-20 Phase 2.104d Feedback / Scoring Linkage Contract Planning
 
 - 新增 `docs/PHASE2104D_FEEDBACK_SCORING_LINKAGE_CONTRACT.md`，定义 feedback labels、sanitized input shape、linkage outcomes、scoring linkage rules 与 memory linkage rules。

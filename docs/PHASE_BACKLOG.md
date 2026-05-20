@@ -1,5 +1,16 @@
 # Phase Backlog
 
+## Phase 2.105 Hermes Kernel Authority / Platform Alignment Contract
+
+1. Phase 2.104d baseline 已完成：commit `f0fabc4`，tag `phase-2.104d-feedback-scoring-linkage-contract-baseline`，pushed=true。
+2. Phase 2.105 已新增 `docs/PHASE2105_HERMES_PLATFORM_AUTHORITY_ALIGNMENT.md`、`docs/PLATFORM_TEAM_HERMES_KERNEL_AUTHORITY_ALIGNMENT_HANDOFF.md`、`eval/phase2_inventory/hermes_platform_authority_alignment_examples.json`。
+3. 核心结论：Hermes=enterprise agent kernel；Platform=UI + Gateway + permission/data surface；Data Steward/Catalog=Hermes 能力模块之一，不是 Hermes 全貌。
+4. 最小修复原则：不推翻当前 Gateway 权限、path redaction、catalog-only 安全架构；只补 session / reasoning / orchestration ownership contract。
+5. Contract 已说明：平台不能只把 Hermes 当 stateless endpoint；应传递 `session_id` / `thread_id` / sanitized context refs；Hermes 应返回 response/query/trace/context/tool-plan/memory-candidate 等内核语义。
+6. Fixtures 共 9 条，覆盖 plugin mode pause、kernel session owner go、project switch revalidation、frontend history denied、Data Steward module boundary、memory ref Missing Evidence、Gateway redaction、tool orchestration summary、raw transcript rejected。
+7. 本阶段仍只做 docs / contract fixtures；不改 runtime code、不改平台 repo、不改共享文件、不实现 Gateway/session runtime、不连接 DB/NAS/API、不跑 smoke。
+8. 下一步：Codex B review Phase 2.105；通过后由用户显式授权 docs / fixture baseline。不得自动进入 runtime session implementation。
+
 ## Phase 2.104d Feedback / Scoring Linkage Contract Planning
 
 1. Phase 2.104c baseline 已完成：commit `1bb9ca3`，tag `phase-2.104c-document-evidence-search-contract-baseline`，pushed=true。

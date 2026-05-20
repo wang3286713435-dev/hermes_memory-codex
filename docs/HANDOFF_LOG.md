@@ -1,5 +1,15 @@
 # Handoff Log
 
+## 2026-05-20 Phase 2.105 Prompt
+- goal: Prepare Codex A handoff for Hermes Kernel Authority / Platform Alignment Contract.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.104d baseline confirmed at commit `f0fabc4`, tag `phase-2.104d-feedback-scoring-linkage-contract-baseline`; current task is prompt-only docs / fixture handoff.
+- scope: Codex A should create `docs/PHASE2105_HERMES_PLATFORM_AUTHORITY_ALIGNMENT.md`, `docs/PLATFORM_TEAM_HERMES_KERNEL_AUTHORITY_ALIGNMENT_HANDOFF.md`, and `eval/phase2_inventory/hermes_platform_authority_alignment_examples.json`.
+- decision: Hermes must be documented as enterprise agent kernel / session and orchestration owner; Platform remains UI / Gateway / permission / path-redaction surface; Data Steward / Catalog remains one Hermes capability module.
+- risks: If Platform owns reasoning/session state and only sends single-turn prompts, Hermes becomes a stateless plugin and the memory/orchestration kernel is functionally bypassed.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-20 Phase 2.104d Prompt
 - goal: Prepare Codex A handoff for Feedback / Scoring Linkage Contract Planning.
 - changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -7397,4 +7407,14 @@
 - validation: Shared docs were available; contract aligns with feedback contract, catalog tool, Missing Evidence, capability matrix, risk red lines, Metric Scoring Pack, and memory/evidence contracts. Fixture cases use fake IDs only.
 - risks: Feedback must not auto-pass metrics, write facts/memory, create repairs/issues, or store raw notes / raw answers / raw paths.
 - next: Codex B review Phase 2.104d; if accepted, user may authorize docs / fixture baseline. Do not enter Phase 2.104e automatically.
+- commit/tag if any: none.
+
+## 2026-05-20 11:53 Phase 2.105 Hermes Kernel Authority / Platform Alignment Contract
+
+- goal: Define Hermes-vs-Platform authority alignment so Hermes remains the enterprise agent kernel while Platform keeps UI / Gateway / permission / data-surface authority.
+- changed_files: `docs/PHASE2105_HERMES_PLATFORM_AUTHORITY_ALIGNMENT.md`, `docs/PLATFORM_TEAM_HERMES_KERNEL_AUTHORITY_ALIGNMENT_HANDOFF.md`, `eval/phase2_inventory/hermes_platform_authority_alignment_examples.json`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON parse passed; fixture JSON parse passed; latest ignore check passed; `git status --short --untracked-files=all` reviewed.
+- validation: Shared docs were available; contract aligns with Platform/Gateway catalog-only safety, Missing Evidence, memory continuity, feedback linkage, Data Steward boundary, and capability matrix docs.
+- risks: Platform single-turn plugin mode would weaken Hermes kernel authority; Gateway permission/path-redaction authority must stay with Platform; Data Steward must not be treated as the whole Hermes identity.
+- next: Codex B review Phase 2.105; if accepted, user may authorize docs / fixture baseline. Do not enter runtime session implementation automatically.
 - commit/tag if any: none.

@@ -1,0 +1,339 @@
+{
+  "schema_version": "hermes_platform_authority_alignment_examples.v1",
+  "phase": "Phase 2.105",
+  "purpose": "Sanitized fixture cases for Hermes kernel authority and Platform boundary alignment. These cases are docs/contract planning only and do not imply runtime implementation.",
+  "safety_rules": [
+    "Use fake IDs only.",
+    "Do not include real project names, real file names, raw paths, raw rows, raw answer text, secrets, tokens, credentials, or customer-sensitive content.",
+    "Platform Gateway remains permission and path-redaction authority.",
+    "Hermes remains agent kernel / session / reasoning / orchestration owner.",
+    "Data Steward / Catalog is one Hermes capability module, not the whole Hermes identity."
+  ],
+  "cases": [
+    {
+      "case_id": "platform_single_turn_plugin_mode_pause",
+      "platform_request_shape": {
+        "request_id": "request_demo_501",
+        "query": "current_user_message_only",
+        "session_id": "",
+        "thread_id": "",
+        "sanitized_context_refs": [],
+        "permission_proof_ref": "permission_ref_demo_501"
+      },
+      "hermes_kernel_contract": {
+        "required_behavior": "pause_for_authority_alignment",
+        "reason": "Platform request discards session continuity and risks treating Hermes as a stateless plugin.",
+        "required_refs": [
+          "session_id_or_thread_id",
+          "query_id",
+          "trace_id"
+        ]
+      },
+      "expected_coupling_health": {
+        "safety_health": "green_if_gateway_boundaries_enforced",
+        "capability_health": "yellow",
+        "architecture_authority_health": "orange"
+      },
+      "safe_platform_message": "Hermes needs a safe session or thread reference to preserve enterprise agent continuity. A single-turn request can be answered only within the current safe scope.",
+      "forbidden_behaviors": [
+        "treat_hermes_as_stateless_plugin",
+        "make_frontend_reasoning_owner",
+        "reuse_history_without_revalidation"
+      ],
+      "requires_runtime_change": true,
+      "requires_platform_change": true,
+      "should_preserve_gateway_permission_authority": true,
+      "should_make_platform_reasoning_owner": false,
+      "should_treat_data_steward_as_whole_hermes": false,
+      "should_expose_raw_path": false,
+      "should_use_history_without_revalidation": false
+    },
+    {
+      "case_id": "hermes_kernel_session_owner_go",
+      "platform_request_shape": {
+        "request_id": "request_demo_502",
+        "query": "continue_current_enterprise_task",
+        "session_id": "session_demo_502",
+        "thread_id": "thread_demo_502",
+        "permission_proof_ref": "permission_ref_demo_502",
+        "sanitized_context_refs": [
+          "context_ref_demo_502"
+        ]
+      },
+      "hermes_kernel_contract": {
+        "required_behavior": "go_with_kernel_authority",
+        "hermes_returns": [
+          "response_id",
+          "query_id",
+          "trace_id",
+          "context_refs",
+          "tool_plan_summary",
+          "missing_evidence",
+          "safe_memory_candidates"
+        ]
+      },
+      "expected_coupling_health": {
+        "safety_health": "green",
+        "capability_health": "staged",
+        "architecture_authority_health": "aligned"
+      },
+      "safe_platform_message": "Gateway keeps permission authority while Hermes keeps session continuity and tool orchestration authority.",
+      "forbidden_behaviors": [
+        "send_raw_history",
+        "send_raw_path",
+        "omit_permission_proof"
+      ],
+      "requires_runtime_change": true,
+      "requires_platform_change": true,
+      "should_preserve_gateway_permission_authority": true,
+      "should_make_platform_reasoning_owner": false,
+      "should_treat_data_steward_as_whole_hermes": false,
+      "should_expose_raw_path": false,
+      "should_use_history_without_revalidation": false
+    },
+    {
+      "case_id": "project_switch_requires_context_revalidation",
+      "platform_request_shape": {
+        "request_id": "request_demo_503",
+        "query": "continue_from_previous_file",
+        "session_id": "session_demo_503",
+        "previous_project_scope_ref": "project_scope_demo_old",
+        "current_project_scope_ref": "project_scope_demo_new",
+        "permission_proof_ref": "permission_ref_demo_503"
+      },
+      "hermes_kernel_contract": {
+        "required_behavior": "invalidate_or_revalidate_prior_context",
+        "missing_evidence_policy": "Prior context refs cannot be used until current project permission is validated."
+      },
+      "expected_coupling_health": {
+        "safety_health": "green_if_revalidated",
+        "capability_health": "staged",
+        "architecture_authority_health": "aligned"
+      },
+      "safe_platform_message": "Project scope changed. Prior context must be revalidated before Hermes can use it.",
+      "forbidden_behaviors": [
+        "carry_old_project_context_without_revalidation",
+        "reuse_prior_permission",
+        "answer_from_memory_refs_as_evidence"
+      ],
+      "requires_runtime_change": true,
+      "requires_platform_change": true,
+      "should_preserve_gateway_permission_authority": true,
+      "should_make_platform_reasoning_owner": false,
+      "should_treat_data_steward_as_whole_hermes": false,
+      "should_expose_raw_path": false,
+      "should_use_history_without_revalidation": false
+    },
+    {
+      "case_id": "frontend_history_without_permission_denied",
+      "platform_request_shape": {
+        "request_id": "request_demo_504",
+        "query": "answer_from_visible_thread_history",
+        "session_id": "session_demo_504",
+        "frontend_thread_history_ref": "frontend_history_ref_demo_504",
+        "permission_proof_ref": ""
+      },
+      "hermes_kernel_contract": {
+        "required_behavior": "deny_or_require_permission_refresh",
+        "reason": "Frontend-visible history is not permission proof and is not content evidence."
+      },
+      "expected_coupling_health": {
+        "safety_health": "green_if_denied",
+        "capability_health": "yellow",
+        "architecture_authority_health": "orange"
+      },
+      "safe_platform_message": "The visible thread is display context only. Current Gateway permission proof is required before Hermes can use prior context.",
+      "forbidden_behaviors": [
+        "use_frontend_history_as_permission_proof",
+        "answer_from_raw_history",
+        "store_raw_history_as_memory_evidence"
+      ],
+      "requires_runtime_change": true,
+      "requires_platform_change": true,
+      "should_preserve_gateway_permission_authority": true,
+      "should_make_platform_reasoning_owner": false,
+      "should_treat_data_steward_as_whole_hermes": false,
+      "should_expose_raw_path": false,
+      "should_use_history_without_revalidation": false
+    },
+    {
+      "case_id": "data_steward_tool_module_not_kernel_identity",
+      "platform_request_shape": {
+        "request_id": "request_demo_505",
+        "query": "catalog_asset_lookup",
+        "session_id": "session_demo_505",
+        "tool_surface": "data_steward_catalog",
+        "permission_proof_ref": "permission_ref_demo_505"
+      },
+      "hermes_kernel_contract": {
+        "required_behavior": "treat_catalog_as_tool_module",
+        "kernel_identity": "enterprise_agent_kernel",
+        "tool_module": "data_steward_catalog"
+      },
+      "expected_coupling_health": {
+        "safety_health": "green",
+        "capability_health": "staged",
+        "architecture_authority_health": "aligned"
+      },
+      "safe_platform_message": "Data Steward is a Hermes capability module for catalog governance; Hermes remains the enterprise agent kernel.",
+      "forbidden_behaviors": [
+        "brand_data_steward_as_whole_hermes",
+        "limit_hermes_to_catalog_plugin",
+        "claim_catalog_metadata_is_file_content"
+      ],
+      "requires_runtime_change": false,
+      "requires_platform_change": true,
+      "should_preserve_gateway_permission_authority": true,
+      "should_make_platform_reasoning_owner": false,
+      "should_treat_data_steward_as_whole_hermes": false,
+      "should_expose_raw_path": false,
+      "should_use_history_without_revalidation": false
+    },
+    {
+      "case_id": "memory_context_ref_without_evidence_missing_evidence",
+      "platform_request_shape": {
+        "request_id": "request_demo_506",
+        "query": "answer_content_from_related_file",
+        "session_id": "session_demo_506",
+        "sanitized_context_refs": [
+          "related_file_id:file_demo_506"
+        ],
+        "permission_proof_ref": "permission_ref_demo_506",
+        "evidence_availability_status": "catalog_only"
+      },
+      "hermes_kernel_contract": {
+        "required_behavior": "return_missing_evidence",
+        "reason": "Memory context refs are low-sensitive hints, not document evidence."
+      },
+      "expected_coupling_health": {
+        "safety_health": "green",
+        "capability_health": "staged",
+        "architecture_authority_health": "aligned"
+      },
+      "safe_platform_message": "Hermes can use the related file ID as a candidate reference, but content answers still require governed evidence.",
+      "forbidden_behaviors": [
+        "treat_memory_ref_as_content_evidence",
+        "answer_from_catalog_only_data",
+        "claim_file_content_was_read"
+      ],
+      "requires_runtime_change": false,
+      "requires_platform_change": false,
+      "should_preserve_gateway_permission_authority": true,
+      "should_make_platform_reasoning_owner": false,
+      "should_treat_data_steward_as_whole_hermes": false,
+      "should_expose_raw_path": false,
+      "should_use_history_without_revalidation": false
+    },
+    {
+      "case_id": "gateway_redacts_path_platform_does_not_leak",
+      "platform_request_shape": {
+        "request_id": "request_demo_507",
+        "query": "show_asset_location",
+        "session_id": "session_demo_507",
+        "permission_proof_ref": "permission_ref_demo_507",
+        "path_fields": {
+          "display_path": "redacted_display_path_demo_507",
+          "path_hint": "safe_locator_demo_507"
+        }
+      },
+      "hermes_kernel_contract": {
+        "required_behavior": "use_redacted_locator_only",
+        "forbidden_fields": [
+          "raw_storage_path",
+          "raw_nas_path",
+          "storage_uri"
+        ]
+      },
+      "expected_coupling_health": {
+        "safety_health": "green",
+        "capability_health": "staged",
+        "architecture_authority_health": "aligned"
+      },
+      "safe_platform_message": "Gateway redaction is preserved. Hermes may reference only safe display locators.",
+      "forbidden_behaviors": [
+        "expose_raw_storage_path",
+        "store_path_in_memory",
+        "include_path_in_trace"
+      ],
+      "requires_runtime_change": false,
+      "requires_platform_change": false,
+      "should_preserve_gateway_permission_authority": true,
+      "should_make_platform_reasoning_owner": false,
+      "should_treat_data_steward_as_whole_hermes": false,
+      "should_expose_raw_path": false,
+      "should_use_history_without_revalidation": false
+    },
+    {
+      "case_id": "hermes_tool_orchestration_summary_allowed",
+      "platform_request_shape": {
+        "request_id": "request_demo_508",
+        "query": "find_candidate_assets_and_explain_missing_evidence",
+        "session_id": "session_demo_508",
+        "permission_proof_ref": "permission_ref_demo_508",
+        "tool_results": [
+          "catalog_result_ref_demo_508"
+        ]
+      },
+      "hermes_kernel_contract": {
+        "required_behavior": "return_tool_plan_summary",
+        "allowed_summary_fields": [
+          "tool_name",
+          "safe_status",
+          "missing_evidence_reason",
+          "query_id",
+          "trace_id"
+        ]
+      },
+      "expected_coupling_health": {
+        "safety_health": "green",
+        "capability_health": "staged",
+        "architecture_authority_health": "aligned"
+      },
+      "safe_platform_message": "Hermes may summarize safe tool orchestration without exposing raw rows, raw paths, or unsupported content claims.",
+      "forbidden_behaviors": [
+        "return_raw_tool_rows",
+        "return_sql",
+        "claim_catalog_result_is_content_evidence"
+      ],
+      "requires_runtime_change": true,
+      "requires_platform_change": false,
+      "should_preserve_gateway_permission_authority": true,
+      "should_make_platform_reasoning_owner": false,
+      "should_treat_data_steward_as_whole_hermes": false,
+      "should_expose_raw_path": false,
+      "should_use_history_without_revalidation": false
+    },
+    {
+      "case_id": "raw_transcript_history_rejected",
+      "platform_request_shape": {
+        "request_id": "request_demo_509",
+        "query": "continue_from_raw_thread_transcript",
+        "session_id": "session_demo_509",
+        "raw_transcript_history": "REJECTED_RAW_TRANSCRIPT_PLACEHOLDER",
+        "permission_proof_ref": "permission_ref_demo_509"
+      },
+      "hermes_kernel_contract": {
+        "required_behavior": "reject_raw_history_and_request_sanitized_refs",
+        "reason": "Raw assistant/user transcript history can contain sensitive content and must not become memory evidence."
+      },
+      "expected_coupling_health": {
+        "safety_health": "green_if_rejected",
+        "capability_health": "yellow",
+        "architecture_authority_health": "orange"
+      },
+      "safe_platform_message": "Use sanitized context refs or previous response IDs instead of raw transcript history.",
+      "forbidden_behaviors": [
+        "store_raw_transcript_as_memory",
+        "use_raw_history_as_evidence",
+        "send_customer_sensitive_transcript"
+      ],
+      "requires_runtime_change": true,
+      "requires_platform_change": true,
+      "should_preserve_gateway_permission_authority": true,
+      "should_make_platform_reasoning_owner": false,
+      "should_treat_data_steward_as_whole_hermes": false,
+      "should_expose_raw_path": false,
+      "should_use_history_without_revalidation": false
+    }
+  ]
+}
