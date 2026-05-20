@@ -1,13 +1,12 @@
 # Hermes Memory 当前待办清单
 
-## Phase 2.111 Natural-language Import / MVP Closeout Gap Closure Pack Handoff
+## Phase 2.111 Codex B Review
 
-1. 当前进入 Phase 2.111 交接阶段，目标是让 Codex A 创建自然语言导入 / MVP closeout gap closure pack。
-2. Codex A 必须整理历史 natural import evidence：planning、mocked integration、runtime wiring、real upload smoke、operator checklist、Mac mini checklist、Phase 2 inventory。
-3. Codex A 必须把证据分成：`proven`、`partial_evidence`、`missing_live_evidence`、`requires_user_authorization`、`candidate_user_exception`。
-4. 必须明确：direct API upload 不等于 natural-language import；真实 smoke 必须走 Hermes CLI natural-language import path。
-5. 必须明确：完整 Phase 2 closeout 仍 blocked，直到 natural import usability 与其他 closeout gaps 被证据关闭或用户显式重分类。
-6. 本轮 Codex B 只写 NEXT prompt，不直接实现功能代码。
+1. Phase 2.111 natural import closeout pack 已通过 Codex B review。
+2. 验证已通过：`git diff --check`、matrix JSON parse、evidence template py_compile、目标 pytest `14 passed`、latest JSON parse / ignore check。
+3. 当前可 baseline：`docs/PHASE2111_NATURAL_IMPORT_MVP_CLOSEOUT_GAP_CLOSURE_PACK.md`、`eval/phase2_inventory/natural_import_mvp_closeout_gap_matrix.json`、`docs/CODEX_C_NATURAL_IMPORT_ACCEPTANCE_SMOKE_PROMPT.md` 与阶段文档。
+4. full Phase 2 closeout 仍未完成；仍需要 future accepted Hermes CLI natural-language import smoke，或用户显式例外。
+5. baseline 后不要自动执行 Codex C smoke；必须等待用户给出具体小型非敏感文件、alias 与项目上下文授权。
 
 ## Phase 2.110 Phase 2 Full Closeout Return Plan
 

@@ -1,0 +1,280 @@
+{
+  "phase": "Phase 2.111 Natural-language Import / MVP Closeout Gap Closure Pack",
+  "closeout_decision": "not_ready_until_evidence_or_user_exception",
+  "evidence_categories": [
+    "proven",
+    "partial_evidence",
+    "missing_live_evidence",
+    "requires_user_authorization",
+    "candidate_user_exception"
+  ],
+  "acceptance_items": [
+    {
+      "item_id": "natural_import_001_intent_detection",
+      "name": "Natural-language import intent detection",
+      "phase2_requirement": "MVP natural-language file ingestion usability",
+      "current_status": "proven",
+      "evidence_refs": [
+        "docs/PHASE253_NATURAL_LANGUAGE_FILE_IMPORT_PLAN.md",
+        "docs/PHASE253B_NATURAL_IMPORT_INTEGRATION_PLAN.md"
+      ],
+      "missing_evidence": [],
+      "closeout_effect": "informational",
+      "required_next_action": "Keep parser / intent boundary evidence in closeout pack.",
+      "forbidden_substitutes": [
+        "direct_api_upload_as_natural_import_success"
+      ]
+    },
+    {
+      "item_id": "natural_import_002_runtime_hook",
+      "name": "Runtime hook before normal retrieval / answer",
+      "phase2_requirement": "Import intent must be intercepted before ordinary retrieval",
+      "current_status": "proven",
+      "evidence_refs": [
+        "docs/PHASE256D_NATURAL_IMPORT_RUNTIME_WIRING_PLAN.md"
+      ],
+      "missing_evidence": [],
+      "closeout_effect": "informational",
+      "required_next_action": "Preserve evidence that failed imports do not fall through into retrieval answers.",
+      "forbidden_substitutes": [
+        "ordinary_retrieval_response_as_import_success"
+      ]
+    },
+    {
+      "item_id": "natural_import_003_real_upload_client",
+      "name": "Real upload client path",
+      "phase2_requirement": "Natural-language path can call existing Hermes_memory upload path under explicit enablement",
+      "current_status": "proven",
+      "evidence_refs": [
+        "docs/PHASE256_NATURAL_IMPORT_REAL_ADAPTER_PLAN.md",
+        "docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md"
+      ],
+      "missing_evidence": [],
+      "closeout_effect": "informational",
+      "required_next_action": "Treat as technical path evidence, not full usability closeout.",
+      "forbidden_substitutes": [
+        "plain_upload_api_call_without_natural_language_cli_path"
+      ]
+    },
+    {
+      "item_id": "natural_import_004_feature_flag_authorization",
+      "name": "Feature flag / explicit authorization gate",
+      "phase2_requirement": "Real import must require explicit authorization",
+      "current_status": "proven",
+      "evidence_refs": [
+        "docs/PHASE256B_NATURAL_IMPORT_REAL_SMOKE_PLAN.md",
+        "docs/MAC_MINI_NATURAL_IMPORT_OPERATOR_CHECKLIST.md"
+      ],
+      "missing_evidence": [],
+      "closeout_effect": "informational",
+      "required_next_action": "Keep authorization gate as mandatory for any future smoke.",
+      "forbidden_substitutes": [
+        "implicit_authorization_from_previous_smoke",
+        "bulk_or_directory_import_as_single_file_smoke"
+      ]
+    },
+    {
+      "item_id": "natural_import_005_cli_path_not_api_upload",
+      "name": "Hermes CLI natural-language import path, not direct API upload",
+      "phase2_requirement": "User-facing natural-language import must be proven through Hermes CLI path",
+      "current_status": "missing_live_evidence",
+      "evidence_refs": [
+        "docs/PHASE2110_PHASE2_FULL_CLOSEOUT_RETURN_PLAN.md",
+        "docs/PHASE259_NATURAL_IMPORT_SECOND_SMOKE_PLAN.md"
+      ],
+      "missing_evidence": [
+        "accepted_current live smoke record proving the Hermes CLI natural-language import path",
+        "accepted evidence that direct API upload was not used as substitute"
+      ],
+      "closeout_effect": "blocks_full_phase2_closeout",
+      "required_next_action": "Run a future user-authorized Codex C smoke through Hermes CLI natural-language import path.",
+      "forbidden_substitutes": [
+        "direct_api_upload_as_natural_import_success",
+        "planning_doc_as_live_usability_evidence"
+      ]
+    },
+    {
+      "item_id": "natural_import_006_import_result_metadata",
+      "name": "Document ID / version ID / chunk count / index count returned after real import",
+      "phase2_requirement": "Import must return verifiable document/version/index metadata",
+      "current_status": "partial_evidence",
+      "evidence_refs": [
+        "docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md"
+      ],
+      "missing_evidence": [
+        "current accepted closeout run record with document_id version_id chunk_count indexed_count"
+      ],
+      "closeout_effect": "blocks_full_phase2_closeout",
+      "required_next_action": "Capture sanitized metadata fields in a future accepted smoke.",
+      "forbidden_substitutes": [
+        "manual_document_id_entry",
+        "api_upload_metadata_without_cli_import_path"
+      ]
+    },
+    {
+      "item_id": "natural_import_007_same_session_alias",
+      "name": "Same-session alias persistence",
+      "phase2_requirement": "Imported document can be bound and reused in the same session",
+      "current_status": "partial_evidence",
+      "evidence_refs": [
+        "docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md"
+      ],
+      "missing_evidence": [
+        "current accepted closeout smoke proving same-session alias persistence"
+      ],
+      "closeout_effect": "blocks_full_phase2_closeout",
+      "required_next_action": "Future smoke must bind alias after import and reuse it in the same session.",
+      "forbidden_substitutes": [
+        "preexisting_alias_binding",
+        "manual_alias_seed_after_api_upload"
+      ]
+    },
+    {
+      "item_id": "natural_import_008_followup_retrieval_citation",
+      "name": "Follow-up retrieval from imported document with citation",
+      "phase2_requirement": "Imported document must support citation-backed retrieval",
+      "current_status": "partial_evidence",
+      "evidence_refs": [
+        "docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md"
+      ],
+      "missing_evidence": [
+        "current accepted follow-up retrieval evidence using the imported alias",
+        "citation visible in accepted smoke output"
+      ],
+      "closeout_effect": "blocks_full_phase2_closeout",
+      "required_next_action": "Future smoke must ask a follow-up query and verify citation-backed evidence.",
+      "forbidden_substitutes": [
+        "import_success_without_retrieval",
+        "answer_without_citation"
+      ]
+    },
+    {
+      "item_id": "natural_import_009_third_document_contamination",
+      "name": "Third-document contamination check",
+      "phase2_requirement": "Follow-up retrieval must not mix unrelated document evidence",
+      "current_status": "missing_live_evidence",
+      "evidence_refs": [
+        "docs/PHASE259_NATURAL_IMPORT_SECOND_SMOKE_PLAN.md"
+      ],
+      "missing_evidence": [
+        "current accepted smoke showing returned_document_ids only include imported document"
+      ],
+      "closeout_effect": "blocks_full_phase2_closeout",
+      "required_next_action": "Future smoke must record returned_document_ids and third-document contamination status.",
+      "forbidden_substitutes": [
+        "unchecked_retrieval_answer",
+        "manual_document_filter_without_trace"
+      ]
+    },
+    {
+      "item_id": "natural_import_010_missing_evidence_boundary",
+      "name": "Missing Evidence when parser / permission / evidence is absent",
+      "phase2_requirement": "Failed or unsupported import must fail closed",
+      "current_status": "partial_evidence",
+      "evidence_refs": [
+        "docs/PHASE253_NATURAL_LANGUAGE_FILE_IMPORT_PLAN.md",
+        "docs/PHASE256D_NATURAL_IMPORT_RUNTIME_WIRING_PLAN.md"
+      ],
+      "missing_evidence": [
+        "accepted closeout smoke or dry-run record showing failure boundary on unavailable parser/permission/evidence"
+      ],
+      "closeout_effect": "can_close_with_user_exception",
+      "required_next_action": "Future smoke should include explicit stop conditions; user may accept boundary docs without executing negative cases.",
+      "forbidden_substitutes": [
+        "pretend_import_success_after_parser_failure",
+        "retrieval_fallback_after_import_failure"
+      ]
+    },
+    {
+      "item_id": "natural_import_011_no_raw_sensitive_output",
+      "name": "No raw path / secret / raw row / customer data output",
+      "phase2_requirement": "Natural import evidence must remain sanitized",
+      "current_status": "proven",
+      "evidence_refs": [
+        "docs/MAC_MINI_NATURAL_IMPORT_OPERATOR_CHECKLIST.md",
+        "scripts/phase257a_natural_import_evidence_template.py"
+      ],
+      "missing_evidence": [],
+      "closeout_effect": "informational",
+      "required_next_action": "Future smoke must report sanitized fields only.",
+      "forbidden_substitutes": [
+        "raw_file_path_in_committed_report",
+        "raw_file_content_in_committed_report",
+        "secret_or_raw_db_row_output"
+      ]
+    },
+    {
+      "item_id": "natural_import_012_mac_mini_operator_checklist",
+      "name": "Mac mini operator checklist readiness",
+      "phase2_requirement": "Controlled operator workflow exists before real smoke",
+      "current_status": "proven",
+      "evidence_refs": [
+        "docs/MAC_MINI_NATURAL_IMPORT_OPERATOR_CHECKLIST.md"
+      ],
+      "missing_evidence": [],
+      "closeout_effect": "informational",
+      "required_next_action": "Use checklist before requesting real smoke authorization.",
+      "forbidden_substitutes": [
+        "ad_hoc_terminal_steps_without_checklist"
+      ]
+    },
+    {
+      "item_id": "natural_import_013_evidence_template",
+      "name": "Evidence template / ignored sanitized run record readiness",
+      "phase2_requirement": "Local evidence record can be generated and reviewed without upload",
+      "current_status": "proven",
+      "evidence_refs": [
+        "scripts/phase257a_natural_import_evidence_template.py",
+        "tests/test_phase257a_natural_import_evidence_template.py"
+      ],
+      "missing_evidence": [],
+      "closeout_effect": "informational",
+      "required_next_action": "Run template and review helper before future authorization.",
+      "forbidden_substitutes": [
+        "committing_real_smoke_json",
+        "committing_source_file"
+      ]
+    },
+    {
+      "item_id": "natural_import_014_employee_usability",
+      "name": "Employee usability / non-developer operator evidence",
+      "phase2_requirement": "MVP usability must be evidenced by operator/employee flow, not only developer proof",
+      "current_status": "missing_live_evidence",
+      "evidence_refs": [
+        "docs/PHASE2110_PHASE2_FULL_CLOSEOUT_RETURN_PLAN.md",
+        "docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md"
+      ],
+      "missing_evidence": [
+        "accepted non-developer or operator usability run",
+        "Go/Pause/No-Go report for the natural-language import flow"
+      ],
+      "closeout_effect": "blocks_full_phase2_closeout",
+      "required_next_action": "User must authorize and accept a real operator/employee smoke or grant an explicit exception.",
+      "forbidden_substitutes": [
+        "developer_only_planning_doc",
+        "mocked_flow_as_usability_evidence"
+      ]
+    },
+    {
+      "item_id": "natural_import_015_full_closeout_decision",
+      "name": "Whether this can close Phase 2 full closeout or requires user exception",
+      "phase2_requirement": "Full Phase 2 closeout cannot proceed while natural import usability is unproven",
+      "current_status": "requires_user_authorization",
+      "evidence_refs": [
+        "docs/PHASE2110_PHASE2_FULL_CLOSEOUT_RETURN_PLAN.md",
+        "eval/phase2_inventory/phase2_full_closeout_return_checklist.json"
+      ],
+      "missing_evidence": [
+        "accepted natural-language import usability smoke",
+        "or explicit user exception moving this gap out of Phase 2"
+      ],
+      "closeout_effect": "blocks_full_phase2_closeout",
+      "required_next_action": "Get Codex B review, then either run an authorized smoke or record explicit user exception.",
+      "forbidden_substitutes": [
+        "stable_platform_baseline_as_full_phase2_closeout",
+        "direct_api_upload_as_natural_import_success",
+        "phase3_planning_without_inherited_gap_record"
+      ]
+    }
+  ]
+}

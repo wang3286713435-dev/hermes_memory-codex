@@ -1,5 +1,14 @@
 # Handoff Log
 
+## 2026-05-20 Phase 2.111 Codex B Review
+- goal: Review Phase 2.111 natural import closeout gap pack and decide whether selective docs / matrix baseline is safe.
+- changed_files: `docs/PHASE2111_NATURAL_IMPORT_MVP_CLOSEOUT_GAP_CLOSURE_PACK.md`, `eval/phase2_inventory/natural_import_mvp_closeout_gap_matrix.json`, `docs/CODEX_C_NATURAL_IMPORT_ACCEPTANCE_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: `git diff --check` passed; matrix JSON parse passed; `scripts/phase257a_natural_import_evidence_template.py` py_compile passed; `tests/test_phase257a_natural_import_evidence_template.py` 14 passed; latest JSON parse / ignore check passed.
+- review: Passed. The pack clearly distinguishes proven technical path, partial evidence, missing live evidence, user authorization requirement, and candidate user exception.
+- risks: Full Phase 2 closeout remains blocked unless a future accepted Hermes CLI natural-language import smoke is authorized and passed, or the user explicitly moves this gap out of Phase 2.
+- next: Execute selective docs / matrix baseline. After baseline, wait for user decision: authorize Codex C smoke with a concrete small non-sensitive file, or record user exception.
+- commit/tag if any: none yet.
+
 ## 2026-05-20 Phase 2.111 Prompt
 - goal: Prepare Codex A handoff for Natural-language Import / MVP Closeout Gap Closure Pack.
 - changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -7498,6 +7507,16 @@
 - validation: Shared Hermes kernel authority contract and shared capability matrix were available; no shared files were modified.
 - risks: Stable tag must not be created in this phase; stable platform baseline must not be described as Phase 2 full closeout, production rollout, or Phase 3 transition. Natural import usability still needs user business decision.
 - next: Codex B review Phase 2.107; if accepted, user may authorize docs / matrix baseline. Do not create stable tag or enter Phase 3 automatically.
+- commit/tag if any: none.
+
+## 2026-05-20 18:17 Phase 2.111 Natural-language Import / MVP Closeout Gap Closure Pack
+
+- goal: Turn the natural-language import closeout gap into a reviewed evidence matrix and future Codex C smoke prompt.
+- changed_files: `docs/PHASE2111_NATURAL_IMPORT_MVP_CLOSEOUT_GAP_CLOSURE_PACK.md`, `eval/phase2_inventory/natural_import_mvp_closeout_gap_matrix.json`, `docs/CODEX_C_NATURAL_IMPORT_ACCEPTANCE_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; natural import matrix JSON parse passed; evidence template py_compile passed; `tests/test_phase257a_natural_import_evidence_template.py` 14 passed; latest JSON parse passed; latest ignore check passed; `git status --short` reviewed.
+- validation: Historical natural import planning, runtime wiring, real smoke planning, operator checklist, and Phase 2 full closeout return docs were reviewed.
+- risks: Direct API upload must not be counted as natural-language import usability; planning/mock/dry-run evidence must not be overcounted as live usability evidence; future real smoke requires user authorization for one small non-sensitive file.
+- next: Codex B review Phase 2.111; if accepted, user may authorize docs / matrix baseline. Do not execute Codex C smoke without explicit user file authorization.
 - commit/tag if any: none.
 
 ## 2026-05-20 14:42 Phase 2.107 Codex B Alignment Tightening

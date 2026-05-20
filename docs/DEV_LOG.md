@@ -1,5 +1,22 @@
 # DEV_LOG
 
+## 2026-05-20 Phase 2.111 Codex B Review
+
+- Codex B review 通过 Phase 2.111 natural import closeout pack。
+- 复跑验证通过：`git diff --check`、`eval/phase2_inventory/natural_import_mvp_closeout_gap_matrix.json` JSON parse、`scripts/phase257a_natural_import_evidence_template.py` py_compile、`tests/test_phase257a_natural_import_evidence_template.py` 14 passed、latest JSON parse / ignore check。
+- 审核结论：pack 正确区分 proven technical path、partial evidence、missing live evidence、requires user authorization 与 candidate user exception；未宣布 full Phase 2 complete。
+- 仍需用户后续决策：授权具体小型非敏感文件执行 Codex C Hermes CLI natural-language import smoke，或显式将 natural import usability 移出 Phase 2 closeout。
+- 本轮未运行真实 import smoke、未上传文件、未连接 DB/NAS/API/Gateway、未执行 SQL/parser/writer/scratch/repair/backfill/reindex/delete/migration/rollout，未写 memory/facts/index/object-store。
+
+## 2026-05-20 Phase 2.111 Natural-language Import / MVP Closeout Gap Closure Pack
+
+- 新增 `docs/PHASE2111_NATURAL_IMPORT_MVP_CLOSEOUT_GAP_CLOSURE_PACK.md`，明确 natural-language import 技术路径已有证明，但 full Phase 2 closeout 仍缺 accepted user-facing live usability evidence。
+- 新增 `eval/phase2_inventory/natural_import_mvp_closeout_gap_matrix.json`，包含 15 个 acceptance items，覆盖 intent detection、runtime hook、real upload path、feature flag、CLI path、metadata、alias、retrieval citation、contamination、Missing Evidence、sanitization、operator checklist、evidence template、employee usability、closeout decision。
+- 新增 `docs/CODEX_C_NATURAL_IMPORT_ACCEPTANCE_SMOKE_PROMPT.md`，作为未来用户授权后的 Codex C 真实终端验收模板；本阶段未执行。
+- 核心边界：direct API upload 不能替代 Hermes CLI natural-language import；planning / mocked flow / dry-run template 不能替代 live usability evidence。
+- 当前结论：full Phase 2 closeout 仍需新 accepted natural import smoke，或用户显式例外把该 gap 移出 Phase 2。
+- 本阶段仍只做 docs / matrix / handoff；未改 runtime code/tests，未运行 API/CLI/Gateway/DB/NAS smoke，未上传文件，未写 memory/facts/index/object-store，未进入 rollout。
+
 ## 2026-05-20 Phase 2.111 Prompt
 
 - Phase 2.110 baseline 已完成并推送：commit `1a07e42`，tag `phase-2.110-full-closeout-return-baseline`。
