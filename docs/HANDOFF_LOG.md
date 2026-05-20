@@ -1,5 +1,14 @@
 # Handoff Log
 
+## 2026-05-20 Phase 2.111a Test-machine Natural Import Smoke Prompt Clarification
+- goal: Clarify that Path A must update the test-machine Hermes checkout to the current Phase 2.111 baseline before running Codex C natural import acceptance smoke.
+- changed_files: `docs/CODEX_C_NATURAL_IMPORT_ACCEPTANCE_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Pending docs diff / JSON checks.
+- scope: Prompt clarification only. No runtime code, upload, DB/NAS/API/Gateway connection, parser run, memory/index write, or smoke execution.
+- decision: Natural import usability means user-facing Hermes CLI natural-language import, alias, follow-up retrieval, citation, no contamination, and sanitized reporting; not just upload API availability.
+- next: If the user chooses Path A, provide concrete file path, alias, and project context to test-machine Codex C; it must checkout `phase-2.111-natural-import-closeout-gap-pack-baseline` before smoke.
+- commit/tag if any: none yet.
+
 ## 2026-05-20 Phase 2.111 Codex B Review
 - goal: Review Phase 2.111 natural import closeout gap pack and decide whether selective docs / matrix baseline is safe.
 - changed_files: `docs/PHASE2111_NATURAL_IMPORT_MVP_CLOSEOUT_GAP_CLOSURE_PACK.md`, `eval/phase2_inventory/natural_import_mvp_closeout_gap_matrix.json`, `docs/CODEX_C_NATURAL_IMPORT_ACCEPTANCE_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.

@@ -1,5 +1,11 @@
 # DEV_LOG
 
+## 2026-05-20 Phase 2.111a Test-machine Natural Import Smoke Prompt Clarification
+
+- 更新 `docs/CODEX_C_NATURAL_IMPORT_ACCEPTANCE_SMOKE_PROMPT.md`：Codex C 执行真实自然语言导入 smoke 前，必须先把测试机 `/Users/hermes/code/Hermes_memory` checkout 到 `phase-2.111-natural-import-closeout-gap-pack-baseline`，并确认 worktree clean。
+- 更新 `docs/NEXT_CODEX_A_PROMPT.md`：Path A 明确先更新测试机，再执行自然语言导入验收；不得用旧版本测试。
+- 本轮只做 prompt clarification；未运行真实 smoke、未上传文件、未连接 DB/NAS/API/Gateway、未执行 SQL/parser/writer/scratch/repair/backfill/reindex/delete/migration/rollout，未写 memory/facts/index/object-store。
+
 ## 2026-05-20 Phase 2.111 Codex B Review
 
 - Codex B review 通过 Phase 2.111 natural import closeout pack。

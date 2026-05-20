@@ -14,6 +14,54 @@ Do not execute it until the user explicitly provides:
 
 The file must be one small non-sensitive file. Authorization for one file does not authorize folders, NAS scan, cleanup, repair, backfill, reindex, migration, rollout, or unrelated uploads.
 
+## Required Test-machine Update Gate
+
+Before any smoke, the test-machine Hermes checkout must be updated to the reviewed Phase 2.111 baseline.
+
+Expected repo path:
+
+```text
+/Users/hermes/code/Hermes_memory
+```
+
+Expected reviewed ref:
+
+```text
+phase-2.111-natural-import-closeout-gap-pack-baseline
+```
+
+Required update checks:
+
+1. `cd /Users/hermes/code/Hermes_memory`.
+2. Record current `HEAD`, exact tag if any, and `git status --short`.
+3. If worktree is dirty, stop with `Pause`; do not stash, reset, delete, or overwrite without separate operator authorization.
+4. Run `git fetch --tags origin`.
+5. Checkout `phase-2.111-natural-import-closeout-gap-pack-baseline`.
+6. Confirm exact tag matches `phase-2.111-natural-import-closeout-gap-pack-baseline`.
+7. Confirm worktree is clean after checkout.
+8. Confirm these files exist:
+   - `docs/PHASE2111_NATURAL_IMPORT_MVP_CLOSEOUT_GAP_CLOSURE_PACK.md`
+   - `eval/phase2_inventory/natural_import_mvp_closeout_gap_matrix.json`
+   - `docs/CODEX_C_NATURAL_IMPORT_ACCEPTANCE_SMOKE_PROMPT.md`
+   - `scripts/phase257a_natural_import_evidence_template.py`
+   - `tests/test_phase257a_natural_import_evidence_template.py`
+9. Parse `eval/phase2_inventory/natural_import_mvp_closeout_gap_matrix.json`.
+10. Do not continue to smoke if the checkout remains on an older tag or required files are missing.
+
+Report update gate fields without secrets:
+
+```text
+repo_path:
+before_head:
+before_tag:
+before_dirty:
+after_head:
+after_tag:
+after_dirty:
+required_files_present:
+missing_required_files:
+```
+
 ## Goal
 
 Validate the Hermes CLI natural-language import path:
@@ -26,12 +74,13 @@ Direct API upload is not valid substitute evidence.
 
 ## Required Preflight
 
-1. Confirm user authorization names the exact file path.
-2. Confirm file is a regular small non-sensitive file.
-3. Confirm Hermes_memory API `/health`.
-4. Confirm Hermes CLI availability.
-5. Run the natural import dry-run evidence template and review helper if applicable.
-6. Confirm cleanup / delete / repair / backfill / reindex / migration / rollout remain unauthorized.
+1. Confirm the test-machine update gate is `Go`.
+2. Confirm user authorization names the exact file path.
+3. Confirm file is a regular small non-sensitive file.
+4. Confirm Hermes_memory API `/health`.
+5. Confirm Hermes CLI availability.
+6. Run the natural import dry-run evidence template and review helper if applicable.
+7. Confirm cleanup / delete / repair / backfill / reindex / migration / rollout remain unauthorized.
 
 ## Required Smoke
 
@@ -69,6 +118,8 @@ Stop immediately if:
 8. Third-document contamination appears.
 9. Raw path, raw text, secret, raw DB row, raw answer, or customer-sensitive material would be printed.
 10. Continuing would require cleanup / repair / backfill / reindex / delete / migration / rollout.
+11. Test-machine checkout is not on `phase-2.111-natural-import-closeout-gap-pack-baseline`.
+12. Test-machine worktree is dirty before smoke.
 
 ## Report Format
 
@@ -77,6 +128,12 @@ Return a sanitized table:
 ```text
 API status:
 CLI status:
+repo_path:
+before_head:
+before_tag:
+after_head:
+after_tag:
+worktree_clean_before_smoke:
 session_id:
 natural_import_path_used:
 direct_api_upload_used:

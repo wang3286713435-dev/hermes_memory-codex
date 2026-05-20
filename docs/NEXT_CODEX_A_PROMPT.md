@@ -52,6 +52,14 @@ Then Codex C may execute:
 docs/CODEX_C_NATURAL_IMPORT_ACCEPTANCE_SMOKE_PROMPT.md
 ```
 
+Path A must start by updating the test-machine Hermes checkout to:
+
+```text
+phase-2.111-natural-import-closeout-gap-pack-baseline
+```
+
+Do not run the smoke against an older test-machine checkout.
+
 ### Path B: Record User Exception
 
 The user may explicitly decide:
