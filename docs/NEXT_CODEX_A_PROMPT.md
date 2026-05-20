@@ -1,17 +1,17 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.104a Codex B Review / Docs + Fixture Baseline Gate
+## Phase 2.104b Codex B Review / Docs + Fixture Baseline Gate
 
-This is not an implementation prompt. Codex A must not start Phase 2.104b unless the user explicitly authorizes it.
+This is not an implementation prompt. Codex A must not start Phase 2.104c unless the user explicitly authorizes it.
 
 ## Current State
 
-Phase 2.104a docs / contract fixture work is complete and waiting for Codex B review.
+Phase 2.104b docs / contract fixture work is complete and waiting for Codex B review.
 
 Created:
 
-1. `docs/PHASE2104A_EVIDENCE_AVAILABILITY_CONTRACT.md`
-2. `eval/phase2_inventory/evidence_availability_contract_examples.json`
+1. `docs/PHASE2104B_MEMORY_CONTINUITY_PERMISSION_CONTRACT.md`
+2. `eval/phase2_inventory/memory_continuity_permission_examples.json`
 
 Updated:
 
@@ -27,16 +27,21 @@ Unrelated untracked `docs/digital-delivery-standards/` files remain out of scope
 
 ## Codex B Review Checklist
 
-Review `docs/PHASE2104A_EVIDENCE_AVAILABILITY_CONTRACT.md` and `eval/phase2_inventory/evidence_availability_contract_examples.json` for:
+Review `docs/PHASE2104B_MEMORY_CONTINUITY_PERMISSION_CONTRACT.md` and `eval/phase2_inventory/memory_continuity_permission_examples.json` for:
 
-1. Status enum coverage: `catalog_only`, `parser_required`, `evidence_indexed`, `unsupported_type`, `permission_denied`, `manual_review_required`.
-2. Required fields: `evidence_availability_status`, `safe_user_message`, `missing_evidence_reason`, `permission_decision`, `source_kind`, `source_view`, file/model ID, allowed/forbidden actions, optional IDs, trace/query IDs.
-3. Clear field safety rules: no raw `storage_path`, NAS path, raw DB row, SQL, file正文, secrets, tokens, credentials, or unsupported DWG/RVT/BIM content claims.
-4. Clear status semantics: when each status applies, whether Hermes may answer content-level questions, Missing Evidence wording, safe next action, forbidden action.
-5. Fixture cases are fully sanitized and use fake IDs only.
-6. `evidence_indexed` is not described as current platform `document_evidence_search` runtime.
-7. `related_file_ids` are not treated as content evidence.
-8. Shared follow-up is listed without editing shared folder files.
+1. Three-layer permission model is explicit:
+   - `platform_permission`
+   - `catalog_permission_decision`
+   - `memory_continuity_reference`
+2. Platform permission proof remains the final authority.
+3. Catalog permission decision is scoped only to current catalog response.
+4. Hermes memory continuity is only a low-sensitive UX hint.
+5. Memory references never grant access, bypass denial, or become content evidence.
+6. Allowed memory fields are low-sensitive references only.
+7. Forbidden memory fields exclude raw paths, raw rows, file正文, DWG/RVT/BIM content, customer-sensitive notes, secrets, full permission proof, and unauthorized ACL snapshots.
+8. Access revalidation is required for each new answer / session boundary.
+9. Fixtures are sanitized, use fake IDs, and cover all required cases.
+10. Shared follow-up is listed without editing shared folder files.
 
 ## Validation Commands
 
@@ -45,7 +50,7 @@ Before any baseline, rerun:
 ```bash
 git diff --check
 UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool reports/agent_runs/latest.json >/dev/null
-UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool eval/phase2_inventory/evidence_availability_contract_examples.json >/dev/null
+UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool eval/phase2_inventory/memory_continuity_permission_examples.json >/dev/null
 git check-ignore reports/agent_runs/latest.json
 git status --short --untracked-files=all
 ```
@@ -57,18 +62,18 @@ Do not run pytest for this phase unless tests are changed.
 Only after explicit user authorization:
 
 ```bash
-git add docs/PHASE2104A_EVIDENCE_AVAILABILITY_CONTRACT.md \
-  eval/phase2_inventory/evidence_availability_contract_examples.json \
+git add docs/PHASE2104B_MEMORY_CONTINUITY_PERMISSION_CONTRACT.md \
+  eval/phase2_inventory/memory_continuity_permission_examples.json \
   docs/NEXT_CODEX_A_PROMPT.md \
   docs/ACTIVE_PHASE.md \
   docs/PHASE_BACKLOG.md \
   docs/HANDOFF_LOG.md \
   docs/TODO.md \
   docs/DEV_LOG.md
-git commit -m "docs: add phase 2.104a evidence availability contract"
-git tag phase-2.104a-evidence-availability-contract-baseline
+git commit -m "docs: add phase 2.104b memory continuity permission contract"
+git tag phase-2.104b-memory-continuity-permission-contract-baseline
 git push origin main
-git push origin phase-2.104a-evidence-availability-contract-baseline
+git push origin phase-2.104b-memory-continuity-permission-contract-baseline
 ```
 
 Do not stage `reports/agent_runs/latest.json`.
@@ -77,15 +82,15 @@ Do not stage `reports/agent_runs/latest.json`.
 
 1. Do not modify runtime code.
 2. Do not modify tests.
-3. Do not implement `document_evidence_search`.
-4. Do not implement new tools.
-5. Do not run API / CLI / Gateway / DB / NAS smoke.
-6. Do not connect to DB / NAS / Gateway.
-7. Do not execute SQL.
-8. Do not read or output raw rows, NAS paths, storage paths, secrets, tokens, or `.env` values.
-9. Do not claim DWG/RVT/BIM content understanding.
-10. Do not claim NAS full-text search or NAS semantic collection is current.
-11. Do not claim `related_file_ids` means Hermes has read or remembered file contents.
+3. Do not implement memory runtime read / write behavior.
+4. Do not implement `document_evidence_search`.
+5. Do not implement new tools.
+6. Do not run API / CLI / Gateway / DB / NAS smoke.
+7. Do not connect to DB / NAS / Gateway.
+8. Do not execute SQL.
+9. Do not read or output raw rows, NAS paths, storage paths, secrets, tokens, or `.env` values.
+10. Do not claim memory references are content evidence.
+11. Do not claim Hermes preserves access after permission changes.
 12. Do not write `documents/chunks`, OpenSearch, Qdrant, MinIO, platform DB, Hermes DB, or Hermes memory.
-13. Do not move to Phase 3 or production rollout.
+13. Do not enter Phase 3 or production rollout.
 14. Do not stage unrelated `docs/digital-delivery-standards/`.

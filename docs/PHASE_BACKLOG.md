@@ -1,5 +1,16 @@
 # Phase Backlog
 
+## Phase 2.104b Low-sensitive Memory Continuity + Permission Boundary Contract
+
+1. Phase 2.104a baseline 已完成：commit `db15d5e`，tag `phase-2.104a-evidence-availability-contract-baseline`，pushed=true。
+2. Phase 2.104b 已新增 `docs/PHASE2104B_MEMORY_CONTINUITY_PERMISSION_CONTRACT.md` 与 `eval/phase2_inventory/memory_continuity_permission_examples.json`。
+3. 已拆清三层：Platform permission proof 是最终授权；catalog permission decision 只对当前目录响应有效；Hermes memory continuity 只能作为低敏 UX hint。
+4. Contract 已明确允许低敏 memory 字段：`related_file_ids`、`related_model_ids`、`query_id`、`trace_id`、`feedback_label`、`last_safe_project_context_label`、`preferred_result_grouping`、`last_evidence_mode`、`last_permission_decision_summary`。
+5. Contract 已明确 forbidden memory fields：raw `storage_path`、raw NAS path、raw DB/catalog row、文件正文、DWG/RVT/BIM 内容、客户敏感 note、secret/token/password、full permission proof、未授权 ACL snapshot。
+6. Fixture cases 共 8 条，覆盖 current allowed、project switch denied、permission refresh、safe feedback label、raw path rejected、customer note rejected、catalog-only related model、denied no bypass。
+7. 本阶段只做 docs / contract fixtures；不写 runtime code、不改 tests、不实现 memory runtime、不跑 DB/NAS/Gateway/API smoke。
+8. 下一步：Codex B review Phase 2.104b；通过后由用户显式授权 docs / fixture baseline。不得自动进入 Phase 2.104c。
+
 ## Phase 2.104a Evidence Availability Contract Docs + Fixtures
 
 1. Phase 2.104 baseline 已完成：commit `e2c1d3c`，tag `phase-2.104-platform-layered-capability-plan-baseline`，pushed=true。

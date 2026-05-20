@@ -1,5 +1,24 @@
 # DEV_LOG
 
+## 2026-05-20 Phase 2.104b Low-sensitive Memory Continuity + Permission Boundary Contract
+
+- 新增 `docs/PHASE2104B_MEMORY_CONTINUITY_PERMISSION_CONTRACT.md`。
+- 新增 `eval/phase2_inventory/memory_continuity_permission_examples.json`。
+- Contract 已拆清三层权限语义：Platform permission proof 是最终授权；catalog permission decision 只对当前目录响应有效；Hermes memory continuity reference 只能作为低敏 UX hint。
+- 已明确允许 memory 字段：`related_file_ids`、`related_model_ids`、`query_id`、`trace_id`、`feedback_label`、`last_safe_project_context_label`、`preferred_result_grouping`、`last_evidence_mode`、`last_permission_decision_summary`。
+- 已明确 forbidden memory fields：raw `storage_path`、raw NAS path、raw DB/catalog row、文件正文、DWG/RVT/BIM 内容、客户敏感 note、secret/token/password、full permission proof、未授权 ACL snapshot。
+- Fixture examples 覆盖 allowed current scope、project switch denied、permission refresh、safe feedback label、raw path rejected、customer note rejected、related model catalog-only Missing Evidence、permission denied no prior-context bypass。
+- 本阶段 docs / contract fixtures only；未改 runtime code/tests，未运行 API/CLI/Gateway/DB/NAS smoke，未连接真实系统，未执行 SQL/parser/scratch/writer/repair/backfill/reindex/delete/migration/rollout。
+
+## 2026-05-20 Phase 2.104b Low-sensitive Memory Continuity + Permission Boundary Prompt
+
+- Phase 2.104a baseline 已完成：commit `db15d5e`，tag `phase-2.104a-evidence-availability-contract-baseline`，pushed=true。
+- Codex B 已将下一步推进为 low-sensitive Memory Continuity + Permission Boundary Contract。
+- 当前需要解决的平台接入风险：Platform / Gateway 权限、catalog response 权限决策、Hermes memory/session 连续性引用容易被混用。
+- 下一轮 Codex A 目标：新增 `docs/PHASE2104B_MEMORY_CONTINUITY_PERMISSION_CONTRACT.md` 与 `eval/phase2_inventory/memory_continuity_permission_examples.json`。
+- 核心边界：Platform permission proof 是最终授权；catalog permission decision 只约束当前目录响应；Hermes memory continuity 只作为低敏 UX hint，不能授权、不能绕过 denial、不能成为 content evidence。
+- 本阶段仍是 docs / contract fixture，不实现 memory runtime，不新增 tool，不跑 DB/NAS/Gateway/API smoke，不连接真实系统，不写 DB/index/object-store/memory，不进入 rollout。
+
 ## 2026-05-20 Phase 2.104a Evidence Availability Contract Docs + Fixtures
 
 - 新增 `docs/PHASE2104A_EVIDENCE_AVAILABILITY_CONTRACT.md`。

@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.104b Low-sensitive Memory Continuity + Permission Boundary Contract
+
+1. 已新增 `docs/PHASE2104B_MEMORY_CONTINUITY_PERMISSION_CONTRACT.md`，拆清 Platform permission、catalog permission decision 与 Hermes memory continuity reference 三层边界。
+2. 已新增 `eval/phase2_inventory/memory_continuity_permission_examples.json`，包含 8 条 sanitized fixture examples。
+3. 当前唯一权威授权来源必须是 Platform / Gateway permission proof；Hermes memory 只能保存低敏引用，不能授权、不能绕过 denial、不能成为 content evidence。
+4. 允许低敏 memory 字段仅限 related IDs、query/trace IDs、feedback label、偏好/分组/上次 evidence mode 等 UX continuity metadata。
+5. 禁止把 raw path、raw row、正文内容、DWG/RVT/BIM 内容、客户敏感 note、secret、permission proof token 或未授权 ACL snapshot 写入 Hermes memory。
+6. 下一步：Codex B review Phase 2.104b；通过后由用户显式授权 docs / fixture baseline。不得自动进入 Phase 2.104c。
+
 ## Phase 2.104a Evidence Availability Contract Docs + Fixtures
 
 1. 已新增 `docs/PHASE2104A_EVIDENCE_AVAILABILITY_CONTRACT.md`，定义 Evidence Availability Contract 状态枚举、字段要求、安全规则和 Missing Evidence 语义。

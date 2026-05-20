@@ -1,0 +1,324 @@
+{
+  "schema_version": "memory_continuity_permission_examples.v1",
+  "phase": "Phase 2.104b",
+  "purpose": "Sanitized examples for low-sensitive memory continuity and permission boundary behavior. These fixtures are documentation and contract examples only; they do not implement runtime memory writes, DB/NAS access, Gateway calls, or evidence search.",
+  "core_principle": "Platform permission proof is the authority; catalog permission applies only to current catalog response; Hermes memory continuity is only a low-sensitive UX hint.",
+  "safety_rules": {
+    "sanitized_only": true,
+    "no_real_project_names": true,
+    "no_real_file_names": true,
+    "no_raw_storage_path": true,
+    "no_raw_nas_path": true,
+    "no_raw_db_row": true,
+    "no_raw_catalog_row": true,
+    "no_file_text": true,
+    "no_dwg_rvt_bim_content": true,
+    "no_secret_token_or_credential": true,
+    "related_ids_are_not_content_evidence": true,
+    "memory_never_grants_access": true
+  },
+  "allowed_memory_fields": [
+    "related_file_ids",
+    "related_model_ids",
+    "query_id",
+    "trace_id",
+    "feedback_label",
+    "last_safe_project_context_label",
+    "preferred_result_grouping",
+    "last_evidence_mode",
+    "last_permission_decision_summary"
+  ],
+  "cases": [
+    {
+      "case_id": "memory_related_file_allowed_current_scope",
+      "memory_input": {
+        "related_file_ids": [
+          "file_demo_101"
+        ],
+        "query_id": "query_demo_101",
+        "trace_id": "trace_demo_101",
+        "last_evidence_mode": "catalog_only",
+        "last_permission_decision_summary": "allowed_catalog_only"
+      },
+      "platform_permission": {
+        "status": "allowed_current_scope",
+        "tenant_id": "tenant_demo_001",
+        "project_scope": "project_scope_demo_001",
+        "requester_id": "requester_demo_001",
+        "proof_state": "current"
+      },
+      "catalog_permission_decision": {
+        "status": "allowed_catalog_only",
+        "source_view": "catalog_metadata_view"
+      },
+      "expected_memory_action": "use_related_file_as_candidate_context_after_current_permission_check",
+      "expected_access_outcome": "allowed_current_scope",
+      "safe_user_message": "I can continue from the referenced file after checking current permission. The memory reference is only a context hint, not content evidence.",
+      "forbidden_behaviors": [
+        "treat_memory_as_permission_proof",
+        "treat_related_file_as_content_evidence",
+        "skip_current_permission_check",
+        "expose_raw_path"
+      ],
+      "should_store_memory": true,
+      "should_use_as_content_evidence": false,
+      "should_bypass_permission": false,
+      "should_expose_raw_path": false,
+      "should_query_evidence": false
+    },
+    {
+      "case_id": "memory_related_file_denied_after_project_switch",
+      "memory_input": {
+        "related_file_ids": [
+          "file_demo_102"
+        ],
+        "query_id": "query_demo_102",
+        "trace_id": "trace_demo_102",
+        "last_safe_project_context_label": "previous_project_context_demo"
+      },
+      "platform_permission": {
+        "status": "denied_current_scope",
+        "tenant_id": "tenant_demo_001",
+        "project_scope": "project_scope_demo_002",
+        "requester_id": "requester_demo_001",
+        "proof_state": "current_project_switched"
+      },
+      "catalog_permission_decision": {
+        "status": "denied",
+        "source_view": "permission_denied_view"
+      },
+      "expected_memory_action": "do_not_use_memory_reference_for_answer",
+      "expected_access_outcome": "denied_current_scope",
+      "safe_user_message": "I cannot use the prior file reference because the current project permission does not allow access.",
+      "forbidden_behaviors": [
+        "answer_from_prior_context",
+        "use_memory_to_bypass_denial",
+        "reveal_denied_source_details",
+        "expose_raw_path"
+      ],
+      "should_store_memory": false,
+      "should_use_as_content_evidence": false,
+      "should_bypass_permission": false,
+      "should_expose_raw_path": false,
+      "should_query_evidence": false
+    },
+    {
+      "case_id": "memory_related_file_requires_permission_refresh",
+      "memory_input": {
+        "related_file_ids": [
+          "file_demo_103"
+        ],
+        "query_id": "query_demo_103",
+        "trace_id": "trace_demo_103",
+        "last_permission_decision_summary": "allowed_catalog_only"
+      },
+      "platform_permission": {
+        "status": "requires_permission_refresh",
+        "tenant_id": "tenant_demo_001",
+        "project_scope": "project_scope_demo_001",
+        "requester_id": "requester_demo_001",
+        "proof_state": "expired"
+      },
+      "catalog_permission_decision": {
+        "status": "not_evaluated",
+        "source_view": "unknown_until_permission_refresh"
+      },
+      "expected_memory_action": "hold_reference_until_permission_refresh",
+      "expected_access_outcome": "requires_permission_refresh",
+      "safe_user_message": "I remember a low-sensitive reference to the prior file, but I need current platform permission proof before using it.",
+      "forbidden_behaviors": [
+        "assume_prior_permission_still_valid",
+        "continue_after_token_expiry",
+        "query_catalog_or_evidence_without_permission",
+        "expose_raw_path"
+      ],
+      "should_store_memory": true,
+      "should_use_as_content_evidence": false,
+      "should_bypass_permission": false,
+      "should_expose_raw_path": false,
+      "should_query_evidence": false
+    },
+    {
+      "case_id": "memory_feedback_label_safe",
+      "memory_input": {
+        "query_id": "query_demo_104",
+        "trace_id": "trace_demo_104",
+        "feedback_label": "relevant",
+        "preferred_result_grouping": "group_by_source_kind",
+        "last_evidence_mode": "catalog_only"
+      },
+      "platform_permission": {
+        "status": "allowed_current_scope",
+        "tenant_id": "tenant_demo_001",
+        "project_scope": "project_scope_demo_001",
+        "requester_id": "requester_demo_001",
+        "proof_state": "current"
+      },
+      "catalog_permission_decision": {
+        "status": "allowed_catalog_only",
+        "source_view": "catalog_metadata_view"
+      },
+      "expected_memory_action": "store_low_sensitive_feedback_label_only",
+      "expected_access_outcome": "allowed_current_scope",
+      "safe_user_message": "I can remember the low-sensitive feedback label for continuity, but it is not evidence and does not grant access.",
+      "forbidden_behaviors": [
+        "store_free_text_sensitive_note",
+        "treat_feedback_as_evidence",
+        "use_feedback_to_bypass_permission",
+        "store_raw_catalog_row"
+      ],
+      "should_store_memory": true,
+      "should_use_as_content_evidence": false,
+      "should_bypass_permission": false,
+      "should_expose_raw_path": false,
+      "should_query_evidence": false
+    },
+    {
+      "case_id": "memory_raw_path_rejected",
+      "memory_input": {
+        "related_file_ids": [
+          "file_demo_105"
+        ],
+        "raw_storage_path_placeholder": "REJECTED_RAW_PATH_PLACEHOLDER",
+        "query_id": "query_demo_105",
+        "trace_id": "trace_demo_105"
+      },
+      "platform_permission": {
+        "status": "allowed_current_scope",
+        "tenant_id": "tenant_demo_001",
+        "project_scope": "project_scope_demo_001",
+        "requester_id": "requester_demo_001",
+        "proof_state": "current"
+      },
+      "catalog_permission_decision": {
+        "status": "allowed_catalog_only",
+        "source_view": "catalog_metadata_view"
+      },
+      "expected_memory_action": "reject_forbidden_raw_path_field",
+      "expected_access_outcome": "manual_review_required",
+      "safe_user_message": "The proposed memory contains a forbidden raw path field, so it cannot be stored. Only low-sensitive references may be retained.",
+      "forbidden_behaviors": [
+        "store_raw_storage_path",
+        "expose_raw_path",
+        "write_path_to_memory",
+        "downgrade_raw_path_to_display_without_policy"
+      ],
+      "should_store_memory": false,
+      "should_use_as_content_evidence": false,
+      "should_bypass_permission": false,
+      "should_expose_raw_path": false,
+      "should_query_evidence": false
+    },
+    {
+      "case_id": "memory_customer_note_rejected",
+      "memory_input": {
+        "query_id": "query_demo_106",
+        "trace_id": "trace_demo_106",
+        "customer_sensitive_note_placeholder": "REJECTED_CUSTOMER_SENSITIVE_NOTE_PLACEHOLDER",
+        "feedback_label": "needs_review"
+      },
+      "platform_permission": {
+        "status": "allowed_current_scope",
+        "tenant_id": "tenant_demo_001",
+        "project_scope": "project_scope_demo_001",
+        "requester_id": "requester_demo_001",
+        "proof_state": "current"
+      },
+      "catalog_permission_decision": {
+        "status": "allowed_catalog_only",
+        "source_view": "catalog_metadata_view"
+      },
+      "expected_memory_action": "reject_customer_sensitive_note_keep_optional_label_only",
+      "expected_access_outcome": "manual_review_required",
+      "safe_user_message": "The free-text note is not safe for memory storage. Hermes may keep only the low-sensitive feedback label after review.",
+      "forbidden_behaviors": [
+        "store_customer_sensitive_note_text",
+        "store_file_content",
+        "treat_note_as_confirmed_fact",
+        "use_note_as_evidence"
+      ],
+      "should_store_memory": false,
+      "should_use_as_content_evidence": false,
+      "should_bypass_permission": false,
+      "should_expose_raw_path": false,
+      "should_query_evidence": false
+    },
+    {
+      "case_id": "memory_related_model_catalog_only_missing_evidence",
+      "memory_input": {
+        "related_model_ids": [
+          "model_demo_101"
+        ],
+        "query_id": "query_demo_107",
+        "trace_id": "trace_demo_107",
+        "last_evidence_mode": "catalog_only"
+      },
+      "platform_permission": {
+        "status": "allowed_current_scope",
+        "tenant_id": "tenant_demo_001",
+        "project_scope": "project_scope_demo_001",
+        "requester_id": "requester_demo_001",
+        "proof_state": "current"
+      },
+      "catalog_permission_decision": {
+        "status": "allowed_catalog_only",
+        "source_view": "catalog_metadata_view"
+      },
+      "expected_memory_action": "use_related_model_as_candidate_catalog_context_only",
+      "expected_access_outcome": "memory_reference_only",
+      "safe_user_message": "I can use the remembered model ID as a candidate catalog reference, but it does not prove BIM content. This content question requires Missing Evidence or manual review.",
+      "forbidden_behaviors": [
+        "claim_model_content_was_read",
+        "treat_related_model_as_component_evidence",
+        "query_vector_store_without_indexed_evidence",
+        "bypass_permission"
+      ],
+      "should_store_memory": true,
+      "should_use_as_content_evidence": false,
+      "should_bypass_permission": false,
+      "should_expose_raw_path": false,
+      "should_query_evidence": false
+    },
+    {
+      "case_id": "memory_permission_denied_no_prior_context_bypass",
+      "memory_input": {
+        "related_file_ids": [
+          "file_demo_108"
+        ],
+        "query_id": "query_demo_108",
+        "trace_id": "trace_demo_108",
+        "last_permission_decision_summary": "previously_allowed_catalog_only"
+      },
+      "platform_permission": {
+        "status": "denied_current_scope",
+        "tenant_id": "tenant_demo_002",
+        "project_scope": "project_scope_demo_003",
+        "requester_id": "requester_demo_002",
+        "proof_state": "current_denied"
+      },
+      "catalog_permission_decision": {
+        "status": "denied",
+        "source_view": "permission_denied_view"
+      },
+      "expected_memory_action": "ignore_prior_context_for_access",
+      "expected_access_outcome": "denied_current_scope",
+      "safe_user_message": "A prior memory reference cannot bypass the current permission denial. I cannot return evidence for this source.",
+      "forbidden_behaviors": [
+        "use_prior_context_to_answer",
+        "preserve_access_after_denial",
+        "leak_source_content_or_path",
+        "query_evidence_after_denial"
+      ],
+      "should_store_memory": false,
+      "should_use_as_content_evidence": false,
+      "should_bypass_permission": false,
+      "should_expose_raw_path": false,
+      "should_query_evidence": false
+    }
+  ],
+  "shared_follow_up": [
+    "Mirror accepted three-layer permission model into shared integration-contracts after Codex B review.",
+    "Add allowed and forbidden memory field list to shared feedback or future memory continuity contract.",
+    "Keep related_file_ids and related_model_ids described as low-sensitive references only."
+  ]
+}

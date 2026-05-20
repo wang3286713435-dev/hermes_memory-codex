@@ -1,5 +1,14 @@
 # Handoff Log
 
+## 2026-05-20 Phase 2.104b Prompt
+- goal: Prepare Codex A handoff for Low-sensitive Memory Continuity + Permission Boundary Contract.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.104a baseline confirmed at commit `db15d5e`, tag `phase-2.104a-evidence-availability-contract-baseline`; current task is docs / fixture prompt only.
+- scope: Codex A should create `docs/PHASE2104B_MEMORY_CONTINUITY_PERMISSION_CONTRACT.md` and `eval/phase2_inventory/memory_continuity_permission_examples.json`, defining Platform permission, catalog permission decision, and Hermes memory continuity reference boundaries.
+- risks: Hermes memory references must not grant access, bypass denial, preserve access after permission change, expose raw paths, or become content evidence.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-20 Phase 2.104a Prompt
 - goal: Prepare Codex A handoff for Evidence Availability Contract docs + sanitized fixtures.
 - changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -7340,4 +7349,14 @@
 - validation: Shared docs were available; contract aligns with catalog tool, Missing Evidence, feedback, and red-line docs. Fixture cases use fake IDs only.
 - risks: `evidence_indexed` must remain a contract state, not a current `document_evidence_search` runtime claim; fixtures must stay sanitized; unrelated `docs/digital-delivery-standards/` files must not be staged by default.
 - next: Codex B review Phase 2.104a; if accepted, user may authorize docs / fixture baseline. Do not enter Phase 2.104b automatically.
+- commit/tag if any: none.
+
+## 2026-05-20 10:07 Phase 2.104b Low-sensitive Memory Continuity + Permission Boundary Contract
+
+- goal: Define the three-layer permission boundary so Platform permission, catalog permission decisions, and Hermes memory continuity references cannot be conflated.
+- changed_files: `docs/PHASE2104B_MEMORY_CONTINUITY_PERMISSION_CONTRACT.md`, `eval/phase2_inventory/memory_continuity_permission_examples.json`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON parse passed; fixture JSON parse passed; latest ignore check passed; `git status --short --untracked-files=all` reviewed.
+- validation: Shared docs were available; contract aligns with catalog tool, Missing Evidence, feedback, capability matrix, and red-line docs. Fixture cases use fake IDs only.
+- risks: Memory references must never grant access, bypass denial, or become content evidence; catalog permission cannot authorize document evidence; unrelated `docs/digital-delivery-standards/` files must not be staged by default.
+- next: Codex B review Phase 2.104b; if accepted, user may authorize docs / fixture baseline. Do not enter Phase 2.104c automatically.
 - commit/tag if any: none.
