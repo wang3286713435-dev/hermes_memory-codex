@@ -1,5 +1,13 @@
 # DEV_LOG
 
+## 2026-05-20 Phase 2.111 Prompt
+
+- Phase 2.110 baseline 已完成并推送：commit `1a07e42`，tag `phase-2.110-full-closeout-return-baseline`。
+- 已将下一步设置为 Phase 2.111 Natural-language Import / MVP Closeout Gap Closure Pack，由 Codex A 执行。
+- 下一轮 Codex A 目标：新增 `docs/PHASE2111_NATURAL_IMPORT_MVP_CLOSEOUT_GAP_CLOSURE_PACK.md` 与 `eval/phase2_inventory/natural_import_mvp_closeout_gap_matrix.json`，可选新增 `docs/CODEX_C_NATURAL_IMPORT_ACCEPTANCE_SMOKE_PROMPT.md`。
+- 重点边界：direct API upload 不能替代 Hermes CLI natural-language import；planning / mocked flow / old smoke notes 不能直接当作完整 usability proof；真实 smoke 需要用户授权具体小型非敏感文件。
+- 本阶段 Codex B 只做 prompt / handoff，不改 runtime code/tests，不运行 API/CLI/Gateway/DB/NAS smoke，不上传文件，不写 memory/facts/index/object-store，不进入 rollout。
+
 ## 2026-05-20 Phase 2.110 Phase 2 Full Closeout Return Plan
 
 - 新增 `docs/PHASE2110_PHASE2_FULL_CLOSEOUT_RETURN_PLAN.md`，根据用户追问明确当前真实自然语言使用流程与 full Phase 2 closeout 打回结论。

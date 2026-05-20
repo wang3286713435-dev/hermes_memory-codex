@@ -1,5 +1,15 @@
 # Handoff Log
 
+## 2026-05-20 Phase 2.111 Prompt
+- goal: Prepare Codex A handoff for Natural-language Import / MVP Closeout Gap Closure Pack.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.110 baseline confirmed at commit `1a07e42`, tag `phase-2.110-full-closeout-return-baseline`; current task is prompt / handoff only.
+- scope: Codex A should create `docs/PHASE2111_NATURAL_IMPORT_MVP_CLOSEOUT_GAP_CLOSURE_PACK.md` and `eval/phase2_inventory/natural_import_mvp_closeout_gap_matrix.json`; optional Codex C smoke prompt is allowed but must remain unauthorized until user supplies file/path authorization.
+- decision: Natural-language import must become a concrete closeout matrix before full Phase 2 completion can be reconsidered.
+- risks: Do not treat direct API upload, planning docs, mocked flow, or old smoke notes as full user-facing natural-language import usability proof.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-20 Phase 2.110 Phase 2 Full Closeout Return Plan
 - goal: Answer the user's natural-language usage / Phase 2 delivery question and formally return full Phase 2 closeout if original requirements are not met.
 - changed_files: `docs/PHASE2110_PHASE2_FULL_CLOSEOUT_RETURN_PLAN.md`, `eval/phase2_inventory/phase2_full_closeout_return_checklist.json`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.

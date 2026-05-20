@@ -1,5 +1,15 @@
 # Phase Backlog
 
+## Phase 2.111 Natural-language Import / MVP Closeout Gap Closure Pack Handoff
+
+1. Phase 2.110 baseline 已完成并推送：commit `1a07e42`，tag `phase-2.110-full-closeout-return-baseline`。
+2. Phase 2.111 下一步由 Codex A 执行，不由 Codex B 直接写功能代码。
+3. Phase 2.111 目标：把自然语言导入 / MVP closeout 缺口整理成可验收矩阵，区分已证明、partial evidence、必须补真实 smoke、可由用户例外移出 Phase 2 的项。
+4. Codex A 预期新增 `docs/PHASE2111_NATURAL_IMPORT_MVP_CLOSEOUT_GAP_CLOSURE_PACK.md` 与 `eval/phase2_inventory/natural_import_mvp_closeout_gap_matrix.json`。
+5. 可选新增 `docs/CODEX_C_NATURAL_IMPORT_ACCEPTANCE_SMOKE_PROMPT.md`，但不得执行；真实 smoke 仍需用户授权具体小型非敏感文件和执行环境。
+6. 重点规则：direct API upload 不能替代 Hermes CLI natural-language import；planning/mock evidence 不能替代 live usability evidence；必须保留 Missing Evidence / citation / alias / contamination / no raw path 安全边界。
+7. 下一步：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md` 后停止等待 Codex B review。
+
 ## Phase 2.110 Phase 2 Full Closeout Return Plan
 
 1. Phase 2.109 baseline 已完成并推送：commit `0156195`，tag `phase-2.109-final-freeze-checklist-baseline`。

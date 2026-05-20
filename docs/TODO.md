@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.111 Natural-language Import / MVP Closeout Gap Closure Pack Handoff
+
+1. 当前进入 Phase 2.111 交接阶段，目标是让 Codex A 创建自然语言导入 / MVP closeout gap closure pack。
+2. Codex A 必须整理历史 natural import evidence：planning、mocked integration、runtime wiring、real upload smoke、operator checklist、Mac mini checklist、Phase 2 inventory。
+3. Codex A 必须把证据分成：`proven`、`partial_evidence`、`missing_live_evidence`、`requires_user_authorization`、`candidate_user_exception`。
+4. 必须明确：direct API upload 不等于 natural-language import；真实 smoke 必须走 Hermes CLI natural-language import path。
+5. 必须明确：完整 Phase 2 closeout 仍 blocked，直到 natural import usability 与其他 closeout gaps 被证据关闭或用户显式重分类。
+6. 本轮 Codex B 只写 NEXT prompt，不直接实现功能代码。
+
 ## Phase 2.110 Phase 2 Full Closeout Return Plan
 
 1. 当前进入 Phase 2.110，目标是正式打回完整 Phase 2 closeout，而不是否定稳定平台 baseline。
