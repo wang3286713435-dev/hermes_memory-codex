@@ -1,5 +1,14 @@
 # Handoff Log
 
+## 2026-05-20 Phase 2.104d Prompt
+- goal: Prepare Codex A handoff for Feedback / Scoring Linkage Contract Planning.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.104c baseline confirmed at commit `1bb9ca3`, tag `phase-2.104c-document-evidence-search-contract-baseline`; current task is docs / fixture prompt only.
+- scope: Codex A should create `docs/PHASE2104D_FEEDBACK_SCORING_LINKAGE_CONTRACT.md` and `eval/phase2_inventory/feedback_scoring_linkage_examples.json`, defining sanitized feedback labels, input shape, linkage outcomes, scoring/eval linkage, issue intake, and memory boundary.
+- risks: Feedback must not become evidence, facts, automatic metric pass, repair trigger, permission proof, or unreviewed long-term memory.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-20 Phase 2.104c Prompt
 - goal: Prepare Codex A handoff for Governed Document Evidence Search Contract Planning.
 - changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -7378,4 +7387,14 @@
 - validation: Shared docs were available; contract aligns with catalog tool, Missing Evidence, feedback, capability matrix, risk red lines, Evidence Availability, and Memory Continuity contracts. Fixture cases use fake IDs only.
 - risks: `document_evidence_search` must remain future-only; memory refs must not become evidence; catalog-only / parser-required / unsupported / permission-denied states must not answer content.
 - next: Codex B review Phase 2.104c; if accepted, user may authorize docs / fixture baseline. Do not enter Phase 2.104d automatically.
+- commit/tag if any: none.
+
+## 2026-05-20 11:05 Phase 2.104d Feedback / Scoring Linkage Contract Planning
+
+- goal: Define feedback / scoring linkage so platform feedback can become eval / scoring / issue-intake review signal without becoming evidence, facts, memory, repair, or automatic metric pass.
+- changed_files: `docs/PHASE2104D_FEEDBACK_SCORING_LINKAGE_CONTRACT.md`, `eval/phase2_inventory/feedback_scoring_linkage_examples.json`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON parse passed; fixture JSON parse passed; latest ignore check passed; `git status --short --untracked-files=all` reviewed.
+- validation: Shared docs were available; contract aligns with feedback contract, catalog tool, Missing Evidence, capability matrix, risk red lines, Metric Scoring Pack, and memory/evidence contracts. Fixture cases use fake IDs only.
+- risks: Feedback must not auto-pass metrics, write facts/memory, create repairs/issues, or store raw notes / raw answers / raw paths.
+- next: Codex B review Phase 2.104d; if accepted, user may authorize docs / fixture baseline. Do not enter Phase 2.104e automatically.
 - commit/tag if any: none.

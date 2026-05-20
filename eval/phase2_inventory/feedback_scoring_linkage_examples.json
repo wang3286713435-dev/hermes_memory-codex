@@ -1,0 +1,376 @@
+{
+  "schema_version": "feedback_scoring_linkage_examples.v1",
+  "phase": "Phase 2.104d",
+  "purpose": "Sanitized examples for linking platform feedback to eval review, offline scoring review, issue intake candidates, and low-sensitive continuity hints. These fixtures are documentation and contract examples only; they do not implement feedback ingestion, scoring changes, issue creation, memory writes, facts writes, DB writes, or repair.",
+  "core_principle": "Feedback is an evaluation signal, not evidence. Feedback must not become facts, memory evidence, permission proof, or automatic repair.",
+  "safety_rules": {
+    "sanitized_only": true,
+    "no_real_project_names": true,
+    "no_real_file_names": true,
+    "no_raw_answer_text": true,
+    "no_raw_storage_path": true,
+    "no_raw_nas_path": true,
+    "no_raw_db_row": true,
+    "no_raw_catalog_row": true,
+    "no_secret_token_or_credential": true,
+    "feedback_is_not_document_evidence": true,
+    "feedback_is_not_permission_proof": true,
+    "feedback_does_not_auto_repair": true
+  },
+  "allowed_feedback_labels": [
+    "helpful",
+    "wrong_document",
+    "missing_evidence",
+    "wrong_boundary",
+    "citation_problem",
+    "permission_problem",
+    "overclaim",
+    "needs_human_review",
+    "irrelevant_result"
+  ],
+  "cases": [
+    {
+      "case_id": "feedback_helpful_positive_signal_no_auto_pass",
+      "feedback_input": {
+        "feedback_id": "feedback_demo_301",
+        "query_id": "query_demo_301",
+        "trace_id": "trace_demo_301",
+        "case_id": "case_demo_301",
+        "feedback_label": "helpful",
+        "related_file_ids": [
+          "file_demo_301"
+        ],
+        "related_model_ids": [],
+        "source_view": "governed_evidence_view",
+        "evidence_mode": "governed_document_evidence",
+        "permission_decision": "allowed",
+        "missing_evidence_reason": "",
+        "sanitized_note_label": "positive_signal",
+        "review_required": true
+      },
+      "expected_linkage_outcome": "record_feedback_for_eval_review",
+      "eval_inventory_action": "no_auto_inventory_change",
+      "scoring_pack_action": "positive_signal_requires_reviewed_result_row_before_metric_effect",
+      "issue_intake_action": "none",
+      "memory_action": "no_memory_write",
+      "safe_operator_message": "Helpful feedback is recorded as a positive review signal only; it does not auto-pass any metric.",
+      "forbidden_behaviors": [
+        "auto_mark_case_passed",
+        "write_fact",
+        "write_memory",
+        "treat_feedback_as_evidence"
+      ],
+      "should_affect_official_metric_without_review": false,
+      "should_write_long_term_memory": false,
+      "should_create_fact": false,
+      "should_create_repair": false,
+      "should_expose_raw_text_or_path": false
+    },
+    {
+      "case_id": "feedback_wrong_document_topk_candidate",
+      "feedback_input": {
+        "feedback_id": "feedback_demo_302",
+        "query_id": "query_demo_302",
+        "trace_id": "trace_demo_302",
+        "case_id": "case_demo_302",
+        "feedback_label": "wrong_document",
+        "related_file_ids": [
+          "file_demo_302"
+        ],
+        "related_model_ids": [],
+        "source_view": "governed_evidence_view",
+        "evidence_mode": "scoped_retrieval",
+        "permission_decision": "allowed",
+        "missing_evidence_reason": "",
+        "sanitized_note_label": "wrong_source_selected",
+        "review_required": true
+      },
+      "expected_linkage_outcome": "candidate_eval_case",
+      "eval_inventory_action": "candidate_topk_source_selection_case_after_review",
+      "scoring_pack_action": "candidate_topk_hit_review_after_sanitized_result_row",
+      "issue_intake_action": "candidate_issue_intake_if_repeated",
+      "memory_action": "no_memory_write",
+      "safe_operator_message": "Wrong-document feedback can become a source selection review candidate after human review.",
+      "forbidden_behaviors": [
+        "auto_fail_topk_metric",
+        "overwrite_expected_document_refs",
+        "repair_index",
+        "store_raw_answer_text"
+      ],
+      "should_affect_official_metric_without_review": false,
+      "should_write_long_term_memory": false,
+      "should_create_fact": false,
+      "should_create_repair": false,
+      "should_expose_raw_text_or_path": false
+    },
+    {
+      "case_id": "feedback_citation_problem_candidate",
+      "feedback_input": {
+        "feedback_id": "feedback_demo_303",
+        "query_id": "query_demo_303",
+        "trace_id": "trace_demo_303",
+        "case_id": "case_demo_303",
+        "feedback_label": "citation_problem",
+        "related_file_ids": [
+          "file_demo_303"
+        ],
+        "related_model_ids": [],
+        "source_view": "governed_evidence_view",
+        "evidence_mode": "governed_document_evidence",
+        "permission_decision": "allowed",
+        "missing_evidence_reason": "",
+        "sanitized_note_label": "citation_missing_or_misaligned",
+        "review_required": true
+      },
+      "expected_linkage_outcome": "scoring_input_after_review",
+      "eval_inventory_action": "candidate_citation_accuracy_review_case",
+      "scoring_pack_action": "candidate_citation_ok_false_only_after_reviewed_result_row",
+      "issue_intake_action": "candidate_issue_intake_if_systematic",
+      "memory_action": "no_memory_write",
+      "safe_operator_message": "Citation feedback can inform citation accuracy review after sanitized human review.",
+      "forbidden_behaviors": [
+        "auto_fail_citation_metric",
+        "store_raw_answer_text",
+        "treat_feedback_as_citation",
+        "write_fact"
+      ],
+      "should_affect_official_metric_without_review": false,
+      "should_write_long_term_memory": false,
+      "should_create_fact": false,
+      "should_create_repair": false,
+      "should_expose_raw_text_or_path": false
+    },
+    {
+      "case_id": "feedback_missing_evidence_candidate",
+      "feedback_input": {
+        "feedback_id": "feedback_demo_304",
+        "query_id": "query_demo_304",
+        "trace_id": "trace_demo_304",
+        "case_id": "case_demo_304",
+        "feedback_label": "missing_evidence",
+        "related_file_ids": [
+          "file_demo_304"
+        ],
+        "related_model_ids": [],
+        "source_view": "catalog_metadata_view",
+        "evidence_mode": "catalog_only",
+        "permission_decision": "allowed_catalog_only",
+        "missing_evidence_reason": "full_text_evidence_required",
+        "sanitized_note_label": "missing_evidence_confirmed",
+        "review_required": true
+      },
+      "expected_linkage_outcome": "candidate_eval_case",
+      "eval_inventory_action": "candidate_missing_evidence_case_after_review",
+      "scoring_pack_action": "candidate_missing_evidence_boundary_review",
+      "issue_intake_action": "candidate_issue_intake_for_parser_or_evidence_gap",
+      "memory_action": "no_memory_write",
+      "safe_operator_message": "Missing Evidence feedback can become a review candidate; it does not create parser work or evidence by itself.",
+      "forbidden_behaviors": [
+        "auto_run_parser",
+        "auto_create_repair",
+        "answer_from_catalog_metadata",
+        "write_memory_as_evidence"
+      ],
+      "should_affect_official_metric_without_review": false,
+      "should_write_long_term_memory": false,
+      "should_create_fact": false,
+      "should_create_repair": false,
+      "should_expose_raw_text_or_path": false
+    },
+    {
+      "case_id": "feedback_wrong_boundary_forbidden_behavior_candidate",
+      "feedback_input": {
+        "feedback_id": "feedback_demo_305",
+        "query_id": "query_demo_305",
+        "trace_id": "trace_demo_305",
+        "case_id": "case_demo_305",
+        "feedback_label": "wrong_boundary",
+        "related_file_ids": [
+          "file_demo_305"
+        ],
+        "related_model_ids": [
+          "model_demo_305"
+        ],
+        "source_view": "catalog_metadata_view",
+        "evidence_mode": "catalog_only",
+        "permission_decision": "allowed_catalog_only",
+        "missing_evidence_reason": "catalog_metadata_only",
+        "sanitized_note_label": "boundary_violation_suspected",
+        "review_required": true
+      },
+      "expected_linkage_outcome": "manual_review_required",
+      "eval_inventory_action": "candidate_forbidden_behavior_case_after_review",
+      "scoring_pack_action": "candidate_forbidden_behaviors_observed_after_review",
+      "issue_intake_action": "candidate_issue_intake_for_boundary_violation",
+      "memory_action": "no_memory_write",
+      "safe_operator_message": "Wrong-boundary feedback requires human review before any scoring or issue intake action.",
+      "forbidden_behaviors": [
+        "auto_mark_forbidden_behavior",
+        "claim_dwg_rvt_understanding",
+        "write_repair",
+        "store_sensitive_note"
+      ],
+      "should_affect_official_metric_without_review": false,
+      "should_write_long_term_memory": false,
+      "should_create_fact": false,
+      "should_create_repair": false,
+      "should_expose_raw_text_or_path": false
+    },
+    {
+      "case_id": "feedback_permission_problem_fail_closed_candidate",
+      "feedback_input": {
+        "feedback_id": "feedback_demo_306",
+        "query_id": "query_demo_306",
+        "trace_id": "trace_demo_306",
+        "case_id": "case_demo_306",
+        "feedback_label": "permission_problem",
+        "related_file_ids": [
+          "file_demo_306"
+        ],
+        "related_model_ids": [],
+        "source_view": "permission_denied_view",
+        "evidence_mode": "permission_denied",
+        "permission_decision": "denied",
+        "missing_evidence_reason": "permission_denied",
+        "sanitized_note_label": "permission_behavior_needs_review",
+        "review_required": true
+      },
+      "expected_linkage_outcome": "candidate_issue_intake",
+      "eval_inventory_action": "candidate_permission_denial_case_after_review",
+      "scoring_pack_action": "candidate_fail_closed_review_after_sanitized_result_row",
+      "issue_intake_action": "candidate_permission_issue_intake_after_review",
+      "memory_action": "no_memory_write",
+      "safe_operator_message": "Permission feedback can be triaged as a fail-closed candidate; it must not bypass the denial.",
+      "forbidden_behaviors": [
+        "grant_permission_from_feedback",
+        "reveal_denied_content",
+        "use_prior_memory_to_bypass_denial",
+        "write_acl_snapshot_to_memory"
+      ],
+      "should_affect_official_metric_without_review": false,
+      "should_write_long_term_memory": false,
+      "should_create_fact": false,
+      "should_create_repair": false,
+      "should_expose_raw_text_or_path": false
+    },
+    {
+      "case_id": "feedback_overclaim_requires_review",
+      "feedback_input": {
+        "feedback_id": "feedback_demo_307",
+        "query_id": "query_demo_307",
+        "trace_id": "trace_demo_307",
+        "case_id": "case_demo_307",
+        "feedback_label": "overclaim",
+        "related_file_ids": [],
+        "related_model_ids": [
+          "model_demo_307"
+        ],
+        "source_view": "catalog_metadata_view",
+        "evidence_mode": "catalog_only",
+        "permission_decision": "allowed_catalog_only",
+        "missing_evidence_reason": "unsupported_bim_model_content_modality",
+        "sanitized_note_label": "unsupported_capability_claimed",
+        "review_required": true
+      },
+      "expected_linkage_outcome": "manual_review_required",
+      "eval_inventory_action": "candidate_overclaim_forbidden_behavior_case_after_review",
+      "scoring_pack_action": "candidate_forbidden_behavior_review_after_sanitized_result_row",
+      "issue_intake_action": "candidate_prompt_or_boundary_issue_after_review",
+      "memory_action": "no_memory_write",
+      "safe_operator_message": "Overclaim feedback must be reviewed as a potential forbidden behavior and cannot change facts or memory.",
+      "forbidden_behaviors": [
+        "auto_create_fact",
+        "auto_repair_prompt",
+        "claim_model_content_understanding",
+        "store_raw_answer_text"
+      ],
+      "should_affect_official_metric_without_review": false,
+      "should_write_long_term_memory": false,
+      "should_create_fact": false,
+      "should_create_repair": false,
+      "should_expose_raw_text_or_path": false
+    },
+    {
+      "case_id": "feedback_sensitive_note_rejected",
+      "feedback_input": {
+        "feedback_id": "feedback_demo_308",
+        "query_id": "query_demo_308",
+        "trace_id": "trace_demo_308",
+        "case_id": "case_demo_308",
+        "feedback_label": "needs_human_review",
+        "related_file_ids": [
+          "file_demo_308"
+        ],
+        "related_model_ids": [],
+        "source_view": "catalog_metadata_view",
+        "evidence_mode": "catalog_only",
+        "permission_decision": "allowed_catalog_only",
+        "missing_evidence_reason": "manual_review_requested",
+        "sanitized_note_label": "unsafe_note_rejected",
+        "unsafe_note_placeholder": "REJECTED_CUSTOMER_SENSITIVE_NOTE_PLACEHOLDER",
+        "review_required": true
+      },
+      "expected_linkage_outcome": "discard_unsafe_feedback",
+      "eval_inventory_action": "no_inventory_change_until_sanitized_feedback_resubmitted",
+      "scoring_pack_action": "no_scoring_action",
+      "issue_intake_action": "manual_review_of_sanitization_only",
+      "memory_action": "reject_memory_write",
+      "safe_operator_message": "Unsafe feedback note content is rejected. Only sanitized labels may be retained for review.",
+      "forbidden_behaviors": [
+        "store_sensitive_note",
+        "store_raw_answer_text",
+        "store_raw_path",
+        "write_long_term_memory"
+      ],
+      "should_affect_official_metric_without_review": false,
+      "should_write_long_term_memory": false,
+      "should_create_fact": false,
+      "should_create_repair": false,
+      "should_expose_raw_text_or_path": false
+    },
+    {
+      "case_id": "feedback_low_sensitive_memory_hint_after_review",
+      "feedback_input": {
+        "feedback_id": "feedback_demo_309",
+        "query_id": "query_demo_309",
+        "trace_id": "trace_demo_309",
+        "case_id": "case_demo_309",
+        "feedback_label": "irrelevant_result",
+        "related_file_ids": [
+          "file_demo_309"
+        ],
+        "related_model_ids": [
+          "model_demo_309"
+        ],
+        "source_view": "catalog_metadata_view",
+        "evidence_mode": "catalog_only",
+        "permission_decision": "allowed_catalog_only",
+        "missing_evidence_reason": "",
+        "sanitized_note_label": "prefer_group_by_source_kind",
+        "review_required": true
+      },
+      "expected_linkage_outcome": "low_sensitive_memory_hint_after_review",
+      "eval_inventory_action": "candidate_relevance_case_after_review",
+      "scoring_pack_action": "no_metric_effect_without_reviewed_result_row",
+      "issue_intake_action": "none",
+      "memory_action": "candidate_low_sensitive_hint_after_review_only",
+      "safe_operator_message": "After review, this feedback may propose a low-sensitive continuity hint such as preferred grouping, but it does not write evidence or facts.",
+      "forbidden_behaviors": [
+        "write_raw_note_to_memory",
+        "write_file_content_to_memory",
+        "treat_feedback_as_evidence",
+        "bypass_permission"
+      ],
+      "should_affect_official_metric_without_review": false,
+      "should_write_long_term_memory": false,
+      "should_create_fact": false,
+      "should_create_repair": false,
+      "should_expose_raw_text_or_path": false
+    }
+  ],
+  "shared_follow_up": [
+    "Mirror accepted labels and sanitized input shape into shared feedback_contract.md after Codex B review.",
+    "Keep feedback linkage reviewed and sanitized before any scoring pack effect.",
+    "Keep issue intake candidate-only until a later supervised workflow is authorized."
+  ]
+}

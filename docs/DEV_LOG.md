@@ -1,5 +1,21 @@
 # DEV_LOG
 
+## 2026-05-20 Phase 2.104d Feedback / Scoring Linkage Contract Planning
+
+- 新增 `docs/PHASE2104D_FEEDBACK_SCORING_LINKAGE_CONTRACT.md`，定义 feedback labels、sanitized input shape、linkage outcomes、scoring linkage rules 与 memory linkage rules。
+- 新增 `eval/phase2_inventory/feedback_scoring_linkage_examples.json`，包含 9 条 sanitized fake-ID examples：helpful positive signal、wrong document、citation problem、missing evidence、wrong boundary、permission problem、overclaim、sensitive note rejected、low-sensitive memory hint after review。
+- 核心边界：feedback 是 eval / triage signal，不是 evidence、permission proof、fact、repair trigger 或 automatic metric pass。
+- 本阶段只做 docs / fixture planning；未实现 feedback ingestion、未改 scoring scripts、未写 memory/facts/issues、未运行 API / CLI / Gateway / DB / NAS smoke，未写 DB / OpenSearch / Qdrant / MinIO / memory。
+
+## 2026-05-20 Phase 2.104d Feedback / Scoring Linkage Contract Prompt
+
+- Phase 2.104c baseline 已完成：commit `1bb9ca3`，tag `phase-2.104c-document-evidence-search-contract-baseline`，pushed=true。
+- Codex B 已将下一步推进为 feedback / scoring linkage contract planning。
+- 当前目标不是实现 feedback ingestion 或修改 scorer，而是先定义 feedback labels、sanitized input shape、linkage outcomes、scoring linkage rules、memory linkage rules 与 fixtures。
+- 下一轮 Codex A 目标：新增 `docs/PHASE2104D_FEEDBACK_SCORING_LINKAGE_CONTRACT.md` 与 `eval/phase2_inventory/feedback_scoring_linkage_examples.json`。
+- 核心边界：feedback 是 evaluation signal，不是 evidence、permission proof、fact、repair trigger、official metric pass 或未审核 memory。
+- 本阶段仍是 docs / contract fixture，不改 scoring script，不新增 runtime，不跑 DB/NAS/Gateway/API smoke，不连接真实系统，不写 DB/index/object-store/memory，不进入 rollout。
+
 ## 2026-05-20 Phase 2.104c Governed Document Evidence Search Contract Planning
 
 - 新增 `docs/PHASE2104C_DOCUMENT_EVIDENCE_SEARCH_CONTRACT_PLAN.md`，定义 future-only `document_evidence_search` 的 gate sequence、request / response shape、status enum、citation requirements 与 Missing Evidence fallback。

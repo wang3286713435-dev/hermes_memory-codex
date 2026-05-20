@@ -1,5 +1,16 @@
 # Phase Backlog
 
+## Phase 2.104d Feedback / Scoring Linkage Contract Planning
+
+1. Phase 2.104c baseline 已完成：commit `1bb9ca3`，tag `phase-2.104c-document-evidence-search-contract-baseline`，pushed=true。
+2. Phase 2.104d 已新增 `docs/PHASE2104D_FEEDBACK_SCORING_LINKAGE_CONTRACT.md` 与 `eval/phase2_inventory/feedback_scoring_linkage_examples.json`。
+3. 核心原则：feedback 是 evaluation signal，不是 evidence、permission proof、fact、repair trigger 或自动 metric pass。
+4. Contract 已定义 feedback labels、sanitized input shape、linkage outcomes、scoring linkage rules、memory linkage rules。
+5. Fixtures 共 9 条，覆盖 helpful positive signal、wrong document、citation problem、missing evidence、wrong boundary、permission problem、overclaim、sensitive note rejected、low-sensitive memory hint after review。
+6. 官方 scoring effect 必须等待 reviewed sanitized result row；`helpful` 不能自动 pass，negative feedback 不能自动 repair。
+7. 本阶段只做 docs / contract fixtures；不写 runtime code、不改 tests、不改 scoring scripts、不实现 feedback ingestion、不写 memory/facts/issues。
+8. 下一步：Codex B review Phase 2.104d；通过后由用户显式授权 docs / fixture baseline。不得自动进入 Phase 2.104e。
+
 ## Phase 2.104c Governed Document Evidence Search Contract Planning
 
 1. Phase 2.104b baseline 已完成：commit `d67d7ea`，tag `phase-2.104b-memory-continuity-permission-contract-baseline`，pushed=true。

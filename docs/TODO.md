@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.104d Feedback / Scoring Linkage Contract Planning
+
+1. 当前进入 Phase 2.104d，目标是规划 feedback 如何安全进入 eval inventory、offline scoring pack 与 issue intake。
+2. 已新增 `docs/PHASE2104D_FEEDBACK_SCORING_LINKAGE_CONTRACT.md` 与 `eval/phase2_inventory/feedback_scoring_linkage_examples.json`。
+3. feedback 只能作为 evaluation / triage signal；不能直接成为 facts、content evidence、permission proof、memory evidence、repair 或 official metric pass。
+4. 允许标签需包括 helpful、wrong_document、missing_evidence、wrong_boundary、citation_problem、permission_problem、overclaim、needs_human_review、irrelevant_result。
+5. 禁止在 feedback linkage 中保存 raw user note、raw answer text、raw path、raw DB/catalog row、secret、token 或客户敏感材料。
+6. 下一步：Codex B review Phase 2.104d；通过后由用户显式授权 docs / fixture baseline。本阶段不跑 Codex C 真实终端验收。
+
 ## Phase 2.104c Governed Document Evidence Search Contract Planning
 
 1. 当前进入 Phase 2.104c，目标是规划 future-only `document_evidence_search` contract，解决 Hermes 从 catalog-only 走向 governed evidence retrieval 的接口边界。
