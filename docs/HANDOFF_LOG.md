@@ -1,5 +1,14 @@
 # Handoff Log
 
+## 2026-05-20 Phase 2.104c Prompt
+- goal: Prepare Codex A handoff for Governed Document Evidence Search Contract Planning.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Phase 2.104b baseline confirmed at commit `d67d7ea`, tag `phase-2.104b-memory-continuity-permission-contract-baseline`; current task is docs / fixture prompt only.
+- scope: Codex A should create `docs/PHASE2104C_DOCUMENT_EVIDENCE_SEARCH_CONTRACT_PLAN.md` and `eval/phase2_inventory/document_evidence_search_contract_examples.json`, defining future-only `document_evidence_search` gates, request/response, citation requirements, statuses, and Missing Evidence behavior.
+- risks: `document_evidence_search` must remain future-only; no runtime implementation, no parser/indexing, no DB/NAS/Gateway/API smoke, no content answer without current permission + evidence availability + citation-bearing evidence.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`, then stops for Codex B review.
+- commit/tag if any: none.
+
 ## 2026-05-20 Phase 2.104b Prompt
 - goal: Prepare Codex A handoff for Low-sensitive Memory Continuity + Permission Boundary Contract.
 - changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
@@ -7359,4 +7368,14 @@
 - validation: Shared docs were available; contract aligns with catalog tool, Missing Evidence, feedback, capability matrix, and red-line docs. Fixture cases use fake IDs only.
 - risks: Memory references must never grant access, bypass denial, or become content evidence; catalog permission cannot authorize document evidence; unrelated `docs/digital-delivery-standards/` files must not be staged by default.
 - next: Codex B review Phase 2.104b; if accepted, user may authorize docs / fixture baseline. Do not enter Phase 2.104c automatically.
+- commit/tag if any: none.
+
+## 2026-05-20 10:41 Phase 2.104c Governed Document Evidence Search Contract Planning
+
+- goal: Define future-only `document_evidence_search` gate, request / response, citation, status, and Missing Evidence boundaries without implementing runtime search.
+- changed_files: `docs/PHASE2104C_DOCUMENT_EVIDENCE_SEARCH_CONTRACT_PLAN.md`, `eval/phase2_inventory/document_evidence_search_contract_examples.json`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: `git diff --check` passed; latest JSON parse passed; fixture JSON parse passed; latest ignore check passed; `git status --short --untracked-files=all` reviewed.
+- validation: Shared docs were available; contract aligns with catalog tool, Missing Evidence, feedback, capability matrix, risk red lines, Evidence Availability, and Memory Continuity contracts. Fixture cases use fake IDs only.
+- risks: `document_evidence_search` must remain future-only; memory refs must not become evidence; catalog-only / parser-required / unsupported / permission-denied states must not answer content.
+- next: Codex B review Phase 2.104c; if accepted, user may authorize docs / fixture baseline. Do not enter Phase 2.104d automatically.
 - commit/tag if any: none.

@@ -1,96 +1,139 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.104b Codex B Review / Docs + Fixture Baseline Gate
+## Phase 2.104c Codex B Review / Docs + Fixture Baseline Gate
 
-This is not an implementation prompt. Codex A must not start Phase 2.104c unless the user explicitly authorizes it.
+You are Codex A. Do not implement Phase 2.104d automatically.
 
 ## Current State
 
-Phase 2.104b docs / contract fixture work is complete and waiting for Codex B review.
+Phase 2.104c docs / fixture planning has been completed locally:
 
-Created:
+1. `docs/PHASE2104C_DOCUMENT_EVIDENCE_SEARCH_CONTRACT_PLAN.md`
+2. `eval/phase2_inventory/document_evidence_search_contract_examples.json`
+3. updated `docs/ACTIVE_PHASE.md`
+4. updated `docs/PHASE_BACKLOG.md`
+5. updated `docs/HANDOFF_LOG.md`
+6. updated `docs/TODO.md`
+7. updated `docs/DEV_LOG.md`
+8. updated ignored `reports/agent_runs/latest.json`
 
-1. `docs/PHASE2104B_MEMORY_CONTINUITY_PERMISSION_CONTRACT.md`
-2. `eval/phase2_inventory/memory_continuity_permission_examples.json`
+No runtime code, tests, parser, writer, DB, NAS, Gateway, OpenSearch, Qdrant, MinIO, or memory implementation was changed.
 
-Updated:
+## Review Checklist
 
-1. `docs/ACTIVE_PHASE.md`
-2. `docs/PHASE_BACKLOG.md`
-3. `docs/HANDOFF_LOG.md`
-4. `docs/TODO.md`
-5. `docs/DEV_LOG.md`
-6. `docs/NEXT_CODEX_A_PROMPT.md`
-7. ignored `reports/agent_runs/latest.json`
+Codex B should verify:
 
-Unrelated untracked `docs/digital-delivery-standards/` files remain out of scope and must not be staged by default.
-
-## Codex B Review Checklist
-
-Review `docs/PHASE2104B_MEMORY_CONTINUITY_PERMISSION_CONTRACT.md` and `eval/phase2_inventory/memory_continuity_permission_examples.json` for:
-
-1. Three-layer permission model is explicit:
-   - `platform_permission`
-   - `catalog_permission_decision`
-   - `memory_continuity_reference`
-2. Platform permission proof remains the final authority.
-3. Catalog permission decision is scoped only to current catalog response.
-4. Hermes memory continuity is only a low-sensitive UX hint.
-5. Memory references never grant access, bypass denial, or become content evidence.
-6. Allowed memory fields are low-sensitive references only.
-7. Forbidden memory fields exclude raw paths, raw rows, file正文, DWG/RVT/BIM content, customer-sensitive notes, secrets, full permission proof, and unauthorized ACL snapshots.
-8. Access revalidation is required for each new answer / session boundary.
-9. Fixtures are sanitized, use fake IDs, and cover all required cases.
-10. Shared follow-up is listed without editing shared folder files.
+1. `document_evidence_search` is consistently described as future-only.
+2. No document content answer is allowed unless all three requirements are present:
+   - current Platform permission proof;
+   - Evidence Availability allows governed evidence query;
+   - citation-bearing governed evidence is returned.
+3. Gate sequence is complete:
+   - `platform_permission_gate`
+   - `catalog_permission_gate`
+   - `evidence_availability_gate`
+   - `memory_continuity_candidate_gate`
+   - `document_evidence_query_gate`
+   - `citation_response_gate`
+   - `missing_evidence_fallback_gate`
+4. Request shape includes:
+   - `query`
+   - `tenant_id`
+   - `requester_id`
+   - `project_scope`
+   - `permission_proof_ref`
+   - `file_ids`
+   - `model_ids`
+   - `document_ids`
+   - `version_ids`
+   - `evidence_mode_hint`
+   - `source_views`
+   - `query_id`
+   - `trace_id`
+   - `memory_candidate_refs`
+5. Response shape includes:
+   - `status`
+   - `evidence_mode`
+   - `permission_decision`
+   - `evidence_availability_status`
+   - `results`
+   - `citations`
+   - `missing_evidence`
+   - `query_id`
+   - `trace_id`
+   - `safe_next_actions`
+   - `forbidden_actions_observed`
+6. Fixture cases cover:
+   - `evidence_search_ready_pdf_with_citation`
+   - `evidence_search_blocked_catalog_only_dwg`
+   - `evidence_search_blocked_parser_required_pdf`
+   - `evidence_search_blocked_permission_denied`
+   - `evidence_search_blocked_memory_reference_only`
+   - `evidence_search_excel_structured_citation`
+   - `evidence_search_meeting_transcript_boundary`
+   - `evidence_search_manual_review_conflicting_evidence`
+   - `evidence_search_rvt_component_missing_evidence`
+7. Fixtures use sanitized fake IDs only.
+8. No fixture contains real file names, project names, raw paths, raw rows, asset UIDs, source IDs, secrets, tokens, or customer-sensitive content.
+9. Memory candidate refs are never evidence, authorization, or citations.
+10. DWG / RVT / BIM content understanding remains unsupported unless a later parser / component-index phase exists.
 
 ## Validation Commands
 
-Before any baseline, rerun:
+Run:
 
 ```bash
 git diff --check
 UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool reports/agent_runs/latest.json >/dev/null
-UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool eval/phase2_inventory/memory_continuity_permission_examples.json >/dev/null
+UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool eval/phase2_inventory/document_evidence_search_contract_examples.json >/dev/null
 git check-ignore reports/agent_runs/latest.json
 git status --short --untracked-files=all
 ```
 
-Do not run pytest for this phase unless tests are changed.
+Do not run pytest for this phase. This is docs / fixture planning only.
 
-## Optional Baseline If Codex B Review Passes
+## Optional Baseline Command
 
-Only after explicit user authorization:
+Only if the user explicitly authorizes baseline after review:
 
-```bash
-git add docs/PHASE2104B_MEMORY_CONTINUITY_PERMISSION_CONTRACT.md \
-  eval/phase2_inventory/memory_continuity_permission_examples.json \
-  docs/NEXT_CODEX_A_PROMPT.md \
-  docs/ACTIVE_PHASE.md \
-  docs/PHASE_BACKLOG.md \
-  docs/HANDOFF_LOG.md \
-  docs/TODO.md \
-  docs/DEV_LOG.md
-git commit -m "docs: add phase 2.104b memory continuity permission contract"
-git tag phase-2.104b-memory-continuity-permission-contract-baseline
-git push origin main
-git push origin phase-2.104b-memory-continuity-permission-contract-baseline
+1. Stage only Phase 2.104c docs / fixture / handoff files.
+2. Do not stage unrelated `docs/digital-delivery-standards/` files.
+3. Commit message:
+
+```text
+docs: add phase 2.104c document evidence search contract
 ```
 
-Do not stage `reports/agent_runs/latest.json`.
+4. Tag:
+
+```text
+phase-2.104c-document-evidence-search-contract-baseline
+```
+
+5. Push `origin/main` and tag.
 
 ## Hard Boundaries
 
 1. Do not modify runtime code.
 2. Do not modify tests.
-3. Do not implement memory runtime read / write behavior.
-4. Do not implement `document_evidence_search`.
-5. Do not implement new tools.
-6. Do not run API / CLI / Gateway / DB / NAS smoke.
-7. Do not connect to DB / NAS / Gateway.
-8. Do not execute SQL.
-9. Do not read or output raw rows, NAS paths, storage paths, secrets, tokens, or `.env` values.
-10. Do not claim memory references are content evidence.
-11. Do not claim Hermes preserves access after permission changes.
-12. Do not write `documents/chunks`, OpenSearch, Qdrant, MinIO, platform DB, Hermes DB, or Hermes memory.
-13. Do not enter Phase 3 or production rollout.
-14. Do not stage unrelated `docs/digital-delivery-standards/`.
+3. Do not implement `document_evidence_search`.
+4. Do not implement parser, writer, scratch copy, indexing, Gateway, DB, NAS, or memory runtime behavior.
+5. Do not run API / CLI / Gateway / DB / NAS smoke.
+6. Do not connect to DB / NAS / Gateway.
+7. Do not execute SQL.
+8. Do not read or output raw rows, NAS paths, storage paths, secrets, tokens, or `.env` values.
+9. Do not write documents/chunks, OpenSearch, Qdrant, MinIO, platform DB, Hermes DB, or Hermes memory.
+10. Do not enter Phase 3 or production rollout.
+11. Do not stage unrelated `docs/digital-delivery-standards/`.
+
+## Stop Condition
+
+After review or baseline, stop and report:
+
+1. changed files;
+2. validation result;
+3. whether shared docs were readable;
+4. key governed document evidence search boundary conclusion;
+5. risks / blockers;
+6. whether Codex B review is complete;
+7. whether baseline was authorized and completed.

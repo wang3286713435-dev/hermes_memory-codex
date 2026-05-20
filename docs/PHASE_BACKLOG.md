@@ -1,5 +1,16 @@
 # Phase Backlog
 
+## Phase 2.104c Governed Document Evidence Search Contract Planning
+
+1. Phase 2.104b baseline 已完成：commit `d67d7ea`，tag `phase-2.104b-memory-continuity-permission-contract-baseline`，pushed=true。
+2. Phase 2.104c 已新增 `docs/PHASE2104C_DOCUMENT_EVIDENCE_SEARCH_CONTRACT_PLAN.md` 与 `eval/phase2_inventory/document_evidence_search_contract_examples.json`。
+3. 核心原则：没有当前 Platform permission proof、没有允许 evidence query 的 Evidence Availability、没有 citation-bearing governed evidence，就不能回答正文内容。
+4. Contract 已定义 gate sequence：platform permission、catalog permission、evidence availability、memory candidate、document evidence query、citation response、Missing Evidence fallback。
+5. Fixtures 共 9 条，覆盖 PDF citation、DWG catalog-only block、PDF parser-required block、permission denied、memory reference only、Excel structured citation、meeting transcript boundary、conflicting evidence、RVT component Missing Evidence。
+6. `document_evidence_search` 仍是 future-only contract，不是当前 runtime tool。
+7. 本阶段只做 docs / contract fixtures；不写 runtime code、不改 tests、不实现 `document_evidence_search`、不跑 DB/NAS/Gateway/API smoke。
+8. 下一步：Codex B review Phase 2.104c；通过后由用户显式授权 docs / fixture baseline。不得自动进入 Phase 2.104d。
+
 ## Phase 2.104b Low-sensitive Memory Continuity + Permission Boundary Contract
 
 1. Phase 2.104a baseline 已完成：commit `db15d5e`，tag `phase-2.104a-evidence-availability-contract-baseline`，pushed=true。

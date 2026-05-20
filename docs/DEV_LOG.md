@@ -1,5 +1,21 @@
 # DEV_LOG
 
+## 2026-05-20 Phase 2.104c Governed Document Evidence Search Contract Planning
+
+- 新增 `docs/PHASE2104C_DOCUMENT_EVIDENCE_SEARCH_CONTRACT_PLAN.md`，定义 future-only `document_evidence_search` 的 gate sequence、request / response shape、status enum、citation requirements 与 Missing Evidence fallback。
+- 新增 `eval/phase2_inventory/document_evidence_search_contract_examples.json`，包含 9 条 sanitized fake-ID examples：PDF citation、DWG catalog-only、PDF parser-required、permission denied、memory reference only、Excel structured citation、meeting transcript boundary、conflicting evidence、RVT component Missing Evidence。
+- 核心边界：没有当前 Platform permission proof、允许 evidence query 的 Evidence Availability、citation-bearing governed evidence，Hermes 不得回答正文内容。
+- 本阶段只做 docs / fixture planning；未实现 runtime search、未改 tests、未运行 API / CLI / Gateway / DB / NAS smoke，未写 DB / OpenSearch / Qdrant / MinIO / memory。
+
+## 2026-05-20 Phase 2.104c Governed Document Evidence Search Contract Prompt
+
+- Phase 2.104b baseline 已完成：commit `d67d7ea`，tag `phase-2.104b-memory-continuity-permission-contract-baseline`，pushed=true。
+- Codex B 已将下一步推进为 governed `document_evidence_search` contract planning。
+- 当前目标不是实现搜索，而是先定义 future-only contract：gate sequence、request/response、status enum、citation requirements、Missing Evidence fallback 与 sanitized fixtures。
+- 下一轮 Codex A 目标：新增 `docs/PHASE2104C_DOCUMENT_EVIDENCE_SEARCH_CONTRACT_PLAN.md` 与 `eval/phase2_inventory/document_evidence_search_contract_examples.json`。
+- 核心边界：没有当前 Platform permission proof、没有允许 evidence query 的 Evidence Availability、没有 citation-bearing governed evidence，就不能回答正文内容。
+- 本阶段仍是 docs / contract fixture，不实现 `document_evidence_search`，不新增 tool，不跑 DB/NAS/Gateway/API smoke，不连接真实系统，不写 DB/index/object-store/memory，不进入 rollout。
+
 ## 2026-05-20 Phase 2.104b Low-sensitive Memory Continuity + Permission Boundary Contract
 
 - 新增 `docs/PHASE2104B_MEMORY_CONTINUITY_PERMISSION_CONTRACT.md`。

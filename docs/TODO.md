@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.104c Governed Document Evidence Search Contract Planning
+
+1. 当前进入 Phase 2.104c，目标是规划 future-only `document_evidence_search` contract，解决 Hermes 从 catalog-only 走向 governed evidence retrieval 的接口边界。
+2. 已新增 `docs/PHASE2104C_DOCUMENT_EVIDENCE_SEARCH_CONTRACT_PLAN.md` 与 `eval/phase2_inventory/document_evidence_search_contract_examples.json`。
+3. 当前仍不能实现或声称已支持 `document_evidence_search`；本阶段只定义 future request / response / gate / citation / Missing Evidence 合同。
+4. 正文回答必须同时满足当前平台权限、Evidence Availability 允许、citation-bearing governed evidence 三个条件。
+5. catalog-only、parser-required、unsupported、permission-denied、memory-reference-only 均不能回答正文内容，必须走 Missing Evidence 或安全拒绝。
+6. 下一步：Codex B review Phase 2.104c；通过后由用户显式授权 docs / fixture baseline。本阶段不跑 Codex C 真实终端验收。
+
 ## Phase 2.104b Low-sensitive Memory Continuity + Permission Boundary Contract
 
 1. 已新增 `docs/PHASE2104B_MEMORY_CONTINUITY_PERMISSION_CONTRACT.md`，拆清 Platform permission、catalog permission decision 与 Hermes memory continuity reference 三层边界。

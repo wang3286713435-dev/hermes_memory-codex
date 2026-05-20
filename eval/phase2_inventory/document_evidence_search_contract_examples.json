@@ -1,0 +1,599 @@
+{
+  "schema_version": "document_evidence_search_contract_examples.v1",
+  "phase": "Phase 2.104c",
+  "purpose": "Sanitized examples for a future governed document_evidence_search contract. These fixtures are documentation and contract examples only; they do not implement runtime search, parser execution, DB/NAS/Gateway access, or index writes.",
+  "core_principle": "No document content answer without current platform permission proof, evidence availability that allows governed evidence query, and citation-bearing evidence from an authorized evidence path.",
+  "safety_rules": {
+    "sanitized_only": true,
+    "no_real_project_names": true,
+    "no_real_file_names": true,
+    "no_raw_storage_path": true,
+    "no_raw_nas_path": true,
+    "no_raw_db_row": true,
+    "no_secret_token_or_credential": true,
+    "catalog_metadata_is_not_content_evidence": true,
+    "memory_refs_are_not_content_evidence": true,
+    "dwg_rvt_bim_understanding_is_not_current": true
+  },
+  "status_enum": [
+    "ready_for_evidence_query",
+    "blocked_permission_denied",
+    "blocked_catalog_only",
+    "blocked_parser_required",
+    "blocked_unsupported_type",
+    "blocked_memory_reference_only",
+    "manual_review_required",
+    "query_executed_with_citations",
+    "query_executed_missing_evidence"
+  ],
+  "cases": [
+    {
+      "case_id": "evidence_search_ready_pdf_with_citation",
+      "request": {
+        "query": "What requirement is stated in the referenced PDF section?",
+        "tenant_id": "tenant_demo_201",
+        "requester_id": "requester_demo_201",
+        "project_scope": "project_scope_demo_201",
+        "permission_proof_ref": "permission_proof_demo_201",
+        "file_ids": [
+          "file_demo_201"
+        ],
+        "model_ids": [],
+        "document_ids": [
+          "doc_demo_201"
+        ],
+        "version_ids": [
+          "version_demo_201"
+        ],
+        "evidence_mode_hint": "governed_document_evidence",
+        "source_views": [
+          "governed_evidence_view"
+        ],
+        "query_id": "query_demo_201",
+        "trace_id": "trace_demo_201",
+        "memory_candidate_refs": {}
+      },
+      "platform_permission_gate": {
+        "status": "passed",
+        "permission_decision": "allowed"
+      },
+      "evidence_availability_gate": {
+        "status": "passed",
+        "evidence_availability_status": "evidence_indexed"
+      },
+      "memory_continuity_gate": {
+        "status": "not_used",
+        "memory_reference_only": false
+      },
+      "expected_status": "query_executed_with_citations",
+      "expected_evidence_mode": "governed_document_evidence",
+      "expected_citation_behavior": {
+        "requires_citation": true,
+        "citation_fields": [
+          "document_id",
+          "version_id",
+          "chunk_id",
+          "page",
+          "section"
+        ],
+        "example_safe_citation": {
+          "document_id": "doc_demo_201",
+          "version_id": "version_demo_201",
+          "chunk_id": "chunk_demo_201",
+          "page": "page_demo_001",
+          "section": "section_demo_001"
+        }
+      },
+      "safe_user_message": "Governed evidence is available and permission is current. A future evidence search may answer only with citation-backed PDF evidence.",
+      "missing_evidence_reason": "",
+      "forbidden_behaviors": [
+        "answer_without_citation",
+        "expose_raw_path",
+        "return_full_raw_document",
+        "treat_catalog_metadata_as_content_evidence",
+        "treat_memory_ref_as_evidence"
+      ],
+      "should_execute_search": true,
+      "should_answer_content": true,
+      "should_use_memory_as_evidence": false,
+      "should_expose_raw_path": false,
+      "should_claim_dwg_rvt_understanding": false
+    },
+    {
+      "case_id": "evidence_search_blocked_catalog_only_dwg",
+      "request": {
+        "query": "List the layers in this drawing.",
+        "tenant_id": "tenant_demo_202",
+        "requester_id": "requester_demo_202",
+        "project_scope": "project_scope_demo_202",
+        "permission_proof_ref": "permission_proof_demo_202",
+        "file_ids": [
+          "file_demo_202"
+        ],
+        "model_ids": [],
+        "document_ids": [],
+        "version_ids": [],
+        "evidence_mode_hint": "dwg_content",
+        "source_views": [
+          "catalog_metadata_view"
+        ],
+        "query_id": "query_demo_202",
+        "trace_id": "trace_demo_202",
+        "memory_candidate_refs": {}
+      },
+      "platform_permission_gate": {
+        "status": "passed",
+        "permission_decision": "allowed_catalog_only"
+      },
+      "evidence_availability_gate": {
+        "status": "failed",
+        "evidence_availability_status": "catalog_only"
+      },
+      "memory_continuity_gate": {
+        "status": "not_used",
+        "memory_reference_only": false
+      },
+      "expected_status": "blocked_catalog_only",
+      "expected_evidence_mode": "catalog_metadata_only",
+      "expected_citation_behavior": {
+        "requires_citation": false,
+        "citation_fields": [],
+        "reason": "Catalog metadata cannot cite DWG layer content."
+      },
+      "safe_user_message": "I can identify the drawing from authorized catalog metadata, but I do not have governed DWG layer evidence.",
+      "missing_evidence_reason": "catalog_metadata_only_no_dwg_parse_evidence",
+      "forbidden_behaviors": [
+        "claim_dwg_layers_were_read",
+        "invoke_parser",
+        "query_vector_store_without_indexed_evidence",
+        "expose_raw_path"
+      ],
+      "should_execute_search": false,
+      "should_answer_content": false,
+      "should_use_memory_as_evidence": false,
+      "should_expose_raw_path": false,
+      "should_claim_dwg_rvt_understanding": false
+    },
+    {
+      "case_id": "evidence_search_blocked_parser_required_pdf",
+      "request": {
+        "query": "Does this PDF contain the requested clause?",
+        "tenant_id": "tenant_demo_203",
+        "requester_id": "requester_demo_203",
+        "project_scope": "project_scope_demo_203",
+        "permission_proof_ref": "permission_proof_demo_203",
+        "file_ids": [
+          "file_demo_203"
+        ],
+        "model_ids": [],
+        "document_ids": [],
+        "version_ids": [],
+        "evidence_mode_hint": "full_text_evidence",
+        "source_views": [
+          "catalog_metadata_view"
+        ],
+        "query_id": "query_demo_203",
+        "trace_id": "trace_demo_203",
+        "memory_candidate_refs": {}
+      },
+      "platform_permission_gate": {
+        "status": "passed",
+        "permission_decision": "allowed_catalog_only"
+      },
+      "evidence_availability_gate": {
+        "status": "failed",
+        "evidence_availability_status": "parser_required"
+      },
+      "memory_continuity_gate": {
+        "status": "not_used",
+        "memory_reference_only": false
+      },
+      "expected_status": "blocked_parser_required",
+      "expected_evidence_mode": "missing_evidence",
+      "expected_citation_behavior": {
+        "requires_citation": false,
+        "citation_fields": [],
+        "reason": "PDF content has not been parsed or indexed."
+      },
+      "safe_user_message": "The PDF is visible in the catalog, but parsed content evidence is required before Hermes can answer with citations.",
+      "missing_evidence_reason": "parser_required_before_full_text_evidence",
+      "forbidden_behaviors": [
+        "infer_pdf_content_from_filename",
+        "claim_pdf_body_was_read",
+        "invoke_parser",
+        "query_vector_store_without_indexed_evidence"
+      ],
+      "should_execute_search": false,
+      "should_answer_content": false,
+      "should_use_memory_as_evidence": false,
+      "should_expose_raw_path": false,
+      "should_claim_dwg_rvt_understanding": false
+    },
+    {
+      "case_id": "evidence_search_blocked_permission_denied",
+      "request": {
+        "query": "Summarize the restricted document.",
+        "tenant_id": "tenant_demo_204",
+        "requester_id": "requester_demo_204",
+        "project_scope": "project_scope_demo_204",
+        "permission_proof_ref": "permission_proof_demo_204",
+        "file_ids": [
+          "file_demo_204"
+        ],
+        "model_ids": [],
+        "document_ids": [
+          "doc_demo_204"
+        ],
+        "version_ids": [
+          "version_demo_204"
+        ],
+        "evidence_mode_hint": "governed_document_evidence",
+        "source_views": [
+          "permission_denied_view"
+        ],
+        "query_id": "query_demo_204",
+        "trace_id": "trace_demo_204",
+        "memory_candidate_refs": {}
+      },
+      "platform_permission_gate": {
+        "status": "failed",
+        "permission_decision": "denied"
+      },
+      "evidence_availability_gate": {
+        "status": "not_evaluated",
+        "evidence_availability_status": "permission_denied"
+      },
+      "memory_continuity_gate": {
+        "status": "not_used",
+        "memory_reference_only": false
+      },
+      "expected_status": "blocked_permission_denied",
+      "expected_evidence_mode": "permission_denied",
+      "expected_citation_behavior": {
+        "requires_citation": false,
+        "citation_fields": [],
+        "reason": "Denied sources must not return citations or snippets."
+      },
+      "safe_user_message": "I cannot return evidence for this source because the current requester is not authorized to access it.",
+      "missing_evidence_reason": "permission_denied",
+      "forbidden_behaviors": [
+        "leak_denied_content",
+        "leak_file_name_if_sensitive",
+        "expose_raw_path",
+        "answer_from_prior_context",
+        "use_memory_reference_to_bypass_permission"
+      ],
+      "should_execute_search": false,
+      "should_answer_content": false,
+      "should_use_memory_as_evidence": false,
+      "should_expose_raw_path": false,
+      "should_claim_dwg_rvt_understanding": false
+    },
+    {
+      "case_id": "evidence_search_blocked_memory_reference_only",
+      "request": {
+        "query": "Continue from the file we discussed and answer what it says.",
+        "tenant_id": "tenant_demo_205",
+        "requester_id": "requester_demo_205",
+        "project_scope": "project_scope_demo_205",
+        "permission_proof_ref": "permission_proof_demo_205",
+        "file_ids": [],
+        "model_ids": [],
+        "document_ids": [],
+        "version_ids": [],
+        "evidence_mode_hint": "memory_candidate",
+        "source_views": [
+          "memory_reference_view"
+        ],
+        "query_id": "query_demo_205",
+        "trace_id": "trace_demo_205",
+        "memory_candidate_refs": {
+          "related_file_ids": [
+            "file_demo_205"
+          ],
+          "last_evidence_mode": "catalog_only"
+        }
+      },
+      "platform_permission_gate": {
+        "status": "passed",
+        "permission_decision": "allowed_current_scope"
+      },
+      "evidence_availability_gate": {
+        "status": "failed",
+        "evidence_availability_status": "catalog_only"
+      },
+      "memory_continuity_gate": {
+        "status": "candidate_only",
+        "memory_reference_only": true
+      },
+      "expected_status": "blocked_memory_reference_only",
+      "expected_evidence_mode": "memory_reference_only",
+      "expected_citation_behavior": {
+        "requires_citation": false,
+        "citation_fields": [],
+        "reason": "Memory related IDs are not citations."
+      },
+      "safe_user_message": "I can use the remembered file ID only as a candidate reference. It does not prove file content, so this content question needs governed evidence or manual review.",
+      "missing_evidence_reason": "memory_reference_is_not_content_evidence",
+      "forbidden_behaviors": [
+        "treat_related_file_id_as_content_evidence",
+        "claim_file_was_remembered",
+        "skip_evidence_availability_gate",
+        "answer_from_memory_only"
+      ],
+      "should_execute_search": false,
+      "should_answer_content": false,
+      "should_use_memory_as_evidence": false,
+      "should_expose_raw_path": false,
+      "should_claim_dwg_rvt_understanding": false
+    },
+    {
+      "case_id": "evidence_search_excel_structured_citation",
+      "request": {
+        "query": "What value is stated in the approved spreadsheet range?",
+        "tenant_id": "tenant_demo_206",
+        "requester_id": "requester_demo_206",
+        "project_scope": "project_scope_demo_206",
+        "permission_proof_ref": "permission_proof_demo_206",
+        "file_ids": [
+          "file_demo_206"
+        ],
+        "model_ids": [],
+        "document_ids": [
+          "doc_demo_206"
+        ],
+        "version_ids": [
+          "version_demo_206"
+        ],
+        "evidence_mode_hint": "excel_structured_evidence",
+        "source_views": [
+          "governed_evidence_view"
+        ],
+        "query_id": "query_demo_206",
+        "trace_id": "trace_demo_206",
+        "memory_candidate_refs": {}
+      },
+      "platform_permission_gate": {
+        "status": "passed",
+        "permission_decision": "allowed"
+      },
+      "evidence_availability_gate": {
+        "status": "passed",
+        "evidence_availability_status": "evidence_indexed"
+      },
+      "memory_continuity_gate": {
+        "status": "not_used",
+        "memory_reference_only": false
+      },
+      "expected_status": "query_executed_with_citations",
+      "expected_evidence_mode": "excel_structured_evidence",
+      "expected_citation_behavior": {
+        "requires_citation": true,
+        "citation_fields": [
+          "document_id",
+          "version_id",
+          "chunk_id",
+          "sheet_name",
+          "cell_range"
+        ],
+        "example_safe_citation": {
+          "document_id": "doc_demo_206",
+          "version_id": "version_demo_206",
+          "chunk_id": "chunk_demo_206",
+          "sheet_name": "sheet_demo_001",
+          "cell_range": "A1:C3"
+        }
+      },
+      "safe_user_message": "A future evidence search may answer only with spreadsheet citations such as sheet name and cell range.",
+      "missing_evidence_reason": "",
+      "forbidden_behaviors": [
+        "answer_without_sheet_or_cell_citation",
+        "return_full_spreadsheet_dump",
+        "expose_raw_path",
+        "treat_memory_as_evidence"
+      ],
+      "should_execute_search": true,
+      "should_answer_content": true,
+      "should_use_memory_as_evidence": false,
+      "should_expose_raw_path": false,
+      "should_claim_dwg_rvt_understanding": false
+    },
+    {
+      "case_id": "evidence_search_meeting_transcript_boundary",
+      "request": {
+        "query": "What action item was recorded in the meeting transcript?",
+        "tenant_id": "tenant_demo_207",
+        "requester_id": "requester_demo_207",
+        "project_scope": "project_scope_demo_207",
+        "permission_proof_ref": "permission_proof_demo_207",
+        "file_ids": [
+          "file_demo_207"
+        ],
+        "model_ids": [],
+        "document_ids": [
+          "doc_demo_207"
+        ],
+        "version_ids": [
+          "version_demo_207"
+        ],
+        "evidence_mode_hint": "meeting_transcript_evidence",
+        "source_views": [
+          "governed_evidence_view"
+        ],
+        "query_id": "query_demo_207",
+        "trace_id": "trace_demo_207",
+        "memory_candidate_refs": {}
+      },
+      "platform_permission_gate": {
+        "status": "passed",
+        "permission_decision": "allowed"
+      },
+      "evidence_availability_gate": {
+        "status": "passed",
+        "evidence_availability_status": "evidence_indexed"
+      },
+      "memory_continuity_gate": {
+        "status": "not_used",
+        "memory_reference_only": false
+      },
+      "expected_status": "query_executed_with_citations",
+      "expected_evidence_mode": "meeting_transcript_evidence",
+      "expected_citation_behavior": {
+        "requires_citation": true,
+        "citation_fields": [
+          "document_id",
+          "version_id",
+          "chunk_id",
+          "transcript_segment",
+          "transcript_as_fact"
+        ],
+        "example_safe_citation": {
+          "document_id": "doc_demo_207",
+          "version_id": "version_demo_207",
+          "chunk_id": "chunk_demo_207",
+          "transcript_segment": "segment_demo_001",
+          "transcript_as_fact": false
+        }
+      },
+      "safe_user_message": "A future evidence search may cite the meeting transcript segment, but transcript content remains evidence and must not be promoted to confirmed fact automatically.",
+      "missing_evidence_reason": "",
+      "forbidden_behaviors": [
+        "set_transcript_as_fact_true",
+        "auto_confirm_action_item_as_fact",
+        "answer_without_transcript_chunk_citation",
+        "expose_raw_path"
+      ],
+      "should_execute_search": true,
+      "should_answer_content": true,
+      "should_use_memory_as_evidence": false,
+      "should_expose_raw_path": false,
+      "should_claim_dwg_rvt_understanding": false
+    },
+    {
+      "case_id": "evidence_search_manual_review_conflicting_evidence",
+      "request": {
+        "query": "Which version contains the final approved requirement?",
+        "tenant_id": "tenant_demo_208",
+        "requester_id": "requester_demo_208",
+        "project_scope": "project_scope_demo_208",
+        "permission_proof_ref": "permission_proof_demo_208",
+        "file_ids": [
+          "file_demo_208"
+        ],
+        "model_ids": [],
+        "document_ids": [
+          "doc_demo_208"
+        ],
+        "version_ids": [
+          "version_demo_208a",
+          "version_demo_208b"
+        ],
+        "evidence_mode_hint": "governed_document_evidence",
+        "source_views": [
+          "governed_evidence_view"
+        ],
+        "query_id": "query_demo_208",
+        "trace_id": "trace_demo_208",
+        "memory_candidate_refs": {}
+      },
+      "platform_permission_gate": {
+        "status": "passed",
+        "permission_decision": "allowed"
+      },
+      "evidence_availability_gate": {
+        "status": "passed_with_conflict",
+        "evidence_availability_status": "manual_review_required"
+      },
+      "memory_continuity_gate": {
+        "status": "not_used",
+        "memory_reference_only": false
+      },
+      "expected_status": "manual_review_required",
+      "expected_evidence_mode": "manual_review",
+      "expected_citation_behavior": {
+        "requires_citation": true,
+        "citation_fields": [
+          "document_id",
+          "version_id",
+          "chunk_id",
+          "conflict_summary"
+        ],
+        "reason": "Conflicting evidence may be summarized for review but must not be resolved automatically."
+      },
+      "safe_user_message": "The available evidence conflicts across versions. Manual review is required before selecting a final approved requirement.",
+      "missing_evidence_reason": "conflicting_governed_evidence_requires_manual_review",
+      "forbidden_behaviors": [
+        "choose_one_version_as_truth_without_review",
+        "mark_answer_as_verified",
+        "execute_repair",
+        "write_back_to_source_system"
+      ],
+      "should_execute_search": true,
+      "should_answer_content": false,
+      "should_use_memory_as_evidence": false,
+      "should_expose_raw_path": false,
+      "should_claim_dwg_rvt_understanding": false
+    },
+    {
+      "case_id": "evidence_search_rvt_component_missing_evidence",
+      "request": {
+        "query": "Does the model contain the requested component family?",
+        "tenant_id": "tenant_demo_209",
+        "requester_id": "requester_demo_209",
+        "project_scope": "project_scope_demo_209",
+        "permission_proof_ref": "permission_proof_demo_209",
+        "file_ids": [],
+        "model_ids": [
+          "model_demo_209"
+        ],
+        "document_ids": [],
+        "version_ids": [],
+        "evidence_mode_hint": "rvt_component_evidence",
+        "source_views": [
+          "catalog_metadata_view"
+        ],
+        "query_id": "query_demo_209",
+        "trace_id": "trace_demo_209",
+        "memory_candidate_refs": {}
+      },
+      "platform_permission_gate": {
+        "status": "passed",
+        "permission_decision": "allowed_catalog_only"
+      },
+      "evidence_availability_gate": {
+        "status": "failed",
+        "evidence_availability_status": "unsupported_type"
+      },
+      "memory_continuity_gate": {
+        "status": "not_used",
+        "memory_reference_only": false
+      },
+      "expected_status": "blocked_unsupported_type",
+      "expected_evidence_mode": "missing_evidence",
+      "expected_citation_behavior": {
+        "requires_citation": false,
+        "citation_fields": [],
+        "reason": "RVT component evidence is unsupported until a later component-index phase exists."
+      },
+      "safe_user_message": "The model is visible in the catalog, but RVT component-level evidence is not currently supported. Missing Evidence: component index is unavailable.",
+      "missing_evidence_reason": "unsupported_rvt_component_index_missing",
+      "forbidden_behaviors": [
+        "claim_rvt_component_understanding",
+        "generate_component_facts",
+        "invoke_model_parser",
+        "expose_raw_path",
+        "treat_catalog_as_component_evidence"
+      ],
+      "should_execute_search": false,
+      "should_answer_content": false,
+      "should_use_memory_as_evidence": false,
+      "should_expose_raw_path": false,
+      "should_claim_dwg_rvt_understanding": false
+    }
+  ],
+  "shared_follow_up": [
+    "Mirror the accepted gate sequence and status enum into shared integration contracts after Codex B review.",
+    "Keep document_evidence_search future-only until a separate runtime implementation phase is authorized.",
+    "Preserve the separation between catalog metadata, memory continuity references, and governed citation-bearing evidence."
+  ]
+}
