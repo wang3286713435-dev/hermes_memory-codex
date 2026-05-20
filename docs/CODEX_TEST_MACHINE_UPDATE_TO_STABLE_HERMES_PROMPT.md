@@ -2,12 +2,12 @@
 
 ## Goal
 
-Update the test machine to the future stable Hermes platform-integration baseline.
+Update the test machine to the stable Hermes platform-integration baseline.
 
-Use this placeholder tag until the user provides the final baseline tag:
+Stable baseline tag:
 
 ```text
-<PHASE_2_STABLE_HERMES_BASELINE_TAG>
+phase-2-stable-hermes-platform-integration-baseline
 ```
 
 ## Hard Boundaries
@@ -29,7 +29,7 @@ Use this placeholder tag until the user provides the final baseline tag:
 4. Checkout:
 
 ```bash
-git checkout <PHASE_2_STABLE_HERMES_BASELINE_TAG>
+git checkout phase-2-stable-hermes-platform-integration-baseline
 ```
 
 5. Confirm:
@@ -80,7 +80,7 @@ Do not echo actual values.
 Report Go only if:
 
 1. checkout succeeded;
-2. tag matches `<PHASE_2_STABLE_HERMES_BASELINE_TAG>`;
+2. tag matches `phase-2-stable-hermes-platform-integration-baseline`;
 3. worktree is clean;
 4. required docs exist;
 5. checklist JSON parses;

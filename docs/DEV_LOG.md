@@ -956,3 +956,12 @@
 - decision: Add / tighten must-close blockers for 0B Gateway hardening, high-risk forbidden-field fail-closed, `authority_health.orange`, and frontend wording correction; runtime session/thread refs can freeze only as visible known risk.
 - risks: Do not call current platform path native Hermes kernel alignment; do not create stable tag in Phase 2.107; do not stage unrelated `docs/digital-delivery-standards/`.
 - next: run light validation and selective docs / matrix baseline if clean.
+
+## 2026-05-20 Phase 2 Stable Hermes Platform Baseline Tag
+
+- goal: Pin a stable Hermes platform integration baseline after Platform 0B Gateway live smoke returned Go.
+- platform_smoke: `EXPECT_HERMES_AGENT_AVAILABLE=true` returned `PASS=14 FAIL=0`; covered authorityHealth.orange, compatibility mode, response/query/trace IDs, empty safe memory/context refs, fail-closed permission and forbidden-field behavior, Missing Evidence, and no leak / no write / no rollout guarantees.
+- changed_files: `docs/CODEX_TEST_MACHINE_UPDATE_TO_STABLE_HERMES_PROMPT.md`, `eval/phase2_inventory/platform_stable_hermes_freeze_checklist.json`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- decision: stable tag is allowed for platform integration baseline only; it does not close full Phase 2 PRD/Roadmap metrics and does not authorize production rollout.
+- risks: native session/thread lifecycle, Evidence Layer, Memory runtime, target-scale metrics, natural import usability, full Data Steward, Agent DB CRUD/SQL, NAS semantic collection, and DWG/RVT/BIM content understanding remain later items.
+- next: create/push stable tag and have the test machine checkout it for docs/env verification.

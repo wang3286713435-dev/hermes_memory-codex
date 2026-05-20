@@ -1,5 +1,15 @@
 # Phase Backlog
 
+## Phase 2 Stable Hermes Platform Baseline Tag
+
+1. Phase 2.107 baseline 已完成并推送：commit `3ef3966`，tag `phase-2.107-minimal-freeze-blocker-closure-baseline`。
+2. 平台 0B Gateway hardening controlled live smoke 已回传 `Go`：`EXPECT_HERMES_AGENT_AVAILABLE=true`，`PASS=14 FAIL=0`。
+3. 稳定平台集成 tag：`phase-2-stable-hermes-platform-integration-baseline`。
+4. 当前稳定范围：catalog-only asset query、Gateway permission / redaction、Missing Evidence、安全 IDs / traces、authorityHealth.orange、responseId/queryId/traceId、safeMemoryCandidates=[]、sanitizedContextRefs=[]。
+5. 当前不是 production rollout，不是 Phase 2 full PRD/Roadmap closeout，不是 Phase 3 transition。
+6. known risk：native session/thread lifecycle、Evidence Layer、Memory runtime、target-scale metrics、natural import usability 仍后置或需业务决策。
+7. 下一步：创建并推送 stable tag；测试机 checkout stable tag 后再决定 Phase 2 freeze 后续。
+
 ## Phase 2.107 Minimal Freeze Blocker Closure Plan
 
 1. Phase 2.106 baseline 已完成：commit `fe2706d`，tag `phase-2.106-platform-stable-hermes-freeze-readiness-baseline`，pushed=true。

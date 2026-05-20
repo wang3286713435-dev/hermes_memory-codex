@@ -1,8 +1,8 @@
 {
-  "schema_version": "platform_stable_hermes_freeze_checklist.v1",
-  "phase": "Phase 2.106",
+  "schema_version": "platform_stable_hermes_freeze_checklist.v1.1",
+  "phase": "Phase 2 Stable Hermes Platform Baseline",
   "freeze_target": "Phase 2 Stable Hermes for Platform Integration",
-  "purpose": "Docs-only checklist for deciding whether Hermes can provide a stable platform integration baseline without claiming full Phase 2 closeout.",
+  "purpose": "Checklist for the stable platform integration baseline after Platform 0B Gateway live smoke returned Go; this still does not close full Phase 2 PRD/Roadmap metrics or authorize production rollout.",
   "safety_rules": [
     "No raw platform reports, secrets, raw paths, raw DB rows, or customer data.",
     "This checklist does not run runtime smoke.",
@@ -31,6 +31,17 @@
       "owner": "Platform Gateway",
       "decision": "go",
       "notes": "Freeze must preserve current Gateway safety model."
+    },
+    {
+      "item_id": "freeze_gateway_0b_001",
+      "category": "gateway_safety",
+      "description": "Platform 0B Gateway hardening live smoke passed with Hermes service token enabled.",
+      "freeze_required": true,
+      "current_status": "controlled_live_smoke_go",
+      "evidence_ref": "Platform 0B Gateway controlled live smoke report, 2026-05-20",
+      "owner": "Platform Gateway / Hermes",
+      "decision": "go",
+      "notes": "EXPECT_HERMES_AGENT_AVAILABLE=true smoke passed PASS=14 FAIL=0; authorityHealth.orange, responseId/queryId/traceId, safeMemoryCandidates=[], sanitizedContextRefs=[], invalid project fail-closed, high-risk forbidden-field fail-closed, and Missing Evidence behavior were verified."
     },
     {
       "item_id": "freeze_catalog_001",
@@ -92,11 +103,11 @@
       "category": "architecture_authority",
       "description": "Platform single-turn plugin risk is documented and must not be accepted as product framing.",
       "freeze_required": true,
-      "current_status": "contract_ready_runtime_gap",
+      "current_status": "gateway_0b_hardening_live_smoke_go_native_runtime_gap_documented",
       "evidence_ref": "docs/PHASE2105_HERMES_PLATFORM_AUTHORITY_ALIGNMENT.md",
       "owner": "Hermes / Platform",
-      "decision": "pause_if_platform_rejects_kernel_authority",
-      "notes": "Runtime session/thread/context refs remain future implementation, but platform must accept authority split before freeze."
+      "decision": "go_with_known_risk",
+      "notes": "Platform 0B live smoke passed with authorityHealth.orange and compatibility-mode fields; native session/thread lifecycle remains future."
     },
     {
       "item_id": "freeze_evidence_layer_001",
@@ -147,11 +158,11 @@
       "category": "test_machine_update",
       "description": "Test-machine update prompt exists for future stable baseline tag.",
       "freeze_required": true,
-      "current_status": "prompt_ready",
+      "current_status": "stable_tag_ready",
       "evidence_ref": "docs/CODEX_TEST_MACHINE_UPDATE_TO_STABLE_HERMES_PROMPT.md",
       "owner": "Codex Test Machine",
-      "decision": "go_after_future_tag_exists",
-      "notes": "Prompt uses placeholder <PHASE_2_STABLE_HERMES_BASELINE_TAG> until baseline is authorized."
+      "decision": "go",
+      "notes": "Prompt now uses stable tag phase-2-stable-hermes-platform-integration-baseline."
     },
     {
       "item_id": "freeze_shared_contract_001",

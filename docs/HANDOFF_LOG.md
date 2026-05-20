@@ -7467,3 +7467,13 @@
 - boundary: docs / matrix only; no runtime code, no platform repo change, no shared file change, no API / DB / NAS / Gateway smoke.
 - next: run light validation; if clean, selective Phase 2.107 baseline can proceed without staging unrelated `docs/digital-delivery-standards/` files or ignored local reports.
 - commit/tag if any: none.
+
+## 2026-05-20 Phase 2 Stable Hermes Platform Baseline Tag
+
+- goal: Create the stable Hermes platform integration baseline after Platform 0B Gateway controlled live smoke returned Go.
+- platform_smoke: `EXPECT_HERMES_AGENT_AVAILABLE=true` returned `PASS=14 FAIL=0`; verified `authorityHealth.orange`, `mode=openai_compatible_gateway_wrapped`, `responseId/queryId/traceId`, `safeMemoryCandidates=[]`, `sanitizedContextRefs=[]`, invalid project fail-closed, high-risk forbidden-field fail-closed, catalog-only Missing Evidence, no raw path/storage/token/secret/SQL/raw row leaks, and no parser/index/rollout.
+- changed_files: `docs/CODEX_TEST_MACHINE_UPDATE_TO_STABLE_HERMES_PROMPT.md`, `eval/phase2_inventory/platform_stable_hermes_freeze_checklist.json`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- stable_tag: `phase-2-stable-hermes-platform-integration-baseline`.
+- boundary: no runtime code, no tests, no platform repo change, no DB/NAS/API/Gateway connection from this repo, no production rollout, no Phase 3 transition.
+- next: test machine should checkout the stable tag and verify docs / JSON / env key names only.
+- commit/tag if any: pending.

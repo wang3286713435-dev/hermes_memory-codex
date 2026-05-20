@@ -1,99 +1,78 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.107 Codex B Review / Docs + Matrix Baseline Gate
+## Stable Hermes Platform Baseline: Test Machine Checkout Gate
 
-You are Codex A. Do not implement a new runtime phase.
+You are the test-machine Codex operator. Do not implement runtime features.
 
-Phase 2.107 Minimal Freeze Blocker Closure Plan has been implemented as docs / decision-matrix content and must now be reviewed before any baseline.
+The stable Hermes platform integration baseline tag is:
 
-## Review Scope
+```text
+phase-2-stable-hermes-platform-integration-baseline
+```
 
-Review these files:
+## Goal
 
-1. `docs/PHASE2107_MINIMAL_FREEZE_BLOCKER_CLOSURE_PLAN.md`
-2. `eval/phase2_inventory/minimal_freeze_blocker_closure_matrix.json`
-3. `docs/ACTIVE_PHASE.md`
-4. `docs/PHASE_BACKLOG.md`
-5. `docs/HANDOFF_LOG.md`
-6. `docs/TODO.md`
-7. `docs/DEV_LOG.md`
+Checkout the stable Hermes platform baseline on the test machine and verify docs / JSON / env key names only.
 
-## Review Checklist
+## Required Steps
 
-1. Stable target must remain `Phase 2 Stable Hermes for Platform Integration`.
-2. The plan must not create or imply a stable tag.
-3. The plan must not declare Phase 2 fully closed.
-4. The matrix must classify each blocker as exactly one of `must_close_before_stable_tag`, `freeze_with_known_risk`, `phase3_plus_deferred`, `user_business_decision_required`, or `already_satisfied`.
-5. Must-close set must cover platform identity/wording, Gateway permission/path redaction, catalog-only safe refs, Missing Evidence, shared contract sync, and test-machine update.
-6. Must-close set must incorporate the latest Platform / DB Agent alignment report: current `architecture_authority_health=orange`, 0B Gateway hardening, high-risk forbidden-field fail-closed, authority-health exposure, and frontend wording correction.
-7. Known-risk freeze must include runtime session/thread refs, Evidence Layer, Memory runtime, and target-scale metrics when deferred; session/thread refs may be frozen only if 0B Gateway hardening makes the limitation explicit.
-8. Phase 3+ deferrals must keep production rollout, full Data Steward, Agent DB CRUD/SQL, NAS semantic collection, and DWG/RVT/BIM content understanding out of the stable platform tag.
-9. Natural import / file governance usability must remain a user business decision, not an implicit blocker or implicit deferral.
-10. Shared `DigitalDeliveryProject` files must not be modified.
-11. Unrelated `docs/digital-delivery-standards/` files must not be staged by default.
-
-## Validation Commands
-
-Run:
+1. Enter the Hermes_memory repo on the test machine.
+2. Confirm current branch and `git status --short`.
+3. Fetch tags.
+4. Checkout:
 
 ```bash
-git diff --check
-UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool reports/agent_runs/latest.json >/dev/null
+git checkout phase-2-stable-hermes-platform-integration-baseline
+```
+
+5. Confirm:
+
+```bash
+git rev-parse --short HEAD
+git describe --tags --exact-match
+git status --short
+```
+
+6. Verify required docs exist:
+
+```text
+docs/PHASE2106_PLATFORM_STABLE_HERMES_FREEZE_READINESS.md
+docs/PHASE2107_MINIMAL_FREEZE_BLOCKER_CLOSURE_PLAN.md
+docs/PLATFORM_STABLE_HERMES_CAPABILITY_BASELINE.md
+docs/CODEX_TEST_MACHINE_UPDATE_TO_STABLE_HERMES_PROMPT.md
+eval/phase2_inventory/platform_stable_hermes_freeze_checklist.json
+eval/phase2_inventory/minimal_freeze_blocker_closure_matrix.json
+docs/PHASE2105_HERMES_PLATFORM_AUTHORITY_ALIGNMENT.md
+docs/PLATFORM_TEAM_HERMES_KERNEL_AUTHORITY_ALIGNMENT_HANDOFF.md
+docs/DATA_STEWARD_AGENT_RISK_BOUNDARY.md
+```
+
+7. Validate JSON only:
+
+```bash
+UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool eval/phase2_inventory/platform_stable_hermes_freeze_checklist.json >/dev/null
 UV_CACHE_DIR=/private/tmp/uv-cache uv run python -m json.tool eval/phase2_inventory/minimal_freeze_blocker_closure_matrix.json >/dev/null
-git check-ignore reports/agent_runs/latest.json
-git status --short --untracked-files=all
 ```
 
-Do not run pytest. This phase is docs / decision-matrix planning only.
-
-## Baseline Only After Codex B Approval
-
-If Codex B approval is recorded for Phase 2.107 baseline, stage only:
-
-1. `docs/PHASE2107_MINIMAL_FREEZE_BLOCKER_CLOSURE_PLAN.md`
-2. `eval/phase2_inventory/minimal_freeze_blocker_closure_matrix.json`
-3. `docs/NEXT_CODEX_A_PROMPT.md`
-4. `docs/ACTIVE_PHASE.md`
-5. `docs/PHASE_BACKLOG.md`
-6. `docs/HANDOFF_LOG.md`
-7. `docs/TODO.md`
-8. `docs/DEV_LOG.md`
-
-Do not stage:
-
-1. `reports/agent_runs/latest.json`
-2. `docs/digital-delivery-standards/`
-3. any runtime code
-4. any tests
-5. any shared `DigitalDeliveryProject` files
-
-Suggested commit message:
-
-```text
-docs: add phase 2.107 freeze blocker closure plan
-```
-
-Suggested tag:
-
-```text
-phase-2.107-minimal-freeze-blocker-closure-baseline
-```
+8. Verify environment key names only. Do not print values.
 
 ## Hard Boundaries
 
-1. Do not write runtime code.
-2. Do not modify tests.
-3. Do not modify platform repo files.
-4. Do not modify shared `DigitalDeliveryProject` files.
-5. Do not connect DB / NAS / Gateway / API / OpenSearch / Qdrant / MinIO.
-6. Do not run API / CLI / Gateway / DB / NAS smoke.
-7. Do not execute SQL.
-8. Do not write memory / facts / documents / chunks.
-9. Do not scan / copy / parse NAS files.
-10. Do not expose raw path / raw row / raw answer / secrets.
-11. Do not execute repair / backfill / reindex / cleanup / delete.
-12. Do not create a stable tag without explicit user authorization.
-13. Do not enter production rollout.
-14. Do not enter Phase 3.
+1. Do not run API / CLI / Gateway / DB / NAS smoke unless separately authorized.
+2. Do not connect to DB, NAS, Gateway, API, OpenSearch, Qdrant, MinIO, or platform services.
+3. Do not execute SQL.
+4. Do not print secret values.
+5. Do not run parser, writer, scratch copy, repair, backfill, reindex, delete, migration, or rollout.
+6. Do not modify runtime code.
+7. Do not modify platform repo files.
+8. Do not modify shared `DigitalDeliveryProject` files.
 
-Stop after Codex B review or user-authorized baseline. Do not auto-enter Phase 2.108, stable tag creation, production rollout, or Phase 3.
+## Go / Pause / No-Go
+
+Go only if checkout succeeds, exact tag matches, worktree is clean, required docs exist, JSON parses, and env key names are checked without printing values.
+
+Pause if tag is missing, worktree is dirty, docs are missing, JSON parse fails, or env names cannot be checked safely.
+
+No-Go if any step would require DB / NAS / Gateway / API connection, print secrets, write data, or run repair/backfill/reindex.
+
+Stop after the report. Do not enter production rollout or Phase 3.
