@@ -1,5 +1,13 @@
 # DEV_LOG
 
+## 2026-05-20 Phase 2.110 Phase 2 Full Closeout Return Plan
+
+- 新增 `docs/PHASE2110_PHASE2_FULL_CLOSEOUT_RETURN_PLAN.md`，根据用户追问明确当前真实自然语言使用流程与 full Phase 2 closeout 打回结论。
+- 新增 `eval/phase2_inventory/phase2_full_closeout_return_checklist.json`，记录 stable platform baseline=`keep`、standalone kernel preservation=`keep`、full Phase 2 closeout=`returned`、Phase 2 completion announcement=`blocked`。
+- 明确当前自然语言流程仍是受控 operator / API / CLI / checklist 流程；尚未证明完整“一句话自动导入、入库、建别名、连续查询”的用户级可用性。
+- 明确后续 full Phase 2 完成前至少需要补齐自然语言导入 usability、accepted eval inventory、Top5 / citation 指标、structured fact spot-check、parser/source coverage、tender deep-field、version / permission / admin / human validation 证据，或由用户显式重分类。
+- 本阶段仍只做 docs / review；未改 runtime code/tests/platform repo，未连接 DB/NAS/API/Gateway，未执行 SQL/parser/scratch/writer/repair/backfill/reindex/delete/migration/rollout，未写 memory/facts/index/object-store。
+
 ## 2026-05-20 Phase 2.109 Phase 2 Final Freeze Checklist
 
 - 新增 `docs/PHASE2109_PHASE2_FINAL_FREEZE_CHECKLIST.md`，把平台稳定集成 freeze、Hermes 独立内核保留、完整 Phase 2 PRD / Roadmap closeout 分开裁决。

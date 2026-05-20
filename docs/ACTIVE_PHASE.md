@@ -1,14 +1,15 @@
 # Active Phase
 
-- 当前 phase：Phase 2.109 Phase 2 Final Freeze Checklist。
-- 背景：Phase 2.108 baseline 已完成并推送：commit `251a2f4`，tag `phase-2.108-standalone-kernel-freeze-contract-baseline`；Hermes 独立企业 Agent 内核边界已补齐，平台 catalog-only / Gateway read-only 被定义为安全表面而非产品上限。
-- 本轮目标：完成 Phase 2 final freeze checklist，明确区分平台稳定集成 freeze、Hermes 独立内核保留、完整 Phase 2 PRD / Roadmap closeout 三个不同门槛。
-- 修改文件：`docs/PHASE2109_PHASE2_FINAL_FREEZE_CHECKLIST.md`、`eval/phase2_inventory/phase2_final_freeze_checklist.json`、`docs/NEXT_CODEX_A_PROMPT.md`、`docs/ACTIVE_PHASE.md`、`docs/PHASE_BACKLOG.md`、`docs/HANDOFF_LOG.md`、`docs/TODO.md`、`docs/DEV_LOG.md`、ignored `reports/agent_runs/latest.json`。
-- 当前结论：平台稳定集成 freeze=`go`；Hermes 独立内核保留=`go`；完整 Phase 2 PRD / Roadmap closeout=`pause`。
-- 关键解释：这不是倒退，而是防止把“平台可稳定接入”误写成“原始 Phase 2 全部验收完成”。平台 / 数据库团队可以继续接入稳定 Hermes；Phase 3 planning 只能带着 known-gap carryover 进入。
-- 阻塞点 / 风险点：PRD 100+ / Roadmap 300+ eval、Top5 / citation 目标规模指标、structured fact manual spot-check、hard tender deep fields、full RBAC/ABAC、version diff、knowledge-admin workflow、natural import usability 仍未完全关闭或需用户例外决策。
+- 当前 phase：Phase 2.110 Phase 2 Full Closeout Return Plan。
+- 背景：Phase 2.109 baseline 已完成并推送：commit `0156195`，tag `phase-2.109-final-freeze-checklist-baseline`；最终检查已明确 platform stable freeze=`go`、standalone kernel preservation=`go`、full Phase 2 closeout=`pause`。
+- 本轮目标：根据用户追问复核真实自然语言使用流程，并正式打回 full Phase 2 closeout，防止把稳定平台集成误宣布为完整 Phase 2 交付完成。
+- 修改文件：`docs/PHASE2110_PHASE2_FULL_CLOSEOUT_RETURN_PLAN.md`、`eval/phase2_inventory/phase2_full_closeout_return_checklist.json`、`docs/NEXT_CODEX_A_PROMPT.md`、`docs/ACTIVE_PHASE.md`、`docs/PHASE_BACKLOG.md`、`docs/HANDOFF_LOG.md`、`docs/TODO.md`、`docs/DEV_LOG.md`、ignored `reports/agent_runs/latest.json`。
+- 当前真实自然语言流程：受控 operator / API / CLI / checklist 流程可用；还不是完全产品化的“一句话自动导入、解析、入库、建别名、连续查询”自然语言体验。
+- 当前结论：stable platform baseline=`keep`；standalone Hermes kernel preservation=`keep`；full Phase 2 PRD / Roadmap closeout=`returned`；Phase 2 completion announcement=`blocked`。
+- 关键解释：平台和数据库团队可以继续基于稳定 Hermes baseline 接入；但完整 Phase 2 必须打回，直到原 PRD 验收缺口被证据关闭，或由用户明确重分类到 backlog / Phase 3+。
+- 阻塞点 / 风险点：自然语言导入 usability 未形成 committed live metric evidence；PRD 100+ / Roadmap 300+ eval、Top5 / citation 目标规模指标、structured fact spot-check、tender deep fields、parser/source coverage、version diff、full RBAC/ABAC、knowledge-admin / human validation 仍未关闭。
 - 是否建议 baseline：是，建议 selective docs / JSON baseline；不 stage 无关 `docs/digital-delivery-standards/`。
-- 是否建议进入 Phase 3：可进入 Phase 3 planning，但必须明确 inherited gaps；不得声称 full Phase 2 closeout。
-- 是否需要 Codex B 审核：本轮由 Codex B 执行 final freeze checklist 收口。
-- 是否需要 Codex C 真实终端验收：不需要；本轮为 docs / checklist-only，不连接平台、DB、NAS、Gateway 或 API。
+- 是否建议进入 Phase 3：仅可做 planning，并必须显式携带 inherited gaps；不得宣布 Phase 2 完整收口。
+- 是否需要 Codex B 审核：本轮由 Codex B 执行 return plan review。
+- 是否需要 Codex C 真实终端验收：不需要；本轮为 docs / review-only，不连接平台、DB、NAS、Gateway 或 API。
 - 当前仍禁止：runtime code、测试修改、平台 repo 修改、DB / NAS / Gateway / API 连接、SQL 执行、Hermes memory 写入、facts 写入、documents/chunks 写入、NAS scan/copy/parser、raw path / raw row / raw answer / secret 输出、production rollout、无关 `docs/digital-delivery-standards/` staging。

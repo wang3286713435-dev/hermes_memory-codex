@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.110 Phase 2 Full Closeout Return Plan
+
+1. 当前进入 Phase 2.110，目标是正式打回完整 Phase 2 closeout，而不是否定稳定平台 baseline。
+2. 当前真实自然语言使用流程：受控 operator / API / CLI / checklist 可用；完全产品化的一句话自动导入 / 入库 / 建别名 / 连续查询尚未达标。
+3. 已新增 `docs/PHASE2110_PHASE2_FULL_CLOSEOUT_RETURN_PLAN.md` 与 `eval/phase2_inventory/phase2_full_closeout_return_checklist.json`。
+4. 当前可保留：平台 read-only catalog-only 稳定集成、Hermes 独立企业 Agent 内核定位、DB/NAS catalog-only 契约、小批 NAS scratch / parser dry-run 边界、标书/会议/Excel/PPTX controlled MVP 证据边界。
+5. 当前必须打回：full Phase 2 PRD / Roadmap closeout。不得宣布 Phase 2 完整完成。
+6. 下一步：优先做 Phase 2.111 Natural-language Import / MVP Closeout Gap Closure Pack，明确哪些缺口必须补证、哪些需要用户显式移到 backlog / Phase 3+。
+
 ## Phase 2.109 Phase 2 Final Freeze Checklist
 
 1. 当前进入 Phase 2.109，目标是最终冻结检查，不做 runtime 实现。

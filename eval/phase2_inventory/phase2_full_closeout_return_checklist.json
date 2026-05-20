@@ -1,0 +1,62 @@
+{
+  "phase": "Phase 2.110 Phase 2 Full Closeout Return Plan",
+  "purpose": "Record that stable platform integration and standalone Hermes kernel preservation remain valid, while full Phase 2 PRD/Roadmap closeout is returned until original acceptance gaps are closed or explicitly reclassified.",
+  "decisions": {
+    "stable_platform_baseline": "keep",
+    "standalone_kernel_preservation": "keep",
+    "full_phase2_closeout": "returned",
+    "phase2_completion_announcement": "blocked",
+    "phase3_planning": "allowed_only_with_explicit_inherited_gaps"
+  },
+  "current_natural_language_flow": {
+    "status": "controlled_operator_api_cli_flow",
+    "not_yet": "fully_productized_one_sentence_autonomous_import",
+    "steps": [
+      "operator_or_user_selects_file_scope_and_intent",
+      "hermes_classifies_catalog_import_retrieval_missing_evidence_boundary",
+      "controlled_upload_or_import_path_is_used",
+      "authorized_parser_chunk_metadata_embedding_bm25_hybrid_paths_run_when_enabled",
+      "answers_require_citation_bearing_evidence_or_missing_evidence",
+      "feedback_and_issue_intake_are_review_signals_not_auto_facts_or_repair"
+    ]
+  },
+  "full_closeout_blockers": [
+    "prd_100_eval_questions_not_met",
+    "roadmap_300_eval_questions_not_met",
+    "top5_metric_not_measured_at_required_scale",
+    "citation_metric_not_measured_at_required_scale",
+    "structured_fact_manual_spotcheck_missing",
+    "natural_language_import_usability_not_committed_as_live_metric_evidence",
+    "parser_source_coverage_not_fully_consolidated",
+    "tender_deep_fields_partial_or_need_user_exception",
+    "version_diff_and_incremental_delete_invalidation_partial",
+    "permission_model_not_full_rbac_abac",
+    "knowledge_admin_and_human_validation_partial",
+    "native_session_memory_evidence_runtime_paths_not_current_platform_runtime"
+  ],
+  "minimum_closeout_options": {
+    "option_a_close_with_evidence": [
+      "expand_accepted_eval_inventory",
+      "run_top5_and_citation_metrics_on_accepted_results",
+      "add_structured_fact_manual_spotcheck",
+      "produce_natural_import_live_usability_evidence",
+      "consolidate_parser_source_coverage",
+      "verify_tender_deep_field_decision",
+      "record_permission_version_admin_human_validation_acceptance"
+    ],
+    "option_b_user_reclassifies_gaps": [
+      "explicitly_record_backlog_or_phase3_exception",
+      "do_not_present_deferred_items_as_completed"
+    ]
+  },
+  "recommended_next_phase": "Phase 2.111 Natural-language Import / MVP Closeout Gap Closure Pack",
+  "hard_boundaries": [
+    "no_production_rollout",
+    "no_full_nas_scan",
+    "no_agent_db_crud",
+    "no_arbitrary_sql",
+    "no_raw_nas_path_exposure",
+    "no_repair_executor",
+    "no_dwg_rvt_bim_content_understanding_claim"
+  ]
+}

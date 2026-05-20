@@ -1,5 +1,16 @@
 # Handoff Log
 
+## 2026-05-20 Phase 2.110 Phase 2 Full Closeout Return Plan
+- goal: Answer the user's natural-language usage / Phase 2 delivery question and formally return full Phase 2 closeout if original requirements are not met.
+- changed_files: `docs/PHASE2110_PHASE2_FULL_CLOSEOUT_RETURN_PLAN.md`, `eval/phase2_inventory/phase2_full_closeout_return_checklist.json`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- validation: Pending `git diff --check`, closeout return checklist JSON parse, latest JSON parse, latest ignore check, and `git status --short`.
+- scope: Docs / review only. No runtime code, DB, NAS, Gateway, API, parser, memory, index, object-store, platform repo, or rollout changes.
+- decision: Stable platform baseline is kept; standalone Hermes kernel preservation is kept; full Phase 2 PRD / Roadmap closeout is returned; Phase 2 completion announcement is blocked.
+- real_flow: Current natural-language usage is controlled operator / API / CLI / checklist flow, not a fully productized one-sentence autonomous import and continuous-query experience.
+- risks: Natural import usability, eval counts, target-scale Top5/citation metrics, structured fact spot-check, parser/source coverage, tender deep fields, version diff, full RBAC/ABAC, and admin/human-validation remain open or require explicit user exception.
+- next: Phase 2.111 Natural-language Import / MVP Closeout Gap Closure Pack, or explicit user decision to reclassify selected gaps. Do not announce full Phase 2 complete.
+- commit/tag if any: none yet.
+
 ## 2026-05-20 Phase 2.109 Phase 2 Final Freeze Checklist
 - goal: Create the final Phase 2 freeze checklist and prevent platform freeze from being misread as full PRD / Roadmap closeout.
 - changed_files: `docs/PHASE2109_PHASE2_FINAL_FREEZE_CHECKLIST.md`, `eval/phase2_inventory/phase2_final_freeze_checklist.json`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.

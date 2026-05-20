@@ -1,5 +1,15 @@
 # Phase Backlog
 
+## Phase 2.110 Phase 2 Full Closeout Return Plan
+
+1. Phase 2.109 baseline 已完成并推送：commit `0156195`，tag `phase-2.109-final-freeze-checklist-baseline`。
+2. Phase 2.110 目标是回答真实自然语言使用流程与完整 Phase 2 交付是否达标，并正式打回 full closeout。
+3. 已新增 `docs/PHASE2110_PHASE2_FULL_CLOSEOUT_RETURN_PLAN.md` 与 `eval/phase2_inventory/phase2_full_closeout_return_checklist.json`。
+4. 当前真实自然语言流程是受控 operator / API / CLI / checklist 流程；还不是完全产品化的“一句话自动导入、入库、建别名、连续查询”体验。
+5. 决策：stable platform baseline=`keep`；standalone kernel preservation=`keep`；full Phase 2 closeout=`returned`；Phase 2 completion announcement=`blocked`。
+6. 仍需关闭或显式重分类：natural import usability、PRD 100+ / Roadmap 300+ eval、Top5 / citation 指标、structured fact spot-check、parser/source coverage、tender deep fields、version diff、full RBAC/ABAC、knowledge admin / human validation。
+7. 下一步建议：Phase 2.111 Natural-language Import / MVP Closeout Gap Closure Pack。不得宣布 full Phase 2 complete。
+
 ## Phase 2.109 Phase 2 Final Freeze Checklist
 
 1. Phase 2.108 baseline 已完成并推送：commit `251a2f4`，tag `phase-2.108-standalone-kernel-freeze-contract-baseline`。
