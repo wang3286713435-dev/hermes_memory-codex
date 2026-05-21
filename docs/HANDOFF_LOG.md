@@ -1,5 +1,14 @@
 # Handoff Log
 
+## 2026-05-22 Phase 2.112e API Server Stable Owner Bridge Fix Prompt
+- goal: Record Codex B review finding after Phase 2.112d and prepare a bounded Codex A follow-up.
+- review_result: Pause. Phase 2.112d safety model is correct, but runtime baseline remains blocked.
+- blocker: API server creates `AIAgent` without `gateway_session_key`; in latest-user-only OpenWebUI mode, `api-*` session ids drift and Phase 2.112d falls back to `process_local_fallback`, so imported alias continuity still cannot restore.
+- verification: Minimal local reproduction returned `scope_resolution_status=alias_missing`, `alias_continuity_status=not_found`, `alias_continuity_owner_source=process_local_fallback`, `suppress_retrieval=True`.
+- changed_files: `docs/PHASE2112E_API_SERVER_STABLE_OWNER_BRIDGE_FIX.md`, `docs/NEXT_CODEX_A_PROMPT.md`, phase docs, ignored `reports/agent_runs/latest.json`.
+- next: Codex A adds API server stable owner bridge and missing-owner diagnostics, then stops for Codex B review.
+- commit/tag if any: none yet.
+
 ## 2026-05-21 Phase 2.112d Alias Continuity Scope Review Fix Prompt
 - goal: Record Codex B review finding and prepare a bounded Codex A follow-up.
 - review_result: Pause. Phase 2.112c direction is correct and targeted tests pass, but baseline is blocked.
@@ -7630,4 +7639,14 @@
 - validation: Successful natural import now stores a bounded alias-continuity record outside ordinary memory; unambiguous follow-up `@alias` restores scoped `document_id/version_id`; conflicting continuity candidates suppress retrieval and expose safe candidates only; import diagnostics remain non-evidence.
 - risks: No real OpenWebUI / 8642 smoke was run in this round; baseline requires selective staging because main repo has unrelated dirty files.
 - next: Codex B review this implementation; if accepted, create a runtime test-candidate baseline/tag and ask the test machine to rerun real OpenWebUI / 8642 alias retrieval + citation validation.
+- commit/tag if any: none.
+
+## 2026-05-22 00:46 Phase 2.112d Alias Continuity Scope Review Fix
+
+- goal: Narrow natural-import alias continuity from alias-global recovery to safe owner-scoped recovery with non-persistent fallback and TTL cleanup.
+- changed_files: Hermes main `agent/memory_kernel/session_document_scope.py`, `run_agent.py`, `tests/agent/test_session_document_scope.py`, `tests/agent/test_natural_file_import_runtime.py`, `docs/TODO.md`, `docs/DEV_LOG.md`; Hermes_memory `docs/ACTIVE_PHASE.md`, `docs/HANDOFF_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/PHASE2112D_ALIAS_CONTINUITY_SCOPE_REVIEW_FIX.md`, ignored `reports/agent_runs/latest.json`.
+- tests: py_compile passed; natural import / upload client / session scope regression `105 passed`; gateway latest-user drift targeted test `1 passed`; session scope `63 passed`; natural import runtime `10 passed`.
+- validation: Same safe owner can restore after api session drift; different owner cannot restore another owner alias; unscoped fallback is process-local and not persisted across store reload; expired continuity returns `alias_missing` with `alias_continuity_status=expired`; conflict still suppresses retrieval; diagnostics expose owner source only, not raw owner value.
+- risks: Full gateway test file still false-fails locally because async pytest plugin is absent; no real OpenWebUI / 8642 validation was run.
+- next: Codex B review Phase 2.112d diff; if accepted, authorize selective runtime test-candidate baseline/tag and then test-machine OpenWebUI / 8642 validation.
 - commit/tag if any: none.

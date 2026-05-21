@@ -1,5 +1,20 @@
 # DEV_LOG
 
+## 2026-05-22 Phase 2.112e API Server Stable Owner Bridge Review Fix
+
+- Codex B 复查 Phase 2.112d：owner-scope / TTL / cross-owner safety 方向正确，但仍不建议 runtime baseline。
+- 新阻塞点：`gateway/platforms/api_server.py::_create_agent` 没有向 `AIAgent` 传入 `gateway_session_key` 或等价 stable owner；OpenWebUI 只发 latest user message 时，`api-*` session id drift 会使 2.112d 回到 `process_local_fallback` 并继续 `alias_missing`。
+- 最小复现结果：无 stable owner 的 import turn / follow-up drift turn 返回 `scope_resolution_status=alias_missing`、`alias_continuity_status=not_found`、`alias_continuity_owner_source=process_local_fallback`、`suppress_retrieval=True`。
+- 新增 `docs/PHASE2112E_API_SERVER_STABLE_OWNER_BRIDGE_FIX.md`，要求 Codex A 只补 API server stable owner bridge / sanitized diagnostics；继续禁止 alias-global restore、ordinary memory alias persistence、DB/NAS/index writes 与 rollout。
+
+## 2026-05-22 Phase 2.112d Alias Continuity Scope Review Fix
+
+- Codex A 完成 Hermes main 最小安全修复：natural import alias continuity 改为 owner-scoped registry，stable owner key 只保存哈希化值；无 stable owner 时只使用 process-local non-persistent fallback。
+- 新增 TTL/stale cleanup，过期 continuity 不恢复；不同 owner 不能恢复对方 imported alias；conflict 仍 fail-closed 并 suppress retrieval。
+- Diagnostics 只暴露 `alias_continuity_owner_source` / persistent 标记，不暴露 raw gateway/session token/path/secret/content；continuity 仍不是 retrieval evidence。
+- 验证通过：py_compile；natural import / upload client / session scope regression `105 passed`；gateway latest-user drift targeted test `1 passed`；session scope `63 passed`；natural import runtime `10 passed`。
+- 当前不 baseline、不重复真实导入、不写 DB / facts / versions / OpenSearch / Qdrant / MinIO，不执行 repair/backfill/reindex/delete/migration/rollout；下一步 Codex B review 后再决定 runtime test-candidate baseline。
+
 ## 2026-05-21 Phase 2.112d Alias Continuity Scope Review Fix Prompt
 
 - Codex B 复查 Phase 2.112c：py_compile 通过，natural import/session 目标测试 `102 passed`，gateway drift 单测 `1 passed`。

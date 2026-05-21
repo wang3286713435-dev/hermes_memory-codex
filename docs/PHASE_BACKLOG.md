@@ -1,12 +1,20 @@
 # Phase Backlog
 
+## Phase 2.112e API Server Stable Owner Bridge Fix
+
+1. Codex B review found Phase 2.112d should not baseline yet.
+2. Phase 2.112d owner-scoped continuity is safe, but API server still does not pass `gateway_session_key` / stable owner into `AIAgent`.
+3. In OpenWebUI latest-user-only mode, derived `api-*` session id can drift; without stable owner, Phase 2.112d correctly falls back to `process_local_fallback` and therefore still returns alias missing.
+4. Required fix: API server must pass authenticated stable conversation/session owner when available; missing stable owner must remain fail-closed with sanitized diagnostics.
+5. Do not reintroduce alias-global restore. Runtime test-candidate tag and test-machine OpenWebUI / 8642 validation remain blocked until 2.112e passes review.
+
 ## Phase 2.112d Alias Continuity Scope Review Fix
 
-1. Codex B review found Phase 2.112c should not baseline yet.
-2. Development tests passed, but the continuity registry is keyed only by alias and therefore too broad for enterprise boundaries.
-3. Required fix: scope alias continuity by safe owner key; allow only short-lived process-local fallback when no stable owner exists; prevent persisted unscoped alias restore.
-4. Add TTL/stale cleanup and tests for cross-owner denial, unscoped non-persistence, stale expiry, and conflict fail-closed behavior.
-5. Runtime test-candidate tag and test-machine OpenWebUI / 8642 validation remain blocked until this small review fix passes.
+1. Codex A 已完成 owner-scoped continuity 小修；Phase 2.112c alias-global blocker 已在代码侧解除。
+2. Continuity registry 改为 safe owner key + alias 双层索引；stable owner key 哈希化，不输出 raw owner。
+3. 无 stable owner 时只用 process-local non-persistent fallback；不会跨 store reload 恢复 unscoped alias。
+4. TTL/stale cleanup、cross-owner denial、unscoped non-persistence、conflict fail-closed 均有目标测试覆盖。
+5. 当前仍不允许 runtime baseline；先 Codex B review，再决定 selective test-candidate tag 与测试机 OpenWebUI / 8642 validation。
 
 ## Phase 2.112c OpenWebUI Alias Continuity Fix
 

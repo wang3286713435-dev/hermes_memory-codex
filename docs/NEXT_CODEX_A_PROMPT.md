@@ -1,13 +1,13 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.112d Alias Continuity Scope Review Fix
+## Phase 2.112e API Server Stable Owner Bridge Fix
 
-Codex B reviewed Phase 2.112c and found one blocker. Execute this one bounded fix, then stop for Codex B review.
+Codex B reviewed Phase 2.112d and found one remaining blocker. Execute this one bounded fix, then stop for Codex B review.
 
 ## Required Reading
 
-1. `/Users/Weishengsu/Hermes_memory/docs/PHASE2112C_OPENWEBUI_ALIAS_CONTINUITY_FIX_PLAN.md`
-2. `/Users/Weishengsu/Hermes_memory/docs/PHASE2112D_ALIAS_CONTINUITY_SCOPE_REVIEW_FIX.md`
+1. `/Users/Weishengsu/Hermes_memory/docs/PHASE2112D_ALIAS_CONTINUITY_SCOPE_REVIEW_FIX.md`
+2. `/Users/Weishengsu/Hermes_memory/docs/PHASE2112E_API_SERVER_STABLE_OWNER_BRIDGE_FIX.md`
 3. `/Users/Weishengsu/Hermes_memory/docs/ACTIVE_PHASE.md`
 4. `/Users/Weishengsu/Hermes_memory/docs/PHASE_BACKLOG.md`
 5. `/Users/Weishengsu/Hermes_memory/docs/TODO.md`
@@ -18,35 +18,36 @@ Then inspect `/Users/Weishengsu/.hermes/hermes-agent`.
 
 ## Review Finding
 
-Phase 2.112c tests pass, but the implementation stores continuity candidates keyed only by alias:
+Phase 2.112d owner-scoped continuity is safer, but it does not yet satisfy the real OpenWebUI / 8642 blocker because the API server path does not pass a stable owner into `AIAgent`.
+
+Observed:
 
 ```text
-_alias_continuity: dict[alias, list[FileAliasBinding]]
-_continuity_candidates(alias)
+gateway/platforms/api_server.py::_create_agent(...)
+AIAgent(..., session_id=session_id, platform="api_server", ...)
 ```
 
-This is too broad. A globally unique alias could restore a document imported by another session/user/project. That violates the bounded enterprise-agent safety model.
+There is no `gateway_session_key`. When OpenWebUI sends only the latest user message, the derived `api-*` session id can drift. Then Phase 2.112d falls back to `process_local_fallback`, which is safe but cannot restore the imported alias across the drift.
 
 ## Required Fix
 
-Narrow alias continuity so it is scoped by a safe owner key:
+Add a bounded stable-owner bridge for the API server path:
 
-1. Prefer explicit stable session / conversation / gateway scope when available.
-2. If no stable owner key exists, fallback must be short-lived and process-local.
-3. Persisted storage must not restore unscoped fallback aliases across process restart.
-4. Different continuity owners must not restore each other’s imported alias.
-5. Add TTL / stale cleanup or equivalent expiration.
-6. Keep conflict behavior fail-closed and retrieval-suppressed.
-7. Keep alias continuity records non-evidence.
+1. Pass a stable `gateway_session_key` or equivalent continuity owner to `AIAgent` when an authenticated stable session / conversation id is available.
+2. Prefer existing `X-Hermes-Session-Id` when accepted by the API server.
+3. If adding additional OpenWebUI-compatible stable conversation headers, explicitly whitelist and sanitize them.
+4. Do not use volatile request ids, timestamps, raw body text, aliases, raw tokens, raw paths, or secrets as continuity owner.
+5. If no stable owner exists, keep fail-closed behavior and return sanitized diagnostics like `stable_owner_missing`.
+6. Preserve Phase 2.112d owner-scope / TTL / conflict safety. Do not reintroduce alias-global restore.
 
 ## Allowed Files
 
 Allowed Hermes agent files:
 
-1. `agent/memory_kernel/session_document_scope.py`
-2. `run_agent.py`
-3. `agent/memory_kernel/natural_file_import_runtime.py` only if diagnostics need a small update
-4. Targeted tests under `tests/agent/` and `tests/gateway/`
+1. `gateway/platforms/api_server.py`
+2. `run_agent.py` only if needed for diagnostics / owner handling
+3. `agent/memory_kernel/session_document_scope.py` only if needed for diagnostics; do not weaken owner-scope safety
+4. Targeted tests under `tests/gateway/` and `tests/agent/`
 5. Hermes agent `docs/TODO.md` / `docs/DEV_LOG.md`
 
 Do not stage unrelated dirty files:
@@ -60,12 +61,12 @@ Do not stage unrelated dirty files:
 
 Add or update tests proving:
 
-1. Same continuity owner can restore `@alias` after API-derived session drift.
-2. Different continuity owner cannot restore another owner’s `@alias`.
-3. Unscoped fallback continuity is not persisted across a new store load.
-4. TTL/stale continuity does not restore.
-5. Alias conflict still suppresses retrieval and asks for clarification.
-6. Diagnostics do not expose raw session tokens, paths, secrets, raw rows, or content.
+1. API server passes an explicit stable owner key to `AIAgent`.
+2. Same explicit owner restores `@alias` after API-derived session drift.
+3. Different explicit owners do not restore each other’s aliases.
+4. Without stable owner, follow-up remains fail-closed with sanitized `stable_owner_missing` diagnostics.
+5. No raw owner value, token, path, secret, raw row, or content appears in diagnostics.
+6. Existing Phase 2.112d TTL / stale / conflict tests still pass.
 
 Suggested commands:
 
@@ -76,16 +77,16 @@ cd /Users/Weishengsu/.hermes/hermes-agent
 ./.venv/bin/python -m pytest -o addopts='' tests/gateway/test_api_server.py::test_chat_session_id_drifts_when_openwebui_sends_only_latest_user_message -q
 ```
 
-If you add a new targeted gateway/session-owner test, run it explicitly too.
+If you add new API-server owner bridge tests, run them explicitly too.
 
 ## Completion Report
 
 Report:
 
 1. Changed files.
-2. How continuity owner key is computed.
-3. Which fallback is process-local / non-persistent.
-4. TTL/stale behavior.
+2. Which stable owner headers / sources are accepted.
+3. How raw owner values are sanitized or hashed.
+4. What happens when stable owner is missing.
 5. Tests run and results.
 6. Whether Codex B review is required.
 7. Whether test-machine validation is still required.
@@ -100,4 +101,5 @@ Do not:
 4. execute repair / cleanup / backfill / reindex / delete / migration / rollout;
 5. modify platform Gateway / DB / NAS contracts;
 6. stage unrelated dirty files;
-7. announce Phase 2 full closeout before real OpenWebUI / 8642 validation passes.
+7. create runtime baseline/tag without Codex B review;
+8. announce Phase 2 full closeout before real OpenWebUI / 8642 validation passes.

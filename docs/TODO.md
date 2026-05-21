@@ -1,12 +1,22 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.112e API Server Stable Owner Bridge Fix
+
+1. Codex B review 打回 Phase 2.112d runtime baseline：owner-scoped continuity 安全性正确，但 OpenWebUI / 8642 API server path 仍缺 stable owner propagation。
+2. 阻塞点：`gateway/platforms/api_server.py` 创建 `AIAgent` 时没有传 `gateway_session_key`；latest-user-only follow-up 会导致 `api-*` session drift，进而退回 `process_local_fallback` 并继续 `alias_missing`。
+3. 下一步只允许 Codex A 补 API server stable owner bridge；优先使用已认证的 `X-Hermes-Session-Id` / 明确白名单 conversation header。
+4. 无 stable owner 时必须 fail-closed，并输出 sanitized `stable_owner_missing` 类诊断；不得恢复 alias-global registry。
+5. 待办：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`；Codex B review 后再决定 runtime test-candidate tag 与测试机 OpenWebUI / 8642 复验。
+
 ## Phase 2.112d Alias Continuity Scope Review Fix
 
-1. 不要 baseline Phase 2.112c：alias continuity 当前按 alias 全局恢复，边界过宽。
-2. Codex A 需补 continuity owner scope：同 owner 可恢复，不同 owner 不可恢复。
-3. 无稳定 owner key 时只能短 TTL / process-local fallback，且不能持久化到重启后继续生效。
-4. 冲突候选继续 fail-closed 并 suppress retrieval。
-5. 通过 Codex B review 后再考虑 runtime test-candidate tag 与测试机 OpenWebUI / 8642 复验。
+1. Codex A 已完成 owner-scoped continuity 小修：`@alias` continuity 不再按 alias 全局恢复，而是按 safe owner key + alias 恢复。
+2. Stable owner 使用哈希化 key；diagnostics 只输出 `alias_continuity_owner_source`，不暴露 raw gateway/session value。
+3. 无 stable owner 时 fallback 为 process-local / non-persistent；新 store load 不会恢复 unscoped fallback alias。
+4. 已补 TTL/stale cleanup；过期 continuity 不恢复，返回 `alias_continuity_status=expired` 并 suppress retrieval。
+5. 冲突候选继续 fail-closed 并 suppress retrieval，safe candidates 不含 raw path/token/owner。
+6. 验证通过：py_compile；natural import / upload client / session scope regression `105 passed`；gateway latest-user drift targeted test `1 passed`。
+7. 下一步：Codex B review Phase 2.112d；通过后再考虑 runtime test-candidate tag 与测试机 OpenWebUI / 8642 复验。
 
 ## Phase 2.112c OpenWebUI Alias Continuity Fix
 

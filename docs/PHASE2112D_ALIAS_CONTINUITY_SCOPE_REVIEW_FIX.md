@@ -76,3 +76,39 @@ Do not create a runtime test-candidate tag until:
 3. Unrelated dirty files are excluded from staging.
 
 After that, the test machine can rerun real OpenWebUI / 8642 alias + retrieval + citation validation.
+
+## 6. Codex A Implementation Result
+
+Status: implemented, pending Codex B review.
+
+Implemented behavior:
+
+1. Alias continuity is now indexed by sanitized owner key and alias, not alias alone.
+2. Stable owner values are hashed before storage; diagnostics expose only owner source labels.
+3. If no stable owner exists, continuity falls back to process-local, non-persistent storage.
+4. Persisted storage ignores old alias-global continuity shape and never restores unscoped fallback records.
+5. Continuity records include TTL expiration; expired records do not restore aliases.
+6. Cross-owner alias restore returns `alias_missing` instead of reusing another owner’s document.
+7. Conflict candidates still fail closed and suppress retrieval.
+
+Validation:
+
+1. `py_compile` passed for gateway / run_agent / natural import / session scope files.
+2. Natural import / upload client / session scope regression: `105 passed`.
+3. Gateway latest-user drift targeted test: `1 passed`.
+4. Session scope targeted test: `63 passed`.
+5. Natural import runtime targeted test: `10 passed`.
+
+Remaining gate:
+
+1. Codex B review is still required.
+2. No runtime baseline/tag has been created.
+3. Real OpenWebUI / 8642 validation is still pending after review/baseline.
+
+## 7. Codex B Follow-up Review Result
+
+Status: pause. Do not baseline Phase 2.112d yet.
+
+Phase 2.112d fixed the alias-global safety problem, but the API server path still does not pass a stable owner key to `AIAgent`. In real OpenWebUI latest-user-only mode, the derived `api-*` session can drift between import and follow-up. Without a stable owner, the new safe fallback correctly avoids cross-owner restore but still cannot recover the imported alias.
+
+Next: execute Phase 2.112e API Server Stable Owner Bridge Fix.
