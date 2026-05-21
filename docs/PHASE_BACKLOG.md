@@ -1462,6 +1462,16 @@
 
 ## 后置项
 
+## Phase 2.112f 当前状态
+
+1. Phase 2.112f 最小修复已完成并通过 Codex B review：follow-up alias continuity restore diagnostics 稳定进入 nested `alias_resolution`。
+2. 已补 same-owner import -> follow-up restore 跨 store reload / 新 agent instance 测试。
+3. 已补 stable owner missing、cross-owner denied、conflict denied 与 restored filters 覆盖。
+4. Codex B 复跑验证：py_compile 通过；full natural import / upload client / session scope regression `109 passed`；gateway stable-owner targeted tests `3 passed`。
+5. Hermes agent runtime test-candidate 已推送：commit `78eb77158`，tag `phase-2.112f-alias-continuity-restore-runtime-test-candidate`。
+6. 本轮未重复真实导入，未写 DB / facts / document_versions / OpenSearch / Qdrant，未执行 repair/backfill/reindex。
+7. 下一步必须测试机复验 OpenWebUI / 8642 import -> follow-up `@alias` retrieval + citation。
+
 1. 完整 AI 审标 / 自动审标：后置，当前只做 retrieval evidence 与 trace 改善。
 2. 长输出 query 延迟优化：需先收集更多 Pilot 样本，不在 Phase 2.35b 中扩大。
 3. repair executor：后置，必须经过单独 Phase 规划、人工确认和显式指令。

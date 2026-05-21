@@ -1952,6 +1952,12 @@
 6. 第二真实文件 smoke 仍保留为用户授权后 Codex C 任务，不阻塞 Phase 2.60 review。
 # TODO 最新状态
 
+- 当前 phase：Phase 2.112f Alias Continuity Restore Fix 已通过 Codex B review，待测试机复验。
+- 完成：Hermes 主仓库 follow-up alias continuity restore diagnostics 已稳定进入 nested `alias_resolution`；same-owner restore 跨 store reload / 新 agent instance 已有测试覆盖。
+- 验证：Codex B 复跑 py_compile 通过；full natural import / upload client / session scope regression `109 passed`；gateway stable-owner targeted tests `3 passed`。
+- runtime candidate：Hermes agent `78eb77158` / `phase-2.112f-alias-continuity-restore-runtime-test-candidate`。
+- 下一步：测试机复验 OpenWebUI / 8642 import -> follow-up `@建筑类数据样表` retrieval + citation。
+
 - 当前 phase：Phase 2.112e API Server Stable Owner Bridge Fix 已实现，待 Codex B review。
 - 结果：API server 已把 accepted `X-Hermes-Session-Id` / whitelisted OpenWebUI conversation header 转成 `gateway_session_key` 传入 `AIAgent`；无 stable owner 时继续 fail-closed 并输出 sanitized `stable_owner_missing`。
 - 验证：py_compile 通过；API server owner bridge targeted tests `7 passed`；natural import / upload client / session scope regression `106 passed`。

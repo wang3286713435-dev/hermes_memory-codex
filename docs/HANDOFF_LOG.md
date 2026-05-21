@@ -7680,3 +7680,16 @@
 - risks: no real OpenWebUI / 8642 validation was run; local full gateway async suite still false-fails because this environment lacks an async pytest plugin.
 - next: Codex B review Phase 2.112e; if accepted, authorize selective runtime test-candidate baseline and test-machine OpenWebUI / 8642 validation.
 - commit/tag if any: none.
+
+## 2026-05-22 02:35 Phase 2.112f Alias Continuity Restore Fix
+
+- goal: Fix follow-up owner-scoped alias continuity restore after test-machine OpenWebUI / 8642 showed import stored continuity but follow-up `@alias` still returned `alias_missing`.
+- changed_files: Hermes main `agent/memory_kernel/session_document_scope.py`, `tests/agent/test_session_document_scope.py`, `tests/agent/test_natural_file_import_runtime.py`, `docs/TODO.md`, `docs/DEV_LOG.md`; Hermes_memory `docs/ACTIVE_PHASE.md`, `docs/HANDOFF_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- review_result: Passed at development-machine level.
+- tests: Codex B re-ran py_compile; full natural import / upload client / session scope regression `109 passed`; gateway stable-owner targeted tests `3 passed`.
+- validation: `alias_continuity_*` diagnostics now propagate into nested `alias_resolution`; same-owner continuity restore is covered across store reload and new `AIAgent` instance; cross-owner denied, missing stable owner, and conflict fail-closed paths are covered.
+- runtime_candidate: Hermes agent commit `78eb77158`, tag `phase-2.112f-alias-continuity-restore-runtime-test-candidate`, pushed to `backup2`.
+- excluded_dirty: `agent/memory_kernel/adapters/hermes_memory_adapter.py`, `uv.lock`, `docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`, `tests/agent/test_memory_kernel_adapter_reload.py`.
+- risks: no real OpenWebUI / 8642 follow-up retrieval smoke was run; Phase 2 natural import closeout remains blocked until test-machine retrieval + citation passes.
+- next: test-machine Codex checks out the tag, restarts 8642, and validates real OpenWebUI import -> follow-up `@alias` retrieval + citation.
+- commit/tag if any: Hermes agent `78eb77158` / `phase-2.112f-alias-continuity-restore-runtime-test-candidate`.

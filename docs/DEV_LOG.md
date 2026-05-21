@@ -1,5 +1,14 @@
 # DEV_LOG
 
+## 2026-05-22 Phase 2.112f Alias Continuity Restore Fix
+
+- Codex A 完成最小修复：Hermes main `SessionDocumentScopeStore` 会把 `alias_continuity_status/source/owner_source/persistent` 与 `stable_owner_missing` 同步写入 nested `alias_resolution`，降低 follow-up alias-missing / restore 诊断在 API/CLI 展示链路丢失的风险。
+- 新增覆盖：same-owner continuity 跨 store reload 恢复、新 `AIAgent` instance 恢复、stable owner missing fail-closed、cross-owner denied、conflict denied、restored `document_id/version_id` filters。
+- Codex B 复跑验证通过：py_compile；full natural import / upload client / session scope regression `109 passed`；gateway stable-owner targeted tests `3 passed`。
+- Hermes agent runtime test-candidate 已推送：commit `78eb77158`，tag `phase-2.112f-alias-continuity-restore-runtime-test-candidate`。
+- 本轮未重复真实导入，未写 DB / facts / versions / OpenSearch / Qdrant，未执行 repair/backfill/reindex。
+- 下一步交测试机 OpenWebUI / 8642 复验 retrieval + citation。
+
 ## 2026-05-22 Phase 2.112e Codex B Review / Runtime Candidate
 
 - Codex B review 通过 Phase 2.112e：API server stable owner bridge 补齐，OpenWebUI latest-user-only 场景可通过 whitelisted stable owner 传入 `gateway_session_key`，不再只依赖漂移的 `api-*` session id。
