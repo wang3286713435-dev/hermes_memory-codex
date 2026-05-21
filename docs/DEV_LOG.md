@@ -1,5 +1,12 @@
 # DEV_LOG
 
+## 2026-05-21 Phase 2.112d Alias Continuity Scope Review Fix Prompt
+
+- Codex B 复查 Phase 2.112c：py_compile 通过，natural import/session 目标测试 `102 passed`，gateway drift 单测 `1 passed`。
+- 审查结论：不建议 baseline。当前 `_alias_continuity` 按 alias 全局存储/恢复，缺少安全 owner scope 与 TTL；若 alias 全局唯一，可能跨会话恢复别人导入的 `document_id/version_id`。
+- 新增 `docs/PHASE2112D_ALIAS_CONTINUITY_SCOPE_REVIEW_FIX.md`，要求 Codex A 小修 continuity owner key、process-local fallback、TTL/stale cleanup、cross-owner denial tests。
+- 下一步仍不重复真实导入、不改平台/DB/NAS、不进入 rollout；等 2.112d 通过 review 后再考虑 runtime test-candidate tag。
+
 ## 2026-05-21 Phase 2.112c OpenWebUI Alias Continuity Fix Prompt
 
 - 测试机已确认 Phase 2.112b runtime candidate 正确部署：Hermes_memory `e459b5a`，hermes-agent `1d02a791`，8642 health pass，real upload flag 可见。
@@ -7,6 +14,15 @@
 - 当前判断：上传/索引已不是 blocker；问题在 OpenAI-compatible / OpenWebUI 跨轮 alias continuity，Phase 2.112b 对 previous assistant diagnostics 的依赖不足。
 - 新增 `docs/PHASE2112C_OPENWEBUI_ALIAS_CONTINUITY_FIX_PLAN.md`，要求 Codex A 实现 bounded alias-continuity registry、冲突 fail-closed、sanitized diagnostics，并禁止把 alias 写入普通 long-term memory。
 - 更新 `docs/NEXT_CODEX_A_PROMPT.md`，下一步只允许 Codex A 做 bounded runtime fix；不重复真实导入，不改平台/DB/NAS，不进入 rollout。
+
+## 2026-05-21 Phase 2.112c OpenWebUI Alias Continuity Runtime Fix
+
+- Codex A 已完成 Hermes main 最小实现：natural import 成功后把 `@alias -> document_id/version_id` 写入 bounded alias-continuity registry，不依赖 ordinary memory 或 previous assistant diagnostics。
+- Follow-up 只含最新 user message 且 api-derived session id 漂移时，unambiguous `@alias` 可恢复 scoped retrieval；多候选冲突时 fail-closed 并 suppress retrieval。
+- 成功导入响应新增 sanitized diagnostics：`alias_continuity_status/source`、`api_session_key_source`、`history_message_count`；不输出 raw path，import diagnostics 继续不是 retrieval evidence。
+- 验证通过：py_compile；natural import / upload client / session scope targeted regression `102 passed`；gateway latest-user drift sync test `1 passed`。
+- 本轮未重复真实导入、未写 DB / facts / document_versions / OpenSearch / Qdrant / MinIO，未执行 repair/backfill/reindex/delete/migration/rollout，未 baseline。
+- 下一步：Codex B review；通过后 selective test-candidate baseline，再由测试机复验真实 OpenWebUI / 8642 `@alias` retrieval + citation。
 
 ## 2026-05-21 Phase 2.112b Codex B Review
 

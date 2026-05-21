@@ -1,14 +1,22 @@
 # Phase Backlog
 
+## Phase 2.112d Alias Continuity Scope Review Fix
+
+1. Codex B review found Phase 2.112c should not baseline yet.
+2. Development tests passed, but the continuity registry is keyed only by alias and therefore too broad for enterprise boundaries.
+3. Required fix: scope alias continuity by safe owner key; allow only short-lived process-local fallback when no stable owner exists; prevent persisted unscoped alias restore.
+4. Add TTL/stale cleanup and tests for cross-owner denial, unscoped non-persistence, stale expiry, and conflict fail-closed behavior.
+5. Runtime test-candidate tag and test-machine OpenWebUI / 8642 validation remain blocked until this small review fix passes.
+
 ## Phase 2.112c OpenWebUI Alias Continuity Fix
 
-1. Phase 2.112b test-machine validation still paused even after the runtime candidate was checked out and 8642 was restarted.
-2. Upload/index path is working: `document_id=2baf5527-42c9-4467-8856-573e54c97121`, `version_id=b2efc465-cde8-4aef-a113-5c8615929719`, `chunk_count=6`, `indexed_count=6`.
-3. Remaining blocker: follow-up `@建筑类数据样表` returns `alias_missing=true`, `retrieval_suppressed=true`, `retrieval_evidence_document_ids=[]`, and no citation.
-4. Working root cause: OpenAI-compatible / OpenWebUI follow-up request does not reliably include the previous assistant diagnostics or a stable session key, so Phase 2.112b alias hydration is not triggered.
-5. New plan doc: `docs/PHASE2112C_OPENWEBUI_ALIAS_CONTINUITY_FIX_PLAN.md`.
-6. Codex A next task: implement bounded alias-continuity registry / fail-closed conflict handling / sanitized diagnostics in the Hermes agent runtime.
-7. Do not repeat real import in development; do not use ordinary long-term memory for alias persistence; do not treat diagnostics or metadata as evidence.
+1. Phase 2.112b test-machine validation paused because upload/index worked but follow-up `@建筑类数据样表` returned `alias_missing=true`, `retrieval_suppressed=true`, empty evidence, and no citation.
+2. Root cause: OpenAI-compatible / OpenWebUI follow-up request may include only the latest user message and derive a different `api-*` backend session id, so previous assistant diagnostics are unavailable.
+3. Codex A Phase 2.112c implementation is now complete in Hermes main: successful natural import stores bounded alias-continuity records outside ordinary memory; unambiguous follow-up `@alias` restores scoped `document_id/version_id`; conflicting candidates suppress retrieval.
+4. Sanitized diagnostics now include `alias_continuity_status`, `alias_continuity_source`, `api_session_key_source`, and `history_message_count`; import diagnostics remain non-evidence and do not expose raw paths.
+5. Development validation passed: py_compile; natural import / upload client / session scope regression `102 passed`; gateway latest-user drift test `1 passed`.
+6. Current next step: Codex B review Phase 2.112c diff; if accepted, authorize selective runtime test-candidate baseline/tag.
+7. After review/baseline, test machine must rerun real OpenWebUI / 8642 natural import follow-up and prove retrieval evidence + citation from imported document.
 8. Phase 2 full closeout remains blocked until real OpenWebUI / 8642 alias + retrieval + citation validation passes.
 
 ## Phase 2.112b Natural Import Alias Binding / Retrieval Blocker Fix

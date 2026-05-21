@@ -1,12 +1,21 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.112d Alias Continuity Scope Review Fix
+
+1. 不要 baseline Phase 2.112c：alias continuity 当前按 alias 全局恢复，边界过宽。
+2. Codex A 需补 continuity owner scope：同 owner 可恢复，不同 owner 不可恢复。
+3. 无稳定 owner key 时只能短 TTL / process-local fallback，且不能持久化到重启后继续生效。
+4. 冲突候选继续 fail-closed 并 suppress retrieval。
+5. 通过 Codex B review 后再考虑 runtime test-candidate tag 与测试机 OpenWebUI / 8642 复验。
+
 ## Phase 2.112c OpenWebUI Alias Continuity Fix
 
-1. Phase 2.112b 真实测试仍 Pause：upload/index 成功，但 follow-up `@alias` 在 OpenWebUI / 8642 路径仍 `alias_missing=true`。
-2. 当前不要重复真实导入；先让 Codex A 修 runtime alias continuity。
-3. 目标是让 natural import 成功后的 alias continuity 不依赖普通 long-term memory，也不依赖 OpenWebUI 必须回传完整 assistant diagnostics。
-4. 必须 fail closed：同 alias 多候选时不能检索，必须让用户选择安全候选。
-5. Phase 2 full closeout 仍 blocked，直到真实 OpenWebUI / 8642 alias + retrieval + citation 验收通过。
+1. Codex A 已完成 runtime fix：natural import 成功后写入 bounded alias-continuity registry；follow-up api session drift 仍可用 `@alias` 恢复 imported `document_id/version_id` scoped retrieval。
+2. 冲突策略：同 alias 出现多个 document/version 候选时 fail-closed，suppress retrieval，并只输出安全候选供用户澄清。
+3. diagnostics 已补：`alias_continuity_status`、`alias_continuity_source`、`api_session_key_source`、`history_message_count`；raw path / import diagnostics 不作为 evidence。
+4. 开发侧验证通过：py_compile，natural import / upload client / session scope regression `102 passed`，gateway latest-user drift test `1 passed`。
+5. 下一步必须 Codex B review；通过后才允许 selective test-candidate baseline / tag，并交测试机复验真实 OpenWebUI / 8642 `@alias` retrieval + citation。
+6. Phase 2 full closeout 仍 blocked，直到真实验收通过。
 
 ## Phase 2.112b Natural Import Alias Binding / Retrieval Blocker
 

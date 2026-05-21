@@ -1,5 +1,14 @@
 # Handoff Log
 
+## 2026-05-21 Phase 2.112d Alias Continuity Scope Review Fix Prompt
+- goal: Record Codex B review finding and prepare a bounded Codex A follow-up.
+- review_result: Pause. Phase 2.112c direction is correct and targeted tests pass, but baseline is blocked.
+- verification: Re-ran py_compile, natural import/session target tests `102 passed`, and gateway drift test `1 passed`.
+- blocker: `SessionDocumentScopeStore` currently stores continuity candidates by alias only, so a globally unique alias could restore another session/user/project's imported document.
+- changed_files: `docs/PHASE2112D_ALIAS_CONTINUITY_SCOPE_REVIEW_FIX.md`, `docs/NEXT_CODEX_A_PROMPT.md`, phase docs, ignored `reports/agent_runs/latest.json`.
+- next: Codex A narrows continuity by safe owner key, process-local fallback, and TTL/stale cleanup; then stops for Codex B review.
+- commit/tag if any: none yet.
+
 ## 2026-05-21 Phase 2.112c OpenWebUI Alias Continuity Fix Prompt
 - goal: Convert the latest test-machine Phase 2.112b Pause into a bounded Codex A runtime task.
 - test_machine_state: Hermes_memory `e459b5a` / `phase-2.112b-runtime-candidate-handoff-baseline`; hermes-agent `1d02a791` / `phase-2.112b-natural-import-alias-runtime-test-candidate`; both clean; 8642 restarted to candidate.
@@ -7611,4 +7620,14 @@
 - validation: Import success without explicit alias now generates a deterministic safe alias; persisted diagnostics update from `alias_seeded` to `alias_bound`; same-session `@alias` resolution carries `document_id/version_id`; bounded file discovery returns session alias candidates and suppresses ordinary retrieval.
 - risks: No real upload / OpenWebUI / 8642 smoke was run in this round; global workspace metadata discovery remains deferred; existing unrelated dirty files remain in main repo.
 - next: Codex B review, then Codex C real terminal validation for natural import -> auto alias -> same-session retrieval citation.
+- commit/tag if any: none.
+
+## 2026-05-21 23:07 Phase 2.112c OpenWebUI Alias Continuity Fix
+
+- goal: Fix natural import `@alias` continuity when OpenWebUI / OpenAI-compatible follow-up requests only include the latest user message and derived api session id drifts.
+- changed_files: Hermes main `run_agent.py`, `agent/memory_kernel/session_document_scope.py`, `agent/memory_kernel/natural_file_import_runtime.py`, `tests/agent/test_natural_file_import_runtime.py`, `tests/agent/test_session_document_scope.py`, `tests/gateway/test_api_server.py`; Hermes_memory `docs/ACTIVE_PHASE.md`, `docs/HANDOFF_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `docs/NEXT_CODEX_A_PROMPT.md`, ignored `reports/agent_runs/latest.json`.
+- tests: py_compile passed; targeted natural import / upload client / session scope regression `102 passed`; gateway OpenWebUI latest-user drift test `1 passed`. Full gateway test file not used because this local env lacks the async pytest plugin and would false-fail existing async tests.
+- validation: Successful natural import now stores a bounded alias-continuity record outside ordinary memory; unambiguous follow-up `@alias` restores scoped `document_id/version_id`; conflicting continuity candidates suppress retrieval and expose safe candidates only; import diagnostics remain non-evidence.
+- risks: No real OpenWebUI / 8642 smoke was run in this round; baseline requires selective staging because main repo has unrelated dirty files.
+- next: Codex B review this implementation; if accepted, create a runtime test-candidate baseline/tag and ask the test machine to rerun real OpenWebUI / 8642 alias retrieval + citation validation.
 - commit/tag if any: none.
