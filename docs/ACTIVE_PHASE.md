@@ -7,10 +7,11 @@
 - 测试结果：`py_compile` 通过；`tests/agent/test_natural_file_import.py tests/agent/test_natural_file_import_flow.py tests/agent/test_natural_file_import_runtime.py tests/agent/test_natural_file_upload_adapter.py tests/agent/test_hermes_memory_upload_client.py tests/agent/test_session_document_scope.py -q` 结果 `99 passed`。
 - live smoke 结果：本轮未重复真实导入、未跑 OpenWebUI / 8642 live smoke。
 - 当前结论：Codex B review 通过，开发机侧 blocker fix 可进入测试机真实验收；真实验收仍需测试机 Codex 重跑 alias + retrieval + citation。
+- Hermes agent runtime test-candidate：commit `1d02a7918`，tag `phase-2.112b-natural-import-alias-runtime-test-candidate`，已推送到 `backup2`。
 - 阻塞点 / 风险点：真实 OpenWebUI / 8642 尚未复验；主仓仍有既存无关 dirty，不得混入后续 baseline。
 - 是否建议 baseline：否，需先测试机真实 OpenWebUI / 8642 验收。
 - 是否建议进入下一阶段：否。
-- 下一轮建议：测试机 Codex 执行 `docs/CODEX_TEST_MACHINE_PHASE2112_NATURAL_IMPORT_VALIDATION_PROMPT.md`。
+- 下一轮建议：测试机 Codex 先 checkout Hermes agent tag `phase-2.112b-natural-import-alias-runtime-test-candidate`，再执行 `docs/CODEX_TEST_MACHINE_PHASE2112_NATURAL_IMPORT_VALIDATION_PROMPT.md`。
 - 是否需要 Codex B 审核：已完成。
 - 是否需要 Codex C 真实终端验收：否；真实 Mac mini / OpenWebUI / 8642 由测试机 Codex 执行。
 - commit/tag if any: none.

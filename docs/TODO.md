@@ -4,9 +4,10 @@
 
 1. Codex A 已完成 Phase 2.112b 最小 runtime fix：同一 OpenWebUI conversation history 可从上一轮 natural import diagnostics 恢复 alias；已存在导入 alias 的 title rebind 不再因 title resolver miss 失败。
 2. 已覆盖 `alias_bind_failed`、follow-up `alias_missing=true`、`retrieval_suppressed=true` 的 blocker 测试；主仓 targeted regression `99 passed`。
-3. 测试机 Codex 与 Codex C 分工保持不变：测试机 Codex 跑真实 OpenWebUI / 8642；Codex C 只做开发机测试代码 / 验证支持。
-4. 下一步由测试机 Codex 只重跑 alias + retrieval + citation 验收；不要重复无关真实导入。
-5. 验收通过前不得 baseline Phase 2.112，也不得宣布 natural import closeout。
+3. Hermes agent runtime test-candidate 已推送：commit `1d02a7918`，tag `phase-2.112b-natural-import-alias-runtime-test-candidate`。
+4. 测试机 Codex 与 Codex C 分工保持不变：测试机 Codex 跑真实 OpenWebUI / 8642；Codex C 只做开发机测试代码 / 验证支持。
+5. 下一步由测试机 Codex 只重跑 alias + retrieval + citation 验收；不要重复无关真实导入。
+6. 验收通过前不得 final baseline Phase 2.112，也不得宣布 natural import closeout。
 
 ## Phase 2.112 Codex B Review / Codex C Validation
 

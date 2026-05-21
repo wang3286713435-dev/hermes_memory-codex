@@ -31,7 +31,21 @@ Do not repeat imports until a new reviewed Hermes agent fix is available. The ne
 
 ## Required Reviewed State
 
-Before validation, confirm the test-machine Hermes agent and Hermes_memory checkout have been updated to the new reviewed Phase 2.112b or later baseline provided by Codex B.
+Before validation, confirm the test-machine Hermes agent checkout has been updated to:
+
+```text
+/Users/hermes/code/hermes-agent
+tag: phase-2.112b-natural-import-alias-runtime-test-candidate
+commit: 1d02a7918
+remote: backup2 / hermes_repo
+```
+
+Also confirm Hermes_memory handoff checkout is at or after:
+
+```text
+/Users/hermes/code/Hermes_memory
+tag: phase-2.112b-codex-b-review-pass-baseline
+```
 
 If the test machine still points to the old Phase 2.112 implementation or an unreviewed dirty worktree, stop with `Pause`.
 

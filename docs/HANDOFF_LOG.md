@@ -4,6 +4,7 @@
 - goal: Review Codex A Phase 2.112b alias binding / same-session retrieval blocker fix.
 - review_result: Passed at development-machine targeted test level.
 - verification: Re-ran py_compile for natural import / session scope files and targeted pytest for natural import / upload client / session scope; result `99 passed`.
+- runtime_candidate: Hermes agent commit `1d02a7918`, tag `phase-2.112b-natural-import-alias-runtime-test-candidate`, pushed to `backup2`.
 - accepted_scope: `run_agent.py`, `session_document_scope.py`, `natural_file_import_runtime.py`, `natural_file_import_flow.py`, related natural import / session scope tests, and docs updates.
 - unresolved: Real OpenWebUI / 8642 validation has not been rerun after the fix.
 - next: Test-machine Codex should execute `docs/CODEX_TEST_MACHINE_PHASE2112_NATURAL_IMPORT_VALIDATION_PROMPT.md`.

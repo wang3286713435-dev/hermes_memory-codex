@@ -8,6 +8,7 @@ Codex A has completed the bounded Phase 2.112b runtime fix. Do not continue impl
 
 - Phase 2.112b fix implemented in Hermes main repo.
 - Targeted validation passed: py_compile passed; natural import / upload client / session scope pytest `99 passed`.
+- Runtime test-candidate pushed: commit `1d02a7918`, tag `phase-2.112b-natural-import-alias-runtime-test-candidate` on `backup2` / `hermes_repo`.
 - No real import was repeated.
 - No DB / facts / document_versions / OpenSearch / Qdrant / MinIO writes were performed.
 

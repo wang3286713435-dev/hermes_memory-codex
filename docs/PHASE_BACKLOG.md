@@ -6,8 +6,9 @@
 2. 当前 Pause 原因是 alias 链路：标题绑定 `alias_bind_failed`，follow-up `@建筑类数据样表` 返回 `alias_missing=true` 与 `retrieval_suppressed=true`。
 3. Codex A 已完成最小 runtime fix：从同一 conversation history 的 natural import diagnostics 恢复 alias；已存在导入 alias 的 title rebind 不再因 resolver miss 失败。
 4. 已验证开发侧目标测试：py_compile 通过，natural import / upload client / session scope regression `99 passed`。
-5. Codex B review 已通过；下一步由测试机 Codex 执行 Mac mini / OpenWebUI / 8642 真实 alias + retrieval + citation 验收。
-6. Phase 2.112 仍不得 runtime baseline，直到测试机真实验收通过。
+5. Codex B review 已通过；Hermes agent runtime test-candidate 已推送：commit `1d02a7918`，tag `phase-2.112b-natural-import-alias-runtime-test-candidate`。
+6. 下一步由测试机 Codex checkout 该 tag，并执行 Mac mini / OpenWebUI / 8642 真实 alias + retrieval + citation 验收。
+7. Phase 2.112 仍不得 final runtime baseline，直到测试机真实验收通过。
 
 ## Phase 2.112 Codex B Review / Codex C Validation Pending
 

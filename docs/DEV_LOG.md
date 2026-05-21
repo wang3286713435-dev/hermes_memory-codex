@@ -4,6 +4,7 @@
 
 - Codex B review 通过 Phase 2.112b alias blocker fix。
 - 复跑验证通过：natural import / session scope py_compile 通过；targeted natural import / upload client / session scope pytest `99 passed`。
+- 已 selective baseline Hermes agent runtime test-candidate：commit `1d02a7918`，tag `phase-2.112b-natural-import-alias-runtime-test-candidate`，推送到 `backup2`；无关 `uv.lock`、adapter trace polish、Phase 2.11e 文件未纳入。
 - 当前不做 runtime baseline；下一步是测试机 Codex 运行 `docs/CODEX_TEST_MACHINE_PHASE2112_NATURAL_IMPORT_VALIDATION_PROMPT.md`，验证真实 OpenWebUI / 8642 alias + retrieval + citation。
 - 注意：Hermes 主仓仍存在无关 dirty（adapter trace polish、`uv.lock`、Phase 2.11e repo hygiene 文档、adapter reload test），后续 baseline 必须 selective staging。
 
