@@ -1,5 +1,13 @@
 # DEV_LOG
 
+## 2026-05-21 Phase 2.112c OpenWebUI Alias Continuity Fix Prompt
+
+- 测试机已确认 Phase 2.112b runtime candidate 正确部署：Hermes_memory `e459b5a`，hermes-agent `1d02a791`，8642 health pass，real upload flag 可见。
+- 真实 OpenWebUI / 8642 smoke 仍 Pause：import 初始 `alias_bound`，但 follow-up `@建筑类数据样表` 返回 `alias_missing=true`、`retrieval_suppressed=true`、`retrieval_evidence_document_ids=[]`、无 citation。
+- 当前判断：上传/索引已不是 blocker；问题在 OpenAI-compatible / OpenWebUI 跨轮 alias continuity，Phase 2.112b 对 previous assistant diagnostics 的依赖不足。
+- 新增 `docs/PHASE2112C_OPENWEBUI_ALIAS_CONTINUITY_FIX_PLAN.md`，要求 Codex A 实现 bounded alias-continuity registry、冲突 fail-closed、sanitized diagnostics，并禁止把 alias 写入普通 long-term memory。
+- 更新 `docs/NEXT_CODEX_A_PROMPT.md`，下一步只允许 Codex A 做 bounded runtime fix；不重复真实导入，不改平台/DB/NAS，不进入 rollout。
+
 ## 2026-05-21 Phase 2.112b Codex B Review
 
 - Codex B review 通过 Phase 2.112b alias blocker fix。

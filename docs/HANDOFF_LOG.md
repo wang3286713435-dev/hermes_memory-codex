@@ -1,5 +1,15 @@
 # Handoff Log
 
+## 2026-05-21 Phase 2.112c OpenWebUI Alias Continuity Fix Prompt
+- goal: Convert the latest test-machine Phase 2.112b Pause into a bounded Codex A runtime task.
+- test_machine_state: Hermes_memory `e459b5a` / `phase-2.112b-runtime-candidate-handoff-baseline`; hermes-agent `1d02a791` / `phase-2.112b-natural-import-alias-runtime-test-candidate`; both clean; 8642 restarted to candidate.
+- observed_success: real upload flag visible, backend health pass, source file small/regular, import upload/index succeeded with `chunk_count=6` and `indexed_count=6`.
+- blocker: follow-up `@建筑类数据样表` returned `alias_missing=true`, `retrieval_suppressed=true`, `retrieval_evidence_document_ids=[]`, no citation.
+- root_cause_hypothesis: OpenAI-compatible / OpenWebUI follow-up path does not reliably preserve previous assistant diagnostics or a stable session key; Phase 2.112b history-based hydration is insufficient.
+- changed_files: `docs/PHASE2112C_OPENWEBUI_ALIAS_CONTINUITY_FIX_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, phase docs, ignored `reports/agent_runs/latest.json`.
+- next: Codex A implements bounded alias-continuity registry / fail-closed conflict handling / sanitized diagnostics, then stops for Codex B review.
+- commit/tag if any: none yet.
+
 ## 2026-05-21 Phase 2.112b Codex B Review
 - goal: Review Codex A Phase 2.112b alias binding / same-session retrieval blocker fix.
 - review_result: Passed at development-machine targeted test level.

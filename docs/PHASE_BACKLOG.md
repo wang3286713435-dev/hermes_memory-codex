@@ -1,5 +1,16 @@
 # Phase Backlog
 
+## Phase 2.112c OpenWebUI Alias Continuity Fix
+
+1. Phase 2.112b test-machine validation still paused even after the runtime candidate was checked out and 8642 was restarted.
+2. Upload/index path is working: `document_id=2baf5527-42c9-4467-8856-573e54c97121`, `version_id=b2efc465-cde8-4aef-a113-5c8615929719`, `chunk_count=6`, `indexed_count=6`.
+3. Remaining blocker: follow-up `@建筑类数据样表` returns `alias_missing=true`, `retrieval_suppressed=true`, `retrieval_evidence_document_ids=[]`, and no citation.
+4. Working root cause: OpenAI-compatible / OpenWebUI follow-up request does not reliably include the previous assistant diagnostics or a stable session key, so Phase 2.112b alias hydration is not triggered.
+5. New plan doc: `docs/PHASE2112C_OPENWEBUI_ALIAS_CONTINUITY_FIX_PLAN.md`.
+6. Codex A next task: implement bounded alias-continuity registry / fail-closed conflict handling / sanitized diagnostics in the Hermes agent runtime.
+7. Do not repeat real import in development; do not use ordinary long-term memory for alias persistence; do not treat diagnostics or metadata as evidence.
+8. Phase 2 full closeout remains blocked until real OpenWebUI / 8642 alias + retrieval + citation validation passes.
+
 ## Phase 2.112b Natural Import Alias Binding / Retrieval Blocker Fix
 
 1. 测试机真实 OpenWebUI / 8642 验收已证明 natural import upload/index 成功：`document_id=6e89bbe8-599f-47e3-9cca-d8e7b7ae4f1b`、`version_id=0df440d0-9f2b-4fd5-8a84-19435fdd1b2f`、`chunk_count=6`、`indexed_count=6`。

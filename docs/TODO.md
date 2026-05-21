@@ -1,5 +1,13 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.112c OpenWebUI Alias Continuity Fix
+
+1. Phase 2.112b 真实测试仍 Pause：upload/index 成功，但 follow-up `@alias` 在 OpenWebUI / 8642 路径仍 `alias_missing=true`。
+2. 当前不要重复真实导入；先让 Codex A 修 runtime alias continuity。
+3. 目标是让 natural import 成功后的 alias continuity 不依赖普通 long-term memory，也不依赖 OpenWebUI 必须回传完整 assistant diagnostics。
+4. 必须 fail closed：同 alias 多候选时不能检索，必须让用户选择安全候选。
+5. Phase 2 full closeout 仍 blocked，直到真实 OpenWebUI / 8642 alias + retrieval + citation 验收通过。
+
 ## Phase 2.112b Natural Import Alias Binding / Retrieval Blocker
 
 1. Codex A 已完成 Phase 2.112b 最小 runtime fix：同一 OpenWebUI conversation history 可从上一轮 natural import diagnostics 恢复 alias；已存在导入 alias 的 title rebind 不再因 title resolver miss 失败。

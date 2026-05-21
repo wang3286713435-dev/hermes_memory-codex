@@ -14,24 +14,26 @@ Codex C is a separate development-machine testing session. Codex C may build or 
 
 ## Current Pause Evidence
 
-The latest real OpenWebUI / 8642 run reached import success but paused at alias / retrieval:
+The latest real OpenWebUI / 8642 run against the Phase 2.112b candidate reached import success but still paused at alias / retrieval:
 
 ```text
 natural import succeeded
-document_id=6e89bbe8-599f-47e3-9cca-d8e7b7ae4f1b
-version_id=0df440d0-9f2b-4fd5-8a84-19435fdd1b2f
+document_id=2baf5527-42c9-4467-8856-573e54c97121
+version_id=b2efc465-cde8-4aef-a113-5c8615929719
 chunk_count=6
 indexed_count=6
-title bind result=alias_bind_failed
+import initially alias_bound
 follow-up @建筑类数据样表 retrieval alias_missing=true
 retrieval_suppressed=true
+retrieval_evidence_document_ids=[]
+citation_present=false
 ```
 
-Do not repeat imports until a new reviewed Hermes agent fix is available. The next validation should focus on alias persistence / same-session retrieval after Codex A fixes the runtime.
+Do not repeat imports until a new reviewed Hermes agent fix is available. The next validation should focus on alias continuity / same-session retrieval after Codex A fixes the OpenAI-compatible / OpenWebUI runtime.
 
 ## Required Reviewed State
 
-Before validation, confirm the test-machine Hermes agent checkout has been updated to:
+Before validation, confirm the test-machine Hermes agent checkout has been updated to the latest Codex B-reviewed Phase 2.112c candidate. The failed Phase 2.112b candidate was:
 
 ```text
 /Users/hermes/code/hermes-agent
@@ -39,6 +41,8 @@ tag: phase-2.112b-natural-import-alias-runtime-test-candidate
 commit: 1d02a7918
 remote: backup2 / hermes_repo
 ```
+
+Do not treat that Phase 2.112b tag as sufficient for the next Go decision; it is now the known failed baseline for same-session alias retrieval.
 
 Also confirm Hermes_memory handoff checkout is at or after:
 
