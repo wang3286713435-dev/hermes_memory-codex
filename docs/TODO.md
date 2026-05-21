@@ -1,13 +1,21 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.112 Codex B Review / Codex C Validation
+
+1. Codex B review 已通过 Phase 2.112 实现，targeted tests 复跑 `97 passed`。
+2. 下一步必须执行真实 OpenWebUI / 8642 验收：explicit alias、auto alias、same-session retrieval citation、bounded fuzzy discovery。
+3. 验收通过前不得宣布 natural import usability closeout，也不得 baseline Phase 2.112。
+4. 注意排除主仓无关 dirty：`uv.lock`、Phase 2.11e repo hygiene 文档、adapter reload test。
+
+
 ## Phase 2.112 Natural Import Workspace Retrieval Fix
 
-1. 进入 Phase 2.112：修复 natural import 成功后无法通过 `@alias` 检索新导入文件 evidence 的 blocker。
-2. 已确认 real upload / ingestion / index 主链路可用，但 same-session retrieval / citation 未通过。
-3. 必须实现或修复：成功导入后 seed session alias / active document state，`@alias` 查询进入 imported `document_id/version_id` scoped retrieval，返回 citation。
-4. 必须补充真实公司内核 Agent 体验：alias 可自动生成；文件可通过安全模糊查询候选发现；歧义时追问用户确认。
-5. 禁止把文件 alias / workspace state 写入 ordinary long-term memory；禁止 import diagnostics 替代 evidence。
-6. Phase 2 closeout 继续 blocked，直到该项通过 Codex B review 与真实验收。
+1. Codex A 已完成 Phase 2.112 最小实现，等待 Codex B review。
+2. 已修复：natural import 成功后 alias 从 `alias_seeded` 持久化为 `alias_bound`，并可在同 session 用 `@alias` 解析到 imported `document_id/version_id`。
+3. 已补：无显式 alias 时自动生成安全 alias；文件发现只在 session alias 范围内返回候选并抑制普通 retrieval。
+4. 已验证：主仓 py_compile 通过，natural import / upload client / session scope targeted tests `97 passed`。
+5. 未完成：真实 OpenWebUI / 8642 natural import -> same-session retrieval citation 验收；global workspace metadata discovery 后置。
+6. Phase 2 closeout 继续 blocked，直到该项通过 Codex B review 与 Codex C 真实验收。
 
 
 ## Phase 2.111 Codex B Review

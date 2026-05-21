@@ -1,13 +1,21 @@
 # Phase Backlog
 
+## Phase 2.112 Codex B Review / Codex C Validation Pending
+
+1. Codex A implementation 已完成，Codex B 复核 targeted tests：`97 passed`。
+2. Review 通过，但不建议 baseline；必须先跑真实 OpenWebUI / 8642 natural import -> `@alias` same-session retrieval / citation。
+3. 已更新 `docs/NEXT_CODEX_C_PROMPT.md`，覆盖 explicit alias import、auto alias import、bounded fuzzy file discovery、ordinary memory 不作为 alias persistence。
+4. 主仓存在无关 dirty，Phase 2.112 baseline 必须 selective staging。
+
+
 ## Phase 2.112 Natural Import Workspace Retrieval Fix
 
 1. 用户真实 OpenWebUI / 8642 测试已证明 natural import real upload path 可执行：`real_upload_enabled=true`、`upload_adapter_status=executed`、`ingestion_status=upload_succeeded`、`document_id=2baf5527-42c9-4467-8856-573e54c97121`、`version_id=b2efc465-cde8-4aef-a113-5c8615929719`、`chunk_count=6`、`indexed_count=6`。
-2. 当前 blocker：alias 表面 `bound_to_document`，但 same-session retrieval 返回 `retrieval_evidence_document_ids=[]` 与 `citation=Missing Evidence`。
-3. 用户体验要求：用户只说“帮我导入这个文件”时，Hermes 应自动导入、自动生成安全别名、绑定 session alias / active document，并回复“文件我已经记下了，别名我设定为 @xxx”。
-4. 后续文件查找要求：用户问“C塔项目的招标要求文件你帮我找出来”时，Hermes 应基于安全别名 / workspace / governed metadata 做模糊候选发现，列出可能文件并追问确认，不编造正文内容。
-5. Phase 2.112 只允许修 natural import workspace / alias / scoped retrieval / citation；不得把 alias 写入 ordinary memory，不得把 import diagnostics 当 evidence，不得扩展到 NAS scan / DB CRUD / Gateway contract / rollout。
-6. Phase 2 full closeout 仍 blocked，直到 Phase 2.112 修复并通过真实 same-session alias retrieval / citation 验收。
+2. Codex A 已完成最小实现：无 alias 导入会生成安全 alias；成功导入后 alias 持久化为 `alias_bound`；same-session `@alias` 查询带 `document_id/version_id` scoped filters；diagnostics 不再停留在 `alias_seeded`。
+3. 已补 bounded safe fuzzy discovery：仅扫描当前 session aliases，返回候选并 `suppress_retrieval=true`，避免把模糊找文件请求误送普通 retrieval。
+4. 主仓目标验证通过：py_compile 通过，natural import / upload adapter / session scope targeted regression `97 passed`。
+5. 当前仍需 Codex B review 与 Codex C 真实验收：real upload 后必须证明 same-session retrieval evidence 只含 imported document 且 citation 真实存在。
+6. Phase 2 full closeout 仍 blocked，直到 Phase 2.112 真实验收通过；global workspace metadata discovery、NAS scan、DB CRUD、Gateway contract、rollout 继续禁止 / 后置。
 
 
 ## Phase 2.111 Natural-language Import / MVP Closeout Gap Closure Pack

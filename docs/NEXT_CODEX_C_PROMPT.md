@@ -1,105 +1,179 @@
 # NEXT_CODEX_C_PROMPT
 
-## Pending Authorization Template: Phase 2.59 Natural Import Second Real Smoke
+## Phase 2.112 Natural Import Workspace Retrieval Validation
 
-当前 Codex C 不得执行本测试。必须等待用户明确提供 `<AUTHORIZED_FILE_PATH>` 并授权真实 natural import smoke 后，才可替换占位符并运行。
+Codex B review has passed the Phase 2.112 targeted implementation at test level. Codex C should now validate the real user path through OpenWebUI -> 8642 Hermes backend.
 
-## 待替换字段
+Do not run this validation until the user/operator confirms the exact small non-sensitive file path and that the 8642 Hermes backend is running with:
 
-- `<AUTHORIZED_FILE_PATH>`：用户明确授权的小型非敏感文件路径。
-- `<ALIAS>`：本次导入后要绑定和检索的 alias。
-- `<OPERATOR>`：执行真实终端验收的人。
-
-## 授权后目标
-
-1. 使用 Hermes CLI 自然语言导入 path 上传一个小型非敏感文件。
-2. 验证同一 session 内 alias persisted 与 retrieval citation。
-3. 记录 document/version/chunk/index 与安全 flags。
-4. 保存 ignored sanitized run record。
-
-## 硬边界
-
-1. 不允许 direct API upload 替代 Hermes CLI natural-language import path。
-2. 不允许 cleanup / delete / repair / backfill / reindex / migration。
-3. 不允许 production rollout。
-4. 不允许批量导入、目录扫描、NAS / TB / BIM 文件池。
-5. 不允许提交真实 source file、真实 evidence JSON、local latest 指针或 operator 敏感备注。
-
-## 授权后执行步骤
-
-1. 检查 Hermes_memory API `/health`。
-2. 检查 Hermes CLI：`hermes chat --help`。
-3. 新建 session，并记录 `session_id`。
-4. source file preflight：
-   - path: `<AUTHORIZED_FILE_PATH>`
-   - exists
-   - regular file
-   - size
-   - suffix
-5. 生成 dry-run evidence template：
-
-```bash
-uv run python scripts/phase257a_natural_import_evidence_template.py \
-  --source-path "<AUTHORIZED_FILE_PATH>" \
-  --alias "<ALIAS>" \
-  --session-id "<SESSION_ID>" \
-  --operator "<OPERATOR>"
+```text
+HERMES_NATURAL_IMPORT_REAL_UPLOAD_ENABLED=true
 ```
 
-6. 对 dry-run JSON 执行 review：
+## Required Reviewed State
 
-```bash
-uv run python scripts/phase257a_natural_import_evidence_template.py \
-  --review-json "<DRY_RUN_EVIDENCE_JSON>"
+Hermes_memory docs baseline:
+
+```text
+/Users/hermes/code/Hermes_memory
+phase-2.112-natural-import-workspace-retrieval-prompt-baseline
 ```
 
-7. 只有 `go_pause_no_go=ReadyForAuthorizedSmoke` 且 `review_status=ready_for_operator_authorization` 时，才继续真实 smoke。
-8. 通过 Hermes CLI 自然语言导入 `<AUTHORIZED_FILE_PATH>`，并绑定 `<ALIAS>`。
-9. 在同一 session 里围绕 `<ALIAS>` 做 retrieval smoke。
-10. 保存 sanitized run record 到 ignored reports path。
-11. 输出 Go / Pause / No-Go。
+Hermes agent implementation must include the Phase 2.112 changes reviewed by Codex B:
 
-## 授权后验收表
+```text
+natural import success -> session alias / active document seed
+same-session @alias -> document_id/version_id scoped retrieval
+safe auto alias generation when alias is omitted
+bounded session alias discovery for fuzzy file finding
+```
 
-| 项目 | 结果 |
-|---|---|
-| API `/health` |  |
-| Hermes CLI |  |
-| session_id |  |
-| source exists / size / suffix |  |
-| dry-run `go_pause_no_go` |  |
-| review-json `review_status` |  |
-| natural import path used |  |
-| direct API upload used | must be false |
-| document_id |  |
-| version_id |  |
-| chunk_count |  |
-| indexed_count |  |
-| alias | `<ALIAS>` |
-| alias persisted |  |
-| same-session returned_document_ids |  |
-| returned only new document |  |
-| citation visible |  |
-| third-document contamination | must be false |
-| metadata_as_answer | must be false |
-| facts_as_answer | must be false |
-| snapshot_as_answer | must be false |
-| transcript_as_fact | must be false |
-| cleanup / repair / backfill / reindex / rollout attempted | must be false |
-| ignored sanitized run record path |  |
-| Go / Pause / No-Go |  |
+If the implementation is not present, stop with `Pause`.
+
+## Required User Inputs
+
+Use one small non-sensitive file only:
+
+```text
+AUTHORIZED_FILE_PATH=<exact test-machine path>
+PROJECT_CONTEXT=<short context label>
+OPTIONAL_ALIAS=<optional; if omitted, Hermes should generate one>
+```
+
+Do not test folders, multiple files, NAS scan, BIM model pools, or sensitive files.
+
+## Environment Preflight
+
+1. Confirm 8642 is listening and is the Hermes backend expected by OpenWebUI.
+2. Confirm 8642 health/model endpoint works without printing tokens/secrets.
+3. Confirm `HERMES_NATURAL_IMPORT_REAL_UPLOAD_ENABLED=true` is visible to the 8642 backend process.
+4. Confirm Hermes_memory API `/health` is OK if the upload adapter requires it.
+5. Confirm the source file exists, is regular, small, and non-sensitive.
+6. Confirm no production rollout / cleanup / repair / backfill / reindex / migration is authorized.
+
+## Smoke A: Explicit Alias Import
+
+If `OPTIONAL_ALIAS` is provided, use it. Otherwise choose a safe alias such as `@建筑类数据样表`.
+
+In OpenWebUI, ask Hermes:
+
+```text
+请导入文件 <AUTHORIZED_FILE_PATH>，别名 <ALIAS>，项目 <PROJECT_CONTEXT>
+```
+
+Expected import result:
+
+```text
+natural_import_detected=true
+real_upload_enabled=true
+upload_adapter_status=executed/succeeded
+ingestion_status=upload_succeeded/completed
+document_id present
+version_id present
+chunk_count > 0
+indexed_count > 0
+alias_resolution.status=alias_bound or alias_resolved
+alias_persisted=true or equivalent
+```
+
+Then ask in the same OpenWebUI conversation:
+
+```text
+围绕 <ALIAS> 总结这个文件的主要内容，必须给出 citation；请输出 alias_resolution、retrieval_evidence_document_ids、document_id、version_id。如果证据不足，请明确 Missing Evidence。
+```
+
+Expected retrieval result:
+
+```text
+retrieval_evidence_document_ids=[imported document_id]
+citation present
+third_document_contamination=false
+metadata_as_answer=false
+facts_as_answer=false
+snapshot_as_answer=false
+transcript_as_fact=false
+```
+
+## Smoke B: Auto Alias Import
+
+Use a second small non-sensitive file only if the user explicitly authorizes one. If not authorized, mark Smoke B as skipped.
+
+Ask:
+
+```text
+帮我导入 <AUTHORIZED_FILE_PATH>，归到 <PROJECT_CONTEXT>。
+```
+
+Expected:
+
+```text
+Hermes reports a generated safe alias, e.g. `别名我设定为：@xxx`
+generated alias works in same-session retrieval
+ordinary long-term memory write is not required for alias persistence
+```
+
+## Smoke C: Bounded Fuzzy File Discovery
+
+After at least one alias exists in the same session, ask:
+
+```text
+<PROJECT_CONTEXT> 里的相关文件你帮我找出来。
+```
+
+Expected:
+
+```text
+Hermes lists safe candidate aliases / file refs from session alias workspace
+Hermes asks for clarification if multiple candidates exist
+Hermes does not answer file content without retrieval evidence
+Hermes does not expose raw path or file content
+```
 
 ## Stop Conditions
 
-- API or CLI unavailable.
-- Source path missing or not a regular file.
-- Dry-run template does not return `ReadyForAuthorizedSmoke`.
-- Review helper does not return `ready_for_operator_authorization`.
-- Natural import parser does not trigger.
-- Direct API upload is used as substitute evidence.
-- Alias does not persist.
-- Retrieval lacks citation.
-- Third-document contamination appears.
-- Any cleanup, delete, repair, backfill, reindex, migration, or rollout is attempted.
+Stop and report `Pause` if:
 
-当前状态：未授权，不执行。
+1. 8642 backend does not have real upload enabled.
+2. Import does not return document_id/version_id.
+3. `chunk_count` or `indexed_count` is missing or zero.
+4. Alias does not bind or generated alias is missing.
+5. Same-session `@alias` retrieval returns empty `retrieval_evidence_document_ids`.
+6. Citation is missing after retrieval.
+7. Retrieval returns a document other than the imported document.
+8. Import diagnostics or metadata are used as answer evidence.
+9. Any raw path, file content, secret, token, raw DB row, or raw answer would be printed.
+10. Any cleanup, repair, backfill, reindex, delete, migration, NAS scan, DB CRUD, or rollout is attempted.
+
+## Report Format
+
+Return a sanitized report:
+
+```text
+API / 8642 health:
+Hermes_memory health:
+real_upload_flag_visible_to_backend:
+session_id / conversation id if available:
+source_file_preflight: exists / regular / size bucket / suffix only
+explicit_alias_import: pass / partial / fail / skipped
+document_id:
+version_id:
+chunk_count:
+indexed_count:
+alias_status:
+same_session_retrieval: pass / partial / fail
+retrieval_evidence_document_ids:
+citation_present:
+auto_alias_import: pass / partial / fail / skipped
+fuzzy_file_discovery: pass / partial / fail / skipped
+third_document_contamination:
+metadata_as_answer:
+facts_as_answer:
+snapshot_as_answer:
+transcript_as_fact:
+ordinary_memory_write_required_for_alias:
+forbidden_action_attempted:
+Go / Pause / No-Go:
+blocking_reason:
+```
+
+Do not commit, tag, push, upload extra files, scan NAS, mutate DB/index/object store, or print secrets/raw content.

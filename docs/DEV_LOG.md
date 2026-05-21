@@ -1,5 +1,21 @@
 # DEV_LOG
 
+## 2026-05-21 Phase 2.112 Codex B Review
+
+- Codex B review 通过 Phase 2.112 targeted implementation：natural import 成功后 alias/session scope 目标测试已覆盖，普通 memory 不作为 alias persistence 依赖。
+- 复跑验证通过：`py_compile` 与 natural import / upload client / session scope targeted pytest，结果 `97 passed`。
+- 新增/更新 `docs/NEXT_CODEX_C_PROMPT.md`，用于真实 OpenWebUI / 8642 验证 explicit alias、auto alias、same-session retrieval citation、bounded fuzzy file discovery。
+- 注意：Hermes 主仓仍有无关 dirty（`uv.lock`、Phase 2.11e repo hygiene 文档、adapter reload 测试等），不得混入 Phase 2.112 baseline。
+
+
+## 2026-05-21 Phase 2.112 Natural Import Workspace Retrieval Fix
+
+- Hermes 主仓已完成 natural import workspace 最小修复：成功导入后 alias 持久化为 session file alias，diagnostics 更新为 `alias_bound`，后续 `@alias` 查询按 imported `document_id/version_id` scoped retrieval。
+- 无显式 alias 时新增 deterministic safe alias generation；natural import 成功响应会明确提示“文件我已经记下了 / 别名我设定为 @alias”。
+- 新增 bounded file discovery：只基于当前 session aliases 返回候选并 suppress ordinary retrieval；不扫描 NAS，不做全局 workspace metadata search。
+- 主仓验证通过：py_compile 通过，natural import / upload adapter / session scope targeted regression `97 passed`。
+- 本轮未运行真实 upload / OpenWebUI / 8642 smoke，未写 DB / facts / versions / OpenSearch / Qdrant，未执行 repair/backfill/reindex/delete/migration/rollout；下一步需 Codex B review 与 Codex C 真实验收。
+
 ## 2026-05-21 Phase 2.112 Natural Import Workspace Retrieval Fix Prompt
 
 - 用户通过 OpenWebUI -> 8642 Hermes backend 完成真实 natural import 主链路验证：real upload enabled，upload adapter executed，ingestion succeeded，返回 document/version/chunk/index。

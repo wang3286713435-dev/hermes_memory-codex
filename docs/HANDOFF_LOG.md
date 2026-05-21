@@ -1,5 +1,13 @@
 # Handoff Log
 
+## 2026-05-21 Phase 2.112 Codex B Review
+- goal: Review Codex A Phase 2.112 implementation and prepare Codex C real OpenWebUI / 8642 validation.
+- review_result: Passed with caveat that unrelated dirty files (`uv.lock`, `PHASE211E...`, adapter reload test) must not be included in Phase 2.112 baseline unless separately reviewed.
+- verification: Re-ran py_compile and targeted pytest for natural import / upload client / session scope; result `97 passed`. Hermes_memory docs checks passed.
+- next: Codex C should execute `docs/NEXT_CODEX_C_PROMPT.md` with a user-authorized small non-sensitive file.
+- baseline: Not yet. Real same-session retrieval / citation validation is still required.
+
+
 ## 2026-05-21 Phase 2.112 Natural Import Workspace Retrieval Fix Prompt
 - goal: Prepare Codex A handoff for natural import workspace / alias / scoped retrieval blocker.
 - live_evidence: OpenWebUI -> 8642 Hermes backend with real upload enabled returned upload success, `document_id=2baf5527-42c9-4467-8856-573e54c97121`, `version_id=b2efc465-cde8-4aef-a113-5c8615929719`, `chunk_count=6`, `indexed_count=6`.
@@ -7556,3 +7564,13 @@
 - boundary: no runtime code, no tests, no platform repo change, no DB/NAS/API/Gateway connection from this repo, no production rollout, no Phase 3 transition.
 - next: test machine should checkout the stable tag and verify docs / JSON / env key names only.
 - commit/tag if any: pending.
+
+## 2026-05-21 16:51 Phase 2.112 Natural Import Workspace Retrieval Fix
+
+- goal: Fix natural import upload-success to session alias / active document / same-session scoped retrieval path, with auto alias generation and bounded session alias discovery.
+- changed_files: Hermes main `agent/memory_kernel/natural_file_import_flow.py`, `agent/memory_kernel/natural_file_import_runtime.py`, `agent/memory_kernel/session_document_scope.py`, `run_agent.py`, `tests/agent/test_natural_file_import_flow.py`, `tests/agent/test_natural_file_import_runtime.py`, `tests/agent/test_session_document_scope.py`; Hermes_memory `docs/ACTIVE_PHASE.md`, `docs/HANDOFF_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `docs/NEXT_CODEX_A_PROMPT.md`, ignored `reports/agent_runs/latest.json`.
+- tests: Main repo py_compile passed for natural import / session scope / run_agent files; targeted regression `97 passed`.
+- validation: Import success without explicit alias now generates a deterministic safe alias; persisted diagnostics update from `alias_seeded` to `alias_bound`; same-session `@alias` resolution carries `document_id/version_id`; bounded file discovery returns session alias candidates and suppresses ordinary retrieval.
+- risks: No real upload / OpenWebUI / 8642 smoke was run in this round; global workspace metadata discovery remains deferred; existing unrelated dirty files remain in main repo.
+- next: Codex B review, then Codex C real terminal validation for natural import -> auto alias -> same-session retrieval citation.
+- commit/tag if any: none.
