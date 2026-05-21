@@ -1,5 +1,15 @@
 # Handoff Log
 
+## 2026-05-22 Phase 2.112e Codex B Review / Runtime Candidate
+- goal: Review Phase 2.112e API server stable owner bridge and decide whether to create runtime test-candidate.
+- review_result: Passed at development-machine level.
+- verification: Re-ran py_compile, API server owner bridge targeted tests `7 passed`, natural import / upload client / session scope regression `106 passed`, and a local same-owner drift reproduction that restored imported alias without leaking raw owner.
+- accepted_scope: `gateway/platforms/api_server.py`, `session_document_scope.py`, `run_agent.py`, natural import runtime diagnostics, targeted gateway/session tests, TODO/DEV_LOG.
+- excluded_dirty: `agent/memory_kernel/adapters/hermes_memory_adapter.py`, `uv.lock`, `docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`, `tests/agent/test_memory_kernel_adapter_reload.py`.
+- runtime_candidate: Hermes agent commit `091fd7414`, tag `phase-2.112e-api-server-owner-bridge-runtime-test-candidate`, pushed to `backup2`.
+- next: test-machine Codex checks out the tag, restarts 8642, and validates real OpenWebUI natural import -> `@alias` retrieval + citation.
+- baseline: Not final. Full runtime baseline waits for successful test-machine validation.
+
 ## 2026-05-22 Phase 2.112e API Server Stable Owner Bridge Fix Prompt
 - goal: Record Codex B review finding after Phase 2.112d and prepare a bounded Codex A follow-up.
 - review_result: Pause. Phase 2.112d safety model is correct, but runtime baseline remains blocked.
@@ -7649,4 +7659,14 @@
 - validation: Same safe owner can restore after api session drift; different owner cannot restore another owner alias; unscoped fallback is process-local and not persisted across store reload; expired continuity returns `alias_missing` with `alias_continuity_status=expired`; conflict still suppresses retrieval; diagnostics expose owner source only, not raw owner value.
 - risks: Full gateway test file still false-fails locally because async pytest plugin is absent; no real OpenWebUI / 8642 validation was run.
 - next: Codex B review Phase 2.112d diff; if accepted, authorize selective runtime test-candidate baseline/tag and then test-machine OpenWebUI / 8642 validation.
+- commit/tag if any: none.
+
+## 2026-05-22 01:10 Phase 2.112e API Server Stable Owner Bridge Fix
+
+- goal: Pass a safe stable API conversation owner into `AIAgent` so OpenWebUI / 8642 latest-user-only requests can restore natural-import aliases across `api-*` session drift without reintroducing alias-global continuity.
+- changed_files: Hermes main `gateway/platforms/api_server.py`, `agent/memory_kernel/session_document_scope.py`, `tests/gateway/test_api_server.py`, `tests/agent/test_session_document_scope.py`, `docs/TODO.md`, `docs/DEV_LOG.md`; Hermes_memory `docs/ACTIVE_PHASE.md`, `docs/HANDOFF_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/PHASE2112E_API_SERVER_STABLE_OWNER_BRIDGE_FIX.md`, ignored `reports/agent_runs/latest.json`.
+- tests: py_compile passed; API server stable-owner targeted tests `7 passed`; natural import / upload client / session scope regression `106 passed`.
+- validation: accepted `X-Hermes-Session-Id` and whitelisted OpenWebUI conversation headers now produce `gateway_session_key`; `AIAgent` receives the key; missing stable owner remains fail-closed with sanitized `stable_owner_missing`; owner values are hashed by `SessionDocumentScopeStore` before trace/persistence.
+- risks: no real OpenWebUI / 8642 validation was run; local full gateway async suite still false-fails because this environment lacks an async pytest plugin.
+- next: Codex B review Phase 2.112e; if accepted, authorize selective runtime test-candidate baseline and test-machine OpenWebUI / 8642 validation.
 - commit/tag if any: none.

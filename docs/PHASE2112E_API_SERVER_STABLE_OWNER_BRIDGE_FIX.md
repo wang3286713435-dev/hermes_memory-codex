@@ -64,3 +64,26 @@ Do not create a runtime test-candidate tag until:
 4. Unrelated dirty files are excluded from staging.
 
 After that, test machine can rerun real OpenWebUI / 8642 natural import -> `@alias` retrieval + citation validation.
+
+## 5. Implementation Status
+
+Status: implemented; pending Codex B review.
+
+Completed behavior:
+
+1. `gateway/platforms/api_server.py` now derives a stable owner key from accepted `X-Hermes-Session-Id` or whitelisted OpenWebUI-compatible conversation headers.
+2. Accepted additional headers are `X-OpenWebUI-Conversation-Id`, `X-OpenWebUI-Chat-Id`, and `X-Conversation-Id`.
+3. The API server passes the stable owner to `AIAgent` as `gateway_session_key`; the memory scope store hashes the owner before trace / persistence.
+4. If no stable owner is available, alias continuity remains fail-closed and reports `stable_owner_missing` without exposing raw owner values.
+5. Alias-global restore remains disabled; owner-scope / TTL / conflict safety from Phase 2.112d remains in force.
+
+Validation:
+
+1. py_compile passed for API server, `run_agent.py`, natural import files, and session document scope.
+2. API server owner bridge targeted tests passed: `7 passed`.
+3. Natural import / upload client / session scope regression passed: `106 passed`.
+
+Remaining gate:
+
+1. Codex B review is required before runtime baseline.
+2. Real OpenWebUI / 8642 natural import -> alias retrieval + citation validation is still required on the test machine.

@@ -2,11 +2,12 @@
 
 ## Phase 2.112e API Server Stable Owner Bridge Fix
 
-1. Codex B review 打回 Phase 2.112d runtime baseline：owner-scoped continuity 安全性正确，但 OpenWebUI / 8642 API server path 仍缺 stable owner propagation。
-2. 阻塞点：`gateway/platforms/api_server.py` 创建 `AIAgent` 时没有传 `gateway_session_key`；latest-user-only follow-up 会导致 `api-*` session drift，进而退回 `process_local_fallback` 并继续 `alias_missing`。
-3. 下一步只允许 Codex A 补 API server stable owner bridge；优先使用已认证的 `X-Hermes-Session-Id` / 明确白名单 conversation header。
-4. 无 stable owner 时必须 fail-closed，并输出 sanitized `stable_owner_missing` 类诊断；不得恢复 alias-global registry。
-5. 待办：Codex A 执行 `docs/NEXT_CODEX_A_PROMPT.md`；Codex B review 后再决定 runtime test-candidate tag 与测试机 OpenWebUI / 8642 复验。
+1. Codex A 已完成 API server stable owner bridge，Codex B review 通过。
+2. 已接受 owner source：`X-Hermes-Session-Id`、`X-OpenWebUI-Conversation-Id`、`X-OpenWebUI-Chat-Id`、`X-Conversation-Id`。
+3. 无 stable owner 时仍 fail-closed，输出 sanitized `stable_owner_missing`；不得恢复 alias-global registry。
+4. 已验证：py_compile；API server owner bridge targeted tests `7 passed`；natural import / upload client / session scope regression `106 passed`。
+5. Hermes agent runtime test-candidate 已推送：commit `091fd7414`，tag `phase-2.112e-api-server-owner-bridge-runtime-test-candidate`。
+6. 下一步：测试机 Codex checkout tag，重启 8642，执行真实 OpenWebUI natural import -> `@alias` retrieval + citation 验收。
 
 ## Phase 2.112d Alias Continuity Scope Review Fix
 
@@ -1941,6 +1942,11 @@
 5. 下一步建议 Codex B review；通过后再 selective baseline。
 6. 第二真实文件 smoke 仍保留为用户授权后 Codex C 任务，不阻塞 Phase 2.60 review。
 # TODO 最新状态
+
+- 当前 phase：Phase 2.112e API Server Stable Owner Bridge Fix 已实现，待 Codex B review。
+- 结果：API server 已把 accepted `X-Hermes-Session-Id` / whitelisted OpenWebUI conversation header 转成 `gateway_session_key` 传入 `AIAgent`；无 stable owner 时继续 fail-closed 并输出 sanitized `stable_owner_missing`。
+- 验证：py_compile 通过；API server owner bridge targeted tests `7 passed`；natural import / upload client / session scope regression `106 passed`。
+- 下一步：Codex B review；通过后再考虑 selective runtime baseline 与测试机 OpenWebUI / 8642 验证。
 
 - 当前 phase：Phase 2.65 Mac mini MVP Landing Acceleration Pack。
 - 当前目标：准备 Mac mini 测试机安装 / 更新 / 回滚所需的 release manifest helper、quickstart、Codex Mac mini prompt。

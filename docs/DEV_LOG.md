@@ -1,11 +1,22 @@
 # DEV_LOG
 
+## 2026-05-22 Phase 2.112e Codex B Review / Runtime Candidate
+
+- Codex B review 通过 Phase 2.112e：API server stable owner bridge 补齐，OpenWebUI latest-user-only 场景可通过 whitelisted stable owner 传入 `gateway_session_key`，不再只依赖漂移的 `api-*` session id。
+- 复跑验证通过：py_compile；API server owner bridge targeted tests `7 passed`；natural import / upload client / session scope regression `106 passed`；本地 same-owner drift 复现可恢复 `@alias`，且 trace 不泄露 raw owner。
+- 已 selective baseline Hermes agent runtime test-candidate：commit `091fd7414`，tag `phase-2.112e-api-server-owner-bridge-runtime-test-candidate`，推送到 `backup2`。
+- 未纳入无关 dirty：adapter trace polish、`uv.lock`、Phase 2.11e 文档、adapter reload test。
+- 当前不是 final runtime baseline；下一步必须测试机 OpenWebUI / 8642 natural import -> `@alias` retrieval + citation 验收。
+
 ## 2026-05-22 Phase 2.112e API Server Stable Owner Bridge Review Fix
 
 - Codex B 复查 Phase 2.112d：owner-scope / TTL / cross-owner safety 方向正确，但仍不建议 runtime baseline。
 - 新阻塞点：`gateway/platforms/api_server.py::_create_agent` 没有向 `AIAgent` 传入 `gateway_session_key` 或等价 stable owner；OpenWebUI 只发 latest user message 时，`api-*` session id drift 会使 2.112d 回到 `process_local_fallback` 并继续 `alias_missing`。
 - 最小复现结果：无 stable owner 的 import turn / follow-up drift turn 返回 `scope_resolution_status=alias_missing`、`alias_continuity_status=not_found`、`alias_continuity_owner_source=process_local_fallback`、`suppress_retrieval=True`。
 - 新增 `docs/PHASE2112E_API_SERVER_STABLE_OWNER_BRIDGE_FIX.md`，要求 Codex A 只补 API server stable owner bridge / sanitized diagnostics；继续禁止 alias-global restore、ordinary memory alias persistence、DB/NAS/index writes 与 rollout。
+- Codex A 已完成最小实现：API server 从 accepted `X-Hermes-Session-Id` 或 whitelisted OpenWebUI conversation headers 生成 `gateway_session_key` 并传给 `AIAgent`；无 stable owner 时保持 fail-closed 并输出 sanitized `stable_owner_missing`。
+- 验证通过：py_compile；API server stable-owner targeted tests `7 passed`；natural import / upload client / session scope regression `106 passed`。
+- 当前仍未 baseline；下一步需要 Codex B review，之后再决定 selective runtime baseline 与测试机 OpenWebUI / 8642 验证。
 
 ## 2026-05-22 Phase 2.112d Alias Continuity Scope Review Fix
 

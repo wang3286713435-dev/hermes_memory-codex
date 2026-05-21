@@ -2,11 +2,12 @@
 
 ## Phase 2.112e API Server Stable Owner Bridge Fix
 
-1. Codex B review found Phase 2.112d should not baseline yet.
-2. Phase 2.112d owner-scoped continuity is safe, but API server still does not pass `gateway_session_key` / stable owner into `AIAgent`.
-3. In OpenWebUI latest-user-only mode, derived `api-*` session id can drift; without stable owner, Phase 2.112d correctly falls back to `process_local_fallback` and therefore still returns alias missing.
-4. Required fix: API server must pass authenticated stable conversation/session owner when available; missing stable owner must remain fail-closed with sanitized diagnostics.
-5. Do not reintroduce alias-global restore. Runtime test-candidate tag and test-machine OpenWebUI / 8642 validation remain blocked until 2.112e passes review.
+1. Codex A implemented the API server stable-owner bridge and Codex B review passed at development-machine level.
+2. API server now passes accepted `X-Hermes-Session-Id` or whitelisted OpenWebUI conversation headers as `gateway_session_key` into `AIAgent`.
+3. Owner values remain hashed by `SessionDocumentScopeStore`; diagnostics expose source labels only.
+4. Missing stable owner remains fail-closed with sanitized `stable_owner_missing`; alias-global restore remains forbidden.
+5. Runtime test-candidate pushed: Hermes agent commit `091fd7414`, tag `phase-2.112e-api-server-owner-bridge-runtime-test-candidate`.
+6. Next blocker: test-machine OpenWebUI / 8642 natural import -> `@alias` retrieval + citation validation.
 
 ## Phase 2.112d Alias Continuity Scope Review Fix
 
@@ -1447,6 +1448,7 @@
 41. 第四轮 safe fallback contract 已完成：若答案草稿含 forbidden terms 或隐式数量推断，context 要求丢弃草稿并输出 Missing Evidence / 人工复核模板。
 42. 当前白名单未允许修改 `run_agent.py`；本轮未接入真正 post-answer retry / replacement，仍需 Codex C 真实终端复验。
 43. 下一步等待 Codex B review；通过后建议 Codex C 重跑 Q1/Q2/Q3；通过后再由 Codex B 写入 Phase 2.38d Git baseline prompt。
+44. Phase 2.112e API server stable owner bridge 已实现：accepted `X-Hermes-Session-Id` 与 whitelisted OpenWebUI conversation headers 会传入 `AIAgent.gateway_session_key`，无 stable owner 时继续 fail-closed 并输出 sanitized `stable_owner_missing`；下一步等待 Codex B review，之后才可考虑 runtime baseline / 测试机 OpenWebUI 验证。
 
 ## 后置项
 
