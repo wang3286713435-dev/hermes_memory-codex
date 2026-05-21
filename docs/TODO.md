@@ -1,5 +1,15 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.112 Natural Import Workspace Retrieval Fix
+
+1. 进入 Phase 2.112：修复 natural import 成功后无法通过 `@alias` 检索新导入文件 evidence 的 blocker。
+2. 已确认 real upload / ingestion / index 主链路可用，但 same-session retrieval / citation 未通过。
+3. 必须实现或修复：成功导入后 seed session alias / active document state，`@alias` 查询进入 imported `document_id/version_id` scoped retrieval，返回 citation。
+4. 必须补充真实公司内核 Agent 体验：alias 可自动生成；文件可通过安全模糊查询候选发现；歧义时追问用户确认。
+5. 禁止把文件 alias / workspace state 写入 ordinary long-term memory；禁止 import diagnostics 替代 evidence。
+6. Phase 2 closeout 继续 blocked，直到该项通过 Codex B review 与真实验收。
+
+
 ## Phase 2.111 Codex B Review
 
 1. Phase 2.111 natural import closeout pack 已通过 Codex B review。

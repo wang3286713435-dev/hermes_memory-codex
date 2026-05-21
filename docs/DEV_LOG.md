@@ -1,5 +1,13 @@
 # DEV_LOG
 
+## 2026-05-21 Phase 2.112 Natural Import Workspace Retrieval Fix Prompt
+
+- 用户通过 OpenWebUI -> 8642 Hermes backend 完成真实 natural import 主链路验证：real upload enabled，upload adapter executed，ingestion succeeded，返回 document/version/chunk/index。
+- 当前阻塞：alias 表面绑定到整份文档，但 same-session retrieval evidence 为空，citation 为 Missing Evidence；普通 memory 写 alias 还触发 quota，说明 alias/workspace state 不能依赖 ordinary memory。
+- 新增 `docs/PHASE2112_NATURAL_IMPORT_WORKSPACE_RETRIEVAL_FIX_PLAN.md`，明确 Phase 2.112 修复范围：session alias / active document seed、scoped retrieval、citation、自动 alias、模糊文件发现、歧义追问。
+- 更新 `docs/NEXT_CODEX_A_PROMPT.md`，交给 Codex A 执行 bounded runtime fix；本轮 Codex B 不写 runtime code、不运行 smoke、不上传文件、不连接 DB/NAS/Gateway。
+
+
 ## 2026-05-20 Phase 2.111a Test-machine Natural Import Smoke Prompt Clarification
 
 - 更新 `docs/CODEX_C_NATURAL_IMPORT_ACCEPTANCE_SMOKE_PROMPT.md`：Codex C 执行真实自然语言导入 smoke 前，必须先把测试机 `/Users/hermes/code/Hermes_memory` checkout 到 `phase-2.111-natural-import-closeout-gap-pack-baseline`，并确认 worktree clean。

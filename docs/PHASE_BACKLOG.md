@@ -1,5 +1,15 @@
 # Phase Backlog
 
+## Phase 2.112 Natural Import Workspace Retrieval Fix
+
+1. 用户真实 OpenWebUI / 8642 测试已证明 natural import real upload path 可执行：`real_upload_enabled=true`、`upload_adapter_status=executed`、`ingestion_status=upload_succeeded`、`document_id=2baf5527-42c9-4467-8856-573e54c97121`、`version_id=b2efc465-cde8-4aef-a113-5c8615929719`、`chunk_count=6`、`indexed_count=6`。
+2. 当前 blocker：alias 表面 `bound_to_document`，但 same-session retrieval 返回 `retrieval_evidence_document_ids=[]` 与 `citation=Missing Evidence`。
+3. 用户体验要求：用户只说“帮我导入这个文件”时，Hermes 应自动导入、自动生成安全别名、绑定 session alias / active document，并回复“文件我已经记下了，别名我设定为 @xxx”。
+4. 后续文件查找要求：用户问“C塔项目的招标要求文件你帮我找出来”时，Hermes 应基于安全别名 / workspace / governed metadata 做模糊候选发现，列出可能文件并追问确认，不编造正文内容。
+5. Phase 2.112 只允许修 natural import workspace / alias / scoped retrieval / citation；不得把 alias 写入 ordinary memory，不得把 import diagnostics 当 evidence，不得扩展到 NAS scan / DB CRUD / Gateway contract / rollout。
+6. Phase 2 full closeout 仍 blocked，直到 Phase 2.112 修复并通过真实 same-session alias retrieval / citation 验收。
+
+
 ## Phase 2.111 Natural-language Import / MVP Closeout Gap Closure Pack
 
 1. Phase 2.110 baseline 已完成并推送：commit `1a07e42`，tag `phase-2.110-full-closeout-return-baseline`。

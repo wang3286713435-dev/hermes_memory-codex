@@ -1,5 +1,15 @@
 # Handoff Log
 
+## 2026-05-21 Phase 2.112 Natural Import Workspace Retrieval Fix Prompt
+- goal: Prepare Codex A handoff for natural import workspace / alias / scoped retrieval blocker.
+- live_evidence: OpenWebUI -> 8642 Hermes backend with real upload enabled returned upload success, `document_id=2baf5527-42c9-4467-8856-573e54c97121`, `version_id=b2efc465-cde8-4aef-a113-5c8615929719`, `chunk_count=6`, `indexed_count=6`.
+- blocker: Alias can be represented as `bound_to_document`, but follow-up retrieval returns `retrieval_evidence_document_ids=[]` and Missing Evidence; alias must not be stored through ordinary long-term memory.
+- changed_files: `docs/PHASE2112_NATURAL_IMPORT_WORKSPACE_RETRIEVAL_FIX_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, phase docs, ignored `reports/agent_runs/latest.json`.
+- decision: Phase 2.112 should fix import success -> alias/active document -> scoped retrieval -> citation, plus minimum auto alias and fuzzy file discovery behavior.
+- next: Codex A executes bounded fix; Codex B reviews; then run real OpenWebUI / 8642 validation.
+- commit/tag if any: none yet.
+
+
 ## 2026-05-20 Phase 2.111a Test-machine Natural Import Smoke Prompt Clarification
 - goal: Clarify that Path A must update the test-machine Hermes checkout to the current Phase 2.111 baseline before running Codex C natural import acceptance smoke.
 - changed_files: `docs/CODEX_C_NATURAL_IMPORT_ACCEPTANCE_SMOKE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, ignored `reports/agent_runs/latest.json`.
