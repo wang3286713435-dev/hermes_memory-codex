@@ -1,5 +1,21 @@
 # DEV_LOG
 
+## 2026-05-21 Phase 2.112b Codex B Review
+
+- Codex B review 通过 Phase 2.112b alias blocker fix。
+- 复跑验证通过：natural import / session scope py_compile 通过；targeted natural import / upload client / session scope pytest `99 passed`。
+- 当前不做 runtime baseline；下一步是测试机 Codex 运行 `docs/CODEX_TEST_MACHINE_PHASE2112_NATURAL_IMPORT_VALIDATION_PROMPT.md`，验证真实 OpenWebUI / 8642 alias + retrieval + citation。
+- 注意：Hermes 主仓仍存在无关 dirty（adapter trace polish、`uv.lock`、Phase 2.11e repo hygiene 文档、adapter reload test），后续 baseline 必须 selective staging。
+
+## 2026-05-21 Phase 2.112b Natural Import Alias Binding Runtime Fix
+
+- Codex A 完成主仓最小修复：`run_agent.py` 会从同一 OpenAI-compatible conversation history 的 natural import diagnostics 恢复 session alias，防止后端 session id 漂移导致 follow-up `alias_missing=true`。
+- `session_document_scope.py` 已补既有导入 alias 的 title rebind 保护：当 alias 已绑定且标题匹配既有 title/source_name/alias 时，resolver miss 不再返回 `alias_bind_failed`。
+- 新增回归覆盖：history hydrate 后 `@建筑类数据样表` 可解析到 imported `document_id/version_id`，title rebind 不 suppress retrieval。
+- 验证通过：py_compile 通过；natural import / upload client / session scope targeted pytest `99 passed`。
+- 本轮未重复真实导入、未写 DB / facts / document_versions / OpenSearch / Qdrant / MinIO，未执行 repair/backfill/reindex/delete/migration/rollout，未 baseline。
+- 下一步：Codex B review；通过后由测试机 Codex 重跑 OpenWebUI / 8642 natural import alias + retrieval + citation 验收。
+
 ## 2026-05-21 Phase 2.112b Natural Import Alias Binding / Retrieval Blocker
 
 - 测试机 OpenWebUI / 8642 真实路径已完成一次授权小型样本 natural import，upload/index 成功但 alias/retrieval 验收 Pause。

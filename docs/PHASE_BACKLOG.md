@@ -4,10 +4,10 @@
 
 1. 测试机真实 OpenWebUI / 8642 验收已证明 natural import upload/index 成功：`document_id=6e89bbe8-599f-47e3-9cca-d8e7b7ae4f1b`、`version_id=0df440d0-9f2b-4fd5-8a84-19435fdd1b2f`、`chunk_count=6`、`indexed_count=6`。
 2. 当前 Pause 原因是 alias 链路：标题绑定 `alias_bind_failed`，follow-up `@建筑类数据样表` 返回 `alias_missing=true` 与 `retrieval_suppressed=true`。
-3. 下一步 Codex A 只修 alias persistence / title alias binding / same-session scoped retrieval；不得重复真实导入，不得把 alias 写入普通 long-term memory。
-4. 已拆分角色：测试机 Codex 执行 Mac mini / OpenWebUI / 8642 真实验收；Codex C 只做开发机测试代码 / 验证支持。
-5. 新增 `docs/CODEX_TEST_MACHINE_PHASE2112_NATURAL_IMPORT_VALIDATION_PROMPT.md`；`docs/NEXT_CODEX_C_PROMPT.md` 已改为开发机测试支持口径。
-6. Phase 2.112 仍不得 baseline，直到 Codex A 修复、Codex B review、测试机真实验收全部通过。
+3. Codex A 已完成最小 runtime fix：从同一 conversation history 的 natural import diagnostics 恢复 alias；已存在导入 alias 的 title rebind 不再因 resolver miss 失败。
+4. 已验证开发侧目标测试：py_compile 通过，natural import / upload client / session scope regression `99 passed`。
+5. Codex B review 已通过；下一步由测试机 Codex 执行 Mac mini / OpenWebUI / 8642 真实 alias + retrieval + citation 验收。
+6. Phase 2.112 仍不得 runtime baseline，直到测试机真实验收通过。
 
 ## Phase 2.112 Codex B Review / Codex C Validation Pending
 

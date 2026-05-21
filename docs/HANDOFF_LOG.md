@@ -1,5 +1,23 @@
 # Handoff Log
 
+## 2026-05-21 Phase 2.112b Codex B Review
+- goal: Review Codex A Phase 2.112b alias binding / same-session retrieval blocker fix.
+- review_result: Passed at development-machine targeted test level.
+- verification: Re-ran py_compile for natural import / session scope files and targeted pytest for natural import / upload client / session scope; result `99 passed`.
+- accepted_scope: `run_agent.py`, `session_document_scope.py`, `natural_file_import_runtime.py`, `natural_file_import_flow.py`, related natural import / session scope tests, and docs updates.
+- unresolved: Real OpenWebUI / 8642 validation has not been rerun after the fix.
+- next: Test-machine Codex should execute `docs/CODEX_TEST_MACHINE_PHASE2112_NATURAL_IMPORT_VALIDATION_PROMPT.md`.
+- baseline: Not yet. Runtime baseline waits for successful test-machine alias + retrieval + citation validation.
+
+## 2026-05-21 18:26 Phase 2.112b
+- goal: Fix natural import success -> alias persistence / title rebind / same-conversation scoped retrieval blocker from test-machine OpenWebUI / 8642 Pause.
+- changed_files: Hermes main `run_agent.py`, `agent/memory_kernel/session_document_scope.py`, natural import runtime/session scope tests, main TODO/DEV_LOG; Hermes_memory phase handoff docs and ignored `reports/agent_runs/latest.json`.
+- tests: py_compile passed; targeted natural import / upload client / session scope pytest `99 passed`.
+- validation: no real import repeated; no DB/facts/document_versions/OpenSearch/Qdrant/MinIO writes; import diagnostics remain non-evidence.
+- risks: needs test-machine OpenWebUI / 8642 revalidation; main repo still has unrelated dirty that must not be mixed into baseline.
+- next: test-machine Codex reruns alias + retrieval + citation validation.
+- commit/tag if any: none.
+
 ## 2026-05-21 Phase 2.112b Natural Import Alias Binding / Retrieval Blocker
 - goal: Convert the latest test-machine Pause into a bounded Codex A fix and split test-machine operator vs Codex C responsibilities.
 - test_machine_evidence: OpenWebUI -> 8642 import succeeded with `document_id=6e89bbe8-599f-47e3-9cca-d8e7b7ae4f1b`, `version_id=0df440d0-9f2b-4fd5-8a84-19435fdd1b2f`, `chunk_count=6`, `indexed_count=6`.
