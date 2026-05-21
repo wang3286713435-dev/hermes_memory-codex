@@ -1,5 +1,15 @@
 # Handoff Log
 
+## 2026-05-22 Phase 2.112f Alias Continuity Restore Fix Prompt
+- goal: Convert the latest test-machine Phase 2.112e Pause into a bounded Codex A repair task.
+- test_machine_state: `hermes-agent` `091fd741` / `phase-2.112e-api-server-owner-bridge-runtime-test-candidate`; Hermes Memory `phase-2.112b-runtime-candidate-handoff-baseline`; 8642 health passed; upload flag visible; worktrees clean.
+- observed_success: explicit alias import passed; import returned `alias_bound`, `alias_continuity_status=stored`, `api_session_key_source=gateway_session_key`, `chunk_count=6`, and `indexed_count=6`.
+- blocker: follow-up `@建筑类数据样表` returned `alias_missing=true`, `retrieval_suppressed=true`, empty evidence, no citation, and no follow-up `alias_continuity_*` diagnostics.
+- root_cause_category: `hermes_alias_store_restore_bug`.
+- changed_files: `docs/PHASE2112F_ALIAS_CONTINUITY_RESTORE_FIX.md`, `docs/NEXT_CODEX_A_PROMPT.md`, phase docs, ignored `reports/agent_runs/latest.json`.
+- next: Codex A fixes owner-scoped restore in follow-up alias-missing path and sanitized diagnostics, then stops for Codex B review.
+- commit/tag if any: none yet.
+
 ## 2026-05-22 Phase 2.112e Codex B Review / Runtime Candidate
 - goal: Review Phase 2.112e API server stable owner bridge and decide whether to create runtime test-candidate.
 - review_result: Passed at development-machine level.

@@ -1,5 +1,15 @@
 # Phase Backlog
 
+## Phase 2.112f Alias Continuity Restore Fix
+
+1. Phase 2.112e test-machine validation returned Pause: import succeeded and `alias_continuity_status=stored`, but follow-up `@建筑类数据样表` still returned `alias_missing=true` and `retrieval_suppressed=true`.
+2. Read-only diagnostics confirmed `X-Hermes-Session-Id` was present, import owner source was `gateway_session_key`, and `stable_owner_missing` did not appear during import.
+3. Follow-up response exposed `alias_resolution.status=alias_missing` but did not expose `alias_continuity_status`, `alias_continuity_owner_source`, `alias_continuity_persistent`, or `stable_owner_missing`.
+4. Current root-cause category: `hermes_alias_store_restore_bug`.
+5. Phase 2.112f Codex A task: fix owner-scoped alias continuity restore in the follow-up alias-missing branch and always emit sanitized continuity diagnostics.
+6. Alias-global restore, ordinary memory alias persistence, DB/index writes, NAS scan, repair/reindex/rollout remain forbidden.
+7. Full Phase 2 natural import closeout remains blocked until test-machine OpenWebUI / 8642 validates import -> `@alias` retrieval evidence + citation.
+
 ## Phase 2.112e API Server Stable Owner Bridge Fix
 
 1. Codex A implemented the API server stable-owner bridge and Codex B review passed at development-machine level.

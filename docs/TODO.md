@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.112f Alias Continuity Restore Fix
+
+1. 测试机 Phase 2.112e 真实 OpenWebUI / 8642 验收仍 Pause：导入阶段 `alias_bound` 且 `alias_continuity_status=stored`，但 follow-up `@建筑类数据样表` 仍返回 `alias_missing=true`、`retrieval_suppressed=true`。
+2. 已确认 `X-Hermes-Session-Id` 存在，import owner source 为 `gateway_session_key`，不是单纯缺少 stable owner header。
+3. 当前 root cause category：`hermes_alias_store_restore_bug`。
+4. Codex A 下一轮必须修复 follow-up alias-missing 分支的 owner-scoped continuity restore，并补齐 sanitized `alias_continuity_*` diagnostics。
+5. 继续禁止 alias-global restore、ordinary memory alias persistence、DB/index writes、NAS scan、repair/reindex/rollout。
+6. Phase 2 natural import closeout 仍 blocked，直到测试机证明 `@alias` retrieval evidence + citation 通过。
+
 ## Phase 2.112e API Server Stable Owner Bridge Fix
 
 1. Codex A 已完成 API server stable owner bridge，Codex B review 通过。

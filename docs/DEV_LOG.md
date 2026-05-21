@@ -1119,3 +1119,13 @@
 - decision: stable tag is allowed for platform integration baseline only; it does not close full Phase 2 PRD/Roadmap metrics and does not authorize production rollout.
 - risks: native session/thread lifecycle, Evidence Layer, Memory runtime, target-scale metrics, natural import usability, full Data Steward, Agent DB CRUD/SQL, NAS semantic collection, and DWG/RVT/BIM content understanding remain later items.
 - next: create/push stable tag and have the test machine checkout it for docs/env verification.
+
+## 2026-05-22 Phase 2.112f Prompt
+
+- goal: Convert the latest test-machine Phase 2.112e Pause into a bounded Codex A alias-continuity restore fix.
+- evidence: Import response had `alias_bound`, `alias_continuity_status=stored`, `api_session_key_source=gateway_session_key`, and no `stable_owner_missing`; follow-up `@建筑类数据样表` returned `alias_missing=true`, `retrieval_suppressed=true`, empty evidence, and no citation.
+- root_cause_category: `hermes_alias_store_restore_bug`.
+- changed_files: `docs/PHASE2112F_ALIAS_CONTINUITY_RESTORE_FIX.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/HANDOFF_LOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- decision: Do not repeat import; Codex A should fix follow-up owner-scoped restore and expose sanitized `alias_continuity_*` diagnostics.
+- risks: Alias-global restore and ordinary memory alias persistence remain forbidden; Phase 2 natural import closeout remains blocked until real test-machine retrieval + citation passes.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` and stops for Codex B review.
