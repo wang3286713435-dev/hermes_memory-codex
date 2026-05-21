@@ -1,5 +1,14 @@
 # Handoff Log
 
+## 2026-05-21 Phase 2.112b Natural Import Alias Binding / Retrieval Blocker
+- goal: Convert the latest test-machine Pause into a bounded Codex A fix and split test-machine operator vs Codex C responsibilities.
+- test_machine_evidence: OpenWebUI -> 8642 import succeeded with `document_id=6e89bbe8-599f-47e3-9cca-d8e7b7ae4f1b`, `version_id=0df440d0-9f2b-4fd5-8a84-19435fdd1b2f`, `chunk_count=6`, `indexed_count=6`.
+- blocker: title alias bind returned `alias_bind_failed`; follow-up `@建筑类数据样表` returned `alias_missing=true` and `retrieval_suppressed=true`, so citation could not be accepted.
+- changed_files: `docs/NEXT_CODEX_A_PROMPT.md`, `docs/NEXT_CODEX_C_PROMPT.md`, `docs/CODEX_TEST_MACHINE_PHASE2112_NATURAL_IMPORT_VALIDATION_PROMPT.md`, phase docs, ignored `reports/agent_runs/latest.json`.
+- role_split: test-machine Codex owns Mac mini / OpenWebUI / 8642 real validation; Codex C owns development-machine test-code / validation-support only.
+- next: Codex A fixes alias persistence / title alias binding / same-session scoped retrieval; Codex B reviews; test-machine Codex reruns the validation prompt.
+- commit/tag if any: none yet.
+
 ## 2026-05-21 Phase 2.112 Codex B Review
 - goal: Review Codex A Phase 2.112 implementation and prepare Codex C real OpenWebUI / 8642 validation.
 - review_result: Passed with caveat that unrelated dirty files (`uv.lock`, `PHASE211E...`, adapter reload test) must not be included in Phase 2.112 baseline unless separately reviewed.

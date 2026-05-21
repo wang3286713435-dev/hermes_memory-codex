@@ -1,5 +1,13 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.112b Natural Import Alias Binding / Retrieval Blocker
+
+1. 当前真实导入已经成功，但 follow-up alias 检索失败；Phase 2 natural import usability 仍 blocked。
+2. Codex A 下一步修复 `alias_bind_failed`、`alias_missing=true`、`retrieval_suppressed=true`。
+3. 测试机 Codex 与 Codex C 已明确分工：测试机 Codex 跑真实 OpenWebUI / 8642；Codex C 只做开发机测试代码 / 验证支持。
+4. 修复前不要重复导入同一文件；修复后只重跑 alias + retrieval + citation 验收。
+5. 验收通过前不得 baseline Phase 2.112，也不得宣布 natural import closeout。
+
 ## Phase 2.112 Codex B Review / Codex C Validation
 
 1. Codex B review 已通过 Phase 2.112 实现，targeted tests 复跑 `97 passed`。

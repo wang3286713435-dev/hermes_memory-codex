@@ -1,5 +1,13 @@
 # DEV_LOG
 
+## 2026-05-21 Phase 2.112b Natural Import Alias Binding / Retrieval Blocker
+
+- 测试机 OpenWebUI / 8642 真实路径已完成一次授权小型样本 natural import，upload/index 成功但 alias/retrieval 验收 Pause。
+- Pause 细节：`alias_bind_failed`，随后 `@建筑类数据样表` 检索 `alias_missing=true`、`retrieval_suppressed=true`，无法接受 citation。
+- Codex B 已将下一轮 Codex A 任务改为 Phase 2.112b：只修 alias persistence / title alias binding / same-session scoped retrieval，不重复真实导入，不把 alias 存入普通 memory。
+- 新增测试机专用验证 prompt：`docs/CODEX_TEST_MACHINE_PHASE2112_NATURAL_IMPORT_VALIDATION_PROMPT.md`。
+- 更新 `docs/NEXT_CODEX_C_PROMPT.md`：Codex C 是开发机测试代码 / 验证支持会话；真实 Mac mini / OpenWebUI / 8642 验收由测试机 Codex 执行。
+
 ## 2026-05-21 Phase 2.112 Codex B Review
 
 - Codex B review 通过 Phase 2.112 targeted implementation：natural import 成功后 alias/session scope 目标测试已覆盖，普通 memory 不作为 alias persistence 依赖。
