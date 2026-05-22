@@ -13,4 +13,4 @@
 - 下一轮建议：测试机侧修复 Hermes_memory API 的 DB hostname / network 配置；如果 API 在 Docker compose 内运行，应使用 Docker service hostname；如果在 host/launchd 运行，应使用测试机批准的 host-accessible DB endpoint。随后只重跑 follow-up retrieval + citation。
 - 是否需要 Codex B 审核：已完成当前归类检查。
 - 是否需要 Codex C / 测试机验收：是，服务恢复后必须复验 OpenWebUI / 8642 follow-up retrieval evidence + citation。
-- commit/tag if any：无。
+- commit/tag if any：Hermes_memory `0fc7ad4` / `phase-2.112i-retrieval-env-blocker-clarified-baseline`；Hermes agent runtime candidate 仍为 `e1d38e1ec` / `phase-2.112h-explicit-import-alias-runtime-test-candidate`。
