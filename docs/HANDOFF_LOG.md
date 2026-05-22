@@ -7703,3 +7703,26 @@
 - risks: no real OpenWebUI / 8642 follow-up retrieval smoke was run; Phase 2 natural import closeout remains blocked until test-machine retrieval + citation passes.
 - next: test-machine Codex checks out the tag, restarts 8642, and validates real OpenWebUI import -> follow-up `@alias` retrieval + citation.
 - commit/tag if any: Hermes agent `78eb77158` / `phase-2.112f-alias-continuity-restore-runtime-test-candidate`.
+
+## 2026-05-22 10:27 Phase 2.112g Header-only Stable Owner Restore Fix
+
+- goal: Fix header-only `X-Hermes-Session-Id` stable owner recovery so OpenWebUI / 8642 follow-up requests can restore natural-import `@alias` continuity.
+- changed_files: Hermes main `gateway/platforms/api_server.py`, `tests/gateway/test_api_server.py`, `docs/TODO.md`, `docs/DEV_LOG.md`; Hermes_memory `docs/ACTIVE_PHASE.md`, `docs/HANDOFF_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: py_compile passed; new gateway targeted tests `3 passed`; natural import / upload client / session scope regression `109 passed`; full gateway file false-failed in current `.venv` because async pytest plugin is absent.
+- validation: `X-Hermes-Session-Id` is now a stable owner fallback header; accepted import turn and header-only follow-up produce the same safe owner and restore scoped document/version filters without `stable_owner_missing`.
+- risks: No real OpenWebUI / 8642 validation was run; Codex B must review before runtime baseline; full natural import closeout remains blocked until test-machine retrieval + citation passes.
+- next: Codex B review, then selective runtime test-candidate baseline and test-machine OpenWebUI / 8642 validation if approved.
+- commit/tag if any: none.
+
+## 2026-05-22 Phase 2.112g Codex B Review / Runtime Candidate
+
+- goal: Review Codex A Phase 2.112g header-only stable owner restore fix and decide whether to publish runtime test-candidate.
+- review_result: Passed at development-machine level.
+- accepted_scope: `gateway/platforms/api_server.py`, `tests/gateway/test_api_server.py`, Hermes main `docs/TODO.md`, Hermes main `docs/DEV_LOG.md`.
+- fix_summary: `X-Hermes-Session-Id` is now part of gateway stable owner fallback headers, so accepted import turn and header-only follow-up turn produce the same safe owner behavior.
+- verification: py_compile passed; new gateway targeted tests `3 passed`; natural import / upload client / session scope regression `109 passed`; `git diff --check` passed.
+- known_environment_note: Full `tests/gateway/test_api_server.py` still requires async pytest plugin for existing async tests; targeted 2.112g sync tests passed in current `.venv`.
+- excluded_dirty: Hermes main adapter reload / trace polish files and `uv.lock`; Hermes_memory `docs/digital-delivery-standards/`.
+- runtime_candidate: Hermes agent commit `20d9fb561`, tag `phase-2.112g-header-owner-restore-runtime-test-candidate`, pushed to `backup2`.
+- next: test-machine Codex checks out the tag, restarts 8642, and validates real OpenWebUI import -> follow-up `@alias` retrieval + citation.
+- baseline: Not final. Full runtime baseline waits for successful test-machine validation.

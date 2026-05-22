@@ -2,13 +2,14 @@
 
 ## Phase 2.112g Header-only Stable Owner Restore Fix
 
-1. Phase 2.112f test-machine validation returned Pause: import passed and stored owner-scoped continuity, but follow-up `@建筑类数据样表` still returned `alias_missing=true`, `retrieval_suppressed=true`, empty evidence, and no citation.
-2. New diagnostics now prove the failure shape: follow-up still reports continuity stored/persistent with owner source `gateway_session_key`, but also reports `stable_owner_missing=true`.
-3. Codex B read-only review indicates 2.112f fixed diagnostics propagation but not the actual restore path.
-4. Likely minimal root cause: `gateway/platforms/api_server.py::_gateway_session_key_from_headers` does not treat header-only `X-Hermes-Session-Id` as a fallback stable owner when `accepted_session_id=None`.
-5. Phase 2.112g task: make body accepted session id and header-only `X-Hermes-Session-Id` produce the same safe owner behavior, then verify import-turn -> follow-up-turn alias continuity restore.
+1. Phase 2.112g development-machine 最小修复已完成：header-only `X-Hermes-Session-Id` 被纳入 gateway stable owner fallback。
+2. accepted import turn 与 header-only follow-up 会生成同一 safe owner，避免 `retrieval_stable_owner_missing=true` 导致 alias continuity restore 失败。
+3. 新增 gateway targeted tests 覆盖 header-only owner、owner equivalence、follow-up restore scoped filters 与 no `stable_owner_missing`。
+4. 验证：py_compile 通过；targeted gateway tests `3 passed`；natural import / upload client / session scope regression `109 passed`。
+5. 当前主仓 `.venv` 缺 async pytest 插件，完整 `tests/gateway/test_api_server.py` false-fail existing async tests；不得将该环境问题误判为 2.112g 代码回归。
 6. Keep all previous safety rules: no alias-global restore, no ordinary memory alias persistence, no raw owner diagnostics, no DB/index/NAS/rollout.
-7. Full Phase 2 natural import closeout remains blocked until test-machine OpenWebUI / 8642 proves retrieval evidence + citation after import.
+7. Codex B review 已通过；runtime test-candidate 已推送：Hermes agent commit `20d9fb561`，tag `phase-2.112g-header-owner-restore-runtime-test-candidate`。
+8. 下一步：测试机 OpenWebUI / 8642 真实复验 import -> follow-up `@alias` retrieval + citation。
 
 ## Phase 2.112f Alias Continuity Restore Fix
 

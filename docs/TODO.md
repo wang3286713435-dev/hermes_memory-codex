@@ -2,11 +2,12 @@
 
 ## Phase 2.112g Header-only Stable Owner Restore Fix
 
-1. 打回 2.112f：测试机 8642 已更新到 `phase-2.112f-alias-continuity-restore-runtime-test-candidate`，但同会话 follow-up `@建筑类数据样表` 仍 `alias_missing=true`、`retrieval_suppressed=true`。
-2. 新诊断显示 import/follow-up 都能看到 continuity stored/persistent，但 follow-up 同时 `stable_owner_missing=true`，说明 stable owner lookup 与 stored owner 不一致。
-3. Codex A 下一轮必须聚焦 `X-Hermes-Session-Id` header-only stable owner restore；不得扩大到普通 memory、全局 alias、平台代码或真实导入。
-4. 验收必须证明 header-only `X-Hermes-Session-Id` 与 accepted body session id 的 owner 行为一致，并能恢复 imported alias。
-5. Phase 2 natural import closeout 仍 blocked，直到测试机真实 retrieval evidence + citation 通过。
+1. development-machine 最小修复已完成：gateway stable owner fallback 支持 header-only `X-Hermes-Session-Id`。
+2. accepted import turn 与 follow-up header-only 请求会生成同一 safe owner，并可恢复 imported alias 的 scoped document/version filters。
+3. 验证：py_compile 通过；新增 gateway targeted tests `3 passed`；natural import / upload client / session scope regression `109 passed`。
+4. Codex B review 已通过；runtime test-candidate 已推送：Hermes agent commit `20d9fb561`，tag `phase-2.112g-header-owner-restore-runtime-test-candidate`。
+5. 注意：完整 `tests/gateway/test_api_server.py` 在当前主仓 `.venv` 因缺 async pytest 插件 false-fail existing async tests；后续可在具备 async 插件环境复核。
+6. Phase 2 natural import closeout 仍 blocked，直到测试机真实 retrieval evidence + citation 通过。
 
 ## Phase 2.112f Alias Continuity Restore Fix
 

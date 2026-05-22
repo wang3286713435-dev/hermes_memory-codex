@@ -2,11 +2,12 @@
 
 ## 2026-05-22 Phase 2.112g Header-only Stable Owner Restore Fix Handoff
 
-- 测试机复验 2.112f 仍 Pause：导入阶段成功且 `alias_continuity_status=stored`，但 follow-up `@建筑类数据样表` 仍 `alias_missing=true`、`retrieval_suppressed=true`、无 evidence/citation。
-- 新诊断价值：follow-up 已能暴露 `alias_continuity_status=stored`、`alias_continuity_owner_source=gateway_session_key`、`alias_continuity_persistent=true`，同时出现 `stable_owner_missing=true`，说明 2.112f 修复了可观测性但没有修复 stable owner restore 本体。
-- Codex B 只读定位：最小可疑点是 API server 在 `accepted_session_id=None` 的 follow-up 请求中没有把 header-only `X-Hermes-Session-Id` 纳入 stable owner extraction。
-- 已新增 `docs/PHASE2112G_HEADER_ONLY_STABLE_OWNER_RESTORE_FIX.md` 并重写 `docs/NEXT_CODEX_A_PROMPT.md`，要求 Codex A 只做 bounded runtime fix。
-- 本轮未修改 runtime 代码、未重复真实导入、未写 DB / facts / document_versions / OpenSearch / Qdrant / MinIO，未执行 repair/backfill/reindex/delete/migration/rollout。
+- Codex A 已完成 bounded runtime fix：`X-Hermes-Session-Id` 作为 header-only follow-up 时也会生成 gateway stable owner。
+- accepted import turn 与 header-only follow-up owner 行为等价，可恢复 natural import alias continuity scoped filters，并避免 `stable_owner_missing=true`。
+- 验证：py_compile 通过；新增 gateway targeted tests `3 passed`；natural import / upload client / session scope regression `109 passed`。
+- 当前 `.venv` 缺 async pytest 插件，完整 gateway 文件 false-fail existing async tests；本轮不将该环境问题作为代码回归处理。
+- Codex B review 已通过；Hermes agent runtime test-candidate 已推送：commit `20d9fb561`，tag `phase-2.112g-header-owner-restore-runtime-test-candidate`。
+- 本轮未重复真实导入、未写 DB / facts / document_versions / OpenSearch / Qdrant / MinIO，未执行 repair/backfill/reindex/delete/migration/rollout；full runtime baseline 仍等待测试机复验。
 
 ## 2026-05-22 Phase 2.112f Alias Continuity Restore Fix
 
