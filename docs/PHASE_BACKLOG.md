@@ -1,5 +1,16 @@
 # Phase Backlog
 
+## Phase 2 Natural Import Closeout Review / Freeze Checklist Update
+
+1. Phase 2.112i test-machine Go is now reflected as `passed_with_scope` for authorized small `.xlsx` natural-language import.
+2. Accepted evidence: Hermes_memory health pass, 8642 health pass, real upload flag visible, explicit alias resolved, retrieval not suppressed, evidence IDs non-empty, citation present, and no third-document contamination.
+3. Natural import no longer blocks closeout within this narrow scope.
+4. Full Phase 2 completion remains blocked until remaining PRD / Roadmap P0/P1 acceptance gaps are closed or explicitly reclassified.
+5. Stable platform Gateway path remains catalog-only and separate from standalone Hermes import/evidence path.
+6. Hermes retains standalone enterprise kernel identity and future workspace/context/memory/evidence roadmap.
+7. Out of scope: production rollout, NAS full scan, DWG/RVT/BIM content understanding, large-file parser/indexing, automatic long-term memory writes for file content, repair/reindex/cleanup automation, and unrestricted natural-language import.
+8. Next action: Codex B review, then selective docs / manifest baseline if accepted.
+
 ## Phase 2.112i Test-machine Retrieval Backend Environment Fix
 
 1. Phase 2.112h test-machine alias gate passed: requested `@建筑类数据样表` was preserved, follow-up alias resolved, `alias_missing=false`, and `stable_owner_missing=false`.
@@ -108,8 +119,8 @@
 2. 已新增 `docs/PHASE2111_NATURAL_IMPORT_MVP_CLOSEOUT_GAP_CLOSURE_PACK.md`、`eval/phase2_inventory/natural_import_mvp_closeout_gap_matrix.json`、`docs/CODEX_C_NATURAL_IMPORT_ACCEPTANCE_SMOKE_PROMPT.md`。
 3. Phase 2.111 结论：natural-language import 技术路径已有证明，但 full Phase 2 closeout 仍需 accepted Hermes CLI natural-language import smoke，或用户显式例外。
 4. `proven`：intent detection、runtime hook、real upload path、feature flag authorization、sanitized evidence template、Mac mini checklist。
-5. `missing_live_evidence` / blocker：Hermes CLI natural-language import closeout smoke、same-session alias/retrieval/citation accepted evidence、third-document contamination check、non-developer usability evidence。
-6. 重点规则：direct API upload 不能替代 Hermes CLI natural-language import；planning/mock evidence 不能替代 live usability evidence。
+5. Updated after Phase 2.112i: Hermes / 8642 OpenWebUI-compatible natural-language import closeout smoke, same-session alias/retrieval/citation evidence, and third-document contamination check are `passed_with_scope` for authorized small `.xlsx`; broader non-developer usability remains future sample expansion.
+6. 重点规则：direct API upload 不能替代 Hermes / 8642 OpenWebUI-compatible natural-language import；planning/mock evidence 不能替代 live usability evidence。
 7. Codex B review 已通过；验证包括 matrix JSON parse、evidence template py_compile、目标 pytest `14 passed`。
 8. 下一步：执行 selective docs / matrix baseline。真实 smoke 仍需用户授权具体小型非敏感文件。
 
@@ -1047,7 +1058,7 @@
 1. Phase 2.59 docs-only planning 已完成：第二真实文件 natural import smoke 的授权 gate、Codex C 待授权模板与 operator checklist 已同步。
 2. 当前不得自动上传文件、运行 API/CLI smoke、写 DB/index 或进入 Data Steward / rollout。
 3. 第二真实文件 smoke 必须等待用户提供小型非敏感文件路径并明确授权。
-4. Codex C 只可在授权后执行 `docs/NEXT_CODEX_C_PROMPT.md`；direct API upload 不能替代 Hermes CLI natural-language import path。
+4. Codex C 只可在授权后执行 `docs/NEXT_CODEX_C_PROMPT.md`；direct API upload 不能替代 Hermes / 8642 OpenWebUI-compatible natural-language import path。
 5. 下一步建议 Codex B review Phase 2.59；通过后再做 docs-only baseline。
 
 ## 历史状态

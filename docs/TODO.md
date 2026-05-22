@@ -1,5 +1,13 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2 Natural Import Closeout Review / Freeze Checklist Update
+
+1. 已把 Phase 2.112i 测试机 Go 结果写入 closeout / freeze checklist：natural-language import usability = `passed_with_scope`。
+2. 已明确 accepted scope：授权小 `.xlsx`、8642 / OpenWebUI-compatible backend、显式 `@建筑类数据样表`、same-session retrieval evidence、citation、无第三文件污染。
+3. 仍未声明 production-ready：NAS full scan、DWG/RVT/BIM content、large-file parser/indexing、automatic memory write、repair/reindex/cleanup automation 均继续排除。
+4. Phase 2 full completion 仍不能宣布；剩余 PRD/Roadmap P0/P1 缺口需继续保留或显式重分类。
+5. 下一步：Codex B review 本轮 docs / eval manifest diff，通过后再做 selective baseline。
+
 ## Phase 2.112i Test-machine Retrieval Backend Environment Fix
 
 1. Phase 2.112h alias gate 已通过：测试机已证明 explicit requested alias `@建筑类数据样表` 能保存并 follow-up `alias_resolved`。

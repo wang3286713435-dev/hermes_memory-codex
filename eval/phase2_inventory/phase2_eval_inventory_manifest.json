@@ -505,14 +505,14 @@
         "evidence_boundary"
       ],
       "forbidden_behaviors": [
-        "claim_live_user_import_metric_without_smoke",
+        "claim_unrestricted_import_or_production_readiness_from_scoped_smoke",
         "write_unapproved_business_data",
         "skip_evidence_boundary"
       ],
       "metric_eligible": false,
-      "metric_exclusion_reason": "Natural-language import has planning/mock evidence but no committed live usability result for metric scoring.",
-      "evidence_ref": "docs/PHASE2102_METRIC_EVALUATION_EVIDENCE_PACK.md:M14",
-      "notes": "Included to make the usability gap explicit before controlled employee trial evidence packaging."
+      "metric_exclusion_reason": "Phase 2.112i provides accepted scoped live evidence for an authorized small .xlsx natural import path, but it is not a broad target-scale metric result.",
+      "evidence_ref": "docs/DEV_LOG.md:Phase 2.112i Test-machine Retrieval Backend Environment Fix Go",
+      "notes": "Status is passed_with_scope for closeout blocker purposes; broader file types, larger files, production rollout, NAS full scan, and automatic memory writes remain excluded."
     }
   ],
   "known_gaps": [

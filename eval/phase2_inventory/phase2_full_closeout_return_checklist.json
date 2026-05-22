@@ -5,6 +5,7 @@
     "stable_platform_baseline": "keep",
     "standalone_kernel_preservation": "keep",
     "full_phase2_closeout": "returned",
+    "natural_language_import_usability": "passed_with_scope",
     "phase2_completion_announcement": "blocked",
     "phase3_planning": "allowed_only_with_explicit_inherited_gaps"
   },
@@ -26,7 +27,6 @@
     "top5_metric_not_measured_at_required_scale",
     "citation_metric_not_measured_at_required_scale",
     "structured_fact_manual_spotcheck_missing",
-    "natural_language_import_usability_not_committed_as_live_metric_evidence",
     "parser_source_coverage_not_fully_consolidated",
     "tender_deep_fields_partial_or_need_user_exception",
     "version_diff_and_incremental_delete_invalidation_partial",
@@ -34,12 +34,38 @@
     "knowledge_admin_and_human_validation_partial",
     "native_session_memory_evidence_runtime_paths_not_current_platform_runtime"
   ],
+  "scope_limited_acceptance": {
+    "natural_language_import_usability": {
+      "status": "passed_with_scope",
+      "scope": "authorized_small_xlsx_test_machine_path",
+      "evidence_summary": [
+        "Hermes_memory health pass",
+        "8642 health pass",
+        "real_upload_flag_visible=true",
+        "alias_resolution.status=alias_resolved",
+        "alias_missing=false",
+        "retrieval_suppressed=false",
+        "retrieval_evidence_document_ids_non_empty=true",
+        "citation_present=true",
+        "third_document_contamination=false"
+      ],
+      "not_claimed": [
+        "production_rollout",
+        "nas_full_scan",
+        "dwg_rvt_bim_content_understanding",
+        "large_file_parser_indexing",
+        "automatic_long_term_memory_writes_for_file_content",
+        "repair_reindex_cleanup_automation",
+        "unrestricted_natural_language_import"
+      ]
+    }
+  },
   "minimum_closeout_options": {
     "option_a_close_with_evidence": [
       "expand_accepted_eval_inventory",
       "run_top5_and_citation_metrics_on_accepted_results",
       "add_structured_fact_manual_spotcheck",
-      "produce_natural_import_live_usability_evidence",
+      "preserve_natural_import_passed_with_scope_evidence_and_expand_only_with_separate_authorization",
       "consolidate_parser_source_coverage",
       "verify_tender_deep_field_decision",
       "record_permission_version_admin_human_validation_acceptance"

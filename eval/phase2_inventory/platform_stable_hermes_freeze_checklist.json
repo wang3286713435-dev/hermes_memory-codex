@@ -189,13 +189,13 @@
     {
       "item_id": "freeze_natural_import_001",
       "category": "business_decision",
-      "description": "Natural import / file governance usability evidence remains partial.",
+      "description": "Natural import / file governance usability has scoped test-machine evidence for an authorized small .xlsx path.",
       "freeze_required": false,
-      "current_status": "partial",
-      "evidence_ref": "docs/PHASE2101_PRD_ACCEPTANCE_GAP_CLOSURE_PLAN.md",
+      "current_status": "passed_with_scope",
+      "evidence_ref": "docs/PHASE2111_NATURAL_IMPORT_MVP_CLOSEOUT_GAP_CLOSURE_PACK.md",
       "owner": "User / Hermes",
-      "decision": "requires_user_business_decision",
-      "notes": "User may decide this does not block platform stable freeze."
+      "decision": "go_with_scope_limit",
+      "notes": "Accepted scope: authorized small .xlsx natural import through 8642/OpenWebUI-compatible backend, explicit alias, same-session retrieval evidence, citation, and no third-document contamination. This does not claim production rollout, NAS full scan, DWG/RVT/BIM content understanding, large-file import, automatic memory writes, or repair/reindex automation."
     },
     {
       "item_id": "freeze_test_machine_001",

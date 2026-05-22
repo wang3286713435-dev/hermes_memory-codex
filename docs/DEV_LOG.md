@@ -1,5 +1,14 @@
 # DEV_LOG
 
+## 2026-05-22 Phase 2 Natural Import Closeout / Freeze Checklist Update
+
+- 已将 Phase 2.112i 测试机 Go 结果同步到 Phase 2 closeout / freeze checklist 与 natural import gap matrix。
+- 自然语言导入当前结论：`passed_with_scope`，范围仅限授权小 `.xlsx` 通过 8642 / OpenWebUI-compatible backend 导入、显式 alias、同会话 retrieval evidence、citation 与无第三文件污染。
+- 继续排除：production rollout、NAS full scan、DWG/RVT/BIM content understanding、large-file parser/indexing、automatic long-term memory writes、repair/reindex/cleanup automation、unrestricted import。
+- Platform Gateway catalog-only path 与 standalone Hermes import/evidence path 继续分离；Hermes standalone enterprise kernel identity 与 workspace/context/memory/evidence roadmap 保留。
+- 未修改 runtime code，未运行 API / CLI / import，未写 DB / facts / document_versions / OpenSearch / Qdrant / MinIO。
+- Phase 2 full completion 仍不能宣布；eval scale、Top5/citation target-scale metrics、structured fact spot-check、parser/source coverage、tender deep-field、version lifecycle、RBAC/ABAC、knowledge admin/human validation 等缺口仍需关闭或显式重分类。
+
 ## 2026-05-22 Phase 2.112i Test-machine Retrieval Backend Environment Fix Handoff
 
 - 已修正交接口径：不要把开发机本地服务未监听误写成测试机最终结论。

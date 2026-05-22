@@ -145,14 +145,14 @@
     {
       "blocker_id": "freeze_blocker_012_natural_import",
       "name": "Natural language import / file governance usability",
-      "classification": "user_business_decision_required",
-      "current_status": "partial_not_packaged_as_stable_evidence",
+      "classification": "freeze_with_scope_limit",
+      "current_status": "passed_with_scope",
       "required_for_stable_tag": false,
       "owner": "User / Hermes",
-      "evidence_ref": "docs/PHASE2101_PRD_ACCEPTANCE_GAP_CLOSURE_PLAN.md",
-      "recommended_action": "Ask user whether natural import usability must block the stable platform tag.",
-      "risk_if_deferred": "Users may still need a separate usability phase for conversational import/governance flows.",
-      "notes": "Recommended default is not to block platform stable tag unless user explicitly requires it."
+      "evidence_ref": "docs/PHASE2111_NATURAL_IMPORT_MVP_CLOSEOUT_GAP_CLOSURE_PACK.md",
+      "recommended_action": "Keep the accepted small .xlsx natural import scope explicit; expand only through separate authorized sample phases.",
+      "risk_if_deferred": "Users may still need a separate usability phase for larger files, more file types, NAS workflows, or production rollout.",
+      "notes": "Does not block platform stable tag. Does not claim production readiness or unrestricted import."
     },
     {
       "blocker_id": "freeze_blocker_013_test_machine_update",

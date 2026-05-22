@@ -55,7 +55,7 @@ The following Phase 2 baselines remain valid:
 
 1. Platform catalog-only Gateway integration with permission, redaction, Missing Evidence, and safe IDs.
 2. Standalone Hermes kernel preservation contract: Hermes remains an enterprise Agent kernel, not a platform plugin.
-3. Natural-language import planning, prompts, operator checklists, and partial smoke / template evidence.
+3. Natural-language import for the authorized small `.xlsx` test-machine path: real upload flag visible, explicit alias resolved, same-session follow-up retrieval returned evidence IDs and citation, and no third-document contamination appeared.
 4. Tender / meeting / Excel / PPTX controlled MVP workflows with citation and Missing Evidence boundaries.
 5. DB / NAS / Data Steward catalog-only contract and controlled structure / redacted smoke evidence.
 6. NAS scratch copy and parser dry-run planning / controlled smoke boundaries for small samples.
@@ -69,7 +69,7 @@ The following remain blockers or require explicit user backlog exception before 
 3. Top5 hit-rate target is not measured at required accepted-inventory scale.
 4. Citation accuracy target is not measured at required accepted-inventory scale.
 5. Structured fact manual spot-check target is missing.
-6. Natural-language import usability is not yet supported by committed live usability evidence in the metric inventory.
+6. Natural-language import beyond the accepted authorized small `.xlsx` scope is not productized as unrestricted production import.
 7. Full source coverage for official-account / PDF / HTML / full Office parsing is not consolidated into accepted metric evidence.
 8. Tender deep-field reliability remains partial or requires explicit Missing Evidence / manual-review acceptance.
 9. Version diff and full incremental delete / invalidation lifecycle remain partial.
@@ -110,7 +110,7 @@ At minimum, one of the following must happen before full Phase 2 can be announce
 1. Expand accepted eval inventory toward PRD / Roadmap targets.
 2. Run and record Top5 / citation metrics against accepted results.
 3. Add structured fact manual spot-check evidence.
-4. Produce natural-language import usability evidence from real operator / employee flows.
+4. Preserve the accepted Phase 2.112i natural-language import evidence as `passed_with_scope`, and only expand it through separately authorized sample matrices.
 5. Consolidate parser/source coverage evidence.
 6. Decide and verify tender deep-field behavior.
 7. Record permission/version/admin/human-validation acceptance evidence.
@@ -119,25 +119,31 @@ At minimum, one of the following must happen before full Phase 2 can be announce
 
 The user may explicitly decide that some original Phase 2 requirements move to backlog / Phase 3+. If so, the project must record the exception and must not present those deferred requirements as completed.
 
-## 6. Natural-language Import Acceptance Target
+## 6. Natural-language Import Acceptance Result
 
-Before natural-language import can be considered complete, a future phase should prove a real flow like this:
+Phase 2.112i accepted the following scoped real flow:
 
 ```text
-User: 把这个文件导入 Hermes，归到 C塔项目，之后我想用 @C塔成本表 查询。
+User: import an authorized small .xlsx sample through natural language, bind @建筑类数据样表, then ask a same-session follow-up retrieval question.
 ```
 
-Expected behavior:
+Accepted evidence:
 
-1. Hermes identifies file intent and asks for missing permission / project / alias details if needed.
-2. Hermes uses a controlled import path, not arbitrary background scanning.
-3. Hermes records source metadata, parser status, chunking status, and index status.
-4. Hermes returns a safe alias or document reference.
-5. A follow-up question can retrieve evidence with citations.
-6. If parser / permission / evidence is missing, Hermes returns Missing Evidence instead of pretending the import succeeded.
-7. No raw path, secret, raw row, or unauthorized content leaks.
+1. Hermes_memory `/health` passed and the 8642 backend was available.
+2. `real_upload_flag_visible=true`.
+3. `alias_resolution.status=alias_resolved`, `alias_missing=false`, and `retrieval_suppressed=false`.
+4. `retrieval_evidence_document_ids_non_empty=true`.
+5. `citation_present=true`.
+6. `third_document_contamination=false`.
 
-Current committed evidence does not yet prove this end-to-end as a user-facing usability acceptance item.
+Closeout interpretation:
+
+```text
+natural_language_import_usability = passed_with_scope
+scope = authorized_small_xlsx_test_machine_path
+```
+
+This does not authorize production rollout, NAS full scan, DWG/RVT/BIM content understanding, large-file parser/indexing claims, automatic long-term memory writes for file content, repair/reindex/cleanup automation, or unrestricted natural-language ingestion.
 
 ## 7. Next Recommended Phase
 

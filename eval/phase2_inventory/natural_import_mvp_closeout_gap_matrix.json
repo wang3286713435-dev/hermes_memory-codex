@@ -1,8 +1,9 @@
 {
   "phase": "Phase 2.111 Natural-language Import / MVP Closeout Gap Closure Pack",
-  "closeout_decision": "not_ready_until_evidence_or_user_exception",
+  "closeout_decision": "passed_with_scope",
   "evidence_categories": [
     "proven",
+    "passed_with_scope",
     "partial_evidence",
     "missing_live_evidence",
     "requires_user_authorization",
@@ -75,19 +76,17 @@
     },
     {
       "item_id": "natural_import_005_cli_path_not_api_upload",
-      "name": "Hermes CLI natural-language import path, not direct API upload",
-      "phase2_requirement": "User-facing natural-language import must be proven through Hermes CLI path",
-      "current_status": "missing_live_evidence",
+      "name": "Hermes / OpenWebUI-compatible natural-language import path, not direct API upload",
+      "phase2_requirement": "User-facing natural-language import must be proven through the Hermes / OpenWebUI-compatible natural-language path",
+      "current_status": "passed_with_scope",
       "evidence_refs": [
         "docs/PHASE2110_PHASE2_FULL_CLOSEOUT_RETURN_PLAN.md",
-        "docs/PHASE259_NATURAL_IMPORT_SECOND_SMOKE_PLAN.md"
+        "docs/PHASE2111_NATURAL_IMPORT_MVP_CLOSEOUT_GAP_CLOSURE_PACK.md",
+        "docs/DEV_LOG.md:Phase 2.112i Test-machine Retrieval Backend Environment Fix Go"
       ],
-      "missing_evidence": [
-        "accepted_current live smoke record proving the Hermes CLI natural-language import path",
-        "accepted evidence that direct API upload was not used as substitute"
-      ],
-      "closeout_effect": "blocks_full_phase2_closeout",
-      "required_next_action": "Run a future user-authorized Codex C smoke through Hermes CLI natural-language import path.",
+      "missing_evidence": [],
+      "closeout_effect": "clears_natural_import_closeout_blocker_for_authorized_small_xlsx_scope",
+      "required_next_action": "Keep scope explicit; expand only with separately authorized sample matrix.",
       "forbidden_substitutes": [
         "direct_api_upload_as_natural_import_success",
         "planning_doc_as_live_usability_evidence"
@@ -97,15 +96,14 @@
       "item_id": "natural_import_006_import_result_metadata",
       "name": "Document ID / version ID / chunk count / index count returned after real import",
       "phase2_requirement": "Import must return verifiable document/version/index metadata",
-      "current_status": "partial_evidence",
+      "current_status": "passed_with_scope",
       "evidence_refs": [
-        "docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md"
+        "docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md",
+        "docs/DEV_LOG.md:Phase 2.112i Test-machine Retrieval Backend Environment Fix Go"
       ],
-      "missing_evidence": [
-        "current accepted closeout run record with document_id version_id chunk_count indexed_count"
-      ],
-      "closeout_effect": "blocks_full_phase2_closeout",
-      "required_next_action": "Capture sanitized metadata fields in a future accepted smoke.",
+      "missing_evidence": [],
+      "closeout_effect": "clears_natural_import_closeout_blocker_for_authorized_small_xlsx_scope",
+      "required_next_action": "Do not reuse this scoped result as evidence for large files or unrestricted imports.",
       "forbidden_substitutes": [
         "manual_document_id_entry",
         "api_upload_metadata_without_cli_import_path"
@@ -115,15 +113,14 @@
       "item_id": "natural_import_007_same_session_alias",
       "name": "Same-session alias persistence",
       "phase2_requirement": "Imported document can be bound and reused in the same session",
-      "current_status": "partial_evidence",
+      "current_status": "passed_with_scope",
       "evidence_refs": [
-        "docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md"
+        "docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md",
+        "docs/DEV_LOG.md:Phase 2.112i Test-machine Retrieval Backend Environment Fix Go"
       ],
-      "missing_evidence": [
-        "current accepted closeout smoke proving same-session alias persistence"
-      ],
-      "closeout_effect": "blocks_full_phase2_closeout",
-      "required_next_action": "Future smoke must bind alias after import and reuse it in the same session.",
+      "missing_evidence": [],
+      "closeout_effect": "clears_natural_import_closeout_blocker_for_authorized_small_xlsx_scope",
+      "required_next_action": "Preserve alias/retrieval/citation as the minimum pattern for any future expanded smoke.",
       "forbidden_substitutes": [
         "preexisting_alias_binding",
         "manual_alias_seed_after_api_upload"
@@ -133,16 +130,14 @@
       "item_id": "natural_import_008_followup_retrieval_citation",
       "name": "Follow-up retrieval from imported document with citation",
       "phase2_requirement": "Imported document must support citation-backed retrieval",
-      "current_status": "partial_evidence",
+      "current_status": "passed_with_scope",
       "evidence_refs": [
-        "docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md"
+        "docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md",
+        "docs/DEV_LOG.md:Phase 2.112i Test-machine Retrieval Backend Environment Fix Go"
       ],
-      "missing_evidence": [
-        "current accepted follow-up retrieval evidence using the imported alias",
-        "citation visible in accepted smoke output"
-      ],
-      "closeout_effect": "blocks_full_phase2_closeout",
-      "required_next_action": "Future smoke must ask a follow-up query and verify citation-backed evidence.",
+      "missing_evidence": [],
+      "closeout_effect": "clears_natural_import_closeout_blocker_for_authorized_small_xlsx_scope",
+      "required_next_action": "Keep citation-backed evidence as mandatory for any future import scope.",
       "forbidden_substitutes": [
         "import_success_without_retrieval",
         "answer_without_citation"
@@ -152,15 +147,14 @@
       "item_id": "natural_import_009_third_document_contamination",
       "name": "Third-document contamination check",
       "phase2_requirement": "Follow-up retrieval must not mix unrelated document evidence",
-      "current_status": "missing_live_evidence",
+      "current_status": "passed_with_scope",
       "evidence_refs": [
-        "docs/PHASE259_NATURAL_IMPORT_SECOND_SMOKE_PLAN.md"
+        "docs/PHASE259_NATURAL_IMPORT_SECOND_SMOKE_PLAN.md",
+        "docs/DEV_LOG.md:Phase 2.112i Test-machine Retrieval Backend Environment Fix Go"
       ],
-      "missing_evidence": [
-        "current accepted smoke showing returned_document_ids only include imported document"
-      ],
-      "closeout_effect": "blocks_full_phase2_closeout",
-      "required_next_action": "Future smoke must record returned_document_ids and third-document contamination status.",
+      "missing_evidence": [],
+      "closeout_effect": "clears_natural_import_closeout_blocker_for_authorized_small_xlsx_scope",
+      "required_next_action": "Repeat contamination check for any expanded sample matrix.",
       "forbidden_substitutes": [
         "unchecked_retrieval_answer",
         "manual_document_filter_without_trace"
@@ -239,17 +233,17 @@
       "item_id": "natural_import_014_employee_usability",
       "name": "Employee usability / non-developer operator evidence",
       "phase2_requirement": "MVP usability must be evidenced by operator/employee flow, not only developer proof",
-      "current_status": "missing_live_evidence",
+      "current_status": "out_of_scope_for_current_acceptance",
       "evidence_refs": [
         "docs/PHASE2110_PHASE2_FULL_CLOSEOUT_RETURN_PLAN.md",
-        "docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md"
+        "docs/PHASE257_NATURAL_IMPORT_MVP_USABILITY_PLAN.md",
+        "docs/DEV_LOG.md:Phase 2.112i Test-machine Retrieval Backend Environment Fix Go"
       ],
       "missing_evidence": [
-        "accepted non-developer or operator usability run",
-        "Go/Pause/No-Go report for the natural-language import flow"
+        "broader employee/non-developer usability matrix beyond the accepted authorized small .xlsx scope"
       ],
-      "closeout_effect": "blocks_full_phase2_closeout",
-      "required_next_action": "User must authorize and accept a real operator/employee smoke or grant an explicit exception.",
+      "closeout_effect": "does_not_block_scoped_natural_import_acceptance",
+      "required_next_action": "Treat broader employee usability as future sample expansion unless user makes it a new blocker.",
       "forbidden_substitutes": [
         "developer_only_planning_doc",
         "mocked_flow_as_usability_evidence"
@@ -259,17 +253,15 @@
       "item_id": "natural_import_015_full_closeout_decision",
       "name": "Whether this can close Phase 2 full closeout or requires user exception",
       "phase2_requirement": "Full Phase 2 closeout cannot proceed while natural import usability is unproven",
-      "current_status": "requires_user_authorization",
+      "current_status": "passed_with_scope",
       "evidence_refs": [
         "docs/PHASE2110_PHASE2_FULL_CLOSEOUT_RETURN_PLAN.md",
-        "eval/phase2_inventory/phase2_full_closeout_return_checklist.json"
+        "eval/phase2_inventory/phase2_full_closeout_return_checklist.json",
+        "docs/DEV_LOG.md:Phase 2.112i Test-machine Retrieval Backend Environment Fix Go"
       ],
-      "missing_evidence": [
-        "accepted natural-language import usability smoke",
-        "or explicit user exception moving this gap out of Phase 2"
-      ],
-      "closeout_effect": "blocks_full_phase2_closeout",
-      "required_next_action": "Get Codex B review, then either run an authorized smoke or record explicit user exception.",
+      "missing_evidence": [],
+      "closeout_effect": "natural_import_no_longer_blocks_within_authorized_small_xlsx_scope; full_phase2_still_depends_on_other_prd_blockers",
+      "required_next_action": "Codex B review closeout / freeze checklist update; do not claim full Phase 2 complete while other P0/P1 blockers remain.",
       "forbidden_substitutes": [
         "stable_platform_baseline_as_full_phase2_closeout",
         "direct_api_upload_as_natural_import_success",

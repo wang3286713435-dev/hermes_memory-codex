@@ -7788,3 +7788,13 @@
 - blocker: retrieval backend failed after alias resolution: `retrieval_suppressed=true`, `retrieval_suppressed_reason=retrieval_backend_failed`, `retrieval_backend_failed_postgres_hostname_unresolved`; evidence IDs empty and citation absent.
 - diagnosis: do not treat this as a 2.112h alias parser / continuity failure. It is a test-machine Hermes_memory API / DB hostname environment blocker.
 - next: fix test-machine Hermes_memory retrieval backend DB host/network configuration, then rerun follow-up retrieval + citation. Avoid repeated imports unless session continuity is lost by the restart; if a fresh import is needed, run at most one controlled import.
+
+## 2026-05-22 15:05 Phase 2 Natural Import Closeout / Freeze Checklist Update
+
+- goal: Update Phase 2 closeout / freeze checklist after Phase 2.112i test-machine Go.
+- changed_files: `docs/PHASE2110_PHASE2_FULL_CLOSEOUT_RETURN_PLAN.md`, `docs/PHASE2111_NATURAL_IMPORT_MVP_CLOSEOUT_GAP_CLOSURE_PACK.md`, `eval/phase2_inventory/phase2_full_closeout_return_checklist.json`, `eval/phase2_inventory/natural_import_mvp_closeout_gap_matrix.json`, `eval/phase2_inventory/phase2_eval_inventory_manifest.json`, `eval/phase2_inventory/platform_stable_hermes_freeze_checklist.json`, `eval/phase2_inventory/minimal_freeze_blocker_closure_matrix.json`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: JSON syntax validation passed for modified eval manifests; no runtime tests run.
+- validation: Natural-language import marked `passed_with_scope` for authorized small `.xlsx`; Platform Gateway catalog-only path remains separate from standalone Hermes import/evidence path.
+- risks: Do not treat scoped natural import as production rollout, NAS full scan, DWG/RVT/BIM content understanding, large-file support, automatic memory write, repair/reindex automation, or full Phase 2 completion.
+- next: Codex B review, then selective docs / manifest baseline if accepted.
+- commit/tag if any: none.
