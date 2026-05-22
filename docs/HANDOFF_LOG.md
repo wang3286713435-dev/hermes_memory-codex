@@ -1,5 +1,15 @@
 # Handoff Log
 
+## 2026-05-22 Phase 2.112g Header-only Stable Owner Restore Fix Prompt
+- goal: 打回 Phase 2.112f，并准备 Codex A 的 bounded follow-up。
+- test_machine_state: `hermes-agent` `78eb7715` / `phase-2.112f-alias-continuity-restore-runtime-test-candidate`; 8642 health pass; real upload flag visible; Hermes Memory health pass; worktrees clean.
+- observed_success: import succeeded with `document_id=2baf5527-42c9-4467-8856-573e54c97121`, `version_id=b2efc465-cde8-4aef-a113-5c8615929719`, `chunk_count=6`, `indexed_count=6`, `alias_bound`, `alias_continuity_status=stored`, owner source `gateway_session_key`.
+- blocker: follow-up `@建筑类数据样表` returned `alias_missing=true`, `retrieval_suppressed=true`, empty evidence, no citation, and `stable_owner_missing=true`.
+- diagnosis: 2.112f propagated diagnostics but did not restore alias continuity. Minimal suspected root cause is header-only `X-Hermes-Session-Id` not being accepted as fallback stable owner when `accepted_session_id=None`.
+- changed_files: `docs/PHASE2112G_HEADER_ONLY_STABLE_OWNER_RESTORE_FIX.md`, `docs/NEXT_CODEX_A_PROMPT.md`, phase docs, ignored `reports/agent_runs/latest.json`.
+- next: Codex A fixes header-only stable owner restore in API server, adds tests, then stops for Codex B review.
+- commit/tag if any: none yet.
+
 ## 2026-05-22 Phase 2.112f Alias Continuity Restore Fix Prompt
 - goal: Convert the latest test-machine Phase 2.112e Pause into a bounded Codex A repair task.
 - test_machine_state: `hermes-agent` `091fd741` / `phase-2.112e-api-server-owner-bridge-runtime-test-candidate`; Hermes Memory `phase-2.112b-runtime-candidate-handoff-baseline`; 8642 health passed; upload flag visible; worktrees clean.

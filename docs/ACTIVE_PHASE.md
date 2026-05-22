@@ -1,5 +1,15 @@
 # Active Phase
 
+- 当前 phase：Phase 2.112g Header-only Stable Owner Restore Fix Handoff。
+- 本轮目标：打回 2.112f，要求 Codex A 修复 OpenWebUI / 8642 follow-up 请求只有 `X-Hermes-Session-Id` header 时 stable owner 未恢复的问题。
+- 最新测试机结论：Pause。导入阶段 `alias_bound`、`alias_continuity_status=stored`、owner source=`gateway_session_key`，但 follow-up `@建筑类数据样表` 仍 `alias_missing=true`、`retrieval_suppressed=true`，并出现 `stable_owner_missing=true`。
+- Codex B 判断：2.112f 修到 diagnostics，但 restore 本体仍失败；最小可疑点是 API server header-only stable owner extraction 未把 `X-Hermes-Session-Id` 纳入 fallback stable owner headers。
+- 修改文件：Hermes_memory 交接文档与 NEXT prompt；不修改 runtime 代码。
+- 当前结论：需 Codex A 执行 Phase 2.112g bounded fix；full natural import closeout 继续 blocked。
+- 是否建议进入下一阶段：否。
+- 是否需要 Codex B 审核：Codex A 修复后需要。
+- 是否需要测试机验收：Codex B review 后仍必须测试机 OpenWebUI / 8642 复验 import -> `@alias` retrieval + citation。
+
 - 当前 phase：Phase 2.112f Alias Continuity Restore Fix Review Passed / Test-machine Validation Pending。
 - 本轮目标：修复测试机 OpenWebUI / 8642 中 import 已 `alias_continuity_status=stored` 但 follow-up `@alias` 仍 `alias_missing + retrieval_suppressed` 的 owner-scoped restore 断点。
 - 修改文件：Hermes 主仓库 `agent/memory_kernel/session_document_scope.py`、`tests/agent/test_session_document_scope.py`、`tests/agent/test_natural_file_import_runtime.py`、`docs/TODO.md`、`docs/DEV_LOG.md`；Hermes_memory `docs/ACTIVE_PHASE.md`、`docs/HANDOFF_LOG.md`、`docs/PHASE_BACKLOG.md`、`docs/TODO.md`、`docs/DEV_LOG.md`、`reports/agent_runs/latest.json`。

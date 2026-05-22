@@ -1,5 +1,13 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.112g Header-only Stable Owner Restore Fix
+
+1. 打回 2.112f：测试机 8642 已更新到 `phase-2.112f-alias-continuity-restore-runtime-test-candidate`，但同会话 follow-up `@建筑类数据样表` 仍 `alias_missing=true`、`retrieval_suppressed=true`。
+2. 新诊断显示 import/follow-up 都能看到 continuity stored/persistent，但 follow-up 同时 `stable_owner_missing=true`，说明 stable owner lookup 与 stored owner 不一致。
+3. Codex A 下一轮必须聚焦 `X-Hermes-Session-Id` header-only stable owner restore；不得扩大到普通 memory、全局 alias、平台代码或真实导入。
+4. 验收必须证明 header-only `X-Hermes-Session-Id` 与 accepted body session id 的 owner 行为一致，并能恢复 imported alias。
+5. Phase 2 natural import closeout 仍 blocked，直到测试机真实 retrieval evidence + citation 通过。
+
 ## Phase 2.112f Alias Continuity Restore Fix
 
 1. 测试机 Phase 2.112e 真实 OpenWebUI / 8642 验收仍 Pause：导入阶段 `alias_bound` 且 `alias_continuity_status=stored`，但 follow-up `@建筑类数据样表` 仍返回 `alias_missing=true`、`retrieval_suppressed=true`。

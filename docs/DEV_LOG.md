@@ -1,5 +1,13 @@
 # DEV_LOG
 
+## 2026-05-22 Phase 2.112g Header-only Stable Owner Restore Fix Handoff
+
+- 测试机复验 2.112f 仍 Pause：导入阶段成功且 `alias_continuity_status=stored`，但 follow-up `@建筑类数据样表` 仍 `alias_missing=true`、`retrieval_suppressed=true`、无 evidence/citation。
+- 新诊断价值：follow-up 已能暴露 `alias_continuity_status=stored`、`alias_continuity_owner_source=gateway_session_key`、`alias_continuity_persistent=true`，同时出现 `stable_owner_missing=true`，说明 2.112f 修复了可观测性但没有修复 stable owner restore 本体。
+- Codex B 只读定位：最小可疑点是 API server 在 `accepted_session_id=None` 的 follow-up 请求中没有把 header-only `X-Hermes-Session-Id` 纳入 stable owner extraction。
+- 已新增 `docs/PHASE2112G_HEADER_ONLY_STABLE_OWNER_RESTORE_FIX.md` 并重写 `docs/NEXT_CODEX_A_PROMPT.md`，要求 Codex A 只做 bounded runtime fix。
+- 本轮未修改 runtime 代码、未重复真实导入、未写 DB / facts / document_versions / OpenSearch / Qdrant / MinIO，未执行 repair/backfill/reindex/delete/migration/rollout。
+
 ## 2026-05-22 Phase 2.112f Alias Continuity Restore Fix
 
 - Codex A 完成最小修复：Hermes main `SessionDocumentScopeStore` 会把 `alias_continuity_status/source/owner_source/persistent` 与 `stable_owner_missing` 同步写入 nested `alias_resolution`，降低 follow-up alias-missing / restore 诊断在 API/CLI 展示链路丢失的风险。

@@ -1,5 +1,15 @@
 # Phase Backlog
 
+## Phase 2.112g Header-only Stable Owner Restore Fix
+
+1. Phase 2.112f test-machine validation returned Pause: import passed and stored owner-scoped continuity, but follow-up `@建筑类数据样表` still returned `alias_missing=true`, `retrieval_suppressed=true`, empty evidence, and no citation.
+2. New diagnostics now prove the failure shape: follow-up still reports continuity stored/persistent with owner source `gateway_session_key`, but also reports `stable_owner_missing=true`.
+3. Codex B read-only review indicates 2.112f fixed diagnostics propagation but not the actual restore path.
+4. Likely minimal root cause: `gateway/platforms/api_server.py::_gateway_session_key_from_headers` does not treat header-only `X-Hermes-Session-Id` as a fallback stable owner when `accepted_session_id=None`.
+5. Phase 2.112g task: make body accepted session id and header-only `X-Hermes-Session-Id` produce the same safe owner behavior, then verify import-turn -> follow-up-turn alias continuity restore.
+6. Keep all previous safety rules: no alias-global restore, no ordinary memory alias persistence, no raw owner diagnostics, no DB/index/NAS/rollout.
+7. Full Phase 2 natural import closeout remains blocked until test-machine OpenWebUI / 8642 proves retrieval evidence + citation after import.
+
 ## Phase 2.112f Alias Continuity Restore Fix
 
 1. Phase 2.112e test-machine validation returned Pause: import succeeded and `alias_continuity_status=stored`, but follow-up `@建筑类数据样表` still returned `alias_missing=true` and `retrieval_suppressed=true`.
