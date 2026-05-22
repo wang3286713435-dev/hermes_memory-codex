@@ -13,4 +13,4 @@
 - 下一轮建议：围绕剩余 Phase 2 P0/P1 blocker 清单做逐项 Go / Pause / backlog reclassify 决策。
 - 是否需要 Codex B 审核：已完成。
 - 是否需要 Codex C / 测试机验收：否，除非扩大样本类型或导入范围。
-- commit/tag if any：Hermes_memory `7049aa5` / `phase-2.112j-natural-import-closeout-scope-baseline`。
+- commit/tag if any：Hermes_memory `fabdaa5` / `phase-2.112j-closeout-baseline-status-update`；主 baseline 为 `7049aa5` / `phase-2.112j-natural-import-closeout-scope-baseline`。
