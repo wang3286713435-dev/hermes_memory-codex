@@ -1530,6 +1530,9 @@
 56. 下一步必须由测试机 / OpenWebUI / 8642 复跑 Phase 2.114 final user-flow acceptance；不得跳过真实 import -> alias -> retrieval -> citation 验收。
 57. Phase 2.114a 测试机 / OpenWebUI / 8642 复验已 Go：授权小样本 path extraction、natural import、same-session alias retrieval、evidence IDs、citation 与 safety flags 均通过。
 58. Phase 2 final user-flow acceptance gate 已在 `eval/phase2_inventory/phase2_final_freeze_checklist.json` 标记为 `go`；下一步是 Phase 2 stable MVP closeout / Phase 3 known-gap carryover，不再继续扩 Phase 2 功能。
+59. 用户确认 `PROJECT_CONTEXT` 不应作为最终用户必填输入；应由 Hermes 从文件名、目录标签、会话与已有 workspace/alias 自动推断。
+60. Phase 2.115 启动：Workspace Context Inference / Auto Alias / Fuzzy File Discovery，目标是让用户只说“帮我导入这个文件”，Hermes 自动放入工作区、生成安全别名并支持后续模糊找文件。
+61. 2.115 仍禁止 raw path/raw content/secret 写 memory，禁止把 workspace metadata 当 retrieval evidence，禁止平台 Gateway 改动、NAS 全量扫描、DWG/RVT/BIM 内容理解与 production rollout。
 
 ## 后置项
 

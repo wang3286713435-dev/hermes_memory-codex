@@ -1,5 +1,12 @@
 # DEV_LOG
 
+## 2026-05-23 Phase 2.115 Workspace Context / Auto Alias Planning
+
+- 启动 Phase 2.115：将 `PROJECT_CONTEXT` 从用户必填测试字段降级为可选 hint，目标是 Hermes 自动推断 `workspace_context`、生成安全 alias、写入工作区/alias registry，并支持后续模糊找文件。
+- 新增 `docs/PHASE2115_WORKSPACE_CONTEXT_AUTO_ALIAS_PLAN.md`，明确用户目标：用户只说“帮我导入这个文件：/path/file.xlsx”，Hermes 自动返回“文件已导入，工作区是 X，别名是 @Y，后续可这样问”。
+- 更新 `docs/NEXT_CODEX_A_PROMPT.md`，要求 Codex A 最小实现 workspace inference / safe alias generation / fuzzy file discovery；禁止平台代码、NAS scan、DWG/RVT/BIM 内容理解、raw path/raw content/secret 写 memory。
+- 本轮为 docs-only planning；未运行 import、未上传文件、未写 DB / facts / document_versions / OpenSearch / Qdrant，未执行 repair/reindex/rollout。
+
 ## 2026-05-23 Phase 2.114a Final User-flow Acceptance Go
 
 - 测试机 / OpenWebUI / 8642 已复验 `phase-2.114a-natural-import-path-parser-runtime-test-candidate`，结论 `decision=go`。

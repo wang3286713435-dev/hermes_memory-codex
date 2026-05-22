@@ -1,5 +1,13 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.115 Workspace Context / Auto Alias / Fuzzy File Discovery
+
+1. 新增用户体验 P0/P1 需求：自然语言导入不应要求用户手填 `PROJECT_CONTEXT`；Hermes 应自动推断 `workspace_context`。
+2. Codex A 下一步实现：从安全文件名 / 目录标签 / 会话 / 既有 alias 推断工作区，自动生成安全 alias，并将 imported document/version 绑定到工作区注册表。
+3. 后续模糊找文件应能返回安全候选，例如“我找到 @C塔主标书 / @C塔人力成本测算表，你说的是哪一个？”。
+4. 工作区/alias/import diagnostics 仍不是正文 evidence；回答内容必须通过 retrieval evidence + citation。
+5. 继续禁止 raw path / raw content / secret 写 memory，禁止 NAS full scan，禁止 DWG/RVT/BIM content overclaim。
+
 ## Phase 2.114a Final User-flow Acceptance Go
 
 1. 测试机 / OpenWebUI / 8642 已复验 `phase-2.114a-natural-import-path-parser-runtime-test-candidate`，结论 `go`。

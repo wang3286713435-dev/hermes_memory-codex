@@ -7891,3 +7891,13 @@
 - checklist: `eval/phase2_inventory/phase2_final_freeze_checklist.json` updated so Phase 2.114 final user-flow acceptance is `go`.
 - next: Prepare Phase 2 stable MVP closeout and Phase 3 known-gap carryover. Do not expand Phase 2 with new features.
 - commit/tag if any: none yet for this Hermes_memory recording update.
+
+## 2026-05-23 Phase 2.115 Workspace Context / Auto Alias Planning
+
+- goal: Convert the user-approved requirement into a bounded Codex A implementation handoff: `PROJECT_CONTEXT` should be inferred by Hermes, not manually provided by users.
+- scope: Docs-only planning and prompt update; no runtime code, import, DB/index write, NAS scan, or rollout.
+- changed_files: `docs/PHASE2115_WORKSPACE_CONTEXT_AUTO_ALIAS_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, phase docs, ignored `reports/agent_runs/latest.json`.
+- design: Hermes should infer `workspace_context` from safe filename/folder/session/platform hints, generate a safe alias, bind it to imported document/version, and support fuzzy file discovery with safe candidate clarification.
+- boundaries: No raw path or raw content in memory; workspace metadata is not retrieval evidence; no DWG/RVT/BIM content understanding; no platform Gateway code changes.
+- next: Codex A implements minimal workspace inference / auto alias / fuzzy discovery in `hermes-agent`, adds tests, then stops for Codex B review and test-machine validation.
+- commit/tag if any: none yet for this planning update.
