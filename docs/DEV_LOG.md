@@ -8,6 +8,21 @@
 - 已新增 `docs/PHASE2112H_EXPLICIT_NATURAL_IMPORT_ALIAS_FIX.md` 并重写 `docs/NEXT_CODEX_A_PROMPT.md`，要求 Codex A 只做 bounded parser / tests fix。
 - 本轮未修改 runtime 代码、未重复真实导入、未写 DB / facts / document_versions / OpenSearch / Qdrant / MinIO，未执行 repair/backfill/reindex/delete/migration/rollout。
 
+## 2026-05-22 Phase 2.112h Explicit Natural Import Alias Preservation Fix Implemented
+
+- Codex A 已完成最小修复：Hermes 主仓库 explicit alias parser 覆盖 `别名 @...`、`别名为 @...`、`别名叫 @...`、`别名设为 @...`、`设定别名为 @...`、`我想叫它 @...`，用户请求 alias 优先于 generated alias。
+- malformed alias 保持 `not_requested` / fail-closed；新增 follow-up restore 测试证明 `@建筑类数据样表` 可在 session drift 后恢复 document/version scoped filters。
+- 验证通过：targeted parser / flow / runtime tests `15 passed`；py_compile 通过；natural import / upload client / session scope regression `124 passed`。
+- 本轮未执行真实 OpenWebUI / 8642 upload/import，未写 DB / facts / document_versions / OpenSearch / Qdrant，未 baseline；下一步需 Codex B review 与测试机复验。
+
+## 2026-05-22 Phase 2.112h Codex B Review / Runtime Candidate
+
+- Codex B 复核通过：`natural_file_import.py` 只做 explicit alias parser 扩展，测试覆盖用户请求 alias 优先、diagnostics 回显 requested alias、malformed alias fail-closed、follow-up `@建筑类数据样表` scoped restore。
+- 复跑验证通过：py_compile passed；natural import / upload client / session scope regression `124 passed`；`git diff --check` passed。
+- 已 selective baseline 并推送 Hermes agent runtime candidate：`e1d38e1ec` / `phase-2.112h-explicit-import-alias-runtime-test-candidate`。
+- excluded_dirty：Hermes main `agent/memory_kernel/adapters/hermes_memory_adapter.py`、`uv.lock`、`docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`、`tests/agent/test_memory_kernel_adapter_reload.py`；Hermes_memory `docs/digital-delivery-standards/`。
+- 下一步：测试机 checkout runtime candidate，重启 8642，复验 explicit requested alias import -> follow-up retrieval + citation。
+
 ## 2026-05-22 Phase 2.112g Header-only Stable Owner Restore Fix Handoff
 
 - Codex A 已完成 bounded runtime fix：`X-Hermes-Session-Id` 作为 header-only follow-up 时也会生成 gateway stable owner。

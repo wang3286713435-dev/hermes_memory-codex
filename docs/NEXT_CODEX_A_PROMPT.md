@@ -1,153 +1,99 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.112h Explicit Natural Import Alias Preservation Fix
+## Phase 2.112h Test-machine Validation Handoff
 
-You are Codex A for the Hermes natural-language import closeout line.
+Do not ask Codex A to implement more code for Phase 2.112h unless the test machine returns Pause / No-Go.
 
-Work in:
-
-```text
-/Users/Weishengsu/.hermes/hermes-agent
-```
-
-Do not work in the platform repo. Do not run real OpenWebUI / 8642 import on the development machine.
-
-## Why This Exists
-
-Phase 2.112g fixed the header-only stable owner path, but test-machine OpenWebUI / 8642 validation still returned Pause.
-
-Latest evidence:
+Current runtime candidate:
 
 ```text
-hermes-agent HEAD: 20d9fb561bf680cfbf8d1a786b2e504358f9ca7d
-tag: phase-2.112g-header-owner-restore-runtime-test-candidate
-worktree clean: true
-8642 backend: pass
-real upload flag visible: true
-
-explicit alias import: partial
-chunk_count: 6
-indexed_count: 6
-import_alias_status: alias_bound
-import_alias_continuity_status: stored
-import_alias_continuity_owner_source: gateway_session_key
-import_alias_continuity_persistent: true
-
-requested alias: @建筑类数据样表
-follow-up alias_resolution.status: alias_missing
-alias_missing: true
-retrieval_suppressed: true
-retrieval_evidence_document_ids: []
-citation_present: false
+repo: /Users/hermes/code/hermes-agent
+tag: phase-2.112h-explicit-import-alias-runtime-test-candidate
+commit: e1d38e1ec
 ```
 
-Key finding:
+## Test-machine Task
+
+On the Mac mini / test machine:
+
+1. Ensure Hermes Memory is running and healthy.
+2. Checkout `hermes-agent` to `phase-2.112h-explicit-import-alias-runtime-test-candidate`.
+3. Restart the OpenWebUI-compatible Hermes backend on port `8642`.
+4. Confirm `HERMES_NATURAL_IMPORT_REAL_UPLOAD_ENABLED=true` is visible to the backend.
+5. Run one authorized small `.xlsx` natural import through the real 8642 / OpenWebUI-compatible path, not direct upload API.
+6. The import prompt must explicitly request:
 
 ```text
-Import succeeded and bound an alias, but not the user-requested @建筑类数据样表.
+@建筑类数据样表
 ```
 
-This is not another stable-owner bug. Treat it as explicit natural-language alias parsing / preservation failure.
+Use a natural-language phrase that previously failed, for example:
 
-## Must Read First
-
-Read:
-
-1. `/Users/Weishengsu/Hermes_memory/docs/PHASE2112H_EXPLICIT_NATURAL_IMPORT_ALIAS_FIX.md`
-2. `/Users/Weishengsu/Hermes_memory/docs/PHASE2112G_HEADER_ONLY_STABLE_OWNER_RESTORE_FIX.md`
-3. Hermes agent `agent/memory_kernel/natural_file_import.py`
-4. Hermes agent `agent/memory_kernel/natural_file_import_flow.py`
-5. Hermes agent `agent/memory_kernel/natural_file_import_runtime.py`
-6. Hermes agent `run_agent.py`
-7. Existing natural import / session scope tests under `tests/agent/`
-
-## Task
-
-Implement the smallest safe fix so natural import preserves user-requested aliases across common natural-language phrasings.
-
-Required behavior:
-
-1. Parse explicit aliases from common Chinese phrases, including at least:
-   - `绑定为 @建筑类数据样表`
-   - `绑定成 @建筑类数据样表`
-   - `命名为 @建筑类数据样表`
-   - `取名为 @建筑类数据样表`
-   - `别名 @建筑类数据样表`
-   - `别名为 @建筑类数据样表`
-   - `别名叫 @建筑类数据样表`
-   - `别名设为 @建筑类数据样表`
-   - `设定别名为 @建筑类数据样表`
-   - `我想叫它 @建筑类数据样表`
-2. Preserve the exact normalized requested alias without the leading `@`.
-3. When explicit alias is present, do not replace it with generated alias.
-4. Import diagnostics must show the requested alias in `alias_resolution.alias`.
-5. Follow-up `@建筑类数据样表` must restore to the imported `document_id/version_id` in tests.
-
-## Preserve These Safety Rules
-
-1. No alias-global restore.
-2. No ordinary long-term memory alias persistence.
-3. No raw path / owner / token / file content in diagnostics.
-4. No fuzzy global file search for alias binding.
-5. No DB / index / NAS writes beyond the already authorized upload path in real test-machine validation.
-6. Import diagnostics remain non-evidence.
-7. Facts / metadata / snapshot / transcript cannot replace retrieval evidence.
-
-## Allowed Files
-
-Modify only the minimum required files, likely:
-
-1. `agent/memory_kernel/natural_file_import.py`
-2. `tests/agent/test_natural_file_import.py`
-3. `tests/agent/test_natural_file_import_flow.py`
-4. `tests/agent/test_natural_file_import_runtime.py`
-5. `docs/TODO.md`
-6. `docs/DEV_LOG.md`
-
-If additional files are necessary, explain why in your final handoff.
-
-## Required Tests
-
-Run:
-
-```bash
-cd /Users/Weishengsu/.hermes/hermes-agent
-./.venv/bin/python -m py_compile agent/memory_kernel/natural_file_import.py agent/memory_kernel/natural_file_import_flow.py agent/memory_kernel/natural_file_import_runtime.py agent/memory_kernel/session_document_scope.py run_agent.py gateway/platforms/api_server.py
-./.venv/bin/python -m pytest -o addopts='' tests/agent/test_natural_file_import.py tests/agent/test_natural_file_import_flow.py tests/agent/test_natural_file_import_runtime.py tests/agent/test_session_document_scope.py tests/agent/test_natural_file_upload_adapter.py tests/agent/test_hermes_memory_upload_client.py -q
+```text
+请帮我导入这个文件，别名设为 @建筑类数据样表，后续我会用这个别名查询它。
 ```
 
-Add/update tests for:
+7. In the same logical conversation/session, ask:
 
-1. each accepted alias phrase listed above;
-2. requested alias wins over generated alias;
-3. diagnostics show requested alias;
-4. import alias persistence uses requested alias;
-5. follow-up `@建筑类数据样表` resolves after import with requested alias;
-6. malformed aliases remain fail-closed / not requested.
+```text
+围绕 @建筑类数据样表 总结这个文件的表格结构，必须只基于 retrieval evidence，并给出 citation。
+```
+
+## Go Criteria
+
+Return Go only if all are true:
+
+1. `natural_import_detected=true`
+2. `real_upload_enabled=true`
+3. `upload_adapter_status=executed`
+4. `ingestion_status=upload_succeeded`
+5. `chunk_count > 0`
+6. `indexed_count > 0`
+7. import alias is exactly `建筑类数据样表`
+8. import alias status is `alias_bound` or equivalent success
+9. follow-up `alias_resolution.status=alias_resolved`
+10. `alias_missing=false`
+11. `retrieval_suppressed=false`
+12. `retrieval_evidence_document_ids` is non-empty
+13. citation is present and manually reviewable
+14. no third-document contamination
+15. `metadata_as_answer=false`
+16. `facts_as_answer=false`
+17. `snapshot_as_answer=false`
+18. `transcript_as_fact=false`
+
+## Pause Criteria
+
+Return Pause if:
+
+1. import succeeds but requested alias is not exactly preserved;
+2. follow-up still returns `alias_missing=true`;
+3. retrieval is suppressed;
+4. evidence IDs are empty;
+5. citation is missing;
+6. provider usage limit blocks the retrieval answer;
+7. diagnostics are internally contradictory.
 
 ## Hard Prohibitions
 
 Do not:
 
-1. run real upload/import on the development machine;
-2. connect to production or test-machine DB;
-3. write DB / facts / document_versions / OpenSearch / Qdrant / MinIO;
-4. scan NAS or folders;
-5. execute repair / cleanup / backfill / reindex / delete / migration / rollout;
-6. modify platform repo;
-7. stage unrelated dirty files;
-8. claim Phase 2 natural import closeout before test-machine OpenWebUI / 8642 retrieval + citation passes.
+1. repeat imports in a loop;
+2. scan NAS;
+3. execute repair / cleanup / backfill / reindex / delete / migration / rollout;
+4. write DB / facts / document_versions directly;
+5. manually write OpenSearch / Qdrant / MinIO;
+6. output secret, token, file content, or raw local path;
+7. claim Phase 2 natural import closeout before the follow-up retrieval + citation passes.
 
-## Final Report Required
+## Required Report
 
-Report:
+Return:
 
-1. changed files;
-2. tests run and exact results;
-3. which alias phrasings are supported;
-4. whether requested alias overrides generated alias;
-5. whether follow-up alias restore is covered by tests;
-6. any excluded dirty files;
-7. whether Codex B review is needed.
-
-Stop after the bounded fix. Do not tag or push unless explicitly requested by Codex B/user.
+1. checkout commit / tag / worktree clean status;
+2. 8642 health and upload flag visibility;
+3. import result table;
+4. follow-up alias/retrieval/citation table;
+5. safety flags;
+6. Go / Pause / No-Go;
+7. if Pause, the single smallest blocker.

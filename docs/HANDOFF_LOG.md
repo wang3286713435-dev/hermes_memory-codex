@@ -7736,3 +7736,25 @@
 - runtime_candidate: Hermes agent commit `20d9fb561`, tag `phase-2.112g-header-owner-restore-runtime-test-candidate`, pushed to `backup2`.
 - next: test-machine Codex checks out the tag, restarts 8642, and validates real OpenWebUI import -> follow-up `@alias` retrieval + citation.
 - baseline: Not final. Full runtime baseline waits for successful test-machine validation.
+
+## 2026-05-22 12:26 Phase 2.112h Explicit Natural Import Alias Preservation Fix
+
+- goal: Fix explicit natural-language alias parsing / preservation so requested `@建筑类数据样表` is stored instead of falling back to a generated alias.
+- changed_files: Hermes main `agent/memory_kernel/natural_file_import.py`, `tests/agent/test_natural_file_import.py`, `tests/agent/test_natural_file_import_flow.py`, `tests/agent/test_natural_file_import_runtime.py`, `docs/TODO.md`, `docs/DEV_LOG.md`; Hermes_memory `docs/ACTIVE_PHASE.md`, `docs/HANDOFF_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: targeted parser / flow / runtime tests `15 passed`; py_compile passed; natural import / upload client / session scope regression `124 passed`.
+- validation: No real OpenWebUI / 8642 upload/import was executed; no DB/index/facts/version writes.
+- risks: Test-machine explicit requested alias import -> follow-up retrieval + citation still pending; alias-global restore and ordinary memory alias persistence remain forbidden.
+- next: Codex B review, then test-machine OpenWebUI / 8642 validation.
+- commit/tag if any: none.
+
+## 2026-05-22 12:45 Phase 2.112h Codex B Review / Runtime Candidate
+
+- goal: Review Codex A Phase 2.112h explicit natural import alias preservation fix and decide whether to publish runtime test-candidate.
+- review_result: Passed at development-machine level.
+- accepted_scope: Hermes main `agent/memory_kernel/natural_file_import.py`, `tests/agent/test_natural_file_import.py`, `tests/agent/test_natural_file_import_flow.py`, `tests/agent/test_natural_file_import_runtime.py`, `docs/TODO.md`, `docs/DEV_LOG.md`.
+- fix_summary: explicit natural-language alias parser now preserves requested aliases such as `别名 @建筑类数据样表`, `别名为 @建筑类数据样表`, `别名叫 @建筑类数据样表`, `别名设为 @建筑类数据样表`, `设定别名为 @建筑类数据样表`, and `我想叫它 @建筑类数据样表`; requested alias wins over generated alias; malformed aliases remain fail-closed.
+- verification: py_compile passed; natural import / upload client / session scope regression `124 passed`; `git diff --check` passed.
+- excluded_dirty: Hermes main adapter reload / trace polish files and `uv.lock`; Hermes_memory `docs/digital-delivery-standards/`.
+- runtime_candidate: Hermes agent commit `e1d38e1ec`, tag `phase-2.112h-explicit-import-alias-runtime-test-candidate`, pushed to `backup2`.
+- next: test-machine Codex checks out the tag, restarts 8642, and validates real OpenWebUI explicit requested alias import -> follow-up `@建筑类数据样表` retrieval + citation.
+- baseline: Not final. Full natural import closeout waits for successful test-machine validation.

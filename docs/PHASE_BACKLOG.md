@@ -2,13 +2,15 @@
 
 ## Phase 2.112h Explicit Natural Import Alias Preservation Fix
 
+0. Development fix completed on 2026-05-22: explicit natural-language alias parsing now preserves requested `@建筑类数据样表`; targeted parser / flow / runtime tests `15 passed`; py_compile passed; natural import / upload client / session scope regression `124 passed`.
 1. Phase 2.112g test-machine validation returned Pause: stable-owner candidate was deployed, import succeeded, but the imported alias did not match the user-requested `@建筑类数据样表`.
 2. Follow-up query used `@建筑类数据样表`; because that exact alias was not stored, retrieval still returned `alias_missing=true` and `retrieval_suppressed=true`.
 3. Codex B read-only review indicates this is a natural import alias parsing / preservation bug, not another stable-owner restore bug.
 4. Likely minimal root cause: `agent/memory_kernel/natural_file_import.py::_ALIAS_RE` does not cover common natural-language alias forms such as `别名 @...`, `别名为 @...`, `别名设为 @...`, or `设定别名为 @...`.
-5. Phase 2.112h task: expand explicit alias parsing safely, preserve requested alias over generated alias, and add tests proving follow-up `@建筑类数据样表` resolves after import.
+5. Phase 2.112h task status: implemented locally; requested alias wins over generated alias; malformed aliases remain `not_requested`; follow-up restore is covered by tests.
 6. Keep all previous safety rules: no alias-global restore, no ordinary memory alias persistence, no raw path/owner/token/content diagnostics, no DB/index/NAS/rollout.
-7. Full Phase 2 natural import closeout remains blocked until test-machine OpenWebUI / 8642 proves retrieval evidence + citation after import.
+7. Codex B review passed on 2026-05-22; runtime test-candidate pushed: Hermes agent commit `e1d38e1ec`, tag `phase-2.112h-explicit-import-alias-runtime-test-candidate`.
+8. Full Phase 2 natural import closeout remains blocked until test-machine OpenWebUI / 8642 proves retrieval evidence + citation after explicit requested alias import.
 
 ## Phase 2.112g Header-only Stable Owner Restore Fix
 

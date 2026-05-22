@@ -2000,3 +2000,12 @@
 - 本阶段只做 DB 支线接收、PR / merge readiness review 与文档同步；不连接真实 DB，不扫描 NAS，不写 migration，不写 `documents/chunks`，不写 OpenSearch / Qdrant，不 merge 到 `main`。
 - DB 支线当前 closeout baseline：`/Users/Weishengsu/Hermes_memory_db0`，`a272081` / `phase-db-branch-closeout-merge-readiness-baseline`。
 - 后续真实 DB smoke 必须在测试机部署 Hermes Memory 后由用户单独授权，且只允许 structure-only 或 LIMIT 30 脱敏 smoke。
+
+# Phase 2.112h Explicit Natural Import Alias Preservation Fix
+
+1. Hermes 主仓库本地最小修复已完成：explicit natural-language alias parser 已覆盖 `别名 @...`、`别名为 @...`、`别名叫 @...`、`别名设为 @...`、`设定别名为 @...`、`我想叫它 @...`。
+2. 用户请求 alias 优先于 generated alias；malformed alias 保持 `not_requested` / fail-closed。
+3. 验证通过：targeted parser / flow / runtime tests `15 passed`；py_compile 通过；natural import / upload client / session scope regression `124 passed`。
+4. Codex B review 已通过；Hermes agent runtime test-candidate 已 baseline 并推送：`e1d38e1ec` / `phase-2.112h-explicit-import-alias-runtime-test-candidate`。
+5. 未执行真实 OpenWebUI / 8642 upload/import，未写 DB / facts / versions / OpenSearch / Qdrant；full natural import closeout 未完成。
+6. 下一步：测试机 checkout runtime candidate，重启 8642，复验 explicit requested alias import -> follow-up retrieval + citation。
