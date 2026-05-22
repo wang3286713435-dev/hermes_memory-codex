@@ -1525,6 +1525,9 @@
 51. 下一步为 Phase 2.113 closeout / Phase 2 final freeze checklist 更新；不得把该 Go 解释为 production rollout、NAS 全量扫描、DWG/RVT/BIM 内容理解或无限制 memory 写入。
 52. Phase 2.114 规划已启动：最终验收必须用一个授权小文件跑通 self-awareness -> natural-language import -> alias -> retrieval -> citation -> evidence boundary。
 53. Phase 2.114 通过前不得发布 Phase 2 stable MVP freeze tag；通过后仍不得宣称 production rollout、NAS 全量扫描、DWG/RVT/BIM 内容理解或 PRD/Roadmap 300+ eval closeout。
+54. Phase 2.114a 已完成 natural import path parser 最小修复：中文全角冒号、中文句号、中文路径、目录空格和 alias 同 prompt 均已覆盖；多路径仍 fail-closed。
+55. Phase 2.114a runtime test-candidate 已推送：Hermes 主仓库 commit `c8ed29a83c441f58939f64b6b175ae4cac980ea3`，tag `phase-2.114a-natural-import-path-parser-runtime-test-candidate`。
+56. 下一步必须由测试机 / OpenWebUI / 8642 复跑 Phase 2.114 final user-flow acceptance；不得跳过真实 import -> alias -> retrieval -> citation 验收。
 
 ## 后置项
 

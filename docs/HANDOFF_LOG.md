@@ -7840,6 +7840,16 @@
 - next: Codex B review; if accepted, prepare test-candidate and ask Codex C / test machine to validate user-facing behavior.
 - commit/tag if any: none.
 
+## 2026-05-23 00:02 Phase 2.114a Natural Import Path Parser Fix
+
+- goal: Fix the Phase 2.114 test-machine blocker where Chinese natural import prompt text did not yield a source path, leaving upload adapter `not_called` and `missing_path`.
+- changed_files: Hermes main `agent/memory_kernel/natural_file_import.py`, `tests/agent/test_natural_file_import.py`, `docs/TODO.md`, `docs/DEV_LOG.md`; Hermes_memory `docs/ACTIVE_PHASE.md`, `docs/HANDOFF_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `docs/NEXT_CODEX_A_PROMPT.md`, ignored `reports/agent_runs/latest.json`.
+- tests: Red-green parser regression confirmed; py_compile passed; Hermes main `tests/agent/test_natural_file_import.py tests/agent/test_natural_file_import_flow.py tests/agent/test_natural_file_import_runtime.py -q` returned `54 passed`.
+- validation: Parser now extracts authorized absolute paths after fullwidth colon, trims Chinese period, preserves Chinese characters and spaces, keeps alias in same prompt, and rejects multiple paths.
+- risks: No OpenWebUI / 8642 live import was run on this machine; test-machine must validate final user flow with exactly one authorized small sample.
+- next: Test-machine / Codex C checks out `phase-2.114a-natural-import-path-parser-runtime-test-candidate`, restarts 8642, and reruns Phase 2.114 final user-flow acceptance with exactly one authorized small sample.
+- commit/tag if any: Hermes main commit `c8ed29a83c441f58939f64b6b175ae4cac980ea3`; tag `phase-2.114a-natural-import-path-parser-runtime-test-candidate`; pushed to `backup2`.
+
 ## 2026-05-22 17:05 Phase 2.113a Codex B Review Passed / Runtime Candidate Handoff
 
 - goal: Review Phase 2.113a self-awareness review fix and prepare test-machine / OpenWebUI / 8642 validation.

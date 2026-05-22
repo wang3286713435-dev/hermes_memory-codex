@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.114a Natural Import Path Parser Fix
+
+1. Codex A 已完成 parser-only runtime fix：中文 prompt 中 `文件路径：/Users/...xlsx。` 可正确提取授权绝对路径。
+2. 支持中文路径、未加引号路径、路径父目录空格、同 prompt alias / project context。
+3. 多路径仍 fail-closed，不支持本阶段多文件导入；普通 retrieval / path inspection prompt 不误触发 import。
+4. 验证通过：Hermes 主仓库 py_compile；natural import parser / flow / runtime tests `54 passed`。
+5. Runtime test-candidate 已推送：Hermes 主仓库 commit `c8ed29a83c441f58939f64b6b175ae4cac980ea3`，tag `phase-2.114a-natural-import-path-parser-runtime-test-candidate`。
+6. 下一步：测试机 / OpenWebUI / 8642 复跑 Phase 2.114 final user-flow acceptance。
+
 ## Phase 2.113a Self-Awareness Review Fix
 
 1. Codex A 已完成 Codex B review fix：收窄 fuzzy file-discovery trigger，普通“找字段 / 找内容”查询不再 suppress retrieval。

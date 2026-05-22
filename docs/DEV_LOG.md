@@ -1,5 +1,13 @@
 # DEV_LOG
 
+## 2026-05-22 Phase 2.114a Natural Import Path Parser Fix
+
+- 完成 Phase 2.114 test-machine Pause blocker 的 parser-only 修复：中文全角冒号后的 absolute path、中文句号结尾、中文字符路径、父目录含空格路径均可被 natural import parser 提取。
+- 多路径 prompt 仍返回 `multiple_paths_not_supported`；普通“看看 / 总结 path”不触发 import。
+- 验证通过：Hermes 主仓库 py_compile；`tests/agent/test_natural_file_import.py tests/agent/test_natural_file_import_flow.py tests/agent/test_natural_file_import_runtime.py` 为 `54 passed`。
+- Runtime test-candidate 已发布：Hermes 主仓库 commit `c8ed29a83c441f58939f64b6b175ae4cac980ea3`，tag `phase-2.114a-natural-import-path-parser-runtime-test-candidate`，已推送 `backup2`。
+- 未执行真实 OpenWebUI / 8642 import，未上传文件，未写 DB / facts / document_versions / OpenSearch / Qdrant；下一步交测试机复跑 Phase 2.114 final user-flow acceptance。
+
 ## 2026-05-22 Phase 2.113a Self-Awareness Review Fix
 
 - 完成 Codex B 打回项最小修复：`帮我找一下工程地点`、`帮我找一下主标书里的工期要求`、`帮我查一下付款比例`、`找一下这份表里的数量` 不再被 fuzzy file discovery suppress。
