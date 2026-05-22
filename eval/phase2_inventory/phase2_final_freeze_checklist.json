@@ -6,7 +6,7 @@
     "platform_stable_integration_freeze": "go",
     "standalone_hermes_kernel_preservation": "go",
     "phase2_113a_self_awareness_live_gate": "go",
-    "phase2_114_final_user_flow_acceptance": "pending",
+    "phase2_114_final_user_flow_acceptance": "go",
     "full_phase2_prd_roadmap_closeout": "pause",
     "phase3_planning": "allowed_only_with_known_gap_carryover"
   },
@@ -52,12 +52,13 @@
     },
     {
       "gate_id": "gate_d_final_user_flow_acceptance",
-      "decision": "pending",
+      "decision": "go",
       "evidence_refs": [
         "docs/PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PLAN.md",
-        "docs/CODEX_TEST_MACHINE_PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PROMPT.md"
+        "docs/CODEX_TEST_MACHINE_PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PROMPT.md",
+        "reports/internal_mvp_runs/phase2_114a_test_machine_final_user_flow_acceptance_go.json"
       ],
-      "notes": "Final OpenWebUI / 8642 user flow must validate self-awareness, natural-language import, alias follow-up retrieval, citation, and evidence boundary before Phase 2 stable MVP freeze."
+      "notes": "Test-machine / OpenWebUI / 8642 validation passed: path parser extracted authorized sample path, natural import succeeded, same-session alias retrieval produced evidence and citation, and safety flags passed."
     }
   ],
   "final_checklist": [
@@ -112,8 +113,8 @@
     {
       "item_id": "final_complete_user_flow",
       "description": "Final controlled user flow proves natural-language import, alias, retrieval evidence, citation, and evidence boundary in one session.",
-      "decision": "pending",
-      "evidence_ref": "docs/PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PLAN.md"
+      "decision": "go",
+      "evidence_ref": "docs/PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PLAN.md; test-machine report 2026-05-23 Phase 2.114a final user-flow acceptance Go"
     },
     {
       "item_id": "final_eval_count_target",

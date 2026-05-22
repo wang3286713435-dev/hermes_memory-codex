@@ -1,5 +1,14 @@
 # DEV_LOG
 
+## 2026-05-23 Phase 2.114a Final User-flow Acceptance Go
+
+- 测试机 / OpenWebUI / 8642 已复验 `phase-2.114a-natural-import-path-parser-runtime-test-candidate`，结论 `decision=go`。
+- 验收通过：授权小样本存在；path parser 成功提取目标路径并裁剪中文句号；natural import HTTP 200 且成功；alias 已绑定 / 回显；chunk/index 状态可见。
+- 同 session follow-up 通过：`alias_resolution_status=alias_resolved`、`alias_missing=false`、`retrieval_suppressed=false`、`retrieval_evidence_document_ids_non_empty=true`、`citation_present=true`。
+- 安全边界通过：无 secret / raw path / file content 输出；无 NAS scan；无 repair / cleanup / backfill / reindex / delete / migration / rollout；无手动 DB/index 写入；metadata/facts/snapshot/transcript 未替代 evidence。
+- `eval/phase2_inventory/phase2_final_freeze_checklist.json` 已将 `phase2_114_final_user_flow_acceptance`、`gate_d_final_user_flow_acceptance`、`final_complete_user_flow` 标记为 `go`。
+- 当前可进入 Phase 2 stable MVP closeout / Phase 3 known-gap carryover；仍不得宣称 production rollout、unrestricted NAS management、DWG/RVT/BIM content understanding、DB CRUD 或 PRD/Roadmap full eval closeout。
+
 ## 2026-05-22 Phase 2.114a Natural Import Path Parser Fix
 
 - 完成 Phase 2.114 test-machine Pause blocker 的 parser-only 修复：中文全角冒号后的 absolute path、中文句号结尾、中文字符路径、父目录含空格路径均可被 natural import parser 提取。

@@ -1,5 +1,13 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.114a Final User-flow Acceptance Go
+
+1. 测试机 / OpenWebUI / 8642 已复验 `phase-2.114a-natural-import-path-parser-runtime-test-candidate`，结论 `go`。
+2. 真实用户流通过：授权小样本 path extraction -> natural import -> alias -> same-session retrieval -> evidence IDs -> citation。
+3. 安全边界通过：无 secret / raw path / file content 输出；无 NAS scan；无 repair / cleanup / backfill / reindex / delete / migration / rollout；无手动 DB/index 写入。
+4. Freeze checklist 已更新：`phase2_114_final_user_flow_acceptance=go`，`final_complete_user_flow=go`。
+5. 下一步：进入 Phase 2 stable MVP closeout / Phase 3 known-gap carryover；不要继续扩 Phase 2 功能。
+
 ## Phase 2.114a Natural Import Path Parser Fix
 
 1. Codex A 已完成 parser-only runtime fix：中文 prompt 中 `文件路径：/Users/...xlsx。` 可正确提取授权绝对路径。

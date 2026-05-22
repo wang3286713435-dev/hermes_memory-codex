@@ -7880,3 +7880,14 @@
 - changed_files: `docs/PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PLAN.md`, `docs/CODEX_TEST_MACHINE_PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `eval/phase2_inventory/phase2_final_freeze_checklist.json`, and coordination docs.
 - decision: Phase 2.114 must run one authorized small non-sensitive sample through OpenWebUI / 8642 before Phase 2 stable MVP freeze.
 - next: test-machine operator provides `AUTHORIZED_FILE_PATH`, `ALIAS`, and `PROJECT_CONTEXT`, then runs `docs/CODEX_TEST_MACHINE_PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PROMPT.md`.
+
+## 2026-05-23 Phase 2.114a Final User-flow Acceptance Go
+
+- goal: Record test-machine / OpenWebUI / 8642 final user-flow acceptance after Phase 2.114a natural import path parser runtime candidate.
+- result: Go. Authorized small sample path extraction passed; natural import succeeded; same-session alias retrieval returned evidence + citation.
+- runtime: Hermes agent commit `c8ed29a83c441f58939f64b6b175ae4cac980ea3`, tag `phase-2.114a-natural-import-path-parser-runtime-test-candidate`; backend 8642 health pass; Hermes Memory health pass; real upload flag visible.
+- validation: `import_http=200`, `import_success=true`, `alias_bound_or_reported=true`, `alias_resolution_status=alias_resolved`, `alias_missing=false`, `retrieval_suppressed=false`, `retrieval_evidence_document_ids_non_empty=true`, `citation_present=true`, `third_document_contamination=false`.
+- safety: no secret, raw path, file content, NAS scan, repair/cleanup/backfill/reindex/delete/migration/rollout, or manual DB/index write; metadata/facts/snapshot/transcript did not replace evidence.
+- checklist: `eval/phase2_inventory/phase2_final_freeze_checklist.json` updated so Phase 2.114 final user-flow acceptance is `go`.
+- next: Prepare Phase 2 stable MVP closeout and Phase 3 known-gap carryover. Do not expand Phase 2 with new features.
+- commit/tag if any: none yet for this Hermes_memory recording update.
