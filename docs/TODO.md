@@ -1,5 +1,13 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.113a Self-Awareness Review Fix
+
+1. Codex A 已完成 Codex B review fix：收窄 fuzzy file-discovery trigger，普通“找字段 / 找内容”查询不再 suppress retrieval。
+2. 明确找候选文件的 query 仍保持 fail-closed：无安全候选时返回 `file_discovery_no_safe_candidate`，不靠普通 retrieval 猜文件。
+3. self-awareness trigger 已扩展到更自然的“管理文件 / 管理公司文件 / 使用记忆库”问法。
+4. 验证通过：Hermes 主仓库 py_compile；`tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py tests/agent/test_natural_file_import_runtime.py` 为 `102 passed`。
+5. 当前仍未 baseline；下一步必须 Codex B review，通过后再交 Codex C / 测试机验证 OpenWebUI / 8642 用户侧表现。
+
 ## Phase 2.113 Hermes Memory Self-Awareness / Kernel Activation
 
 1. 当前新增 P0 blocker：Hermes 用户侧还没有可靠激活自己的 Hermes_memory / workspace / retrieval / evidence kernel 自我认知。
@@ -2054,3 +2062,6 @@
 3. Codex A must narrow file-discovery intent and add regression tests for ordinary retrieval not being suppressed.
 4. Codex A should broaden safe self-awareness trigger wording.
 5. Keep previous safety boundaries: no NAS scan, no DB CRUD/SQL, no raw path/content memory, no DWG/RVT/BIM overclaim, no production rollout.
+6. Phase 2.113a bounded fix passed Codex B review: py_compile passed, target suite `102 passed`, and direct probes confirmed ordinary retrieval / fuzzy file-discovery / self-awareness boundaries.
+7. Hermes agent runtime test-candidate is `a12d378e0` / `phase-2.113a-self-awareness-runtime-test-candidate`.
+8. Next action is test-machine / OpenWebUI / 8642 validation using `docs/CODEX_TEST_MACHINE_PHASE2113A_SELF_AWARENESS_SMOKE_PROMPT.md`; no further Codex A implementation unless that validation returns a concrete blocker.

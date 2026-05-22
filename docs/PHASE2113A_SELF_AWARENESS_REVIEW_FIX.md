@@ -132,3 +132,76 @@ After Codex A fixes Phase 2.113a:
    - ordinary retrieval not suppressed by "帮我找一下".
 
 Do not baseline Phase 2.113 before this fix.
+
+## 9. Implementation Result
+
+Codex A completed the bounded Phase 2.113a fix.
+
+Runtime changes:
+
+1. Fuzzy file discovery now only triggers for clear file-candidate discovery wording such as `哪个文件`、`哪份文件`、`相关文件`、`候选文件`、`...文件...找出来`.
+2. Ordinary content lookup wording such as `帮我找一下工程地点`、`帮我找一下主标书里的工期要求`、`帮我查一下付款比例`、`找一下这份表里的数量` no longer suppresses retrieval.
+3. Kernel self-awareness trigger now covers common file-management and memory-library wording:
+   - `你可以帮我管理文件吗`
+   - `你能管理公司文件吗`
+   - `能不能管理文件`
+   - `你怎么使用记忆库`
+
+Validation:
+
+```text
+./.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py agent/memory_kernel/kernel.py agent/memory_kernel/session_document_scope.py agent/memory_kernel/natural_file_import_runtime.py
+./.venv/bin/python -m pytest -o addopts='' tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py tests/agent/test_natural_file_import_runtime.py -q
+102 passed
+```
+
+Current gate:
+
+```text
+implementation_status = completed
+baseline_allowed = false_until_codex_b_review
+live_validation_required = true
+```
+
+## 10. Codex B Review Acceptance
+
+Codex B reviewed the Phase 2.113a fix and accepted it for test-machine validation.
+
+Review checks:
+
+1. `py_compile` passed for `context_builder.py`, `kernel.py`, `session_document_scope.py`, and `natural_file_import_runtime.py`.
+2. Target regression suite passed:
+
+```text
+tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py tests/agent/test_natural_file_import_runtime.py
+102 passed
+```
+
+3. Direct probe confirmed ordinary retrieval-style wording no longer triggers file-discovery suppression:
+   - `帮我找一下工程地点`
+   - `帮我找一下主标书里的工期要求`
+   - `帮我查一下付款比例`
+   - `找一下这份表里的数量`
+4. Direct probe confirmed clear file-candidate discovery still fail-closes safely when no candidates are available:
+   - `C塔项目的招标要求文件你帮我找出来`
+   - `帮我找 C塔项目相关文件`
+   - `有哪些 C塔项目人力配置相关文件`
+5. Direct probe confirmed self-awareness triggers for file-management / memory-library wording:
+   - `你可以帮我管理文件吗`
+   - `你能管理公司文件吗`
+   - `能不能管理文件`
+   - `你怎么使用记忆库`
+
+Runtime candidate:
+
+```text
+hermes-agent commit = a12d378e0
+hermes-agent tag = phase-2.113a-self-awareness-runtime-test-candidate
+```
+
+Next gate:
+
+1. Test machine checks out `phase-2.113a-self-awareness-runtime-test-candidate`.
+2. Restart 8642 from that checkout.
+3. Run `docs/CODEX_TEST_MACHINE_PHASE2113A_SELF_AWARENESS_SMOKE_PROMPT.md`.
+4. Do not enter final Phase 2.113 closeout until OpenWebUI / 8642 live validation passes.

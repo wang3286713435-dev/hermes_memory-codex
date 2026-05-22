@@ -1,5 +1,13 @@
 # DEV_LOG
 
+## 2026-05-22 Phase 2.113a Self-Awareness Review Fix
+
+- 完成 Codex B 打回项最小修复：`帮我找一下工程地点`、`帮我找一下主标书里的工期要求`、`帮我查一下付款比例`、`找一下这份表里的数量` 不再被 fuzzy file discovery suppress。
+- 保留明确找候选文件语义：`C塔项目的招标要求文件你帮我找出来`、`帮我找 C塔项目相关文件`、`有哪些 C塔项目人力配置相关文件` 仍进入 no-safe-candidate / clarification boundary。
+- 扩展 self-awareness trigger：覆盖“你可以帮我管理文件吗 / 你能管理公司文件吗 / 能不能管理文件 / 你怎么使用记忆库”。
+- 验证通过：Hermes 主仓库 py_compile；目标 regression `102 passed`。
+- 未跑 OpenWebUI / 8642 live smoke，未上传文件，未写 DB / facts / document_versions / OpenSearch / Qdrant，未 baseline。
+
 ## 2026-05-22 Phase 2 Natural Import Closeout / Freeze Checklist Update
 
 - 已将 Phase 2.112i 测试机 Go 结果同步到 Phase 2 closeout / freeze checklist 与 natural import gap matrix。
@@ -1227,3 +1235,10 @@
 - Local probe evidence: `帮我找一下工程地点` and `帮我找一下主标书里的工期要求` both produced `suppress_retrieval=true` / `file_discovery_no_safe_candidate`; this is a real usability regression risk.
 - Secondary finding: kernel capability trigger should cover more natural wording such as `你可以帮我管理文件吗` and `你能管理公司文件吗`.
 - Next prompt updated to Phase 2.113a; no runtime baseline or test-machine validation should happen until Codex A fixes and Codex B re-reviews.
+
+## 2026-05-22 Phase 2.113a Codex B Review Passed
+
+- Codex B accepted the bounded Phase 2.113a runtime fix and published the Hermes agent runtime test-candidate `a12d378e0` / `phase-2.113a-self-awareness-runtime-test-candidate`.
+- Verification: py_compile passed; combined target suite `102 passed`; direct probes confirmed ordinary retrieval is not suppressed by `帮我找一下 / 找一下`, clear file-candidate discovery remains fail-closed, and memory-kernel self-awareness triggers are covered.
+- Added test-machine prompt `docs/CODEX_TEST_MACHINE_PHASE2113A_SELF_AWARENESS_SMOKE_PROMPT.md`.
+- Current gate: no new Codex A coding unless test-machine / OpenWebUI / 8642 returns a concrete blocker.

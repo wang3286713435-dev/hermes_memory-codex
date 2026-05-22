@@ -7829,3 +7829,24 @@
 - changed_files: Added `docs/PHASE2113A_SELF_AWARENESS_REVIEW_FIX.md`; rewrote `docs/NEXT_CODEX_A_PROMPT.md`; updated `docs/ACTIVE_PHASE.md`.
 - next: Codex A executes Phase 2.113a bounded fix, preserving existing self-awareness/import response behavior while narrowing file-discovery intent and broadening safe capability triggers.
 - commit/tag if any: none.
+
+## 2026-05-22 16:42 Phase 2.113a Self-Awareness Review Fix
+
+- goal: Fix Codex B returned findings for over-broad fuzzy file discovery and narrow self-awareness trigger coverage.
+- changed_files: Hermes main `agent/memory_kernel/kernel.py`, `agent/memory_kernel/session_document_scope.py`, `tests/agent/test_session_document_scope.py`, `tests/agent/test_structured_citation_context.py`, `docs/TODO.md`, `docs/DEV_LOG.md`; Hermes_memory `docs/PHASE2113A_SELF_AWARENESS_REVIEW_FIX.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/HANDOFF_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: Red-green regression confirmed; py_compile passed; Hermes main `tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py tests/agent/test_natural_file_import_runtime.py -q` returned `102 passed`.
+- validation: Ordinary content lookup phrases with `找一下 / 帮我找` no longer suppress retrieval; clear file-candidate discovery still fail-closes without safe candidates; self-awareness trigger covers file-management / memory-library variants.
+- risks: No OpenWebUI / 8642 live smoke yet; do not baseline before Codex B review and test-machine validation.
+- next: Codex B review; if accepted, prepare test-candidate and ask Codex C / test machine to validate user-facing behavior.
+- commit/tag if any: none.
+
+## 2026-05-22 17:05 Phase 2.113a Codex B Review Passed / Runtime Candidate Handoff
+
+- goal: Review Phase 2.113a self-awareness review fix and prepare test-machine / OpenWebUI / 8642 validation.
+- review_result: passed for local code/test scope.
+- verification: Hermes main py_compile passed; `tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py tests/agent/test_natural_file_import_runtime.py` returned `102 passed`.
+- probe_result: ordinary retrieval-style queries with `帮我找一下 / 找一下` no longer trigger `file_discovery_no_safe_candidate`; clear file-candidate discovery remains safely suppressed without candidates; self-awareness wording for file management / memory-library questions is covered.
+- runtime_candidate: Hermes agent commit `a12d378e0`, tag `phase-2.113a-self-awareness-runtime-test-candidate`, pushed to `backup2`.
+- handoff_prompt: Added `docs/CODEX_TEST_MACHINE_PHASE2113A_SELF_AWARENESS_SMOKE_PROMPT.md` for test-machine validation.
+- next: test-machine checks out the runtime candidate, restarts 8642, and validates self-awareness, ordinary retrieval guard, fuzzy file discovery, and optional authorized natural import feedback.
+- commit/tag if any: Hermes_memory docs baseline pending this round.

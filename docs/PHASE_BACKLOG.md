@@ -1518,6 +1518,10 @@
 44. Phase 2.112e API server stable owner bridge 已实现：accepted `X-Hermes-Session-Id` 与 whitelisted OpenWebUI conversation headers 会传入 `AIAgent.gateway_session_key`，无 stable owner 时继续 fail-closed 并输出 sanitized `stable_owner_missing`；下一步等待 Codex B review，之后才可考虑 runtime baseline / 测试机 OpenWebUI 验证。
 45. Phase 2.113 runtime fix 已完成本地最小实现：Hermes 主仓库新增 self-awareness capability boundary、自然导入成功响应强化、无安全文件候选时的 Missing Evidence / suppress retrieval 边界；目标测试通过。
 46. Phase 2.113 尚未 baseline；下一步必须 Codex B review，并由 Codex C / 测试机验证 OpenWebUI / 8642 真实用户侧是否稳定呈现 Hermes_memory / workspace / retrieval / evidence kernel 能力。
+47. Phase 2.113a 已完成 Codex B review fix：file-discovery intent 收窄，普通内容检索不再因“找一下 / 帮我找”被 suppress；明确候选文件查找仍 fail-closed。
+48. Phase 2.113a 已补 self-awareness trigger 自然问法覆盖，目标验证 `102 passed`。
+49. Phase 2.113a Codex B review 已通过；Hermes agent runtime test-candidate 已推送：`a12d378e0` / `phase-2.113a-self-awareness-runtime-test-candidate`。
+50. 下一步为测试机 / OpenWebUI / 8642 live validation：self-awareness、ordinary retrieval guard、fuzzy file discovery、可选授权 natural import feedback；通过前不得宣布 Phase 2.113 final closeout。
 
 ## 后置项
 

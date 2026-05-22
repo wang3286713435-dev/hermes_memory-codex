@@ -1,104 +1,101 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.113a Self-Awareness Review Fix
+## Phase 2.113a Live Validation Gate
 
 You are Codex A, the Hermes runtime development agent.
 
-Codex B reviewed the Phase 2.113 runtime fix. The direction is correct, but baseline is blocked by a routing regression risk.
+Do not continue coding unless the test-machine / OpenWebUI / 8642 validation returns a concrete blocker.
 
 Read first:
 
-1. `docs/PHASE2113A_SELF_AWARENESS_REVIEW_FIX.md`
-2. `docs/PHASE2113_HERMES_MEMORY_SELF_AWARENESS_KERNEL_ACTIVATION.md`
-3. `docs/PHASE2110_PHASE2_FULL_CLOSEOUT_RETURN_PLAN.md`
+1. `docs/AGENT_OPERATING_PROTOCOL.md`
+2. `docs/ACTIVE_PHASE.md`
+3. `docs/PHASE_BACKLOG.md`
+4. `docs/PHASE2113_HERMES_MEMORY_SELF_AWARENESS_KERNEL_ACTIVATION.md`
+5. `docs/PHASE2113A_SELF_AWARENESS_REVIEW_FIX.md`
+6. `docs/CODEX_TEST_MACHINE_PHASE2113A_SELF_AWARENESS_SMOKE_PROMPT.md`
+7. `docs/TODO.md`
+8. `docs/DEV_LOG.md`
 
-## Blocking Finding
+## Current State
 
-The current fuzzy file-discovery guard is too broad.
+Phase 2.113a has passed Codex B local review.
 
-Observed by Codex B local probe:
+Hermes agent runtime test-candidate:
 
 ```text
-帮我找一下工程地点 -> suppress_retrieval=true; file_discovery_no_safe_candidate
-帮我找一下主标书里的工期要求 -> suppress_retrieval=true; file_discovery_no_safe_candidate
-有哪些文件 -> suppress_retrieval=true; file_discovery_no_safe_candidate
-C塔项目的招标要求文件你帮我找出来 -> suppress_retrieval=true; file_discovery_no_safe_candidate
+commit = a12d378e0
+tag = phase-2.113a-self-awareness-runtime-test-candidate
 ```
 
-The last case is intended fuzzy file discovery. The first two are normal retrieval questions and must not be suppressed just because the user says "帮我找一下".
+Accepted fixes:
 
-## Required Fix
+1. Ordinary retrieval-style questions such as `帮我找一下工程地点` and `帮我找一下主标书里的工期要求` are no longer suppressed as file-discovery questions.
+2. Clear file-candidate discovery such as `C塔项目的招标要求文件你帮我找出来` still fail-closes safely when no safe candidates exist.
+3. Kernel self-awareness trigger covers natural file-management / memory-library wording.
 
-Implement the smallest runtime fix in `hermes-agent`:
-
-1. Narrow fuzzy file discovery so it only triggers when the user clearly asks to find candidate files.
-2. Preserve true fuzzy file discovery:
-   - `C塔项目的招标要求文件你帮我找出来`
-   - `帮我找 C塔项目相关文件`
-   - `有哪些 C塔项目人力配置相关文件`
-3. Do not suppress ordinary retrieval:
-   - `帮我找一下工程地点`
-   - `帮我找一下主标书里的工期要求`
-   - `帮我查一下付款比例`
-   - `找一下这份表里的数量`
-4. Broaden kernel self-awareness trigger for common wording:
-   - `你可以帮我管理文件吗`
-   - `你能管理公司文件吗`
-   - `能不能管理文件`
-   - `你怎么使用记忆库`
-5. Add targeted regression tests.
-
-## Existing Good Work to Preserve
-
-Do not regress:
-
-1. Hermes Memory Kernel capability boundary context.
-2. Natural import success response with safe alias, safe IDs, chunk/index status, follow-up suggestions, and Missing Evidence boundary.
-3. Explicit alias preservation.
-4. Generated safe alias behavior.
-5. Memory/workspace metadata not being treated as content evidence.
-6. DWG/RVT/BIM overclaim guard.
-
-## Forbidden Work
-
-Do not:
-
-1. scan NAS;
-2. run production rollout;
-3. expose raw file paths or raw DB rows;
-4. write secrets or raw document text into memory;
-5. broaden platform Gateway beyond catalog-only;
-6. change DB schema;
-7. run repair / cleanup / backfill / reindex / delete / migration;
-8. implement Agent DB CRUD or arbitrary SQL;
-9. claim DWG/RVT/BIM content understanding;
-10. treat diagnostics, metadata, memory refs, aliases, or history memory as retrieval evidence;
-11. stage unrelated `uv.lock`, adapter reload, repo-hygiene, or runtime artifact files.
-
-## Validation Required
-
-Run:
+## Verified by Codex B
 
 ```bash
-python3 -m py_compile agent/memory_kernel/context_builder.py agent/memory_kernel/kernel.py agent/memory_kernel/session_document_scope.py agent/memory_kernel/natural_file_import_runtime.py
-uv run pytest <targeted tests for kernel capability trigger and file-discovery routing>
-uv run pytest <existing natural import / structured citation / session scope targets>
-git diff --check
+./.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py agent/memory_kernel/kernel.py agent/memory_kernel/session_document_scope.py agent/memory_kernel/natural_file_import_runtime.py
+./.venv/bin/python -m pytest -o addopts='' tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py tests/agent/test_natural_file_import_runtime.py -q
 ```
 
-If this repo uses a local venv instead of `uv`, use the established local command and report it exactly.
+Result:
 
-## Final Report Required
+```text
+102 passed
+```
 
-Report:
+Codex B also ran direct probes for ordinary retrieval, fuzzy file-discovery, and self-awareness trigger coverage.
 
-1. changed files;
-2. how fuzzy file-discovery intent is now distinguished from ordinary retrieval;
-3. self-awareness trigger cases covered;
-4. tests run and results;
-5. unrelated dirty excluded;
-6. forbidden actions not performed;
-7. whether Codex B review is required;
-8. whether test-machine / OpenWebUI / 8642 validation is required.
+## Required Next Step
 
-Do not declare Phase 2 complete from this phase alone.
+The next action is test-machine validation, not new Codex A implementation.
+
+Use:
+
+```text
+docs/CODEX_TEST_MACHINE_PHASE2113A_SELF_AWARENESS_SMOKE_PROMPT.md
+```
+
+The test machine should validate:
+
+1. self-awareness answer;
+2. ordinary retrieval not suppressed by `找一下 / 帮我找`;
+3. fuzzy file discovery candidates / safe Missing Evidence;
+4. natural import success feedback and same-session retrieval only if the operator explicitly authorizes one small non-sensitive import.
+
+## If Test-machine Returns Go
+
+Codex A should not automatically implement new features.
+
+Codex B should update Phase 2.113 closeout and decide whether Phase 2 can proceed to the next freeze gate.
+
+## If Test-machine Returns Pause / No-Go
+
+Only then should Codex A receive a new bounded fix prompt with:
+
+1. exact failing case;
+2. sanitized diagnostics;
+3. smallest allowed write scope;
+4. target tests;
+5. forbidden actions.
+
+## Do Not
+
+1. Do not code beyond the returned blocker.
+2. Do not run production rollout.
+3. Do not scan NAS.
+4. Do not write DB / facts / document_versions / OpenSearch / Qdrant.
+5. Do not repair / cleanup / backfill / reindex / delete / migrate.
+6. Do not modify retrieval contract.
+7. Do not modify memory kernel main architecture.
+8. Do not treat diagnostics, aliases, workspace refs, or memory metadata as retrieval evidence.
+9. Do not stage unrelated `uv.lock`, adapter reload, or repo-hygiene files.
+
+## If User Says "Execute"
+
+Report that Phase 2.113a is waiting for test-machine validation with `docs/CODEX_TEST_MACHINE_PHASE2113A_SELF_AWARENESS_SMOKE_PROMPT.md`.
+
+Do not make new code changes unless the user provides a new bounded implementation request after test-machine feedback.
