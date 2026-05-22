@@ -1,5 +1,15 @@
 # Phase Backlog
 
+## Phase 2.112i Test-machine Retrieval Backend Environment Fix
+
+1. Phase 2.112h test-machine alias gate passed: requested `@建筑类数据样表` was preserved, follow-up alias resolved, `alias_missing=false`, and `stable_owner_missing=false`.
+2. Remaining blocker is retrieval backend environment, not alias code: reported root cause was `retrieval_backend_failed_postgres_hostname_unresolved`.
+3. Do not treat development-machine local service availability as the test-machine result. The trusted test-machine result is alias resolved plus retrieval backend DB hostname unresolved.
+4. Do not modify Hermes agent alias parser / continuity code for this blocker.
+5. Next required action is environment-level: make Hermes_memory API use a DB hostname that matches its run mode. Docker compose mode may use service hostname; host/launchd mode needs an approved host-accessible endpoint.
+6. After services are healthy, rerun at most one follow-up retrieval for `@建筑类数据样表`; repeat import only if restart lost session continuity.
+7. Full natural import closeout remains blocked until retrieval evidence is non-empty and citation is present.
+
 ## Phase 2.112h Explicit Natural Import Alias Preservation Fix
 
 0. Development fix completed on 2026-05-22: explicit natural-language alias parsing now preserves requested `@建筑类数据样表`; targeted parser / flow / runtime tests `15 passed`; py_compile passed; natural import / upload client / session scope regression `124 passed`.

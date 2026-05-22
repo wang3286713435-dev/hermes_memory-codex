@@ -1,5 +1,13 @@
 # DEV_LOG
 
+## 2026-05-22 Phase 2.112i Test-machine Retrieval Backend Environment Fix Handoff
+
+- 已修正交接口径：不要把开发机本地服务未监听误写成测试机最终结论。
+- 当前可信测试机结果：2.112h alias gate 已过，import alias 正确为 `@建筑类数据样表`，follow-up `alias_resolution.status=alias_resolved`，`alias_missing=false`，`stable_owner_missing=false`。
+- 当前 blocker：Hermes_memory retrieval backend 连接 DB 时无法解析 `postgres` hostname，导致 `retrieval_suppressed=true`、`retrieval_suppressed_reason=retrieval_backend_failed`、evidence 为空、citation 缺失。
+- 本轮未执行真实 follow-up retrieval、未重复 import、未写 DB / facts / versions / OpenSearch / Qdrant，未执行 repair/backfill/reindex/delete/migration/rollout。
+- 当前结论：Pause。下一步由测试机修复 Hermes_memory API 的 DB hostname / network 配置后，重跑 retrieval evidence + citation。
+
 ## 2026-05-22 Phase 2.112h Explicit Natural Import Alias Preservation Fix Handoff
 
 - 测试机复验 2.112g 仍 Pause：candidate 已部署，import 成功并 stored continuity，但导入绑定的 alias 不是用户请求的 `@建筑类数据样表`，follow-up 该 alias 仍 `alias_missing=true`、`retrieval_suppressed=true`。

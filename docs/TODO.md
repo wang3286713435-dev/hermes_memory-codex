@@ -1,5 +1,13 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.112i Test-machine Retrieval Backend Environment Fix
+
+1. Phase 2.112h alias gate 已通过：测试机已证明 explicit requested alias `@建筑类数据样表` 能保存并 follow-up `alias_resolved`。
+2. 当前 blocker 转为 retrieval backend 环境：`retrieval_backend_failed_postgres_hostname_unresolved` / DB 服务不可达。
+3. 不要把开发机本地 8000/8642 监听状态当成测试机最终结论；当前可信 blocker 是测试机 retrieval backend `postgres` hostname unresolved。
+4. 下一步必须修复测试机 Hermes_memory API 的 DB hostname / network 配置；不得继续打回 alias parser / continuity 代码。
+5. 服务恢复后只重跑 follow-up retrieval + citation；如 session 丢失，最多一次 fresh controlled import。
+
 ## Phase 2.112h Explicit Natural Import Alias Preservation Fix
 
 1. 打回 2.112g：测试机已确认 2.112g 部署并重启，但导入阶段绑定的 alias 不是用户指定的 `@建筑类数据样表`。

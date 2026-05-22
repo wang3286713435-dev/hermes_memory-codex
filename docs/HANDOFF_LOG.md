@@ -7747,6 +7747,16 @@
 - next: Codex B review, then test-machine OpenWebUI / 8642 validation.
 - commit/tag if any: none.
 
+## 2026-05-22 12:57 Phase 2.112i Test-machine Retrieval Backend Environment Fix
+
+- goal: Record remaining retrieval backend environment blocker after Phase 2.112h alias gate passed; do not modify alias parser / continuity code.
+- changed_files: Hermes_memory `docs/ACTIVE_PHASE.md`, `docs/HANDOFF_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: no code tests; this is a docs / handoff correction based on test-machine 2.112h validation.
+- validation: test-machine alias gate passed; follow-up reached `alias_resolved`, but retrieval backend returned `retrieval_backend_failed_postgres_hostname_unresolved`.
+- risks: Cannot validate retrieval evidence / citation until the test-machine Hermes_memory API DB hostname / network configuration is fixed; do not repeat imports or alter alias code to mask environment.
+- next: Fix test-machine Hermes_memory API DB hostname / run mode, then rerun same logical follow-up retrieval + citation once.
+- commit/tag if any: none.
+
 ## 2026-05-22 12:45 Phase 2.112h Codex B Review / Runtime Candidate
 
 - goal: Review Codex A Phase 2.112h explicit natural import alias preservation fix and decide whether to publish runtime test-candidate.
