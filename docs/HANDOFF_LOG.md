@@ -7850,3 +7850,14 @@
 - handoff_prompt: Added `docs/CODEX_TEST_MACHINE_PHASE2113A_SELF_AWARENESS_SMOKE_PROMPT.md` for test-machine validation.
 - next: test-machine checks out the runtime candidate, restarts 8642, and validates self-awareness, ordinary retrieval guard, fuzzy file discovery, and optional authorized natural import feedback.
 - commit/tag if any: Hermes_memory docs baseline pending this round.
+
+## 2026-05-22 17:35 Phase 2.113a Test-machine Live Validation Go
+
+- result: Go.
+- runtime: `hermes-agent` tag `phase-2.113a-self-awareness-runtime-test-candidate`; 8642 health pass; Hermes Memory health pass; real upload flag visible.
+- self_awareness: pass; response mentions memory kernel, alias / workspace, retrieval / citation, and Missing Evidence; no overclaim detected.
+- ordinary_retrieval_guard: pass; two `帮我找` ordinary retrieval questions were not misrouted into fuzzy file discovery.
+- fuzzy_file_discovery: pass; safe candidates or safe Missing Evidence behavior; no raw path or secret leak.
+- natural_import_feedback: skipped because no import was authorized in this smoke; this is acceptable for the prompt gate.
+- safety: no secret / raw path / file content output; no NAS scan; no repair/cleanup/backfill/reindex/delete/migration/rollout; no manual DB/index write.
+- conclusion: Phase 2.113a P0 self-awareness / routing live gate is passed. Next is Phase 2.113 closeout / Phase 2 final freeze checklist update, not more 2.113a coding.

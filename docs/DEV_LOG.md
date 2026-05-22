@@ -1242,3 +1242,10 @@
 - Verification: py_compile passed; combined target suite `102 passed`; direct probes confirmed ordinary retrieval is not suppressed by `帮我找一下 / 找一下`, clear file-candidate discovery remains fail-closed, and memory-kernel self-awareness triggers are covered.
 - Added test-machine prompt `docs/CODEX_TEST_MACHINE_PHASE2113A_SELF_AWARENESS_SMOKE_PROMPT.md`.
 - Current gate: no new Codex A coding unless test-machine / OpenWebUI / 8642 returns a concrete blocker.
+
+## 2026-05-22 Phase 2.113a Test-machine Live Validation Go
+
+- Test-machine validation returned Go for `phase-2.113a-self-awareness-runtime-test-candidate`.
+- Passed: 8642 health, Hermes Memory health, self-awareness response, ordinary retrieval guard, fuzzy file discovery safety, and no leak / no forbidden side effect checks.
+- Natural import feedback was skipped because the operator did not authorize an import in this smoke; this remains acceptable for this prompt because the import case was conditional.
+- Next: update Phase 2.113 closeout / freeze checklist. Do not ask Codex A for more 2.113a coding unless a later live run returns a concrete blocker.

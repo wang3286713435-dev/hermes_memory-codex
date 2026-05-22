@@ -1,10 +1,10 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.113a Live Validation Gate
+## Phase 2.113 Closeout Gate
 
 You are Codex A, the Hermes runtime development agent.
 
-Do not continue coding unless the test-machine / OpenWebUI / 8642 validation returns a concrete blocker.
+Do not write new runtime code unless Codex B returns a concrete new blocker.
 
 Read first:
 
@@ -13,89 +13,61 @@ Read first:
 3. `docs/PHASE_BACKLOG.md`
 4. `docs/PHASE2113_HERMES_MEMORY_SELF_AWARENESS_KERNEL_ACTIVATION.md`
 5. `docs/PHASE2113A_SELF_AWARENESS_REVIEW_FIX.md`
-6. `docs/CODEX_TEST_MACHINE_PHASE2113A_SELF_AWARENESS_SMOKE_PROMPT.md`
-7. `docs/TODO.md`
-8. `docs/DEV_LOG.md`
+6. `docs/TODO.md`
+7. `docs/DEV_LOG.md`
 
 ## Current State
 
-Phase 2.113a has passed Codex B local review.
+Phase 2.113a live validation returned Go on the test machine.
 
-Hermes agent runtime test-candidate:
-
-```text
-commit = a12d378e0
-tag = phase-2.113a-self-awareness-runtime-test-candidate
-```
-
-Accepted fixes:
-
-1. Ordinary retrieval-style questions such as `帮我找一下工程地点` and `帮我找一下主标书里的工期要求` are no longer suppressed as file-discovery questions.
-2. Clear file-candidate discovery such as `C塔项目的招标要求文件你帮我找出来` still fail-closes safely when no safe candidates exist.
-3. Kernel self-awareness trigger covers natural file-management / memory-library wording.
-
-## Verified by Codex B
-
-```bash
-./.venv/bin/python -m py_compile agent/memory_kernel/context_builder.py agent/memory_kernel/kernel.py agent/memory_kernel/session_document_scope.py agent/memory_kernel/natural_file_import_runtime.py
-./.venv/bin/python -m pytest -o addopts='' tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py tests/agent/test_natural_file_import_runtime.py -q
-```
-
-Result:
+Runtime candidate:
 
 ```text
-102 passed
+hermes-agent tag = phase-2.113a-self-awareness-runtime-test-candidate
 ```
 
-Codex B also ran direct probes for ordinary retrieval, fuzzy file-discovery, and self-awareness trigger coverage.
+Validated:
+
+1. 8642 backend health passed.
+2. Hermes Memory health passed.
+3. Self-awareness answer passed.
+4. Ordinary retrieval guard passed.
+5. Fuzzy file discovery safety passed.
+6. No secret / raw path / file content / NAS scan / repair / reindex / rollout / manual DB-index write.
+
+Skipped by design:
+
+```text
+natural_import_feedback = skipped_by_no_import_authorization
+```
+
+This is acceptable for the Phase 2.113a live gate because the test-machine prompt only required that case if a small non-sensitive import was explicitly authorized.
 
 ## Required Next Step
 
-The next action is test-machine validation, not new Codex A implementation.
+This is now a Codex B closeout / freeze-checklist task, not a Codex A implementation task.
 
-Use:
+Codex B should:
 
-```text
-docs/CODEX_TEST_MACHINE_PHASE2113A_SELF_AWARENESS_SMOKE_PROMPT.md
-```
+1. update Phase 2.113 closeout status;
+2. update Phase 2 final freeze checklist;
+3. decide whether a separate authorized natural import UX smoke is still needed before Phase 2 stable freeze;
+4. prepare the next bounded phase only if an explicit remaining blocker exists.
 
-The test machine should validate:
+## If User Says "Continue"
 
-1. self-awareness answer;
-2. ordinary retrieval not suppressed by `找一下 / 帮我找`;
-3. fuzzy file discovery candidates / safe Missing Evidence;
-4. natural import success feedback and same-session retrieval only if the operator explicitly authorizes one small non-sensitive import.
+Do not write runtime code.
 
-## If Test-machine Returns Go
-
-Codex A should not automatically implement new features.
-
-Codex B should update Phase 2.113 closeout and decide whether Phase 2 can proceed to the next freeze gate.
-
-## If Test-machine Returns Pause / No-Go
-
-Only then should Codex A receive a new bounded fix prompt with:
-
-1. exact failing case;
-2. sanitized diagnostics;
-3. smallest allowed write scope;
-4. target tests;
-5. forbidden actions.
+Report that Phase 2.113a live validation is Go and that Codex B should update closeout / freeze checklist first.
 
 ## Do Not
 
-1. Do not code beyond the returned blocker.
-2. Do not run production rollout.
-3. Do not scan NAS.
-4. Do not write DB / facts / document_versions / OpenSearch / Qdrant.
-5. Do not repair / cleanup / backfill / reindex / delete / migrate.
-6. Do not modify retrieval contract.
-7. Do not modify memory kernel main architecture.
-8. Do not treat diagnostics, aliases, workspace refs, or memory metadata as retrieval evidence.
-9. Do not stage unrelated `uv.lock`, adapter reload, or repo-hygiene files.
-
-## If User Says "Execute"
-
-Report that Phase 2.113a is waiting for test-machine validation with `docs/CODEX_TEST_MACHINE_PHASE2113A_SELF_AWARENESS_SMOKE_PROMPT.md`.
-
-Do not make new code changes unless the user provides a new bounded implementation request after test-machine feedback.
+1. Do not run production rollout.
+2. Do not scan NAS.
+3. Do not write DB / facts / document_versions / OpenSearch / Qdrant.
+4. Do not repair / cleanup / backfill / reindex / delete / migrate.
+5. Do not modify retrieval contract.
+6. Do not modify memory kernel main architecture.
+7. Do not treat diagnostics, aliases, workspace refs, or memory metadata as retrieval evidence.
+8. Do not claim DWG/RVT/BIM content understanding.
+9. Do not stage unrelated `uv.lock`, adapter reload, repo-hygiene, shared-doc import, or runtime artifact files.

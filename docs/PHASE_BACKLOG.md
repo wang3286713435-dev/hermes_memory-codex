@@ -1521,7 +1521,8 @@
 47. Phase 2.113a 已完成 Codex B review fix：file-discovery intent 收窄，普通内容检索不再因“找一下 / 帮我找”被 suppress；明确候选文件查找仍 fail-closed。
 48. Phase 2.113a 已补 self-awareness trigger 自然问法覆盖，目标验证 `102 passed`。
 49. Phase 2.113a Codex B review 已通过；Hermes agent runtime test-candidate 已推送：`a12d378e0` / `phase-2.113a-self-awareness-runtime-test-candidate`。
-50. 下一步为测试机 / OpenWebUI / 8642 live validation：self-awareness、ordinary retrieval guard、fuzzy file discovery、可选授权 natural import feedback；通过前不得宣布 Phase 2.113 final closeout。
+50. 测试机 / OpenWebUI / 8642 live validation 已返回 Go：self-awareness、ordinary retrieval guard、fuzzy file discovery 与安全边界通过；可选 natural import feedback 因未授权导入而跳过。
+51. 下一步为 Phase 2.113 closeout / Phase 2 final freeze checklist 更新；不得把该 Go 解释为 production rollout、NAS 全量扫描、DWG/RVT/BIM 内容理解或无限制 memory 写入。
 
 ## 后置项
 

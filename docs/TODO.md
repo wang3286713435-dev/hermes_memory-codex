@@ -2065,3 +2065,6 @@
 6. Phase 2.113a bounded fix passed Codex B review: py_compile passed, target suite `102 passed`, and direct probes confirmed ordinary retrieval / fuzzy file-discovery / self-awareness boundaries.
 7. Hermes agent runtime test-candidate is `a12d378e0` / `phase-2.113a-self-awareness-runtime-test-candidate`.
 8. Next action is test-machine / OpenWebUI / 8642 validation using `docs/CODEX_TEST_MACHINE_PHASE2113A_SELF_AWARENESS_SMOKE_PROMPT.md`; no further Codex A implementation unless that validation returns a concrete blocker.
+9. Test-machine / OpenWebUI-compatible 8642 validation returned Go for self-awareness, ordinary retrieval guard, fuzzy file-discovery safety, and side-effect boundaries.
+10. Natural import feedback was skipped because no import was authorized in this smoke; this is not a blocker for the Phase 2.113a live gate.
+11. Next action is Phase 2.113 closeout / Phase 2 final freeze checklist update; no more 2.113a coding unless a new live blocker appears.
