@@ -7808,3 +7808,24 @@
 - risks: Do not let Hermes become a generic chatbot plus external memory database; do not treat alias / memory / workspace metadata as evidence; do not write raw file content, raw paths, raw DB rows, or secrets into ordinary memory.
 - next: Codex A implements Phase 2.113 runtime fix, then Codex B review and test-machine / OpenWebUI / 8642 validation.
 - commit/tag if any: none.
+
+## 2026-05-22 16:14 Phase 2.113 Hermes Memory Self-Awareness / Kernel Activation Runtime Fix
+
+- goal: Implement the bounded Phase 2.113 runtime fix from `docs/NEXT_CODEX_A_PROMPT.md`.
+- changed_files: Hermes main `agent/memory_kernel/context_builder.py`, `agent/memory_kernel/kernel.py`, `agent/memory_kernel/session_document_scope.py`, `agent/memory_kernel/natural_file_import_runtime.py`, `tests/agent/test_natural_file_import_runtime.py`, `tests/agent/test_structured_citation_context.py`, `tests/agent/test_session_document_scope.py`, `docs/TODO.md`, `docs/DEV_LOG.md`; Hermes_memory `docs/PHASE2113_HERMES_MEMORY_SELF_AWARENESS_KERNEL_ACTIVATION.md`, `docs/ACTIVE_PHASE.md`, `docs/HANDOFF_LOG.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: Hermes main py_compile passed; natural import runtime `14 passed`; structured citation context `18 passed`; session document scope `67 passed`.
+- validation: Local targeted tests only; no OpenWebUI / 8642 / API / CLI live smoke and no upload.
+- risks: Test-machine must still verify the LLM-facing behavior; import diagnostics / aliases / workspace refs remain metadata, not retrieval evidence.
+- next: Codex B review; if accepted, Codex C / test-machine validates self-awareness, natural import response, and fuzzy file discovery in OpenWebUI / 8642.
+- commit/tag if any: none.
+
+## 2026-05-22 16:35 Phase 2.113 Codex B Review Returned
+
+- goal: Review Codex A Phase 2.113 self-awareness runtime fix.
+- review_result: returned_for_fix; no baseline.
+- passed_checks: Codex B reran target suite in Hermes main: `99 passed`; py_compile had already passed in Codex A report.
+- blocking_finding: fuzzy file-discovery guard is too broad. Local probe showed `帮我找一下工程地点` and `帮我找一下主标书里的工期要求` returned `suppress_retrieval=true` / `file_discovery_no_safe_candidate`, which would block ordinary retrieval.
+- secondary_finding: self-awareness trigger covers required `你能不能管理文件`, but misses natural variants such as `你可以帮我管理文件吗`, `你能管理公司文件吗`, and `能不能管理文件`.
+- changed_files: Added `docs/PHASE2113A_SELF_AWARENESS_REVIEW_FIX.md`; rewrote `docs/NEXT_CODEX_A_PROMPT.md`; updated `docs/ACTIVE_PHASE.md`.
+- next: Codex A executes Phase 2.113a bounded fix, preserving existing self-awareness/import response behavior while narrowing file-discovery intent and broadening safe capability triggers.
+- commit/tag if any: none.

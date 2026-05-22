@@ -1213,3 +1213,17 @@
 - PRD deviation self-audit: Remaining gaps include eval scale, Top5 / citation metrics, structured fact spot-check, parser/source coverage, tender deep-field reliability, version lifecycle, RBAC/ABAC, knowledge admin / human validation, platform native session/evidence/memory unlock, and Data Steward beyond catalog-only.
 - risks: Do not turn memory/workspace metadata into content evidence; do not write raw paths/content/secrets into memory; do not broaden platform Gateway beyond catalog-only; do not claim production readiness or DWG/RVT/BIM content understanding.
 - next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`; after implementation, Codex B reviews and test-machine / OpenWebUI / 8642 validates.
+
+## 2026-05-22 Phase 2.113 Runtime Fix
+
+- Completed the local bounded runtime fix in Hermes main: kernel self-awareness context boundary, stronger natural import success response, generated alias visibility, and no-safe-candidate fuzzy file discovery suppression.
+- Verification: py_compile passed; `tests/agent/test_natural_file_import_runtime.py` `14 passed`; `tests/agent/test_structured_citation_context.py` `18 passed`; `tests/agent/test_session_document_scope.py` `67 passed`.
+- No OpenWebUI / 8642 / API / CLI live smoke was run; no upload, DB, facts, document_versions, OpenSearch, Qdrant, repair, backfill, reindex, delete, migration, or rollout was performed.
+- Next: Codex B review, then Codex C / test-machine validates self-awareness, natural import response, and fuzzy file discovery in the real user-facing runtime.
+
+## 2026-05-22 Phase 2.113 Codex B Review Returned
+
+- Codex B review returned Phase 2.113 for a bounded fix: current fuzzy file-discovery guard incorrectly suppresses ordinary retrieval queries containing broad phrases like `帮我找一下`.
+- Local probe evidence: `帮我找一下工程地点` and `帮我找一下主标书里的工期要求` both produced `suppress_retrieval=true` / `file_discovery_no_safe_candidate`; this is a real usability regression risk.
+- Secondary finding: kernel capability trigger should cover more natural wording such as `你可以帮我管理文件吗` and `你能管理公司文件吗`.
+- Next prompt updated to Phase 2.113a; no runtime baseline or test-machine validation should happen until Codex A fixes and Codex B re-reviews.

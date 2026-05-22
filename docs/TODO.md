@@ -1993,6 +1993,15 @@
 4. 本轮未上传文件、未执行 API / CLI smoke、未写 DB / facts / versions / audit_logs / OpenSearch / Qdrant。
 5. 下一步建议 Codex B review；通过后再 selective baseline。
 6. 第二真实文件 smoke 仍保留为用户授权后 Codex C 任务，不阻塞 Phase 2.60 review。
+
+# Phase 2.113 Hermes Memory Self-Awareness / Kernel Activation
+
+1. Phase 2.113 runtime fix 已完成本地最小实现：Hermes 主仓库现在会向模型注入 Hermes Memory Kernel capability boundary。
+2. 自然导入成功响应已补齐 import status、safe document/version id、chunk/index 状态、推荐 alias、后续提问建议与 evidence / Missing Evidence 边界。
+3. 模糊找文件无安全候选时会 suppress retrieval，并要求澄清，不再落到无关普通检索。
+4. 验证：py_compile 通过；Hermes 主仓库 natural import runtime `14 passed`、structured citation context `18 passed`、session document scope `67 passed`。
+5. 下一步：Codex B review；通过后由 Codex C / 测试机验证 OpenWebUI / 8642 真实 self-awareness、natural import feedback 与 fuzzy file discovery。
+6. 当前不 baseline、不宣布 Phase 2 complete、不进入 rollout。
 # TODO 最新状态
 
 - 当前 phase：Phase 2.112f Alias Continuity Restore Fix 已通过 Codex B review，待测试机复验。
@@ -2037,3 +2046,11 @@
 6. 测试机 2.112h 复验已越过 alias gate：import alias 正确为 `@建筑类数据样表`，follow-up `alias_resolved`，`alias_missing=false`。
 7. 当前最小阻塞点变更为测试机环境：Hermes_memory retrieval backend 无法解析 `postgres` 主机名，导致 `retrieval_backend_failed`、evidence 为空、citation 缺失。
 8. 下一步：测试机修复 Hermes_memory API / DB hostname 运行环境后，重跑 follow-up retrieval + citation；不要再把该问题打回 alias parser / continuity 代码。
+
+## Phase 2.113a Self-Awareness Review Fix
+
+1. Phase 2.113 Codex B review returned; do not baseline current runtime fix.
+2. Blocking issue: broad `帮我找/找一下` fuzzy file-discovery trigger suppresses normal retrieval questions.
+3. Codex A must narrow file-discovery intent and add regression tests for ordinary retrieval not being suppressed.
+4. Codex A should broaden safe self-awareness trigger wording.
+5. Keep previous safety boundaries: no NAS scan, no DB CRUD/SQL, no raw path/content memory, no DWG/RVT/BIM overclaim, no production rollout.

@@ -1516,6 +1516,8 @@
 42. 当前白名单未允许修改 `run_agent.py`；本轮未接入真正 post-answer retry / replacement，仍需 Codex C 真实终端复验。
 43. 下一步等待 Codex B review；通过后建议 Codex C 重跑 Q1/Q2/Q3；通过后再由 Codex B 写入 Phase 2.38d Git baseline prompt。
 44. Phase 2.112e API server stable owner bridge 已实现：accepted `X-Hermes-Session-Id` 与 whitelisted OpenWebUI conversation headers 会传入 `AIAgent.gateway_session_key`，无 stable owner 时继续 fail-closed 并输出 sanitized `stable_owner_missing`；下一步等待 Codex B review，之后才可考虑 runtime baseline / 测试机 OpenWebUI 验证。
+45. Phase 2.113 runtime fix 已完成本地最小实现：Hermes 主仓库新增 self-awareness capability boundary、自然导入成功响应强化、无安全文件候选时的 Missing Evidence / suppress retrieval 边界；目标测试通过。
+46. Phase 2.113 尚未 baseline；下一步必须 Codex B review，并由 Codex C / 测试机验证 OpenWebUI / 8642 真实用户侧是否稳定呈现 Hermes_memory / workspace / retrieval / evidence kernel 能力。
 
 ## 后置项
 

@@ -260,3 +260,13 @@ Codex A must report:
 9. whether test-machine / OpenWebUI / 8642 validation is required.
 
 Do not declare Phase 2 complete from this phase alone.
+
+## 9. Implementation Status
+
+2026-05-22 Codex A local runtime fix completed:
+
+1. Hermes main now injects a Hermes Memory Kernel capability boundary for self-awareness / memory / file capability questions.
+2. Natural import success responses now show import status, safe document/version ids, chunk/index status, recommended alias, suggested follow-up questions, and the retrieval evidence / Missing Evidence boundary.
+3. Fuzzy file discovery with no safe session/catalog candidate now suppresses unrelated retrieval and asks for clarification with `Missing Evidence` semantics.
+4. Verification passed locally: py_compile; natural import runtime `14 passed`; structured citation context `18 passed`; session document scope `67 passed`.
+5. Real OpenWebUI / 8642 validation remains pending; Phase 2 is still not complete.
