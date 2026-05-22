@@ -8,9 +8,9 @@
 - live smoke 结果：沿用已接受的 Phase 2.112i 测试机结果：Hermes_memory health pass，8642 health pass，real upload flag visible，alias resolved，retrieval evidence non-empty，citation present，third-document contamination=false。
 - 当前结论：natural import closeout blocker 已在授权小 `.xlsx` 范围内解除；Phase 2 full completion 仍不能宣布，因为 eval scale、Top5/citation metrics、structured fact spot-check、parser/source coverage、tender deep-field、version lifecycle、RBAC/ABAC、knowledge admin/human validation 等 PRD/Roadmap 缺口仍未完全关闭。
 - 阻塞点 / 风险点：不要把 `passed_with_scope` 误写成 unrestricted production-ready；不要把 platform Gateway catalog-only path 与 standalone Hermes import/evidence path 混为一体。
-- 是否建议 baseline：建议 Codex B review 后做 docs / manifest baseline。
-- 是否建议进入下一阶段：暂不进入新功能；先完成 closeout/freeze checklist review 与 selective baseline。
-- 下一轮建议：Codex B review 本轮 closeout / freeze checklist diff，确认剩余 Phase 2 P0/P1 blocker 清单与 stable freeze 口径。
-- 是否需要 Codex B 审核：是。
+- 是否建议 baseline：已完成 docs / manifest baseline。
+- 是否建议进入下一阶段：可继续 Phase 2 freeze checklist 剩余 P0/P1 缺口审计；暂不进入新功能。
+- 下一轮建议：围绕剩余 Phase 2 P0/P1 blocker 清单做逐项 Go / Pause / backlog reclassify 决策。
+- 是否需要 Codex B 审核：已完成。
 - 是否需要 Codex C / 测试机验收：否，除非扩大样本类型或导入范围。
-- commit/tag if any：none。
+- commit/tag if any：Hermes_memory `7049aa5` / `phase-2.112j-natural-import-closeout-scope-baseline`。
