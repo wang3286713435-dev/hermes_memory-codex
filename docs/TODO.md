@@ -2008,4 +2008,6 @@
 3. 验证通过：targeted parser / flow / runtime tests `15 passed`；py_compile 通过；natural import / upload client / session scope regression `124 passed`。
 4. Codex B review 已通过；Hermes agent runtime test-candidate 已 baseline 并推送：`e1d38e1ec` / `phase-2.112h-explicit-import-alias-runtime-test-candidate`。
 5. 未执行真实 OpenWebUI / 8642 upload/import，未写 DB / facts / versions / OpenSearch / Qdrant；full natural import closeout 未完成。
-6. 下一步：测试机 checkout runtime candidate，重启 8642，复验 explicit requested alias import -> follow-up retrieval + citation。
+6. 测试机 2.112h 复验已越过 alias gate：import alias 正确为 `@建筑类数据样表`，follow-up `alias_resolved`，`alias_missing=false`。
+7. 当前最小阻塞点变更为测试机环境：Hermes_memory retrieval backend 无法解析 `postgres` 主机名，导致 `retrieval_backend_failed`、evidence 为空、citation 缺失。
+8. 下一步：测试机修复 Hermes_memory API / DB hostname 运行环境后，重跑 follow-up retrieval + citation；不要再把该问题打回 alias parser / continuity 代码。

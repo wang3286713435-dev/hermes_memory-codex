@@ -23,6 +23,14 @@
 - excluded_dirty：Hermes main `agent/memory_kernel/adapters/hermes_memory_adapter.py`、`uv.lock`、`docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`、`tests/agent/test_memory_kernel_adapter_reload.py`；Hermes_memory `docs/digital-delivery-standards/`。
 - 下一步：测试机 checkout runtime candidate，重启 8642，复验 explicit requested alias import -> follow-up retrieval + citation。
 
+## 2026-05-22 Phase 2.112h Test-machine Alias Gate Passed / Retrieval Backend Env Blocker
+
+- 测试机已 checkout `e1d38e1ec` / `phase-2.112h-explicit-import-alias-runtime-test-candidate` 并重启 8642；backend health 通过，real upload flag 可见。
+- explicit alias import 通过：`document_id=2baf5527-42c9-4467-8856-573e54c97121`、`version_id=b2efc465-cde8-4aef-a113-5c8615929719`、`chunk_count=6`、`indexed_count=6`、import alias 正确为 `@建筑类数据样表`，`alias_continuity_status=stored`。
+- 同会话 follow-up alias gate 通过：`alias_resolution.status=alias_resolved`、`alias_resolution.alias=@建筑类数据样表`、`alias_missing=false`、`stable_owner_missing=false`。
+- 当前 Pause 已不是 alias 代码问题；新 blocker 是测试机 Hermes_memory retrieval backend 环境：`retrieval_suppressed=true`、`retrieval_suppressed_reason=retrieval_backend_failed`、`retrieval_backend_failed_postgres_hostname_unresolved`。
+- 下一步只修测试机运行环境 / DB hostname；修复后重跑 retrieval + citation，不重复打回 alias parser / continuity 代码。
+
 ## 2026-05-22 Phase 2.112g Header-only Stable Owner Restore Fix Handoff
 
 - Codex A 已完成 bounded runtime fix：`X-Hermes-Session-Id` 作为 header-only follow-up 时也会生成 gateway stable owner。

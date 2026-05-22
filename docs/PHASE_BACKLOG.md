@@ -10,7 +10,9 @@
 5. Phase 2.112h task status: implemented locally; requested alias wins over generated alias; malformed aliases remain `not_requested`; follow-up restore is covered by tests.
 6. Keep all previous safety rules: no alias-global restore, no ordinary memory alias persistence, no raw path/owner/token/content diagnostics, no DB/index/NAS/rollout.
 7. Codex B review passed on 2026-05-22; runtime test-candidate pushed: Hermes agent commit `e1d38e1ec`, tag `phase-2.112h-explicit-import-alias-runtime-test-candidate`.
-8. Full Phase 2 natural import closeout remains blocked until test-machine OpenWebUI / 8642 proves retrieval evidence + citation after explicit requested alias import.
+8. Test-machine validation on 2026-05-22 proved the explicit requested alias gate passed: import alias was exactly `@建筑类数据样表`, follow-up returned `alias_resolution.status=alias_resolved`, `alias_missing=false`, and `stable_owner_missing=false`.
+9. New blocker is environment / retrieval backend: `retrieval_suppressed=true`, reason `retrieval_backend_failed`, specifically `retrieval_backend_failed_postgres_hostname_unresolved`.
+10. Full Phase 2 natural import closeout remains blocked until the test-machine Hermes_memory retrieval backend can reach its DB and follow-up returns non-empty retrieval evidence + citation.
 
 ## Phase 2.112g Header-only Stable Owner Restore Fix
 

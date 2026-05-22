@@ -7758,3 +7758,13 @@
 - runtime_candidate: Hermes agent commit `e1d38e1ec`, tag `phase-2.112h-explicit-import-alias-runtime-test-candidate`, pushed to `backup2`.
 - next: test-machine Codex checks out the tag, restarts 8642, and validates real OpenWebUI explicit requested alias import -> follow-up `@建筑类数据样表` retrieval + citation.
 - baseline: Not final. Full natural import closeout waits for successful test-machine validation.
+
+## 2026-05-22 13:05 Phase 2.112h Test-machine Alias Gate Passed / Env Blocker
+
+- result: Pause, but alias continuity blocker is resolved.
+- test_machine_state: `hermes-agent` `e1d38e1eca4b584cfc0e60d83ccc5fc158deb09f`, tag `phase-2.112h-explicit-import-alias-runtime-test-candidate`; 8642 health passed; real upload flag visible; worktree clean.
+- import: explicit alias import passed; `document_id=2baf5527-42c9-4467-8856-573e54c97121`, `version_id=b2efc465-cde8-4aef-a113-5c8615929719`, `chunk_count=6`, `indexed_count=6`, import alias exactly `@建筑类数据样表`, `alias_missing=false`.
+- follow_up_alias: `alias_resolution.status=alias_resolved`, `alias_resolution.alias=@建筑类数据样表`, `alias_missing=false`, `stable_owner_missing=false`.
+- blocker: retrieval backend failed after alias resolution: `retrieval_suppressed=true`, `retrieval_suppressed_reason=retrieval_backend_failed`, `retrieval_backend_failed_postgres_hostname_unresolved`; evidence IDs empty and citation absent.
+- diagnosis: do not treat this as a 2.112h alias parser / continuity failure. It is a test-machine Hermes_memory API / DB hostname environment blocker.
+- next: fix test-machine Hermes_memory retrieval backend DB host/network configuration, then rerun follow-up retrieval + citation. Avoid repeated imports unless session continuity is lost by the restart; if a fresh import is needed, run at most one controlled import.
