@@ -13,4 +13,4 @@
 - 下一轮建议：更新 Phase 2 closeout checklist，将 natural-language import usability 从 blocker 改为 passed-with-scope；继续检查 Hermes 自身 memory/kernel awareness 与 phase2 freeze 剩余项。
 - 是否需要 Codex B 审核：已完成当前归类检查。
 - 是否需要 Codex C / 测试机验收：本轮通过；后续如扩大样本类型再验收。
-- commit/tag if any：Hermes_memory `0fc7ad4` / `phase-2.112i-retrieval-env-blocker-clarified-baseline`；Hermes agent runtime candidate 仍为 `e1d38e1ec` / `phase-2.112h-explicit-import-alias-runtime-test-candidate`。
+- commit/tag if any：Hermes_memory `140dc97` / `phase-2.112i-natural-import-go-baseline`；Hermes agent runtime candidate 仍为 `e1d38e1ec` / `phase-2.112h-explicit-import-alias-runtime-test-candidate`。
