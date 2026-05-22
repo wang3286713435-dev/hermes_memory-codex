@@ -3,10 +3,12 @@
 ## Phase 2.115 Workspace Context / Auto Alias / Fuzzy File Discovery
 
 1. 新增用户体验 P0/P1 需求：自然语言导入不应要求用户手填 `PROJECT_CONTEXT`；Hermes 应自动推断 `workspace_context`。
-2. Codex A 下一步实现：从安全文件名 / 目录标签 / 会话 / 既有 alias 推断工作区，自动生成安全 alias，并将 imported document/version 绑定到工作区注册表。
-3. 后续模糊找文件应能返回安全候选，例如“我找到 @C塔主标书 / @C塔人力成本测算表，你说的是哪一个？”。
-4. 工作区/alias/import diagnostics 仍不是正文 evidence；回答内容必须通过 retrieval evidence + citation。
-5. 继续禁止 raw path / raw content / secret 写 memory，禁止 NAS full scan，禁止 DWG/RVT/BIM content overclaim。
+2. Codex A 已完成本地 runtime candidate：从安全文件名 / 目录标签 / 会话 / 既有 alias 推断工作区，自动生成安全 alias，并将 imported document/version 绑定到工作区注册表。
+3. 模糊找文件可返回安全候选，例如“我找到 @C塔主标书 / @C塔人力成本测算表，你说的是哪一个？”。
+4. Codex B review 通过，目标验证 `129 passed`；runtime candidate 为 `1ac8099e4` / `phase-2.115-workspace-auto-alias-runtime-test-candidate`。
+5. 下一步：测试机 / OpenWebUI / 8642 验证无 `PROJECT_CONTEXT`、无显式 `ALIAS` 的导入流。
+6. 工作区/alias/import diagnostics 仍不是正文 evidence；回答内容必须通过 retrieval evidence + citation。
+7. 继续禁止 raw path / raw content / secret 写 memory，禁止 NAS full scan，禁止 DWG/RVT/BIM content overclaim。
 
 ## Phase 2.114a Final User-flow Acceptance Go
 
@@ -2101,3 +2103,11 @@
 3. Test-machine prompt: `docs/CODEX_TEST_MACHINE_PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PROMPT.md`.
 4. Required operator inputs: one authorized small non-sensitive `AUTHORIZED_FILE_PATH`, a safe `ALIAS`, and a safe `PROJECT_CONTEXT`.
 5. No new Codex A runtime work is allowed unless the final user-flow smoke returns a concrete blocker.
+# Phase 2.115 Workspace Context / Auto Alias Runtime Candidate
+
+1. Hermes 主仓本地实现已完成：自然导入在没有手填 `PROJECT_CONTEXT` / 显式 alias 时可推断 safe `workspace_context`，并生成 / 绑定安全 alias。
+2. C塔人力成本类文件名会生成 `@C塔人力成本测算表` 类 alias；显式 alias 仍优先。
+3. session alias registry 已保存 workspace metadata，fuzzy file discovery 可按 alias / workspace / category 返回安全候选。
+4. import success 响应显示 workspace / alias diagnostics，但明确 `workspace_context_as_retrieval_evidence=false`，且不展示 raw path。
+5. 验证：Hermes 主仓 `git diff --check` 通过，py_compile 通过，natural import / runtime / session scope regression `129 passed`。
+6. 下一步：发布 runtime test-candidate 后由 Codex B review 与 Codex C / 测试机复验；不得直接宣布 Phase 2.115 收口。

@@ -1,5 +1,15 @@
 # Handoff Log
 
+## 2026-05-23 02:53 Phase 2.115 Workspace Context / Auto Alias Runtime Candidate
+
+- goal: Implement Phase 2.115 so natural import can infer workspace context, generate a safe alias, persist workspace alias metadata, and support fuzzy file discovery without user-supplied `PROJECT_CONTEXT` / explicit alias.
+- changed_files: Hermes main `natural_file_import.py`, `natural_file_import_flow.py`, `natural_file_import_runtime.py`, `session_document_scope.py`, `run_agent.py`, related tests and docs; Hermes_memory `ACTIVE_PHASE.md`, `HANDOFF_LOG.md`, `PHASE_BACKLOG.md`, `TODO.md`, `DEV_LOG.md`, `NEXT_CODEX_A_PROMPT.md`, ignored `reports/agent_runs/latest.json`.
+- tests: Hermes main `git diff --check` pass; py_compile pass; natural import / runtime / session scope regression `129 passed`.
+- validation: No real OpenWebUI / 8642 upload/import was run in this turn; validation must happen on test machine after runtime candidate tag.
+- risks: Workspace / alias diagnostics must remain non-evidence; no raw path/raw content/secret output; do not claim Phase 2.115 closeout until real import -> generated alias -> retrieval/citation -> fuzzy discovery passes.
+- next: Codex B review, then Codex C / test-machine validates `phase-2.115-workspace-auto-alias-runtime-test-candidate`.
+- commit/tag if any: Hermes main `1ac8099e4` / `phase-2.115-workspace-auto-alias-runtime-test-candidate`, pushed to `backup2`.
+
 ## 2026-05-22 Phase 2.112h Explicit Natural Import Alias Preservation Fix Prompt
 - goal: 打回 Phase 2.112g，并准备 Codex A 的 bounded follow-up。
 - test_machine_state: `hermes-agent` `20d9fb561` / `phase-2.112g-header-owner-restore-runtime-test-candidate`; 8642 health pass; real upload flag visible; worktree clean.
@@ -7901,3 +7911,14 @@
 - boundaries: No raw path or raw content in memory; workspace metadata is not retrieval evidence; no DWG/RVT/BIM content understanding; no platform Gateway code changes.
 - next: Codex A implements minimal workspace inference / auto alias / fuzzy discovery in `hermes-agent`, adds tests, then stops for Codex B review and test-machine validation.
 - commit/tag if any: none yet for this planning update.
+
+## 2026-05-23 Phase 2.115 Codex B Review / Runtime Candidate Handoff
+
+- goal: Review Codex A Phase 2.115 workspace context / auto alias / fuzzy file discovery runtime candidate.
+- review_result: Passed for local code/test scope.
+- runtime_candidate: Hermes main commit `1ac8099e4`, tag `phase-2.115-workspace-auto-alias-runtime-test-candidate`, pushed to `backup2`.
+- accepted_scope: workspace context inference from safe filename/folder/query signals, generated safe alias, workspace metadata persisted on alias binding/continuity, fuzzy file discovery over safe alias/workspace registry, raw path hidden in rendered response, diagnostics marked non-evidence.
+- verification: py_compile passed; natural import / flow / runtime / session scope regression returned `129 passed`; `git diff --check` passed.
+- p2_tail: Low-confidence workspace currently relies mostly on `needs_user_confirmation=true` diagnostics; future UX can make the natural-language confirmation stronger.
+- next: Test-machine / Codex C checks out `phase-2.115-workspace-auto-alias-runtime-test-candidate`, restarts 8642, and validates no-`PROJECT_CONTEXT` / no-explicit-`ALIAS` natural import, generated alias retrieval, and fuzzy file discovery.
+- excluded_dirty: Hermes main `agent/memory_kernel/adapters/hermes_memory_adapter.py`, `uv.lock`, `docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`, `tests/agent/test_memory_kernel_adapter_reload.py`; Hermes_memory `docs/digital-delivery-standards/`.

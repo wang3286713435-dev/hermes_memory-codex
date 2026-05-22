@@ -1,5 +1,15 @@
 # Phase Backlog
 
+## Phase 2.115 Workspace Context / Auto Alias / Fuzzy Discovery
+
+1. 本地 runtime candidate 已完成：Hermes 主仓支持从安全文件名 / folder label / query 推断 `workspace_context`，并在无显式 alias 时生成安全 alias。
+2. Generated alias 可绑定到 imported `document_id/version_id`，并携带 workspace metadata 供后续 fuzzy file discovery 使用。
+3. Fuzzy discovery 只返回 safe alias / workspace / category 候选；不输出 raw path、raw content、secret，不把 diagnostics 当 retrieval evidence。
+4. 验证已通过：py_compile、`git diff --check`、natural import / runtime / session scope regression `129 passed`。
+5. 当前仍需 Codex B review 与 Codex C / 测试机真实 OpenWebUI / 8642 复验；不得直接宣布 Phase 2.115 收口。
+6. 禁止扩展到 NAS scan、DWG/RVT/BIM 内容理解、platform Gateway 改造、production rollout、repair/backfill/reindex/delete/migration。
+
+
 ## Phase 2.113 Hermes Memory Self-Awareness / Kernel Activation
 
 1. 用户真实 OpenWebUI / 8642 使用暴露 P0 blocker：Hermes 可以打通 import / retrieval pipeline，但用户侧 Agent 不可靠地知道自己拥有 Hermes_memory / workspace / retrieval / evidence kernel。
@@ -1533,6 +1543,8 @@
 59. 用户确认 `PROJECT_CONTEXT` 不应作为最终用户必填输入；应由 Hermes 从文件名、目录标签、会话与已有 workspace/alias 自动推断。
 60. Phase 2.115 启动：Workspace Context Inference / Auto Alias / Fuzzy File Discovery，目标是让用户只说“帮我导入这个文件”，Hermes 自动放入工作区、生成安全别名并支持后续模糊找文件。
 61. 2.115 仍禁止 raw path/raw content/secret 写 memory，禁止把 workspace metadata 当 retrieval evidence，禁止平台 Gateway 改动、NAS 全量扫描、DWG/RVT/BIM 内容理解与 production rollout。
+62. Phase 2.115 本地实现候选已通过 Codex B review：Hermes 主仓 `1ac8099e4` / `phase-2.115-workspace-auto-alias-runtime-test-candidate`，targeted regression `129 passed`。
+63. 下一步必须由测试机 / OpenWebUI / 8642 验证无 `PROJECT_CONTEXT`、无显式 `ALIAS` 的导入流、generated alias retrieval 与 fuzzy discovery。
 
 ## 后置项
 

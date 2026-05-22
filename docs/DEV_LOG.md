@@ -1,11 +1,21 @@
 # DEV_LOG
 
+- [Phase 2.115] 完成 Hermes 主仓 workspace context / auto alias / fuzzy discovery 本地 runtime candidate：无手填 `PROJECT_CONTEXT` / alias 时可从安全文件名 / folder label / query 推断 workspace，生成 `@C塔人力成本测算表` 类 alias，并把 workspace metadata 持久化到 session alias registry；fuzzy discovery 可按 workspace/category/alias 找安全候选。import 响应不展示 raw path，并声明 workspace/alias diagnostics 不是 retrieval evidence。验证：`git diff --check` 通过，py_compile 通过，natural import / runtime / session scope regression `129 passed`。未跑真实 OpenWebUI / 8642 upload/import，未写 DB/facts/versions/OpenSearch/Qdrant，等待 runtime test-candidate 复验。
+
 ## 2026-05-23 Phase 2.115 Workspace Context / Auto Alias Planning
 
 - 启动 Phase 2.115：将 `PROJECT_CONTEXT` 从用户必填测试字段降级为可选 hint，目标是 Hermes 自动推断 `workspace_context`、生成安全 alias、写入工作区/alias registry，并支持后续模糊找文件。
 - 新增 `docs/PHASE2115_WORKSPACE_CONTEXT_AUTO_ALIAS_PLAN.md`，明确用户目标：用户只说“帮我导入这个文件：/path/file.xlsx”，Hermes 自动返回“文件已导入，工作区是 X，别名是 @Y，后续可这样问”。
 - 更新 `docs/NEXT_CODEX_A_PROMPT.md`，要求 Codex A 最小实现 workspace inference / safe alias generation / fuzzy file discovery；禁止平台代码、NAS scan、DWG/RVT/BIM 内容理解、raw path/raw content/secret 写 memory。
 - 本轮为 docs-only planning；未运行 import、未上传文件、未写 DB / facts / document_versions / OpenSearch / Qdrant，未执行 repair/reindex/rollout。
+
+## 2026-05-23 Phase 2.115 Codex B Review / Runtime Candidate
+
+- Codex A 已完成 Phase 2.115 本地实现候选：workspace context inference、safe generated alias、workspace metadata alias binding、fuzzy file discovery、raw path 隐藏与 diagnostics non-evidence 声明。
+- Codex B 复核通过：Hermes 主仓 commit `1ac8099e4` / tag `phase-2.115-workspace-auto-alias-runtime-test-candidate` 可交测试机验证。
+- 复跑验证通过：py_compile；`tests/agent/test_natural_file_import.py tests/agent/test_natural_file_import_flow.py tests/agent/test_natural_file_import_runtime.py tests/agent/test_session_document_scope.py -q` 为 `129 passed`。
+- 允许尾项：低置信度 workspace 当前主要通过 diagnostics 的 `needs_user_confirmation=true` 表达，后续可加强自然语言确认文案；不阻塞 C塔样本与 2.115 测试机 gate。
+- 下一步：测试机 / OpenWebUI / 8642 用无 `PROJECT_CONTEXT`、无显式 `ALIAS` 的 prompt 复验 import -> generated alias -> retrieval/citation -> fuzzy discovery。
 
 ## 2026-05-23 Phase 2.114a Final User-flow Acceptance Go
 

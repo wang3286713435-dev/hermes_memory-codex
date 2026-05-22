@@ -1,16 +1,16 @@
 # Active Phase
 
 - 当前 phase：Phase 2.115 Workspace Context Inference / Auto Alias / Fuzzy File Discovery。
-- 本轮目标：把自然语言导入从测试式 `PROJECT_CONTEXT/ALIAS` 输入升级为 Hermes 自动推断工作区、生成安全别名、写入工作区注册表并支持模糊找文件的企业 Agent 用户流。
-- 修改文件：新增 `docs/PHASE2115_WORKSPACE_CONTEXT_AUTO_ALIAS_PLAN.md`；更新 `docs/NEXT_CODEX_A_PROMPT.md`、`docs/ACTIVE_PHASE.md`、`docs/HANDOFF_LOG.md`、`docs/PHASE_BACKLOG.md`、`docs/TODO.md`、`docs/DEV_LOG.md`、ignored `reports/agent_runs/latest.json`。
-- 完成内容：定义 Phase 2.115 的产品目标、workspace_context 数据边界、auto alias 行为、fuzzy file discovery 行为、测试机验收标准与禁止项。
-- 测试结果：docs-only planning；未执行 runtime code、import、DB/index write 或 NAS scan。
-- live smoke 结果：上一轮 Phase 2.114a final user-flow acceptance 已 Go；本轮 2.115 尚未实现/验收。
-- 当前结论：Phase 2.115 是 Phase 2 stable closeout 前的用户体验补强项，目标是不再要求用户手填 `PROJECT_CONTEXT`。
-- 阻塞点 / 风险点：实现前不得宣称自动工作区/自动别名/模糊找文件已完成；仍不得写 raw path/raw content/secret 到 memory。
-- 是否建议 baseline：允许 docs-only planning baseline；runtime baseline 等 Codex A 实现与测试机复验。
-- 是否建议进入下一阶段：进入 Codex A bounded implementation；不要扩展到平台 Gateway、NAS 全量扫描、DWG/RVT/BIM 内容理解或 production rollout。
-- 下一轮建议：Codex A 按 `docs/NEXT_CODEX_A_PROMPT.md` 实现最小 workspace context / auto alias / fuzzy discovery，并发布 runtime test-candidate。
-- 是否需要 Codex B 审核：需要，Codex A 完成后 review。
-- 是否需要 Codex C / 测试机验收：需要，runtime candidate 后复验无 alias/project context 的自然导入流。
-- commit/tag if any：none for this planning update yet。
+- 本轮目标：实现自然语言导入的 workspace_context 自动推断、安全 alias 生成 / 绑定、同会话 fuzzy file discovery，并发布 Hermes 主仓 runtime test-candidate。
+- 修改文件：Hermes 主仓 `natural_file_import.py`、`natural_file_import_flow.py`、`natural_file_import_runtime.py`、`session_document_scope.py`、`run_agent.py`、相关 tests 与 docs；Hermes_memory 侧更新交接 / TODO / DEV_LOG / NEXT prompt / latest 状态。
+- 完成内容：无 `PROJECT_CONTEXT` / 显式 alias 时可从安全文件名 / folder label / query 推断 workspace；生成 `@C塔人力成本测算表` 类安全 alias；alias binding 持久化 workspace metadata；fuzzy discovery 可按 workspace/category/alias 安全候选检索；响应稳定声明 diagnostics 不是 retrieval evidence 且不展示 raw path。
+- 测试结果：Hermes 主仓 `git diff --check` 通过；py_compile 通过；natural import / runtime / session scope regression `129 passed`。
+- live smoke 结果：本轮未执行真实 OpenWebUI / 8642 upload/import；等待测试机按 runtime candidate 复验无手填 `PROJECT_CONTEXT/ALIAS` 的自然导入流。
+- 当前结论：Phase 2.115 本地实现候选已通过 Codex B review；是否收口取决于 Codex C / 测试机真实复验。
+- 阻塞点 / 风险点：测试机仍需证明 import -> generated alias -> same-session retrieval/citation -> fuzzy discovery；不得把 workspace metadata 当 content evidence。P2 UX 尾项：低置信度 workspace 应在用户侧更明确请求确认。
+- 是否建议 baseline：Hermes 主仓 runtime test-candidate 已可交测试机；不建议 Phase 2.115 总收口。
+- 是否建议进入下一阶段：否，先做 test-machine validation gate。
+- 下一轮建议：Codex C checkout `phase-2.115-workspace-auto-alias-runtime-test-candidate`，验证无 alias / 无 project context 的自然导入与 fuzzy discovery。
+- 是否需要 Codex B 审核：已完成，本地 review pass。
+- 是否需要 Codex C / 测试机验收：需要。
+- commit/tag if any：Hermes 主仓 `1ac8099e4` / `phase-2.115-workspace-auto-alias-runtime-test-candidate`，已推送 `backup2` 当前语义分支与 tag。

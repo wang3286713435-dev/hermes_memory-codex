@@ -1,12 +1,10 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.115 Workspace Context Inference / Auto Alias / Fuzzy File Discovery
+## Phase 2.115 Runtime Test-candidate Validation Handoff
 
 You are Codex A, the Hermes runtime development agent.
 
-Phase 2.114a final user-flow acceptance returned Go. The remaining user-experience gap is that real natural-language import still feels like a test harness because users must provide `PROJECT_CONTEXT` and often explicit alias text.
-
-Implement Phase 2.115 so Hermes can infer workspace context, generate a safe alias, store the imported file in its workspace/alias registry, and later find it through fuzzy file discovery.
+Phase 2.115 local implementation candidate is complete in Hermes main. Do not reimplement it unless Codex B or Codex C returns a concrete blocker.
 
 Read first:
 
@@ -23,40 +21,51 @@ Read first:
 
 ## Current State
 
-Phase 2.114a passed in the real OpenWebUI / 8642 path:
+Local candidate implemented:
+
+1. workspace context inference from safe filename / folder labels / query;
+2. safe generated alias such as `@C塔人力成本测算表`;
+3. workspace metadata stored on session alias bindings and continuity;
+4. fuzzy file discovery over safe workspace / alias candidates;
+5. import success response shows workspace / alias diagnostics and hides raw path;
+6. diagnostics are marked as non-evidence.
+
+Local validation:
 
 ```text
-path extraction -> natural import -> alias -> same-session retrieval -> evidence IDs -> citation
+git diff --check: pass
+py_compile: pass
+natural import / runtime / session scope regression: 129 passed
 ```
 
-However, the accepted test flow still relies on operator-style fields:
+Expected runtime candidate:
 
 ```text
-AUTHORIZED_FILE_PATH=...
-ALIAS=...
-PROJECT_CONTEXT=...
+tag: phase-2.115-workspace-auto-alias-runtime-test-candidate
 ```
 
-This is not the final enterprise-agent experience.
+## Next Required Action
 
-## Required Product Behavior
+Do not implement more functionality. The next action is Codex B review and Codex C / test-machine validation.
 
-Hermes should support this user prompt without manual alias or project context:
+Validate the real OpenWebUI / 8642 flow with an authorized small non-sensitive file:
 
 ```text
-帮我导入这个文件：/Users/hermes/import_samples/C塔项目人力配置及成本测算表0506.xlsx。
+帮我导入这个文件：<AUTHORIZED_FILE_PATH_TO_C塔项目人力配置及成本测算表0506.xlsx>
 ```
 
-Expected Hermes behavior:
+Do not provide `PROJECT_CONTEXT`.
+Do not provide an explicit `ALIAS`.
 
-1. infer a safe `workspace_context` from the filename, folder labels, current conversation, and existing workspace/alias registry;
-2. generate a safe alias, for example `@C塔人力成本测算表`;
-3. import the file through the existing authorized natural import pipeline;
-4. bind the generated alias to the imported `document_id/version_id`;
-5. report the workspace and alias to the user;
-6. explain that workspace/alias/import diagnostics are not retrieval evidence;
-7. support same-session follow-up retrieval by the generated alias;
-8. support fuzzy file discovery such as `帮我找 C塔项目的人力成本表`.
+Expected behavior:
+
+1. import succeeds through the authorized natural import pipeline;
+2. response includes safe `workspace_context`;
+3. response suggests and binds a safe alias, preferably `@C塔人力成本测算表` or equivalent safe normalized alias;
+4. raw path is not printed;
+5. follow-up by generated alias returns retrieval evidence and citation;
+6. fuzzy query such as `帮我找 C塔项目的人力成本表` returns the imported file as a safe candidate or resolves it without third-file contamination;
+7. workspace / alias diagnostics are not treated as retrieval evidence.
 
 ## Required Output Shape
 
@@ -92,43 +101,19 @@ Hermes should:
 4. avoid answering file content until a selected candidate has retrieval evidence;
 5. avoid raw path, raw file content, and secret output.
 
-## Allowed Write Scope
-
-Prefer minimal changes in `hermes-agent`:
-
-1. natural import parsing / response assembly;
-2. workspace-context inference helper;
-3. alias suggestion / normalization helper;
-4. session/workspace alias registry integration;
-5. fuzzy file discovery over safe workspace / alias registry;
-6. focused tests and diagnostics.
-
-Do not modify platform Gateway code. Do not modify Hermes Memory ingestion/retrieval contract unless you first prove the agent-side workspace/alias layer cannot solve the problem.
-
-## Required Tests
-
-Add or update focused tests covering:
-
-1. import prompt with only an authorized absolute path, no alias and no project context;
-2. workspace context inferred from safe filename/folder labels;
-3. generated alias is safe and bound to imported document/version;
-4. explicit alias still overrides generated alias;
-5. ambiguous workspace context requests confirmation instead of overclaiming;
-6. same-session follow-up by generated alias returns retrieval evidence + citation;
-7. fuzzy file discovery returns safe candidates and asks clarification for multiple matches;
-8. ordinary retrieval prompts are not misclassified as fuzzy file discovery;
-9. workspace metadata / import diagnostics are never treated as retrieval evidence;
-10. final answer does not print raw path.
-
 ## Validation Required Before Handoff
 
-Run:
+If Codex C returns Pause, capture:
 
-1. py_compile for touched files;
-2. targeted natural import / workspace / fuzzy discovery tests;
-3. relevant regression tests that protected ordinary retrieval and alias continuity.
+1. API / 8642 / CLI status;
+2. generated alias;
+3. workspace_context;
+4. document_id / version_id;
+5. follow-up retrieval evidence ids and citations;
+6. fuzzy discovery trace;
+7. any raw-path leak or third-document contamination.
 
-Then publish a runtime test-candidate tag for test-machine validation.
+Do not patch code until a concrete blocker is documented.
 
 ## Forbidden Actions
 
