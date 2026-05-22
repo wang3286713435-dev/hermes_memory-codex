@@ -1523,6 +1523,8 @@
 49. Phase 2.113a Codex B review 已通过；Hermes agent runtime test-candidate 已推送：`a12d378e0` / `phase-2.113a-self-awareness-runtime-test-candidate`。
 50. 测试机 / OpenWebUI / 8642 live validation 已返回 Go：self-awareness、ordinary retrieval guard、fuzzy file discovery 与安全边界通过；可选 natural import feedback 因未授权导入而跳过。
 51. 下一步为 Phase 2.113 closeout / Phase 2 final freeze checklist 更新；不得把该 Go 解释为 production rollout、NAS 全量扫描、DWG/RVT/BIM 内容理解或无限制 memory 写入。
+52. Phase 2.114 规划已启动：最终验收必须用一个授权小文件跑通 self-awareness -> natural-language import -> alias -> retrieval -> citation -> evidence boundary。
+53. Phase 2.114 通过前不得发布 Phase 2 stable MVP freeze tag；通过后仍不得宣称 production rollout、NAS 全量扫描、DWG/RVT/BIM 内容理解或 PRD/Roadmap 300+ eval closeout。
 
 ## 后置项
 

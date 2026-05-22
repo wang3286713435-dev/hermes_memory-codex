@@ -2068,3 +2068,11 @@
 9. Test-machine / OpenWebUI-compatible 8642 validation returned Go for self-awareness, ordinary retrieval guard, fuzzy file-discovery safety, and side-effect boundaries.
 10. Natural import feedback was skipped because no import was authorized in this smoke; this is not a blocker for the Phase 2.113a live gate.
 11. Next action is Phase 2.113 closeout / Phase 2 final freeze checklist update; no more 2.113a coding unless a new live blocker appears.
+
+## Phase 2.114 Final User-flow Acceptance
+
+1. Phase 2.114 is the final controlled user-flow gate before Phase 2 stable MVP freeze.
+2. Required flow: self-awareness -> natural-language import -> alias -> follow-up retrieval -> citation -> evidence boundary.
+3. Test-machine prompt: `docs/CODEX_TEST_MACHINE_PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PROMPT.md`.
+4. Required operator inputs: one authorized small non-sensitive `AUTHORIZED_FILE_PATH`, a safe `ALIAS`, and a safe `PROJECT_CONTEXT`.
+5. No new Codex A runtime work is allowed unless the final user-flow smoke returns a concrete blocker.

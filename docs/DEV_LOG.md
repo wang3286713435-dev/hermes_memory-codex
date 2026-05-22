@@ -1249,3 +1249,10 @@
 - Passed: 8642 health, Hermes Memory health, self-awareness response, ordinary retrieval guard, fuzzy file discovery safety, and no leak / no forbidden side effect checks.
 - Natural import feedback was skipped because the operator did not authorize an import in this smoke; this remains acceptable for this prompt because the import case was conditional.
 - Next: update Phase 2.113 closeout / freeze checklist. Do not ask Codex A for more 2.113a coding unless a later live run returns a concrete blocker.
+
+## 2026-05-22 Phase 2.114 Final User-flow Acceptance Planning
+
+- Created the final user-flow acceptance plan and test-machine prompt for the complete OpenWebUI / 8642 small-file flow.
+- Required flow: self-awareness, natural-language import, alias UX, same-session retrieval with citation, and evidence-boundary explanation.
+- Updated `phase2_final_freeze_checklist.json` with a pending final user-flow gate.
+- This is docs-only; no runtime code, no upload, no DB/index write, no NAS scan, no rollout.

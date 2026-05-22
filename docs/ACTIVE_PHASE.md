@@ -1,16 +1,16 @@
 # Active Phase
 
-- 当前 phase：Phase 2.113a Self-Awareness Live Validation Go。
-- 本轮目标：记录测试机 / OpenWebUI / 8642 对 Phase 2.113a runtime candidate 的真实验收结果。
-- 修改文件：Hermes 主仓库 `agent/memory_kernel/kernel.py`、`agent/memory_kernel/session_document_scope.py`、`tests/agent/test_session_document_scope.py`、`tests/agent/test_structured_citation_context.py`、`docs/TODO.md`、`docs/DEV_LOG.md`；Hermes_memory `docs/PHASE2113A_SELF_AWARENESS_REVIEW_FIX.md`、`docs/NEXT_CODEX_A_PROMPT.md`、`docs/ACTIVE_PHASE.md`、`docs/HANDOFF_LOG.md`、`docs/PHASE_BACKLOG.md`、`docs/TODO.md`、`docs/DEV_LOG.md`、ignored `reports/agent_runs/latest.json`。
-- 完成内容：收窄 file-discovery intent，只在明确找候选文件时 suppress retrieval；普通内容查询不再被 `找一下 / 帮我找` 误伤；扩展 kernel capability trigger 到“管理文件 / 管理公司文件 / 使用记忆库”等自然问法。
-- 测试结果：Codex B 复核通过；Hermes 主仓库 py_compile 通过；`tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py tests/agent/test_natural_file_import_runtime.py` 为 `102 passed`；直接 probe 确认普通内容查询不再被 file-discovery 抑制，明确找候选文件仍 fail-closed。
-- live smoke 结果：测试机 Go；8642 health pass、Hermes Memory health pass、self-awareness pass、ordinary retrieval guard pass、fuzzy file discovery pass；未授权 natural import，因此 import feedback case skipped。
-- 当前结论：Phase 2.113a P0 self-awareness / ordinary retrieval guard / fuzzy discovery live gate 已通过。自然导入增强反馈本轮未重复导入，仍不得把 import diagnostics / alias / workspace refs 当 retrieval evidence。
-- 阻塞点 / 风险点：本轮未执行新导入；Phase 2 final closeout 仍需单独确认 eval / coverage / freeze checklist，不等同 production rollout。
-- 是否建议 baseline：允许 Hermes_memory live-validation handoff baseline；runtime final stable tag 是否推进由下一轮 closeout gate 决定。
-- 是否建议进入下一阶段：可以进入 Phase 2.113 closeout / Phase 2 final freeze checklist 更新，不需要 Codex A 继续修 2.113a。
-- 下一轮建议：Codex B 更新 Phase 2.113 closeout 与 Phase 2 final freeze checklist；如用户要继续开发，再开新的 bounded phase。
+- 当前 phase：Phase 2.114 Final User-flow Acceptance / Freeze Decision Pack。
+- 本轮目标：规划 Phase 2 最终真实用户流验收，验证 self-awareness -> natural import -> alias -> retrieval -> citation -> evidence boundary 的完整链路。
+- 修改文件：Hermes_memory `docs/PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PLAN.md`、`docs/CODEX_TEST_MACHINE_PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PROMPT.md`、`docs/NEXT_CODEX_A_PROMPT.md`、`docs/ACTIVE_PHASE.md`、`docs/HANDOFF_LOG.md`、`docs/PHASE_BACKLOG.md`、`docs/TODO.md`、`docs/DEV_LOG.md`、`eval/phase2_inventory/phase2_final_freeze_checklist.json`、ignored `reports/agent_runs/latest.json`。
+- 完成内容：把 Phase 2 最后一轮验收定义为真实 OpenWebUI / 8642 小文件用户流，不继续扩 runtime 功能；明确 Go/Pause/No-Go、样本授权、证据边界与禁止项。
+- 测试结果：docs / JSON planning；尚未执行 Phase 2.114 测试机 smoke。
+- live smoke 结果：Phase 2.113a 已 Go；Phase 2.114 最终用户流 smoke 待执行。
+- 当前结论：Phase 2.114 是 final freeze 前的最后用户流验收；通过后才可考虑 Phase 2 stable MVP baseline。
+- 阻塞点 / 风险点：需要用户/operator 提供一个授权小型非敏感样本；不得把本阶段解释为 production rollout、NAS 全量扫描、DWG/RVT/BIM 内容理解或无限制 memory 写入。
+- 是否建议 baseline：允许 docs-only planning baseline；runtime final stable tag 等 Phase 2.114 smoke 结果。
+- 是否建议进入下一阶段：进入测试机 Phase 2.114 smoke；不要让 Codex A 写新功能。
+- 下一轮建议：测试机按 `docs/CODEX_TEST_MACHINE_PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PROMPT.md` 执行最终用户流验收。
 - 是否需要 Codex B 审核：已完成。
-- 是否需要 Codex C / 测试机验收：已完成本轮要求；natural import optional case因未授权导入而跳过。
-- commit/tag if any：Hermes agent `a12d378e0` / `phase-2.113a-self-awareness-runtime-test-candidate` 已推送；Hermes_memory live-validation baseline 待本轮提交。
+- 是否需要 Codex C / 测试机验收：需要，执行 Phase 2.114 final user-flow smoke。
+- commit/tag if any：none for this planning update yet。

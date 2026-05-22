@@ -7861,3 +7861,12 @@
 - natural_import_feedback: skipped because no import was authorized in this smoke; this is acceptable for the prompt gate.
 - safety: no secret / raw path / file content output; no NAS scan; no repair/cleanup/backfill/reindex/delete/migration/rollout; no manual DB/index write.
 - conclusion: Phase 2.113a P0 self-awareness / routing live gate is passed. Next is Phase 2.113 closeout / Phase 2 final freeze checklist update, not more 2.113a coding.
+
+## 2026-05-22 18:05 Phase 2.114 Final User-flow Acceptance Planning
+
+- goal: Create the final Phase 2 user-flow acceptance gate before any stable MVP freeze decision.
+- scope: docs-only planning and test-machine prompt; no runtime code, no DB/index write, no NAS scan, no import executed in this repo.
+- required_flow: self-awareness -> natural-language import -> alias -> follow-up retrieval -> citation -> evidence boundary.
+- changed_files: `docs/PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PLAN.md`, `docs/CODEX_TEST_MACHINE_PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PROMPT.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `eval/phase2_inventory/phase2_final_freeze_checklist.json`, and coordination docs.
+- decision: Phase 2.114 must run one authorized small non-sensitive sample through OpenWebUI / 8642 before Phase 2 stable MVP freeze.
+- next: test-machine operator provides `AUTHORIZED_FILE_PATH`, `ALIAS`, and `PROJECT_CONTEXT`, then runs `docs/CODEX_TEST_MACHINE_PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PROMPT.md`.

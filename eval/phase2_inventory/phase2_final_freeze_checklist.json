@@ -5,6 +5,8 @@
   "decisions": {
     "platform_stable_integration_freeze": "go",
     "standalone_hermes_kernel_preservation": "go",
+    "phase2_113a_self_awareness_live_gate": "go",
+    "phase2_114_final_user_flow_acceptance": "pending",
     "full_phase2_prd_roadmap_closeout": "pause",
     "phase3_planning": "allowed_only_with_known_gap_carryover"
   },
@@ -47,6 +49,15 @@
         "docs/PHASE2102B_METRIC_SCORING_PACK.md"
       ],
       "notes": "Original Phase 2 PRD/Roadmap numeric metrics and structured-governance acceptance remain incomplete or need explicit user exceptions."
+    },
+    {
+      "gate_id": "gate_d_final_user_flow_acceptance",
+      "decision": "pending",
+      "evidence_refs": [
+        "docs/PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PLAN.md",
+        "docs/CODEX_TEST_MACHINE_PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PROMPT.md"
+      ],
+      "notes": "Final OpenWebUI / 8642 user flow must validate self-awareness, natural-language import, alias follow-up retrieval, citation, and evidence boundary before Phase 2 stable MVP freeze."
     }
   ],
   "final_checklist": [
@@ -91,6 +102,18 @@
       "description": "Low-sensitive memory continuity runtime remains future / not platform-productized.",
       "decision": "known_risk",
       "evidence_ref": "docs/PHASE2104B_MEMORY_CONTINUITY_PERMISSION_CONTRACT.md"
+    },
+    {
+      "item_id": "final_self_awareness_live_gate",
+      "description": "Hermes can explain its enterprise memory/workspace/retrieval/evidence kernel in the real 8642 path.",
+      "decision": "go",
+      "evidence_ref": "docs/PHASE2113A_SELF_AWARENESS_REVIEW_FIX.md"
+    },
+    {
+      "item_id": "final_complete_user_flow",
+      "description": "Final controlled user flow proves natural-language import, alias, retrieval evidence, citation, and evidence boundary in one session.",
+      "decision": "pending",
+      "evidence_ref": "docs/PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PLAN.md"
     },
     {
       "item_id": "final_eval_count_target",
