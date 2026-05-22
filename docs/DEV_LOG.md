@@ -1,5 +1,13 @@
 # DEV_LOG
 
+## 2026-05-22 Phase 2.112h Explicit Natural Import Alias Preservation Fix Handoff
+
+- 测试机复验 2.112g 仍 Pause：candidate 已部署，import 成功并 stored continuity，但导入绑定的 alias 不是用户请求的 `@建筑类数据样表`，follow-up 该 alias 仍 `alias_missing=true`、`retrieval_suppressed=true`。
+- Codex B 只读定位：这不是新的 stable-owner 问题，而是 explicit natural import alias parsing / preservation 问题。
+- 当前 `_ALIAS_RE` 只覆盖较窄表达，容易漏掉 `别名 @...`、`别名为 @...`、`别名设为 @...`、`设定别名为 @...` 等真实用法，导致系统生成了另一个 alias。
+- 已新增 `docs/PHASE2112H_EXPLICIT_NATURAL_IMPORT_ALIAS_FIX.md` 并重写 `docs/NEXT_CODEX_A_PROMPT.md`，要求 Codex A 只做 bounded parser / tests fix。
+- 本轮未修改 runtime 代码、未重复真实导入、未写 DB / facts / document_versions / OpenSearch / Qdrant / MinIO，未执行 repair/backfill/reindex/delete/migration/rollout。
+
 ## 2026-05-22 Phase 2.112g Header-only Stable Owner Restore Fix Handoff
 
 - Codex A 已完成 bounded runtime fix：`X-Hermes-Session-Id` 作为 header-only follow-up 时也会生成 gateway stable owner。

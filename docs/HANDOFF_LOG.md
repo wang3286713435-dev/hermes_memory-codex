@@ -1,5 +1,15 @@
 # Handoff Log
 
+## 2026-05-22 Phase 2.112h Explicit Natural Import Alias Preservation Fix Prompt
+- goal: 打回 Phase 2.112g，并准备 Codex A 的 bounded follow-up。
+- test_machine_state: `hermes-agent` `20d9fb561` / `phase-2.112g-header-owner-restore-runtime-test-candidate`; 8642 health pass; real upload flag visible; worktree clean.
+- observed_success: import succeeded with `chunk_count=6`, `indexed_count=6`, `import_alias_status=alias_bound`, `alias_continuity_status=stored`, owner source `gateway_session_key`.
+- blocker: imported alias did not match requested `@建筑类数据样表`; follow-up `@建筑类数据样表` returned `alias_missing=true`, `retrieval_suppressed=true`, empty evidence, and no citation.
+- diagnosis: 2.112g stable-owner fix appears to be past the previous blocker; current root cause is explicit alias parsing / preservation in natural import.
+- changed_files: `docs/PHASE2112H_EXPLICIT_NATURAL_IMPORT_ALIAS_FIX.md`, `docs/NEXT_CODEX_A_PROMPT.md`, phase docs, ignored `reports/agent_runs/latest.json`.
+- next: Codex A expands safe explicit alias parsing, preserves requested alias over generated alias, adds tests, then stops for Codex B review.
+- commit/tag if any: none yet.
+
 ## 2026-05-22 Phase 2.112g Header-only Stable Owner Restore Fix Prompt
 - goal: 打回 Phase 2.112f，并准备 Codex A 的 bounded follow-up。
 - test_machine_state: `hermes-agent` `78eb7715` / `phase-2.112f-alias-continuity-restore-runtime-test-candidate`; 8642 health pass; real upload flag visible; Hermes Memory health pass; worktrees clean.

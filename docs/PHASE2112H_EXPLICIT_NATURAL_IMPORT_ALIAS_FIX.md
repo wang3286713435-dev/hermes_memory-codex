@@ -1,22 +1,10 @@
-# NEXT_CODEX_A_PROMPT
+# Phase 2.112h Explicit Natural Import Alias Preservation Fix
 
-## Phase 2.112h Explicit Natural Import Alias Preservation Fix
+## 1. Background
 
-You are Codex A for the Hermes natural-language import closeout line.
+Phase 2.112g fixed header-only `X-Hermes-Session-Id` stable-owner restore at the development-machine level, but test-machine OpenWebUI / 8642 validation still returned Pause.
 
-Work in:
-
-```text
-/Users/Weishengsu/.hermes/hermes-agent
-```
-
-Do not work in the platform repo. Do not run real OpenWebUI / 8642 import on the development machine.
-
-## Why This Exists
-
-Phase 2.112g fixed the header-only stable owner path, but test-machine OpenWebUI / 8642 validation still returned Pause.
-
-Latest evidence:
+Latest test-machine evidence:
 
 ```text
 hermes-agent HEAD: 20d9fb561bf680cfbf8d1a786b2e504358f9ca7d
@@ -47,23 +35,22 @@ Key finding:
 Import succeeded and bound an alias, but not the user-requested @建筑类数据样表.
 ```
 
-This is not another stable-owner bug. Treat it as explicit natural-language alias parsing / preservation failure.
+## 2. Codex B Diagnosis
 
-## Must Read First
+Phase 2.112g appears to have fixed the stable-owner path, but the natural import parser / runtime did not preserve the explicit user-requested alias.
 
-Read:
+Likely root cause:
 
-1. `/Users/Weishengsu/Hermes_memory/docs/PHASE2112H_EXPLICIT_NATURAL_IMPORT_ALIAS_FIX.md`
-2. `/Users/Weishengsu/Hermes_memory/docs/PHASE2112G_HEADER_ONLY_STABLE_OWNER_RESTORE_FIX.md`
-3. Hermes agent `agent/memory_kernel/natural_file_import.py`
-4. Hermes agent `agent/memory_kernel/natural_file_import_flow.py`
-5. Hermes agent `agent/memory_kernel/natural_file_import_runtime.py`
-6. Hermes agent `run_agent.py`
-7. Existing natural import / session scope tests under `tests/agent/`
+1. `agent/memory_kernel/natural_file_import.py::_ALIAS_RE` only supports a narrow form such as `绑定为 @alias`, `命名为 @alias`, `叫 @alias`.
+2. Real OpenWebUI user phrasing can be more natural, for example `别名 @建筑类数据样表`, `别名为 @建筑类数据样表`, `别名设为 @建筑类数据样表`, `后续别名叫 @建筑类数据样表`, or `我想叫它 @建筑类数据样表`.
+3. When explicit alias parsing misses, `natural_file_import_flow.py` generates a safe alias from title/file name.
+4. The follow-up asks for the user-requested alias, not the generated alias, so alias continuity restore correctly misses.
 
-## Task
+This is an explicit alias parsing / alias preservation bug, not another stable-owner bug.
 
-Implement the smallest safe fix so natural import preserves user-requested aliases across common natural-language phrasings.
+## 3. Required Fix
+
+Codex A should implement the smallest safe fix so natural import preserves user-requested aliases across common natural-language phrasings.
 
 Required behavior:
 
@@ -83,7 +70,9 @@ Required behavior:
 4. Import diagnostics must show the requested alias in `alias_resolution.alias`.
 5. Follow-up `@建筑类数据样表` must restore to the imported `document_id/version_id` in tests.
 
-## Preserve These Safety Rules
+## 4. Safety Rules
+
+Keep all previous safety boundaries:
 
 1. No alias-global restore.
 2. No ordinary long-term memory alias persistence.
@@ -93,20 +82,20 @@ Required behavior:
 6. Import diagnostics remain non-evidence.
 7. Facts / metadata / snapshot / transcript cannot replace retrieval evidence.
 
-## Allowed Files
+## 5. Expected Code Areas
 
-Modify only the minimum required files, likely:
+Likely files:
 
-1. `agent/memory_kernel/natural_file_import.py`
-2. `tests/agent/test_natural_file_import.py`
-3. `tests/agent/test_natural_file_import_flow.py`
-4. `tests/agent/test_natural_file_import_runtime.py`
-5. `docs/TODO.md`
-6. `docs/DEV_LOG.md`
+1. `/Users/Weishengsu/.hermes/hermes-agent/agent/memory_kernel/natural_file_import.py`
+2. `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_natural_file_import.py`
+3. `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_natural_file_import_flow.py`
+4. `/Users/Weishengsu/.hermes/hermes-agent/tests/agent/test_natural_file_import_runtime.py`
+5. `/Users/Weishengsu/.hermes/hermes-agent/docs/TODO.md`
+6. `/Users/Weishengsu/.hermes/hermes-agent/docs/DEV_LOG.md`
 
-If additional files are necessary, explain why in your final handoff.
+If other runtime files are touched, Codex A must explain why.
 
-## Required Tests
+## 6. Required Tests
 
 Run:
 
@@ -125,29 +114,14 @@ Add/update tests for:
 5. follow-up `@建筑类数据样表` resolves after import with requested alias;
 6. malformed aliases remain fail-closed / not requested.
 
-## Hard Prohibitions
+## 7. Stop Condition
 
-Do not:
+Stop after the bounded fix and local tests.
 
-1. run real upload/import on the development machine;
-2. connect to production or test-machine DB;
-3. write DB / facts / document_versions / OpenSearch / Qdrant / MinIO;
-4. scan NAS or folders;
-5. execute repair / cleanup / backfill / reindex / delete / migration / rollout;
-6. modify platform repo;
-7. stage unrelated dirty files;
-8. claim Phase 2 natural import closeout before test-machine OpenWebUI / 8642 retrieval + citation passes.
+Do not tag or push unless Codex B explicitly approves after review.
 
-## Final Report Required
+Phase 2 natural import closeout remains blocked until the test machine proves:
 
-Report:
-
-1. changed files;
-2. tests run and exact results;
-3. which alias phrasings are supported;
-4. whether requested alias overrides generated alias;
-5. whether follow-up alias restore is covered by tests;
-6. any excluded dirty files;
-7. whether Codex B review is needed.
-
-Stop after the bounded fix. Do not tag or push unless explicitly requested by Codex B/user.
+```text
+OpenWebUI / 8642 import with requested @建筑类数据样表 -> follow-up @建筑类数据样表 retrieval -> retrieval_evidence_document_ids non-empty -> citation present
+```

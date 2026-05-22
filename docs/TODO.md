@@ -1,5 +1,13 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.112h Explicit Natural Import Alias Preservation Fix
+
+1. 打回 2.112g：测试机已确认 2.112g 部署并重启，但导入阶段绑定的 alias 不是用户指定的 `@建筑类数据样表`。
+2. 新 blocker：explicit alias import 只 partial；follow-up 请求用户指定 alias 仍 `alias_missing=true`、`retrieval_suppressed=true`。
+3. Codex A 下一轮必须聚焦 natural import alias parsing / preservation；不得扩大到 ordinary memory、global alias、平台代码或真实导入。
+4. 验收必须证明常见自然语言 alias 表达都能解析，且 requested alias 优先于 generated alias。
+5. Phase 2 natural import closeout 仍 blocked，直到测试机真实 retrieval evidence + citation 通过。
+
 ## Phase 2.112g Header-only Stable Owner Restore Fix
 
 1. development-machine 最小修复已完成：gateway stable owner fallback 支持 header-only `X-Hermes-Session-Id`。
