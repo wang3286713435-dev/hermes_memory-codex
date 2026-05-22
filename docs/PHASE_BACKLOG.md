@@ -1,5 +1,15 @@
 # Phase Backlog
 
+## Phase 2.113 Hermes Memory Self-Awareness / Kernel Activation
+
+1. 用户真实 OpenWebUI / 8642 使用暴露 P0 blocker：Hermes 可以打通 import / retrieval pipeline，但用户侧 Agent 不可靠地知道自己拥有 Hermes_memory / workspace / retrieval / evidence kernel。
+2. 这不是单纯文案问题；如果不修，Hermes 会退化为普通聊天壳 + 外置记忆库，偏离 PRD 中“企业内核级 Agent”的定位。
+3. Phase 2.113 目标：Codex A 最小 runtime 修复，让 Hermes 在能力说明、自然导入成功反馈、自动/推荐别名、模糊找文件、低敏 memory/workspace 边界上表现为公司内核 Agent。
+4. 必须保持证据边界：alias / memory / workspace metadata 只能作为检索上下文，不能当 content evidence；回答仍需 retrieval citation 或 Missing Evidence。
+5. 必须保持安全边界：不扫 NAS、不生产 rollout、不裸连 DB、不生成 SQL、不写 raw content/path/secret 到 memory、不承诺 DWG/RVT/BIM 内容理解。
+6. Codex A 需要补 targeted tests：self-awareness、explicit alias、auto alias、fuzzy discovery、memory boundary、DWG/RVT/BIM overclaim guard。
+7. Phase 2.112i scoped natural import Go 仍有效，但 Phase 2 full completion 继续 blocked，直到 2.113 P0 修复并通过 review / 测试机验证。
+
 ## Phase 2 Natural Import Closeout Review / Freeze Checklist Update
 
 1. Phase 2.112i test-machine Go is now reflected as `passed_with_scope` for authorized small `.xlsx` natural-language import.

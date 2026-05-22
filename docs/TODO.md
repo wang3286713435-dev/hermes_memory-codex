@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.113 Hermes Memory Self-Awareness / Kernel Activation
+
+1. 当前新增 P0 blocker：Hermes 用户侧还没有可靠激活自己的 Hermes_memory / workspace / retrieval / evidence kernel 自我认知。
+2. 该问题会让 Hermes 退化为“普通聊天助手 + 外置记忆库”，偏离企业内核级 Agent PRD 目标。
+3. Codex A 下一步必须实现最小 runtime fix：能力说明、自然导入成功反馈、自动/推荐别名、模糊找文件候选、低敏 memory/workspace 边界。
+4. 验收必须证明：Hermes 会说“文件已导入/记下，别名是 @xxx”，能用 safe alias 继续检索，并在多候选时要求用户确认。
+5. 继续禁止：raw path / raw content / secret 写 memory，memory metadata 当 evidence，DWG/RVT/BIM 内容 overclaim，NAS full scan，DB CRUD，production rollout。
+6. Phase 2 full completion 继续 blocked；2.113 修复后仍需 Codex B review 与测试机 / 8642 验证。
+
 ## Phase 2 Natural Import Closeout Review / Freeze Checklist Update
 
 1. 已把 Phase 2.112i 测试机 Go 结果写入 closeout / freeze checklist：natural-language import usability = `passed_with_scope`。

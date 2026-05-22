@@ -64,18 +64,19 @@ The following Phase 2 baselines remain valid:
 
 The following remain blockers or require explicit user backlog exception before declaring full Phase 2 complete:
 
-1. PRD target of at least 100 high-quality evaluation questions is not met by the committed accepted inventory.
-2. Roadmap target of 300+ questions is not met.
-3. Top5 hit-rate target is not measured at required accepted-inventory scale.
-4. Citation accuracy target is not measured at required accepted-inventory scale.
-5. Structured fact manual spot-check target is missing.
-6. Natural-language import beyond the accepted authorized small `.xlsx` scope is not productized as unrestricted production import.
-7. Full source coverage for official-account / PDF / HTML / full Office parsing is not consolidated into accepted metric evidence.
-8. Tender deep-field reliability remains partial or requires explicit Missing Evidence / manual-review acceptance.
-9. Version diff and full incremental delete / invalidation lifecycle remain partial.
-10. Department / project / confidentiality policy remains basic / contract-level, not full RBAC / ABAC.
-11. Knowledge-admin backend and human validation workflow remain partial / service-level.
-12. Platform native session, memory continuity runtime, and governed document evidence search remain contract / future unlock paths, not current runtime claims.
+1. Hermes Memory self-awareness / kernel activation is incomplete: user-facing Hermes must reliably present and use its own memory / workspace / retrieval / evidence kernel.
+2. PRD target of at least 100 high-quality evaluation questions is not met by the committed accepted inventory.
+3. Roadmap target of 300+ questions is not met.
+4. Top5 hit-rate target is not measured at required accepted-inventory scale.
+5. Citation accuracy target is not measured at required accepted-inventory scale.
+6. Structured fact manual spot-check target is missing.
+7. Natural-language import beyond the accepted authorized small `.xlsx` scope is not productized as unrestricted production import.
+8. Full source coverage for official-account / PDF / HTML / full Office parsing is not consolidated into accepted metric evidence.
+9. Tender deep-field reliability remains partial or requires explicit Missing Evidence / manual-review acceptance.
+10. Version diff and full incremental delete / invalidation lifecycle remain partial.
+11. Department / project / confidentiality policy remains basic / contract-level, not full RBAC / ABAC.
+12. Knowledge-admin backend and human validation workflow remain partial / service-level.
+13. Platform native session, memory continuity runtime, and governed document evidence search remain contract / future unlock paths, not current runtime claims.
 
 ## 4. Return Decision
 

@@ -1203,3 +1203,13 @@
 - decision: Do not repeat import; Codex A should fix follow-up owner-scoped restore and expose sanitized `alias_continuity_*` diagnostics.
 - risks: Alias-global restore and ordinary memory alias persistence remain forbidden; Phase 2 natural import closeout remains blocked until real test-machine retrieval + citation passes.
 - next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md` and stops for Codex B review.
+
+## 2026-05-22 Phase 2.113 Hermes Memory Self-Awareness / Kernel Activation Prompt
+
+- goal: Convert the user-observed Hermes memory-kernel self-awareness gap into a P0 Codex A runtime fix handoff.
+- evidence: Phase 2.112i proved the scoped import -> alias -> retrieval + citation path, but real OpenWebUI use showed Hermes still does not reliably present or use its own Hermes_memory / workspace / retrieval / evidence kernel as a native Agent capability.
+- changed_files: `docs/PHASE2113_HERMES_MEMORY_SELF_AWARENESS_KERNEL_ACTIVATION.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `docs/HANDOFF_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- decision: Phase 2.113 is a P0 blocker. Codex A must add a bounded runtime fix for self-awareness, natural import success feedback, explicit / generated alias UX, fuzzy file-discovery candidates, and low-sensitive memory/workspace boundary behavior.
+- PRD deviation self-audit: Remaining gaps include eval scale, Top5 / citation metrics, structured fact spot-check, parser/source coverage, tender deep-field reliability, version lifecycle, RBAC/ABAC, knowledge admin / human validation, platform native session/evidence/memory unlock, and Data Steward beyond catalog-only.
+- risks: Do not turn memory/workspace metadata into content evidence; do not write raw paths/content/secrets into memory; do not broaden platform Gateway beyond catalog-only; do not claim production readiness or DWG/RVT/BIM content understanding.
+- next: Codex A executes `docs/NEXT_CODEX_A_PROMPT.md`; after implementation, Codex B reviews and test-machine / OpenWebUI / 8642 validates.

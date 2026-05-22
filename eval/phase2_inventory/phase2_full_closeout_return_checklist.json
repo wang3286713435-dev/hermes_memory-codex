@@ -22,6 +22,7 @@
     ]
   },
   "full_closeout_blockers": [
+    "hermes_memory_self_awareness_kernel_activation_incomplete",
     "prd_100_eval_questions_not_met",
     "roadmap_300_eval_questions_not_met",
     "top5_metric_not_measured_at_required_scale",

@@ -7798,3 +7798,13 @@
 - risks: Do not treat scoped natural import as production rollout, NAS full scan, DWG/RVT/BIM content understanding, large-file support, automatic memory write, repair/reindex automation, or full Phase 2 completion.
 - next: Codex B review, then selective docs / manifest baseline if accepted.
 - commit/tag if any: none.
+
+## 2026-05-22 16:10 Phase 2.113 Hermes Memory Self-Awareness / Kernel Activation
+
+- goal: Create Codex A handoff for the P0 issue where user-facing Hermes does not reliably present or use its own Hermes_memory / workspace / retrieval / evidence kernel.
+- changed_files: `docs/PHASE2113_HERMES_MEMORY_SELF_AWARENESS_KERNEL_ACTIVATION.md`, `docs/NEXT_CODEX_A_PROMPT.md`, `docs/ACTIVE_PHASE.md`, `docs/PHASE_BACKLOG.md`, `docs/TODO.md`, `docs/DEV_LOG.md`, `docs/HANDOFF_LOG.md`, ignored `reports/agent_runs/latest.json`.
+- tests: docs-only handoff; validation pending.
+- validation: The handoff requires Codex A to implement self-awareness, import success feedback, explicit / generated aliases, bounded fuzzy file discovery, and low-sensitive memory/workspace boundary tests.
+- risks: Do not let Hermes become a generic chatbot plus external memory database; do not treat alias / memory / workspace metadata as evidence; do not write raw file content, raw paths, raw DB rows, or secrets into ordinary memory.
+- next: Codex A implements Phase 2.113 runtime fix, then Codex B review and test-machine / OpenWebUI / 8642 validation.
+- commit/tag if any: none.
