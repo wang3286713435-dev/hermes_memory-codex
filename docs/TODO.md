@@ -6,7 +6,8 @@
 2. 当前 blocker 转为 retrieval backend 环境：`retrieval_backend_failed_postgres_hostname_unresolved` / DB 服务不可达。
 3. 不要把开发机本地 8000/8642 监听状态当成测试机最终结论；当前可信 blocker 是测试机 retrieval backend `postgres` hostname unresolved。
 4. 下一步必须修复测试机 Hermes_memory API 的 DB hostname / network 配置；不得继续打回 alias parser / continuity 代码。
-5. 服务恢复后只重跑 follow-up retrieval + citation；如 session 丢失，最多一次 fresh controlled import。
+5. 已完成：测试机修复 8642 后端访问 Hermes_memory retrieval backend 的运行环境后，follow-up retrieval + citation 通过。
+6. 下一步：进入 Phase 2 closeout / freeze checklist 更新，把自然语言导入小型授权 `.xlsx` 验收项标记为 passed-with-scope。
 
 ## Phase 2.112h Explicit Natural Import Alias Preservation Fix
 

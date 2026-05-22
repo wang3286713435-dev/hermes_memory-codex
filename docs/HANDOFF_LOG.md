@@ -7757,6 +7757,16 @@
 - next: Fix test-machine Hermes_memory API DB hostname / run mode, then rerun same logical follow-up retrieval + citation once.
 - commit/tag if any: none.
 
+## 2026-05-22 13:25 Phase 2.112i Test-machine Retrieval Backend Environment Fix Go
+
+- result: Go.
+- test_machine_state: `hermes-agent` `e1d38e1e`, tag `phase-2.112h-explicit-import-alias-runtime-test-candidate`, worktree clean; `Hermes_memory` `e459b5a`, tag `phase-2.112b-runtime-candidate-handoff-baseline`, worktree clean.
+- service_state: Hermes_memory run mode `docker_compose`; DB hostname category changed from `docker_service_hostname` to sanitized `localhost_style` for the 8642 host-process retrieval path; Hermes_memory health pass; 8642 health pass; real upload flag visible.
+- retrieval: `alias_resolution.status=alias_resolved`, `alias_missing=false`, `retrieval_suppressed=false`, `retrieval_evidence_document_ids_non_empty=true`, `citation_present=true`, `third_document_contamination=false`.
+- safety: no secret / raw path / file content output; no NAS scan; no repair/cleanup/backfill/reindex/delete/migration/rollout; no manual DB/index write; no metadata/facts/snapshot/transcript substitution.
+- decision: Natural-language import -> explicit requested alias -> follow-up retrieval evidence + citation path is now accepted for the authorized small `.xlsx` scope.
+- next: Update Phase 2 closeout / freeze checklist; do not expand to production rollout, NAS full scan, DWG/RVT/BIM content understanding, or automatic memory writes without a new phase.
+
 ## 2026-05-22 12:45 Phase 2.112h Codex B Review / Runtime Candidate
 
 - goal: Review Codex A Phase 2.112h explicit natural import alias preservation fix and decide whether to publish runtime test-candidate.

@@ -1,96 +1,81 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.112i Test-machine Retrieval Backend Environment Fix
+## Phase 2 Natural Import Closeout Review / Freeze Checklist Update
 
-Do not ask Codex A to modify alias parser / alias continuity code for this blocker.
+Do not modify runtime code unless the closeout review finds a concrete P0/P1 blocker.
 
-Phase 2.112h test-machine validation proved the alias path now works:
+## Current Accepted Result
+
+Phase 2.112i test-machine validation returned Go for the natural-language import chain:
 
 ```text
-import alias: @建筑类数据样表
-follow-up alias_resolution.status: alias_resolved
+Hermes_memory health: pass
+8642 health: pass
+real_upload_flag_visible: true
+alias_resolution.status: alias_resolved
 alias_missing: false
-stable_owner_missing: false
+retrieval_suppressed: false
+retrieval_evidence_document_ids_non_empty: true
+citation_present: true
+third_document_contamination: false
 ```
 
-The remaining blocker is:
+Accepted scope:
 
 ```text
-retrieval_suppressed=true
-retrieval_suppressed_reason=retrieval_backend_failed
-root cause: retrieval_backend_failed_postgres_hostname_unresolved
+authorized small .xlsx sample
+natural-language import through 8642 / OpenWebUI-compatible backend
+explicit requested alias @建筑类数据样表
+same-session follow-up retrieval with citation
 ```
 
-This is a test-machine Hermes_memory API / DB hostname environment issue, not an alias bug.
+## Next Task
 
-## Test-machine Task
+Prepare Phase 2 closeout / freeze checklist update.
 
-On the Mac mini / test machine:
+Required review points:
 
-1. Do not change Hermes agent code.
-2. Do not repeat imports in a loop.
-3. Inspect how Hermes_memory API is running:
-   - Docker compose service, or
-   - host process / local script / launchd.
-4. Inspect only DB connection key names and hostname category; do not print DB URL values, password, token, or secret.
-5. If Hermes_memory API runs inside Docker compose, ensure it shares the Docker network where service hostname `postgres` resolves.
-6. If Hermes_memory API runs on the host, `postgres` service hostname likely will not resolve; use the test-machine approved host-accessible DB hostname / port from secure env, commonly a localhost-style endpoint, without printing secret values.
-7. Restart Hermes_memory API after fixing env/network.
-8. Confirm `/health` passes.
-9. Restart 8642 only if needed.
-10. First try the follow-up retrieval again in the same logical conversation/session:
+1. Mark natural-language import usability as `passed_with_scope`, not unrestricted production-ready.
+2. Clearly list remaining out-of-scope capabilities:
+   - production rollout;
+   - NAS full scan;
+   - DWG/RVT/BIM content understanding;
+   - large-file parser/indexing;
+   - automatic long-term memory writes for file content;
+   - repair / reindex / cleanup automation.
+3. Confirm platform Gateway catalog-only path remains separate from standalone Hermes import/evidence path.
+4. Confirm Hermes must retain standalone kernel identity, workspace/context/memory/evidence roadmap.
+5. Confirm Phase 2 cannot be called complete if any PRD-critical P0/P1 item remains unverified.
 
-```text
-围绕 @建筑类数据样表 总结这个文件的表格结构，必须只基于 retrieval evidence，并给出 citation。
-```
+## Allowed Files
 
-11. If the restart lost session continuity, run at most one fresh controlled import using the same authorized small `.xlsx` and explicit alias `@建筑类数据样表`, then run the follow-up retrieval once.
+Docs/eval manifests only. Likely:
 
-## Go Criteria
-
-Return Go only if:
-
-1. Hermes_memory API health passes;
-2. 8642 health passes;
-3. follow-up alias is resolved;
-4. `alias_missing=false`;
-5. `retrieval_suppressed=false`;
-6. `retrieval_evidence_document_ids` is non-empty;
-7. citation is present and manually reviewable;
-8. no third-document contamination;
-9. no metadata/facts/snapshot/transcript substitution.
-
-## Pause Criteria
-
-Return Pause if:
-
-1. DB hostname remains unresolved;
-2. any retrieval backend error remains;
-3. alias unexpectedly regresses to missing;
-4. evidence IDs remain empty;
-5. citation is missing;
-6. provider usage limit blocks the answer.
+1. `docs/ACTIVE_PHASE.md`
+2. `docs/PHASE_BACKLOG.md`
+3. `docs/TODO.md`
+4. `docs/DEV_LOG.md`
+5. `docs/HANDOFF_LOG.md`
+6. Phase 2 closeout / freeze checklist docs or eval manifests if present.
 
 ## Hard Prohibitions
 
 Do not:
 
-1. output secrets, DB URLs, passwords, tokens, file content, raw local paths, or env values;
+1. run new imports;
 2. scan NAS;
-3. execute repair / cleanup / backfill / reindex / delete / migration / rollout;
-4. manually write DB / facts / document_versions / OpenSearch / Qdrant / MinIO;
-5. run uncontrolled repeated imports;
-6. claim Phase 2 natural import closeout before retrieval evidence + citation pass.
+3. write DB / facts / document_versions / OpenSearch / Qdrant / MinIO;
+4. execute repair / cleanup / backfill / reindex / delete / migration / rollout;
+5. claim DWG/RVT/BIM content understanding;
+6. claim production readiness;
+7. erase known risks.
 
-## Required Report
+## Final Report Required
 
-Return:
+Report:
 
-1. Hermes_memory run mode category: docker / host / launchd / unknown;
-2. DB hostname category before and after fix, sanitized;
-3. whether `/health` passes;
-4. 8642 health and upload flag visibility;
-5. follow-up alias/retrieval/citation table;
-6. safety flags;
-7. Go / Pause / No-Go;
-8. if Pause, the single smallest blocker.
+1. changed files;
+2. whether natural import is marked `passed_with_scope`;
+3. remaining Phase 2 P0/P1 blockers, if any;
+4. whether Phase 2 stable freeze is recommended;
+5. whether Codex B review is needed.

@@ -8,6 +8,14 @@
 - 本轮未执行真实 follow-up retrieval、未重复 import、未写 DB / facts / versions / OpenSearch / Qdrant，未执行 repair/backfill/reindex/delete/migration/rollout。
 - 当前结论：Pause。下一步由测试机修复 Hermes_memory API 的 DB hostname / network 配置后，重跑 retrieval evidence + citation。
 
+## 2026-05-22 Phase 2.112i Test-machine Retrieval Backend Environment Fix Go
+
+- 测试机完成环境修复：8642 宿主机进程不再使用 compose 内部主机名访问 Hermes_memory DB / retrieval 依赖，改为测试机批准的 host-accessible endpoint；未输出 DB URL / secret。
+- 复验结果 Go：Hermes_memory health pass，8642 health pass，real upload flag visible；`@建筑类数据样表` follow-up `alias_resolution.status=alias_resolved`、`alias_missing=false`、`retrieval_suppressed=false`。
+- retrieval evidence 与 citation 通过：`retrieval_evidence_document_ids_non_empty=true`，`citation_present=true`，`third_document_contamination=false`。
+- 安全边界通过：未输出 secret / raw path / file content，未扫 NAS，未执行 repair/cleanup/backfill/reindex/delete/migration/rollout，未手动写 DB/index，metadata/facts/snapshot/transcript 未替代 evidence。
+- 当前结论：自然语言导入小型授权 `.xlsx` -> explicit alias -> follow-up retrieval + citation 链路通过；可进入 Phase 2 closeout checklist 更新。
+
 ## 2026-05-22 Phase 2.112h Explicit Natural Import Alias Preservation Fix Handoff
 
 - 测试机复验 2.112g 仍 Pause：candidate 已部署，import 成功并 stored continuity，但导入绑定的 alias 不是用户请求的 `@建筑类数据样表`，follow-up 该 alias 仍 `alias_missing=true`、`retrieval_suppressed=true`。

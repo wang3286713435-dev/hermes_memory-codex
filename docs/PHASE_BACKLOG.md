@@ -8,7 +8,8 @@
 4. Do not modify Hermes agent alias parser / continuity code for this blocker.
 5. Next required action is environment-level: make Hermes_memory API use a DB hostname that matches its run mode. Docker compose mode may use service hostname; host/launchd mode needs an approved host-accessible endpoint.
 6. After services are healthy, rerun at most one follow-up retrieval for `@建筑类数据样表`; repeat import only if restart lost session continuity.
-7. Full natural import closeout remains blocked until retrieval evidence is non-empty and citation is present.
+7. Completed on test machine: Hermes_memory health pass, 8642 health pass, `alias_resolved`, `retrieval_suppressed=false`, non-empty retrieval evidence IDs, and citation present.
+8. Natural import closeout blocker is cleared for authorized small `.xlsx` scope; broader sample matrix / production rollout remains out of scope.
 
 ## Phase 2.112h Explicit Natural Import Alias Preservation Fix
 
