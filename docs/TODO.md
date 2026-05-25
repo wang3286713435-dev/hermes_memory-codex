@@ -2,11 +2,13 @@
 
 ## Phase 2.116 Natural Import User-facing Response Polish
 
-1. 用户真实 OpenWebUI 测试已证明 2.115 功能链路基本通过，但 Hermes 默认回复仍输出大段 `Natural file import diagnostics`。
-2. Codex A 下一步只修默认用户态回复：成功导入显示工作区、分类、别名、后续提问建议；失败导入显示路径不可见原因和授权目录建议。
-3. 诊断字段必须保留给测试 / debug，但默认普通用户不应看到整段 diagnostics。
-4. Fuzzy discovery 默认回复应隐藏 `document_id/version_id/chunk_count/workspace_id` 等技术字段，除非用户显式要求技术诊断。
-5. 禁止改 upload adapter、ingestion/indexing、retrieval contract、workspace inference、平台 Gateway、NAS 或 production rollout。
+1. 本地最小实现已完成：默认导入成功回复显示工作区、分类、别名、后续提问建议；导入失败回复说明路径不可见并提示授权目录。
+2. 诊断字段保留给 `response.diagnostics` / 显式 debug render；默认普通用户不再看到整段 `Natural file import diagnostics`。
+3. Fuzzy discovery 默认候选隐藏 `document_id/version_id/chunk_count/workspace_id` 等技术字段，只展示 safe alias / workspace / category。
+4. 验证：Hermes 主仓 py_compile 通过；targeted suite `38 passed`；扩展 natural import / session / file steward regression `130 passed`。
+5. Codex B review 通过，Hermes main runtime candidate 已推送：`e04cc6feb` / `phase-2.116-natural-import-response-polish-runtime-candidate`。
+6. 下一步：交 Codex C / 测试机 OpenWebUI / 8642 复验默认用户输出。
+7. 继续禁止改 upload adapter、ingestion/indexing、retrieval contract、workspace inference、平台 Gateway、NAS 或 production rollout。
 
 ## Phase 2.115 Workspace Context / Auto Alias / Fuzzy File Discovery
 

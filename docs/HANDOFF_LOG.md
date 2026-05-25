@@ -7933,3 +7933,21 @@
 - forbidden: do not change upload adapter, ingestion/indexing, retrieval contract, workspace inference, platform Gateway, NAS, or production rollout.
 - next: Codex A updates natural import / fuzzy discovery default response rendering, adds tests, and stops for Codex B review.
 - commit/tag if any: none yet for this planning update.
+
+## 2026-05-25 17:02 Phase 2.116 Natural Import User-facing Response Polish
+
+- goal: Implement the bounded user-facing renderer polish for natural import and fuzzy discovery.
+- changed_files: Hermes main `agent/memory_kernel/natural_file_import_runtime.py`, `agent/memory_kernel/file_steward_ux.py`, `agent/memory_kernel/context_builder.py`, related tests and docs; Hermes_memory phase handoff docs and ignored `reports/agent_runs/latest.json`.
+- tests: py_compile passed; natural import / structured citation target suite `38 passed`; extended natural import / flow / session scope / file steward suite `130 passed`.
+- validation: No live OpenWebUI / 8642 smoke in this turn; no upload, DB, facts, versions, OpenSearch, Qdrant, repair, backfill, reindex, delete, migration, or rollout.
+- risks: Needs Codex B review and Codex C / test-machine validation before runtime baseline; diagnostics must remain available via `response.diagnostics` or explicit debug rendering.
+- next: Codex B reviews Phase 2.116; if accepted, Codex C validates default user-facing import success/failure/fuzzy discovery output.
+- commit/tag if any: none.
+
+## 2026-05-25 17:25 Phase 2.116 Codex B Review / Runtime Candidate
+
+- result: Codex B review passed for bounded user-facing response polish.
+- verification: `py_compile` passed; target suite `38 passed`; extended natural import / flow / session scope / file steward regression `130 passed`; `git diff --check` passed.
+- baseline: Hermes main selected Phase 2.116 files committed and pushed as `e04cc6feb` with tag `phase-2.116-natural-import-response-polish-runtime-candidate`.
+- excluded from staging: pre-existing/unrelated Hermes main dirty files `agent/memory_kernel/adapters/hermes_memory_adapter.py`, `uv.lock`, `docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`, `tests/agent/test_memory_kernel_adapter_reload.py`.
+- remaining gate: Codex C / test machine OpenWebUI / 8642 live validation. Stable closeout is not approved until live validation confirms default users no longer see diagnostics blocks.

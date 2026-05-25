@@ -7,6 +7,14 @@
 - 更新 `docs/NEXT_CODEX_A_PROMPT.md`，要求 Codex A 默认成功导入回复只展示工作区、分类、别名和后续提问建议；失败回复说明路径不可见并给授权目录建议；debug diagnostics 保留给测试 harness。
 - 本轮为 docs-only planning；未运行 import、未上传文件、未写 DB / facts / document_versions / OpenSearch / Qdrant，未执行 NAS scan / repair / reindex / rollout。
 
+## 2026-05-25 Phase 2.116 Natural Import User-facing Response Polish Implementation
+
+- Hermes 主仓完成 bounded renderer polish：默认成功导入回复改为用户可读的工作区 / 分类 / 别名 / 后续问法；失败回复改为路径不可见与授权目录提示。
+- Debug diagnostics 未删除，仍保留在 `response.diagnostics` 与显式 `include_diagnostics=True` render；默认普通用户文本不再包含大段 `Natural file import diagnostics`、document/version/chunk 技术字段。
+- Fuzzy discovery candidate context 改为 safe alias / workspace / category 展示，隐藏 `document_id`、`version_id`、`workspace_id`、`chunk_count` 等技术 ID。
+- 验证：Hermes 主仓 py_compile 通过；`tests/agent/test_natural_file_import_runtime.py tests/agent/test_structured_citation_context.py` 为 `38 passed`；扩展 natural import / flow / session scope / file steward regression 为 `130 passed`。
+- Codex B review 通过，Hermes main runtime candidate 已推送：`e04cc6feb` / `phase-2.116-natural-import-response-polish-runtime-candidate`。本轮未跑 OpenWebUI / 8642 live smoke，未上传文件，未写 DB / facts / versions / OpenSearch / Qdrant，未执行 repair/backfill/reindex/delete/migration/rollout；下一步等待 Codex C / 测试机复验。
+
 - [Phase 2.115] 完成 Hermes 主仓 workspace context / auto alias / fuzzy discovery 本地 runtime candidate：无手填 `PROJECT_CONTEXT` / alias 时可从安全文件名 / folder label / query 推断 workspace，生成 `@C塔人力成本测算表` 类 alias，并把 workspace metadata 持久化到 session alias registry；fuzzy discovery 可按 workspace/category/alias 找安全候选。import 响应不展示 raw path，并声明 workspace/alias diagnostics 不是 retrieval evidence。验证：`git diff --check` 通过，py_compile 通过，natural import / runtime / session scope regression `129 passed`。未跑真实 OpenWebUI / 8642 upload/import，未写 DB/facts/versions/OpenSearch/Qdrant，等待 runtime test-candidate 复验。
 
 ## 2026-05-23 Phase 2.115 Workspace Context / Auto Alias Planning

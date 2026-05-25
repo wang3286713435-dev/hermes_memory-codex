@@ -1,5 +1,16 @@
 # Phase Backlog
 
+## Phase 2.116 Natural Import User-facing Response Polish
+
+1. 本地最小实现已完成：natural import 默认成功 / 失败回复改成用户可读文本，不再向普通用户展示大段 `Natural file import diagnostics`。
+2. `response.diagnostics` 与显式 debug render 仍保留机器诊断，避免影响测试 / 排障链路。
+3. Fuzzy discovery 默认候选展示 safe alias / workspace / category，不展示 `document_id`、`version_id`、`workspace_id`、`chunk_count` 等技术 ID。
+4. 验证：Hermes 主仓 py_compile 通过；targeted suite `38 passed`；扩展回归 `130 passed`。
+5. 当前未执行 OpenWebUI / 8642 live smoke，未上传文件，未写 DB / facts / versions / OpenSearch / Qdrant。
+6. Codex B review 已通过，runtime candidate 已推送：Hermes main `e04cc6feb` / `phase-2.116-natural-import-response-polish-runtime-candidate`。
+7. 下一步由 Codex C / 测试机验证默认用户输出不再包含 diagnostics block。
+8. 禁止把本轮扩展为 upload、ingestion、retrieval、workspace inference、platform Gateway、NAS 或 rollout 改动。
+
 ## Phase 2.115 Workspace Context / Auto Alias / Fuzzy Discovery
 
 1. 本地 runtime candidate 已完成：Hermes 主仓支持从安全文件名 / folder label / query 推断 `workspace_context`，并在无显式 alias 时生成安全 alias。
