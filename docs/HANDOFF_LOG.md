@@ -7922,3 +7922,14 @@
 - p2_tail: Low-confidence workspace currently relies mostly on `needs_user_confirmation=true` diagnostics; future UX can make the natural-language confirmation stronger.
 - next: Test-machine / Codex C checks out `phase-2.115-workspace-auto-alias-runtime-test-candidate`, restarts 8642, and validates no-`PROJECT_CONTEXT` / no-explicit-`ALIAS` natural import, generated alias retrieval, and fuzzy file discovery.
 - excluded_dirty: Hermes main `agent/memory_kernel/adapters/hermes_memory_adapter.py`, `uv.lock`, `docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`, `tests/agent/test_memory_kernel_adapter_reload.py`; Hermes_memory `docs/digital-delivery-standards/`.
+
+## 2026-05-25 Phase 2.116 Natural Import User-facing Response Polish Planning
+
+- goal: Convert the user-observed Phase 2.115 UX issue into a bounded Codex A task: normal users should not see large `Natural file import diagnostics` blocks.
+- observed_success: Phase 2.115 real OpenWebUI flow imported the file, inferred `C塔项目 / 人力配置 / 成本测算`, generated `@C塔人力成本测算表`, retrieved content with `[C1]`, and fuzzy discovery found the imported file.
+- observed_issue: import success response still dumps machine diagnostics and technical IDs to the user, which is not acceptable for the enterprise Agent experience.
+- changed_files: `docs/PHASE2116_NATURAL_IMPORT_USER_RESPONSE_POLISH_PLAN.md`, `docs/NEXT_CODEX_A_PROMPT.md`, phase docs, ignored `reports/agent_runs/latest.json`.
+- scope: rendering polish only; keep diagnostics available in `response.diagnostics` or explicit debug mode.
+- forbidden: do not change upload adapter, ingestion/indexing, retrieval contract, workspace inference, platform Gateway, NAS, or production rollout.
+- next: Codex A updates natural import / fuzzy discovery default response rendering, adds tests, and stops for Codex B review.
+- commit/tag if any: none yet for this planning update.

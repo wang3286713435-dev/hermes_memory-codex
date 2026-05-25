@@ -1545,6 +1545,9 @@
 61. 2.115 仍禁止 raw path/raw content/secret 写 memory，禁止把 workspace metadata 当 retrieval evidence，禁止平台 Gateway 改动、NAS 全量扫描、DWG/RVT/BIM 内容理解与 production rollout。
 62. Phase 2.115 本地实现候选已通过 Codex B review：Hermes 主仓 `1ac8099e4` / `phase-2.115-workspace-auto-alias-runtime-test-candidate`，targeted regression `129 passed`。
 63. 下一步必须由测试机 / OpenWebUI / 8642 验证无 `PROJECT_CONTEXT`、无显式 `ALIAS` 的导入流、generated alias retrieval 与 fuzzy discovery。
+64. Phase 2.115 用户实测已证明功能链路基本通过：文件导入、workspace inference、generated alias、alias retrieval citation、fuzzy discovery 均可用。
+65. 新 UX blocker：默认导入成功/失败回复仍输出大段 `Natural file import diagnostics` 和技术字段，需 Phase 2.116 改成用户态自然语言回复。
+66. Phase 2.116 只允许改 response rendering / tests，禁止改 upload、ingestion/indexing、retrieval、workspace inference、平台 Gateway 或 NAS。
 
 ## 后置项
 

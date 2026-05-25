@@ -1,129 +1,135 @@
 # NEXT_CODEX_A_PROMPT
 
-## Phase 2.115 Runtime Test-candidate Validation Handoff
+## Phase 2.116 Natural Import User-facing Response Polish
 
 You are Codex A, the Hermes runtime development agent.
 
-Phase 2.115 local implementation candidate is complete in Hermes main. Do not reimplement it unless Codex B or Codex C returns a concrete blocker.
+Phase 2.115 core workflow passed in the real OpenWebUI / 8642 path: natural import inferred workspace, generated alias, follow-up retrieval returned citation, and fuzzy discovery found the imported file.
+
+The remaining blocker is user experience: Hermes still prints large `Natural file import diagnostics` blocks to normal users.
 
 Read first:
 
 1. `docs/AGENT_OPERATING_PROTOCOL.md`
 2. `docs/ACTIVE_PHASE.md`
 3. `docs/PHASE_BACKLOG.md`
-4. `docs/PHASE2115_WORKSPACE_CONTEXT_AUTO_ALIAS_PLAN.md`
-5. `docs/PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PLAN.md`
-6. `docs/CODEX_TEST_MACHINE_PHASE2114_FINAL_USER_FLOW_ACCEPTANCE_PROMPT.md`
-7. `docs/PHASE2111_NATURAL_IMPORT_MVP_CLOSEOUT_GAP_CLOSURE_PACK.md`
-8. `eval/phase2_inventory/phase2_final_freeze_checklist.json`
-9. `docs/TODO.md`
-10. `docs/DEV_LOG.md`
+4. `docs/PHASE2116_NATURAL_IMPORT_USER_RESPONSE_POLISH_PLAN.md`
+5. `docs/PHASE2115_WORKSPACE_CONTEXT_AUTO_ALIAS_PLAN.md`
+6. `docs/TODO.md`
+7. `docs/DEV_LOG.md`
 
 ## Current State
 
-Local candidate implemented:
+Accepted real behavior:
 
-1. workspace context inference from safe filename / folder labels / query;
-2. safe generated alias such as `@C塔人力成本测算表`;
-3. workspace metadata stored on session alias bindings and continuity;
-4. fuzzy file discovery over safe workspace / alias candidates;
-5. import success response shows workspace / alias diagnostics and hides raw path;
-6. diagnostics are marked as non-evidence.
+1. user imports without `PROJECT_CONTEXT` or explicit `ALIAS`;
+2. Hermes infers `workspace_context`;
+3. Hermes generates `@C塔人力成本测算表`;
+4. import succeeds;
+5. alias retrieval returns evidence + citation;
+6. fuzzy query finds the imported file.
 
-Local validation:
+Problem:
 
-```text
-git diff --check: pass
-py_compile: pass
-natural import / runtime / session scope regression: 129 passed
-```
+Hermes still renders internal diagnostics in the default user answer.
 
-Expected runtime candidate:
+## Required Fix
 
-```text
-tag: phase-2.115-workspace-auto-alias-runtime-test-candidate
-```
+Change only the default user-facing rendering layer.
 
-## Next Required Action
-
-Do not implement more functionality. The next action is Codex B review and Codex C / test-machine validation.
-
-Validate the real OpenWebUI / 8642 flow with an authorized small non-sensitive file:
+For successful import, default response should be concise and product-facing:
 
 ```text
-帮我导入这个文件：<AUTHORIZED_FILE_PATH_TO_C塔项目人力配置及成本测算表0506.xlsx>
+文件我已经记下了。
+
+我把它放入了：
+- 工作区：C塔项目
+- 分类：人力配置 / 成本测算
+- 别名：@C塔人力成本测算表
+
+后续你可以直接问：
+- @C塔人力成本测算表 这份文件有哪些重点？
+- 帮我找 C塔项目的人力成本表
+
+说明：工作区和别名只是定位信息；回答文件内容时我仍会基于 retrieval evidence 和 citation。
 ```
 
-Do not provide `PROJECT_CONTEXT`.
-Do not provide an explicit `ALIAS`.
-
-Expected behavior:
-
-1. import succeeds through the authorized natural import pipeline;
-2. response includes safe `workspace_context`;
-3. response suggests and binds a safe alias, preferably `@C塔人力成本测算表` or equivalent safe normalized alias;
-4. raw path is not printed;
-5. follow-up by generated alias returns retrieval evidence and citation;
-6. fuzzy query such as `帮我找 C塔项目的人力成本表` returns the imported file as a safe candidate or resolves it without third-file contamination;
-7. workspace / alias diagnostics are not treated as retrieval evidence.
-
-## Required Output Shape
-
-Import success should include safe diagnostics similar to:
-
-```yaml
-workspace_context:
-  workspace_id: safe-id
-  workspace_name: C塔项目
-  workspace_type: project
-  document_category: 人力配置 / 成本测算
-  confidence: high | medium | low
-  needs_user_confirmation: true | false
-suggested_alias: "@C塔人力成本测算表"
-alias_status: alias_bound | alias_suggested | needs_confirmation
-```
-
-Do not print raw path. Do not treat workspace metadata as content evidence.
-
-## Fuzzy File Discovery Behavior
-
-For a query like:
+For file-not-found / source path invisible failure, default response should be human-readable:
 
 ```text
-C塔项目的招标要求文件你帮我找出来。
+我识别到你想导入一份文件，并判断它可能属于：C塔项目 / 人力配置 / 成本测算。
+
+但我现在无法读取到这个文件。通常是因为这个路径对 Hermes 后端不可见。
+
+你可以把文件放到 Hermes 授权导入目录，例如：
+/Users/hermes/import_samples/
+
+然后再对我说：
+帮我导入这个文件：/Users/hermes/import_samples/文件名.docx。
 ```
 
-Hermes should:
+Do not dump the whole diagnostics block by default.
 
-1. search safe workspace / alias / imported document candidates;
-2. list safe candidate aliases and safe workspace labels;
-3. ask the user to choose when multiple candidates match;
-4. avoid answering file content until a selected candidate has retrieval evidence;
-5. avoid raw path, raw file content, and secret output.
+## Diagnostics Requirement
 
-## Validation Required Before Handoff
+Diagnostics must remain available for tests / Codex validation.
 
-If Codex C returns Pause, capture:
+Allowed approaches:
 
-1. API / 8642 / CLI status;
-2. generated alias;
-3. workspace_context;
-4. document_id / version_id;
-5. follow-up retrieval evidence ids and citations;
-6. fuzzy discovery trace;
-7. any raw-path leak or third-document contamination.
+1. keep diagnostics in `response.diagnostics`;
+2. add an explicit debug render mode / include diagnostics option;
+3. preserve machine-readable fields for test harnesses without printing them in normal user text.
 
-Do not patch code until a concrete blocker is documented.
+## Fuzzy Discovery Polish
+
+Default fuzzy file discovery response should hide developer fields like:
+
+```text
+document_id
+version_id
+chunk_count
+workspace_id
+```
+
+unless debug mode or explicit user request asks for technical IDs.
+
+Default should show:
+
+```text
+@alias — 工作区：workspace / category
+```
+
+## Allowed Write Scope
+
+Prefer minimal changes in `hermes-agent`:
+
+1. natural import response renderer;
+2. fuzzy discovery/file candidate renderer if needed;
+3. tests for user-facing copy and diagnostics preservation.
+
+## Required Tests
+
+Add or update tests proving:
+
+1. successful import default response does not include `Natural file import diagnostics:`;
+2. successful import default response includes workspace, category, alias, and follow-up suggestions;
+3. successful import response does not show raw path;
+4. diagnostics remain present in `response.diagnostics`;
+5. file-not-found response is human-readable and gives authorized import directory hint;
+6. file-not-found response does not dump all diagnostics;
+7. fuzzy discovery default response hides `document_id`, `version_id`, `chunk_count`, `workspace_id` unless debug mode is requested;
+8. evidence boundary copy remains visible;
+9. core import / generated alias / retrieval / fuzzy discovery behavior remains unchanged.
 
 ## Forbidden Actions
 
-1. Do not run production rollout.
-2. Do not scan NAS.
-3. Do not import more than one file in smoke paths.
-4. Do not write DB / facts / document_versions / OpenSearch / Qdrant outside the configured authorized import pipeline.
-5. Do not repair / cleanup / backfill / reindex / delete / migrate.
-6. Do not modify memory kernel main architecture.
-7. Do not treat diagnostics, aliases, workspace refs, or memory metadata as retrieval evidence.
-8. Do not claim DWG/RVT/BIM content understanding.
-9. Do not write raw path / raw content / secret / customer-sensitive material into memory.
-10. Do not stage unrelated `uv.lock`, adapter reload, repo-hygiene, shared-doc import, or runtime artifact files.
+1. Do not change upload adapter behavior.
+2. Do not change ingestion/indexing logic.
+3. Do not change retrieval contract.
+4. Do not change workspace inference logic unless needed only for rendering.
+5. Do not change platform Gateway code.
+6. Do not scan NAS.
+7. Do not parse DWG/RVT/BIM content.
+8. Do not write raw path / raw content / secret into memory.
+9. Do not remove diagnostics needed by test-machine / Codex validation.
+10. Do not run production rollout.

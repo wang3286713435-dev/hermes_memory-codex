@@ -1,5 +1,13 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.116 Natural Import User-facing Response Polish
+
+1. 用户真实 OpenWebUI 测试已证明 2.115 功能链路基本通过，但 Hermes 默认回复仍输出大段 `Natural file import diagnostics`。
+2. Codex A 下一步只修默认用户态回复：成功导入显示工作区、分类、别名、后续提问建议；失败导入显示路径不可见原因和授权目录建议。
+3. 诊断字段必须保留给测试 / debug，但默认普通用户不应看到整段 diagnostics。
+4. Fuzzy discovery 默认回复应隐藏 `document_id/version_id/chunk_count/workspace_id` 等技术字段，除非用户显式要求技术诊断。
+5. 禁止改 upload adapter、ingestion/indexing、retrieval contract、workspace inference、平台 Gateway、NAS 或 production rollout。
+
 ## Phase 2.115 Workspace Context / Auto Alias / Fuzzy File Discovery
 
 1. 新增用户体验 P0/P1 需求：自然语言导入不应要求用户手填 `PROJECT_CONTEXT`；Hermes 应自动推断 `workspace_context`。

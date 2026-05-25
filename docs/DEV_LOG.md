@@ -1,5 +1,12 @@
 # DEV_LOG
 
+## 2026-05-25 Phase 2.116 Natural Import User-facing Response Polish Planning
+
+- 启动 Phase 2.116：Phase 2.115 真实 OpenWebUI / 8642 flow 已证明 workspace inference、auto alias、retrieval citation、fuzzy discovery 能工作，但默认回答仍输出大段 `Natural file import diagnostics`。
+- 新增 `docs/PHASE2116_NATURAL_IMPORT_USER_RESPONSE_POLISH_PLAN.md`，限定本阶段只改用户态回复渲染，不改 upload adapter、ingestion/indexing、retrieval contract、workspace inference 或平台 Gateway。
+- 更新 `docs/NEXT_CODEX_A_PROMPT.md`，要求 Codex A 默认成功导入回复只展示工作区、分类、别名和后续提问建议；失败回复说明路径不可见并给授权目录建议；debug diagnostics 保留给测试 harness。
+- 本轮为 docs-only planning；未运行 import、未上传文件、未写 DB / facts / document_versions / OpenSearch / Qdrant，未执行 NAS scan / repair / reindex / rollout。
+
 - [Phase 2.115] 完成 Hermes 主仓 workspace context / auto alias / fuzzy discovery 本地 runtime candidate：无手填 `PROJECT_CONTEXT` / alias 时可从安全文件名 / folder label / query 推断 workspace，生成 `@C塔人力成本测算表` 类 alias，并把 workspace metadata 持久化到 session alias registry；fuzzy discovery 可按 workspace/category/alias 找安全候选。import 响应不展示 raw path，并声明 workspace/alias diagnostics 不是 retrieval evidence。验证：`git diff --check` 通过，py_compile 通过，natural import / runtime / session scope regression `129 passed`。未跑真实 OpenWebUI / 8642 upload/import，未写 DB/facts/versions/OpenSearch/Qdrant，等待 runtime test-candidate 复验。
 
 ## 2026-05-23 Phase 2.115 Workspace Context / Auto Alias Planning
