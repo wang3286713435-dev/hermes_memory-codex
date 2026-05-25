@@ -8,8 +8,9 @@
 4. 验证：Hermes 主仓 py_compile 通过；targeted suite `38 passed`；扩展回归 `130 passed`。
 5. 当前未执行 OpenWebUI / 8642 live smoke，未上传文件，未写 DB / facts / versions / OpenSearch / Qdrant。
 6. Codex B review 已通过，runtime candidate 已推送：Hermes main `e04cc6feb` / `phase-2.116-natural-import-response-polish-runtime-candidate`。
-7. 下一步由 Codex C / 测试机验证默认用户输出不再包含 diagnostics block。
-8. 禁止把本轮扩展为 upload、ingestion、retrieval、workspace inference、platform Gateway、NAS 或 rollout 改动。
+7. Codex C / 测试机验证返回 `No-Go`：Case 4 fuzzy discovery raw path output；Case 2 alias retrieval third-document contamination signal。
+8. 下一步 Phase 2.116b 只修复 fuzzy discovery raw path 泄露与 alias retrieval contamination signal。
+9. 禁止把本轮扩展为 upload、ingestion、retrieval、workspace inference、platform Gateway、NAS 或 rollout 改动。
 
 ## Phase 2.115 Workspace Context / Auto Alias / Fuzzy Discovery
 

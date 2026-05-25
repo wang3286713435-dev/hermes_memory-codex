@@ -7951,3 +7951,12 @@
 - baseline: Hermes main selected Phase 2.116 files committed and pushed as `e04cc6feb` with tag `phase-2.116-natural-import-response-polish-runtime-candidate`.
 - excluded from staging: pre-existing/unrelated Hermes main dirty files `agent/memory_kernel/adapters/hermes_memory_adapter.py`, `uv.lock`, `docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`, `tests/agent/test_memory_kernel_adapter_reload.py`.
 - remaining gate: Codex C / test machine OpenWebUI / 8642 live validation. Stable closeout is not approved until live validation confirms default users no longer see diagnostics blocks.
+
+## 2026-05-25 18:05 Phase 2.116 Codex C No-Go
+
+- result: No-Go from test machine live validation.
+- passed: import success default reply product-facing; import failure default reply human-readable; diagnostics block hidden for these cases.
+- failed_case_2: same-session alias retrieval resolved alias and returned citation, but reported `third_document_contamination=true`.
+- failed_case_4: fuzzy discovery default reply did not produce safe candidates and leaked raw path (`raw_path_output=true`).
+- safety: no secret, no file content output, no NAS scan, no manual DB/index write, no repair/backfill/reindex/delete/migration/rollout.
+- next: Codex A Phase 2.116b must root-cause and minimally fix fuzzy discovery raw path leakage and retrieval contamination signal before any stable closeout.

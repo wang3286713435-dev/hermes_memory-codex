@@ -7,8 +7,9 @@
 3. Fuzzy discovery 默认候选隐藏 `document_id/version_id/chunk_count/workspace_id` 等技术字段，只展示 safe alias / workspace / category。
 4. 验证：Hermes 主仓 py_compile 通过；targeted suite `38 passed`；扩展 natural import / session / file steward regression `130 passed`。
 5. Codex B review 通过，Hermes main runtime candidate 已推送：`e04cc6feb` / `phase-2.116-natural-import-response-polish-runtime-candidate`。
-6. 下一步：交 Codex C / 测试机 OpenWebUI / 8642 复验默认用户输出。
-7. 继续禁止改 upload adapter、ingestion/indexing、retrieval contract、workspace inference、平台 Gateway、NAS 或 production rollout。
+6. Codex C / 测试机复验返回 `No-Go`：fuzzy discovery 默认回复仍泄露 raw path；alias retrieval 出现第三文件污染信号。
+7. 下一步：Codex A 执行 Phase 2.116b 最小修复，仅处理上述两个 blocker。
+8. 继续禁止改 upload adapter、ingestion/indexing、retrieval contract、workspace inference、平台 Gateway、NAS 或 production rollout。
 
 ## Phase 2.115 Workspace Context / Auto Alias / Fuzzy File Discovery
 

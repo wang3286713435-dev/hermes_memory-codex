@@ -14,6 +14,7 @@
 - Fuzzy discovery candidate context 改为 safe alias / workspace / category 展示，隐藏 `document_id`、`version_id`、`workspace_id`、`chunk_count` 等技术 ID。
 - 验证：Hermes 主仓 py_compile 通过；`tests/agent/test_natural_file_import_runtime.py tests/agent/test_structured_citation_context.py` 为 `38 passed`；扩展 natural import / flow / session scope / file steward regression 为 `130 passed`。
 - Codex B review 通过，Hermes main runtime candidate 已推送：`e04cc6feb` / `phase-2.116-natural-import-response-polish-runtime-candidate`。本轮未跑 OpenWebUI / 8642 live smoke，未上传文件，未写 DB / facts / versions / OpenSearch / Qdrant，未执行 repair/backfill/reindex/delete/migration/rollout；下一步等待 Codex C / 测试机复验。
+- Codex C / 测试机复验返回 `No-Go`：成功导入和失败导入默认回复已通过，但 fuzzy discovery 默认回复仍泄露 raw path，且 alias retrieval 出现第三文件污染信号。Phase 2.116b 只允许针对这两个 blocker 做最小修复。
 
 - [Phase 2.115] 完成 Hermes 主仓 workspace context / auto alias / fuzzy discovery 本地 runtime candidate：无手填 `PROJECT_CONTEXT` / alias 时可从安全文件名 / folder label / query 推断 workspace，生成 `@C塔人力成本测算表` 类 alias，并把 workspace metadata 持久化到 session alias registry；fuzzy discovery 可按 workspace/category/alias 找安全候选。import 响应不展示 raw path，并声明 workspace/alias diagnostics 不是 retrieval evidence。验证：`git diff --check` 通过，py_compile 通过，natural import / runtime / session scope regression `129 passed`。未跑真实 OpenWebUI / 8642 upload/import，未写 DB/facts/versions/OpenSearch/Qdrant，等待 runtime test-candidate 复验。
 
