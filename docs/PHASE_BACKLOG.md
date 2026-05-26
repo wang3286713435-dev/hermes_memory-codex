@@ -31,7 +31,20 @@
 6. 本地最小修复已完成：contamination normalization 同步覆盖 top-level / nested trace；file candidate、active document、evidence / citation source 都做 safe display，`file://` / `nas://` / `smb://` / `/Users` / `/Volumes` 只显示 basename。
 7. 验证：live-shape targeted tests `4 passed`；py_compile 通过；required regression `135 passed`。
 8. Codex B review 通过，runtime candidate 已推送：Hermes main `ff11f177c` / `phase-2.116c-live-no-go-root-cause-runtime-candidate`。
-9. 下一步：Codex C / 测试机重跑 Phase 2.116 live validation。
+9. Codex C / 测试机已在正确 2.116c refs 上重跑 Phase 2.116 live validation，结论仍为 `No-Go`。
+10. 2.116c 已解决 stale contamination false positive，但暴露新阻塞：
+    - Case 2：retrieval 有 evidence/citation 且 contamination=false，但 alias diagnostics 仍显示 `alias_missing=true`。
+    - Case 3：import failure human-readable 回复仍输出 raw path。
+    - Case 4：fuzzy discovery 仍无 safe candidates 且输出 raw path。
+11. 下一步：进入 Phase 2.116d root-cause-first follow-up fix。
+
+## Phase 2.116d Natural Import Live No-Go Follow-up Fix
+
+1. 目标：修复 2.116c 正确版本 live validation 仍失败的 alias diagnostics / failure raw path / fuzzy discovery raw path。
+2. 必须先定位根因，不允许继续猜测式补丁。
+3. 允许范围：alias continuity restore / exposed diagnostics consistency、failure/fuzzy safe display、safe candidate exposure、sanitized diagnostics、targeted tests。
+4. 禁止范围：upload adapter、ingestion/indexing、broad retrieval contract、platform Gateway、NAS scan、DWG/RVT/BIM parse、DB/index write、repair/reindex/rollout。
+5. 完成后必须 Codex B review，再交 Codex C live validation rerun。
 
 ## Phase 2.115 Workspace Context / Auto Alias / Fuzzy Discovery
 

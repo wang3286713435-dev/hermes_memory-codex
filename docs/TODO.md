@@ -10,15 +10,14 @@
 6. Codex C 在正确 2.116b 版本上复验仍返回 `No-Go`：Case 2 `third_document_contamination=true`，Case 4 `raw_path_output=true`。
 7. 下一步：打回 Codex A 进入 2.116c root-cause-first 修复。当前不进入下一阶段，不做 stable closeout。
 
-## Phase 2.116c
+## Phase 2.116d
 
-1. 本地根因定位与最小修复已完成。
-2. contamination 根因：2.116b 只覆盖 top-level trace，nested `retrieval_trace` / `context_scope` 仍可能保留 stale `third_document_contamination=true` 并被 live 展示链路读取。
-3. raw path 根因：路径可从 `source_uri`、`alias_source_name`、active document hint、retrieval evidence / citation source 等非 candidate title 字段穿透。
-4. 修复：contamination normalization 覆盖 top-level / nested trace；file candidate、active document、evidence source、citation source 均用 safe basename display，且保留 human category slash。
-5. 验证：live-shape targeted tests `4 passed`；py_compile 通过；required regression `135 passed`。
-6. Codex B review 通过，runtime candidate 已推送：Hermes main `ff11f177c` / `phase-2.116c-live-no-go-root-cause-runtime-candidate`。
-7. 下一步：Codex C 重跑 Phase 2.116 live validation。当前不进入下一阶段，不做 stable closeout。
+1. Codex C 在正确 2.116c 版本上复验仍返回 `No-Go`。
+2. 2.116c 已解决 contamination false positive；Case 2 当前 blocker 变为 alias diagnostics 自相矛盾：retrieval 有 evidence/citation，但 `alias_missing=true`。
+3. Case 3 import failure 仍有 raw path 输出。
+4. Case 4 fuzzy discovery 仍无 safe candidates 且 raw path 输出。
+5. 下一步：Codex A 进入 2.116d root-cause-first follow-up fix，不允许猜测式补丁。
+6. 完成后必须 Codex B review，再交 Codex C / 测试机复验。当前不进入下一阶段，不做 stable closeout。
 
 ## Phase 2.116 Natural Import User-facing Response Polish
 

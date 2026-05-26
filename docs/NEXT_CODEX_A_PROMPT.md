@@ -1,60 +1,100 @@
 # NEXT_CODEX_A_PROMPT
 
-## 当前状态
+## Phase 2.116d Natural Import Live No-Go Follow-up Fix
 
-Phase 2.116c Natural Import Live No-Go Root Cause Fix 已完成 Codex B review，并已推送 runtime candidate。
+You are Codex A, the Hermes runtime development agent.
 
-已修复：
-1. nested `retrieval_trace` / `context_scope` 中的 stale `third_document_contamination` 会随实际 returned evidence 被同步覆盖。
-2. fuzzy discovery / active document / evidence / citation display 会对 `file://`、`nas://`、`smb://`、`/Users`、`/Volumes` 等 raw path / URI 只渲染安全 basename。
-3. human category slash 保留，例如 `人力配置 / 成本测算`。
-4. 真实 out-of-scope returned evidence 仍会触发 `third_document_contamination=true`，未隐藏真实污染。
+Current state:
 
-已验证：
-1. live-shape targeted tests：`4 passed`
-2. py_compile：通过
-3. natural import / flow / session scope / structured citation / file steward regression：`135 passed`
+1. Phase 2.116c was tested on the correct refs:
+   - Hermes_memory `3dc4290` / `phase-2.116c-live-no-go-fix-review-baseline`
+   - Hermes main `ff11f177c` / `phase-2.116c-live-no-go-root-cause-runtime-candidate`
+2. Codex C result is still `No-Go`.
+3. Therefore 2.116c did not reach stable closeout.
 
-未完成：
-1. Codex C / 测试机 Phase 2.116 live validation rerun。
-2. Stable closeout baseline。
+Live validation result:
 
-Runtime candidate:
+1. Case 1 import success: pass.
+2. Case 2 alias retrieval: fail.
+   - `alias_resolved=false`
+   - `alias_missing=true`
+   - `retrieval_suppressed=false`
+   - `retrieval_evidence_document_ids_non_empty=true`
+   - `citation_present=true`
+   - `third_document_contamination=false`
+   - top-level / nested contamination all false
+3. Case 3 import failure: fail.
+   - human-readable failure exists
+   - safe next-step guidance exists
+   - diagnostics hidden
+   - but `raw_path_output=true`
+4. Case 4 fuzzy discovery: fail.
+   - `safe_candidates_present=false`
+   - `raw_path_hidden=false`
+   - `raw_path_output=true`
+   - forbidden category: `raw_local_path`
 
-1. Hermes main commit: `ff11f177c`
-2. tag: `phase-2.116c-live-no-go-root-cause-runtime-candidate`
+## Required approach
 
-## 下一轮目标
+Do not guess. Follow root-cause-first debugging.
 
-Phase 2.116c Codex C live validation gate。
+Before writing a fix, add or run diagnostics/tests that show:
 
-## Codex A 边界
+1. For Case 2:
+   - why follow-up diagnostics say `alias_missing=true` even though retrieval returned evidence/citation;
+   - whether retrieval used alias binding, active document continuation, session imported document fallback, fuzzy candidate, or another path;
+   - whether alias continuity store has the alias but the exposed `alias_resolution` object is stale/wrong;
+   - whether the correct fix is restoring alias resolution or correcting diagnostics only when evidence truly came from the imported alias.
+2. For Case 3:
+   - which field renders the non-existent raw local path in the human-readable failure;
+   - whether raw path comes from user text echo, parsed path, failure reason, diagnostics, suggested next step, or model context.
+3. For Case 4:
+   - whether raw path comes from ordinary memory, alias store, active document state, source_uri/alias_source_name, file candidate metadata, or model-generated text;
+   - why candidates are not surfaced as safe candidates despite imported file being discoverable in the same validation flow.
 
-除非用户明确要求继续修改，否则不要继续写代码。
+Only after root cause is identified, make the smallest runtime fix.
 
-如被要求执行本文件：
-1. 读取 `AGENT_OPERATING_PROTOCOL.md`、`ACTIVE_PHASE.md`、`PHASE_BACKLOG.md`、`TODO.md`、`DEV_LOG.md`。
-2. 只做状态复核、diff/test 复核或按 Codex B review 反馈做最小修复。
-3. 不提交 Git。
-4. 不进入下一阶段。
-5. 不改 upload adapter、ingestion/indexing、retrieval contract、workspace inference、Gateway、NAS、DWG/RVT/BIM、repair、rollout。
+## Minimal allowed scope
 
-## Codex B review result
+Allowed:
 
-Review passed. Nested contamination cleanup only normalizes stale false positives against actual returned evidence; real unexpected evidence remains flagged. Raw path sanitization covers candidate, active document, evidence, citation, and file metadata display sources while preserving human category labels.
+1. alias continuity restore / exposed alias diagnostics consistency for natural import follow-up;
+2. safe-display sanitization for import failure and fuzzy discovery output paths;
+3. file discovery candidate generation / safe candidate exposure when an imported/session file is discoverable;
+4. sanitized diagnostics fields useful for Codex C validation;
+5. targeted tests reproducing the exact live shapes above.
 
-## Codex C rerun requirement
+Forbidden:
 
-Codex C 使用同一 Phase 2.116 live validation prompt 复验：
-1. Case 1 import success default reply product-facing。
-2. Case 2 alias retrieval has `third_document_contamination=false`。
-3. Case 3 failure default reply human-readable。
-4. Case 4 fuzzy discovery has `safe_candidates_present=true` and `raw_path_hidden=true` with no `/Users/`、`/Volumes/`、`file://`、`nas://`、`smb://` output.
+1. Do not change upload adapter behavior.
+2. Do not change ingestion/indexing logic.
+3. Do not change retrieval scoring / retrieval contract broadly.
+4. Do not change workspace inference except where needed to preserve safe display/context.
+5. Do not change platform Gateway.
+6. Do not scan NAS.
+7. Do not parse DWG/RVT/BIM content.
+8. Do not write DB / facts / versions / OpenSearch / Qdrant.
+9. Do not run repair / backfill / reindex / delete / cleanup.
+10. Do not production rollout.
+11. Do not hide real third-document contamination.
+12. Do not solve raw path checks by removing all candidates; if candidates exist, expose safe aliases/workspace/category/basename.
 
-## Hard boundaries
+## Required tests
 
-1. 不上传新文件。
-2. 不写 DB / facts / versions / OpenSearch / Qdrant。
-3. 不执行 repair / backfill / reindex / delete / cleanup。
-4. 不进入 rollout。
-5. 不提交 Git，除非用户明确给出 baseline prompt。
+Add or update tests for:
+
+1. Natural import follow-up where retrieval evidence/citation comes from the imported document must expose `alias_missing=false` and resolved alias diagnostics.
+2. If retrieval did not actually use the alias/imported document, diagnostics must make that explicit and must not silently pass.
+3. Import failure for a raw local path must return human-readable guidance without `/Users/`, `/Volumes/`, `file://`, `nas://`, `smb://`, or full source path echo.
+4. Fuzzy discovery after import must surface safe candidate(s) without raw path output.
+5. Ordinary memory entries containing raw paths must not leak raw paths into fuzzy file discovery output.
+6. Real third-document contamination remains detectable.
+
+## Verification required before handoff
+
+1. py_compile touched files.
+2. targeted tests for the three live blockers.
+3. natural import / flow / session scope / structured citation / file steward regression.
+4. `git diff --check`.
+
+Stop after implementation and report to Codex B. Do not stable baseline or enter next phase.

@@ -7,6 +7,8 @@
 - Hermes main 修复 file steward / evidence display sanitizer：`file://`、`nas://`、`smb://`、`/Users`、`/Volumes` 等只输出安全 basename；`人力配置 / 成本测算` 等 human category slash 保留。
 - 验证：live-shape targeted tests `4 passed`；py_compile 通过；natural import / flow / session scope / structured citation / file steward regression `135 passed`。
 - 本轮未跑 OpenWebUI / 8642 live smoke，未上传，未写 DB / facts / versions / OpenSearch / Qdrant，未执行 repair/backfill/reindex/delete/migration/rollout，未 baseline。下一步需 Codex B review 与 Codex C live validation rerun。
+- Codex B review 通过，2.116c runtime candidate 已推送：Hermes main `ff11f177c` / `phase-2.116c-live-no-go-root-cause-runtime-candidate`；Hermes_memory review baseline `3dc4290` / `phase-2.116c-live-no-go-fix-review-baseline`。
+- Codex C 在正确 2.116c 版本上复验仍返回 `No-Go`：Case 2 alias diagnostics 仍显示 `alias_missing=true`，Case 3 import failure 仍输出 raw path，Case 4 fuzzy discovery 仍输出 raw path 且无 safe candidates。进入 2.116d root-cause-first follow-up fix。
 
 ## 2026-05-25 Phase 2.116b Natural Import Response Polish No-Go Fix
 

@@ -1,7 +1,7 @@
 # Active Phase
 
-- 当前 phase：Phase 2.116c Natural Import Live No-Go Root Cause Fix。
-- 本轮目标：根因优先修复正确 2.116b 版本仍复现的 live No-Go：Case 2 stale `third_document_contamination=true` 与 Case 4 fuzzy discovery raw local path 输出。
+- 当前 phase：Phase 2.116d Natural Import Live No-Go Follow-up Fix。
+- 本轮目标：针对 Codex C 在正确 2.116c 版本上复现的 No-Go，先定位再最小修复 alias retrieval diagnostics / failure raw path / fuzzy discovery raw path。
 - 修改文件：
   - Hermes main：`agent/memory_kernel/context_builder.py`
   - Hermes main：`agent/memory_kernel/kernel.py`
@@ -16,7 +16,7 @@
   - Hermes_memory：`docs/DEV_LOG.md`
   - Hermes_memory：`docs/NEXT_CODEX_A_PROMPT.md`
   - Hermes_memory：`reports/agent_runs/latest.json`
-- 完成内容：
+- 2.116c 完成内容：
   - 根因 1：2.116b 只覆盖 top-level contamination trace，nested `retrieval_trace` / `context_scope` 仍可能保留 stale `third_document_contamination=true`，被 live 展示链路读取。
   - 根因 2：raw path 不只来自 candidate `title/source_name/display_path`，也可来自 `source_uri`、`alias_source_name`、active document hint、retrieval evidence / citation source。
   - 修复 1：contamination normalization 同步覆盖 top-level、nested `retrieval_trace`、`context_scope`；真实 out-of-scope returned evidence 仍会输出 `third_document_contamination=true`。
@@ -26,15 +26,17 @@
   - live-shape targeted tests：`4 passed`
   - py_compile：通过
   - required regression：`tests/agent/test_natural_file_import_runtime.py tests/agent/test_natural_file_import_flow.py tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py tests/agent/test_file_steward_ux.py` 为 `135 passed`
-- live smoke 结果：本轮未跑 OpenWebUI / 8642 live validation，未上传文件，未写 DB / facts / versions / OpenSearch / Qdrant。
-- 当前结论：Codex B review 通过；Phase 2.116c root-cause runtime candidate 已推送。
+- live smoke 结果：Codex C 已在正确 refs 上重跑 Phase 2.116 live validation，结果为 `No-Go`。
+- 当前结论：Phase 2.116c 不能 stable closeout；进入 2.116d root-cause-first follow-up fix。
 - 阻塞点 / 风险点：
-  - 仍需 Codex C / 测试机重跑 Phase 2.116 live validation，确认 Case 2 `third_document_contamination=false`、Case 4 `raw_path_hidden=true` / `safe_candidates_present=true`。
+  - Case 2：内容 retrieval 有 evidence/citation 且 contamination 已为 false，但 alias diagnostics 显示 `alias_resolved=false`、`alias_missing=true`，说明 alias continuity / active-document fallback / diagnostics 暴露仍不一致。
+  - Case 3：失败回复仍 `raw_path_output=true`，说明 non-existent path failure message 未完全走 safe display。
+  - Case 4：fuzzy discovery 仍 `safe_candidates_present=false`、`raw_path_hidden=false`、`raw_path_output=true`，说明 raw path 仍可能从 ordinary memory、alias store、active-document state、candidate metadata 或 model context 穿透。
   - Hermes main 仍有本阶段外既存 dirty：`agent/memory_kernel/adapters/hermes_memory_adapter.py`、`uv.lock`、`docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`、`tests/agent/test_memory_kernel_adapter_reload.py`。
   - Hermes_memory 仍有本阶段外既存 untracked：`docs/digital-delivery-standards/`。
-- 是否建议 baseline：runtime candidate baseline 已完成；stable closeout 仍需 Codex C live validation。
+- 是否建议 baseline：否，2.116c runtime candidate 已被 live No-Go 打回。
 - 是否建议进入下一阶段：否。
-- 下一轮建议：Codex C 使用同一 Phase 2.116 live validation prompt 重跑 Case 1-4。
-- 是否需要 Codex B 审核：已完成，通过。
-- 是否需要 Codex C / 测试机验收：是。
+- 下一轮建议：Codex A 执行 2.116d root-cause-first 修复；完成后 Codex B review，再交 Codex C 重跑。
+- 是否需要 Codex B 审核：2.116d 完成后需要。
+- 是否需要 Codex C / 测试机验收：2.116d review 后需要。
 - commit/tag if any：Hermes main `ff11f177c` / `phase-2.116c-live-no-go-root-cause-runtime-candidate`。

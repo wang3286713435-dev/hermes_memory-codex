@@ -8008,3 +8008,14 @@
 - accepted_scope: nested `retrieval_trace` / `context_scope` contamination fields are normalized from actual returned evidence; real out-of-scope evidence remains flagged; raw path display is sanitized across candidate, active document, evidence, citation, and metadata source display paths.
 - remaining_gate: Codex C / test machine must rerun Phase 2.116 live validation and confirm Case 2 `third_document_contamination=false`, Case 4 `safe_candidates_present=true`, and Case 4 `raw_path_hidden=true`.
 - stable_closeout: not approved yet.
+
+## 2026-05-26 Phase 2.116c Correct-version Live No-Go
+
+- result: No-Go from Codex C after confirming correct 2.116c refs.
+- refs: Hermes_memory `3dc4290` / `phase-2.116c-live-no-go-fix-review-baseline`; Hermes main `ff11f177c` / `phase-2.116c-live-no-go-root-cause-runtime-candidate`.
+- passed: Case 1 import success default reply is product-facing; diagnostics hidden; technical IDs hidden; alias/workspace/follow-up suggestions/evidence boundary present.
+- failed_case_2: retrieval returned evidence/citation and contamination is false, but alias diagnostics still showed `alias_resolved=false`, `alias_missing=true`; this is a diagnostics / alias continuity / fallback consistency bug, not the previous contamination bug.
+- failed_case_3: import failure reply is human-readable with safe next-step guidance, but still has `raw_path_output=true`.
+- failed_case_4: fuzzy discovery still has `safe_candidates_present=false`, `raw_path_hidden=false`, `raw_path_output=true`, forbidden category `raw_local_path`.
+- safety: no secret, no file content output, no NAS scan, no manual DB/index write, no repair/backfill/reindex/delete/migration/rollout.
+- decision: Phase 2.116c is rejected as stable closeout; next phase is 2.116d root-cause-first follow-up fix.
