@@ -7979,3 +7979,13 @@
 - accepted_scope: raw path sanitizer only affects fuzzy discovery display fallbacks; human category slash such as `人力配置 / 成本测算` remains intact; alias retrieval contamination diagnostics are recomputed from returned evidence so stale trace false positives are cleared only when evidence is in scope.
 - remaining_gate: Codex C / test machine must rerun Phase 2.116 live validation and confirm Case 2 `third_document_contamination=false` plus Case 4 `raw_path_hidden=true`.
 - stable_closeout: not approved yet.
+
+## 2026-05-26 Phase 2.116b Correct-version Live No-Go
+
+- result: No-Go from Codex C after confirming correct 2.116b refs.
+- refs: Hermes_memory `949013e` / `phase-2.116b-no-go-fix-review-baseline`; Hermes main `f887d12bf` / `phase-2.116b-natural-import-response-polish-fix-runtime-candidate`.
+- passed: setup import, diagnostics hidden, technical IDs hidden, alias reported.
+- failed_case_2: alias retrieval still returned `third_document_contamination=true` even though alias resolved, retrieval was not suppressed, and citation was present.
+- failed_case_4: fuzzy discovery still had `safe_candidates_present=false`, `raw_path_hidden=false`, `raw_path_output=true`, forbidden category `raw_local_path`.
+- safety: no secret, no file content output, no NAS scan, no manual DB/index write, no repair/backfill/reindex/delete/migration/rollout.
+- decision: Phase 2.116b is rejected as stable closeout; next phase is 2.116c root-cause-first fix.

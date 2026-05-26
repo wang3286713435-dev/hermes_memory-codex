@@ -7,7 +7,14 @@
 3. 验证通过：targeted regression `2 passed`；py_compile 通过；natural import / flow / session scope / structured citation / file steward regression `132 passed`。
 4. 未执行 OpenWebUI / 8642 live validation，未上传，未写 DB / facts / versions / OpenSearch / Qdrant。
 5. Codex B review 通过，runtime candidate 已推送：Hermes main `f887d12bf` / `phase-2.116b-natural-import-response-polish-fix-runtime-candidate`。
-6. 下一步：Codex C 重跑 Phase 2.116 live validation。当前不进入下一阶段，不做 stable closeout。
+6. Codex C 在正确 2.116b 版本上复验仍返回 `No-Go`：Case 2 `third_document_contamination=true`，Case 4 `raw_path_output=true`。
+7. 下一步：打回 Codex A 进入 2.116c root-cause-first 修复。当前不进入下一阶段，不做 stable closeout。
+
+## Phase 2.116c
+
+1. Codex A 必须先定位根因，不能继续猜测式补丁。
+2. 需要证明并修复：污染信号最终来自哪个 trace/context 字段；raw path 从哪个候选字段穿透；safe candidate 为什么为空。
+3. 修复后需目标测试 + 回归，再交 Codex B review 和 Codex C live validation。
 
 ## Phase 2.116 Natural Import User-facing Response Polish
 

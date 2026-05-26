@@ -18,8 +18,16 @@
 2. 同会话 alias retrieval 的 contamination trace 现在会基于实际 returned evidence 覆盖 stale `third_document_contamination`，in-scope evidence 不再误报第三文件污染。
 3. 验证通过：targeted regression `2 passed`；py_compile 通过；natural import / flow / session scope / structured citation / file steward regression `132 passed`。
 4. Codex B review 通过，runtime candidate 已推送：Hermes main `f887d12bf` / `phase-2.116b-natural-import-response-polish-fix-runtime-candidate`。
-5. 下一步：Codex C / 测试机重跑 Phase 2.116 live validation。
-6. 仍不进入下一阶段；stable closeout 需要真实 OpenWebUI / 8642 验收 Go。
+5. Codex C 在正确 2.116b 版本上复验仍返回 `No-Go`：Case 2 `third_document_contamination=true`，Case 4 `raw_path_output=true` 且 `safe_candidates_present=false`。
+6. 2.116b 不能 stable closeout；下一步进入 2.116c root-cause-first 修复。
+
+## Phase 2.116c Natural Import Live No-Go Root Cause Fix
+
+1. 目标：先定位 live No-Go 根因，再最小修复 Case 2 与 Case 4。
+2. Case 2 必须证明最终暴露的 `third_document_contamination` 来自哪个 trace/context 字段，并只清除 stale false positive，不隐藏真实第三文件污染。
+3. Case 4 必须找出 raw path 从哪个字段穿透到用户输出，并在有候选时输出 safe candidate，而不是空候选。
+4. 禁止改 upload / ingestion / indexing / broad retrieval / workspace inference / platform Gateway / NAS / rollout。
+5. 完成后必须 Codex B review，再交 Codex C live validation。
 
 ## Phase 2.115 Workspace Context / Auto Alias / Fuzzy Discovery
 

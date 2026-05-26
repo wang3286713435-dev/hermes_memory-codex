@@ -1,7 +1,7 @@
 # Active Phase
 
-- 当前 phase：Phase 2.116b Natural Import Response Polish No-Go Fix。
-- 本轮目标：修复 Codex C No-Go 中的 fuzzy discovery raw path 泄露，以及同会话 alias retrieval 的 stale third-document contamination 误报。
+- 当前 phase：Phase 2.116c Natural Import Live No-Go Root Cause Fix。
+- 本轮目标：针对 Codex C 在正确 2.116b 版本上复现的 No-Go，先做根因诊断，再最小修复 fuzzy discovery raw path 泄露与 alias retrieval `third_document_contamination=true`。
 - 修改文件：
   - Hermes main：`agent/memory_kernel/context_builder.py`
   - Hermes main：`agent/memory_kernel/kernel.py`
@@ -26,14 +26,15 @@
   - Hermes main py_compile：通过
   - Hermes main regression：`tests/agent/test_natural_file_import_runtime.py tests/agent/test_natural_file_import_flow.py tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py tests/agent/test_file_steward_ux.py` 为 `132 passed`
 - live smoke 结果：本轮未跑 OpenWebUI / 8642 live validation，未上传文件，未写 DB / facts / versions / OpenSearch / Qdrant。
-- 当前结论：Codex B review 通过；Phase 2.116b 两个 No-Go blocker 已完成 runtime candidate baseline 并推送。
+- 当前结论：Phase 2.116b live validation 在正确版本上仍 No-Go；2.116b 修复不足，不能 stable closeout。
 - 阻塞点 / 风险点：
-  - 仍需 Codex C / 测试机重跑 Phase 2.116 live validation，确认 Case 2 `third_document_contamination=false`、Case 4 `raw_path_hidden=true`。
+  - Case 2 仍失败：alias resolved、retrieval not suppressed、citation present，但 `third_document_contamination=true`。
+  - Case 4 仍失败：fuzzy discovery 没有 safe candidates，且 `raw_path_output=true` / `raw_path_hidden=false`。
   - Hermes main 仍有本阶段外既存 dirty：`agent/memory_kernel/adapters/hermes_memory_adapter.py`、`uv.lock`、`docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`、`tests/agent/test_memory_kernel_adapter_reload.py`。
   - Hermes_memory 仍有本阶段外既存 untracked：`docs/digital-delivery-standards/`。
-- 是否建议 baseline：runtime candidate baseline 已完成；stable closeout 仍需 Codex C live validation。
+- 是否建议 baseline：否；必须打回 Codex A 做 2.116c 根因修复。
 - 是否建议进入下一阶段：否。
-- 下一轮建议：让 Codex C 使用同一 Phase 2.116 live validation prompt 重跑 4 个 case。
-- 是否需要 Codex B 审核：已完成，通过。
+- 下一轮建议：Codex A 执行 2.116c root-cause-first 修复；不得再只补单元测试后直接交测试机。
+- 是否需要 Codex B 审核：2.116c 完成后需要。
 - 是否需要 Codex C / 测试机验收：是。
-- commit/tag if any：Hermes main `f887d12bf` / `phase-2.116b-natural-import-response-polish-fix-runtime-candidate`。
+- commit/tag if any：2.116b runtime candidate `f887d12bf` / `phase-2.116b-natural-import-response-polish-fix-runtime-candidate` 已被 live No-Go 打回。
