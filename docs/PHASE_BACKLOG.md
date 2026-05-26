@@ -12,6 +12,15 @@
 8. 下一步 Phase 2.116b 只修复 fuzzy discovery raw path 泄露与 alias retrieval contamination signal。
 9. 禁止把本轮扩展为 upload、ingestion、retrieval、workspace inference、platform Gateway、NAS 或 rollout 改动。
 
+## Phase 2.116b Natural Import Response Polish No-Go Fix
+
+1. 本地最小修复已完成：fuzzy discovery default candidate display 不再把 `title/source_name/display_path` 的绝对路径原样暴露给用户。
+2. 同会话 alias retrieval 的 contamination trace 现在会基于实际 returned evidence 覆盖 stale `third_document_contamination`，in-scope evidence 不再误报第三文件污染。
+3. 验证通过：targeted regression `2 passed`；py_compile 通过；natural import / flow / session scope / structured citation / file steward regression `132 passed`。
+4. Codex B review 通过，runtime candidate 已推送：Hermes main `f887d12bf` / `phase-2.116b-natural-import-response-polish-fix-runtime-candidate`。
+5. 下一步：Codex C / 测试机重跑 Phase 2.116 live validation。
+6. 仍不进入下一阶段；stable closeout 需要真实 OpenWebUI / 8642 验收 Go。
+
 ## Phase 2.115 Workspace Context / Auto Alias / Fuzzy Discovery
 
 1. 本地 runtime candidate 已完成：Hermes 主仓支持从安全文件名 / folder label / query 推断 `workspace_context`，并在无显式 alias 时生成安全 alias。
@@ -1560,6 +1569,9 @@
 64. Phase 2.115 用户实测已证明功能链路基本通过：文件导入、workspace inference、generated alias、alias retrieval citation、fuzzy discovery 均可用。
 65. 新 UX blocker：默认导入成功/失败回复仍输出大段 `Natural file import diagnostics` 和技术字段，需 Phase 2.116 改成用户态自然语言回复。
 66. Phase 2.116 只允许改 response rendering / tests，禁止改 upload、ingestion/indexing、retrieval、workspace inference、平台 Gateway 或 NAS。
+67. Phase 2.116b 本地最小修复已完成：fuzzy discovery candidate display 现在会对 `title/source_name/display_path` 的绝对路径 fallback 做 basename-only 安全渲染；same-session alias retrieval 会用实际 in-scope evidence 覆盖 stale `third_document_contamination`。
+68. Phase 2.116b 验证：targeted regression `2 passed`；py_compile 通过；natural import / flow / session scope / structured citation / file steward regression `132 passed`。
+69. Phase 2.116b 仍未 baseline：下一步必须 Codex B review，随后 Codex C / 测试机重跑 Phase 2.116 live validation，确认 Case 2 contamination false positive 与 Case 4 raw path leak 均解除。
 
 ## 后置项
 

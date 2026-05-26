@@ -1,5 +1,11 @@
 # DEV_LOG
 
+## 2026-05-25 Phase 2.116b Natural Import Response Polish No-Go Fix
+
+- 修复 Phase 2.116 live No-Go 两个 blocker：fuzzy discovery candidate display 对 `title/source_name/display_path` 绝对路径 fallback 做 basename-only 安全渲染，避免默认回复暴露 `/Users/...`；alias retrieval contamination guard 用实际 returned evidence 覆盖 stale `third_document_contamination`，in-scope evidence 不再误报第三文件污染。
+- 验证：targeted regression `2 passed`；py_compile 通过；natural import / flow / session scope / structured citation / file steward regression `132 passed`。
+- Codex B review 通过，runtime candidate 已推送：Hermes main `f887d12bf` / `phase-2.116b-natural-import-response-polish-fix-runtime-candidate`。本轮未跑 OpenWebUI / 8642 live smoke，未上传，未写 DB / facts / versions / OpenSearch / Qdrant，未执行 repair/backfill/reindex/delete/migration/rollout；stable closeout 仍需 Codex C live validation rerun。
+
 ## 2026-05-25 Phase 2.116 Natural Import User-facing Response Polish Planning
 
 - 启动 Phase 2.116：Phase 2.115 真实 OpenWebUI / 8642 flow 已证明 workspace inference、auto alias、retrieval citation、fuzzy discovery 能工作，但默认回答仍输出大段 `Natural file import diagnostics`。

@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.116b Natural Import Response Polish No-Go Fix
+
+1. 本地最小修复已完成：fuzzy discovery default candidate display 不再把 `title/source_name/display_path` 的绝对路径原样暴露给用户。
+2. 同会话 alias retrieval 的 contamination trace 现在会基于实际 returned evidence 覆盖 stale `third_document_contamination`，in-scope evidence 不再误报第三文件污染。
+3. 验证通过：targeted regression `2 passed`；py_compile 通过；natural import / flow / session scope / structured citation / file steward regression `132 passed`。
+4. 未执行 OpenWebUI / 8642 live validation，未上传，未写 DB / facts / versions / OpenSearch / Qdrant。
+5. Codex B review 通过，runtime candidate 已推送：Hermes main `f887d12bf` / `phase-2.116b-natural-import-response-polish-fix-runtime-candidate`。
+6. 下一步：Codex C 重跑 Phase 2.116 live validation。当前不进入下一阶段，不做 stable closeout。
+
 ## Phase 2.116 Natural Import User-facing Response Polish
 
 1. 本地最小实现已完成：默认导入成功回复显示工作区、分类、别名、后续提问建议；导入失败回复说明路径不可见并提示授权目录。

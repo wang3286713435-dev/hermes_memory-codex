@@ -7960,3 +7960,22 @@
 - failed_case_4: fuzzy discovery default reply did not produce safe candidates and leaked raw path (`raw_path_output=true`).
 - safety: no secret, no file content output, no NAS scan, no manual DB/index write, no repair/backfill/reindex/delete/migration/rollout.
 - next: Codex A Phase 2.116b must root-cause and minimally fix fuzzy discovery raw path leakage and retrieval contamination signal before any stable closeout.
+
+## 2026-05-25 18:50 Phase 2.116b Natural Import Response Polish No-Go Fix
+
+- goal: Fix the two Phase 2.116 live No-Go blockers: fuzzy discovery raw path leakage and same-session alias retrieval stale third-document contamination signal.
+- changed_files: Hermes main `agent/memory_kernel/context_builder.py`, `agent/memory_kernel/kernel.py`, `tests/agent/test_structured_citation_context.py`, `tests/agent/test_session_document_scope.py`, `docs/TODO.md`, `docs/DEV_LOG.md`; Hermes_memory phase handoff docs and ignored `reports/agent_runs/latest.json`.
+- tests: targeted raw-path / contamination regression `2 passed`; py_compile passed; natural import / flow / session scope / structured citation / file steward regression `132 passed`.
+- validation: no OpenWebUI / 8642 live smoke; no upload, DB, facts, versions, OpenSearch, Qdrant, repair, backfill, reindex, delete, migration, or rollout.
+- risks: needs Codex B review and Codex C rerun of the Phase 2.116 live validation before baseline.
+- next: Codex B reviews Phase 2.116b diff; if accepted, Codex C reruns Case 1-4 with focus on `raw_path_hidden=true` and `third_document_contamination=false`.
+- commit/tag if any: none.
+
+## 2026-05-26 Phase 2.116b Codex B Review / Runtime Candidate
+
+- result: Codex B review passed for the two Phase 2.116 No-Go blocker fixes.
+- runtime_candidate: Hermes main `f887d12bf` / `phase-2.116b-natural-import-response-polish-fix-runtime-candidate`.
+- verification: targeted raw-path / stale-contamination regression `2 passed`; py_compile passed; natural import / flow / session scope / structured citation / file steward regression `132 passed`; `git diff --check` passed.
+- accepted_scope: raw path sanitizer only affects fuzzy discovery display fallbacks; human category slash such as `人力配置 / 成本测算` remains intact; alias retrieval contamination diagnostics are recomputed from returned evidence so stale trace false positives are cleared only when evidence is in scope.
+- remaining_gate: Codex C / test machine must rerun Phase 2.116 live validation and confirm Case 2 `third_document_contamination=false` plus Case 4 `raw_path_hidden=true`.
+- stable_closeout: not approved yet.

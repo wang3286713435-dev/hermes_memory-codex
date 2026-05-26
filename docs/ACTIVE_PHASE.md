@@ -1,16 +1,39 @@
 # Active Phase
 
-- 当前 phase：Phase 2.116 Natural Import User-facing Response Polish。
-- 本轮目标：把 natural import / workspace / auto alias / fuzzy discovery 默认输出从调试诊断改为用户可读回复。
-- 修改文件：Hermes 主仓 `natural_file_import_runtime.py`、`file_steward_ux.py`、`context_builder.py`、相关 tests 与 docs；Hermes_memory 交接 / TODO / DEV_LOG / latest 状态文件。
-- 完成内容：默认成功导入回复改为“文件我已经记下了”样式，展示工作区、分类、别名与后续问法；失败路径改为人类可读的路径不可见提示；debug diagnostics 仍可通过 `include_diagnostics=True` 或 `response.diagnostics` 取得；fuzzy discovery 默认候选隐藏 document/version/workspace/chunk 技术 ID。
-- 测试结果：Hermes 主仓 py_compile 通过；`tests/agent/test_natural_file_import_runtime.py tests/agent/test_structured_citation_context.py` 为 `38 passed`；扩展回归 `tests/agent/test_natural_file_import_runtime.py tests/agent/test_natural_file_import_flow.py tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py tests/agent/test_file_steward_ux.py` 为 `130 passed`。
-- live smoke 结果：本轮未跑 OpenWebUI / 8642 live smoke，未上传文件，未写 DB / facts / versions / OpenSearch / Qdrant。
-- 当前结论：Codex C / 测试机复验结论为 `No-Go`。成功导入与失败导入默认回复已通过，但 fuzzy discovery 默认回复仍暴露原始路径，且同会话 alias retrieval 出现第三文件污染信号。
-- 阻塞点 / 风险点：P0 blocker：Case 4 raw path output；P1 blocker：Case 2 third-document contamination signal。必须由 Codex A 在 Phase 2.116b 做最小修复。
-- 是否建议 baseline：不建议 stable baseline；runtime candidate `e04cc6feb` 已被测试机打回。
-- 是否建议进入下一阶段：否，Phase 2.116 尚待真实终端复验。
-- 下一轮建议：Codex A 只修复 fuzzy discovery raw path 泄露与 alias retrieval 第三文件污染信号；修完后 Codex C 重跑同一 prompt。
+- 当前 phase：Phase 2.116b Natural Import Response Polish No-Go Fix。
+- 本轮目标：修复 Codex C No-Go 中的 fuzzy discovery raw path 泄露，以及同会话 alias retrieval 的 stale third-document contamination 误报。
+- 修改文件：
+  - Hermes main：`agent/memory_kernel/context_builder.py`
+  - Hermes main：`agent/memory_kernel/kernel.py`
+  - Hermes main：`tests/agent/test_structured_citation_context.py`
+  - Hermes main：`tests/agent/test_session_document_scope.py`
+  - Hermes main：`docs/TODO.md`
+  - Hermes main：`docs/DEV_LOG.md`
+  - Hermes_memory：`docs/ACTIVE_PHASE.md`
+  - Hermes_memory：`docs/HANDOFF_LOG.md`
+  - Hermes_memory：`docs/PHASE_BACKLOG.md`
+  - Hermes_memory：`docs/TODO.md`
+  - Hermes_memory：`docs/DEV_LOG.md`
+  - Hermes_memory：`docs/NEXT_CODEX_A_PROMPT.md`
+  - Hermes_memory：`reports/agent_runs/latest.json`
+- 完成内容：
+  - fuzzy discovery file candidate rendering 增加 raw path 安全显示兜底；`title/source_name/display_path` 即使是绝对路径，也只渲染安全 basename，不输出 `/Users/...`。
+  - 保留普通 human category 中的 `/`，避免把 `人力配置 / 成本测算` 误判为路径并截断。
+  - alias retrieval contamination guard 会根据实际 returned evidence 重新覆盖 stale `third_document_contamination`，当 evidence 只在 scope 内时输出 `false`。
+  - 补回归测试覆盖 raw path fallback 隐藏，以及 in-scope alias evidence 覆盖 stale contamination trace。
+- 测试结果：
+  - Hermes main targeted tests：`2 passed`
+  - Hermes main py_compile：通过
+  - Hermes main regression：`tests/agent/test_natural_file_import_runtime.py tests/agent/test_natural_file_import_flow.py tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py tests/agent/test_file_steward_ux.py` 为 `132 passed`
+- live smoke 结果：本轮未跑 OpenWebUI / 8642 live validation，未上传文件，未写 DB / facts / versions / OpenSearch / Qdrant。
+- 当前结论：Codex B review 通过；Phase 2.116b 两个 No-Go blocker 已完成 runtime candidate baseline 并推送。
+- 阻塞点 / 风险点：
+  - 仍需 Codex C / 测试机重跑 Phase 2.116 live validation，确认 Case 2 `third_document_contamination=false`、Case 4 `raw_path_hidden=true`。
+  - Hermes main 仍有本阶段外既存 dirty：`agent/memory_kernel/adapters/hermes_memory_adapter.py`、`uv.lock`、`docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`、`tests/agent/test_memory_kernel_adapter_reload.py`。
+  - Hermes_memory 仍有本阶段外既存 untracked：`docs/digital-delivery-standards/`。
+- 是否建议 baseline：runtime candidate baseline 已完成；stable closeout 仍需 Codex C live validation。
+- 是否建议进入下一阶段：否。
+- 下一轮建议：让 Codex C 使用同一 Phase 2.116 live validation prompt 重跑 4 个 case。
 - 是否需要 Codex B 审核：已完成，通过。
-- 是否需要 Codex C / 测试机验收：需要。
-- commit/tag if any：Hermes main `e04cc6feb` / `phase-2.116-natural-import-response-polish-runtime-candidate`。
+- 是否需要 Codex C / 测试机验收：是。
+- commit/tag if any：Hermes main `f887d12bf` / `phase-2.116b-natural-import-response-polish-fix-runtime-candidate`。
