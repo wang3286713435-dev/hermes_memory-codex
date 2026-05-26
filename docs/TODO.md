@@ -12,9 +12,13 @@
 
 ## Phase 2.116c
 
-1. Codex A 必须先定位根因，不能继续猜测式补丁。
-2. 需要证明并修复：污染信号最终来自哪个 trace/context 字段；raw path 从哪个候选字段穿透；safe candidate 为什么为空。
-3. 修复后需目标测试 + 回归，再交 Codex B review 和 Codex C live validation。
+1. 本地根因定位与最小修复已完成。
+2. contamination 根因：2.116b 只覆盖 top-level trace，nested `retrieval_trace` / `context_scope` 仍可能保留 stale `third_document_contamination=true` 并被 live 展示链路读取。
+3. raw path 根因：路径可从 `source_uri`、`alias_source_name`、active document hint、retrieval evidence / citation source 等非 candidate title 字段穿透。
+4. 修复：contamination normalization 覆盖 top-level / nested trace；file candidate、active document、evidence source、citation source 均用 safe basename display，且保留 human category slash。
+5. 验证：live-shape targeted tests `4 passed`；py_compile 通过；required regression `135 passed`。
+6. Codex B review 通过，runtime candidate 已推送：Hermes main `ff11f177c` / `phase-2.116c-live-no-go-root-cause-runtime-candidate`。
+7. 下一步：Codex C 重跑 Phase 2.116 live validation。当前不进入下一阶段，不做 stable closeout。
 
 ## Phase 2.116 Natural Import User-facing Response Polish
 

@@ -27,7 +27,11 @@
 2. Case 2 必须证明最终暴露的 `third_document_contamination` 来自哪个 trace/context 字段，并只清除 stale false positive，不隐藏真实第三文件污染。
 3. Case 4 必须找出 raw path 从哪个字段穿透到用户输出，并在有候选时输出 safe candidate，而不是空候选。
 4. 禁止改 upload / ingestion / indexing / broad retrieval / workspace inference / platform Gateway / NAS / rollout。
-5. 完成后必须 Codex B review，再交 Codex C live validation。
+5. 本地根因定位已完成：Case 2 可能由 nested `retrieval_trace` / `context_scope` stale contamination 字段穿透；Case 4 可能由 `source_uri`、`alias_source_name`、active document hint、retrieval evidence / citation source 等非 candidate title 字段穿透。
+6. 本地最小修复已完成：contamination normalization 同步覆盖 top-level / nested trace；file candidate、active document、evidence / citation source 都做 safe display，`file://` / `nas://` / `smb://` / `/Users` / `/Volumes` 只显示 basename。
+7. 验证：live-shape targeted tests `4 passed`；py_compile 通过；required regression `135 passed`。
+8. Codex B review 通过，runtime candidate 已推送：Hermes main `ff11f177c` / `phase-2.116c-live-no-go-root-cause-runtime-candidate`。
+9. 下一步：Codex C / 测试机重跑 Phase 2.116 live validation。
 
 ## Phase 2.115 Workspace Context / Auto Alias / Fuzzy Discovery
 

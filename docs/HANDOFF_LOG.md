@@ -7971,6 +7971,16 @@
 - next: Codex B reviews Phase 2.116b diff; if accepted, Codex C reruns Case 1-4 with focus on `raw_path_hidden=true` and `third_document_contamination=false`.
 - commit/tag if any: none.
 
+## 2026-05-26 11:33 Phase 2.116c Natural Import Live No-Go Root Cause Fix
+
+- goal: Root-cause and minimally fix the live No-Go that remained after 2.116b: stale nested contamination diagnostics and raw path leakage through non-candidate display fields.
+- changed_files: Hermes main `agent/memory_kernel/context_builder.py`, `agent/memory_kernel/kernel.py`, `tests/agent/test_structured_citation_context.py`, `tests/agent/test_session_document_scope.py`, `docs/TODO.md`, `docs/DEV_LOG.md`; Hermes_memory phase handoff docs and ignored `reports/agent_runs/latest.json`.
+- tests: live-shape targeted tests `4 passed`; py_compile passed; natural import / flow / session scope / structured citation / file steward regression `135 passed`.
+- validation: no OpenWebUI / 8642 live smoke; no upload, DB, facts, versions, OpenSearch, Qdrant, repair, backfill, reindex, delete, migration, or rollout.
+- risks: needs Codex B review and Codex C rerun of the Phase 2.116 live validation before baseline.
+- next: Codex B reviews Phase 2.116c diff; if accepted, Codex C reruns Case 1-4 with focus on Case 2 contamination and Case 4 safe candidates / raw path hidden.
+- commit/tag if any: none.
+
 ## 2026-05-26 Phase 2.116b Codex B Review / Runtime Candidate
 
 - result: Codex B review passed for the two Phase 2.116 No-Go blocker fixes.
@@ -7989,3 +7999,12 @@
 - failed_case_4: fuzzy discovery still had `safe_candidates_present=false`, `raw_path_hidden=false`, `raw_path_output=true`, forbidden category `raw_local_path`.
 - safety: no secret, no file content output, no NAS scan, no manual DB/index write, no repair/backfill/reindex/delete/migration/rollout.
 - decision: Phase 2.116b is rejected as stable closeout; next phase is 2.116c root-cause-first fix.
+
+## 2026-05-26 Phase 2.116c Codex B Review / Runtime Candidate
+
+- result: Codex B review passed for root-cause-first live No-Go fix.
+- runtime_candidate: Hermes main `ff11f177c` / `phase-2.116c-live-no-go-root-cause-runtime-candidate`.
+- verification: live-shape targeted regression `4 passed`; py_compile passed; natural import / flow / session scope / structured citation / file steward regression `135 passed`; `git diff --check` passed.
+- accepted_scope: nested `retrieval_trace` / `context_scope` contamination fields are normalized from actual returned evidence; real out-of-scope evidence remains flagged; raw path display is sanitized across candidate, active document, evidence, citation, and metadata source display paths.
+- remaining_gate: Codex C / test machine must rerun Phase 2.116 live validation and confirm Case 2 `third_document_contamination=false`, Case 4 `safe_candidates_present=true`, and Case 4 `raw_path_hidden=true`.
+- stable_closeout: not approved yet.

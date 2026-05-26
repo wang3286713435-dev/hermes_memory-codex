@@ -1,11 +1,20 @@
 # DEV_LOG
 
+## 2026-05-26 Phase 2.116c Natural Import Live No-Go Root Cause Fix
+
+- 完成 root-cause-first 修复：Case 2 的 live contamination false positive 风险来自 nested `retrieval_trace` / `context_scope` stale 字段未被 2.116b 同步覆盖；Case 4 raw path 风险来自 `source_uri`、`alias_source_name`、active document hint、retrieval evidence / citation source 等非 candidate title 出口。
+- Hermes main 修复 contamination normalization，使 top-level、nested `retrieval_trace` 与 `context_scope` 保持一致；真实 out-of-scope returned evidence 仍会触发 `third_document_contamination=true`。
+- Hermes main 修复 file steward / evidence display sanitizer：`file://`、`nas://`、`smb://`、`/Users`、`/Volumes` 等只输出安全 basename；`人力配置 / 成本测算` 等 human category slash 保留。
+- 验证：live-shape targeted tests `4 passed`；py_compile 通过；natural import / flow / session scope / structured citation / file steward regression `135 passed`。
+- 本轮未跑 OpenWebUI / 8642 live smoke，未上传，未写 DB / facts / versions / OpenSearch / Qdrant，未执行 repair/backfill/reindex/delete/migration/rollout，未 baseline。下一步需 Codex B review 与 Codex C live validation rerun。
+
 ## 2026-05-25 Phase 2.116b Natural Import Response Polish No-Go Fix
 
 - 修复 Phase 2.116 live No-Go 两个 blocker：fuzzy discovery candidate display 对 `title/source_name/display_path` 绝对路径 fallback 做 basename-only 安全渲染，避免默认回复暴露 `/Users/...`；alias retrieval contamination guard 用实际 returned evidence 覆盖 stale `third_document_contamination`，in-scope evidence 不再误报第三文件污染。
 - 验证：targeted regression `2 passed`；py_compile 通过；natural import / flow / session scope / structured citation / file steward regression `132 passed`。
 - Codex B review 通过，runtime candidate 已推送：Hermes main `f887d12bf` / `phase-2.116b-natural-import-response-polish-fix-runtime-candidate`。本轮未跑 OpenWebUI / 8642 live smoke，未上传，未写 DB / facts / versions / OpenSearch / Qdrant，未执行 repair/backfill/reindex/delete/migration/rollout；stable closeout 仍需 Codex C live validation rerun。
 - Codex C 在正确 2.116b 版本上复验仍返回 `No-Go`：Case 2 仍有 `third_document_contamination=true`，Case 4 仍有 `raw_path_output=true` 且 `safe_candidates_present=false`。进入 2.116c root-cause-first 修复，不得继续猜测式补丁。
+- Codex B review 通过，2.116c runtime candidate 已推送：Hermes main `ff11f177c` / `phase-2.116c-live-no-go-root-cause-runtime-candidate`。Stable closeout 仍需 Codex C live validation。
 
 ## 2026-05-25 Phase 2.116 Natural Import User-facing Response Polish Planning
 
