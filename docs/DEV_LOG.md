@@ -1,5 +1,13 @@
 # DEV_LOG
 
+## 2026-05-26 Phase 2.116d Natural Import Live No-Go Follow-up Fix
+
+- 完成 root-cause-first follow-up 修复：Case 2 根因是 retrieval trace 覆盖 scope trace 后，imported alias evidence 已返回但外显 alias diagnostics 仍可能 stale `alias_missing=true`；Case 3 根因是 failure guidance 仍硬编码 `/Users/hermes/import_samples/`；Case 4 根因是 fuzzy discovery 只看当前 session alias，未看 owner-scoped natural import continuity registry。
+- Hermes main 最小修复：alias diagnostics 只在 returned evidence ids 确认位于 allowed scope 内时恢复为 `alias_resolved` / `alias_missing=false`；evidence 不在 scope 内时保留 mismatch diagnostics 并继续暴露真实 contamination。
+- Hermes main 最小修复：import failure guidance 改为授权目录占位表达；fuzzy discovery 增加 continuity candidates，并把 candidate `title/source_name` 安全化为 basename。
+- 验证：targeted red/green tests `4 passed`；py_compile 通过；natural import / flow / session scope / structured citation / file steward regression `138 passed`；`git diff --check` 通过。
+- 本轮未跑 OpenWebUI / 8642 live smoke，未上传，未写 DB / facts / versions / OpenSearch / Qdrant，未执行 repair/backfill/reindex/delete/migration/cleanup/rollout，未 baseline。下一步需 Codex B review 与 Codex C live validation rerun。
+
 ## 2026-05-26 Phase 2.116c Natural Import Live No-Go Root Cause Fix
 
 - 完成 root-cause-first 修复：Case 2 的 live contamination false positive 风险来自 nested `retrieval_trace` / `context_scope` stale 字段未被 2.116b 同步覆盖；Case 4 raw path 风险来自 `source_uri`、`alias_source_name`、active document hint、retrieval evidence / citation source 等非 candidate title 出口。
@@ -9,6 +17,7 @@
 - 本轮未跑 OpenWebUI / 8642 live smoke，未上传，未写 DB / facts / versions / OpenSearch / Qdrant，未执行 repair/backfill/reindex/delete/migration/rollout，未 baseline。下一步需 Codex B review 与 Codex C live validation rerun。
 - Codex B review 通过，2.116c runtime candidate 已推送：Hermes main `ff11f177c` / `phase-2.116c-live-no-go-root-cause-runtime-candidate`；Hermes_memory review baseline `3dc4290` / `phase-2.116c-live-no-go-fix-review-baseline`。
 - Codex C 在正确 2.116c 版本上复验仍返回 `No-Go`：Case 2 alias diagnostics 仍显示 `alias_missing=true`，Case 3 import failure 仍输出 raw path，Case 4 fuzzy discovery 仍输出 raw path 且无 safe candidates。进入 2.116d root-cause-first follow-up fix。
+- Codex B review 通过，2.116d runtime candidate 已推送：Hermes main `6e6232ff1` / `phase-2.116d-live-no-go-followup-runtime-candidate`。验证：targeted tests `4 passed`；py_compile 通过；natural import / flow / session scope / structured citation / file steward regression `138 passed`；`git diff --check` 通过。Stable closeout 仍需 Codex C live validation。
 
 ## 2026-05-25 Phase 2.116b Natural Import Response Polish No-Go Fix
 

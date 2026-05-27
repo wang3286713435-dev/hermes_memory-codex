@@ -1,5 +1,14 @@
 # Hermes Memory 当前待办清单
 
+## Phase 2.116d Natural Import Live No-Go Follow-up Fix
+
+1. 本地最小修复已完成：alias diagnostics 现在只在 returned evidence 确认来自 imported alias scope 时恢复为 `alias_missing=false` / `alias_resolved`；若 evidence 不在 scope 内，继续暴露 mismatch / contamination，不静默放行。
+2. Import failure human-readable guidance 已移除硬编码 `/Users/hermes/import_samples/` 示例，默认不再输出 `/Users/`、`/Volumes/`、`file://`、`nas://`、`smb://`。
+3. Fuzzy file discovery 已能从 owner-scoped natural import continuity registry 暴露 safe candidate，避免 session drift 后 imported file 可检索但不能安全候选展示。
+4. 验证通过：targeted red/green tests `4 passed`；py_compile 通过；natural import / flow / session scope / structured citation / file steward regression `138 passed`；`git diff --check` 通过。
+5. 未执行 OpenWebUI / 8642 live validation，未上传，未写 DB / facts / versions / OpenSearch / Qdrant。
+6. 下一步：Codex B review；通过后交 Codex C / 测试机重跑 Case 1-4。当前不进入下一阶段，不做 stable closeout。
+
 ## Phase 2.116b Natural Import Response Polish No-Go Fix
 
 1. 本地最小修复已完成：fuzzy discovery default candidate display 不再把 `title/source_name/display_path` 的绝对路径原样暴露给用户。
@@ -16,8 +25,9 @@
 2. 2.116c 已解决 contamination false positive；Case 2 当前 blocker 变为 alias diagnostics 自相矛盾：retrieval 有 evidence/citation，但 `alias_missing=true`。
 3. Case 3 import failure 仍有 raw path 输出。
 4. Case 4 fuzzy discovery 仍无 safe candidates 且 raw path 输出。
-5. 下一步：Codex A 进入 2.116d root-cause-first follow-up fix，不允许猜测式补丁。
-6. 完成后必须 Codex B review，再交 Codex C / 测试机复验。当前不进入下一阶段，不做 stable closeout。
+5. Codex A 已完成 2.116d root-cause-first follow-up fix。
+6. Codex B review 通过，runtime candidate 已推送：Hermes main `6e6232ff1` / `phase-2.116d-live-no-go-followup-runtime-candidate`。
+7. 下一步：Codex C / 测试机复验 Case 1-4。当前不进入下一阶段，不做 stable closeout。
 
 ## Phase 2.116 Natural Import User-facing Response Polish
 

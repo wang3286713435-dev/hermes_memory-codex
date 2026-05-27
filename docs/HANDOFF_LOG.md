@@ -8019,3 +8019,23 @@
 - failed_case_4: fuzzy discovery still has `safe_candidates_present=false`, `raw_path_hidden=false`, `raw_path_output=true`, forbidden category `raw_local_path`.
 - safety: no secret, no file content output, no NAS scan, no manual DB/index write, no repair/backfill/reindex/delete/migration/rollout.
 - decision: Phase 2.116c is rejected as stable closeout; next phase is 2.116d root-cause-first follow-up fix.
+
+## 2026-05-26 18:43 Phase 2.116d Natural Import Live No-Go Follow-up Fix
+
+- goal: Root-cause and minimally fix the remaining correct-version live No-Go blockers: stale alias diagnostics, import failure raw path output, and fuzzy discovery missing safe candidates / raw path output.
+- changed_files: Hermes main `agent/memory_kernel/natural_file_import_runtime.py`, `agent/memory_kernel/session_document_scope.py`, `agent/memory_kernel/kernel.py`, `tests/agent/test_natural_file_import_runtime.py`, `tests/agent/test_session_document_scope.py`; Hermes_memory phase handoff docs and ignored `reports/agent_runs/latest.json`.
+- tests: targeted red/green tests `4 passed`; py_compile passed for touched runtime files; natural import / flow / session scope / structured citation / file steward regression `138 passed`; `git diff --check` passed.
+- validation: no OpenWebUI / 8642 live smoke; no upload, DB, facts, versions, OpenSearch, Qdrant, repair, backfill, reindex, delete, migration, cleanup, or rollout.
+- risks: needs Codex B review and Codex C / test-machine validation before stable closeout; existing unrelated dirty remains in Hermes main and Hermes_memory.
+- next: Codex B reviews Phase 2.116d diff; if accepted, Codex C reruns Case 1-4 with focus on Case 2 `alias_missing=false`, Case 3 no raw path, and Case 4 safe candidates without raw path.
+- commit/tag if any: none.
+
+## 2026-05-27 Phase 2.116d Codex B Review / Runtime Candidate
+
+- result: Codex B review passed for the follow-up live No-Go fix.
+- runtime_candidate: Hermes main `6e6232ff1` / `phase-2.116d-live-no-go-followup-runtime-candidate`.
+- verification: targeted tests `4 passed`; py_compile passed; natural import / flow / session scope / structured citation / file steward regression `138 passed`; `git diff --check` passed.
+- accepted_scope: alias diagnostics are restored only when returned evidence confirms alias scope; out-of-scope evidence keeps mismatch / contamination diagnostics; import failure guidance no longer exposes raw local paths; fuzzy discovery can surface owner-scoped continuity candidates with safe display only.
+- excluded_scope: upload adapter, ingestion/indexing, broad retrieval contract, platform Gateway, NAS scan, DWG/RVT/BIM parse, DB/index writes, repair/reindex/rollout.
+- remaining_gate: Codex C / test machine must rerun Phase 2.116 live validation and confirm Case 2 alias diagnostics, Case 3 failure path safety, and Case 4 safe candidates / raw path hidden.
+- stable_closeout: not approved yet.

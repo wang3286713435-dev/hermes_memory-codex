@@ -40,11 +40,13 @@
 
 ## Phase 2.116d Natural Import Live No-Go Follow-up Fix
 
-1. 目标：修复 2.116c 正确版本 live validation 仍失败的 alias diagnostics / failure raw path / fuzzy discovery raw path。
-2. 必须先定位根因，不允许继续猜测式补丁。
-3. 允许范围：alias continuity restore / exposed diagnostics consistency、failure/fuzzy safe display、safe candidate exposure、sanitized diagnostics、targeted tests。
-4. 禁止范围：upload adapter、ingestion/indexing、broad retrieval contract、platform Gateway、NAS scan、DWG/RVT/BIM parse、DB/index write、repair/reindex/rollout。
-5. 完成后必须 Codex B review，再交 Codex C live validation rerun。
+1. 本地最小修复已完成：alias diagnostics 只在 returned evidence ids 确认位于 imported alias allowed scope 内时恢复为 `alias_missing=false` / `alias_resolved`；out-of-scope evidence 仍保留 mismatch diagnostics 与 contamination。
+2. Import failure guidance 已移除硬编码 `/Users/hermes/import_samples/`，只给授权目录占位提示，不输出 raw local path / URI scheme。
+3. Fuzzy discovery 已纳入 owner-scoped natural import continuity candidates；session drift 后仍可暴露 safe alias / workspace / category / basename 候选。
+4. 验证：targeted red/green tests `4 passed`；py_compile 通过；natural import / flow / session scope / structured citation / file steward regression `138 passed`；`git diff --check` 通过。
+5. 当前未执行 OpenWebUI / 8642 live validation，未上传、未写 DB/index/facts/versions，未执行 repair/reindex/rollout。
+6. Codex B review 通过，runtime candidate 已推送：Hermes main `6e6232ff1` / `phase-2.116d-live-no-go-followup-runtime-candidate`。
+7. 下一步：Codex C / 测试机更新到 2.116d refs 并重跑 Phase 2.116 live validation。当前不做 stable closeout，不进入下一阶段。
 
 ## Phase 2.115 Workspace Context / Auto Alias / Fuzzy Discovery
 

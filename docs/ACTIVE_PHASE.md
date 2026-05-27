@@ -1,14 +1,13 @@
 # Active Phase
 
 - 当前 phase：Phase 2.116d Natural Import Live No-Go Follow-up Fix。
-- 本轮目标：针对 Codex C 在正确 2.116c 版本上复现的 No-Go，先定位再最小修复 alias retrieval diagnostics / failure raw path / fuzzy discovery raw path。
+- 本轮目标：最小修复正确 2.116c refs 上仍 No-Go 的 alias diagnostics、import failure raw path、fuzzy discovery safe candidate 暴露问题。
 - 修改文件：
-  - Hermes main：`agent/memory_kernel/context_builder.py`
+  - Hermes main：`agent/memory_kernel/natural_file_import_runtime.py`
+  - Hermes main：`agent/memory_kernel/session_document_scope.py`
   - Hermes main：`agent/memory_kernel/kernel.py`
-  - Hermes main：`tests/agent/test_structured_citation_context.py`
+  - Hermes main：`tests/agent/test_natural_file_import_runtime.py`
   - Hermes main：`tests/agent/test_session_document_scope.py`
-  - Hermes main：`docs/TODO.md`
-  - Hermes main：`docs/DEV_LOG.md`
   - Hermes_memory：`docs/ACTIVE_PHASE.md`
   - Hermes_memory：`docs/HANDOFF_LOG.md`
   - Hermes_memory：`docs/PHASE_BACKLOG.md`
@@ -16,27 +15,28 @@
   - Hermes_memory：`docs/DEV_LOG.md`
   - Hermes_memory：`docs/NEXT_CODEX_A_PROMPT.md`
   - Hermes_memory：`reports/agent_runs/latest.json`
-- 2.116c 完成内容：
-  - 根因 1：2.116b 只覆盖 top-level contamination trace，nested `retrieval_trace` / `context_scope` 仍可能保留 stale `third_document_contamination=true`，被 live 展示链路读取。
-  - 根因 2：raw path 不只来自 candidate `title/source_name/display_path`，也可来自 `source_uri`、`alias_source_name`、active document hint、retrieval evidence / citation source。
-  - 修复 1：contamination normalization 同步覆盖 top-level、nested `retrieval_trace`、`context_scope`；真实 out-of-scope returned evidence 仍会输出 `third_document_contamination=true`。
-  - 修复 2：file candidate、active document、evidence source、citation source、file metadata 均使用 safe display；`file://` / `nas://` / `smb://` 与 `/Users` / `/Volumes` 只展示安全 basename。
-  - 保留 `人力配置 / 成本测算` 这类 human category slash，不误判为路径。
+- 完成内容：
+  - 根因 1：`_with_context_governance_trace()` 先写入 scope trace 后又被 retrieval trace 覆盖，导致 evidence/citation 已来自 imported alias scope 时，外显 `alias_resolution` 仍可显示 stale `alias_missing=true`。
+  - 根因 2：natural import failure human-readable guidance 仍硬编码 `/Users/hermes/import_samples/` 示例路径，触发 raw path output。
+  - 根因 3：fuzzy file discovery 只查看当前 session alias，未查看 owner-scoped natural import continuity registry；session drift 后 imported file 可恢复 alias retrieval，但无法作为 safe candidate 暴露。
+  - 修复 1：仅当 returned evidence document ids 确认落在 scope allowed ids 内时，同步恢复 alias diagnostics 为 `alias_missing=false` / `alias_resolved`；若 evidence 不在 scope 内，保留 mismatch diagnostics 并继续暴露 contamination。
+  - 修复 2：import failure guidance 改为授权目录占位表达，不再输出 `/Users/`、`/Volumes/`、`file://`、`nas://`、`smb://`。
+  - 修复 3：file discovery 增加 owner-scoped continuity candidate lookup；候选只暴露 safe alias / workspace / category / basename，不靠删除候选规避 raw path。
 - 测试结果：
-  - live-shape targeted tests：`4 passed`
-  - py_compile：通过
-  - required regression：`tests/agent/test_natural_file_import_runtime.py tests/agent/test_natural_file_import_flow.py tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py tests/agent/test_file_steward_ux.py` 为 `135 passed`
-- live smoke 结果：Codex C 已在正确 refs 上重跑 Phase 2.116 live validation，结果为 `No-Go`。
-- 当前结论：Phase 2.116c 不能 stable closeout；进入 2.116d root-cause-first follow-up fix。
+  - 红灯复现：4 个 targeted tests 先失败，覆盖 Case 2 / Case 3 / Case 4 形状。
+  - targeted fix tests：`4 passed`
+  - py_compile：`agent/memory_kernel/natural_file_import_runtime.py agent/memory_kernel/session_document_scope.py agent/memory_kernel/kernel.py` 通过。
+  - required regression：`tests/agent/test_natural_file_import_runtime.py tests/agent/test_natural_file_import_flow.py tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py tests/agent/test_file_steward_ux.py` 为 `138 passed`。
+  - `git diff --check`：通过。
+- live smoke 结果：本轮未执行 OpenWebUI / 8642 live smoke；未上传文件，未写 DB / facts / versions / OpenSearch / Qdrant。
+- 当前结论：Codex B review 通过；Phase 2.116d runtime candidate 已推送。
 - 阻塞点 / 风险点：
-  - Case 2：内容 retrieval 有 evidence/citation 且 contamination 已为 false，但 alias diagnostics 显示 `alias_resolved=false`、`alias_missing=true`，说明 alias continuity / active-document fallback / diagnostics 暴露仍不一致。
-  - Case 3：失败回复仍 `raw_path_output=true`，说明 non-existent path failure message 未完全走 safe display。
-  - Case 4：fuzzy discovery 仍 `safe_candidates_present=false`、`raw_path_hidden=false`、`raw_path_output=true`，说明 raw path 仍可能从 ordinary memory、alias store、active-document state、candidate metadata 或 model context 穿透。
+  - 仍需 Codex C / 测试机重跑 Case 1-4。
   - Hermes main 仍有本阶段外既存 dirty：`agent/memory_kernel/adapters/hermes_memory_adapter.py`、`uv.lock`、`docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`、`tests/agent/test_memory_kernel_adapter_reload.py`。
   - Hermes_memory 仍有本阶段外既存 untracked：`docs/digital-delivery-standards/`。
-- 是否建议 baseline：否，2.116c runtime candidate 已被 live No-Go 打回。
+- 是否建议 baseline：runtime candidate baseline 已完成；stable closeout 仍需 Codex C live validation。
 - 是否建议进入下一阶段：否。
-- 下一轮建议：Codex A 执行 2.116d root-cause-first 修复；完成后 Codex B review，再交 Codex C 重跑。
-- 是否需要 Codex B 审核：2.116d 完成后需要。
-- 是否需要 Codex C / 测试机验收：2.116d review 后需要。
-- commit/tag if any：Hermes main `ff11f177c` / `phase-2.116c-live-no-go-root-cause-runtime-candidate`。
+- 下一轮建议：Codex C / 测试机重跑 live validation Case 1-4。
+- 是否需要 Codex B 审核：已完成，通过。
+- 是否需要 Codex C / 测试机验收：是。
+- commit/tag if any：Hermes main `6e6232ff1` / `phase-2.116d-live-no-go-followup-runtime-candidate`。
