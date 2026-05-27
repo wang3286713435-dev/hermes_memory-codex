@@ -27,7 +27,8 @@
 4. Case 4 fuzzy discovery 仍无 safe candidates 且 raw path 输出。
 5. Codex A 已完成 2.116d root-cause-first follow-up fix。
 6. Codex B review 通过，runtime candidate 已推送：Hermes main `6e6232ff1` / `phase-2.116d-live-no-go-followup-runtime-candidate`。
-7. 下一步：Codex C / 测试机复验 Case 1-4。当前不进入下一阶段，不做 stable closeout。
+7. Codex C / 测试机复验 Case 1-4 返回 `Go`。
+8. 下一步：Phase 2 final freeze checklist / closeout decision review。当前不进入下一阶段，不做 production rollout。
 
 ## Phase 2.116 Natural Import User-facing Response Polish
 

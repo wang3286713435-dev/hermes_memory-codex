@@ -8039,3 +8039,14 @@
 - excluded_scope: upload adapter, ingestion/indexing, broad retrieval contract, platform Gateway, NAS scan, DWG/RVT/BIM parse, DB/index writes, repair/reindex/rollout.
 - remaining_gate: Codex C / test machine must rerun Phase 2.116 live validation and confirm Case 2 alias diagnostics, Case 3 failure path safety, and Case 4 safe candidates / raw path hidden.
 - stable_closeout: not approved yet.
+
+## 2026-05-27 Phase 2.116d Codex C Live Validation Go
+
+- result: Go from Codex C / test machine on correct 2.116d refs.
+- refs: Hermes_memory `4dd58b2` / `phase-2.116d-live-no-go-followup-review-baseline`; Hermes main `6e6232ff` / `phase-2.116d-live-no-go-followup-runtime-candidate`.
+- case_1: import success passed; default response product-facing; diagnostics hidden; no raw path; alias/workspace/follow-up/evidence boundary present.
+- case_2: alias retrieval diagnostics passed; `alias_resolved=true`, `alias_missing=false`, retrieval not suppressed, evidence IDs non-empty, citation present, contamination false, top-level and nested alias_missing false.
+- case_3: import failure raw path regression passed; human-readable failure, safe next-step guidance, diagnostics hidden, no traceback, no forbidden path tokens.
+- case_4: fuzzy discovery safe candidate passed; safe candidates present, user confirmation requested if multiple, raw path hidden, no forbidden tokens.
+- safety: no secret, no file content output, no NAS scan, no manual DB/index write, no repair/backfill/reindex/delete/migration/rollout.
+- decision: Phase 2.116d blocker cleared. Next step is Phase 2 final freeze checklist / closeout decision review, not automatic Phase 3.

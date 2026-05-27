@@ -46,7 +46,8 @@
 4. 验证：targeted red/green tests `4 passed`；py_compile 通过；natural import / flow / session scope / structured citation / file steward regression `138 passed`；`git diff --check` 通过。
 5. 当前未执行 OpenWebUI / 8642 live validation，未上传、未写 DB/index/facts/versions，未执行 repair/reindex/rollout。
 6. Codex B review 通过，runtime candidate 已推送：Hermes main `6e6232ff1` / `phase-2.116d-live-no-go-followup-runtime-candidate`。
-7. 下一步：Codex C / 测试机更新到 2.116d refs 并重跑 Phase 2.116 live validation。当前不做 stable closeout，不进入下一阶段。
+7. Codex C / 测试机已在正确 2.116d refs 上重跑 Phase 2.116 live validation，结论 `Go`。
+8. 下一步：进入 Phase 2 final freeze checklist / closeout decision review。当前不自动进入下一阶段，不宣布 production-ready。
 
 ## Phase 2.115 Workspace Context / Auto Alias / Fuzzy Discovery
 

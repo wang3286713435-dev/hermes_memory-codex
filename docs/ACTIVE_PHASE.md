@@ -28,15 +28,15 @@
   - py_compile：`agent/memory_kernel/natural_file_import_runtime.py agent/memory_kernel/session_document_scope.py agent/memory_kernel/kernel.py` 通过。
   - required regression：`tests/agent/test_natural_file_import_runtime.py tests/agent/test_natural_file_import_flow.py tests/agent/test_session_document_scope.py tests/agent/test_structured_citation_context.py tests/agent/test_file_steward_ux.py` 为 `138 passed`。
   - `git diff --check`：通过。
-- live smoke 结果：本轮未执行 OpenWebUI / 8642 live smoke；未上传文件，未写 DB / facts / versions / OpenSearch / Qdrant。
-- 当前结论：Codex B review 通过；Phase 2.116d runtime candidate 已推送。
+- live smoke 结果：Codex C / 测试机已在正确 2.116d refs 上重跑 Phase 2.116 live validation，结果为 `Go`。
+- 当前结论：Phase 2.116d live validation 已通过；natural import response polish / alias diagnostics / fuzzy discovery raw-path blocker 已解除。
 - 阻塞点 / 风险点：
-  - 仍需 Codex C / 测试机重跑 Case 1-4。
+  - Stable closeout 仍需单独确认 Phase 2 final freeze checklist，不自动进入下一阶段。
   - Hermes main 仍有本阶段外既存 dirty：`agent/memory_kernel/adapters/hermes_memory_adapter.py`、`uv.lock`、`docs/PHASE211E_REPO_HYGIENE_AND_TRACE_POLISH.md`、`tests/agent/test_memory_kernel_adapter_reload.py`。
   - Hermes_memory 仍有本阶段外既存 untracked：`docs/digital-delivery-standards/`。
-- 是否建议 baseline：runtime candidate baseline 已完成；stable closeout 仍需 Codex C live validation。
+- 是否建议 baseline：2.116d live validation Go 可记录；是否创建 stable closeout tag 需结合 Phase 2 final freeze checklist。
 - 是否建议进入下一阶段：否。
-- 下一轮建议：Codex C / 测试机重跑 live validation Case 1-4。
+- 下一轮建议：进入 Phase 2 final freeze checklist / closeout decision review。
 - 是否需要 Codex B 审核：已完成，通过。
-- 是否需要 Codex C / 测试机验收：是。
+- 是否需要 Codex C / 测试机验收：已完成，Go。
 - commit/tag if any：Hermes main `6e6232ff1` / `phase-2.116d-live-no-go-followup-runtime-candidate`。

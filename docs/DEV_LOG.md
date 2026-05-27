@@ -18,6 +18,7 @@
 - Codex B review 通过，2.116c runtime candidate 已推送：Hermes main `ff11f177c` / `phase-2.116c-live-no-go-root-cause-runtime-candidate`；Hermes_memory review baseline `3dc4290` / `phase-2.116c-live-no-go-fix-review-baseline`。
 - Codex C 在正确 2.116c 版本上复验仍返回 `No-Go`：Case 2 alias diagnostics 仍显示 `alias_missing=true`，Case 3 import failure 仍输出 raw path，Case 4 fuzzy discovery 仍输出 raw path 且无 safe candidates。进入 2.116d root-cause-first follow-up fix。
 - Codex B review 通过，2.116d runtime candidate 已推送：Hermes main `6e6232ff1` / `phase-2.116d-live-no-go-followup-runtime-candidate`。验证：targeted tests `4 passed`；py_compile 通过；natural import / flow / session scope / structured citation / file steward regression `138 passed`；`git diff --check` 通过。Stable closeout 仍需 Codex C live validation。
+- Codex C / 测试机在正确 2.116d refs 上复验返回 `Go`：Case 1 import success、Case 2 alias retrieval diagnostics、Case 3 import failure raw path、Case 4 fuzzy discovery safe candidate 全部通过；无 secret、file content、NAS scan、DB/index write、repair/reindex/rollout。下一步进入 Phase 2 final freeze checklist / closeout decision review。
 
 ## 2026-05-25 Phase 2.116b Natural Import Response Polish No-Go Fix
 
